@@ -14,5 +14,8 @@ exec ros -Q -- $0 "$@"
 
 (defun main (&rest argv)
   (declare (ignorable argv))
-  (compiler:compile-files argv))
+  (with-open-file (*standard-output* "../js/main.js"
+                                     :direction :output
+                                     :if-exists :supersede)
+    (compiler:compile-files argv)))
 ;;; vim: set ft=lisp lisp:
