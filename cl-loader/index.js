@@ -1,4 +1,4 @@
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
 
 module.exports = function(source) {
   const output = execFileSync('clscript', [], {input: source});
