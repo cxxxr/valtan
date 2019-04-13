@@ -1,5 +1,6 @@
 (defpackage :compiler
-  (:use :cl))
+  (:use :cl)
+  (:export :compile-files))
 (in-package :compiler)
 
 (defvar *variable-env*)
@@ -270,3 +271,8 @@
 (defun compile-toplevel (form)
   (let ((*variable-env* '()))
     (comp2 (comp1 form) t)))
+
+(defun compile-files (files)
+  (dolist (file files)
+    (with-open-file (in file)
+      (compile-toplevel (read in)))))
