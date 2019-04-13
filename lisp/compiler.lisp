@@ -210,9 +210,9 @@
     ((const)
      (princ (const-to-js-literal (ir-arg1 ir))))
     ((lref)
-     (princ (symbol-to-js-identier (ir-arg1 ir)) return-value-p))
+     (princ (symbol-to-js-identier (ir-arg1 ir))))
     ((gref)
-     (princ (js-call "global_variable" (ir-arg1 ir)) return-value-p))
+     (princ (js-call "global_variable" (ir-arg1 ir))))
     ((lset gset)
      (when return-value-p
        (write-string "("))
