@@ -11,7 +11,7 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.lisp$/, loader: "cl-loader" }
+      { test: /\.lisp$/, loader: "./cl-loader" }
     ]
   }
 };
