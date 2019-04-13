@@ -212,7 +212,7 @@
     ((lref)
      (princ (symbol-to-js-identier (ir-arg1 ir))))
     ((gref)
-     (princ (js-call "global_variable" (ir-arg1 ir))))
+     (princ (js-call "lisp.global_variable" (ir-arg1 ir))))
     ((lset gset)
      (when return-value-p
        (write-string "("))
@@ -220,7 +220,7 @@
             (format t "~A = " (symbol-to-js-identier (ir-arg1 ir)))
             (comp2 (ir-arg2 ir) t))
            (t
-            (format t "set_global_value(\"~A\", " (ir-arg1 ir))
+            (format t "lisp.set_global_value(\"~A\", " (ir-arg1 ir))
             (comp2 (ir-arg2 ir) t)
             (write-string ")")))
      (when return-value-p
@@ -230,7 +230,7 @@
        (format t "(function() {~%"))
      (write-string "if (")
      (comp2 (ir-arg1 ir) t)
-     (format t " === nilValue) {~%")
+     (format t " === lisp.nilValue) {~%")
      (comp2 (ir-arg2 ir) return-value-p)
      (format t ";~%")
      (format t "} else {~%")
@@ -262,7 +262,7 @@
          (format t "})()")
          (format t "}~%")))
     ((call)
-     (format t "call_function(\"~A\"" (ir-arg1 ir))
+     (format t "lisp.call_function(\"~A\"" (ir-arg1 ir))
      (dolist (arg (ir-arg2 ir))
        (write-string ", ")
        (comp2 arg t))
@@ -270,9 +270,10 @@
 
 (defun compile-toplevel (form)
   (let ((*variable-env* '()))
-    (comp2 (comp1 form) t)))
+    (comp2 (comp1 form) nil)))
 
 (defun compile-files (files)
+  (write-line "import * as lisp from './lisp';")
   (dolist (file files)
     (with-open-file (in file)
       (compile-toplevel (read in)))))

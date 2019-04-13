@@ -1,2 +1,2 @@
-import { intern } from './core';
-console.log(intern('foo'));
+import * as lisp from './lisp';
+console.log(lisp.intern('CAR'));
