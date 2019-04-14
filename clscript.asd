@@ -2,4 +2,5 @@
   :serial t
   :components ((:module "lisp"
                 :components
-                ((:file "compiler")))))
+                ((:file "host")
+                 (:file "compiler")))))

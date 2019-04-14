@@ -324,6 +324,3 @@
                        (read *standard-input* nil eof-value))
         :until (eq form eof-value)
         :do (compile-toplevel form)))
-
-(unless (find-package "SYSTEM")
-  (make-package "SYSTEM"))
