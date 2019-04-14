@@ -189,15 +189,8 @@
                  (write-string (f c) out))
            (string symbol)))))
 
-(let ((counter 0))
-  (defun gen-var ()
-    (format nil "V~D" (incf counter))))
-
 (defun js-call (name &rest args)
   (format nil "~A(~{~A~^,~})" name args))
-
-(defun js-string (x)
-  (format nil "\"~A\"" x))
 
 (defun comp2-forms (forms return-value-p)
   (do ((ir* forms (rest ir*)))
