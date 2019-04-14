@@ -286,11 +286,16 @@
       (format t "}~%")))
 
 (def-trans call (ir return-value-p)
-  (format t "lisp.call_function(\"~A\"" (ir-arg1 ir))
-  (dolist (arg (ir-arg2 ir))
-    (write-string ", ")
-    (comp2 arg t))
-  (write-string ")"))
+  (let ((symbol (ir-arg1 ir)))
+    (format t "lisp.call_function(~S, ~S"
+            (if (eq (find-package "CL") (symbol-package symbol))
+                (package-name (symbol-package symbol))
+                "SYSTEM")
+            (symbol-name symbol))
+    (dolist (arg (ir-arg2 ir))
+      (write-string ", ")
+      (comp2 arg t))
+    (write-string ")")))
 
 (defun compile-toplevel (form)
   (comp2 (comp1-top form) nil))
