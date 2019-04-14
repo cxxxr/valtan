@@ -109,9 +109,22 @@
                                *variable-env*)))
                  (comp1-forms body))))))
 
+(defun lambda-to-let (form)
+  ;; FIXME: lambda-listのシンボルと引数の数が合っているか確認していない
+  (let ((lambda-form (first form)))
+    `(let ,(mapcar #'list (second lambda-form) (rest form))
+       ,@(rest (rest lambda-form)))))
+
 (defun comp1-call (form)
-  (assert (symbolp (first form)))
-  (make-ir 'call (first form) (mapcar #'comp1 (rest form))))
+  (let ((fn (first form))
+        (args (rest form)))
+    (cond ((symbolp fn)
+           (make-ir 'call fn (mapcar #'comp1 args)))
+          ((consp fn)
+           (check-lambda-form args)
+           (comp1 (lambda-to-let form)))
+          (t
+           (error "invalid form: ~S" form)))))
 
 (defun comp1 (form)
   (cond ((null form)
