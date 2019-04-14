@@ -135,11 +135,6 @@
              (otherwise
               (comp1-call form)))))))
 
-(defun const-to-js-literal (value)
-  (if (null value)
-      "lisp.nilValue"
-      (princ-to-string value)))
-
 (defparameter *character-map*
   '((#\! . "BANG")       
     (#\" . "QUOTATION")  
@@ -180,6 +175,13 @@
     (#\page . "PAGE")
     (#\tab . "TAB")))
 
+(defparameter *trans-table* (make-hash-table))
+
+(defun const-to-js-literal (value)
+  (if (null value)
+      "lisp.nilValue"
+      (princ-to-string value)))
+
 (defun symbol-to-js-identier (symbol)
   (flet ((f (c)
            (or (cdr (assoc c *character-map*))
@@ -203,67 +205,88 @@
     (format t ";~%")))
 
 (defun comp2 (ir &optional return-value-p)
-  (ecase (ir-op ir)
-    ((const)
-     (princ (const-to-js-literal (ir-arg1 ir))))
-    ((lref)
-     (princ (symbol-to-js-identier (ir-arg1 ir))))
-    ((gref)
-     (princ (js-call "lisp.global_variable" (format nil "\"~A\"" (ir-arg1 ir)))))
-    ((lset gset)
-     (when return-value-p
-       (write-string "("))
-     (cond ((eq 'lset (ir-op ir))
-            (format t "~A = " (symbol-to-js-identier (ir-arg1 ir)))
-            (comp2 (ir-arg2 ir) t))
-           (t
-            (format t "lisp.set_global_value(\"~A\", " (ir-arg1 ir))
-            (comp2 (ir-arg2 ir) t)
-            (write-string ")")))
-     (when return-value-p
-       (write-string ")")))
-    ((if)
-     (when return-value-p
-       (format t "(function() {~%"))
-     (write-string "if (")
-     (comp2 (ir-arg1 ir) t)
-     (format t " === lisp.nilValue) {~%")
-     (comp2 (ir-arg2 ir) return-value-p)
-     (format t ";~%")
-     (format t "} else {~%")
-     (comp2 (ir-arg3 ir) return-value-p)
-     (format t "}")
-     (if return-value-p
-         (write-string "})()")
-         (terpri)))
-    ((progn)
-     (when return-value-p
-       (format t "(function() {~%"))
-     (comp2-forms (ir-arg1 ir) return-value-p)
-     (when return-value-p
-       (format t "})()")))
-    ((lambda)
-     (format t "(function(~{~A~^, ~}) {~%" (ir-arg1 ir))
-     (comp2-forms (ir-arg2 ir) t)
-     (format t "})"))
-    ((let)
-     (if return-value-p
-         (format t "(function() {~%")
-         (format t "{~%"))
-     (dolist (binding (ir-arg1 ir))
-       (format t "let ~A = " (symbol-to-js-identier (first binding)))
-       (comp2 (second binding) t)
-       (format t ";~%"))
-     (comp2-forms (ir-arg2 ir) return-value-p)
-     (if return-value-p
-         (format t "})()")
-         (format t "}~%")))
-    ((call)
-     (format t "lisp.call_function(\"~A\"" (ir-arg1 ir))
-     (dolist (arg (ir-arg2 ir))
-       (write-string ", ")
-       (comp2 arg t))
-     (write-string ")"))))
+  (funcall (gethash (ir-op ir) *trans-table*)
+           ir
+           return-value-p))
+
+(defmacro def-trans (op (ir return-value-p) &body body)
+  (let ((name (gensym)))
+    `(progn
+       (defun ,name (,ir ,return-value-p)
+         (declare (ignorable ir return-value-p))
+         ,@body)
+       ,@(mapcar (lambda (op)
+                   `(setf (gethash ',op *trans-table*) ',name))
+                 (if (consp op) op (list op))))))
+
+(def-trans const (ir return-value-p)
+  (princ (const-to-js-literal (ir-arg1 ir))))
+
+(def-trans lref (ir return-value-p)
+  (princ (symbol-to-js-identier (ir-arg1 ir))))
+
+(def-trans gref (ir return-value-p)
+  (princ (js-call "lisp.global_variable" (format nil "\"~A\"" (ir-arg1 ir)))))
+
+(def-trans (lset gset) (ir return-value-p)
+  (when return-value-p
+    (write-string "("))
+  (cond ((eq 'lset (ir-op ir))
+         (format t "~A = " (symbol-to-js-identier (ir-arg1 ir)))
+         (comp2 (ir-arg2 ir) t))
+        (t
+         (format t "lisp.set_global_value(\"~A\", " (ir-arg1 ir))
+         (comp2 (ir-arg2 ir) t)
+         (write-string ")")))
+  (when return-value-p
+    (write-string ")")))
+
+(def-trans if (ir return-value-p)
+  (when return-value-p
+    (format t "(function() {~%"))
+  (write-string "if (")
+  (comp2 (ir-arg1 ir) t)
+  (format t " === lisp.nilValue) {~%")
+  (comp2 (ir-arg2 ir) return-value-p)
+  (format t ";~%")
+  (format t "} else {~%")
+  (comp2 (ir-arg3 ir) return-value-p)
+  (format t "}")
+  (if return-value-p
+      (write-string "})()")
+      (terpri)))
+
+(def-trans progn (ir return-value-p)
+  (when return-value-p
+    (format t "(function() {~%"))
+  (comp2-forms (ir-arg1 ir) return-value-p)
+  (when return-value-p
+    (format t "})()")))
+
+(def-trans lambda (ir return-value-p)
+  (format t "(function(~{~A~^, ~}) {~%" (ir-arg1 ir))
+  (comp2-forms (ir-arg2 ir) t)
+  (format t "})"))
+
+(def-trans let (ir return-value-p)
+  (if return-value-p
+      (format t "(function() {~%")
+      (format t "{~%"))
+  (dolist (binding (ir-arg1 ir))
+    (format t "let ~A = " (symbol-to-js-identier (first binding)))
+    (comp2 (second binding) t)
+    (format t ";~%"))
+  (comp2-forms (ir-arg2 ir) return-value-p)
+  (if return-value-p
+      (format t "})()")
+      (format t "}~%")))
+
+(def-trans call (ir return-value-p)
+  (format t "lisp.call_function(\"~A\"" (ir-arg1 ir))
+  (dolist (arg (ir-arg2 ir))
+    (write-string ", ")
+    (comp2 arg t))
+  (write-string ")"))
 
 (defun compile-toplevel (form)
   (let ((*variable-env* '()))
