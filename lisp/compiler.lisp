@@ -296,7 +296,9 @@
     (write-string ")")))
 
 (defun compile-toplevel (form)
-  (comp2 (comp1-top form) nil))
+  (write-string
+   (with-output-to-string (*standard-output*)
+     (comp2 (comp1-top form) nil))))
 
 (defun compile-stdin ()
   (write-line "import * as lisp from 'lisp';")
