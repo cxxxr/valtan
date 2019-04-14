@@ -137,7 +137,7 @@
 
 (defun comp1-top (form)
   (let ((*variable-env* '()))
-    (comp1 form)))
+    (make-ir 'progn (list (comp1 form)))))
 
 (defparameter *character-map*
   '((#\! . "BANG")       
