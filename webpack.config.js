@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  mode: 'none',
   entry: './example/main.lisp',
   output: {
     filename: 'main.js',
