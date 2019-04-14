@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './js/main.lisp',
+  entry: './example/main.lisp',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')
