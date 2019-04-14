@@ -306,4 +306,5 @@
         :until (eq form eof-value)
         :do (compile-toplevel form)))
 
-(make-package "SYSTEM")
+(unless (find-package "SYSTEM")
+  (make-package "SYSTEM"))
