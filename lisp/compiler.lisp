@@ -182,9 +182,10 @@
 (defparameter *emitter-table* (make-hash-table))
 
 (defun const-to-js-literal (value)
-  (if (null value)
-      "lisp.nilValue"
-      (princ-to-string value)))
+  (typecase value
+    (null "lisp.nilValue")
+    (symbol (format nil "lisp.intern(\"~A\")" value))
+    (otherwise (princ-to-string value))))
 
 (defun symbol-to-js-identier (symbol)
   (flet ((f (c)
