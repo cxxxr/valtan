@@ -45,6 +45,19 @@
   (check-args args 1 nil)
   (check-lambda-list (first args)))
 
+(defun get-transform (symbol)
+  (get symbol 'transform))
+
+(defun transform-symbol-p (symbol)
+  (get-transform symbol))
+
+(defmacro def-transform (name lambda-list &body body)
+  `(setf (get ',name 'transform)
+         (lambda ,lambda-list ,@body)))
+
+(def-transform defun (name lambda-list &rest body)
+  `(system::fset ',name (lambda ,lambda-list ,@body)))
+
 (defun comp1-const (x)
   (make-ir 'const x))
 
@@ -109,6 +122,11 @@
                                *variable-env*)))
                  (comp1-forms body))))))
 
+(defun comp1-call-symbol (symbol args)
+  (if (transform-symbol-p symbol)
+      (comp1 (apply (get-transform symbol) args))
+      (make-ir 'call symbol (mapcar #'comp1 args))))
+
 (defun lambda-to-let (form)
   ;; FIXME: lambda-listのシンボルと引数の数が合っているか確認していない
   (let ((lambda-form (first form)))
@@ -119,7 +137,7 @@
   (let ((fn (first form))
         (args (rest form)))
     (cond ((symbolp fn)
-           (make-ir 'call fn (mapcar #'comp1 args)))
+           (comp1-call-symbol fn args))
           ((consp fn)
            (check-lambda-form args)
            (comp1 (lambda-to-let form)))
