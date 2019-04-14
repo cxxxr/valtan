@@ -41,6 +41,10 @@
       (assert (not (member x (rest x*))))
       (check-variable x))))
 
+(defun check-lambda-form (args)
+  (check-args args 1 nil)
+  (check-lambda-list (first args)))
+
 (defun comp1-const (x)
   (make-ir 'const x))
 
@@ -78,10 +82,9 @@
   (make-ir 'progn (comp1-forms args)))
 
 (defun comp1-lambda (args)
-  (check-args args 1 nil)
+  (check-lambda-form args)
   (let ((lambda-list (first args))
         (body (rest args)))
-    (check-lambda-list lambda-list)
     (let ((vars (new-frame lambda-list)))
       (make-ir 'lambda
                vars
