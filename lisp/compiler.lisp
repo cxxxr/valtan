@@ -209,11 +209,6 @@
     (comp2 (first ir*) nil)
     (format t ";~%")))
 
-(defun comp2 (ir &optional return-value-p)
-  (funcall (gethash (ir-op ir) *emitter-table*)
-           ir
-           return-value-p))
-
 (defmacro def-emit (op (ir return-value-p) &body body)
   (let ((name (gensym)))
     `(progn
@@ -295,6 +290,11 @@
       (write-string ", ")
       (comp2 arg t))
     (write-string ")")))
+
+(defun comp2 (ir &optional return-value-p)
+  (funcall (gethash (ir-op ir) *emitter-table*)
+           ir
+           return-value-p))
 
 (defun compile-toplevel (form)
   (write-string
