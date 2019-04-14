@@ -288,9 +288,7 @@
 (def-trans call (ir return-value-p)
   (let ((symbol (ir-arg1 ir)))
     (format t "lisp.call_function(~S, ~S"
-            (if (eq (find-package "CL") (symbol-package symbol))
-                (package-name (symbol-package symbol))
-                "SYSTEM")
+            (package-name (symbol-package symbol))
             (symbol-name symbol))
     (dolist (arg (ir-arg2 ir))
       (write-string ", ")
@@ -303,6 +301,9 @@
 (defun compile-stdin ()
   (write-line "import * as lisp from 'lisp';")
   (loop :with eof-value := '#:eof-value
-        :for form := (read *standard-input* nil eof-value)
+        :for form := (let ((*package* (find-package "CL-USER")))
+                       (read *standard-input* nil eof-value))
         :until (eq form eof-value)
         :do (compile-toplevel form)))
+
+(make-package "SYSTEM")
