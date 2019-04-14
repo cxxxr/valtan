@@ -135,6 +135,10 @@
              (otherwise
               (comp1-call form)))))))
 
+(defun comp1-top (form)
+  (let ((*variable-env* '()))
+    (comp1 form)))
+
 (defparameter *character-map*
   '((#\! . "BANG")       
     (#\" . "QUOTATION")  
@@ -289,8 +293,7 @@
   (write-string ")"))
 
 (defun compile-toplevel (form)
-  (let ((*variable-env* '()))
-    (comp2 (comp1 form) nil)))
+  (comp2 (comp1-top form) nil))
 
 (defun compile-stdin ()
   (write-line "import * as lisp from 'lisp';")
