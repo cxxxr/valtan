@@ -111,7 +111,9 @@
   (make-ir 'call (first form) (mapcar #'comp1 (rest form))))
 
 (defun comp1 (form)
-  (cond ((symbolp form)
+  (cond ((null form)
+         (comp1-const nil))
+        ((symbolp form)
          (comp1-refvar form))
         ((atom form)
          (comp1-const form))
@@ -134,7 +136,9 @@
               (comp1-call form)))))))
 
 (defun const-to-js-literal (value)
-  (princ-to-string value))
+  (if (null value)
+      "lisp.nilValue"
+      (princ-to-string value)))
 
 (defparameter *character-map*
   '((#\! . "BANG")       
