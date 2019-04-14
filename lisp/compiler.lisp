@@ -1,7 +1,6 @@
 (defpackage :compiler
   (:use :cl)
-  (:export :compile-files
-           :compile-stdin))
+  (:export :compile-stdin))
 (in-package :compiler)
 
 (defvar *variable-env*)
@@ -273,14 +272,8 @@
   (let ((*variable-env* '()))
     (comp2 (comp1 form) nil)))
 
-(defun compile-files (files)
-  (write-line "import * as lisp from './lisp';")
-  (dolist (file files)
-    (with-open-file (in file)
-      (compile-toplevel (read in)))))
-
 (defun compile-stdin ()
-  (write-line "import * as lisp from './lisp';")
+  (write-line "import * as lisp from 'lisp';")
   (loop :with eof-value := '#:eof-value
         :for form := (read *standard-input* nil eof-value)
         :until (eq form eof-value)
