@@ -179,7 +179,7 @@
     (#\page . "PAGE")
     (#\tab . "TAB")))
 
-(defparameter *trans-table* (make-hash-table))
+(defparameter *emitter-table* (make-hash-table))
 
 (defun const-to-js-literal (value)
   (if (null value)
@@ -209,30 +209,30 @@
     (format t ";~%")))
 
 (defun comp2 (ir &optional return-value-p)
-  (funcall (gethash (ir-op ir) *trans-table*)
+  (funcall (gethash (ir-op ir) *emitter-table*)
            ir
            return-value-p))
 
-(defmacro def-trans (op (ir return-value-p) &body body)
+(defmacro def-emit (op (ir return-value-p) &body body)
   (let ((name (gensym)))
     `(progn
        (defun ,name (,ir ,return-value-p)
          (declare (ignorable ir return-value-p))
          ,@body)
        ,@(mapcar (lambda (op)
-                   `(setf (gethash ',op *trans-table*) ',name))
+                   `(setf (gethash ',op *emitter-table*) ',name))
                  (if (consp op) op (list op))))))
 
-(def-trans const (ir return-value-p)
+(def-emit const (ir return-value-p)
   (princ (const-to-js-literal (ir-arg1 ir))))
 
-(def-trans lref (ir return-value-p)
+(def-emit lref (ir return-value-p)
   (princ (symbol-to-js-identier (ir-arg1 ir))))
 
-(def-trans gref (ir return-value-p)
+(def-emit gref (ir return-value-p)
   (princ (js-call "lisp.global_variable" (format nil "\"~A\"" (ir-arg1 ir)))))
 
-(def-trans (lset gset) (ir return-value-p)
+(def-emit (lset gset) (ir return-value-p)
   (when return-value-p
     (write-string "("))
   (cond ((eq 'lset (ir-op ir))
@@ -245,7 +245,7 @@
   (when return-value-p
     (write-string ")")))
 
-(def-trans if (ir return-value-p)
+(def-emit if (ir return-value-p)
   (when return-value-p
     (format t "(function() {~%"))
   (write-string "if (")
@@ -260,19 +260,19 @@
       (write-string "})()")
       (terpri)))
 
-(def-trans progn (ir return-value-p)
+(def-emit progn (ir return-value-p)
   (when return-value-p
     (format t "(function() {~%"))
   (comp2-forms (ir-arg1 ir) return-value-p)
   (when return-value-p
     (format t "})()")))
 
-(def-trans lambda (ir return-value-p)
+(def-emit lambda (ir return-value-p)
   (format t "(function(~{~A~^, ~}) {~%" (ir-arg1 ir))
   (comp2-forms (ir-arg2 ir) t)
   (format t "})"))
 
-(def-trans let (ir return-value-p)
+(def-emit let (ir return-value-p)
   (if return-value-p
       (format t "(function() {~%")
       (format t "{~%"))
@@ -285,7 +285,7 @@
       (format t "})()")
       (format t "}~%")))
 
-(def-trans call (ir return-value-p)
+(def-emit call (ir return-value-p)
   (let ((symbol (ir-arg1 ir)))
     (format t "lisp.call_function(~S, ~S"
             (package-name (symbol-package symbol))
