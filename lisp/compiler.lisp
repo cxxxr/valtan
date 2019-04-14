@@ -212,7 +212,7 @@
     ((lref)
      (princ (symbol-to-js-identier (ir-arg1 ir))))
     ((gref)
-     (princ (js-call "lisp.global_variable" (ir-arg1 ir))))
+     (princ (js-call "lisp.global_variable" (format nil "\"~A\"" (ir-arg1 ir)))))
     ((lset gset)
      (when return-value-p
        (write-string "("))
