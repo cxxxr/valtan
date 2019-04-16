@@ -58,6 +58,24 @@
 (def-transform defun (name lambda-list &rest body)
   `(system::fset ',name (lambda ,lambda-list ,@body)))
 
+(defun expand-quasiquote (x)
+  (cond ((atom x)
+         (list 'quote x))
+        ((eq 'system::unquote (first x))
+         (check-args x 2)
+         (second x))
+        ((and (consp (first x))
+              (eq (first (first x)) 'system::unquote-splicing))
+         (check-args (first x) 2)
+         (list 'append (second (first x)) (rest x)))
+        (t
+         (list 'cons
+               (expand-quasiquote (first x))
+               (expand-quasiquote (rest x))))))
+
+(def-transform system::quasiquote (x)
+  (expand-quasiquote x))
+
 (defun comp1-const (x)
   (make-ir 'const x))
 
@@ -233,13 +251,16 @@
 (defun js-call (name &rest args)
   (format nil "~A(~{~A~^,~})" name args))
 
+(defun comp2-form (form return-value-p)
+  (when return-value-p
+    (princ "return "))
+  (comp2 form return-value-p)
+  (format t ";~%"))
+
 (defun comp2-forms (forms return-value-p)
   (do ((ir* forms (rest ir*)))
       ((null (rest ir*))
-       (when return-value-p
-         (princ "return "))
-       (comp2 (first ir*) return-value-p)
-       (format t ";~%"))
+       (comp2-form (first ir*) return-value-p))
     (comp2 (first ir*) nil)
     (format t ";~%")))
 
@@ -280,11 +301,10 @@
     (format t "(function() {~%"))
   (write-string "if (")
   (comp2 (ir-arg1 ir) t)
-  (format t " === lisp.nilValue) {~%")
-  (comp2 (ir-arg2 ir) return-value-p)
-  (format t ";~%")
+  (format t " !== lisp.nilValue) {~%")
+  (comp2-form (ir-arg2 ir) return-value-p)
   (format t "} else {~%")
-  (comp2 (ir-arg3 ir) return-value-p)
+  (comp2-form (ir-arg3 ir) return-value-p)
   (format t "}")
   (if return-value-p
       (write-string "})()")
@@ -333,7 +353,8 @@
 (defun compile-toplevel (form)
   (write-string
    (with-output-to-string (*standard-output*)
-     (comp2 (comp1-top form) nil))))
+     (comp2 (comp1-top form) nil)))
+  (values))
 
 (defun compile-stdin ()
   (write-line "import * as lisp from 'lisp';")
