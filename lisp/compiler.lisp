@@ -16,6 +16,12 @@
 (defun ir-arg2 (ir) (aref ir 2))
 (defun ir-arg3 (ir) (aref ir 3))
 
+(defun get-macro (symbol)
+  (get symbol 'macro))
+
+(defun set-macro (symbol form)
+  (setf (get symbol 'macro) form))
+
 (defun lookup (symbol)
   (find symbol *variable-env*))
 
@@ -57,6 +63,10 @@
 
 (def-transform defun (name lambda-list &rest body)
   `(system::fset ',name (lambda ,lambda-list ,@body)))
+
+(def-transform defmacro (name lambda-list &rest body)
+  (set-macro name (eval `(lambda ,lambda-list ,@body)))
+  `(system::add-global-macro ',name (lambda ,lambda-list ,@body)))
 
 (defun expand-quasiquote (x)
   (cond ((atom x)
@@ -140,6 +150,17 @@
                                *variable-env*)))
                  (comp1-forms body))))))
 
+(defun %macroexpand-1 (form)
+  (cond ((symbolp form)
+         (values form nil))
+        ((and (consp form) (symbolp (first form)))
+         (let ((fn (get-macro (first form))))
+           (if fn
+               (values (apply fn (rest form)) t)
+               (values form nil))))
+        (t
+         (values form nil))))
+
 (defun comp1-call-symbol (symbol args)
   (if (transform-symbol-p symbol)
       (comp1 (apply (get-transform symbol) args))
@@ -163,29 +184,33 @@
            (error "invalid form: ~S" form)))))
 
 (defun comp1 (form)
-  (cond ((null form)
-         (comp1-const nil))
-        ((symbolp form)
-         (comp1-refvar form))
-        ((atom form)
-         (comp1-const form))
-        (t
-         (let ((args (rest form)))
-           (case (first form)
-             ((quote)
-              (comp1-quote args))
-             ((setq)
-              (comp1-setq args))
-             ((if)
-              (comp1-if args))
-             ((progn)
-              (comp1-progn args))
-             ((lambda)
-              (comp1-lambda args))
-             ((let)
-              (comp1-let args))
-             (otherwise
-              (comp1-call form)))))))
+  (multiple-value-bind (form expanded-p)
+      (%macroexpand-1 form)
+    (cond (expanded-p
+           (comp1 form))
+          ((null form)
+           (comp1-const nil))
+          ((symbolp form)
+           (comp1-refvar form))
+          ((atom form)
+           (comp1-const form))
+          (t
+           (let ((args (rest form)))
+             (case (first form)
+               ((quote)
+                (comp1-quote args))
+               ((setq)
+                (comp1-setq args))
+               ((if)
+                (comp1-if args))
+               ((progn)
+                (comp1-progn args))
+               ((lambda)
+                (comp1-lambda args))
+               ((let)
+                (comp1-let args))
+               (otherwise
+                (comp1-call form))))))))
 
 (defun comp1-top (form)
   (let ((*variable-env* '()))
