@@ -212,7 +212,7 @@
                (otherwise
                 (comp1-call form))))))))
 
-(defun comp1-top (form)
+(defun comp1-toplevel (form)
   (let ((*variable-env* '()))
     (make-ir 'progn (list (comp1 form)))))
 
@@ -378,7 +378,7 @@
 (defun compile-toplevel (form)
   (write-string
    (with-output-to-string (*standard-output*)
-     (comp2 (comp1-top form) nil)))
+     (comp2 (comp1-toplevel form) nil)))
   (values))
 
 (defun compile-stdin ()
