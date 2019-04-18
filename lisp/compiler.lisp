@@ -3,6 +3,7 @@
   (:export :compile-stdin))
 (in-package :compiler)
 
+(defvar *literal-symbols*)
 (defvar *variable-env*)
 
 (defun make-ir (op &rest args)
@@ -258,12 +259,6 @@
 
 (defparameter *emitter-table* (make-hash-table))
 
-(defun const-to-js-literal (value)
-  (typecase value
-    (null "lisp.nilValue")
-    (symbol (format nil "lisp.intern(\"~A\")" value))
-    (otherwise (princ-to-string value))))
-
 (defun symbol-to-js-identier (symbol)
   (flet ((f (c)
            (or (cdr (assoc c *character-map*))
@@ -272,6 +267,15 @@
       (map nil (lambda (c)
                  (write-string (f c) out))
            (string symbol)))))
+
+(defun const-to-js-literal (value)
+  (typecase value
+    (null "lisp.nilValue")
+    (symbol
+     (or (gethash value *literal-symbols*)
+         (setf (gethash value *literal-symbols*)
+               (symbol-to-js-identier value))))
+    (otherwise (princ-to-string value))))
 
 (defun js-call (name &rest args)
   (format nil "~A(~{~A~^,~})" name args))
@@ -375,10 +379,18 @@
            ir
            return-value-p))
 
+(defun comp2-toplevel (ir)
+  (comp2 ir nil))
+
 (defun compile-toplevel (form)
-  (write-string
-   (with-output-to-string (*standard-output*)
-     (comp2 (comp1-toplevel form) nil)))
+  (let ((*literal-symbols* (make-hash-table)))
+    (let ((output
+            (with-output-to-string (*standard-output*)
+              (comp2-toplevel (comp1-toplevel form)))))
+      (maphash (lambda (symbol ident)
+                 (format t "~A = intern('~A');~%" ident symbol))
+               *literal-symbols*)
+      (write-string output)))
   (values))
 
 (defun compile-stdin ()
