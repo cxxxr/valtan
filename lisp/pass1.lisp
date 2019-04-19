@@ -1,6 +1,14 @@
 (in-package :compiler)
 
+(defparameter *pass1-form-table* (make-hash-table))
+
 (defvar *variable-env*)
+
+(defmacro def-pass1-form (name lambda-list &body body)
+  (let ((fn-name (intern (format nil "PASS1-~A" name))))
+    `(progn
+       (defun ,fn-name ,lambda-list ,@body)
+       (setf (gethash ',name *pass1-form-table*) ',fn-name))))
 
 (defun get-macro (symbol)
   (get symbol 'macro))
@@ -33,9 +41,9 @@
       (assert (not (member x (rest x*))))
       (check-variable x))))
 
-(defun check-lambda-form (args)
-  (check-args args 1 nil)
-  (check-lambda-list (first args)))
+(defun check-lambda-form (form)
+  (check-args (rest form) 1 nil)
+  (check-lambda-list (second form)))
 
 (defun get-transform (symbol)
   (get symbol 'transform))
@@ -75,66 +83,25 @@
 (defun pass1-const (x)
   (make-ir 'const x))
 
-(defun pass1-quote (args)
-  (check-args args 1)
-  (pass1-const (first args)))
-
 (defun pass1-refvar (symbol)
   (let ((var (lookup symbol)))
     (if var
         (make-ir 'lref var)
         (make-ir 'gref symbol))))
 
-(defun pass1-setq (args)
-  (check-args args 2)
-  (let ((symbol (first args))
-        (value (second args)))
-    (assert (symbolp symbol))
-    (let ((var (lookup symbol)))
-      (if var
-          (make-ir 'lset var (pass1 value))
-          (make-ir 'gset symbol (pass1 value))))))
-
-(defun pass1-if (args)
-  (check-args args 2 3)
-  (make-ir 'if
-           (pass1 (first args))
-           (pass1 (second args))
-           (pass1 (third args))))
-
 (defun pass1-forms (forms)
   (mapcar #'pass1 forms))
 
-(defun pass1-progn (args)
-  (make-ir 'progn (pass1-forms args)))
-
-(defun pass1-lambda (args)
-  (check-lambda-form args)
-  (let ((lambda-list (first args))
-        (body (rest args)))
-    (let ((vars (new-frame lambda-list)))
-      (make-ir 'lambda
-               vars
-               (let ((*variable-env* (append vars *variable-env*)))
-                 (pass1-forms body))))))
-
-(defun pass1-let (args)
-  (check-args args 1 nil)
-  (let ((bindings (first args))
-        (body (rest args)))
-    (assert (consp bindings))
-    (let ((bindings (mapcar (lambda (b)
-                              (assert (consp b))
-                              (assert (<= 1 (length b) 2))
-                              (check-variable (first b))
-                              (list (new-var (first b)) (pass1 (second b))))
-                            bindings)))
-      (make-ir 'let
-               bindings
-               (let ((*variable-env*
-                       (append (mapcar #'first bindings)
-                               *variable-env*)))
-                 (pass1-forms body))))))
+(defun pass1-lambda (form)
+  (check-lambda-form form)
+  (let* ((args (rest form))
+         (lambda-list (first args))
+         (body (rest args))
+         (vars (new-frame lambda-list)))
+    (make-ir 'lambda
+             vars
+             (let ((*variable-env* (append vars *variable-env*)))
+               (pass1-forms body)))))
 
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
@@ -164,7 +131,7 @@
     (cond ((symbolp fn)
            (pass1-call-symbol fn args))
           ((consp fn)
-           (check-lambda-form args)
+           (check-lambda-form form)
            (pass1 (lambda-to-let form)))
           (t
            (error "invalid form: ~S" form)))))
@@ -181,22 +148,60 @@
           ((atom form)
            (pass1-const form))
           (t
-           (let ((args (rest form)))
-             (case (first form)
-               ((quote)
-                (pass1-quote args))
-               ((setq)
-                (pass1-setq args))
-               ((if)
-                (pass1-if args))
-               ((progn)
-                (pass1-progn args))
-               ((lambda)
-                (pass1-lambda args))
-               ((let)
-                (pass1-let args))
-               (otherwise
-                (pass1-call form))))))))
+           (let ((fn (gethash (first form) *pass1-form-table*)))
+             (if fn
+                 (apply fn (rest form))
+                 (pass1-call form)))))))
+
+(def-pass1-form quote (x)
+  (pass1-const x))
+
+(def-pass1-form setq (&rest args)
+  (if (not (evenp (length args)))
+      (error "error")
+      (let ((forms '()))
+        (do ((args args (rest (rest args))))
+            ((null args))
+          (assert (symbolp (first args)))
+          (let* ((symbol (first args))
+                 (var (lookup symbol))
+                 (value (pass1 (second args))))
+            (push (if var
+                      (make-ir 'lset var value)
+                      (make-ir 'gset symbol value))
+                  forms)))
+        (make-ir 'progn (nreverse forms)))))
+
+(def-pass1-form if (test then &optional else)
+  (make-ir 'if
+           (pass1 test)
+           (pass1 then)
+           (pass1 else)))
+
+(def-pass1-form progn (&rest forms)
+  (make-ir 'progn (pass1-forms forms)))
+
+(def-pass1-form function (thing)
+  (cond
+    ((eq (car thing) 'lambda)
+     (pass1-lambda thing))
+    (t
+     (error "error"))))
+
+(def-pass1-form let (bindings &rest body)
+  (assert (consp bindings))
+  (let ((bindings (mapcar (lambda (b)
+                            (assert (consp b))
+                            (assert (<= 1 (length b) 2))
+                            (check-variable (first b))
+                            (list (new-var (first b)) (pass1 (second b))))
+                          bindings)))
+    (make-ir 'let
+             bindings
+             (let ((*variable-env*
+                     (append (mapcar #'first bindings)
+                             *variable-env*)))
+               (pass1-forms body)))))
 
 (defun pass1-toplevel (form)
   (let ((*variable-env* '()))
