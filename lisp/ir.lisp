@@ -10,3 +10,8 @@
 (defun ir-arg1 (ir) (aref ir 1))
 (defun ir-arg2 (ir) (aref ir 2))
 (defun ir-arg3 (ir) (aref ir 3))
+
+(defstruct parsed-lambda-list
+  vars
+  rest-var
+  optionals)

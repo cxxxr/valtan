@@ -9,11 +9,6 @@
   type
   value)
 
-(defstruct parsed-lambda-list
-  vars
-  rest-var
-  optionals)
-
 (defmacro def-pass1-form (name lambda-list &body body)
   (let ((fn-name (intern (format nil "PASS1-~A" name))))
     `(progn
