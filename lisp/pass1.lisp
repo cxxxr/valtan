@@ -87,7 +87,7 @@
               (in-optional
                (cond ((symbolp arg)
                       (check-variable arg)
-                      (push (list arg (pass1 nil)) optionals))
+                      (push (list arg (pass1 nil) nil) optionals))
                      ((consp arg)
                       (check-proper-list arg)
                       (let ((len (length arg)))

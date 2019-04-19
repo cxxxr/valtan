@@ -131,10 +131,33 @@
   (when return-value-p
     (format t "})()")))
 
+(defun emit-lambda-list (parsed-lambda-list)
+  (let ((i 0))
+    (dolist (var (parsed-lambda-list-vars parsed-lambda-list))
+      (format t "let ~A = arguments[~D];~%" (symbol-to-js-identier var) i)
+      (incf i))
+    (dolist (opt (parsed-lambda-list-optionals parsed-lambda-list))
+      (let ((var (first opt))
+            (value (second opt)))
+        (format t "let ~A = arguments[~D] || "
+                (symbol-to-js-identier var)
+                i)
+        (incf i)
+        (write-string "(")
+        (pass2 value t)
+        (write-line ");")))
+    (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
+      (when rest-var
+        (format t "let ~A = lisp.jsArrayToList(arguments.slice(~D));~%"
+                (symbol-to-js-identier rest-var) i)
+        (symbol-to-js-identier rest-var)))))
+
 (def-emit lambda (ir return-value-p)
-  (format t "(function(~{~A~^, ~}) {~%" (ir-arg1 ir))
-  (pass2-forms (ir-arg2 ir) t)
-  (format t "})"))
+  (let ((parsed-lambda-list (ir-arg1 ir)))
+    (write-line "(function() {")
+    (emit-lambda-list parsed-lambda-list)
+    (pass2-forms (ir-arg2 ir) t)
+    (format t "})")))
 
 (def-emit let (ir return-value-p)
   (if return-value-p
