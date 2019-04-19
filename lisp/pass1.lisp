@@ -134,7 +134,7 @@
     (cond ((symbolp fn)
            (pass1-call-symbol fn args))
           ((consp fn)
-           (check-lambda-form form)
+           (check-lambda-form fn)
            (pass1 (lambda-to-let form)))
           (t
            (error "invalid form: ~S" form)))))
