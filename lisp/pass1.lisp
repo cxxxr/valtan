@@ -30,9 +30,17 @@
       (assert (<= min (length args) max))
       (assert (<= min (length args)))))
 
-(defun check-variable (x)
+(defun variable-symbol-p (x)
   (and (symbolp x)
-       (not (null x))))
+       (not (null x))
+       (not (keywordp x))))
+
+(defun check-variable (x)
+  (assert (variable-symbol-p x)))
+
+(defun check-proper-list (x)
+  (assert (and (listp x)
+               (null (cdr (last x))))))
 
 (defun check-lambda-list (lambda-list)
   (do ((x* lambda-list (rest x*)))
@@ -44,6 +52,53 @@
 (defun check-lambda-form (form)
   (check-args (rest form) 1 nil)
   (check-lambda-list (second form)))
+
+(defun parse-lambda-list (lambda-list)
+  (let ((vars '())
+        (rest-var nil)
+        (in-optional nil)
+        (optionals '()))
+    (do ((arg* lambda-list (cdr arg*)))
+        ((null arg*))
+      (let ((arg (car arg*)))
+        (cond (rest-var
+               (error "error"))
+              ((eq arg '&rest)
+               (unless (consp (cdr arg*))
+                 (error "error"))
+               (check-variable (second arg*))
+               (setf rest-var (second arg*))
+               (setq arg* (cdr arg*)))
+              ((eq arg '&optional)
+               (when in-optional
+                 (error "error"))
+               (setq in-optional t))
+              (in-optional
+               (cond ((symbolp arg)
+                      (check-variable arg)
+                      (push (list arg nil) optionals))
+                     ((consp arg)
+                      (check-proper-list arg)
+                      (let ((len (length arg)))
+                        (case len
+                          ((1 2 3)
+                           (when (= len 3)
+                             (check-variable (third arg))
+                             (when (eq (first arg) (third arg))
+                               (error "error")))
+                           (push (list (first arg)
+                                       (second arg)
+                                       (third arg))
+                                 optionals))
+                          (t
+                           (error "error")))))
+                     (t
+                      (error "error"))))
+              (t
+               (push arg vars)))))
+    (values (nreverse vars)
+            (nreverse optionals)
+            rest-var)))
 
 (defun get-transform (symbol)
   (get symbol 'transform))
