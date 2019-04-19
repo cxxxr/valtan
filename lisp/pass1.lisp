@@ -2,7 +2,17 @@
 
 (defparameter *pass1-form-table* (make-hash-table))
 
-(defvar *variable-env*)
+(defvar *lexenv*)
+
+(defstruct binding
+  name
+  type
+  value)
+
+(defstruct parsed-lambda-list
+  vars
+  rest-var
+  optionals)
 
 (defmacro def-pass1-form (name lambda-list &body body)
   (let ((fn-name (intern (format nil "PASS1-~A" name))))
@@ -16,14 +26,14 @@
 (defun set-macro (symbol form)
   (setf (get symbol 'macro) form))
 
-(defun lookup (symbol)
-  (find symbol *variable-env*))
+(defun lookup (symbol type)
+  (dolist (binding *lexenv*)
+    (when (and (eq type (binding-type binding))
+               (eq symbol (binding-name binding)))
+      (return (binding-value binding)))))
 
-(defun new-var (symbol)
-  symbol)
-
-(defun new-frame (symbols)
-  (mapcar #'new-var symbols))
+(defun extend-lexenv (bindings lexenv)
+  (append bindings lexenv))
 
 (defun check-args (args min &optional (max min))
   (if max
@@ -52,6 +62,19 @@
 (defun check-lambda-form (form)
   (check-args (rest form) 1 nil)
   (check-lambda-list (second form)))
+
+(defun check-duplicate-var (vars)
+  (do ((var* vars (rest var*)))
+      ((null var*))
+    (when (member (first var*) (rest var*))
+      (error "error"))))
+
+(defun collect-variables (parsed-lambda-list)
+  (append (parsed-lambda-list-vars parsed-lambda-list)
+          (if (parsed-lambda-list-rest-var parsed-lambda-list)
+              (list (parsed-lambda-list-rest-var parsed-lambda-list)))
+          (if (parsed-lambda-list-optionals parsed-lambda-list)
+              (mapcar #'first (parsed-lambda-list-optionals parsed-lambda-list)))))
 
 (defun parse-lambda-list (lambda-list)
   (let ((vars '())
@@ -96,9 +119,14 @@
                       (error "error"))))
               (t
                (push arg vars)))))
-    (values (nreverse vars)
-            (nreverse optionals)
-            rest-var)))
+    (let ((parsed-lambda-list
+            (make-parsed-lambda-list
+             :vars (nreverse vars)
+             :optionals (nreverse optionals)
+             :rest-var rest-var)))
+      (let ((all-vars (collect-variables parsed-lambda-list)))
+        (check-duplicate-var all-vars))
+      parsed-lambda-list)))
 
 (defun get-transform (symbol)
   (get symbol 'transform))
@@ -142,7 +170,7 @@
   (make-ir 'const x))
 
 (defun pass1-refvar (symbol)
-  (let ((var (lookup symbol)))
+  (let ((var (lookup symbol :variable)))
     (if var
         (make-ir 'lref var)
         (make-ir 'gref symbol))))
@@ -151,14 +179,21 @@
   (mapcar #'pass1 forms))
 
 (defun pass1-lambda (form)
-  (check-lambda-form form)
-  (let* ((args (rest form))
-         (lambda-list (first args))
-         (body (rest args))
-         (vars (new-frame lambda-list)))
+  (unless (eq (first form) 'lambda)
+    (error "error"))
+  (check-args (rest form) 1 nil)
+  (let ((parsed-lambda-list (parse-lambda-list (second form)))
+        (body (cddr form)))
     (make-ir 'lambda
-             vars
-             (let ((*variable-env* (append vars *variable-env*)))
+             parsed-lambda-list
+             (let* ((symbols (collect-variables parsed-lambda-list))
+                    (*lexenv*
+                      (extend-lexenv (mapcar (lambda (symbol)
+                                               (make-binding :name symbol
+                                                             :type :variable
+                                                             :value symbol))
+                                             symbols)
+                                     *lexenv*)))
                (pass1-forms body)))))
 
 (defun %macroexpand-1 (form)
@@ -189,8 +224,9 @@
     (cond ((symbolp fn)
            (pass1-call-symbol fn args))
           ((consp fn)
-           (check-lambda-form fn)
-           (pass1 (lambda-to-let form)))
+           (unless (eq 'lambda (first fn))
+             (error "error"))
+           (pass1 (list* 'funcall fn args)))
           (t
            (error "invalid form: ~S" form)))))
 
@@ -222,7 +258,7 @@
             ((null args))
           (assert (symbolp (first args)))
           (let* ((symbol (first args))
-                 (var (lookup symbol))
+                 (var (lookup symbol :variable))
                  (value (pass1 (second args))))
             (push (if var
                       (make-ir 'lset var value)
@@ -252,15 +288,13 @@
                             (assert (consp b))
                             (assert (<= 1 (length b) 2))
                             (check-variable (first b))
-                            (list (new-var (first b)) (pass1 (second b))))
+                            (make-binding :name (first b) :value (first b) :type :variable))
                           bindings)))
     (make-ir 'let
-             bindings
-             (let ((*variable-env*
-                     (append (mapcar #'first bindings)
-                             *variable-env*)))
+             (mapcar #'list bindings 
+             (let ((*lexenv* (extend-lexenv bindings *lexenv*)))
                (pass1-forms body)))))
 
 (defun pass1-toplevel (form)
-  (let ((*variable-env* '()))
+  (let ((*lexenv* '()))
     (make-ir 'progn (list (pass1 form)))))
