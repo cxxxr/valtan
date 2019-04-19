@@ -87,43 +87,43 @@
 (def-transform system::quasiquote (x)
   (expand-quasiquote x))
 
-(defun comp1-const (x)
+(defun pass1-const (x)
   (make-ir 'const x))
 
-(defun comp1-quote (args)
+(defun pass1-quote (args)
   (check-args args 1)
-  (comp1-const (first args)))
+  (pass1-const (first args)))
 
-(defun comp1-refvar (symbol)
+(defun pass1-refvar (symbol)
   (let ((var (lookup symbol)))
     (if var
         (make-ir 'lref var)
         (make-ir 'gref symbol))))
 
-(defun comp1-setq (args)
+(defun pass1-setq (args)
   (check-args args 2)
   (let ((symbol (first args))
         (value (second args)))
     (assert (symbolp symbol))
     (let ((var (lookup symbol)))
       (if var
-          (make-ir 'lset var (comp1 value))
-          (make-ir 'gset symbol (comp1 value))))))
+          (make-ir 'lset var (pass1 value))
+          (make-ir 'gset symbol (pass1 value))))))
 
-(defun comp1-if (args)
+(defun pass1-if (args)
   (check-args args 2 3)
   (make-ir 'if
-           (comp1 (first args))
-           (comp1 (second args))
-           (comp1 (third args))))
+           (pass1 (first args))
+           (pass1 (second args))
+           (pass1 (third args))))
 
-(defun comp1-forms (forms)
-  (mapcar #'comp1 forms))
+(defun pass1-forms (forms)
+  (mapcar #'pass1 forms))
 
-(defun comp1-progn (args)
-  (make-ir 'progn (comp1-forms args)))
+(defun pass1-progn (args)
+  (make-ir 'progn (pass1-forms args)))
 
-(defun comp1-lambda (args)
+(defun pass1-lambda (args)
   (check-lambda-form args)
   (let ((lambda-list (first args))
         (body (rest args)))
@@ -131,9 +131,9 @@
       (make-ir 'lambda
                vars
                (let ((*variable-env* (append vars *variable-env*)))
-                 (comp1-forms body))))))
+                 (pass1-forms body))))))
 
-(defun comp1-let (args)
+(defun pass1-let (args)
   (check-args args 1 nil)
   (let ((bindings (first args))
         (body (rest args)))
@@ -142,14 +142,14 @@
                               (assert (consp b))
                               (assert (<= 1 (length b) 2))
                               (check-variable (first b))
-                              (list (new-var (first b)) (comp1 (second b))))
+                              (list (new-var (first b)) (pass1 (second b))))
                             bindings)))
       (make-ir 'let
                bindings
                (let ((*variable-env*
                        (append (mapcar #'first bindings)
                                *variable-env*)))
-                 (comp1-forms body))))))
+                 (pass1-forms body))))))
 
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
@@ -162,10 +162,10 @@
         (t
          (values form nil))))
 
-(defun comp1-call-symbol (symbol args)
+(defun pass1-call-symbol (symbol args)
   (if (transform-symbol-p symbol)
-      (comp1 (apply (get-transform symbol) args))
-      (make-ir 'call symbol (mapcar #'comp1 args))))
+      (pass1 (apply (get-transform symbol) args))
+      (make-ir 'call symbol (mapcar #'pass1 args))))
 
 (defun lambda-to-let (form)
   ;; FIXME: lambda-listのシンボルと引数の数が合っているか確認していない
@@ -173,49 +173,49 @@
     `(let ,(mapcar #'list (second lambda-form) (rest form))
        ,@(rest (rest lambda-form)))))
 
-(defun comp1-call (form)
+(defun pass1-call (form)
   (let ((fn (first form))
         (args (rest form)))
     (cond ((symbolp fn)
-           (comp1-call-symbol fn args))
+           (pass1-call-symbol fn args))
           ((consp fn)
            (check-lambda-form args)
-           (comp1 (lambda-to-let form)))
+           (pass1 (lambda-to-let form)))
           (t
            (error "invalid form: ~S" form)))))
 
-(defun comp1 (form)
+(defun pass1 (form)
   (multiple-value-bind (form expanded-p)
       (%macroexpand-1 form)
     (cond (expanded-p
-           (comp1 form))
+           (pass1 form))
           ((null form)
-           (comp1-const nil))
+           (pass1-const nil))
           ((symbolp form)
-           (comp1-refvar form))
+           (pass1-refvar form))
           ((atom form)
-           (comp1-const form))
+           (pass1-const form))
           (t
            (let ((args (rest form)))
              (case (first form)
                ((quote)
-                (comp1-quote args))
+                (pass1-quote args))
                ((setq)
-                (comp1-setq args))
+                (pass1-setq args))
                ((if)
-                (comp1-if args))
+                (pass1-if args))
                ((progn)
-                (comp1-progn args))
+                (pass1-progn args))
                ((lambda)
-                (comp1-lambda args))
+                (pass1-lambda args))
                ((let)
-                (comp1-let args))
+                (pass1-let args))
                (otherwise
-                (comp1-call form))))))))
+                (pass1-call form))))))))
 
-(defun comp1-toplevel (form)
+(defun pass1-toplevel (form)
   (let ((*variable-env* '()))
-    (make-ir 'progn (list (comp1 form)))))
+    (make-ir 'progn (list (pass1 form)))))
 
 (defparameter *character-map*
   '((#\! . "BANG")       
@@ -280,17 +280,17 @@
 (defun js-call (name &rest args)
   (format nil "~A(~{~A~^,~})" name args))
 
-(defun comp2-form (form return-value-p)
+(defun pass2-form (form return-value-p)
   (when return-value-p
     (princ "return "))
-  (comp2 form return-value-p)
+  (pass2 form return-value-p)
   (format t ";~%"))
 
-(defun comp2-forms (forms return-value-p)
+(defun pass2-forms (forms return-value-p)
   (do ((ir* forms (rest ir*)))
       ((null (rest ir*))
-       (comp2-form (first ir*) return-value-p))
-    (comp2 (first ir*) nil)
+       (pass2-form (first ir*) return-value-p))
+    (pass2 (first ir*) nil)
     (format t ";~%")))
 
 (defmacro def-emit (op (ir return-value-p) &body body)
@@ -317,10 +317,10 @@
     (write-string "("))
   (cond ((eq 'lset (ir-op ir))
          (format t "~A = " (symbol-to-js-identier (ir-arg1 ir)))
-         (comp2 (ir-arg2 ir) t))
+         (pass2 (ir-arg2 ir) t))
         (t
          (format t "lisp.set_global_value(\"~A\", " (ir-arg1 ir))
-         (comp2 (ir-arg2 ir) t)
+         (pass2 (ir-arg2 ir) t)
          (write-string ")")))
   (when return-value-p
     (write-string ")")))
@@ -329,11 +329,11 @@
   (when return-value-p
     (format t "(function() {~%"))
   (write-string "if (")
-  (comp2 (ir-arg1 ir) t)
+  (pass2 (ir-arg1 ir) t)
   (format t " !== lisp.nilValue) {~%")
-  (comp2-form (ir-arg2 ir) return-value-p)
+  (pass2-form (ir-arg2 ir) return-value-p)
   (format t "} else {~%")
-  (comp2-form (ir-arg3 ir) return-value-p)
+  (pass2-form (ir-arg3 ir) return-value-p)
   (format t "}")
   (if return-value-p
       (write-string "})()")
@@ -342,13 +342,13 @@
 (def-emit progn (ir return-value-p)
   (when return-value-p
     (format t "(function() {~%"))
-  (comp2-forms (ir-arg1 ir) return-value-p)
+  (pass2-forms (ir-arg1 ir) return-value-p)
   (when return-value-p
     (format t "})()")))
 
 (def-emit lambda (ir return-value-p)
   (format t "(function(~{~A~^, ~}) {~%" (ir-arg1 ir))
-  (comp2-forms (ir-arg2 ir) t)
+  (pass2-forms (ir-arg2 ir) t)
   (format t "})"))
 
 (def-emit let (ir return-value-p)
@@ -357,9 +357,9 @@
       (format t "{~%"))
   (dolist (binding (ir-arg1 ir))
     (format t "let ~A = " (symbol-to-js-identier (first binding)))
-    (comp2 (second binding) t)
+    (pass2 (second binding) t)
     (format t ";~%"))
-  (comp2-forms (ir-arg2 ir) return-value-p)
+  (pass2-forms (ir-arg2 ir) return-value-p)
   (if return-value-p
       (format t "})()")
       (format t "}~%")))
@@ -371,22 +371,22 @@
             (symbol-name symbol))
     (dolist (arg (ir-arg2 ir))
       (write-string ", ")
-      (comp2 arg t))
+      (pass2 arg t))
     (write-string ")")))
 
-(defun comp2 (ir &optional return-value-p)
+(defun pass2 (ir return-value-p)
   (funcall (gethash (ir-op ir) *emitter-table*)
            ir
            return-value-p))
 
-(defun comp2-toplevel (ir)
-  (comp2 ir nil))
+(defun pass2-toplevel (ir)
+  (pass2 ir nil))
 
 (defun compile-toplevel (form)
   (let ((*literal-symbols* (make-hash-table)))
     (let ((output
             (with-output-to-string (*standard-output*)
-              (comp2-toplevel (comp1-toplevel form)))))
+              (pass2-toplevel (pass1-toplevel form)))))
       (maphash (lambda (symbol ident)
                  (format t "~A = intern('~A');~%" ident symbol))
                *literal-symbols*)
