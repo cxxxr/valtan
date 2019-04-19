@@ -64,13 +64,6 @@
     (when (member (first var*) (rest var*))
       (error "error"))))
 
-(defun collect-variables (parsed-lambda-list)
-  (append (parsed-lambda-list-vars parsed-lambda-list)
-          (if (parsed-lambda-list-rest-var parsed-lambda-list)
-              (list (parsed-lambda-list-rest-var parsed-lambda-list)))
-          (if (parsed-lambda-list-optionals parsed-lambda-list)
-              (mapcar #'first (parsed-lambda-list-optionals parsed-lambda-list)))))
-
 (defun parse-lambda-list (lambda-list)
   (let ((vars '())
         (rest-var nil)
