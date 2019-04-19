@@ -171,7 +171,7 @@
     (error "error"))
   (check-args (rest form) 1 nil)
   (let ((parsed-lambda-list (parse-lambda-list (second form)))
-        (body (cddr form)))
+        (body (or (cddr form) '(progn))))
     (make-ir 'lambda
              parsed-lambda-list
              (let* ((symbols (collect-variables parsed-lambda-list))
