@@ -288,11 +288,17 @@
                             (assert (consp b))
                             (assert (<= 1 (length b) 2))
                             (check-variable (first b))
-                            (make-binding :name (first b) :value (first b) :type :variable))
+                            (list (first b)
+                                  (pass1 (second b))))
                           bindings)))
     (make-ir 'let
-             (mapcar #'list bindings 
-             (let ((*lexenv* (extend-lexenv bindings *lexenv*)))
+             bindings
+             (let ((*lexenv* (extend-lexenv (mapcar (lambda (b)
+                                                      (make-binding :name (first b)
+                                                                    :type :variable
+                                                                    :value (first b)))
+                                                    bindings)
+                                            *lexenv*)))
                (pass1-forms body)))))
 
 (defun pass1-toplevel (form)
