@@ -177,14 +177,12 @@
       (format t "}~%")))
 
 (def-emit call (ir return-value-p)
-  (let ((symbol (ir-arg1 ir)))
-    (format t "lisp.call_function(~S, ~S"
-            (package-name (symbol-package symbol))
-            (symbol-name symbol))
-    (dolist (arg (ir-arg2 ir))
-      (write-string ", ")
-      (pass2 arg t))
-    (write-string ")")))
+  (let ((ident (register-symbol-literal (ir-arg1 ir))))
+    (format t "lisp.call_function(~A" ident))
+  (dolist (arg (ir-arg2 ir))
+    (write-string ", ")
+    (pass2 arg t))
+  (write-string ")"))
 
 (defun pass2 (ir return-value-p)
   (funcall (gethash (ir-op ir) *emitter-table*)
