@@ -195,6 +195,9 @@
             (with-output-to-string (*standard-output*)
               (pass2 (pass1-toplevel form) nil))))
       (maphash (lambda (symbol ident)
-                 (format t "~A = intern('~A');~%" ident symbol))
+                 (format t "let ~A = lisp.intern('~A', '~A');~%"
+                         ident
+                         symbol
+                         (package-name (symbol-package symbol))))
                *literal-symbols*)
       (write-string output))))
