@@ -53,13 +53,15 @@
                  (write-string (f c) out))
            (string symbol)))))
 
+(defun register-symbol-literal (symbol)
+  (or (gethash symbol *literal-symbols*)
+      (setf (gethash symbol *literal-symbols*)
+            (symbol-to-js-identier symbol))))
+
 (defun const-to-js-literal (value)
   (typecase value
     (null "lisp.nilValue")
-    (symbol
-     (or (gethash value *literal-symbols*)
-         (setf (gethash value *literal-symbols*)
-               (symbol-to-js-identier value))))
+    (symbol (register-symbol-literal value))
     (otherwise (princ-to-string value))))
 
 (defun js-call (name &rest args)
@@ -95,7 +97,8 @@
   (princ (symbol-to-js-identier (ir-arg1 ir))))
 
 (def-emit gref (ir return-value-p)
-  (princ (js-call "lisp.global_variable" (format nil "\"~A\"" (ir-arg1 ir)))))
+  (let ((ident (register-symbol-literal (ir-arg1 ir))))
+    (format t "lisp.symbol_value(~A)" ident)))
 
 (def-emit (lset gset) (ir return-value-p)
   (when return-value-p
@@ -104,7 +107,8 @@
          (format t "~A = " (symbol-to-js-identier (ir-arg1 ir)))
          (pass2 (ir-arg2 ir) t))
         (t
-         (format t "lisp.set_global_value(\"~A\", " (ir-arg1 ir))
+         (let ((ident (register-symbol-literal (ir-arg1 ir))))
+           (format t "lisp.set_symbol_value(~A, " ident))
          (pass2 (ir-arg2 ir) t)
          (write-string ")")))
   (when return-value-p
