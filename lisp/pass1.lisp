@@ -9,6 +9,9 @@
   type
   value)
 
+(defun make-variable-binding (symbol)
+  (make-binding :name symbol :type :variable :value symbol))
+
 (defmacro def-pass1-form (name lambda-list &body body)
   (let ((fn-name (intern (format nil "PASS1-~A" name))))
     `(progn
@@ -68,7 +71,8 @@
   (let ((vars '())
         (rest-var nil)
         (in-optional nil)
-        (optionals '()))
+        (optionals '())
+        (*lexenv* *lexenv*))
     (do ((arg* lambda-list (cdr arg*)))
         ((null arg*))
       (let ((arg (car arg*)))
@@ -79,6 +83,7 @@
                  (error "error"))
                (check-variable (second arg*))
                (setf rest-var (second arg*))
+               (push (make-variable-binding rest-var) *lexenv*)
                (setq arg* (cdr arg*)))
               ((eq arg '&optional)
                (when in-optional
@@ -87,7 +92,8 @@
               (in-optional
                (cond ((symbolp arg)
                       (check-variable arg)
-                      (push (list arg (pass1 nil) nil) optionals))
+                      (push (list arg (pass1 nil) nil) optionals)
+                      (push (make-variable-binding arg) *lexenv*))
                      ((consp arg)
                       (check-proper-list arg)
                       (let ((len (length arg)))
@@ -100,12 +106,14 @@
                            (push (list (first arg)
                                        (pass1 (second arg))
                                        (third arg))
-                                 optionals))
+                                 optionals)
+                           (push (make-variable-binding (first arg)) *lexenv*))
                           (t
                            (error "error")))))
                      (t
                       (error "error"))))
               (t
+               (push (make-variable-binding arg) *lexenv*)
                (push arg vars)))))
     (let ((parsed-lambda-list
             (make-parsed-lambda-list
@@ -114,7 +122,8 @@
              :rest-var rest-var)))
       (let ((all-vars (collect-variables parsed-lambda-list)))
         (check-duplicate-var all-vars))
-      parsed-lambda-list)))
+      (values parsed-lambda-list
+              *lexenv*))))
 
 (defun get-transform (symbol)
   (get symbol 'transform))
@@ -170,18 +179,11 @@
   (unless (eq (first form) 'lambda)
     (error "error"))
   (check-args (rest form) 1 nil)
-  (let ((parsed-lambda-list (parse-lambda-list (second form)))
-        (body (or (cddr form) '(progn))))
-    (make-ir 'lambda
-             parsed-lambda-list
-             (let* ((symbols (collect-variables parsed-lambda-list))
-                    (*lexenv*
-                      (extend-lexenv (mapcar (lambda (symbol)
-                                               (make-binding :name symbol
-                                                             :type :variable
-                                                             :value symbol))
-                                             symbols)
-                                     *lexenv*)))
+  (multiple-value-bind (parsed-lambda-list *lexenv*)
+      (parse-lambda-list (second form))
+    (let ((body (or (cddr form) '(progn))))
+      (make-ir 'lambda
+               parsed-lambda-list
                (pass1-forms body)))))
 
 (defun %macroexpand-1 (form)
@@ -281,12 +283,11 @@
                           bindings)))
     (make-ir 'let
              bindings
-             (let ((*lexenv* (extend-lexenv (mapcar (lambda (b)
-                                                      (make-binding :name (first b)
-                                                                    :type :variable
-                                                                    :value (first b)))
-                                                    bindings)
-                                            *lexenv*)))
+             (let ((*lexenv*
+                     (extend-lexenv (mapcar (lambda (b)
+                                              (make-variable-binding (first b)))
+                                            bindings)
+                                    *lexenv*)))
                (pass1-forms body)))))
 
 (defun pass1-toplevel (form)
