@@ -146,10 +146,13 @@
         (format t "let ~A = arguments[~D] || "
                 (symbol-to-js-identier var)
                 i)
-        (incf i)
         (write-string "(")
         (pass2 value t)
-        (write-line ");")))
+        (write-line ");")
+        (when (third opt)
+          (format t "let ~A = (arguments.length > ~D ? lisp.tValue : lisp.nilValue);~%"
+                  (symbol-to-js-identier (third opt)) i))
+        (incf i)))
     (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
       (when rest-var
         (format t "let ~A = lisp.jsArrayToList(arguments.slice(~D));~%"

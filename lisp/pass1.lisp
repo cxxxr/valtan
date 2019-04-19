@@ -107,7 +107,9 @@
                                        (pass1 (second arg))
                                        (third arg))
                                  optionals)
-                           (push (make-variable-binding (first arg)) *lexenv*))
+                           (push (make-variable-binding (first arg)) *lexenv*)
+                           (when (= len 3)
+                             (push (make-variable-binding (third arg)) *lexenv*)))
                           (t
                            (error "error")))))
                      (t
