@@ -62,6 +62,9 @@
   (set-macro name (eval `(lambda ,lambda-list ,@body)))
   `(system::add-global-macro ',name (lambda ,lambda-list ,@body)))
 
+(def-transform lambda (args &rest body)
+  `(function (lambda ,args ,@body)))
+
 (defun expand-quasiquote (x)
   (cond ((atom x)
          (list 'quote x))
