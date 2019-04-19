@@ -202,12 +202,6 @@
       (pass1 (apply (get-transform symbol) args))
       (make-ir 'call symbol (mapcar #'pass1 args))))
 
-(defun lambda-to-let (form)
-  ;; FIXME: lambda-listのシンボルと引数の数が合っているか確認していない
-  (let ((lambda-form (first form)))
-    `(let ,(mapcar #'list (second lambda-form) (rest form))
-       ,@(rest (rest lambda-form)))))
-
 (defun pass1-call (form)
   (let ((fn (first form))
         (args (rest form)))
