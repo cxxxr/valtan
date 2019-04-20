@@ -205,15 +205,18 @@
            ir
            return-value-p))
 
+(defun emit-initialize-symbols ()
+  (maphash (lambda (symbol ident)
+             (format t "let ~A = lisp.intern('~A', '~A');~%"
+                     ident
+                     symbol
+                     (package-name (symbol-package symbol))))
+           *literal-symbols*))
+
 (defun pass2-toplevel (form)
   (let ((*literal-symbols* (make-hash-table)))
     (let ((output
             (with-output-to-string (*standard-output*)
               (pass2 (pass1-toplevel form) nil))))
-      (maphash (lambda (symbol ident)
-                 (format t "let ~A = lisp.intern('~A', '~A');~%"
-                         ident
-                         symbol
-                         (package-name (symbol-package symbol))))
-               *literal-symbols*)
+      (emit-initialize-symbols)
       (write-string output))))
