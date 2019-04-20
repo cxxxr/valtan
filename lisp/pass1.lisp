@@ -192,6 +192,17 @@
               (t
                (return (values docstring declares forms))))))))
 
+(defun pass1-declares (declares lexenv)
+  (dolist (decl declares)
+    (unless (consp decl)
+      (error "error"))
+    (case (first decl)
+      ((special)
+       (dolist (symbol (rest decl))
+         (check-variable symbol))
+       ;; TODO
+       ))))
+
 (defun pass1-lambda-list (parsed-lambda-list)
   (let ((vars (parsed-lambda-list-vars parsed-lambda-list))
         (rest-var (parsed-lambda-list-rest-var parsed-lambda-list))
@@ -225,8 +236,9 @@
         (body (cddr form)))
     (multiple-value-bind (docstring declares body)
         (parse-lambda-body body)
-      (declare (ignore docstring declares))
+      (declare (ignore docstring))
       (let ((*lexenv* (pass1-lambda-list parsed-lambda-list)))
+        (pass1-declares declares *lexenv*)
         (make-ir 'lambda
                  parsed-lambda-list
                  (pass1-forms (if (null body) '(progn) body)))))))
