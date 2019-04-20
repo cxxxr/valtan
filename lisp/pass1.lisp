@@ -176,6 +176,21 @@
 (defun pass1-forms (forms)
   (mapcar #'pass1 forms))
 
+(defun parse-lambda-body (body)
+  (let ((declares '())
+        (docstring nil))
+    (do ((forms body (rest forms)))
+        ((null forms)
+         (values docstring declares nil))
+      (let ((form (first forms)))
+        (cond ((and (consp form)
+                    (eq 'declare (first form)))
+               (setf declares (append (rest form) declares)))
+              ((stringp form)
+               (setq docstring form))
+              (t
+               (return (values docstring declares forms))))))))
+
 (defun pass1-lambda-list (parsed-lambda-list)
   (let ((vars (parsed-lambda-list-vars parsed-lambda-list))
         (rest-var (parsed-lambda-list-rest-var parsed-lambda-list))
@@ -204,11 +219,14 @@
     (error "error"))
   (check-args (rest form) 1 nil)
   (let ((parsed-lambda-list (parse-lambda-list (second form)))
-        (body (or (cddr form) '(progn))))
-    (pass1-lambda-list parsed-lambda-list)
-    (make-ir 'lambda
-             parsed-lambda-list
-             (pass1-forms body))))
+        (body (cddr form)))
+    (multiple-value-bind (docstring declares body)
+        (parse-lambda-body body)
+      (declare (ignore docstring declares))
+      (pass1-lambda-list parsed-lambda-list)
+      (make-ir 'lambda
+               parsed-lambda-list
+               (pass1-forms (if (null body) '(progn) body))))))
 
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
