@@ -213,10 +213,18 @@
                      (package-name (symbol-package symbol))))
            *literal-symbols*))
 
-(defun pass2-toplevel (form)
+(defun pass2-toplevel (ir)
   (let ((*literal-symbols* (make-hash-table)))
-    (let ((output
-            (with-output-to-string (*standard-output*)
-              (pass2 (pass1-toplevel form) nil))))
+    (let ((output (with-output-to-string (*standard-output*)
+                    (pass2 ir nil))))
+      (emit-initialize-symbols)
+      (write-string output)))
+  (values))
+
+(defun pass2-toplevel-forms (ir-forms)
+  (let ((*literal-symbols* (make-hash-table)))
+    (let ((output (with-output-to-string (*standard-output*)
+                    (dolist (ir ir-forms)
+                      (pass2 ir nil)))))
       (emit-initialize-symbols)
       (write-string output))))
