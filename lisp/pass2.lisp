@@ -49,6 +49,7 @@
            (or (cdr (assoc c *character-map*))
                (string c))))
     (with-output-to-string (out)
+      (write-string "S_" out)
       (map nil (lambda (c)
                  (write-string (f c) out))
            (string symbol)))))
