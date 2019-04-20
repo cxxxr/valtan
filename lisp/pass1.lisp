@@ -71,8 +71,7 @@
   (let ((vars '())
         (rest-var nil)
         (in-optional nil)
-        (optionals '())
-        (*lexenv* *lexenv*))
+        (optionals '()))
     (do ((arg* lambda-list (cdr arg*)))
         ((null arg*))
       (let ((arg (car arg*)))
@@ -82,8 +81,7 @@
                (unless (consp (cdr arg*))
                  (error "error"))
                (check-variable (second arg*))
-               (setf rest-var (second arg*))
-               (push (make-variable-binding rest-var) *lexenv*)
+               (setq rest-var (second arg*))
                (setq arg* (cdr arg*)))
               ((eq arg '&optional)
                (when in-optional
@@ -92,8 +90,7 @@
               (in-optional
                (cond ((symbolp arg)
                       (check-variable arg)
-                      (push (list arg (pass1 nil) nil) optionals)
-                      (push (make-variable-binding arg) *lexenv*))
+                      (push (list arg nil nil) optionals))
                      ((consp arg)
                       (check-proper-list arg)
                       (let ((len (length arg)))
@@ -104,18 +101,14 @@
                              (when (eq (first arg) (third arg))
                                (error "error")))
                            (push (list (first arg)
-                                       (pass1 (second arg))
+                                       (second arg)
                                        (third arg))
-                                 optionals)
-                           (push (make-variable-binding (first arg)) *lexenv*)
-                           (when (= len 3)
-                             (push (make-variable-binding (third arg)) *lexenv*)))
+                                 optionals))
                           (t
                            (error "error")))))
                      (t
                       (error "error"))))
               (t
-               (push (make-variable-binding arg) *lexenv*)
                (push arg vars)))))
     (setq vars (nreverse vars)
           optionals (nreverse  optionals))
@@ -131,8 +124,7 @@
                          (t min)))))
       (let ((all-vars (collect-variables parsed-lambda-list)))
         (check-duplicate-var all-vars))
-      (values parsed-lambda-list
-              *lexenv*))))
+      parsed-lambda-list)))
 
 (defun get-transform (symbol)
   (get symbol 'transform))
@@ -184,16 +176,39 @@
 (defun pass1-forms (forms)
   (mapcar #'pass1 forms))
 
+(defun pass1-lambda-list (parsed-lambda-list)
+  (let ((vars (parsed-lambda-list-vars parsed-lambda-list))
+        (rest-var (parsed-lambda-list-rest-var parsed-lambda-list))
+        (optionals (parsed-lambda-list-optionals parsed-lambda-list)))
+    (setf (parsed-lambda-list-vars parsed-lambda-list)
+          (mapcar (lambda (var)
+                    (let ((binding (make-variable-binding var)))
+                      (push binding *lexenv*)
+                      (binding-value binding)))
+                  vars))
+    (dolist (opt optionals)
+      (let ((binding (make-variable-binding (first opt))))
+        (setf (first opt) (binding-value binding))
+        (setf (second opt) (pass1 (second opt)))
+        (push binding *lexenv*))
+      (let ((binding (make-variable-binding (third opt))))
+        (setf (third opt) (binding-value binding))))
+    (when rest-var
+      (let ((binding (make-variable-binding rest-var)))
+        (push binding *lexenv*)
+        (setf (parsed-lambda-list-rest-var parsed-lambda-list)
+              (binding-value binding))))))
+
 (defun pass1-lambda (form)
   (unless (eq (first form) 'lambda)
     (error "error"))
   (check-args (rest form) 1 nil)
-  (multiple-value-bind (parsed-lambda-list *lexenv*)
-      (parse-lambda-list (second form))
-    (let ((body (or (cddr form) '(progn))))
-      (make-ir 'lambda
-               parsed-lambda-list
-               (pass1-forms body)))))
+  (let ((parsed-lambda-list (parse-lambda-list (second form)))
+        (body (or (cddr form) '(progn))))
+    (pass1-lambda-list parsed-lambda-list)
+    (make-ir 'lambda
+             parsed-lambda-list
+             (pass1-forms body))))
 
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
