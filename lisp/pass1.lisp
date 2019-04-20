@@ -4,11 +4,6 @@
 
 (defvar *lexenv*)
 
-(defstruct binding
-  name
-  type
-  value)
-
 (defun make-variable-binding (symbol)
   (make-binding :name symbol :type :variable :value symbol))
 
@@ -171,7 +166,7 @@
 (defun pass1-refvar (symbol)
   (let ((binding (lookup symbol :variable)))
     (if binding
-        (make-ir 'lref (binding-value binding))
+        (make-ir 'lref binding)
         (make-ir 'gref symbol))))
 
 (defun pass1-forms (forms)
@@ -192,7 +187,7 @@
               (t
                (return (values docstring declares forms))))))))
 
-(defun pass1-declares (declares lexenv)
+(defun pass1-declares (declares inner-lexenv *lexenv*)
   (dolist (decl declares)
     (unless (consp decl)
       (error "error"))
@@ -201,32 +196,35 @@
        (dolist (symbol (rest decl))
          (check-variable symbol))
        ;; TODO
-       ))))
+       )))
+  *lexenv*)
 
 (defun pass1-lambda-list (parsed-lambda-list)
   (let ((vars (parsed-lambda-list-vars parsed-lambda-list))
         (rest-var (parsed-lambda-list-rest-var parsed-lambda-list))
         (optionals (parsed-lambda-list-optionals parsed-lambda-list))
-        (*lexenv* *lexenv*))
+        (inner-lexenv '()))
     (setf (parsed-lambda-list-vars parsed-lambda-list)
           (mapcar (lambda (var)
                     (let ((binding (make-variable-binding var)))
-                      (push binding *lexenv*)
-                      (binding-value binding)))
+                      (push binding inner-lexenv)
+                      binding))
                   vars))
     (dolist (opt optionals)
       (let ((binding (make-variable-binding (first opt))))
-        (setf (first opt) (binding-value binding))
-        (setf (second opt) (pass1 (second opt)))
-        (push binding *lexenv*))
+        (setf (first opt) binding)
+        (setf (second opt)
+              (let ((*lexenv* (extend-lexenv inner-lexenv *lexenv*)))
+                (pass1 (second opt))))
+        (push binding inner-lexenv))
       (let ((binding (make-variable-binding (third opt))))
-        (setf (third opt) (binding-value binding))))
+        (setf (third opt) binding)))
     (when rest-var
       (let ((binding (make-variable-binding rest-var)))
-        (push binding *lexenv*)
+        (push binding inner-lexenv)
         (setf (parsed-lambda-list-rest-var parsed-lambda-list)
-              (binding-value binding))))
-    *lexenv*))
+              binding)))
+    inner-lexenv))
 
 (defun pass1-lambda (form)
   (unless (eq (first form) 'lambda)
@@ -237,8 +235,9 @@
     (multiple-value-bind (docstring declares body)
         (parse-lambda-body body)
       (declare (ignore docstring))
-      (let ((*lexenv* (pass1-lambda-list parsed-lambda-list)))
-        (pass1-declares declares *lexenv*)
+      (let* ((inner-lexenv (pass1-lambda-list parsed-lambda-list))
+             (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
+             (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
         (make-ir 'lambda
                  parsed-lambda-list
                  (pass1-forms (if (null body) '(progn) body)))))))
@@ -302,7 +301,7 @@
                  (binding (lookup symbol :variable))
                  (value (pass1 (second args))))
             (push (if binding
-                      (make-ir 'lset (binding-value binding) value)
+                      (make-ir 'lset binding value)
                       (make-ir 'gset symbol value))
                   forms)))
         (make-ir 'progn (nreverse forms)))))

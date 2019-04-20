@@ -54,6 +54,9 @@
                  (write-string (f c) out))
            (string symbol)))))
 
+(defun binding-to-js-identier (binding)
+  (symbol-to-js-identier (binding-value binding)))
+
 (defun register-symbol-literal (symbol)
   (or (gethash symbol *literal-symbols*)
       (setf (gethash symbol *literal-symbols*)
@@ -95,7 +98,7 @@
   (princ (const-to-js-literal (ir-arg1 ir))))
 
 (def-emit lref (ir return-value-p)
-  (princ (symbol-to-js-identier (ir-arg1 ir))))
+  (princ (binding-to-js-identier (ir-arg1 ir))))
 
 (def-emit gref (ir return-value-p)
   (let ((ident (register-symbol-literal (ir-arg1 ir))))
@@ -105,7 +108,7 @@
   (when return-value-p
     (write-string "("))
   (cond ((eq 'lset (ir-op ir))
-         (format t "~A = " (symbol-to-js-identier (ir-arg1 ir)))
+         (format t "~A = " (binding-to-js-identier (ir-arg1 ir)))
          (pass2 (ir-arg2 ir) t))
         (t
          (let ((ident (register-symbol-literal (ir-arg1 ir))))
@@ -151,26 +154,26 @@
 (defun emit-lambda-list (parsed-lambda-list)
   (let ((i 0))
     (dolist (var (parsed-lambda-list-vars parsed-lambda-list))
-      (format t "let ~A = arguments[~D];~%" (symbol-to-js-identier var) i)
+      (format t "let ~A = arguments[~D];~%" (binding-to-js-identier var) i)
       (incf i))
     (dolist (opt (parsed-lambda-list-optionals parsed-lambda-list))
       (let ((var (first opt))
             (value (second opt)))
         (format t "let ~A = arguments[~D] || "
-                (symbol-to-js-identier var)
+                (binding-to-js-identier var)
                 i)
         (write-string "(")
         (pass2 value t)
         (write-line ");")
         (when (third opt)
           (format t "let ~A = (arguments.length > ~D ? lisp.tValue : lisp.nilValue);~%"
-                  (symbol-to-js-identier (third opt)) i))
+                  (binding-to-js-identier (third opt)) i))
         (incf i)))
     (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
       (when rest-var
         (format t "let ~A = lisp.jsArrayToList(arguments.slice(~D));~%"
-                (symbol-to-js-identier rest-var) i)
-        (symbol-to-js-identier rest-var)))))
+                (binding-to-js-identier rest-var) i)
+        (binding-to-js-identier rest-var)))))
 
 (def-emit lambda (ir return-value-p)
   (let ((parsed-lambda-list (ir-arg1 ir)))

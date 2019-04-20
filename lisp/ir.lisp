@@ -24,3 +24,8 @@
               (list (parsed-lambda-list-rest-var parsed-lambda-list)))
           (mapcar #'first (parsed-lambda-list-optionals parsed-lambda-list))
           (remove nil (mapcar #'third (parsed-lambda-list-optionals parsed-lambda-list)))))
+
+(defstruct binding
+  name
+  type
+  value)
