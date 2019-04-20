@@ -109,6 +109,7 @@
                      (t
                       (error "error"))))
               (t
+               (check-variable arg)
                (push arg vars)))))
     (setq vars (nreverse vars)
           optionals (nreverse  optionals))
