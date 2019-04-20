@@ -117,11 +117,18 @@
               (t
                (push (make-variable-binding arg) *lexenv*)
                (push arg vars)))))
-    (let ((parsed-lambda-list
-            (make-parsed-lambda-list
-             :vars (nreverse vars)
-             :optionals (nreverse optionals)
-             :rest-var rest-var)))
+    (setq vars (nreverse vars)
+          optionals (nreverse  optionals))
+    (let* ((min (length vars))
+           (parsed-lambda-list
+             (make-parsed-lambda-list
+              :vars vars
+              :optionals optionals
+              :rest-var rest-var
+              :min (length vars)
+              :max (cond (rest-var nil)
+                         (optionals (+ min (length optionals)))
+                         (t min)))))
       (let ((all-vars (collect-variables parsed-lambda-list)))
         (check-duplicate-var all-vars))
       (values parsed-lambda-list

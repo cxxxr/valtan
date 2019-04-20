@@ -135,6 +135,18 @@
   (when return-value-p
     (format t "})()")))
 
+(defun emit-check-arguments (parsed-lambda-list)
+  (let ((min (parsed-lambda-list-min parsed-lambda-list))
+        (max (parsed-lambda-list-max parsed-lambda-list)))
+    (cond ((null max)
+           (format t "if (arguments.length < ~D) {~%" min))
+          ((= min max)
+           (format t "if (arguments.length !== ~D) {~%" min))
+          (t
+           (format t "if (arguments.length < ~D || ~D < arguments.length) {~%" min max)))
+    (write-line "throw new Error('invalid number of arguments');")
+    (write-line "}")))
+
 (defun emit-lambda-list (parsed-lambda-list)
   (let ((i 0))
     (dolist (var (parsed-lambda-list-vars parsed-lambda-list))
@@ -162,6 +174,7 @@
 (def-emit lambda (ir return-value-p)
   (let ((parsed-lambda-list (ir-arg1 ir)))
     (write-line "(function() {")
+    (emit-check-arguments parsed-lambda-list)
     (emit-lambda-list parsed-lambda-list)
     (pass2-forms (ir-arg2 ir) t)
     (format t "})")))

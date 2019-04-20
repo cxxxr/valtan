@@ -14,7 +14,9 @@
 (defstruct parsed-lambda-list
   vars
   rest-var
-  optionals)
+  optionals
+  min
+  max)
 
 (defun collect-variables (parsed-lambda-list)
   (append (parsed-lambda-list-vars parsed-lambda-list)
