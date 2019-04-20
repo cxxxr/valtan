@@ -225,8 +225,9 @@
               (let ((*lexenv* (extend-lexenv inner-lexenv *lexenv*)))
                 (pass1 (second opt))))
         (push binding inner-lexenv))
-      (let ((binding (make-variable-binding (third opt))))
-        (setf (third opt) binding)))
+      (when (third opt)
+        (let ((binding (make-variable-binding (third opt))))
+          (setf (third opt) binding))))
     (when rest-var
       (let ((binding (make-variable-binding rest-var)))
         (push binding inner-lexenv)
