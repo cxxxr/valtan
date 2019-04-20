@@ -193,10 +193,18 @@
       (error "error"))
     (case (first decl)
       ((special)
-       (dolist (symbol (rest decl))
-         (check-variable symbol))
-       ;; TODO
-       )))
+       (let ((vars (rest decl)))
+         (do ((var* vars (rest var*)))
+             ((null var*))
+           (check-variable (first var*))
+           (when (member (first var*) (rest var*))
+             (error "error")))
+         (dolist (symbol (rest decl))
+           (let ((binding (lookup symbol :variable inner-lexenv)))
+             (if binding
+                 (setf (binding-type binding) :special)
+                 (push (make-binding :name symbol :value symbol :type :special)
+                       *lexenv*))))))))
   *lexenv*)
 
 (defun pass1-lambda-list (parsed-lambda-list)
