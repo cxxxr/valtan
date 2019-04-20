@@ -195,7 +195,8 @@
 (defun pass1-lambda-list (parsed-lambda-list)
   (let ((vars (parsed-lambda-list-vars parsed-lambda-list))
         (rest-var (parsed-lambda-list-rest-var parsed-lambda-list))
-        (optionals (parsed-lambda-list-optionals parsed-lambda-list)))
+        (optionals (parsed-lambda-list-optionals parsed-lambda-list))
+        (*lexenv* *lexenv*))
     (setf (parsed-lambda-list-vars parsed-lambda-list)
           (mapcar (lambda (var)
                     (let ((binding (make-variable-binding var)))
@@ -213,7 +214,8 @@
       (let ((binding (make-variable-binding rest-var)))
         (push binding *lexenv*)
         (setf (parsed-lambda-list-rest-var parsed-lambda-list)
-              (binding-value binding))))))
+              (binding-value binding))))
+    *lexenv*))
 
 (defun pass1-lambda (form)
   (unless (eq (first form) 'lambda)
@@ -224,10 +226,10 @@
     (multiple-value-bind (docstring declares body)
         (parse-lambda-body body)
       (declare (ignore docstring declares))
-      (pass1-lambda-list parsed-lambda-list)
-      (make-ir 'lambda
-               parsed-lambda-list
-               (pass1-forms (if (null body) '(progn) body))))))
+      (let ((*lexenv* (pass1-lambda-list parsed-lambda-list)))
+        (make-ir 'lambda
+                 parsed-lambda-list
+                 (pass1-forms (if (null body) '(progn) body)))))))
 
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
