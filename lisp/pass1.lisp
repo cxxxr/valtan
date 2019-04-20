@@ -24,11 +24,11 @@
 (defun set-macro (symbol form)
   (setf (get symbol 'macro) form))
 
-(defun lookup (symbol type)
-  (dolist (binding *lexenv*)
+(defun lookup (symbol type &optional (bindings *lexenv*))
+  (dolist (binding bindings)
     (when (and (eq type (binding-type binding))
                (eq symbol (binding-name binding)))
-      (return (binding-value binding)))))
+      (return binding))))
 
 (defun extend-lexenv (bindings lexenv)
   (append bindings lexenv))
@@ -169,9 +169,9 @@
   (make-ir 'const x))
 
 (defun pass1-refvar (symbol)
-  (let ((var (lookup symbol :variable)))
-    (if var
-        (make-ir 'lref var)
+  (let ((binding (lookup symbol :variable)))
+    (if binding
+        (make-ir 'lref (binding-value binding))
         (make-ir 'gref symbol))))
 
 (defun pass1-forms (forms)
@@ -299,10 +299,10 @@
             ((null args))
           (assert (symbolp (first args)))
           (let* ((symbol (first args))
-                 (var (lookup symbol :variable))
+                 (binding (lookup symbol :variable))
                  (value (pass1 (second args))))
-            (push (if var
-                      (make-ir 'lset var value)
+            (push (if binding
+                      (make-ir 'lset (binding-value binding) value)
                       (make-ir 'gset symbol value))
                   forms)))
         (make-ir 'progn (nreverse forms)))))
