@@ -4,6 +4,7 @@
                 :components
                 ((:file "packages")
                  (:file "host")
+                 (:file "error")
                  (:file "ir")
                  (:file "pass1")
                  (:file "pass2")
