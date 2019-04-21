@@ -245,6 +245,9 @@
            ir
            return-value-p))
 
+(defun pass2-toplevel-1 (ir)
+  (pass2 (make-ir 'progn (list ir)) nil))
+
 (defun emit-initialize-symbols ()
   (maphash (lambda (symbol ident)
              (format t "let ~A = lisp.intern('~A', '~A');~%"
@@ -256,7 +259,7 @@
 (defun pass2-toplevel (ir)
   (let ((*literal-symbols* (make-hash-table)))
     (let ((output (with-output-to-string (*standard-output*)
-                    (pass2 ir nil))))
+                    (pass2-toplevel-1 ir))))
       (emit-initialize-symbols)
       (write-string output)))
   (values))
@@ -265,6 +268,6 @@
   (let ((*literal-symbols* (make-hash-table)))
     (let ((output (with-output-to-string (*standard-output*)
                     (dolist (ir ir-forms)
-                      (pass2 ir nil)))))
+                      (pass2-toplevel-1 ir)))))
       (emit-initialize-symbols)
       (write-string output))))
