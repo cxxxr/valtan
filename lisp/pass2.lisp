@@ -180,8 +180,7 @@
       (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
         (when rest-var
           (emit-declvar rest-var)
-          (format t "lisp.jsArrayToList(arguments.slice(~D));~%"
-                  (binding-to-js-identier rest-var) i)
+          (format t "lisp.jsArrayToList(arguments.slice(~D));~%" i)
           (binding-to-js-identier rest-var))))))
 
 (def-emit lambda (ir return-value-p)
