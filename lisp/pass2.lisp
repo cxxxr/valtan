@@ -44,29 +44,29 @@
 
 (defparameter *emitter-table* (make-hash-table))
 
-(defun symbol-to-js-identier (symbol)
+(defun symbol-to-js-identier (symbol &optional prefix)
   (flet ((f (c)
            (or (cdr (assoc c *character-map*))
                (string c))))
     (with-output-to-string (out)
-      (write-string "S_" out)
+      (when prefix (write-string prefix out))
       (map nil (lambda (c)
                  (write-string (f c) out))
            (string symbol)))))
 
-(defun binding-to-js-identier (binding)
-  (symbol-to-js-identier (binding-value binding)))
+(defun symbol-to-js-local-var (symbol)
+  (symbol-to-js-identier symbol "L_"))
 
-(defun register-symbol-literal (symbol)
+(defun symbol-to-js-global-var (symbol)
   (check-type symbol symbol)
   (or (gethash symbol *literal-symbols*)
       (setf (gethash symbol *literal-symbols*)
-            (symbol-to-js-identier symbol))))
+            (symbol-to-js-identier symbol "G_"))))
 
 (defun const-to-js-literal (value)
   (typecase value
     (null "lisp.nilValue")
-    (symbol (register-symbol-literal value))
+    (symbol (symbol-to-js-global-var value))
     (otherwise (princ-to-string value))))
 
 (defun js-call (name &rest args)
@@ -99,20 +99,20 @@
   (princ (const-to-js-literal (ir-arg1 ir))))
 
 (def-emit lref (ir return-value-p)
-  (princ (binding-to-js-identier (ir-arg1 ir))))
+  (princ (symbol-to-js-local-var (binding-value (ir-arg1 ir)))))
 
 (def-emit gref (ir return-value-p)
-  (let ((ident (register-symbol-literal (ir-arg1 ir))))
+  (let ((ident (symbol-to-js-global-var (ir-arg1 ir))))
     (format t "lisp.symbol_value(~A)" ident)))
 
 (def-emit (lset gset) (ir return-value-p)
   (when return-value-p
     (write-string "("))
   (cond ((eq 'lset (ir-op ir))
-         (format t "~A = " (binding-to-js-identier (ir-arg1 ir)))
+         (format t "~A = " (symbol-to-js-local-var (binding-value (ir-arg1 ir))))
          (pass2 (ir-arg2 ir) t))
         (t
-         (let ((ident (register-symbol-literal (ir-arg1 ir))))
+         (let ((ident (symbol-to-js-global-var (ir-arg1 ir))))
            (format t "lisp.set_symbol_value(~A, " ident))
          (pass2 (ir-arg2 ir) t)
          (write-string ")")))
@@ -168,15 +168,15 @@
            (emit-try-finally ,form (write-string ,unwind-code-var))))))
 
 (defun emit-declvar (var finally-stream)
-  (let ((identier (binding-to-js-identier var)))
-    (cond ((eq (binding-type var) :special)
-           (register-symbol-literal (binding-value var))
-           (let ((tmp-var (format nil "TMP_~A" identier)))
-             (format t "const ~A = ~A.value;~%" tmp-var identier)
-             (format t "~A.value = " identier)
-             (format finally-stream "~A.value = ~A;~%" identier tmp-var)))
-          (t
-           (format t "let ~A = " identier)))))
+  (cond ((eq (binding-type var) :special)
+         (let ((identier (symbol-to-js-global-var (binding-value var)))
+               (tmp-var (symbol-to-js-identier (binding-value var) "TMP_")))
+           (format t "const ~A = ~A.value;~%" tmp-var identier)
+           (format t "~A.value = " identier)
+           (format finally-stream "~A.value = ~A;~%" identier tmp-var)))
+        (t
+         (format t "let ~A = "
+                 (symbol-to-js-local-var (binding-value var))))))
 
 (defun emit-lambda-list (parsed-lambda-list finally-stream)
   (flet ()
@@ -201,7 +201,7 @@
         (when rest-var
           (emit-declvar rest-var finally-stream)
           (format t "lisp.jsArrayToList(arguments.slice(~D));~%" i)
-          (binding-to-js-identier rest-var))))))
+          (symbol-to-js-local-var (binding-value rest-var)))))))
 
 (def-emit lambda (ir return-value-p)
   (let ((parsed-lambda-list (ir-arg1 ir)))
@@ -233,7 +233,7 @@
         (format t "}~%"))))
 
 (def-emit call (ir return-value-p)
-  (let ((ident (register-symbol-literal (ir-arg1 ir))))
+  (let ((ident (symbol-to-js-global-var (ir-arg1 ir))))
     (format t "lisp.call_function(~A" ident))
   (dolist (arg (ir-arg2 ir))
     (write-string ", ")
