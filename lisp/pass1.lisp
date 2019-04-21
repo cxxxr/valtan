@@ -379,7 +379,8 @@
     (case (first spec)
       ((special)
        (dolist (symbol (rest spec))
-         (setf (special-p symbol) t))))))
+         (setf (special-p symbol) t)))))
+  (pass1-const nil))
 
 (defun pass1-toplevel (form)
   (let ((*lexenv* '()))
