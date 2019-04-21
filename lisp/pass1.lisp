@@ -172,7 +172,7 @@
 (defun pass1-forms (forms)
   (mapcar #'pass1 forms))
 
-(defun parse-lambda-body (body)
+(defun parse-body (body)
   (let ((declares '())
         (docstring nil))
     (do ((forms body (rest forms)))
@@ -243,7 +243,7 @@
   (let ((parsed-lambda-list (parse-lambda-list (second form)))
         (body (cddr form)))
     (multiple-value-bind (docstring declares body)
-        (parse-lambda-body body)
+        (parse-body body)
       (declare (ignore docstring))
       (let* ((inner-lexenv (pass1-lambda-list parsed-lambda-list))
              (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
