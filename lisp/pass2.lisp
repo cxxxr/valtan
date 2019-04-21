@@ -58,6 +58,7 @@
   (symbol-to-js-identier (binding-value binding)))
 
 (defun register-symbol-literal (symbol)
+  (check-type symbol symbol)
   (or (gethash symbol *literal-symbols*)
       (setf (gethash symbol *literal-symbols*)
             (symbol-to-js-identier symbol))))
@@ -160,18 +161,22 @@
      (write-line "}")))
 
 (defmacro with-unwind-special-vars (form unwind-code)
-  `(if (string= ,unwind-code "")
-       ,form
-       (emit-try-finally ,form (write-string ,unwind-code))))
+  (let ((unwind-code-var (gensym)))
+    `(let ((,unwind-code-var ,unwind-code))
+       (if (string= ,unwind-code-var "")
+           ,form
+           (emit-try-finally ,form (write-string ,unwind-code-var))))))
 
 (defun emit-declvar (var finally-stream)
   (let ((identier (binding-to-js-identier var)))
-    (if (eq (binding-type var) :special)
-        (let ((tmp-var (format nil "TMP_~A" identier)))
-          (format t "const ~A = ~A.value;~%" tmp-var identier)
-          (format t "~A.value = " identier)
-          (format finally-stream "~A.value = ~A;~%" identier tmp-var))
-        (format t "let ~A = " identier))))
+    (cond ((eq (binding-type var) :special)
+           (register-symbol-literal (binding-value var))
+           (let ((tmp-var (format nil "TMP_~A" identier)))
+             (format t "const ~A = ~A.value;~%" tmp-var identier)
+             (format t "~A.value = " identier)
+             (format finally-stream "~A.value = ~A;~%" identier tmp-var)))
+          (t
+           (format t "let ~A = " identier)))))
 
 (defun emit-lambda-list (parsed-lambda-list finally-stream)
   (flet ()
@@ -206,22 +211,26 @@
             (with-output-to-string (finally-stream)
               (emit-lambda-list parsed-lambda-list finally-stream))))
       (with-unwind-special-vars
-       (pass2-forms (ir-arg2 ir) t)
-       finally-code))
+          (pass2-forms (ir-arg2 ir) t)
+        finally-code))
     (format t "})")))
 
 (def-emit let (ir return-value-p)
   (if return-value-p
       (format t "(function() {~%")
       (format t "{~%"))
-  (dolist (binding (ir-arg1 ir))
-    (format t "let ~A = " (binding-to-js-identier (first binding)))
-    (pass2 (second binding) t)
-    (format t ";~%"))
-  (pass2-forms (ir-arg2 ir) return-value-p)
-  (if return-value-p
-      (format t "})()")
-      (format t "}~%")))
+  (let ((finally-stream (make-string-output-stream)))
+    (dolist (binding (ir-arg1 ir))
+      (emit-declvar (first binding) finally-stream)
+      (pass2 (second binding) t)
+      (format t ";~%"))
+    (with-unwind-special-vars
+        (progn
+          (pass2-forms (ir-arg2 ir) return-value-p))
+      (get-output-stream-string finally-stream))
+    (if return-value-p
+        (format t "})()")
+        (format t "}~%"))))
 
 (def-emit call (ir return-value-p)
   (let ((ident (register-symbol-literal (ir-arg1 ir))))
