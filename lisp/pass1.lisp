@@ -381,6 +381,18 @@
                  bindings
                  (pass1-forms body))))))
 
+(defun parse-flet-definitions (definitions)
+  (dolist (definition definitions)
+    (unless (consp definition)
+      (compile-error "Invalid definition form: ~S" definition))
+    ))
+
+(def-pass1-form flet (definitions &rest body)
+  (parse-flet-definitions definitions))
+
+(def-pass1-form labels (definitions &rest body)
+  (parse-flet-definitions definitions))
+
 (def-pass1-form declaim (&rest specs)
   (pre-process-declaration-specifier specs)
   (dolist (spec specs)
