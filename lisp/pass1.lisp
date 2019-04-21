@@ -316,7 +316,10 @@
                       (make-ir 'lset binding value)
                       (make-ir 'gset symbol value))
                   forms)))
-        (make-ir 'progn (nreverse forms)))))
+        (make-ir 'progn
+                 (if (null forms)
+                     (list (pass1-const nil))
+                     (nreverse forms))))))
 
 (def-pass1-form if (test then &optional else)
   (make-ir 'if
