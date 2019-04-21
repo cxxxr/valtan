@@ -206,7 +206,7 @@
       (format t "(function() {~%")
       (format t "{~%"))
   (dolist (binding (ir-arg1 ir))
-    (format t "let ~A = " (symbol-to-js-identier (first binding)))
+    (format t "let ~A = " (binding-to-js-identier (first binding)))
     (pass2 (second binding) t)
     (format t ";~%"))
   (pass2-forms (ir-arg2 ir) return-value-p)

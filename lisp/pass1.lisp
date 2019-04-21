@@ -334,19 +334,17 @@
 
 (def-pass1-form let (bindings &rest body)
   (assert (consp bindings))
-  (let* ((bindings (mapcar (lambda (b)
-                             (assert (consp b))
-                             (assert (<= 1 (length b) 2))
-                             (check-variable (first b))
-                             (list (first b)
-                                   (pass1 (second b))))
-                           bindings))
-         (inner-lexenv (mapcar (lambda (b)
-                                 (make-variable-binding (first b)))
-                               bindings)))
-    (make-ir 'let
-             bindings
-             (let ((*lexenv* (extend-lexenv inner-lexenv *lexenv*)))
+  (let ((bindings (mapcar (lambda (b)
+                            (assert (consp b))
+                            (assert (<= 1 (length b) 2))
+                            (check-variable (first b))
+                            (list (make-variable-binding (first b))
+                                  (pass1 (second b))))
+                          bindings)))
+    (let* ((inner-lexenv (mapcar #'first bindings))
+           (*lexenv* (extend-lexenv inner-lexenv *lexenv*)))
+      (make-ir 'let
+               bindings
                (pass1-forms body)))))
 
 (defun pass1-toplevel (form)
