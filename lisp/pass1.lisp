@@ -333,7 +333,7 @@
      (error "error"))))
 
 (def-pass1-form let (bindings &rest body)
-  (assert (consp bindings))
+  (assert (listp bindings))
   (let ((bindings (mapcar (lambda (b)
                             (assert (consp b))
                             (assert (<= 1 (length b) 2))
