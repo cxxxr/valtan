@@ -341,11 +341,14 @@
                             (list (make-variable-binding (first b))
                                   (pass1 (second b))))
                           bindings)))
-    (let* ((inner-lexenv (mapcar #'first bindings))
-           (*lexenv* (extend-lexenv inner-lexenv *lexenv*)))
-      (make-ir 'let
-               bindings
-               (pass1-forms body)))))
+    (multiple-value-bind (body declares)
+        (parse-body body nil)
+      (let* ((inner-lexenv (mapcar #'first bindings))
+             (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
+             (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
+        (make-ir 'let
+                 bindings
+                 (pass1-forms body))))))
 
 (defun pass1-toplevel (form)
   (let ((*lexenv* '()))
