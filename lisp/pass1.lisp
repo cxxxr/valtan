@@ -142,6 +142,14 @@
 (def-transform lambda (args &rest body)
   `(function (lambda ,args ,@body)))
 
+(def-transform defvar (x &optional (value nil value-p) doc)
+  (declare (ignore doc))
+  `(progn
+     (declaim (special ,x))
+     ,@(when value-p
+         `((setq ,x ,value)))
+     ',x))
+
 (defun expand-quasiquote (x)
   (cond ((atom x)
          (list 'quote x))
