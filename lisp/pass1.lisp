@@ -16,7 +16,7 @@
 (defun get-macro (symbol)
   (get symbol 'macro))
 
-(defun set-macro (symbol form)
+(defun (setf get-macro) (form symbol)
   (setf (get symbol 'macro) form))
 
 (defun lookup (symbol type &optional (bindings *lexenv*))
@@ -126,7 +126,7 @@
   `(system::fset ',name (lambda ,lambda-list ,@body)))
 
 (def-transform defmacro (name lambda-list &rest body)
-  (set-macro name (eval `(lambda ,lambda-list ,@body)))
+  (setf (get-macro name) (eval `(lambda ,lambda-list ,@body)))
   `(system::add-global-macro ',name (lambda ,lambda-list ,@body)))
 
 (def-transform lambda (args &rest body)
