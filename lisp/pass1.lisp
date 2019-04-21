@@ -4,8 +4,10 @@
 
 (defvar *lexenv*)
 
-(defun make-variable-binding (symbol)
-  (make-binding :name symbol :type :variable :value symbol))
+(defun make-variable-binding (symbol &optional special-p)
+  (make-binding :name symbol
+                :type (if special-p :special :variable)
+                :value symbol))
 
 (defmacro def-pass1-form (name lambda-list &body body)
   (let ((fn-name (intern (format nil "PASS1-~A" name))))
