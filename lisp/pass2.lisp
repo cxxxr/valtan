@@ -151,6 +151,19 @@
     (write-line "throw new Error('invalid number of arguments');")
     (write-line "}")))
 
+(defmacro emit-try-finally (try finally)
+  `(progn
+     (write-line "try {")
+     ,try
+     (write-line "} finally {")
+     ,finally
+     (write-line "}")))
+
+(defmacro with-unwind-special-vars (form unwind-code)
+  `(if (string= ,unwind-code "")
+       ,form
+       (emit-try-finally ,form (write-string ,unwind-code))))
+
 (defun emit-declvar (var finally-stream)
   (let ((identier (binding-to-js-identier var)))
     (if (eq (binding-type var) :special)
@@ -189,17 +202,12 @@
   (let ((parsed-lambda-list (ir-arg1 ir)))
     (write-line "(function() {")
     (emit-check-arguments parsed-lambda-list)
-    (let ((finally
+    (let ((finally-code
             (with-output-to-string (finally-stream)
               (emit-lambda-list parsed-lambda-list finally-stream))))
-      (if (string= finally "")
-          (pass2-forms (ir-arg2 ir) t)
-          (progn
-            (write-line "try {")
-            (pass2-forms (ir-arg2 ir) t)
-            (write-line "} finally {")
-            (write-string finally)
-            (write-line "}"))))
+      (with-unwind-special-vars
+       (pass2-forms (ir-arg2 ir) t)
+       finally-code))
     (format t "})")))
 
 (def-emit let (ir return-value-p)
