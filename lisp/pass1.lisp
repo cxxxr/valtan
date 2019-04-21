@@ -4,7 +4,7 @@
 
 (defvar *lexenv*)
 
-(defun make-variable-binding (symbol &optional special-p)
+(defun make-variable-binding (symbol &optional (special-p (special-p symbol)))
   (make-binding :name symbol
                 :type (if special-p :special :variable)
                 :value symbol))
@@ -361,7 +361,7 @@
                             (let ((var (first b)))
                               (unless (variable-symbol-p var)
                                 (compile-error "~S is not a variable" var))
-                              (list (make-variable-binding var (special-p var))
+                              (list (make-variable-binding var)
                                     (pass1 (second b)))))
                           bindings)))
     (multiple-value-bind (body declares)
