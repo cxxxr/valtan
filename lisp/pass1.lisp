@@ -170,7 +170,9 @@
         (make-ir 'gref symbol))))
 
 (defun pass1-forms (forms)
-  (mapcar #'pass1 forms))
+  (if (null forms)
+      (list (pass1-const nil))
+      (mapcar #'pass1 forms)))
 
 (defun parse-body (body look-docstring-p)
   (let ((declares '())
@@ -250,7 +252,7 @@
              (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
         (make-ir 'lambda
                  parsed-lambda-list
-                 (pass1-forms (if (null body) '(progn) body)))))))
+                 (pass1-forms body))))))
 
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
@@ -352,4 +354,4 @@
 
 (defun pass1-toplevel (form)
   (let ((*lexenv* '()))
-    (make-ir 'progn (list (pass1 form)))))
+    (pass1 form)))
