@@ -251,7 +251,7 @@
 
 (defun pass1-lambda (form)
   (assert (eq 'lambda (first form)))
-  (when (null (rest form))
+  (when (atom (rest form))
     (compile-error "~S is not a valid lambda expression" form))
   (let ((parsed-lambda-list (parse-lambda-list (second form)))
         (body (cddr form)))
