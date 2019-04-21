@@ -19,6 +19,12 @@
 (defun (setf get-macro) (form symbol)
   (setf (get symbol 'macro) form))
 
+(defun special-p (symbol)
+  (get symbol 'special))
+
+(defun (setf special-p) (value symbol)
+  (setf (get symbol 'special) value))
+
 (defun lookup (symbol type &optional (bindings *lexenv*))
   (dolist (binding bindings)
     (when (and (eq type (binding-type binding))
@@ -361,6 +367,14 @@
         (make-ir 'let
                  bindings
                  (pass1-forms body))))))
+
+(def-pass1-form declaim (&rest specs)
+  (pre-process-declaration-specifier specs)
+  (dolist (spec specs)
+    (case (first spec)
+      ((special)
+       (dolist (symbol (rest spec))
+         (setf (special-p symbol) t))))))
 
 (defun pass1-toplevel (form)
   (let ((*lexenv* '()))
