@@ -314,6 +314,8 @@
            (pass1 form))
           ((null form)
            (pass1-const nil))
+          ((keywordp form)
+           (pass1-const form))
           ((symbolp form)
            (pass1-refvar form))
           ((atom form)
