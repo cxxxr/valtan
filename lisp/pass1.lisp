@@ -151,8 +151,8 @@
   (declare (ignore doc))
   `(progn
      (declaim (special ,x))
-     ,@(when value-p
-         `((setq ,x ,value)))
+     ,(when value-p
+        `(if (boundp ',x) nil (setq ,x ,value)))
      ',x))
 
 (defun expand-quasiquote (x)
