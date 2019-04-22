@@ -292,7 +292,7 @@
 (defun pass1-call (form)
   (let ((fn (first form))
         (args (rest form)))
-    (cond ((symbolp fn)
+    (cond ((and (variable-symbol-p fn))
            (let ((binding (lookup fn :function)))
              (cond (binding
                     (make-ir 'lcall binding (mapcar #'pass1 args)))
