@@ -57,6 +57,9 @@
 (defun symbol-to-js-local-var (symbol)
   (symbol-to-js-identier symbol "L_"))
 
+(defun symbol-to-js-function-var (symbol)
+  (symbol-to-js-identier symbol "F_"))
+
 (defun symbol-to-js-global-var (symbol)
   (check-type symbol symbol)
   (or (gethash symbol *literal-symbols*)
@@ -168,15 +171,20 @@
            (emit-try-finally ,form (write-string ,unwind-code-var))))))
 
 (defun emit-declvar (var finally-stream)
-  (cond ((eq (binding-type var) :special)
-         (let ((identier (symbol-to-js-global-var (binding-value var)))
-               (tmp-var (symbol-to-js-identier (binding-value var) "TMP_")))
-           (format t "const ~A = ~A.value;~%" tmp-var identier)
-           (format t "~A.value = " identier)
-           (format finally-stream "~A.value = ~A;~%" identier tmp-var)))
-        (t
-         (format t "let ~A = "
-                 (symbol-to-js-local-var (binding-value var))))))
+  (ecase (binding-type var)
+    ((:special)
+     (let ((identier (symbol-to-js-global-var (binding-value var)))
+           (tmp-var (symbol-to-js-identier (binding-value var) "TMP_")))
+       (format t "const ~A = ~A.value;~%" tmp-var identier)
+       (format t "~A.value = " identier)
+       (format finally-stream "~A.value = ~A;~%" identier tmp-var)))
+    ((:variable)
+     (format t "let ~A = "
+             (symbol-to-js-local-var (binding-value var))))
+    ((:function)
+     (format t "let ~A = "
+             (symbol-to-js-function-var (binding-name var) ; !!!
+                                        )))))
 
 (defun emit-lambda-list (parsed-lambda-list finally-stream)
   (flet ()
@@ -232,12 +240,16 @@
         (format t "})()")
         (format t "}~%"))))
 
-(def-emit call (ir return-value-p)
-  (let ((ident (symbol-to-js-global-var (ir-arg1 ir))))
-    (format t "lisp.call_function(~A" ident))
-  (dolist (arg (ir-arg2 ir))
-    (write-string ", ")
-    (pass2 arg t))
+(def-emit (call lcall) (ir return-value-p)
+  (if (eq (ir-op ir) 'call)
+      (let ((ident (symbol-to-js-global-var (ir-arg1 ir))))
+        (format t "lisp.call_function(~A, " ident))
+      (format t "~A(" (symbol-to-js-function-var (binding-name (ir-arg1 ir)))))
+  (do ((arg* (ir-arg2 ir) (rest arg*)))
+      ((null arg*))
+    (pass2 (first arg*) t)
+    (unless (null (rest arg*))
+      (write-string ", ")))
   (write-string ")"))
 
 (defun pass2 (ir return-value-p)

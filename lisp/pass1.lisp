@@ -9,6 +9,11 @@
                 :type (if special-p :special :variable)
                 :value symbol))
 
+(defun make-function-binding (symbol)
+  (make-binding :name symbol
+                :type :function
+                :value symbol))
+
 (defmacro def-pass1-form (name lambda-list &body body)
   (let ((fn-name (intern (format nil "PASS1-~A" name))))
     `(progn
@@ -284,16 +289,17 @@
         (t
          (values form nil))))
 
-(defun pass1-call-symbol (symbol args)
-  (if (transform-symbol-p symbol)
-      (pass1 (apply (get-transform symbol) args))
-      (make-ir 'call symbol (mapcar #'pass1 args))))
-
 (defun pass1-call (form)
   (let ((fn (first form))
         (args (rest form)))
     (cond ((symbolp fn)
-           (pass1-call-symbol fn args))
+           (let ((binding (lookup fn :function)))
+             (cond (binding
+                    (make-ir 'lcall binding (mapcar #'pass1 args)))
+                   ((transform-symbol-p fn)
+                    (pass1 (apply (get-transform fn) args)))
+                   (t
+                    (make-ir 'call fn (mapcar #'pass1 args))))))
           ((consp fn)
            (unless (eq 'lambda (first fn))
              (compile-error "Illegal function call: ~S" form))
@@ -381,17 +387,46 @@
                  bindings
                  (pass1-forms body))))))
 
-(defun parse-flet-definitions (definitions)
-  (dolist (definition definitions)
-    (unless (consp definition)
-      (compile-error "Invalid definition form: ~S" definition))
-    ))
+(defun parse-flet-definitions (definitions compile-lambda-p)
+  (unless (listp definitions)
+    (compile-error "Malformed definitions: ~S" definitions))
+  (let ((bindings '()))
+    (dolist (definition definitions)
+      (unless (consp definition)
+        (compile-error "Invalid definition form: ~S" definition))
+      (unless (variable-symbol-p (first definition))
+        (compile-error "Illegal function name: ~S" (first definition)))
+      (push (list (make-function-binding (first definition))
+                  (let ((fn `(lambda ,@(rest definition))))
+                    (if compile-lambda-p
+                        (pass1-lambda fn)
+                        fn)))
+            bindings))
+    (nreverse bindings)))
 
 (def-pass1-form flet (definitions &rest body)
-  (parse-flet-definitions definitions))
+  (let ((bindings (parse-flet-definitions definitions t)))
+    (multiple-value-bind (body declares)
+        (parse-body body nil)
+      (let* ((inner-lexenv (mapcar #'first bindings))
+             (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
+             (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
+        (make-ir 'let
+                 bindings
+                 (pass1-forms body))))))
 
 (def-pass1-form labels (definitions &rest body)
-  (parse-flet-definitions definitions))
+  (let ((bindings (parse-flet-definitions definitions nil)))
+    (multiple-value-bind (body declares)
+        (parse-body body nil)
+      (let* ((inner-lexenv (mapcar #'first bindings))
+             (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
+             (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
+        (make-ir 'let
+                 (mapcar (lambda (b)
+                           (list (first b) (pass1 (second b))))
+                         bindings)
+                 (pass1-forms body))))))
 
 (def-pass1-form declaim (&rest specs)
   (pre-process-declaration-specifier specs)
