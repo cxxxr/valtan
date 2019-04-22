@@ -359,7 +359,10 @@
 (def-pass1-form function (thing)
   (cond
     ((symbolp thing)
-     (error "Not implemented"))
+     (let ((binding (lookup thing :function)))
+       (if binding
+           (make-ir 'lref binding)
+           (pass1 `(symbol-function ',thing)))))
     ((and (consp thing) (eq (car thing) 'lambda))
      (pass1-lambda thing))
     (t

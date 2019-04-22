@@ -102,7 +102,12 @@
   (princ (const-to-js-literal (ir-arg1 ir))))
 
 (def-emit lref (ir return-value-p)
-  (princ (symbol-to-js-local-var (binding-value (ir-arg1 ir)))))
+  (let ((binding (ir-arg1 ir)))
+    (ecase (binding-type binding)
+      ((:function)
+       (princ (symbol-to-js-function-var (binding-name binding))))
+      ((:variable)
+       (princ (symbol-to-js-local-var (binding-value (ir-arg1 ir))))))))
 
 (def-emit gref (ir return-value-p)
   (let ((ident (symbol-to-js-global-var (ir-arg1 ir))))
