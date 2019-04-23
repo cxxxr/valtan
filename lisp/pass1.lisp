@@ -66,8 +66,9 @@
                (lambda-list-error))))
     (let ((vars '())
           (rest-var nil)
-          (in-optional nil)
-          (optionals '()))
+          (state nil)
+          (optionals '())
+          (optional-p nil))
       (do ((arg* lambda-list (cdr arg*)))
           ((null arg*))
         (when (atom arg*)
@@ -82,10 +83,13 @@
                  (setq rest-var (second arg*))
                  (setq arg* (cdr arg*)))
                 ((eq arg '&optional)
-                 (when in-optional
+                 (when optional-p
                    (lambda-list-error))
-                 (setq in-optional t))
-                (in-optional
+                 (setf optional-p t)
+                 (when (eq state :optional)
+                   (lambda-list-error))
+                 (setq state :optional))
+                ((eq state :optional)
                  (cond ((symbolp arg)
                         (check-variable arg)
                         (push (list arg nil nil) optionals))
