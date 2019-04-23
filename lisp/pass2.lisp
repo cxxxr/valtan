@@ -179,10 +179,10 @@
   (ecase (binding-type var)
     ((:special)
      (let ((identier (symbol-to-js-global-var (binding-value var)))
-           (tmp-var (symbol-to-js-identier (binding-value var) "TMP_")))
-       (format t "const ~A = ~A.value;~%" tmp-var identier)
+           (save-var (symbol-to-js-identier (binding-value var) "SAVE_")))
+       (format t "const ~A = ~A.value;~%" save-var identier)
        (format t "~A.value = " identier)
-       (format finally-stream "~A.value = ~A;~%" identier tmp-var)))
+       (format finally-stream "~A.value = ~A;~%" identier save-var)))
     ((:variable)
      (format t "let ~A = "
              (symbol-to-js-local-var (binding-value var))))
