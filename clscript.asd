@@ -3,6 +3,7 @@
   :components ((:module "lisp"
                 :components
                 ((:file "packages")
+                 (:file "util")
                  (:file "host")
                  (:file "error")
                  (:file "ir")
