@@ -59,6 +59,8 @@
       (return (first var*)))))
 
 (defun parse-lambda-list (lambda-list)
+  ;; TODO: &allow-other-keys
+  ;; TODO: &key ((:alias var) value) 
   (labels ((lambda-list-error ()
              (compile-error "Bad lambda list: ~S" lambda-list))
            (check-variable (x)
@@ -90,6 +92,7 @@
           (rest-var nil)
           (state nil)
           (optionals '())
+          (keys '())
           (optional-p nil)
           (key-p nil))
       (do ((arg* lambda-list (cdr arg*)))
@@ -103,7 +106,7 @@
                  (setf key-p t)
                  (setf state :key))
                 ((eq state :key)
-                 )
+                 (add-optional-vars arg (lambda (x) (push x keys))))
                 (rest-var
                  (lambda-list-error))
                 ((eq arg '&rest)
@@ -125,17 +128,20 @@
                  (check-variable arg)
                  (push arg vars)))))
       (setq vars (nreverse vars)
-            optionals (nreverse  optionals))
+            optionals (nreverse optionals)
+            keys (nreverse keys))
       (let* ((min (length vars))
              (parsed-lambda-list
                (make-parsed-lambda-list
                 :vars vars
                 :optionals optionals
                 :rest-var rest-var
+                :keys keys
                 :min (length vars)
                 :max (cond (rest-var nil)
-                           (optionals (+ min (length optionals)))
-                           (t min)))))
+                           (t (+ min
+                                 (length optionals)
+                                 (length keys)))))))
         (let ((all-vars (collect-variables parsed-lambda-list)))
           (when (duplicate-var-p all-vars)
             (lambda-list-error)))
@@ -250,7 +256,6 @@
 (defun pass1-lambda-list (parsed-lambda-list)
   (let ((vars (parsed-lambda-list-vars parsed-lambda-list))
         (rest-var (parsed-lambda-list-rest-var parsed-lambda-list))
-        (optionals (parsed-lambda-list-optionals parsed-lambda-list))
         (inner-lexenv '()))
     (setf (parsed-lambda-list-vars parsed-lambda-list)
           (mapcar (lambda (var)
@@ -258,17 +263,19 @@
                       (push binding inner-lexenv)
                       binding))
                   vars))
-    (dolist (opt optionals)
-      (let ((binding (make-variable-binding (first opt))))
-        (setf (first opt) binding)
-        (setf (second opt)
-              (let ((*lexenv* (extend-lexenv inner-lexenv *lexenv*)))
-                (pass1 (second opt))))
-        (push binding inner-lexenv))
-      (when (third opt)
-        (let ((binding (make-variable-binding (third opt))))
-          (setf (third opt) binding)
-          (push binding inner-lexenv))))
+    (flet ((f (opt)
+             (let ((binding (make-variable-binding (first opt))))
+               (setf (first opt) binding)
+               (setf (second opt)
+                     (let ((*lexenv* (extend-lexenv inner-lexenv *lexenv*)))
+                       (pass1 (second opt))))
+               (push binding inner-lexenv))
+             (when (third opt)
+               (let ((binding (make-variable-binding (third opt))))
+                 (setf (third opt) binding)
+                 (push binding inner-lexenv)))))
+      (mapc #'f (parsed-lambda-list-optionals parsed-lambda-list))
+      (mapc #'f (parsed-lambda-list-keys parsed-lambda-list)))
     (when rest-var
       (let ((binding (make-variable-binding rest-var)))
         (push binding inner-lexenv)
