@@ -454,6 +454,21 @@
                          bindings)
                  (pass1-forms body))))))
 
+(def-pass1-form block (name &rest forms)
+  (unless (symbolp name)
+    (compile-error "The block name ~S is not a symbol." name))
+  (let* ((binding (make-binding :name name :type :block :value name))
+         (*lexenv* (cons binding *lexenv*)))
+    (make-ir 'block binding (pass1-forms forms))))
+
+(def-pass1-form return-from (name &optional value)
+  (unless (symbolp name)
+    (compile-error "~S is not a symbol" name))
+  (let ((binding (lookup name :block)))
+    (if binding
+        (make-ir 'return-from binding (pass1 value))
+        (compile-error "return for unknown block: ~S" name))))
+
 (def-pass1-form declaim (&rest specs)
   (pre-process-declaration-specifier specs)
   (dolist (spec specs)

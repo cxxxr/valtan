@@ -321,6 +321,29 @@
       (write-string ", ")))
   (write-string ")"))
 
+(def-emit block (ir return-value-p)
+  (format t "(function() {~%")
+  (let ((name (ir-arg1 ir))
+        (error-var (gentemp))) ; !!!
+    (write-line "try {")
+    (pass2-forms (ir-arg2 ir) return-value-p)
+    (format t "} catch (~A) {~%" error-var)
+    (format t "if (~A.name === ~A) { return ~A.value; }~%"
+            error-var
+            (symbol-to-js-global-var (binding-name name))
+            error-var)
+    (format t "else { throw ~A; }~%" error-var)
+    (write-line "}"))
+  (format t "})()"))
+
+(def-emit return-from (ir return-value-p)
+  (format t "(function() {~%")
+  (let ((name (ir-arg1 ir)))
+    (format t "throw new lisp.BlockValue(~A," (symbol-to-js-global-var (binding-name name)))
+    (pass2 (ir-arg2 ir) t)
+    (write-string ")"))
+  (write-string "})();"))
+
 (defun pass2 (ir return-value-p)
   (funcall (gethash (ir-op ir) *emitter-table*)
            ir
