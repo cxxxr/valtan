@@ -141,7 +141,7 @@
                 :max (cond (rest-var nil)
                            (t (+ min
                                  (length optionals)
-                                 (length keys)))))))
+                                 (* 2 (length keys))))))))
         (let ((all-vars (collect-variables parsed-lambda-list)))
           (when (duplicate-var-p all-vars)
             (lambda-list-error)))
