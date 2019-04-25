@@ -524,10 +524,16 @@
                  (setf last-tag (first statements*)))
                 (t
                  (push (pass1 (first statements*)) part-statements))))
-        (nreverse tag-statements-pairs)))))
+        (make-ir 'tagbody
+                 (nreverse tag-statements-pairs))))))
 
 (def-pass1-form go (tag)
-  )
+  (unless (symbolp tag)
+    (compile-error "~S is not a symbol" tag))
+  (let ((binding (lookup tag :tag)))
+    (unless binding
+      (compile-error "attempt to GO to nonexistent tag: ~A" tag))
+    (make-ir 'go (binding-value binding))))
 
 (def-pass1-form declaim (&rest specs)
   (pre-process-declaration-specifier specs)

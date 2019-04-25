@@ -349,6 +349,12 @@
     (write-string ")"))
   (write-string "})();"))
 
+(def-emit tagbody (ir return-value-p)
+  )
+
+(def-emit go (ir return-value-p)
+  )
+
 (defun pass2 (ir return-value-p)
   (funcall (gethash (ir-op ir) *emitter-table*)
            ir
