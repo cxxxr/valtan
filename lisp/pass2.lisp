@@ -44,6 +44,11 @@
 
 (defparameter *emitter-table* (make-hash-table))
 
+(defparameter *var-counter* 0)
+
+(defun gen-var (prefix)
+  (format nil "~A~D" prefix (incf *var-counter*)))
+
 (defun symbol-to-js-identier (symbol &optional prefix)
   (flet ((f (c)
            (or (cdr (assoc c *character-map*))
@@ -64,7 +69,7 @@
   (check-type symbol symbol)
   (or (gethash symbol *literal-symbols*)
       (setf (gethash symbol *literal-symbols*)
-            (symbol-to-js-identier symbol "G_"))))
+            (gen-var "G_"))))
 
 (let ((i 0))
   (defun gen-temporary-js-var (&optional (prefix "TMP_"))
@@ -243,7 +248,7 @@
             ;; TODO: &key ((:alias var) value)
             (let ((var (first opt))
                   (value (second opt)))
-              (let ((keyword-var (symbol-to-js-global-var (make-keyword (binding-value var))))
+              (let ((keyword-var (symbol-to-js-global-var (fourth opt)))
                     (supplied-var (symbol-to-js-identier (binding-value var) "SUPPLIED_")))
                 (push keyword-var keyword-vars)
                 (format t "let ~A;~%" supplied-var)

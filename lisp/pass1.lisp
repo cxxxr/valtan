@@ -67,10 +67,10 @@
              (when (or (not (variable-symbol-p x))
                        (member x '(&rest &optional &key)))
                (lambda-list-error)))
-           (add-optional-vars (arg add-fn)
+           (add-optional-vars (kind arg add-fn)
              (cond ((symbolp arg)
                     (check-variable arg)
-                    (funcall add-fn (list arg nil nil)))
+                    (funcall add-fn (list arg nil nil (make-keyword arg))))
                    ((consp arg)
                     (unless (proper-list-p arg)
                       (lambda-list-error))
@@ -81,9 +81,28 @@
                            (check-variable (third arg))
                            (when (eq (first arg) (third arg))
                              (lambda-list-error)))
-                         (funcall add-fn (list (first arg)
-                                               (second arg)
-                                               (third arg))))
+                         (ecase kind
+                           (:optional
+                            (check-variable (first arg))
+                            (funcall add-fn (list (first arg)
+                                                  (second arg)
+                                                  (third arg))))
+                           (:key
+                            (multiple-value-bind (var value supplied-var keyword)
+                                (cond ((consp (first arg))
+                                       (let ((arg1 (first arg)))
+                                         (unless (proper-list-p arg1)
+                                           (lambda-list-error))
+                                         (unless (= 2 (length arg1))
+                                           (lambda-list-error))
+                                         (unless (keywordp (first arg1))
+                                           (lambda-list-error))
+                                         (check-variable (second arg1))
+                                         (values (second arg1) (second arg) (third arg) (first arg1))))
+                                      (t
+                                       (check-variable (first arg))
+                                       (values (first arg) (second arg) (third arg) (make-keyword (first arg)))))
+                              (funcall add-fn (list var value supplied-var keyword))))))
                         (t
                          (lambda-list-error)))))
                    (t
@@ -106,7 +125,7 @@
                  (setf key-p t)
                  (setf state :key))
                 ((eq state :key)
-                 (add-optional-vars arg (lambda (x) (push x keys))))
+                 (add-optional-vars :key arg (lambda (x) (push x keys))))
                 (rest-var
                  (lambda-list-error))
                 ((eq arg '&rest)
@@ -123,7 +142,7 @@
                    (lambda-list-error))
                  (setq state :optional))
                 ((eq state :optional)
-                 (add-optional-vars arg (lambda (x) (push x optionals))))
+                 (add-optional-vars :optional arg (lambda (x) (push x optionals))))
                 (t
                  (check-variable arg)
                  (push arg vars)))))
