@@ -498,6 +498,37 @@
         (make-ir 'return-from binding (pass1 value))
         (compile-error "return for unknown block: ~S" name))))
 
+(def-pass1-form tagbody (&rest statements)
+  (let* ((tags (remove-if-not #'symbolp statements))
+         (index -1)
+         (*lexenv*
+           (extend-lexenv (mapcar (lambda (tag)
+                                    (incf index)
+                                    (make-binding :name tag :type :tag :value index))
+                                  tags)
+                          *lexenv*)))
+    (let ((part-statements '())
+          (last-tag nil)
+          (tag-statements-pairs '()))
+      (flet ((add-statements ()
+               (when part-statements
+                 (let ((binding (and last-tag (lookup last-tag :tag))))
+                   (push (cons (and binding (binding-value binding)) (make-ir 'progn (nreverse part-statements)))
+                         tag-statements-pairs)
+                   (setf part-statements nil)))))
+        (do ((statements* statements (rest statements*)))
+            ((null statements*)
+             (add-statements))
+          (cond ((symbolp (first statements*))
+                 (add-statements)
+                 (setf last-tag (first statements*)))
+                (t
+                 (push (pass1 (first statements*)) part-statements))))
+        (nreverse tag-statements-pairs)))))
+
+(def-pass1-form go (tag)
+  )
+
 (def-pass1-form declaim (&rest specs)
   (pre-process-declaration-specifier specs)
   (dolist (spec specs)
