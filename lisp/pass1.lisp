@@ -70,7 +70,11 @@
            (add-optional-vars (kind arg add-fn)
              (cond ((symbolp arg)
                     (check-variable arg)
-                    (funcall add-fn (list arg nil nil (make-keyword arg))))
+                    (ecase kind
+                      (:optional
+                       (funcall add-fn (list arg nil nil)))
+                      (:key
+                       (funcall add-fn (list arg nil nil (make-keyword arg))))))
                    ((consp arg)
                     (unless (proper-list-p arg)
                       (lambda-list-error))
