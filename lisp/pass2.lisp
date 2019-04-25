@@ -245,7 +245,6 @@
       (when (parsed-lambda-list-keys parsed-lambda-list)
         (let ((keyword-vars '()))
           (dolist (opt (parsed-lambda-list-keys parsed-lambda-list))
-            ;; TODO: &key ((:alias var) value)
             (let ((var (first opt))
                   (value (second opt)))
               (let ((keyword-var (symbol-to-js-global-var (fourth opt)))
@@ -268,7 +267,8 @@
                   (format t "(~A ? lisp.tValue : lisp.nilValue);~%" supplied-var)))))
           (format t "if ((arguments.length - ~D) % 2 === 1)" i)
           (write-line "{ throw new Error('odd number of &KEY arguments'); }")
-          (when keyword-vars
+          (when (and keyword-vars
+                     (null (parsed-lambda-list-allow-other-keys parsed-lambda-list)))
             ;; TODO: &allow-other-keys
             (let ((loop-var (gen-temporary-js-var)))
               (emit-for (loop-var i "arguments.length" 2)

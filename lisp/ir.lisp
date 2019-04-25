@@ -17,7 +17,8 @@
   optionals
   keys
   min
-  max)
+  max
+  allow-other-keys)
 
 (defun collect-variables (parsed-lambda-list)
   (append (parsed-lambda-list-vars parsed-lambda-list)
