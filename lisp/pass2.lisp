@@ -383,7 +383,8 @@
             err)
     (format t "else { throw ~A; }" err)
     (write-line "}")
-    (write-line "}"))
+    (write-line "}")
+    (when return-value-p (write-line "return lisp.nilValue;")))
   (pass2-exit return-value-p))
 
 (def-emit go (ir return-value-p)
