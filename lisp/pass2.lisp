@@ -400,6 +400,30 @@
             (tagbody-value-level tagbody-value)
             (tagbody-value-index tagbody-value))))
 
+(def-emit catch (ir return-value-p)
+  (pass2-enter t)
+  (let ((err (gen-var "E_"))
+        (tag (gen-var "TAG_")))
+    (format t "let ~A = " tag)
+    (pass2 (ir-arg1 ir) t)
+    (write-line ";")
+    (emit-try-catch
+        ((err)
+         (format t "if (~A instanceof lisp.CatchValue && ~A.symbol === ~A) { return ~A.value; }~%"
+                 err err tag err)
+         (format t "else { throw ~A; }~%" err))
+      (pass2 (ir-arg2 ir) return-value-p)))
+  (pass2-exit t))
+
+(def-emit throw (ir return-value-p)
+  (pass2-enter return-value-p)
+  (write-string "throw new lisp.CatchValue(")
+  (pass2 (ir-arg1 ir) t)
+  (write-string ", ")
+  (pass2 (ir-arg2 ir) t)
+  (write-string ")")
+  (pass2-exit return-value-p))
+
 (defun pass2 (ir return-value-p)
   (funcall (gethash (ir-op ir) *emitter-table*)
            ir

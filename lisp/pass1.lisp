@@ -613,6 +613,16 @@
       (compile-error "attempt to GO to nonexistent tag: ~A" tag))
     (make-ir 'go *tagbody-level* (binding-value binding))))
 
+(def-pass1-form catch (tag &rest body)
+  (make-ir 'catch
+           (pass1 tag)
+           (apply #'pass1-progn body)))
+
+(def-pass1-form throw (tag result)
+  (make-ir 'throw
+           (pass1 tag)
+           (pass1 result)))
+
 (def-pass1-form declaim (&rest specs)
   (pre-process-declaration-specifier specs)
   (dolist (spec specs)
