@@ -26,6 +26,12 @@
 (defun (setf get-macro) (form symbol)
   (setf (get symbol 'macro) form))
 
+(defun get-symbol-macro (symbol)
+  (get symbol 'symbol-macro))
+
+(defun (setf get-symbol-macro) (value symbol)
+  (setf (get symbol 'symbol-macro) value))
+
 (defun special-p (symbol)
   (get symbol 'special))
 
@@ -193,6 +199,10 @@
   (setf (get-macro name) (eval `(lambda ,lambda-list ,@body)))
   `(system::add-global-macro ',name (lambda ,lambda-list ,@body)))
 
+(def-transform define-symbol-macro (name expansion)
+  (setf (get-symbol-macro name) expansion)
+  `(system::add-global-symbol-macro ',name (lambda () ,expansion)))
+
 (def-transform lambda (args &rest body)
   `(function (lambda ,args ,@body)))
 
@@ -330,7 +340,13 @@
 
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
-         (values form nil))
+         (let ((binding (lookup form :symbol-macro)))
+           (if binding
+               (values (binding-value binding) t)
+               (let ((expansion (get-symbol-macro form)))
+                 (if expansion
+                     (values expansion t)
+                     (values form nil))))))
         ((and (consp form) (symbolp (first form)))
          (let ((binding (lookup (first form) :macro)))
            (if binding
@@ -496,6 +512,17 @@
                                    (make-binding :name (first definition)
                                                  :type :macro
                                                  :value (eval `(lambda ,@(rest definition)))))
+                                 definitions)
+                         *lexenv*)))
+    (apply #'pass1-progn body)))
+
+(def-pass1-form symbol-macrolet (definitions &rest body)
+  (check-flet-definitions definitions)
+  (let ((*lexenv*
+          (extend-lexenv (mapcar (lambda (definition)
+                                   (make-binding :name (first definition)
+                                                 :type :symbol-macro
+                                                 :value (second definition)))
                                  definitions)
                          *lexenv*)))
     (apply #'pass1-progn body)))
