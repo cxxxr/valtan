@@ -120,6 +120,16 @@
     (pass2 (first ir*) nil)
     (format t ";~%")))
 
+(defun pass2-enter (return-value-p)
+  (if return-value-p
+      (write-line "(function() {")
+      (write-line "{")))
+
+(defun pass2-exit (return-value-p)
+  (if return-value-p
+      (write-string "})()")
+      (write-line "}")))
+
 (defmacro def-emit (op (ir return-value-p) &body body)
   (let ((name (gensym)))
     `(progn
@@ -160,8 +170,7 @@
     (write-string ")")))
 
 (def-emit if (ir return-value-p)
-  (when return-value-p
-    (format t "(function() {~%"))
+  (pass2-enter return-value-p)
   (write-string "if (")
   (pass2 (ir-arg1 ir) t)
   (format t " !== lisp.nilValue) {~%")
@@ -169,16 +178,12 @@
   (format t "} else {~%")
   (pass2-form (ir-arg3 ir) return-value-p)
   (format t "}")
-  (if return-value-p
-      (write-string "})()")
-      (terpri)))
+  (pass2-exit return-value-p))
 
 (def-emit progn (ir return-value-p)
-  (when return-value-p
-    (format t "(function() {~%"))
+  (pass2-enter return-value-p)
   (pass2-forms (ir-arg1 ir) return-value-p)
-  (when return-value-p
-    (format t "})()")))
+  (pass2-exit return-value-p))
 
 (defun emit-check-arguments (parsed-lambda-list)
   (let ((min (parsed-lambda-list-min parsed-lambda-list))
@@ -286,21 +291,19 @@
           (symbol-to-js-local-var (binding-value rest-var)))))))
 
 (def-emit lambda (ir return-value-p)
+  (write-line "(function() {")
   (let ((parsed-lambda-list (ir-arg1 ir)))
-    (write-line "(function() {")
     (emit-check-arguments parsed-lambda-list)
     (let ((finally-code
             (with-output-to-string (finally-stream)
               (emit-lambda-list parsed-lambda-list finally-stream))))
       (with-unwind-special-vars
           (pass2-forms (ir-arg2 ir) t)
-        finally-code))
-    (format t "})")))
+        finally-code)))
+  (write-string "})"))
 
 (def-emit let (ir return-value-p)
-  (if return-value-p
-      (format t "(function() {~%")
-      (format t "{~%"))
+  (pass2-enter return-value-p)
   (let ((finally-stream (make-string-output-stream)))
     (dolist (binding (ir-arg1 ir))
       (emit-declvar (first binding) finally-stream)
@@ -310,9 +313,7 @@
         (progn
           (pass2-forms (ir-arg2 ir) return-value-p))
       (get-output-stream-string finally-stream))
-    (if return-value-p
-        (format t "})()")
-        (format t "}~%"))))
+    (pass2-exit return-value-p)))
 
 (def-emit (call lcall) (ir return-value-p)
   (if (eq (ir-op ir) 'call)
@@ -327,7 +328,7 @@
   (write-string ")"))
 
 (def-emit block (ir return-value-p)
-  (format t "(function() {~%")
+  (pass2-enter t)
   (let ((name (ir-arg1 ir))
         (error-var (gen-var "E_")))
     (write-line "try {")
@@ -340,20 +341,18 @@
             error-var)
     (format t "else { throw ~A; }~%" error-var)
     (write-line "}"))
-  (format t "})()"))
+  (pass2-exit t))
 
 (def-emit return-from (ir return-value-p)
-  (format t "(function() {~%")
+  (pass2-enter return-value-p)
   (let ((name (ir-arg1 ir)))
     (format t "throw new lisp.BlockValue(~A," (symbol-to-js-global-var (binding-name name)))
     (pass2 (ir-arg2 ir) t)
     (write-string ")"))
-  (write-string "})();"))
+  (pass2-exit return-value-p))
 
 (def-emit tagbody (ir return-value-p)
-  (if return-value-p
-      (format t "(function() {~%")
-      (format t "{~%"))
+  (pass2-enter return-value-p)
   (let ((tag (gen-var "V"))
         (err (gen-var "E_")))
     (format t "let ~A = 0;~%" tag)
@@ -377,9 +376,7 @@
     (format t "else { throw ~A; }" err)
     (write-line "}")
     (write-line "}"))
-  (if return-value-p
-      (format t "})()")
-      (format t "}~%")))
+  (pass2-exit return-value-p))
 
 (def-emit go (ir return-value-p)
   (let ((tagbody-value (ir-arg2 ir)))
