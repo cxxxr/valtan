@@ -256,8 +256,8 @@
   (make-ir 'const x))
 
 (defun pass1-refvar (symbol)
-  (let ((binding (lookup symbol :variable)))
-    (if binding
+  (let ((binding (lookup symbol '(:variable :special))))
+    (if (and binding (eq (binding-type binding) :variable))
         (make-ir 'lref binding)
         (make-ir 'gref symbol))))
 
