@@ -527,6 +527,9 @@
                          *lexenv*)))
     (apply #'pass1-progn body)))
 
+(def-pass1-form unwind-protect (protected &rest cleanup)
+  (make-ir 'unwind-protect (pass1 protected) (apply #'pass1-progn cleanup)))
+
 (def-pass1-form block (name &rest forms)
   (unless (symbolp name)
     (compile-error "The block name ~S is not a symbol." name))

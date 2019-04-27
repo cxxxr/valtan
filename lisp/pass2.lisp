@@ -329,6 +329,13 @@
       (write-string ", ")))
   (write-string ")"))
 
+(def-emit unwind-protect (ir return-value-p)
+  (pass2-enter return-value-p)
+  (emit-try-finally
+   (pass2 (ir-arg1 ir) return-value-p)
+   (pass2 (ir-arg2 ir) nil))
+  (pass2-exit return-value-p))
+
 (def-emit block (ir return-value-p)
   (pass2-enter t)
   (let ((name (ir-arg1 ir))
