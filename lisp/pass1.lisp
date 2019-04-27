@@ -332,10 +332,13 @@
   (cond ((symbolp form)
          (values form nil))
         ((and (consp form) (symbolp (first form)))
-         (let ((fn (get-macro (first form))))
-           (if fn
-               (values (apply fn (rest form)) t)
-               (values form nil))))
+         (let ((binding (lookup (first form) :macro)))
+           (if binding
+               (values (apply (binding-value binding) (rest form)) t)
+               (let ((fn (get-macro (first form))))
+                 (if fn
+                     (values (apply fn (rest form)) t)
+                     (values form nil))))))
         (t
          (values form nil))))
 
@@ -485,6 +488,17 @@
                            (list (first b) (pass1 (second b))))
                          bindings)
                  (pass1-forms body))))))
+
+(def-pass1-form macrolet (definitions &rest body)
+  (check-flet-definitions definitions)
+  (let ((*lexenv*
+          (extend-lexenv (mapcar (lambda (definition)
+                                   (make-binding :name (first definition)
+                                                 :type :macro
+                                                 :value (eval `(lambda ,@(rest definition)))))
+                                 definitions)
+                         *lexenv*)))
+    (apply #'pass1-progn body)))
 
 (def-pass1-form block (name &rest forms)
   (unless (symbolp name)
