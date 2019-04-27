@@ -333,7 +333,8 @@
     (write-line "try {")
     (pass2-forms (ir-arg2 ir) return-value-p)
     (format t "} catch (~A) {~%" error-var)
-    (format t "if (~A.name === ~A) { return ~A.value; }~%"
+    (format t "if (~A instanceof lisp.BlockValue && ~A.name === ~A) { return ~A.value; }~%"
+            error-var
             error-var
             (symbol-to-js-global-var (binding-name name))
             error-var)
