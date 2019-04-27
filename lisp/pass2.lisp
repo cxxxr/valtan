@@ -205,6 +205,15 @@
      ,finally
      (write-line "}")))
 
+(defmacro emit-try-catch (((err) &body catch)
+                          &body try)
+  `(progn
+     (write-line "try {")
+     ,@try
+     (format t "} catch (~A) {" ,err)
+     ,@catch
+     (write-line "}")))
+
 (defmacro with-unwind-special-vars (form unwind-code)
   (let ((unwind-code-var (gensym)))
     `(let ((,unwind-code-var ,unwind-code))
@@ -339,16 +348,15 @@
   (pass2-enter t)
   (let ((name (ir-arg1 ir))
         (error-var (gen-var "E_")))
-    (write-line "try {")
-    (pass2-forms (ir-arg2 ir) return-value-p)
-    (format t "} catch (~A) {~%" error-var)
-    (format t "if (~A instanceof lisp.BlockValue && ~A.name === ~A) { return ~A.value; }~%"
-            error-var
-            error-var
-            (symbol-to-js-global-var (binding-name name))
-            error-var)
-    (format t "else { throw ~A; }~%" error-var)
-    (write-line "}"))
+    (emit-try-catch
+        ((error-var)
+         (format t "if (~A instanceof lisp.BlockValue && ~A.name === ~A) { return ~A.value; }~%"
+                 error-var
+                 error-var
+                 (symbol-to-js-global-var (binding-name name))
+                 error-var)
+         (format t "else { throw ~A; }~%" error-var))
+      (pass2-forms (ir-arg2 ir) return-value-p)))
   (pass2-exit t))
 
 (def-emit return-from (ir return-value-p)
@@ -365,25 +373,24 @@
         (err (gen-var "E_")))
     (format t "let ~A = 0;~%" tag)
     (write-line "for (;;) {")
-    (write-line "try {")
-    (format t "switch(~A) {~%" tag)
-    (dolist (tag-body (ir-arg2 ir))
-      (destructuring-bind (tag . body) tag-body
-        (defparameter $ body)
-        (format t "case ~D:~%" (tagbody-value-index tag))
-        (pass2 body nil)))
-    (write-line "}")
-    (write-line "break;")
-    (format t "} catch (~A) {" err)
-    (format t "if (~A instanceof lisp.TagValue && ~A.level === ~D) { ~A = ~A.index; }~%"
-            err
-            err
-            (ir-arg1 ir)
-            tag
-            err)
-    (format t "else { throw ~A; }" err)
-    (write-line "}")
-    (write-line "}")
+    (emit-try-catch
+        ((err)
+         (format t "if (~A instanceof lisp.TagValue && ~A.level === ~D) { ~A = ~A.index; }~%"
+                 err
+                 err
+                 (ir-arg1 ir)
+                 tag
+                 err)
+         (format t "else { throw ~A; }" err)
+         (write-line "}"))
+      (format t "switch(~A) {~%" tag)
+      (dolist (tag-body (ir-arg2 ir))
+        (destructuring-bind (tag . body) tag-body
+          (defparameter $ body)
+          (format t "case ~D:~%" (tagbody-value-index tag))
+          (pass2 body nil)))
+      (write-line "}")
+      (write-line "break;"))
     (when return-value-p (write-line "return lisp.nilValue;")))
   (pass2-exit return-value-p))
 
