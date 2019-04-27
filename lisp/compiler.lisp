@@ -12,3 +12,12 @@
 
 (defun compile-toplevel (form)
   (pass2-toplevel (pass1-toplevel form)))
+
+(defun compile-toplevel-with-js-beautify (form)
+  (let ((output
+          (with-output-to-string (*standard-output*)
+            (compile-toplevel form))))
+    (with-input-from-string (in output)
+      (uiop:run-program "js-beautify"
+                        :input in
+                        :output t))))

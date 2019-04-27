@@ -350,10 +350,35 @@
   (write-string "})();"))
 
 (def-emit tagbody (ir return-value-p)
-  )
+  (let ((tag (gen-var "V"))
+        (err (gen-var "E_")))
+    (format t "let ~A = 0;~%" tag)
+    (write-line "for (;;) {")
+    (write-line "try {")
+    (format t "switch(~A) {~%" tag)
+    (dolist (tag-body (ir-arg2 ir))
+      (destructuring-bind (tag . body) tag-body
+        (defparameter $ body)
+        (format t "case ~D:~%" (tagbody-value-index tag))
+        (pass2 body nil)))
+    (write-line "}")
+    (write-line "break;")
+    (format t "} catch (~A) {" err)
+    (format t "if (~A instanceof lisp.TagValue && ~A.level === ~D) { ~A = ~A.index; }~%"
+            err
+            err
+            (ir-arg1 ir)
+            tag
+            err)
+    (format t "else { throw ~A; }" err)
+    (write-line "}")
+    (write-line "}")))
 
 (def-emit go (ir return-value-p)
-  )
+  (let ((tagbody-value (ir-arg2 ir)))
+    (format t "throw new lisp.TagValue(~A, ~A)"
+            (tagbody-value-level tagbody-value)
+            (tagbody-value-index tagbody-value))))
 
 (defun pass2 (ir return-value-p)
   (funcall (gethash (ir-op ir) *emitter-table*)

@@ -33,3 +33,7 @@
   name
   type
   value)
+
+(defstruct tagbody-value
+  index
+  level)

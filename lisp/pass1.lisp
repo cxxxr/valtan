@@ -498,13 +498,17 @@
         (make-ir 'return-from binding (pass1 value))
         (compile-error "return for unknown block: ~S" name))))
 
+(defvar *tagbody-level* 0)
+
 (def-pass1-form tagbody (&rest statements)
   (let* ((tags (remove-if-not #'symbolp statements))
          (index 0)
          (*lexenv*
            (extend-lexenv (mapcar (lambda (tag)
                                     (incf index)
-                                    (make-binding :name tag :type :tag :value index))
+                                    (make-binding :name tag
+                                                  :type :tag
+                                                  :value (make-tagbody-value :index index :level *tagbody-level*)))
                                   tags)
                           *lexenv*)))
     (let* ((part-statements '())
@@ -512,23 +516,28 @@
            (none '#:none)
            (last-tag none))
       (flet ((add-statements ()
+               (unless part-statements
+                 (setf part-statements (list (pass1-const nil))))
                (push (if (eq last-tag none)
-                         (cons 0 (make-ir 'progn (nreverse part-statements)))
+                         (cons (make-tagbody-value :index 0 :level *tagbody-level*)
+                               (make-ir 'progn (nreverse part-statements)))
                          (let ((binding (lookup last-tag :tag)))
                            (assert binding)
                            (cons (binding-value binding)
                                  (make-ir 'progn (nreverse part-statements)))))
                      tag-statements-pairs)
                (setf part-statements nil)))
-        (do ((statements* statements (rest statements*)))
-            ((null statements*)
-             (add-statements))
-          (cond ((symbolp (first statements*))
-                 (add-statements)
-                 (setf last-tag (first statements*)))
-                (t
-                 (push (pass1 (first statements*)) part-statements))))
+        (let ((*tagbody-level* (1+ *tagbody-level*)))
+          (do ((statements* statements (rest statements*)))
+              ((null statements*)
+               (add-statements))
+            (cond ((symbolp (first statements*))
+                   (add-statements)
+                   (setf last-tag (first statements*)))
+                  (t
+                   (push (pass1 (first statements*)) part-statements)))))
         (make-ir 'tagbody
+                 *tagbody-level*
                  (nreverse tag-statements-pairs))))))
 
 (def-pass1-form go (tag)
@@ -537,7 +546,7 @@
   (let ((binding (lookup tag :tag)))
     (unless binding
       (compile-error "attempt to GO to nonexistent tag: ~A" tag))
-    (make-ir 'go (binding-value binding))))
+    (make-ir 'go *tagbody-level* (binding-value binding))))
 
 (def-pass1-form declaim (&rest specs)
   (pre-process-declaration-specifier specs)
