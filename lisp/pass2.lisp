@@ -351,6 +351,9 @@
   (write-string "})();"))
 
 (def-emit tagbody (ir return-value-p)
+  (if return-value-p
+      (format t "(function() {~%")
+      (format t "{~%"))
   (let ((tag (gen-var "V"))
         (err (gen-var "E_")))
     (format t "let ~A = 0;~%" tag)
@@ -373,7 +376,10 @@
             err)
     (format t "else { throw ~A; }" err)
     (write-line "}")
-    (write-line "}")))
+    (write-line "}"))
+  (if return-value-p
+      (format t "})()")
+      (format t "}~%")))
 
 (def-emit go (ir return-value-p)
   (let ((tagbody-value (ir-arg2 ir)))
