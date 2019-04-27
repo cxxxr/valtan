@@ -274,7 +274,6 @@
           (write-line "{ throw new Error('odd number of &KEY arguments'); }")
           (when (and keyword-vars
                      (null (parsed-lambda-list-allow-other-keys parsed-lambda-list)))
-            ;; TODO: &allow-other-keys
             (let ((loop-var (gen-temporary-js-var)))
               (emit-for (loop-var i "arguments.length" 2)
                 (write-string "if (")

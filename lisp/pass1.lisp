@@ -5,14 +5,34 @@
 (defvar *lexenv*)
 
 (defun make-variable-binding (symbol &optional (special-p (special-p symbol)))
-  (make-binding :name symbol
-                :type (if special-p :special :variable)
+  (make-binding :type (if special-p :special :variable)
+                :name symbol
                 :value symbol))
 
 (defun make-function-binding (symbol)
-  (make-binding :name symbol
-                :type :function
+  (make-binding :type :function
+                :name symbol
                 :value symbol))
+
+(defun make-macro-binding (name value)
+  (make-binding :type :macro
+                :name name
+                :value value))
+
+(defun make-symbol-macro-binding (name value)
+  (make-binding :type :symbol-macro
+                :name name
+                :value value))
+
+(defun make-block-binding (name)
+  (make-binding :type :block
+                :name name
+                :value name))
+
+(defun make-tag-binding (name value)
+  (make-binding :type :tag
+                :name name
+                :value value))
 
 (defmacro def-pass1-form (name lambda-list &body body)
   (let ((fn-name (intern (format nil "PASS1-~A" name))))
@@ -288,7 +308,7 @@
          (let ((binding (lookup symbol '(:variable :special) inner-lexenv)))
            (if binding
                (setf (binding-type binding) :special)
-               (push (make-binding :name symbol :value symbol :type :special)
+               (push (make-variable-binding symbol t)
                      *lexenv*)))))))
   *lexenv*)
 
@@ -509,9 +529,8 @@
   (check-flet-definitions definitions)
   (let ((*lexenv*
           (extend-lexenv (mapcar (lambda (definition)
-                                   (make-binding :name (first definition)
-                                                 :type :macro
-                                                 :value (eval `(lambda ,@(rest definition)))))
+                                   (make-macro-binding (first definition)
+                                                       (eval `(lambda ,@(rest definition)))))
                                  definitions)
                          *lexenv*)))
     (apply #'pass1-progn body)))
@@ -520,9 +539,8 @@
   (check-flet-definitions definitions)
   (let ((*lexenv*
           (extend-lexenv (mapcar (lambda (definition)
-                                   (make-binding :name (first definition)
-                                                 :type :symbol-macro
-                                                 :value (second definition)))
+                                   (make-symbol-macro-binding (first definition)
+                                                              (second definition)))
                                  definitions)
                          *lexenv*)))
     (apply #'pass1-progn body)))
@@ -533,7 +551,7 @@
 (def-pass1-form block (name &rest forms)
   (unless (symbolp name)
     (compile-error "The block name ~S is not a symbol." name))
-  (let* ((binding (make-binding :name name :type :block :value name))
+  (let* ((binding (make-block-binding name))
          (*lexenv* (cons binding *lexenv*)))
     (make-ir 'block binding (pass1-forms forms))))
 
@@ -553,9 +571,9 @@
          (*lexenv*
            (extend-lexenv (mapcar (lambda (tag)
                                     (incf index)
-                                    (make-binding :name tag
-                                                  :type :tag
-                                                  :value (make-tagbody-value :index index :level *tagbody-level*)))
+                                    (make-tag-binding tag
+                                                      (make-tagbody-value :index index
+                                                                          :level *tagbody-level*)))
                                   tags)
                           *lexenv*)))
     (let* ((part-statements '())
