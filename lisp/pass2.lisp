@@ -329,7 +329,7 @@
 (def-emit block (ir return-value-p)
   (format t "(function() {~%")
   (let ((name (ir-arg1 ir))
-        (error-var (gentemp))) ; !!!
+        (error-var (gen-var "E_")))
     (write-line "try {")
     (pass2-forms (ir-arg2 ir) return-value-p)
     (format t "} catch (~A) {~%" error-var)
