@@ -381,8 +381,7 @@
                  (ir-arg1 ir)
                  tag
                  err)
-         (format t "else { throw ~A; }" err)
-         (write-line "}"))
+         (format t "else { throw ~A; }~%" err))
       (format t "switch(~A) {~%" tag)
       (dolist (tag-body (ir-arg2 ir))
         (destructuring-bind (tag . body) tag-body
@@ -391,6 +390,7 @@
           (pass2 body nil)))
       (write-line "}")
       (write-line "break;"))
+    (write-line "}")
     (when return-value-p (write-line "return lisp.nilValue;")))
   (pass2-exit return-value-p))
 
