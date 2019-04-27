@@ -623,6 +623,12 @@
            (pass1 tag)
            (pass1 result)))
 
+(def-pass1-form locally (&rest body)
+  (multiple-value-bind (body declares)
+      (parse-body body nil)
+    (let ((*lexenv* (pass1-declares declares nil *lexenv*)))
+      (apply #'pass1-progn body))))
+
 (def-pass1-form declaim (&rest specs)
   (pre-process-declaration-specifier specs)
   (dolist (spec specs)
