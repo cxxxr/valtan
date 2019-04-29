@@ -108,10 +108,17 @@
   (format nil "~A(~{~A~^,~})" name args))
 
 (defun pass2-form (form)
-  (when (ir-return-value-p form)
-    (princ "return "))
-  (pass2 form)
-  (format t ";~%"))
+  (cond ((ir-return-value-p form)
+         (princ "return ")
+         (unless (ir-multiple-values-p form)
+           (princ "lisp.values1("))
+         (pass2 form)
+         (unless (ir-multiple-values-p form)
+           (princ ")"))
+         (write-line ";"))
+        (t
+         (pass2 form)
+         (write-line ";"))))
 
 (defun pass2-forms (forms)
   (do ((ir* forms (rest ir*)))
