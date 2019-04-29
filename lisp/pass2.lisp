@@ -430,7 +430,7 @@
            return-value-p))
 
 (defun pass2-toplevel-1 (ir)
-  (pass2 (make-ir 'progn (list ir)) nil))
+  (pass2 (make-ir 'progn (ir-return-value-p ir) (ir-multiple-values-p ir) (list ir)) nil))
 
 (defun emit-initialize-symbols ()
   (maphash (lambda (symbol ident)
