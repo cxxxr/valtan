@@ -704,4 +704,4 @@
 
 (defun pass1-toplevel (form)
   (let ((*lexenv* '()))
-    (pass1 form t t)))
+    (pass1 form nil nil)))
