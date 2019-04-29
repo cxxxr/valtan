@@ -660,6 +660,8 @@
                   (t
                    (push (pass1 (first statements*) nil nil) part-statements)))))
         (make-ir 'tagbody
+                 return-value-p
+                 nil
                  *tagbody-level*
                  (nreverse tag-statements-pairs))))))
 
