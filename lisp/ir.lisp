@@ -1,10 +1,10 @@
 (in-package :compiler)
 
-(defun make-ir (op &rest args)
+(defun make-ir (op return-value-p multiple-values-p &rest args)
   (ecase (length args)
-    (1 (vector op (first args)))
-    (2 (vector op (first args) (second args)))
-    (3 (vector op (first args) (second args) (third args)))))
+    (1 (vector op return-value-p multiple-values-p (first args)))
+    (2 (vector op return-value-p multiple-values-p (first args) (second args)))
+    (3 (vector op return-value-p multiple-values-p (first args) (second args) (third args)))))
 
 (defun ir-op (ir) (aref ir 0))
 (defun ir-arg1 (ir) (aref ir 1))

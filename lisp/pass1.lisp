@@ -34,10 +34,12 @@
                 :name name
                 :value value))
 
-(defmacro def-pass1-form (name lambda-list &body body)
+(defmacro def-pass1-form (name (lambda-list return-value-p multiple-values-p) &body body)
   (let ((fn-name (intern (format nil "PASS1-~A" name))))
     `(progn
-       (defun ,fn-name ,lambda-list ,@body)
+       (defun ,fn-name (,return-value-p ,multiple-values-p ,@lambda-list)
+         (declare (ignorable ,return-value-p ,multiple-values-p))
+         ,@body)
        (setf (gethash ',name *pass1-form-table*) ',fn-name))))
 
 (defun get-macro (symbol)
@@ -252,19 +254,30 @@
 (def-transform system::quasiquote (x)
   (expand-quasiquote x))
 
-(defun pass1-const (x)
-  (make-ir 'const x))
+(defun pass1-const (x return-value-p)
+  (make-ir 'const return-value-p nil x))
 
-(defun pass1-refvar (symbol)
+(defun pass1-refvar (symbol return-value-p)
   (let ((binding (lookup symbol '(:variable :special))))
     (if (and binding (eq (binding-type binding) :variable))
-        (make-ir 'lref binding)
-        (make-ir 'gref symbol))))
+        (make-ir 'lref return-value-p nil binding)
+        (make-ir 'gref return-value-p nil symbol))))
 
-(defun pass1-forms (forms)
+(defun pass1-forms (forms return-value-p multiple-values-p)
   (if (null forms)
-      (list (pass1-const nil))
-      (mapcar #'pass1 forms)))
+      (list (pass1-const nil return-value-p))
+      (let ((new-forms '()))
+        (do ((form* forms (rest form*)))
+            ((null form*))
+          (push (pass1 (first form*)
+                       (if (null (rest form*))
+                           return-value-p
+                           nil)
+                       (if (null (rest form*))
+                           multiple-values-p
+                           nil))
+                new-forms))
+        (nreverse new-forms))))
 
 (defun parse-body (body look-docstring-p)
   (let ((declares '())
@@ -327,7 +340,7 @@
                (setf (first opt) binding)
                (setf (second opt)
                      (let ((*lexenv* (extend-lexenv inner-lexenv *lexenv*)))
-                       (pass1 (second opt))))
+                       (pass1 (second opt) t nil)))
                (push binding inner-lexenv))
              (when (third opt)
                (let ((binding (make-variable-binding (third opt))))
@@ -342,7 +355,7 @@
               binding)))
     inner-lexenv))
 
-(defun pass1-lambda (form)
+(defun pass1-lambda (form return-value-p)
   (assert (eq 'lambda (first form)))
   (when (atom (rest form))
     (compile-error "~S is not a valid lambda expression" form))
@@ -355,8 +368,10 @@
              (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
              (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
         (make-ir 'lambda
+                 return-value-p
+                 nil
                  parsed-lambda-list
-                 (pass1-forms body))))))
+                 (pass1-forms body t t))))))
 
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
@@ -378,47 +393,63 @@
         (t
          (values form nil))))
 
-(defun pass1-call (form)
+(defun pass1-call (form return-value-p multiple-values-p)
   (let ((fn (first form))
         (args (rest form)))
     (cond ((and (variable-symbol-p fn))
            (let ((binding (lookup fn :function)))
              (cond (binding
-                    (make-ir 'lcall binding (mapcar #'pass1 args)))
+                    (make-ir 'lcall
+                             return-value-p
+                             multiple-values-p
+                             binding
+                             (mapcar (lambda (arg)
+                                       (pass1 arg t nil))
+                                     args)))
                    ((transform-symbol-p fn)
-                    (pass1 (apply (get-transform fn) args)))
+                    (pass1 (apply (get-transform fn) args)
+                           return-value-p
+                           multiple-values-p))
                    (t
-                    (make-ir 'call fn (mapcar #'pass1 args))))))
+                    (make-ir 'call
+                             return-value-p
+                             multiple-values-p
+                             fn
+                             (mapcar (lambda (arg)
+                                       (pass1 arg t nil))
+                                     args))))))
           ((consp fn)
            (unless (eq 'lambda (first fn))
              (compile-error "Illegal function call: ~S" form))
-           (pass1 (list* 'funcall fn args)))
+           (pass1 (list* 'funcall fn args)
+                  return-value-p
+                  multiple-values-p))
           (t
            (compile-error "Illegal function call: ~S" form)))))
 
-(defun pass1 (form)
+(defun pass1 (form return-value-p multiple-values-p)
   (multiple-value-bind (form expanded-p)
       (%macroexpand-1 form)
     (cond (expanded-p
-           (pass1 form))
+           (pass1 form return-value-p multiple-values-p))
           ((null form)
-           (pass1-const nil))
+           (pass1-const nil return-value-p))
           ((keywordp form)
-           (pass1-const form))
+           (pass1-const form return-value-p))
           ((symbolp form)
-           (pass1-refvar form))
+           (pass1-refvar form return-value-p))
           ((atom form)
-           (pass1-const form))
+           (pass1-const form return-value-p))
           (t
            (let ((fn (gethash (first form) *pass1-form-table*)))
              (if fn
-                 (apply fn (rest form))
-                 (pass1-call form)))))))
+                 (apply fn return-value-p multiple-values-p (rest form))
+                 (pass1-call form return-value-p multiple-values-p)))))))
 
-(def-pass1-form quote (x)
-  (pass1-const x))
+(def-pass1-form quote ((x) return-value-p multiple-values-p)
+  (pass1-const x return-value-p))
 
-(def-pass1-form setq (&rest args)
+(def-pass1-form setq ((&rest args) return-value-p multiple-values-p)
   (if (not (evenp (length args)))
       (compile-error "Setq with odd number of args")
       (let ((forms '()))
@@ -428,38 +459,51 @@
             (compile-error "~S is not a variable" (first args)))
           (let* ((symbol (first args))
                  (binding (lookup symbol :variable))
-                 (value (pass1 (second args))))
-            (push (if binding
-                      (make-ir 'lset binding value)
-                      (make-ir 'gset symbol value))
+                 (value (pass1 (second args) t nil)))
+            (push (make-ir (if binding 'lset 'gset)
+                           (if (null (rest args))
+                               return-value-p
+                               nil)
+                           nil
+                           binding
+                           value)
                   forms)))
-        (make-ir 'progn
-                 (if (null forms)
-                     (list (pass1-const nil))
+        (if (null forms)
+            (pass1-const nil return-value-p)
+            (make-ir 'progn
+                     return-value-p
+                     nil
                      (nreverse forms))))))
 
-(def-pass1-form if (test then &optional else)
+(def-pass1-form if ((test then &optional else) return-value-p multiple-values-p)
   (make-ir 'if
-           (pass1 test)
-           (pass1 then)
-           (pass1 else)))
+           return-value-p
+           multiple-values-p
+           (pass1 test t nil)
+           (pass1 then return-value-p multiple-values-p)
+           (pass1 else return-value-p multiple-values-p)))
 
-(def-pass1-form progn (&rest forms)
-  (make-ir 'progn (pass1-forms forms)))
+(def-pass1-form progn ((&rest forms) return-value-p multiple-values-p)
+  (make-ir 'progn
+           return-value-p
+           multiple-values-p
+           (pass1-forms forms return-value-p multiple-values-p)))
 
-(def-pass1-form function (thing)
+(def-pass1-form function ((thing) return-value-p multiple-values-p)
   (cond
     ((symbolp thing)
      (let ((binding (lookup thing :function)))
        (if binding
-           (make-ir 'lref binding)
-           (pass1 `(symbol-function ',thing)))))
+           (make-ir 'lref return-value-p nil binding)
+           (pass1 `(symbol-function ',thing)
+                  return-value-p
+                  nil))))
     ((and (consp thing) (eq (car thing) 'lambda))
-     (pass1-lambda thing))
+     (pass1-lambda thing return-value-p))
     (t
      (compile-error "~S is not a legal function name" thing))))
 
-(def-pass1-form let (bindings &rest body)
+(def-pass1-form let ((bindings &rest body) return-value-p multiple-values-p)
   (unless (listp bindings)
     (compile-error "Malformed LET bindings: ~S" bindings))
   (let ((bindings (mapcar (lambda (b)
@@ -470,7 +514,7 @@
                               (unless (variable-symbol-p var)
                                 (compile-error "~S is not a variable" var))
                               (list (make-variable-binding var)
-                                    (pass1 (second b)))))
+                                    (pass1 (second b) t nil))))
                           bindings)))
     (multiple-value-bind (body declares)
         (parse-body body nil)
@@ -478,8 +522,10 @@
              (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
              (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
         (make-ir 'let
+                 return-value-p
+                 multiple-values-p
                  bindings
-                 (pass1-forms body))))))
+                 (pass1-forms body return-value-p multiple-values-p))))))
 
 (defun check-flet-definitions (definitions)
   (unless (listp definitions)
@@ -495,11 +541,11 @@
             (list (make-function-binding (first definition))
                   (let ((fn `(lambda ,@(rest definition))))
                     (if compile-lambda-p
-                        (pass1-lambda fn)
+                        (pass1-lambda fn t)
                         fn))))
           definitions))
 
-(def-pass1-form flet (definitions &rest body)
+(def-pass1-form flet ((definitions &rest body) return-value-p multiple-values-p)
   (check-flet-definitions definitions)
   (let ((bindings (parse-flet-definitions definitions t)))
     (multiple-value-bind (body declares)
@@ -508,10 +554,12 @@
              (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
              (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
         (make-ir 'let
+                 return-value-p
+                 multiple-values-p
                  bindings
-                 (pass1-forms body))))))
+                 (pass1-forms body return-value-p multiple-values-p))))))
 
-(def-pass1-form labels (definitions &rest body)
+(def-pass1-form labels ((definitions &rest body) return-value-p multiple-values-p)
   (check-flet-definitions definitions)
   (let ((bindings (parse-flet-definitions definitions nil)))
     (multiple-value-bind (body declares)
@@ -520,12 +568,14 @@
              (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
              (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
         (make-ir 'let
+                 return-value-p
+                 multiple-values-p
                  (mapcar (lambda (b)
-                           (list (first b) (pass1 (second b))))
+                           (list (first b) (pass1 (second b) t nil)))
                          bindings)
-                 (pass1-forms body))))))
+                 (pass1-forms body return-value-p multiple-values-p))))))
 
-(def-pass1-form macrolet (definitions &rest body)
+(def-pass1-form macrolet ((definitions &rest body) return-value-p multiple-values-p)
   (check-flet-definitions definitions)
   (let ((*lexenv*
           (extend-lexenv (mapcar (lambda (definition)
@@ -533,9 +583,9 @@
                                                        (eval `(lambda ,@(rest definition)))))
                                  definitions)
                          *lexenv*)))
-    (apply #'pass1-progn body)))
+    (apply #'pass1-progn return-value-p multiple-values-p body)))
 
-(def-pass1-form symbol-macrolet (definitions &rest body)
+(def-pass1-form symbol-macrolet ((definitions &rest body) return-value-p multiple-values-p)
   (check-flet-definitions definitions)
   (let ((*lexenv*
           (extend-lexenv (mapcar (lambda (definition)
@@ -543,29 +593,37 @@
                                                               (second definition)))
                                  definitions)
                          *lexenv*)))
-    (apply #'pass1-progn body)))
+    (apply #'pass1-progn return-value-p multiple-values-p body)))
 
-(def-pass1-form unwind-protect (protected &rest cleanup)
-  (make-ir 'unwind-protect (pass1 protected) (apply #'pass1-progn cleanup)))
+(def-pass1-form unwind-protect ((protected &rest cleanup) return-value-p multiple-values-p)
+  (make-ir 'unwind-protect
+           return-value-p
+           multiple-values-p
+           (pass1 protected return-value-p multiple-values-p)
+           (apply #'pass1-progn nil nil cleanup)))
 
-(def-pass1-form block (name &rest forms)
+(def-pass1-form block ((name &rest forms) return-value-p multiple-values-p)
   (unless (symbolp name)
     (compile-error "The block name ~S is not a symbol." name))
   (let* ((binding (make-block-binding name))
          (*lexenv* (cons binding *lexenv*)))
-    (make-ir 'block binding (pass1-forms forms))))
+    (make-ir 'block
+             return-value-p
+             multiple-values-p
+             binding
+             (pass1-forms forms return-value-p multiple-values-p))))
 
-(def-pass1-form return-from (name &optional value)
+(def-pass1-form return-from ((name &optional value) return-value-p multiple-values-p)
   (unless (symbolp name)
     (compile-error "~S is not a symbol" name))
   (let ((binding (lookup name :block)))
     (if binding
-        (make-ir 'return-from binding (pass1 value))
+        (make-ir 'return-from nil nil binding (pass1 value t t))
         (compile-error "return for unknown block: ~S" name))))
 
 (defvar *tagbody-level* 0)
 
-(def-pass1-form tagbody (&rest statements)
+(def-pass1-form tagbody ((&rest statements) return-value-p multiple-values-p)
   (let* ((tags (remove-if-not #'symbolp statements))
          (index 0)
          (*lexenv*
@@ -582,14 +640,14 @@
            (last-tag none))
       (flet ((add-statements ()
                (unless part-statements
-                 (setf part-statements (list (pass1-const nil))))
+                 (setf part-statements (list (pass1-const nil nil))))
                (push (if (eq last-tag none)
                          (cons (make-tagbody-value :index 0 :level *tagbody-level*)
-                               (make-ir 'progn (nreverse part-statements)))
+                               (make-ir 'progn nil nil (nreverse part-statements)))
                          (let ((binding (lookup last-tag :tag)))
                            (assert binding)
                            (cons (binding-value binding)
-                                 (make-ir 'progn (nreverse part-statements)))))
+                                 (make-ir 'progn nil nil (nreverse part-statements)))))
                      tag-statements-pairs)
                (setf part-statements nil)))
         (let ((*tagbody-level* (1+ *tagbody-level*)))
@@ -600,44 +658,48 @@
                    (add-statements)
                    (setf last-tag (first statements*)))
                   (t
-                   (push (pass1 (first statements*)) part-statements)))))
+                   (push (pass1 (first statements*) nil nil) part-statements)))))
         (make-ir 'tagbody
                  *tagbody-level*
                  (nreverse tag-statements-pairs))))))
 
-(def-pass1-form go (tag)
+(def-pass1-form go ((tag) return-value-p multiple-values-p)
   (unless (symbolp tag)
     (compile-error "~S is not a symbol" tag))
   (let ((binding (lookup tag :tag)))
     (unless binding
       (compile-error "attempt to GO to nonexistent tag: ~A" tag))
-    (make-ir 'go *tagbody-level* (binding-value binding))))
+    (make-ir 'go nil nil *tagbody-level* (binding-value binding))))
 
-(def-pass1-form catch (tag &rest body)
+(def-pass1-form catch ((tag &rest body) return-value-p multiple-values-p)
   (make-ir 'catch
-           (pass1 tag)
-           (apply #'pass1-progn body)))
+           return-value-p
+           multiple-values-p
+           (pass1 tag t nil)
+           (apply #'pass1-progn return-value-p multiple-values-p body)))
 
-(def-pass1-form throw (tag result)
+(def-pass1-form throw ((tag result) return-value-p multiple-values-p)
   (make-ir 'throw
-           (pass1 tag)
-           (pass1 result)))
+           t
+           t
+           (pass1 tag t nil)
+           (pass1 result t t)))
 
-(def-pass1-form locally (&rest body)
+(def-pass1-form locally ((&rest body) return-value-p multiple-values-p)
   (multiple-value-bind (body declares)
       (parse-body body nil)
     (let ((*lexenv* (pass1-declares declares nil *lexenv*)))
-      (apply #'pass1-progn body))))
+      (apply #'pass1-progn return-value-p multiple-values-p body))))
 
-(def-pass1-form declaim (&rest specs)
+(def-pass1-form declaim ((&rest specs) return-value-p multiple-values-p)
   (pre-process-declaration-specifier specs)
   (dolist (spec specs)
     (case (first spec)
       ((special)
        (dolist (symbol (rest spec))
          (setf (special-p symbol) t)))))
-  (pass1-const nil))
+  (pass1-const nil return-value-p))
 
 (defun pass1-toplevel (form)
   (let ((*lexenv* '()))
-    (pass1 form)))
+    (pass1 form t t)))
