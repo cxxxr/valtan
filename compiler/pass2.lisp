@@ -75,12 +75,6 @@
   (defun gen-temporary-js-var (&optional (prefix "TMP_"))
     (format nil "~A~D" prefix (incf i))))
 
-(defun const-to-js-literal (value)
-  (typecase value
-    (null "lisp.nilValue")
-    (symbol (symbol-to-js-global-var value))
-    (otherwise (princ-to-string value))))
-
 (defun %emit-for (loop-var start end step function)
   (write-string "for (let ")
   (write-string loop-var)
@@ -148,7 +142,12 @@
                  (if (consp op) op (list op))))))
 
 (def-emit const (ir)
-  (princ (const-to-js-literal (ir-arg1 ir))))
+  (let ((value (ir-arg1 ir)))
+    (typecase value
+      (null (princ "lisp.nilValue"))
+      (symbol (princ (symbol-to-js-global-var value)))
+      (string (prin1 value))
+      (otherwise (princ value)))))
 
 (def-emit lref (ir)
   (let ((binding (ir-arg1 ir)))
