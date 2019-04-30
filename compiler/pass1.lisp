@@ -2,6 +2,7 @@
 
 (defparameter *pass1-form-table* (make-hash-table))
 
+(defvar *require-modules*)
 (defvar *lexenv*)
 
 (defun make-variable-binding (symbol &optional (special-p (special-p symbol)))
@@ -700,6 +701,12 @@
       ((special)
        (dolist (symbol (rest spec))
          (setf (special-p symbol) t)))))
+  (pass1-const nil return-value-p))
+
+(def-pass1-form require ((module-name) return-value-p multiple-values-p)
+  (unless (stringp module-name)
+    (compile-error "~S is not a string" module-name))
+  (push module-name *require-modules*)
   (pass1-const nil return-value-p))
 
 (defun pass1-toplevel (form)
