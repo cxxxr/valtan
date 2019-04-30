@@ -466,7 +466,7 @@
                                return-value-p
                                nil)
                            nil
-                           binding
+                           (or binding symbol)
                            value)
                   forms)))
         (if (null forms)
