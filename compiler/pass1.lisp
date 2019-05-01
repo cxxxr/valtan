@@ -718,13 +718,13 @@
       (push (string name) arguments))
     (nreverse arguments)))
 
-(def-pass1-form ffi::ref ((name &rest names) return-value-p multiple-values-p)
+(def-pass1-form ffi:ref ((name &rest names) return-value-p multiple-values-p)
   (let ((arguments (pass1-ref-names name names)))
-    (make-ir 'ffi::ref return-value-p nil arguments)))
+    (make-ir 'ffi:ref return-value-p nil arguments)))
 
-(def-pass1-form ffi::set ((value name &rest names) return-value-p multiple-values-p)
+(def-pass1-form ffi:set ((value name &rest names) return-value-p multiple-values-p)
   (let ((arguments (pass1-ref-names name names)))
-    (make-ir 'ffi::set return-value-p nil (pass1 value t nil) arguments)))
+    (make-ir 'ffi:set return-value-p nil (pass1 value t nil) arguments)))
 
 (defun pass1-toplevel (form)
   (let ((*lexenv* '()))
