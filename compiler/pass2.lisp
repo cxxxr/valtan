@@ -435,6 +435,21 @@
   (write-string ")")
   (pass2-exit (ir-return-value-p ir)))
 
+(defun emit-ref (args)
+  (do ((args args (rest args)))
+      ((null args))
+    (write-string (first args))
+    (when (rest args)
+      (write-string "."))))
+
+(def-emit system::ref (ir)
+  (emit-ref (ir-arg1 ir)))
+
+(def-emit system::set (ir)
+  (emit-ref (ir-arg2 ir))
+  (write-string " = ")
+  (pass2 (ir-arg1 ir)))
+
 (defun pass2 (ir)
   (funcall (gethash (ir-op ir) *emitter-table*) ir))
 

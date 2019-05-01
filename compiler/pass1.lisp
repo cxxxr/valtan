@@ -709,6 +709,23 @@
   (push module-name *require-modules*)
   (pass1-const nil return-value-p))
 
+(defun pass1-ref-names (name names)
+  (let ((names (cons name names))
+        (arguments '()))
+    (dolist (name names)
+      (unless (or (symbolp name) (stringp name))
+        (compile-error "~S is not a string designator" name))
+      (push (string name) arguments))
+    (nreverse arguments)))
+
+(def-pass1-form system::ref ((name &rest names) return-value-p multiple-values-p)
+  (let ((arguments (pass1-ref-names name names)))
+    (make-ir 'system::ref return-value-p nil arguments)))
+
+(def-pass1-form system::set ((value name &rest names) return-value-p multiple-values-p)
+  (let ((arguments (pass1-ref-names name names)))
+    (make-ir 'system::set return-value-p nil (pass1 value t nil) arguments)))
+
 (defun pass1-toplevel (form)
   (let ((*lexenv* '()))
     (pass1 form nil nil)))
