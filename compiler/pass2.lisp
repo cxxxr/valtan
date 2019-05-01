@@ -442,10 +442,10 @@
     (when (rest args)
       (write-string "."))))
 
-(def-emit system::ref (ir)
+(def-emit ffi::ref (ir)
   (emit-ref (ir-arg1 ir)))
 
-(def-emit system::set (ir)
+(def-emit ffi::set (ir)
   (emit-ref (ir-arg2 ir))
   (write-string " = ")
   (pass2 (ir-arg1 ir)))
