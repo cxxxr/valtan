@@ -222,7 +222,7 @@
   (let* ((args (gensym))
          (fn `(lambda (,args) (destructuring-bind ,lambda-list ,args ,@body))))
     (setf (get-macro name) (eval fn))
-    name))
+    `',name))
 
 (def-transform define-symbol-macro (name expansion)
   (setf (get-symbol-macro name) expansion)
