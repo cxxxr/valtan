@@ -501,7 +501,7 @@
            (pass1 `(symbol-function ',thing)
                   return-value-p
                   nil))))
-    ((and (consp thing) (eq (car thing) 'lambda))
+    ((and (consp thing) (eq (first thing) 'lambda))
      (pass1-lambda thing return-value-p))
     (t
      (compile-error "~S is not a legal function name" thing))))
