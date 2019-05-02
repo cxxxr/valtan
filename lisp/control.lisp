@@ -1,7 +1,30 @@
 (in-package :common-lisp)
 
-(defmacro setf (&rest pairs)
+(defun get-setf-expansion (place &optional environment)
   )
+
+(defun setf-expand-1 (place value)
+  (cond ((symbolp place)
+         `(setq ,place ,value))
+        ((and (consp place) (symbolp (first place)))
+         (let ((expander (get (first place) 'setf-expander)))
+           (cond ((or (symbolp expander) (functionp expander))
+                  (if (functionp expander)
+                      `(funcall ,expander ,@(rest place) ,value)
+                      `(,expander ,@(rest place) ,value)))
+                 (t
+                  (error "TODO")))))
+        (t
+         (error "Invalid place: ~S" place))))
+
+(defun setf-expand (pairs)
+  (cond ((endp pairs) nil)
+        ((endp (cdr pairs)) (error "Odd number of args to SETF."))
+        (t (cons (setf-expand-1 (first pairs) (second pairs))
+                 (setf-expand (cddr pairs))))))
+
+(defmacro setf (&rest pairs)
+  `(progn ,@(setf-expand pairs)))
 
 (defmacro defsetf (access-fn &rest rest)
   ;; TODO: documentation文字列
