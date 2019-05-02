@@ -219,8 +219,10 @@
   `(system::fset ',name (lambda ,lambda-list ,@body)))
 
 (def-transform defmacro (name lambda-list &rest body)
-  (setf (get-macro name) (eval `(lambda ,lambda-list ,@body)))
-  `(system::add-global-macro ',name (lambda ,lambda-list ,@body)))
+  (let* ((args (gensym))
+         (fn `(lambda (,args) (destructuring-bind ,lambda-list ,args ,@body))))
+    (setf (get-macro name) (eval fn))
+    name))
 
 (def-transform define-symbol-macro (name expansion)
   (setf (get-symbol-macro name) expansion)
@@ -389,7 +391,7 @@
                (values (apply (binding-value binding) (rest form)) t)
                (let ((fn (get-macro (first form))))
                  (if fn
-                     (values (apply fn (rest form)) t)
+                     (values (funcall fn (rest form)) t)
                      (values form nil))))))
         (t
          (values form nil))))
