@@ -4,7 +4,18 @@
   )
 
 (defmacro defsetf (access-fn &rest rest)
-  )
+  ;; TODO: documentation文字列
+  ;; TODO: restが単一のシンボルか関数ではないときの処理
+  (check-type access-fn symbol)
+  (cond ((and (first rest)
+              (or (symbolp (first rest)) (functionp (first rest))))
+         `(progn
+            (setf (get access-fn 'setf-expander) (first rest))
+            ',access-fn))
+        (t
+         `(progn
+            (setf (get access-fn 'setf-expander) rest)
+            ',access-fn))))
 
 (defmacro psetq (&rest pairs)
   (when (oddp (length pairs))
