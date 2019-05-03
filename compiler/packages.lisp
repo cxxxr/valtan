@@ -19,4 +19,5 @@
            :object-get
            :object-set
            :ref
-           :set))
+           :set
+           :instanceof))
