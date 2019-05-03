@@ -45,23 +45,21 @@
            (let ((store (gensym)))
              (values nil nil (list store) `(setq ,place ,store) place))))))
 
-(defun setf-expand-1 (place value)
-  (multiple-value-bind (vars forms store set access)
-      (get-setf-expansion place)
-    (declare (ignore access))
-    `(let* (,@(mapcar #'list
-                      (append vars store)
-                      (append forms (list value))))
-       ,set)))
-
-(defun setf-expand (pairs)
-  (cond ((endp pairs) nil)
-        ((endp (cdr pairs)) (error "Odd number of args to SETF."))
-        (t (cons (setf-expand-1 (first pairs) (second pairs))
-                 (setf-expand (cddr pairs))))))
-
 (defmacro setf (&rest pairs)
-  `(progn ,@(setf-expand pairs)))
+  (labels ((setf-expand-1 (place value)
+             (multiple-value-bind (vars forms store set access)
+                 (get-setf-expansion place)
+               (declare (ignore access))
+               `(let* (,@(mapcar #'list
+                                 (append vars store)
+                                 (append forms (list value))))
+                  ,set)))
+           (setf-expand (pairs)
+             (cond ((endp pairs) nil)
+                   ((endp (cdr pairs)) (error "Odd number of args to SETF."))
+                   (t (cons (setf-expand-1 (first pairs) (second pairs))
+                            (setf-expand (cddr pairs)))))))
+    `(progn ,@(setf-expand pairs))))
 
 (defmacro defsetf (access-fn &rest rest)
   ;; TODO: documentation文字列
@@ -71,12 +69,12 @@
               (or (symbolp (first rest)) (functionp (first rest))))
          (setf (get access-fn 'setf-expander) (first rest))
          `(progn
-            (setf (get ',access-fn 'setf-expander) ,(first rest))
+            ;(setf (get ',access-fn 'setf-expander) ,(first rest))
             ',access-fn))
         (t
          (setf (get access-fn 'setf-expander) rest)
          `(progn
-            (setf (get ',access-fn 'setf-expander) ',rest)
+            ;(setf (get ',access-fn 'setf-expander) ',rest)
             ',access-fn))))
 
 (defmacro psetq (&rest pairs)
@@ -101,22 +99,27 @@
        nil)))
 
 (defmacro do (varlist endlist &body body)
-  `(let ,(mapcar (lambda (var-spec)
-                   `(,(first var-spec)
-                     ,(second var-spec)))
-                 varlist)
-     (if ,(first endlist)
-         (progn ,@(rest endlist))
-         (progn
-           (tagbody ,@body)
-           (psetq ,@(mapcan (lambda (var-spec)
-                              `(,(first var-spec)
-                                ,(third var-spec)))
-                            varlist))))))
+  (let ((g-start (gensym)))
+    `(let ,(mapcar (lambda (var-spec)
+                     `(,(first var-spec)
+                       ,(second var-spec)))
+                   varlist)
+       (tagbody
+         ,g-start
+         (if ,(first endlist)
+             (progn
+               ,@(rest endlist))
+             (progn
+               (tagbody ,@body)
+               (psetq ,@(mapcan (lambda (var-spec)
+                                  `(,(first var-spec)
+                                    ,(third var-spec)))
+                                varlist))
+               (go ,g-start)))))))
 
 (defmacro dotimes ((var expr &optional result) &body body)
-  (let ((,=expr= (gensym)))
-    `(let ((,=expr= ,expr))
-       (do ((,var 0 (+ var 1)))
-           ((>= ,var ,=expr=) ,result)
+  (let ((g-expr (gensym)))
+    `(let ((,g-expr ,expr))
+       (do ((,var 0 (+ ,var 1)))
+           ((>= ,var ,g-expr) ,result)
          ,@body))))
