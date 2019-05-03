@@ -1,37 +1,45 @@
 (in-package :compiler)
 
-(defun compile-stdin ()
-  (let* ((*require-modules* '())
-         (ir-forms
-           (loop :with eof-value := '#:eof-value
-                 :for form := (let ((*package* (find-package "CL-USER")))
-                                (read *standard-input* nil eof-value))
-                 :until (eq form eof-value)
-                 :collect (pass1-toplevel form))))
-    (write-line "import * as lisp from 'lisp';")
-    (dolist (module *require-modules*)
-      (format t "require('~A.lisp');~%" module))
-    (pass2-toplevel-forms ir-forms)))
+(defmacro do-forms ((var stream) &body body)
+  (let ((g-eof-value (gensym))
+        (g-stream (gensym)))
+    `(loop :with ,g-eof-value := '#:eof-value
+           :and ,g-stream := ,stream
+           :for ,var := (read ,g-stream nil ,g-eof-value)
+           :until (eq ,var ,g-eof-value)
+           :do (progn ,@body))))
 
-(defun compile-toplevel (form)
+(defun call-with-compile (function)
   (let ((*require-modules* '()))
-    (pass2-toplevel (pass1-toplevel form))))
+    (let ((ir-forms (funcall function)))
+      (write-line "import * as lisp from 'lisp';")
+      (dolist (module *require-modules*)
+        (format t "require('~A.lisp');~%" module))
+      (pass2-toplevel-forms ir-forms))))
+
+(defmacro with-compile (() &body body)
+  `(call-with-compile (lambda () ,@body)))
+
+(defun compile-stdin ()
+  (with-compile ()
+    (let ((ir-forms '()))
+      (do-forms (form *standard-input*)
+        (push (pass1-toplevel form) ir-forms))
+      (nreverse ir-forms))))
 
 (defun compile-files (files)
   (unless (listp files) (setf files (list files)))
-  (let ((*require-modules* '())
-        (ir-forms '()))
-    (dolist (file files)
-      (with-open-file (in file)
-        (loop :with eof-value := '#:eof-value
-              :for form := (read in nil eof-value)
-              :until (eq form eof-value)
-              :do (push (pass1-toplevel form) ir-forms))))
-    (write-line "import * as lisp from 'lisp';")
-    (dolist (module *require-modules*)
-      (format t "require('~A.lisp');~%" module))
-    (pass2-toplevel-forms (nreverse ir-forms))
-    (values)))
+  (with-compile ()
+    (let ((ir-forms '()))
+      (dolist (file files)
+        (with-open-file (in file)
+          (do-forms (form in)
+            (push (pass1-toplevel form) ir-forms))))
+      (nreverse ir-forms))))
+
+(defun compile-toplevel (form)
+  (with-compile ()
+    (list (pass1-toplevel form))))
 
 (defmacro with-js-beautify (&body body)
   `(let ((output
