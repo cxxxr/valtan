@@ -35,6 +35,8 @@
         (*defined-function-names* '())
         (*called-function-names* '()))
     (let ((ir-forms (funcall function)))
+      (dolist (name (set-difference *called-function-names* *defined-function-names*))
+        (warn "undefined function: ~S" name))
       (write-line "import * as lisp from 'lisp';")
       (dolist (module *require-modules*)
         (format t "require('~A.lisp');~%" module))
