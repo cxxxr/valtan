@@ -1,21 +1,48 @@
 (in-package :common-lisp)
 
+(defun gensyms (list)
+  (mapcar (lambda (x)
+            (declare (ignore x))
+            (gensym))
+          list))
+
 (defun get-setf-expansion (place &optional environment)
-  )
+  (declare (ignore environment))
+  (let ((setf-expander nil))
+    (cond ((and (consp place)
+                (setq setf-expander (get (first place) 'setf-expander)))
+           (if (symbolp setf-expander)
+               (let ((vars (gensyms (rest place)))
+                     (store (gensym "STORE")))
+                 (values vars
+                         (rest place)
+                         (list store)
+                         `(,setf-expander ,@vars ,store)
+                         `(,(first place) ,@vars)))
+               (let ((vars (gensyms (rest place)))
+                     (store (gensym "STORE"))
+                     (fn (eval `(lambda ,(first setf-expander)
+                                  (lambda ,@(rest setf-expander))))))
+                 (values vars
+                         (rest place)
+                         (list store)
+                         (funcall (apply fn vars) store)
+                         `(,(first place) ,@vars)))))
+          ;; TODO: マクロはホスト側で管理しているのでコンパイラ内の情報を参照する必要があるはず
+          ;; ((and (consp place) (symbolp (first place)) (macro-function (first place)))
+          ;;  (get-setf-expansion (macroexpand place)))
+          (t
+           (let ((store (gensym)))
+             (values nil nil (list store) `(setq ,place ,store) place))))))
 
 (defun setf-expand-1 (place value)
-  (cond ((symbolp place)
-         `(setq ,place ,value))
-        ((and (consp place) (symbolp (first place)))
-         (let ((expander (get (first place) 'setf-expander)))
-           (cond ((or (symbolp expander) (functionp expander))
-                  (if (functionp expander)
-                      `(funcall ,expander ,@(rest place) ,value)
-                      `(,expander ,@(rest place) ,value)))
-                 (t
-                  (error "TODO")))))
-        (t
-         (error "Invalid place: ~S" place))))
+  (multiple-value-bind (vars forms store set access)
+      (get-setf-expansion place)
+    (declare (ignore access))
+    `(let* (,@(mapcar #'list
+                      (append vars store)
+                      (append forms (list value))))
+       ,set)))
 
 (defun setf-expand (pairs)
   (cond ((endp pairs) nil)
@@ -32,12 +59,14 @@
   (check-type access-fn symbol)
   (cond ((and (first rest)
               (or (symbolp (first rest)) (functionp (first rest))))
+         (setf (get access-fn 'setf-expander) (first rest))
          `(progn
-            (setf (get access-fn 'setf-expander) (first rest))
+            (setf (get ',access-fn 'setf-expander) ,(first rest))
             ',access-fn))
         (t
+         (setf (get access-fn 'setf-expander) rest)
          `(progn
-            (setf (get access-fn 'setf-expander) rest)
+            (setf (get ',access-fn 'setf-expander) ',rest)
             ',access-fn))))
 
 (defmacro psetq (&rest pairs)
