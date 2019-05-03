@@ -1,11 +1,32 @@
 (in-package :compiler)
 
+(defvar *quasiquote-readtable*
+  (let ((*readtable* (copy-readtable)))
+    (set-macro-character
+     #\`
+     (lambda (s c)
+       (declare (ignore c))
+       (list 'system::quasiquote
+             (read s t nil t))))
+    (set-macro-character
+     #\,
+     (lambda (s c)
+       (declare (ignore c))
+       (cond ((eql #\@ (peek-char nil s t nil t))
+              (read-char s t nil t)
+              (list 'system::unquote-splicing (read s t nil t)))
+             (t
+              (list 'system::unquote
+                    (read s t nil t))))))
+    *readtable*))
+
 (defmacro do-forms ((var stream) &body body)
   (let ((g-eof-value (gensym))
         (g-stream (gensym)))
     `(loop :with ,g-eof-value := '#:eof-value
            :and ,g-stream := ,stream
-           :for ,var := (read ,g-stream nil ,g-eof-value)
+           :for ,var := (let ((*readtable* *quasiquote-readtable*))
+                          (read ,g-stream nil ,g-eof-value))
            :until (eq ,var ,g-eof-value)
            :do (progn ,@body))))
 

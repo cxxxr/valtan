@@ -260,14 +260,19 @@
          (second x))
         ((and (consp (first x))
               (eq (first (first x)) 'system::unquote-splicing))
-         (assert (= 2 (length x)))
-         (list 'append (second (first x)) (rest x)))
+         (assert (= 2 (length (first x))))
+         (list 'append
+               (second (first x))
+               (expand-quasiquote (rest x))))
         (t
          (list 'cons
                (expand-quasiquote (first x))
                (expand-quasiquote (rest x))))))
 
 (def-transform system::quasiquote (x)
+  (expand-quasiquote x))
+
+(defmacro system::quasiquote (x)
   (expand-quasiquote x))
 
 (defun pass1-const (x return-value-p)
