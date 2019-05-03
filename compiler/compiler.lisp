@@ -17,11 +17,27 @@
   (let ((*require-modules* '()))
     (pass2-toplevel (pass1-toplevel form))))
 
-(defun compile-toplevel-with-js-beautify (form)
-  (let ((output
-          (with-output-to-string (*standard-output*)
-            (compile-toplevel form))))
-    (with-input-from-string (in output)
-      (uiop:run-program "js-beautify"
-                        :input in
-                        :output t))))
+(defun compile-files (files)
+  (unless (listp files) (setf files (list files)))
+  (let ((*require-modules* '())
+        (ir-forms '()))
+    (dolist (file files)
+      (with-open-file (in file)
+        (loop :with eof-value := '#:eof-value
+              :for form := (read in nil eof-value)
+              :until (eq form eof-value)
+              :do (push (pass1-toplevel form) ir-forms))))
+    (write-line "import * as lisp from 'lisp';")
+    (dolist (module *require-modules*)
+      (format t "require('~A.lisp');~%" module))
+    (pass2-toplevel-forms (nreverse ir-forms))
+    (values)))
+
+(defmacro with-js-beautify (&body body)
+  `(let ((output
+           (with-output-to-string (*standard-output*)
+             (progn ,@body))))
+     (with-input-from-string (in output)
+       (uiop:run-program "js-beautify"
+                         :input in
+                         :output t))))
