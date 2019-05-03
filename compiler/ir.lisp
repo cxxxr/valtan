@@ -45,7 +45,8 @@
 (defstruct binding
   name
   type
-  value)
+  value
+  (used-count 0))
 
 (defstruct tagbody-value
   index

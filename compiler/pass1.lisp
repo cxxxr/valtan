@@ -35,6 +35,10 @@
                 :name name
                 :value value))
 
+(defun count-if-used (binding)
+  (when binding
+    (incf (binding-used-count binding))))
+
 (defmacro def-pass1-form (name (lambda-list return-value-p multiple-values-p) &body body)
   (let ((fn-name (intern (format nil "PASS1-~A" name))))
     `(progn
@@ -268,6 +272,7 @@
 
 (defun pass1-refvar (symbol return-value-p)
   (let ((binding (lookup symbol '(:variable :special))))
+    (count-if-used binding)
     (if (and binding (eq (binding-type binding) :variable))
         (make-ir 'lref return-value-p nil binding)
         (make-ir 'gref return-value-p nil symbol))))
@@ -385,6 +390,7 @@
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
          (let ((binding (lookup form :symbol-macro)))
+           (count-if-used binding)
            (if binding
                (values (binding-value binding) t)
                (let ((expansion (get-symbol-macro form)))
@@ -393,6 +399,7 @@
                      (values form nil))))))
         ((and (consp form) (symbolp (first form)))
          (let ((binding (lookup (first form) :macro)))
+           (count-if-used binding)
            (if binding
                (values (apply (binding-value binding) (rest form)) t)
                (let ((fn (get-macro (first form))))
@@ -407,6 +414,7 @@
         (args (rest form)))
     (cond ((and (variable-symbol-p fn))
            (let ((binding (lookup fn :function)))
+             (count-if-used binding)
              (cond (binding
                     (make-ir 'lcall
                              return-value-p
@@ -469,6 +477,7 @@
           (let* ((symbol (first args))
                  (binding (lookup symbol :variable))
                  (value (pass1 (second args) t nil)))
+            (count-if-used binding)
             (push (make-ir (if binding 'lset 'gset)
                            (if (null (rest args))
                                return-value-p
@@ -502,6 +511,7 @@
   (cond
     ((symbolp thing)
      (let ((binding (lookup thing :function)))
+       (count-if-used binding)
        (if binding
            (make-ir 'lref return-value-p nil binding)
            (pass1 `(symbol-function ',thing)
@@ -626,6 +636,7 @@
   (unless (symbolp name)
     (compile-error "~S is not a symbol" name))
   (let ((binding (lookup name :block)))
+    (count-if-used binding)
     (if binding
         (make-ir 'return-from nil nil binding (pass1 value t t))
         (compile-error "return for unknown block: ~S" name))))
@@ -655,6 +666,7 @@
                                (make-ir 'progn nil nil (nreverse part-statements)))
                          (let ((binding (lookup last-tag :tag)))
                            (assert binding)
+                           (count-if-used binding)
                            (cons (binding-value binding)
                                  (make-ir 'progn nil nil (nreverse part-statements)))))
                      tag-statements-pairs)
@@ -680,6 +692,7 @@
   (let ((binding (lookup tag :tag)))
     (unless binding
       (compile-error "attempt to GO to nonexistent tag: ~A" tag))
+    (count-if-used binding)
     (make-ir 'go nil nil *tagbody-level* (binding-value binding))))
 
 (def-pass1-form catch ((tag &rest body) return-value-p multiple-values-p)
