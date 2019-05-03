@@ -41,3 +41,12 @@
        (uiop:run-program "js-beautify"
                          :input in
                          :output t))))
+
+(defun get-lisp-files ()
+  (let ((base-path (asdf:system-relative-pathname :clscript "./lisp/")))
+    (mapcar (lambda (name)
+              (make-pathname :name name :type "lisp" :defaults base-path))
+            '("control" "condition" "print" "cons"))))
+
+(defun build ()
+  (compile-files (get-lisp-files)))
