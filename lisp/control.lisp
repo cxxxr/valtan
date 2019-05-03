@@ -1,5 +1,15 @@
 (in-package :common-lisp)
 
+(defmacro cond (&rest clauses)
+  (if (null clauses)
+      nil
+      (let ((clause (first clauses)))
+        `(if ,(first clause)
+             ,(if (null (rest clause))
+                  t
+                  `(progn ,@(rest clause)))
+             (cond ,@(rest clauses))))))
+
 (defun gensyms (list)
   (mapcar (lambda (x)
             (declare (ignore x))
