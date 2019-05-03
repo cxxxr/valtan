@@ -3,6 +3,8 @@
 (defparameter *pass1-form-table* (make-hash-table))
 
 (defvar *require-modules*)
+(defvar *defined-function-names*)
+(defvar *called-function-names*)
 (defvar *lexenv*)
 
 (defun make-variable-binding (symbol &optional (special-p (special-p symbol)))
@@ -226,6 +228,7 @@
          (lambda ,lambda-list ,@body)))
 
 (def-transform defun (name lambda-list &rest body)
+  (pushnew name *defined-function-names*)
   `(system::fset ',name (lambda ,lambda-list ,@body)))
 
 (def-transform defmacro (name lambda-list &rest body)
@@ -428,6 +431,7 @@
                            return-value-p
                            multiple-values-p))
                    (t
+                    (pushnew fn *called-function-names*)
                     (make-ir 'call
                              return-value-p
                              multiple-values-p

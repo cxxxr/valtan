@@ -10,12 +10,16 @@
            :do (progn ,@body))))
 
 (defun call-with-compile (function)
-  (let ((*require-modules* '()))
+  (let ((*require-modules* '())
+        (*defined-function-names* '())
+        (*called-function-names* '()))
     (let ((ir-forms (funcall function)))
+      (fresh-line)
       (write-line "import * as lisp from 'lisp';")
       (dolist (module *require-modules*)
         (format t "require('~A.lisp');~%" module))
-      (pass2-toplevel-forms ir-forms))))
+      (pass2-toplevel-forms ir-forms))
+    (values)))
 
 (defmacro with-compile (() &body body)
   `(call-with-compile (lambda () ,@body)))
