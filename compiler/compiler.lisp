@@ -14,7 +14,6 @@
         (*defined-function-names* '())
         (*called-function-names* '()))
     (let ((ir-forms (funcall function)))
-      (fresh-line)
       (write-line "import * as lisp from 'lisp';")
       (dolist (module *require-modules*)
         (format t "require('~A.lisp');~%" module))
