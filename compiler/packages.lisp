@@ -9,7 +9,8 @@
            :quasiquote
            :fset
            :add-global-macro
-           :add-symbol-macro))
+           :add-symbol-macro
+           :%error))
 
 (defpackage :ffi
   (:use)
