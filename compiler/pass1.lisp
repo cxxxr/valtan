@@ -2,9 +2,9 @@
 
 (defparameter *pass1-form-table* (make-hash-table))
 
-(defvar *require-modules*)
-(defvar *defined-function-names*)
-(defvar *called-function-names*)
+(defvar *require-modules* '())
+(defvar *defined-function-names* '())
+(defvar *called-function-names* '())
 (defvar *lexenv*)
 
 (defun make-variable-binding (symbol &optional (special-p (special-p symbol)))
