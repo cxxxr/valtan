@@ -4,9 +4,11 @@
   op
   return-value-p
   multiple-values-p
-  arg1
-  arg2
-  arg3)
+  args)
+
+(defun ir-arg1 (ir) (first (ir-args ir)))
+(defun ir-arg2 (ir) (second (ir-args ir)))
+(defun ir-arg3 (ir) (third (ir-args ir)))
 
 (defmethod print-object ((ir ir) stream)
   (cond ((ir-arg3 ir)
@@ -17,22 +19,10 @@
          (format stream "(~S ~S)" (ir-op ir) (ir-arg1 ir)))))
 
 (defun make-ir (op return-value-p multiple-values-p &rest args)
-  (ecase (length args)
-    (1 (%make-ir :op op
-                 :return-value-p return-value-p
-                 :multiple-values-p multiple-values-p
-                 :arg1 (first args)))
-    (2 (%make-ir  :op op
-                  :return-value-p return-value-p
-                  :multiple-values-p multiple-values-p
-                  :arg1 (first args)
-                  :arg2 (second args)))
-    (3 (%make-ir :op op
-                 :return-value-p return-value-p
-                 :multiple-values-p multiple-values-p
-                 :arg1 (first args)
-                 :arg2 (second args)
-                 :arg3 (third args)))))
+  (%make-ir :op op
+            :return-value-p return-value-p
+            :multiple-values-p multiple-values-p
+            :args args))
 
 (defstruct parsed-lambda-list
   vars
