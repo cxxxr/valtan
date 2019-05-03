@@ -129,10 +129,16 @@
                                          (unless (keywordp (first arg1))
                                            (lambda-list-error))
                                          (check-variable (second arg1))
-                                         (values (second arg1) (second arg) (third arg) (first arg1))))
+                                         (values (second arg1)
+                                                 (second arg)
+                                                 (third arg)
+                                                 (first arg1))))
                                       (t
                                        (check-variable (first arg))
-                                       (values (first arg) (second arg) (third arg) (make-keyword (first arg)))))
+                                       (values (first arg)
+                                               (second arg)
+                                               (third arg)
+                                               (make-keyword (first arg)))))
                               (funcall add-fn (list var value supplied-var keyword))))))
                         (t
                          (lambda-list-error)))))
