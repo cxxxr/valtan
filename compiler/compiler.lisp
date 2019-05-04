@@ -109,14 +109,22 @@
         (*package* (find-package :clscript-system)))
     (load pathname)))
 
-(defun build-system (pathname)
+(defun build-system (pathname &key output-file)
   (unless (probe-file pathname)
     (error "~A does not exist" pathname))
   (let ((pathname (probe-file pathname))
         (*module-table* (make-hash-table)))
     (load-module pathname)
-    ;; XXX: *module-table*には要素が一つしか入っていないことを想定
-    (maphash (lambda (module-name pathnames)
-               (declare (ignore module-name))
-               (build (append (get-lisp-files) pathnames) *standard-output*))
-             *module-table*)))
+    (let ((output-file (or output-file
+                           (make-pathname :name (pathname-name pathname)
+                                          :type "js"
+                                          :defaults pathname))))
+      (with-open-file (output output-file
+                              :direction :output
+                              :if-does-not-exist :create
+                              :if-exists :supersede)
+        ;; XXX: *module-table*には要素が一つしか入っていないことを想定
+        (maphash (lambda (module-name pathnames)
+                   (declare (ignore module-name))
+                   (build (append (get-lisp-files) pathnames) output))
+                 *module-table*)))))
