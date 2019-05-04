@@ -9,37 +9,6 @@
 (defun listp (x)
   (or (null x) (consp x)))
 
-(defun consp (x)
-  (and (ffi:instanceof x "object")
-       (ffi:object-get "cons")))
-
-(defun cons (car cdr)
-  (ffi:make-object "type" "cons"
-                   "car" car
-                   "cdr" cdr))
-
-(defun rplaca (cons value)
-  (unless (consp cons)
-    (error "type error"))
-  (ffi:object-set value cons "car")
-  cons)
-
-(defun rplacd (cons value)
-  (unless (consp cons)
-    (error "type error"))
-  (ffi:object-set value cons "cdr")
-  cons)
-
-(defun car (list)
-  (unless (listp list)
-    (error "type error"))
-  (ffi:object-get list "car"))
-
-(defun cdr (list)
-  (unless (listp list)
-    (error "type error"))
-  (ffi:object-get list "cdr"))
-
 (defsetf car rplaca)
 (defsetf cdr rplacd)
 
