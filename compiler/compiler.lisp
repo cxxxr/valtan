@@ -40,7 +40,7 @@
         (warn "undefined function: ~S" name))
       (write-line "import * as lisp from 'lisp';")
       (dolist (module *require-modules*)
-        (format t "require('~A.lisp');~%" module))
+        (format t "require('~A');~%" module))
       (pass2-toplevel-forms ir-forms))
     (values)))
 
@@ -84,14 +84,39 @@
               (make-pathname :name name :type "lisp" :defaults base-path))
             '("control" "condition" "print" "cons"))))
 
-(defun build (&optional output-file)
+(defun build (pathnames &optional output)
+  (pprint pathnames)
   (with-open-stream (*standard-output*
-                     (if output-file
-                         (open output-file
-                               :direction :output
-                               :if-exists :supersede
-                               :if-does-not-exist :create)
+                     (or output
                          (make-string-output-stream)))
-    (compile-files (get-lisp-files))
-    (unless output-file
+    (compile-files pathnames)
+    (unless output
       (get-output-stream-string *standard-output*))))
+
+(defparameter *module-table* (make-hash-table))
+(defvar *module-directory*)
+
+(defmacro clscript-system::module (name file-names)
+  `(setf (gethash ',name *module-table*)
+         (mapcar (lambda (file-name)
+                   (make-pathname :name file-name
+                                  :type "lisp"
+                                  :directory *module-directory*))
+                 ',file-names)))
+
+(defun load-module (pathname)
+  (let ((*module-directory* (pathname-directory (probe-file pathname)))
+        (*package* (find-package :clscript-system)))
+    (load pathname)))
+
+(defun build-system (pathname)
+  (unless (probe-file pathname)
+    (error "~A does not exist" pathname))
+  (let ((pathname (probe-file pathname))
+        (*module-table* (make-hash-table)))
+    (load-module pathname)
+    ;; XXX: *module-table*には要素が一つしか入っていないことを想定
+    (maphash (lambda (module-name pathnames)
+               (declare (ignore module-name))
+               (build (append (get-lisp-files) pathnames) *standard-output*))
+             *module-table*)))

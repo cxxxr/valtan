@@ -21,3 +21,6 @@
            :ref
            :set
            :instanceof))
+
+(defpackage :clscript-system
+  (:use))
