@@ -23,7 +23,7 @@
 (defmacro do-forms ((var stream) &body body)
   (let ((g-eof-value (gensym))
         (g-stream (gensym)))
-    `(let ((*package* *package*))
+    `(let ((*package* (find-package :cl-user)))
        (loop :with ,g-eof-value := '#:eof-value
              :and ,g-stream := ,stream
              :for ,var := (let ((*readtable* *quasiquote-readtable*))
@@ -49,8 +49,7 @@
 
 (defun compile-stdin ()
   (with-compile ()
-    (let ((ir-forms '())
-          (*package* (find-package :cl-user)))
+    (let ((ir-forms '()))
       (do-forms (form *standard-input*)
         (push (pass1-toplevel form) ir-forms))
       (nreverse ir-forms))))
@@ -85,7 +84,6 @@
             '("control" "condition" "print" "cons"))))
 
 (defun build (pathnames &optional output)
-  (pprint pathnames)
   (with-open-stream (*standard-output*
                      (or output
                          (make-string-output-stream)))
