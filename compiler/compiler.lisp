@@ -23,12 +23,13 @@
 (defmacro do-forms ((var stream) &body body)
   (let ((g-eof-value (gensym))
         (g-stream (gensym)))
-    `(loop :with ,g-eof-value := '#:eof-value
-           :and ,g-stream := ,stream
-           :for ,var := (let ((*readtable* *quasiquote-readtable*))
-                          (read ,g-stream nil ,g-eof-value))
-           :until (eq ,var ,g-eof-value)
-           :do (progn ,@body))))
+    `(let ((*package* *package*))
+       (loop :with ,g-eof-value := '#:eof-value
+             :and ,g-stream := ,stream
+             :for ,var := (let ((*readtable* *quasiquote-readtable*))
+                            (read ,g-stream nil ,g-eof-value))
+             :until (eq ,var ,g-eof-value)
+             :do (progn ,@body)))))
 
 (defun call-with-compile (function)
   (let ((*require-modules* '())

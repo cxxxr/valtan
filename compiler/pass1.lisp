@@ -252,6 +252,11 @@
         `(if (boundp ',x) nil (setq ,x ,value)))
      ',x))
 
+(def-transform in-package (package)
+  (let ((package (find-package package)))
+    (setq *package* package)
+    package))
+
 (defun expand-quasiquote (x)
   (cond ((atom x)
          (list 'quote x))
