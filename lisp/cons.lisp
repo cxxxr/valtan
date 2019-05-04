@@ -146,10 +146,10 @@
   )
 
 (defmacro push (obj place)
-  )
+  (declare (ignore obj place)))
 
 (defmacro pop (place)
-  )
+  (declare (ignore place)))
 
 (defun first (list) (car list))
 (defun second (list) (nth 1 list))
@@ -289,7 +289,7 @@
   )
 
 (defmacro remf (place indicator)
-  )
+  (declare (ignore place indicator)))
 
 (defun intersection (list-1 list-2 &key key test test-not)
   )
@@ -301,7 +301,7 @@
   )
 
 (defmacro pushnew (item place &key key test test-not)
-  )
+  (declare (ignore item place key test test-not)))
 
 (defun set-difference (list-1 list-2 &key key test test-not)
   )
