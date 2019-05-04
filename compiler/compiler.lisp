@@ -77,11 +77,26 @@
                          :input in
                          :output t))))
 
-(defun get-lisp-files ()
-  (let ((base-path (asdf:system-relative-pathname :clscript "./lisp/")))
+(defun directory-files (base-dir files)
+  (let ((base-path (asdf:system-relative-pathname :clscript base-dir)))
     (mapcar (lambda (name)
               (make-pathname :name name :type "lisp" :defaults base-path))
-            '("control" "condition" "print" "cons" "array"))))
+            files)))
+
+(defun get-lisp-files ()
+  (append (directory-files "./lisp/"
+                           '("control"
+                             "condition"
+                             "print"
+                             "cons"
+                             "array"))
+          #+(or)
+          (directory-files "./compiler/"
+                           '("util"
+                             "error"
+                             "ir"
+                             "pass1"
+                             "pass2"))))
 
 (defun build (pathnames &optional output)
   (with-open-stream (*standard-output*
