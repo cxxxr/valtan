@@ -81,7 +81,7 @@
   (let ((base-path (asdf:system-relative-pathname :clscript "./lisp/")))
     (mapcar (lambda (name)
               (make-pathname :name name :type "lisp" :defaults base-path))
-            '("control" "condition" "print" "cons"))))
+            '("control" "condition" "print" "cons" "array"))))
 
 (defun build (pathnames &optional output)
   (with-open-stream (*standard-output*
