@@ -49,7 +49,8 @@
 
 (defun compile-stdin ()
   (with-compile ()
-    (let ((ir-forms '()))
+    (let ((ir-forms '())
+          (*package* (find-package :cl-user)))
       (do-forms (form *standard-input*)
         (push (pass1-toplevel form) ir-forms))
       (nreverse ir-forms))))
