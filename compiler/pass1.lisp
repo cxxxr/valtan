@@ -255,7 +255,7 @@
 (def-transform in-package (package)
   (let ((package (find-package package)))
     (setq *package* package)
-    package))
+    nil))
 
 (defun expand-quasiquote (x)
   (cond ((atom x)
