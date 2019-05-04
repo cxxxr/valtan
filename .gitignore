@@ -2,4 +2,6 @@ node_modules/
 .DS_Store
 *.fasl
 dist/
-example/main.lisp
+example/test.lisp
+example/example.js
+
