@@ -10,6 +10,34 @@
                   `(progn ,@(rest clause)))
              (cond ,@(rest clauses))))))
 
+(defmacro or (&rest forms)
+  (if (null forms)
+      nil
+      (let ((value (gensym)))
+        `(let ((,value ,(first forms)))
+           (if ,value
+               ,value
+               (or ,@(rest forms)))))))
+
+(defmacro and (&rest forms)
+  (cond ((null forms))
+        ((null (rest forms)) (first forms))
+        (t `(if ,(first forms)
+                (and ,@(rest forms))
+                nil))))
+
+(defmacro when (test &body forms)
+  `(if ,test
+       (progn ,@forms)))
+
+(defmacro unless (test &body forms)
+  `(if ,test
+       nil
+       (progn ,@forms)))
+
+(defun not (x)
+  (if x nil t))
+
 #|
 (defun gensyms (list)
   (mapcar (lambda (x)
