@@ -82,5 +82,14 @@
               (make-pathname :name name :type "lisp" :defaults base-path))
             '("control" "condition" "print" "cons"))))
 
-(defun build ()
-  (compile-files (get-lisp-files)))
+(defun build (&optional output-file)
+  (with-open-stream (*standard-output*
+                     (if output-file
+                         (open output-file
+                               :direction :output
+                               :if-exists :supersede
+                               :if-does-not-exist :create)
+                         (make-string-output-stream)))
+    (compile-files (get-lisp-files))
+    (unless output-file
+      (get-output-stream-string *standard-output*))))
