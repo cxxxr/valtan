@@ -89,7 +89,8 @@
                              "condition"
                              "print"
                              "cons"
-                             "array"))
+                             "array"
+                             "ffi"))
           #+(or)
           (directory-files "./compiler/"
                            '("util"

@@ -761,6 +761,16 @@
   (let ((arguments (pass1-ref-names name names)))
     (make-ir 'ffi:set return-value-p nil (pass1 value t nil) arguments)))
 
+(def-pass1-form ffi:var ((&rest vars) return-value-p multiple-values-p)
+  (make-ir 'ffi:var
+           return-value-p
+           multiple-values-p
+           (mapcar (lambda (var)
+                     (unless (or (symbolp var) (stringp var))
+                       (compile-error "~S is not a string designator" var))
+                     (string var))
+                   vars)))
+
 (defun pass1-toplevel (form)
   (let ((*lexenv* '()))
     (pass1 form nil nil)))

@@ -450,6 +450,15 @@
   (write-string " = ")
   (pass2 (ir-arg1 ir)))
 
+(def-emit ffi:var (ir)
+  (write-string "var ")
+  (do ((vars (ir-arg1 ir) (rest vars)))
+      ((null vars))
+    (write-string (first vars))
+    (when (rest vars)
+      (write-string ", ")))
+  (write-line ";"))
+
 (defun pass2 (ir)
   (funcall (gethash (ir-op ir) *emitter-table*) ir))
 

@@ -18,9 +18,11 @@
            :make-object
            :object-get
            :object-set
+           :var
            :ref
            :set
-           :instanceof))
+           :instanceof
+           :define-function))
 
 (defpackage :clscript-system
   (:use))
