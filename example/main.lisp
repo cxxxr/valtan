@@ -56,3 +56,15 @@
   (x 100))
 (ffi:console.log (make-bar))
 (ffi:console.log (make-bar :x 0))
+
+(defstruct (hoge (:constructor %make-hoge))
+  x
+  y
+  z)
+(ffi:console.log (%make-hoge :x 1 :y 2 :z 3))
+
+(defstruct (piyo (:constructor %make-hoge (x y z)))
+  x
+  y
+  z)
+(ffi:console.log (%make-hoge 100 200 300))
