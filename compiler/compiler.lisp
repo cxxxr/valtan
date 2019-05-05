@@ -40,7 +40,7 @@
         (warn "undefined function: ~S" name))
       (write-line "import * as lisp from 'lisp';")
       (loop :for (var . module) :in *require-modules*
-            :do (format t "var ~A = require('~A');~%" var module))
+            :do (format t "var ~A = require('~A');~%" (to-js-identier var) module))
       (pass2-toplevel-forms ir-forms))
     (values)))
 
