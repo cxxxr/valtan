@@ -22,7 +22,8 @@
            :ref
            :set
            :instanceof
-           :define-function))
+           :define-function
+           :require))
 
 (defpackage :clscript-system
   (:use))

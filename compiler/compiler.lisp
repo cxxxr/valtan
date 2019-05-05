@@ -39,8 +39,8 @@
       (dolist (name (set-difference *called-function-names* *defined-function-names*))
         (warn "undefined function: ~S" name))
       (write-line "import * as lisp from 'lisp';")
-      (dolist (module *require-modules*)
-        (format t "require('~A');~%" module))
+      (loop :for (var . module) :in *require-modules*
+            :do (format t "var ~A = require('~A');~%" var module))
       (pass2-toplevel-forms ir-forms))
     (values)))
 

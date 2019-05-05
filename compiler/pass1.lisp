@@ -738,10 +738,12 @@
          (setf (special-p symbol) t)))))
   (pass1-const nil return-value-p))
 
-(def-pass1-form require ((module-name) return-value-p multiple-values-p)
+(def-pass1-form ffi:require ((name module-name) return-value-p multiple-values-p)
+  (unless (or (symbolp name) (stringp name))
+    (compile-error "~S is not a string designator" name))
   (unless (stringp module-name)
     (compile-error "~S is not a string" module-name))
-  (push module-name *require-modules*)
+  (push (cons name module-name) *require-modules*)
   (pass1-const nil return-value-p))
 
 (defun pass1-ref-names (names)
