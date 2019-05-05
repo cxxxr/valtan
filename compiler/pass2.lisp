@@ -49,7 +49,7 @@
 (defun gen-var (prefix)
   (format nil "~A~D" prefix (incf *var-counter*)))
 
-(defun symbol-to-js-identier (symbol &optional prefix)
+(defun to-js-identier (value &optional prefix)
   (flet ((f (c)
            (or (cdr (assoc c *character-map*))
                (string c))))
@@ -57,13 +57,13 @@
       (when prefix (write-string prefix out))
       (map nil (lambda (c)
                  (write-string (f c) out))
-           (string symbol)))))
+           (princ-to-string value)))))
 
 (defun symbol-to-js-local-var (symbol)
-  (symbol-to-js-identier symbol "L_"))
+(to-js-identier symbol "L_"))
 
 (defun symbol-to-js-function-var (symbol)
-  (symbol-to-js-identier symbol "F_"))
+  (to-js-identier symbol "F_"))
 
 (defun symbol-to-js-global-var (symbol)
   (check-type symbol symbol)
@@ -231,7 +231,7 @@
   (ecase (binding-type var)
     ((:special)
      (let ((identier (symbol-to-js-global-var (binding-value var)))
-           (save-var (symbol-to-js-identier (binding-value var) "SAVE_")))
+           (save-var (to-js-identier (binding-value var) "SAVE_")))
        (format t "const ~A = ~A.value;~%" save-var identier)
        (format t "~A.value = " identier)
        (format finally-stream "~A.value = ~A;~%" identier save-var)))
@@ -268,7 +268,7 @@
             (let ((var (first opt))
                   (value (second opt)))
               (let ((keyword-var (symbol-to-js-global-var (fourth opt)))
-                    (supplied-var (symbol-to-js-identier (binding-value var) "SUPPLIED_")))
+                    (supplied-var (to-js-identier (binding-value var) "SUPPLIED_")))
                 (push keyword-var keyword-vars)
                 (format t "let ~A;~%" supplied-var)
                 (let ((loop-var (gen-temporary-js-var)))
