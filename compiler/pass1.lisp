@@ -316,7 +316,7 @@
         (cond ((and (consp form)
                     (eq 'declare (first form)))
                (setf declares (append (rest form) declares)))
-              ((and (stringp form) look-docstring-p)
+              ((and (stringp form) look-docstring-p (rest forms))
                (setq docstring form))
               (t
                (return (values forms declares docstring))))))))
