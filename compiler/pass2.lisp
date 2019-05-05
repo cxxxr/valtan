@@ -438,7 +438,7 @@
 (defun emit-ref (args)
   (do ((args args (rest args)))
       ((null args))
-    (write-string (first args))
+    (write-string (to-js-identier (first args)))
     (when (rest args)
       (write-string "."))))
 
@@ -454,7 +454,7 @@
   (write-string "var ")
   (do ((vars (ir-arg1 ir) (rest vars)))
       ((null vars))
-    (write-string (first vars))
+    (write-string (to-js-identier (first vars)))
     (when (rest vars)
       (write-string ", ")))
   (write-line ";"))
