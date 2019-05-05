@@ -278,7 +278,7 @@
                     (write-line "break;")
                     (write-line "}")))
                 (emit-declvar var finally-stream)
-                (format t "~A || " supplied-var)
+                (format t "~A !== undefined ? ~A : " supplied-var supplied-var)
                 (write-string "(")
                 (pass2 value)
                 (write-line ");")

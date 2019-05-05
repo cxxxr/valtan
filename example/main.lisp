@@ -1,5 +1,11 @@
 (ffi:console.log "hello world")
 
+(defun f1 (&key (foo 100))
+  foo)
+
+(ffi:console.log (f1))
+(ffi:console.log (f1 :foo 0))
+
 (dotimes (i 10)
   (ffi:console.log i))
 
