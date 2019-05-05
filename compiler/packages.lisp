@@ -23,7 +23,8 @@
            :set
            :instanceof
            :define-function
-           :require))
+           :require
+           :typeof))
 
 (defpackage :clscript-system
   (:use))

@@ -449,12 +449,20 @@
                              (mapcar (lambda (arg)
                                        (pass1 arg t nil))
                                      args))))))
-          ((consp fn)
-           (unless (eq 'lambda (first fn))
-             (compile-error "Illegal function call: ~S" form))
+          ((and (consp fn)
+                (eq 'lambda (first fn)))
            (pass1 (list* 'funcall fn args)
                   return-value-p
                   multiple-values-p))
+          ((and (consp fn)
+                (eq 'ffi:ref (first fn)))
+           (make-ir 'js-call
+                    return-value-p
+                    multiple-values-p
+                    (ir-arg1 (pass1 fn return-value-p nil))
+                    (mapcar (lambda (arg)
+                              (pass1 arg t nil))
+                            args)))
           (t
            (compile-error "Illegal function call: ~S" form)))))
 
@@ -760,7 +768,7 @@
 
 (def-pass1-form ffi:set ((&rest args) return-value-p multiple-values-p)
   (unless (<= 2 (length args))
-    (compile-error "invalid number of arguments"))
+    (compile-error "invalid number of arguments: ffi:set"))
   (let ((names (butlast args))
         (value (first (last args))))
     (let ((arguments (pass1-ref-names names)))
@@ -775,6 +783,12 @@
                        (compile-error "~S is not a string designator" var))
                      (string var))
                    vars)))
+
+(def-pass1-form ffi:typeof ((x) return-value-p multiple-values-p)
+  (make-ir 'ffi:typeof
+           return-value-p
+           nil
+           (pass1 x t nil)))
 
 (defun pass1-toplevel (form)
   (let ((*lexenv* '()))

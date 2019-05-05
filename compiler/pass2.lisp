@@ -459,6 +459,16 @@
       (write-string ", ")))
   (write-line ";"))
 
+(def-emit ffi:typeof (ir)
+  (write-string "(typeof ")
+  (pass2 (ir-arg1 ir))
+  (write-string ")"))
+
+(def-emit js-call (ir)
+  (emit-ref (ir-arg1 ir))
+  (write-string "(")
+  (emit-call-args ir))
+
 (defun pass2 (ir)
   (funcall (gethash (ir-op ir) *emitter-table*) ir))
 
