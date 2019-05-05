@@ -10,7 +10,9 @@
            :fset
            :add-global-macro
            :add-symbol-macro
-           :%error))
+           :%error
+           :make-structure
+           :structure-index))
 
 (defpackage :ffi
   (:use)

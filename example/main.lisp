@@ -39,3 +39,20 @@
 (f2 1 2)
 (f2 1 2 3)
 (f2 1 2 3 4)
+
+(ffi:console.log "==================== defstruct ====================")
+(defstruct foo
+  x y z)
+(ffi:console.log (make-foo))
+(ffi:console.log (make-foo :x 10 :y 20 :z 30))
+(ffi:console.log (make-foo :z 10 :x 20))
+(ffi:console.log (make-foo :y 100))
+(let ((foo (make-foo :x 12345 :y 200 :z 'foo)))
+  (ffi:console.log (foo-x foo))
+  (ffi:console.log (foo-y foo))
+  (ffi:console.log (foo-z foo)))
+
+(defstruct bar
+  (x 100))
+(ffi:console.log (make-bar))
+(ffi:console.log (make-bar :x 0))
