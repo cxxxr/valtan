@@ -446,9 +446,9 @@
   (emit-ref (ir-arg1 ir)))
 
 (def-emit ffi:set (ir)
-  (emit-ref (ir-arg2 ir))
+  (emit-ref (ir-arg1 ir))
   (write-string " = ")
-  (pass2 (ir-arg1 ir)))
+  (pass2 (ir-arg2 ir)))
 
 (def-emit ffi:var (ir)
   (write-string "var ")

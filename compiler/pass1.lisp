@@ -744,9 +744,8 @@
   (push module-name *require-modules*)
   (pass1-const nil return-value-p))
 
-(defun pass1-ref-names (name names)
-  (let ((names (cons name names))
-        (arguments '()))
+(defun pass1-ref-names (names)
+  (let ((arguments '()))
     (dolist (name names)
       (unless (or (symbolp name) (stringp name))
         (compile-error "~S is not a string designator" name))
@@ -754,12 +753,16 @@
     (nreverse arguments)))
 
 (def-pass1-form ffi:ref ((name &rest names) return-value-p multiple-values-p)
-  (let ((arguments (pass1-ref-names name names)))
+  (let ((arguments (pass1-ref-names (cons name names))))
     (make-ir 'ffi:ref return-value-p nil arguments)))
 
-(def-pass1-form ffi:set ((value name &rest names) return-value-p multiple-values-p)
-  (let ((arguments (pass1-ref-names name names)))
-    (make-ir 'ffi:set return-value-p nil (pass1 value t nil) arguments)))
+(def-pass1-form ffi:set ((&rest args) return-value-p multiple-values-p)
+  (unless (<= 2 (length args))
+    (compile-error "invalid number of arguments"))
+  (let ((names (butlast args))
+        (value (first (last args))))
+    (let ((arguments (pass1-ref-names names)))
+      (make-ir 'ffi:set return-value-p nil arguments (pass1 value t nil)))))
 
 (def-pass1-form ffi:var ((&rest vars) return-value-p multiple-values-p)
   (make-ir 'ffi:var
