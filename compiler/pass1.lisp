@@ -239,7 +239,7 @@
 
 (def-transform define-symbol-macro (name expansion)
   (setf (get-symbol-macro name) expansion)
-  `(system::add-symbol-macro ',name ',expansion))
+  `',name)
 
 (def-transform lambda (args &rest body)
   `(function (lambda ,args ,@body)))

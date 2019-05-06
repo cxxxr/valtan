@@ -10,6 +10,7 @@
 (defun ir-arg2 (ir) (second (ir-args ir)))
 (defun ir-arg3 (ir) (third (ir-args ir)))
 
+#+(or)
 (defmethod print-object ((ir ir) stream)
   (cond ((ir-arg3 ir)
          (format stream "(~S ~S ~S ~S)" (ir-op ir) (ir-arg1 ir) (ir-arg2 ir) (ir-arg3 ir)))
