@@ -5,3 +5,6 @@
      (ffi:var ,name)
      (ffi:set ,name
               (lambda ,arguments ,@body))))
+
+(defmacro ffi:console.log (&rest args)
+  `((ffi:ref |console| |log|) ,@args))
