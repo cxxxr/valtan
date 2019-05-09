@@ -1,4 +1,5 @@
 (ffi:console.log "hello world")
+(ffi:console.log (list 1 2 3))
 
 (defun f1 (&key (foo 100))
   foo)

@@ -103,7 +103,7 @@
   )
 
 (defun list (&rest list)
-  )
+  list)
 
 (defun list* (arg &rest args)
   )
