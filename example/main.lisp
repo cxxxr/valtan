@@ -68,3 +68,6 @@
   y
   z)
 (ffi:console.log (%make-hoge 100 200 300))
+
+(ffi:console.log "==================== Symbol ====================")
+;(ffi:console.log (symbol-plist 'foo))
