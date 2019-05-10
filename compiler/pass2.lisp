@@ -141,13 +141,22 @@
                    `(setf (gethash ',op *emitter-table*) ',name))
                  (if (consp op) op (list op))))))
 
+(defun emit-literal (x)
+  (etypecase x
+    (null (princ "lisp.nilValue"))
+    (symbol (princ (symbol-to-js-global-var x)))
+    (string (prin1 x))
+    (number (princ x))
+    (cons
+     (princ "lisp.cons(")
+     (emit-literal (car x))
+     (princ ", ")
+     (emit-literal (cdr x))
+     (princ ")")))
+  (values))
+
 (def-emit const (ir)
-  (let ((value (ir-arg1 ir)))
-    (typecase value
-      (null (princ "lisp.nilValue"))
-      (symbol (princ (symbol-to-js-global-var value)))
-      (string (prin1 value))
-      (otherwise (princ value)))))
+  (emit-literal (ir-arg1 ir)))
 
 (def-emit lref (ir)
   (let ((binding (ir-arg1 ir)))
