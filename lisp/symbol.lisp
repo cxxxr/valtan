@@ -7,7 +7,7 @@
       (return (cadr list)))))
 
 (defun get (symbol indicator &optional default)
-  (getf (symbol-plist symbol) indicator))
+  (getf (symbol-plist symbol) indicator default))
 
 (defun %put (symbol indicator value)
   (let* ((plist (symbol-plist symbol))

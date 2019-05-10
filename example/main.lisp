@@ -33,6 +33,7 @@
 (ffi:console.log (list* 1))
 (ffi:console.log (list* 1 2))
 (ffi:console.log (list* 1 2 3))
+(ffi:console.log "member" (member 2 (list 1 2 3)))
 
 (ffi:console.log "==================== &rest ====================")
 (defun f1 (&rest args)
@@ -80,3 +81,5 @@
 (ffi:console.log (symbol-plist 'foo))
 (system::put-symbol-plist 'foo (list 'a 1 'b 2))
 (ffi:console.log (symbol-plist 'foo))
+(setf (get 'aaa 'key1) 100)
+(ffi:console.log (get 'aaa 'key1))

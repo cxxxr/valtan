@@ -202,8 +202,22 @@
 
 (defsetf rest rplacd)
 
-(defun member (item list &key key test test-not)
-  )
+(defun member (item list &key (key nil key-p) (test nil test-p) (test-not nil test-not-p))
+  (cond ((not (or key-p test-p test-not-p))
+         (do ((rest list (cdr rest)))
+             ((null rest))
+           (when (eql item (car rest))
+             (return rest))))
+        (t
+         (do ((rest list (cdr rest)))
+             ((null rest))
+           (when (cond (test-p
+                        (funcall test item (funcall key (car rest))))
+                       (test-not-p
+                        (not (funcall test-not item (funcall key (car rest)))))
+                       (t
+                        (eql test item (funcall key (car rest)))))
+             (return list))))))
 
 (defun member-if (predicate list &key key)
   )

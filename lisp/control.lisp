@@ -1,5 +1,8 @@
 (in-package :common-lisp)
 
+(defmacro return (&optional value)
+  `(return-from nil ,value))
+
 (defmacro cond (&rest clauses)
   (if (null clauses)
       nil
@@ -174,22 +177,23 @@
 
 (defmacro do (varlist endlist &body body)
   (let ((g-start (gensym)))
-    `(let ,(mapcar (lambda (var-spec)
-                     `(,(first var-spec)
-                       ,(second var-spec)))
-                   varlist)
-       (tagbody
-         ,g-start
-         (if ,(first endlist)
-             (progn
-               ,@(rest endlist))
-             (progn
-               (tagbody ,@body)
-               (psetq ,@(mapcan (lambda (var-spec)
-                                  `(,(first var-spec)
-                                    ,(third var-spec)))
-                                varlist))
-               (go ,g-start)))))))
+    `(block nil
+       (let ,(mapcar (lambda (var-spec)
+                       `(,(first var-spec)
+                         ,(second var-spec)))
+                     varlist)
+         (tagbody
+           ,g-start
+           (if ,(first endlist)
+               (progn
+                 ,@(rest endlist))
+               (progn
+                 (tagbody ,@body)
+                 (psetq ,@(mapcan (lambda (var-spec)
+                                    `(,(first var-spec)
+                                      ,(third var-spec)))
+                                  varlist))
+                 (go ,g-start))))))))
 
 (defmacro dotimes ((var expr &optional result) &body body)
   (let ((g-expr (gensym)))

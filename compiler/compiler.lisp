@@ -89,6 +89,7 @@
                              "condition"
                              "print"
                              "cons"
+                             "symbol"
                              "array"
                              "struct"
                              "ffi"))
