@@ -27,6 +27,9 @@
 (let ((x (cons 1 2)))
   (ffi:console.log (rplaca x 100))
   (ffi:console.log (rplacd x 200)))
+(let ((x (cons 1 2)))
+  (setf (first x) 100)
+  (ffi:console.log x))
 
 (ffi:console.log "==================== &rest ====================")
 (defun f1 (&rest args)
