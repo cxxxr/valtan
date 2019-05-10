@@ -201,3 +201,17 @@
        (do ((,var 0 (+ ,var 1)))
            ((>= ,var ,g-expr) ,result)
          ,@body))))
+
+(defmacro dolist ((var expr &optional result) &body body)
+  (let ((g-list (gensym))
+        (g-start (gensym)))
+    `(block nil
+       (let ((,g-list ,expr))
+         (tagbody
+           ,g-start
+           (unless (endp ,g-list)
+             (let ((,var (car ,g-list)))
+               (setq ,g-list (cdr ,g-list))
+               (tagbody ,@body))
+             (go ,g-start))))
+       ,result)))

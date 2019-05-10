@@ -18,6 +18,6 @@
                                   (list* indicator value plist)))
     value))
 
-(defsetf get (symbol indicator &optional default)
+(defsetf get (symbol indicator)
     (value)
   `(%put ,symbol ,indicator ,value))
