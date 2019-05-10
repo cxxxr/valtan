@@ -75,3 +75,5 @@
 
 (ffi:console.log "==================== Symbol ====================")
 (ffi:console.log (symbol-plist 'foo))
+(system::put-symbol-plist 'foo (list 'a 1 'b 2))
+(ffi:console.log (symbol-plist 'foo))
