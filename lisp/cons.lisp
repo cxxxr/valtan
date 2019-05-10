@@ -106,7 +106,15 @@
   list)
 
 (defun list* (arg &rest args)
-  )
+  (labels ((f (args)
+             (cond ((null (cdr args))
+                    (car args))
+                   (t
+                    (cons (car args)
+                          (f (cdr args)))))))
+    (if (null args)
+        arg
+        (cons arg (f args)))))
 
 (defun list-length (list)
   )

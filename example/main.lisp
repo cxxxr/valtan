@@ -30,6 +30,9 @@
 (let ((x (cons 1 2)))
   (setf (first x) 100)
   (ffi:console.log x))
+(ffi:console.log (list* 1))
+(ffi:console.log (list* 1 2))
+(ffi:console.log (list* 1 2 3))
 
 (ffi:console.log "==================== &rest ====================")
 (defun f1 (&rest args)
