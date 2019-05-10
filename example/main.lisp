@@ -13,6 +13,23 @@
 (dolist (i (list 1 2 3))
   (ffi:console.log i))
 
+(dolist (x (list 'foo 'bar 'baz))
+  (ffi:console.log "case" x
+                   (case x
+                     (foo 100)
+                     (bar 200)
+                     (otherwise 300))))
+
+(dolist (k '(1 2 3 :four v () t 'other))
+  (ffi:console.log
+   (case k ((1 2) 'clause1)
+         (3 'clause2)
+         (nil 'no-keys-so-never-seen)
+         ((nil) 'nilslot)
+         ((:four v) 'clause4)
+         ((t) 'tslot)
+         (otherwise 'others))))
+
 (defun fact (n)
   (cond ((= n 0) 1)
         (t (* n (fact (- n 1))))))

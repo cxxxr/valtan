@@ -215,3 +215,17 @@
                (tagbody ,@body))
              (go ,g-start))))
        ,result)))
+
+(defmacro case (keyform &body cases)
+  (let ((var (gensym)))
+    `(let ((,var ,keyform))
+       (cond ,@(mapcar (lambda (c)
+                         (cond ((eq 'otherwise (car c))
+                                `(t ,@(cdr c)))
+                               ((listp (car c))
+                                `((member ,var ',(car c))
+                                  ,@(cdr c)))
+                               (t
+                                `((eql ,var ',(car c))
+                                  ,@(cdr c)))))
+                       cases)))))
