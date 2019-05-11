@@ -229,7 +229,17 @@
 
 (def-transform defun (name lambda-list &rest body)
   (pushnew name *defined-function-names*)
-  `(system::fset ',name (lambda ,lambda-list ,@body)))
+  (cond ((and (consp name)
+              (eq 'setf (first name))
+              (= 2 (length name))
+              (proper-list-p name)
+              (variable-symbol-p (second name)))
+         ;; TODO
+         )
+        ((variable-symbol-p name)
+         `(system::fset ',name (lambda ,lambda-list ,@body)))
+        (t
+         (compile-error "The NAME argument to DEFUN, ~S, is not a function name." name))))
 
 (def-transform defmacro (name lambda-list &rest body)
   (let* ((args (gensym))
