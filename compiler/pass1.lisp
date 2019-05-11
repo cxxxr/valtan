@@ -494,24 +494,26 @@
            (compile-error "Illegal function call: ~S" form)))))
 
 (defun pass1 (form return-value-p multiple-values-p)
-  (let ((*compile-level* (1+ *compile-level*)))
-    (multiple-value-bind (form expanded-p)
-        (%macroexpand-1 form)
-      (cond (expanded-p
-             (pass1 form return-value-p multiple-values-p))
-            ((null form)
-             (pass1-const nil return-value-p))
-            ((keywordp form)
-             (pass1-const form return-value-p))
-            ((symbolp form)
-             (pass1-refvar form return-value-p))
-            ((atom form)
-             (pass1-const form return-value-p))
-            (t
-             (let ((fn (gethash (first form) *pass1-form-table*)))
-               (if fn
-                   (apply fn return-value-p multiple-values-p (rest form))
-                   (pass1-call form return-value-p multiple-values-p))))))))
+  (multiple-value-bind (form expanded-p)
+      (%macroexpand-1 form)
+    (cond (expanded-p
+           (pass1 form return-value-p multiple-values-p))
+          ((null form)
+           (pass1-const nil return-value-p))
+          ((keywordp form)
+           (pass1-const form return-value-p))
+          ((symbolp form)
+           (pass1-refvar form return-value-p))
+          ((atom form)
+           (pass1-const form return-value-p))
+          (t
+           (let ((fn (gethash (first form) *pass1-form-table*))
+                 (*compile-level* (if (eq 'progn (first form))
+                                      *compile-level*
+                                      (1+ *compile-level*))))
+             (if fn
+                 (apply fn return-value-p multiple-values-p (rest form))
+                 (pass1-call form return-value-p multiple-values-p)))))))
 
 (def-pass1-form quote ((x) return-value-p multiple-values-p)
   (pass1-const x return-value-p))
@@ -775,7 +777,7 @@
   (pass1-const nil return-value-p))
 
 (def-pass1-form eval-when ((situations &rest body) return-value-p multiple-values-p)
-  (cond ((<= *compile-level* 0)
+  (cond ((>= 0 *compile-level*)
          (when (or (member :compile-toplevel situations)
                    (member 'compile situations))
            (eval `(progn ,@body)))
