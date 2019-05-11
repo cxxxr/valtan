@@ -48,44 +48,6 @@
          (let* ,(rest bindings)
            ,@body))))
 
-#|
-(defun gensyms (list)
-  (mapcar (lambda (x)
-            (declare (ignore x))
-            (gensym))
-          list))
-
-;; 内部でevalを使っていて今はターゲット側で処理できないのでコメントアウト
-(defun get-setf-expansion (place &optional environment)
-  (declare (ignore environment))
-  (let ((setf-expander nil))
-    (cond ((and (consp place)
-                (setq setf-expander (get (first place) 'setf-expander)))
-           (if (symbolp setf-expander)
-               (let ((vars (gensyms (rest place)))
-                     (store (gensym "STORE")))
-                 (values vars
-                         (rest place)
-                         (list store)
-                         `(,setf-expander ,@vars ,store)
-                         `(,(first place) ,@vars)))
-               (let ((vars (gensyms (rest place)))
-                     (store (gensym "STORE"))
-                     (fn (eval `(lambda ,(first setf-expander)
-                                  (lambda ,@(rest setf-expander))))))
-                 (values vars
-                         (rest place)
-                         (list store)
-                         (funcall (apply fn vars) store)
-                         `(,(first place) ,@vars)))))
-          ;; TODO: マクロはホスト側で管理しているのでコンパイラ内の情報を参照する必要があるはず
-          ;; ((and (consp place) (symbolp (first place)) (macro-function (first place)))
-          ;;  (get-setf-expansion (macroexpand place)))
-          (t
-           (let ((store (gensym)))
-             (values nil nil (list store) `(setq ,place ,store) place))))))
-|#
-
 (defmacro setf (&rest pairs)
   (labels ((gensyms (list)
              (mapcar (lambda (x)
@@ -99,23 +61,27 @@
              (let ((setf-expander nil))
                (cond ((and (consp place)
                            (setq setf-expander (get (first place) 'setf-expander)))
-                      (if (symbolp setf-expander)
-                          (let ((vars (gensyms (rest place)))
-                                (store (gensym "STORE")))
-                            (values vars
-                                    (rest place)
-                                    (list store)
-                                    `(,setf-expander ,@vars ,store)
-                                    `(,(first place) ,@vars)))
-                          (let ((vars (gensyms (rest place)))
-                                (store (gensym "STORE"))
-                                (fn (eval `(lambda ,(first setf-expander)
-                                             (lambda ,@(rest setf-expander))))))
-                            (values vars
-                                    (rest place)
-                                    (list store)
-                                    (funcall (apply fn vars) store)
-                                    `(,(first place) ,@vars)))))
+                      (cond
+                        ((symbolp setf-expander)
+                         (let ((vars (gensyms (rest place)))
+                               (store (gensym "STORE")))
+                           (values vars
+                                   (rest place)
+                                   (list store)
+                                   `(,setf-expander ,@vars ,store)
+                                   `(,(first place) ,@vars))))
+                        ((consp setf-expander)
+                         (let ((vars (gensyms (rest place)))
+                               (store (gensym "STORE"))
+                               (fn (eval `(lambda ,(first setf-expander)
+                                            (lambda ,@(rest setf-expander))))))
+                           (values vars
+                                   (rest place)
+                                   (list store)
+                                   (funcall (apply fn vars) store)
+                                   `(,(first place) ,@vars))))
+                        ((functionp setf-expander)
+                         (funcall setf-expander (rest place)))))
                      ;; TODO: マクロはホスト側で管理しているので
                      ;; コンパイラ内の情報を参照する必要があるはず
                      ;; ((and (consp place) (symbolp (first place)) (macro-function (first place)))
@@ -153,6 +119,21 @@
          `(progn
             ;(setf (get ',access-fn 'setf-expander) ',rest)
             ',access-fn))))
+
+(defmacro define-setf-expander (access-fn lambda-list &body body)
+  (unless (symbolp access-fn)
+    (error "DEFINE-SETF-EXPANDER access-function name ~S is not a symbol." access-fn))
+  (let ((g-rest (gensym)))
+    (setf (get access-fn 'setf-expander)
+          (eval `(lambda (,g-rest)
+                   (destructuring-bind ,lambda-list ,g-rest ,@body))))
+    `',access-fn
+    #+(or)
+    `(eval-when (#|:compile-toplevel :load-toplevel|# :execute)
+       (setf (get ',access-fn 'setf-expander)
+             (lambda (,g-rest)
+               (destructuring-bind ,lambda-list ,g-rest ,@body)))
+       ',access-fn)))
 
 (defmacro psetq (&rest pairs)
   (when (oddp (length pairs))

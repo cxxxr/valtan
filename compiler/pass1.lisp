@@ -235,8 +235,24 @@
               (= 2 (length name))
               (proper-list-p name)
               (variable-symbol-p (second name)))
-         ;; TODO
-         )
+         (let ((gensyms (gensym "GENSYMS"))
+               (g-args (gensym "ARGS"))
+               (g-store (gensym "STORE"))
+               (g-setter (gensym "SETTER"))
+               (setf-fn (intern (format nil "(SETF ~A)" (second name))
+                                (symbol-package (second name)))))
+           `(progn
+              (defun ,setf-fn ,lambda-list ,@body)
+              (define-setf-expander ,(second name) (&rest ,g-args)
+                (let ((,gensyms (mapcar (lambda (x) (gensym (string x)))
+                                        ,g-args))
+                      (,g-store (gensym "G-STORE"))
+                      (,g-setter ',setf-fn))
+                  (values ,gensyms
+                          ,g-args
+                          (list ,g-store)
+                          (list* ,g-setter ,g-store ,g-args)
+                          nil))))))
         ((variable-symbol-p name)
          `(system::fset ',name (lambda ,lambda-list ,@body)))
         (t

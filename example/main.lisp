@@ -48,7 +48,7 @@
   (ffi:console.log (rplaca x 100))
   (ffi:console.log (rplacd x 200)))
 (let ((x (cons 1 2)))
-  (setf (first x) 100)
+  (setf (car x) 849213482)
   (ffi:console.log x))
 (ffi:console.log (list* 1))
 (ffi:console.log (list* 1 2))

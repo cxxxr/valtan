@@ -93,6 +93,7 @@
                              "array"
                              "struct"
                              "ffi"))
+          #+(or)
           (directory-files "./compiler/"
                            '("util"
                              "error"
