@@ -61,6 +61,9 @@
                                                slot-desc))
                                 (accessor (intern (format nil "~A-~A" name slot-name))))
                            (incf i)
-                           `(defun ,accessor (structure)
-                              (system:structure-index structure ,i))))
+                           `(progn
+                              (defun ,accessor (structure)
+                                (system:structure-ref structure ,i))
+                              (defun (setf ,accessor) (value structure)
+                                (system:structure-set structure ,i value)))))
                        slot-descriptions)))))))

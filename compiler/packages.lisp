@@ -12,7 +12,8 @@
            :add-symbol-macro
            :%error
            :make-structure
-           :structure-index))
+           :structure-ref
+           :structure-set))
 
 (defpackage :ffi
   (:use)

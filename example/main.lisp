@@ -95,7 +95,10 @@
   x
   y
   z)
-(ffi:console.log (%make-hoge 100 200 300))
+(let ((piyo (%make-hoge 100 200 300)))
+  (ffi:console.log piyo)
+  (setf (piyo-x piyo) 'test)
+  (ffi:console.log piyo (piyo-x piyo)))
 
 (ffi:console.log "==================== Symbol ====================")
 (ffi:console.log (symbol-plist 'foo))
