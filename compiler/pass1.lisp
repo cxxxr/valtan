@@ -844,6 +844,16 @@
                      (pass1 arg t nil))
                    args)))
 
+(def-pass1-form ffi:index ((array index &rest other-indexes) return-value-p multiple-value-p)
+  (make-ir 'ffi:index
+           return-value-p
+           nil
+           (pass1 array t nil)
+           (cons (pass1 index t nil)
+                 (mapcar (lambda (x)
+                           (pass1 x t nil))
+                         other-indexes))))
+
 (defun pass1-toplevel (form)
   (let ((*lexenv* '())
         (*compile-level* -1))

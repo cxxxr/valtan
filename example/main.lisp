@@ -39,7 +39,10 @@
 (ffi:console.log (make-array 3))
 (ffi:console.log (make-array 3 :initial-element 100))
 
-(ffi:console.log (ffi:new "Array" 10))
+(ffi:console.log "==================== JS Array ====================")
+(let ((x (ffi:new (ffi:ref "Array") 10)))
+  (ffi:console.log x)
+  (ffi:console.log (ffi:index x 0)))
 
 (ffi:console.log "==================== cons ====================")
 (ffi:console.log (cons 1 2))

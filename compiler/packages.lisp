@@ -28,7 +28,8 @@
            :define-function
            :require
            :typeof
-           :new))
+           :new
+           :index))
 
 (defpackage :clscript-system
   (:use))

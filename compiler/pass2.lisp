@@ -212,6 +212,12 @@
     (write-line "throw new Error('invalid number of arguments');")
     (write-line "}")))
 
+(defmacro with-emit-paren (&body body)
+  `(progn
+     (write-string "(")
+     ,@body
+     (write-string ")")))
+
 (defmacro emit-try-finally (try finally)
   `(progn
      (write-line "try {")
@@ -455,10 +461,12 @@
   (emit-ref (ir-arg1 ir)))
 
 (def-emit ffi:set (ir)
-  (emit-ref (ir-arg1 ir))
-  (write-string " = ")
-  (pass2 (ir-arg2 ir)))
+  (with-emit-paren
+    (emit-ref (ir-arg1 ir))
+    (write-string " = ")
+    (pass2 (ir-arg2 ir))))
 
+;; TODO: これは使えない位置があるはずだけどエラーチェックをしていない
 (def-emit ffi:var (ir)
   (write-string "var ")
   (do ((vars (ir-arg1 ir) (rest vars)))
@@ -469,15 +477,25 @@
   (write-line ";"))
 
 (def-emit ffi:typeof (ir)
-  (write-string "(typeof ")
-  (pass2 (ir-arg1 ir))
-  (write-string ")"))
+  (with-emit-paren
+    (write-string "typeof ")
+    (pass2 (ir-arg1 ir))))
 
 (def-emit ffi:new (ir)
-  (write-string "new ")
-  (pass2 (ir-arg1 ir))
-  (write-string "(")
-  (emit-call-args (ir-arg2 ir)))
+  (with-emit-paren
+    (write-string "new ")
+    (pass2 (ir-arg1 ir))
+    (write-string "(")
+    (emit-call-args (ir-arg2 ir))))
+
+(def-emit ffi:index (ir)
+  (with-emit-paren
+    (with-emit-paren
+      (pass2 (ir-arg1 ir)))
+    (dolist (index (ir-arg2 ir))
+      (write-string "[")
+      (pass2 index)
+      (write-string "]"))))
 
 (def-emit js-call (ir)
   (emit-ref (ir-arg1 ir))
