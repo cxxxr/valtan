@@ -6,7 +6,7 @@
 (defvar *defined-function-names* '())
 (defvar *called-function-names* '())
 (defvar *lexenv*)
-(defvar *compile-level* -1) ;; XXX: prognでもlevelが増えてしまう問題がある
+(defvar *compile-level* -1)
 
 (defun make-variable-binding (symbol &optional (special-p (special-p symbol)))
   (make-binding :type (if special-p :special :variable)

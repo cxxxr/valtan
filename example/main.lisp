@@ -91,14 +91,19 @@
   z)
 (ffi:console.log (%make-hoge :x 1 :y 2 :z 3))
 
-(defstruct (piyo (:constructor %make-hoge (x y z)))
+(defstruct (piyo (:constructor %make-piyo (x y z)))
   x
   y
   z)
-(let ((piyo (%make-hoge 100 200 300)))
+(let ((piyo (%make-piyo 100 200 300)))
   (ffi:console.log piyo)
   (setf (piyo-x piyo) 'test)
   (ffi:console.log piyo (piyo-x piyo)))
+
+(let ((piyo (%make-piyo 1 2 3)))
+  (ffi:console.log (eq piyo piyo))
+  (ffi:console.log (eq piyo (copy-structure piyo)))
+  (ffi:console.log (eq piyo (copy-piyo piyo))))
 
 (ffi:console.log "==================== Symbol ====================")
 (ffi:console.log (symbol-plist 'foo))

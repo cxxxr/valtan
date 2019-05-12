@@ -7,13 +7,15 @@
         (options (if (consp name-and-options)
                      (rest name-and-options))))
     (check-type name symbol)
-    (let (conc-name-option
-          constructor-option
-          copier-option
-          predicate-option
-          included-option
-          type-option
-          named-option)
+    (let* (conc-name-option
+           constructor-option
+           predicate-option
+           included-option
+           type-option
+           named-option
+           (copier-function-name
+             (intern (format nil "COPY-~A" name)
+                     (symbol-package name))))
       (dolist (option options)
         (unless (consp option) (setq option (list option)))
         (ecase (first option)
@@ -21,8 +23,9 @@
            (setq conc-name-option (second option)))
           (:constructor
            (setq constructor-option (rest option)))
-          (:copier-option
-           (setq copier-option (second option)))
+          (:copier
+           (unless (null (rest option))
+             (setq copier-function-name (second option))))
           (:predicate
            (setq predicate-option (second option)))
           (:include
@@ -37,6 +40,9 @@
                                   (first constructor-option)
                                   (intern (format nil "MAKE-~A" name)))))
         `(progn
+           ,@(unless (null copier-function-name)
+               `((defun ,copier-function-name (x)
+                   (copy-structure x))))
            (defun ,constructor-name ,(if (and constructor-option
                                               (rest constructor-option))
                                          (second constructor-option)
