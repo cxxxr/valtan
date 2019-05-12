@@ -122,4 +122,5 @@
 (ffi:console.log "==================== Hash Table ====================")
 (let ((x (make-hash-table)))
   (ffi:console.log x)
-  (ffi:console.log (hash-table-p x)))
+  (ffi:console.log (hash-table-p x))
+  (ffi:console.log (hash-table-count x)))
