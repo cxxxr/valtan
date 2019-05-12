@@ -84,24 +84,17 @@
             files)))
 
 (defun get-lisp-files ()
-  (append (directory-files "./lisp/"
-                           '("control"
-                             "condition"
-                             "print"
-                             "cons"
-                             "symbol"
-                             "type"
-                             "struct"
-                             "array"
-                             "hashtable"
-                             "ffi"))
-          #+(or)
-          (directory-files "./compiler/"
-                           '("util"
-                             "error"
-                             "ir"
-                             "pass1"
-                             "pass2"))))
+  (directory-files "./lisp/"
+                   '("control"
+                     "condition"
+                     "print"
+                     "cons"
+                     "symbol"
+                     "type"
+                     "struct"
+                     "array"
+                     "hashtable"
+                     "ffi")))
 
 (defun build (pathnames &optional output)
   (with-open-stream (*standard-output*
@@ -110,6 +103,16 @@
     (compile-files pathnames)
     (unless output
       (get-output-stream-string *standard-output*))))
+
+(defun build-self (&optional output)
+  (build (and (get-lisp-files)
+              (directory-files "./compiler/"
+                               '("util"
+                                 "error"
+                                 "ir"
+                                 "pass1"
+                                 "pass2")))
+         output))
 
 (defparameter *module-table* (make-hash-table))
 (defvar *module-directory*)
