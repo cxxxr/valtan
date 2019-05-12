@@ -42,6 +42,7 @@
 (ffi:console.log "==================== JS Array ====================")
 (let ((x (ffi:new (ffi:ref "Array") 10)))
   (ffi:console.log x)
+  (ffi:set (ffi:index x 0) "a")
   (ffi:console.log (ffi:index x 0)))
 
 (ffi:console.log "==================== cons ====================")

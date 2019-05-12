@@ -811,13 +811,12 @@
   (let ((arguments (pass1-ref-names (cons name names))))
     (make-ir 'ffi:ref return-value-p nil arguments)))
 
-(def-pass1-form ffi:set ((&rest args) return-value-p multiple-values-p)
-  (unless (<= 2 (length args))
-    (compile-error "invalid number of arguments: ffi:set"))
-  (let ((names (butlast args))
-        (value (first (last args))))
-    (let ((arguments (pass1-ref-names names)))
-      (make-ir 'ffi:set return-value-p nil arguments (pass1 value t nil)))))
+(def-pass1-form ffi:set ((lhs rhs) return-value-p multiple-values-p)
+  (make-ir 'ffi:set
+           return-value-p
+           nil
+           (pass1 lhs t nil)
+           (pass1 rhs t nil)))
 
 (def-pass1-form ffi:var ((&rest vars) return-value-p multiple-values-p)
   (make-ir 'ffi:var

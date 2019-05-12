@@ -462,7 +462,7 @@
 
 (def-emit ffi:set (ir)
   (with-emit-paren
-    (emit-ref (ir-arg1 ir))
+    (pass2 (ir-arg1 ir))
     (write-string " = ")
     (pass2 (ir-arg2 ir))))
 
