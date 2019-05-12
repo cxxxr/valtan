@@ -39,6 +39,8 @@
 (ffi:console.log (make-array 3))
 (ffi:console.log (make-array 3 :initial-element 100))
 
+(ffi:console.log (ffi:new "Array" 10))
+
 (ffi:console.log "==================== cons ====================")
 (ffi:console.log (cons 1 2))
 (ffi:console.log (car (cons 1 2)))

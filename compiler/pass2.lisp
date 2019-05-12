@@ -338,8 +338,8 @@
       (get-output-stream-string finally-stream))
     (pass2-exit (ir-return-value-p ir))))
 
-(defun emit-call-args (ir)
-  (do ((arg* (ir-arg2 ir) (rest arg*)))
+(defun emit-call-args (args)
+  (do ((arg* args (rest arg*)))
       ((null arg*))
     (pass2 (first arg*))
     (unless (null (rest arg*))
@@ -348,14 +348,14 @@
 
 (def-emit lcall (ir)
   (format t "~A(" (symbol-to-js-function-var (binding-name (ir-arg1 ir))))
-  (emit-call-args ir))
+  (emit-call-args (ir-arg2 ir)))
 
 (def-emit call (ir)
   (let ((symbol (ir-arg1 ir)))
     (format t "lisp.call_function(~A" (symbol-to-js-global-var symbol))
     (when (ir-arg2 ir)
       (write-string ", ")))
-  (emit-call-args ir))
+  (emit-call-args (ir-arg2 ir)))
 
 (def-emit unwind-protect (ir)
   (pass2-enter (ir-return-value-p ir))
@@ -473,10 +473,16 @@
   (pass2 (ir-arg1 ir))
   (write-string ")"))
 
+(def-emit ffi:new (ir)
+  (write-string "new ")
+  (pass2 (ir-arg1 ir))
+  (write-string "(")
+  (emit-call-args (ir-arg2 ir)))
+
 (def-emit js-call (ir)
   (emit-ref (ir-arg1 ir))
   (write-string "(")
-  (emit-call-args ir))
+  (emit-call-args (ir-arg2 ir)))
 
 (defun pass2 (ir)
   (funcall (gethash (ir-op ir) *emitter-table*) ir))

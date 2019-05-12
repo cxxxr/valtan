@@ -835,6 +835,15 @@
            nil
            (pass1 x t nil)))
 
+(def-pass1-form ffi:new ((constructor &rest args) return-value-p multiple-values-p)
+  (make-ir 'ffi:new
+           return-value-p
+           nil
+           (pass1 constructor t nil)
+           (mapcar (lambda (arg)
+                     (pass1 arg t nil))
+                   args)))
+
 (defun pass1-toplevel (form)
   (let ((*lexenv* '())
         (*compile-level* -1))
