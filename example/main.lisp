@@ -123,4 +123,7 @@
 (let ((x (make-hash-table)))
   (ffi:console.log x)
   (ffi:console.log (hash-table-p x))
-  (ffi:console.log (hash-table-count x)))
+  (ffi:console.log (hash-table-count x))
+  (ffi:console.log (gethash "key1" x))
+  (ffi:console.log (setf (gethash "key1" x) "value"))
+  (ffi:console.log (gethash "key1" x)))

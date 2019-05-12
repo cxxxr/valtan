@@ -17,7 +17,7 @@
   (test :read-only t)
   (size :read-only t)
   (rehash-size :read-only t)
-  (rehahs-threshold :read-only t))
+  (rehash-threshold :read-only t))
 
 (defun make-hash-table (&key test size rehash-size rehash-threshold)
   (%make-hash-table :object (ffi:make-object)
@@ -30,3 +30,12 @@
 (defun hash-table-count (hash-table)
   (hash-table-count* hash-table))
 
+(defun gethash (key hash-table &optional default)
+  (let ((value (ffi:object-get (hash-table-object hash-table) key)))
+    (if (eq (ffi:typeof value) "undefined")
+        (values default nil)
+        (values value t))))
+
+(defun (setf gethash) (value key hash-table &optional default)
+  (ffi:object-set (hash-table-object hash-table) key value)
+  value)

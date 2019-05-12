@@ -85,7 +85,8 @@
 
 (defun get-lisp-files ()
   (directory-files "./lisp/"
-                   '("control"
+                   '("ffi"
+                     "control"
                      "condition"
                      "print"
                      "cons"
@@ -93,8 +94,7 @@
                      "type"
                      "struct"
                      "array"
-                     "hashtable"
-                     "ffi")))
+                     "hashtable")))
 
 (defun build (pathnames &optional output)
   (with-open-stream (*standard-output*
