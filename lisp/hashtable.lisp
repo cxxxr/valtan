@@ -8,9 +8,16 @@
           hash-table-rehash-size
           hash-table-rehash-threshold
           make-hash-table
-          hash-table-count))
+          hash-table-count
+          gethash
+          remhash
+          maphash
+          with-hash-table-iterator
+          clrhash
+          sxhash))
 
 (defstruct (hash-table (:copier nil)
+                       (:predicate hash-table-p)
                        (:constructor %make-hash-table))
   object
   count*
@@ -39,3 +46,10 @@
 (defun (setf gethash) (value key hash-table &optional default)
   (ffi:object-set (hash-table-object hash-table) key value)
   value)
+
+(defun remhash (key hash-table)
+  (multiple-value-bind (value found)
+      (gethash key hash-table)
+    (declare (ignore value))
+    (setf (gethash key hash-table) (ffi:ref "undefined"))
+    found))

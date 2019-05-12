@@ -126,4 +126,7 @@
   (ffi:console.log (hash-table-count x))
   (ffi:console.log (gethash "key1" x))
   (ffi:console.log (setf (gethash "key1" x) "value"))
-  (ffi:console.log (gethash "key1" x)))
+  (ffi:console.log (gethash "key1" x))
+  (ffi:console.log (remhash "key2" x))
+  (ffi:console.log (remhash "key1" x))
+  (ffi:console.log (remhash "key1" x)))
