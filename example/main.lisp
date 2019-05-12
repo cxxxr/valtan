@@ -117,3 +117,6 @@
 (ffi:console.log (symbol-plist 'foo))
 (setf (get 'aaa 'key1) 100)
 (ffi:console.log (get 'aaa 'key1))
+
+(ffi:console.log "==================== Hash Table ====================")
+(ffi:console.log (make-hash-table))

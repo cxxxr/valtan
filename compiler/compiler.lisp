@@ -90,8 +90,9 @@
                              "print"
                              "cons"
                              "symbol"
-                             "array"
                              "struct"
+                             "array"
+                             "hashtable"
                              "ffi"))
           #+(or)
           (directory-files "./compiler/"
