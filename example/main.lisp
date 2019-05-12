@@ -120,6 +120,7 @@
 (ffi:console.log (get 'aaa 'key1))
 
 (ffi:console.log "==================== Hash Table ====================")
+#+(or)
 (let ((x (make-hash-table)))
   (ffi:console.log x)
   (ffi:console.log (hash-table-p x))

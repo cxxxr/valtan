@@ -21,6 +21,7 @@
                        (:constructor %make-hash-table))
   object
   count*
+  keys
   (test :read-only t)
   (size :read-only t)
   (rehash-size :read-only t)
@@ -44,6 +45,9 @@
         (values value t))))
 
 (defun (setf gethash) (value key hash-table &optional default)
+  (when (eq (ffi:object-get (hash-table-object hash-table) key)
+            (ffi:ref "undefined"))
+    (incf (hash-table-count* hash-table)))
   (ffi:object-set (hash-table-object hash-table) key value)
   value)
 
@@ -52,4 +56,15 @@
       (gethash key hash-table)
     (declare (ignore value))
     (setf (gethash key hash-table) (ffi:ref "undefined"))
+    (when found
+      (decf (hash-table-count* hash-table)))
     found))
+
+(defun maphash (function hash-table)
+  )
+
+(defmacro with-hash-table-iterator ((name hash-table) &body body)
+  )
+
+(defun clrhash (hash-table)
+  )
