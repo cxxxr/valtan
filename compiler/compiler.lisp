@@ -90,6 +90,7 @@
                              "print"
                              "cons"
                              "symbol"
+                             "type"
                              "struct"
                              "array"
                              "hashtable"

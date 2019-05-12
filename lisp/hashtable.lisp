@@ -8,3 +8,4 @@
 (defun make-hash-table (&key test size rehash-size rehash-threshold)
   (%make-hash-table :object (ffi:make-object)
                     :%count 0))
+

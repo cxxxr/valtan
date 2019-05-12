@@ -109,7 +109,8 @@
 (let ((piyo (%make-piyo 1 2 3)))
   (ffi:console.log (eq piyo piyo))
   (ffi:console.log (eq piyo (copy-structure piyo)))
-  (ffi:console.log (eq piyo (copy-piyo piyo))))
+  (ffi:console.log (eq piyo (copy-piyo piyo)))
+  (ffi:console.log (piyo-p piyo)))
 
 (ffi:console.log "==================== Symbol ====================")
 (ffi:console.log (symbol-plist 'foo))
@@ -119,4 +120,6 @@
 (ffi:console.log (get 'aaa 'key1))
 
 (ffi:console.log "==================== Hash Table ====================")
-(ffi:console.log (make-hash-table))
+(let ((x (make-hash-table)))
+  (ffi:console.log x)
+  (ffi:console.log (hash-table-p x)))
