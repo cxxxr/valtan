@@ -223,3 +223,10 @@
                                   ,@(cdr c)))))
                        cases)
              (t (error "ecase error"))))))
+
+(defmacro multiple-value-bind (vars value-form &body body)
+  (let ((rest (gensym)))
+    `(multiple-value-call (lambda (&optional ,@vars &rest ,rest)
+                            (declare (ignore ,rest))
+                            ,@body)
+       ,value-form)))
