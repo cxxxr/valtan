@@ -135,6 +135,17 @@
                (destructuring-bind ,lambda-list ,g-rest ,@body)))
        ',access-fn)))
 
+(defmacro define-modify-macro (name lambda-list function &optional (documentation nil documentation-p))
+  (let ((reference (gensym "REFERENCE")))
+    `(defmacro ,name (,reference ,@lambda-list)
+       ,(when documentation-p `(,documentation))
+       (multiple-value-bind (vars values stores set-form access-form)
+           (get-setf-expansion ,reference)
+         (let* ,(mapcar #'list
+                        (append vars stores)
+                        (append values access-form))
+           ,set-form)))))
+
 (defmacro psetq (&rest pairs)
   (when (oddp (length pairs))
     (error "Odd number of args to PSETQ."))
