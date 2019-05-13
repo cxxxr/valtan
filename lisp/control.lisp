@@ -136,15 +136,27 @@
        ',access-fn)))
 
 (defmacro define-modify-macro (name lambda-list function &optional (documentation nil documentation-p))
-  (let ((reference (gensym "REFERENCE")))
-    `(defmacro ,name (,reference ,@lambda-list)
-       ,(when documentation-p `(,documentation))
-       (multiple-value-bind (vars values stores set-form access-form)
-           (get-setf-expansion ,reference)
-         (let* ,(mapcar #'list
-                        (append vars stores)
-                        (append values access-form))
-           ,set-form)))))
+  (let ((update-form
+          (do ((rest lambda-list (cdr rest))
+               (vars '()))
+              ((null rest)
+               `(list ',function access-form ,@(nreverse vars)))
+            (cond ((eq '&optional (car rest)))
+                  ((eq '&rest (car rest))
+                   (return `(list* ',function access-form ,@(nreverse vars) (cadr rest))))
+                  ((symbolp (car rest))
+                   (push (car rest) vars))
+                  (t
+                   (push (caar rest) vars))))))
+    (let ((reference (gensym "REFERENCE")))
+      `(defmacro ,name (,reference ,@lambda-list)
+         ,(when documentation-p `(,documentation))
+         (multiple-value-bind (vars values stores set-form access-form)
+             (get-setf-expansion ,reference)
+           (let* ,(mapcar #'list
+                          (append vars stores)
+                          (append values (list ,update-form)))
+             ,set-form))))))
 
 (defmacro psetq (&rest pairs)
   (when (oddp (length pairs))
@@ -167,6 +179,7 @@
                  vars gvars)
        nil)))
 
+;; TODO: (do ((var init)) ...)のときvarをループ毎に更新しないようにする
 (defmacro do (varlist endlist &body body)
   (let ((g-start (gensym)))
     `(block nil
