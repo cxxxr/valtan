@@ -239,6 +239,7 @@
                (g-args (gensym "ARGS"))
                (g-store (gensym "STORE"))
                (g-setter (gensym "SETTER"))
+               (g-getter (gensym "GETTER"))
                (setf-fn (intern (format nil "(SETF ~A)" (second name))
                                 (symbol-package (second name)))))
            `(progn
@@ -247,12 +248,13 @@
                 (let ((,gensyms (mapcar (lambda (x) (declare (ignore x)) (gensym))
                                         ,g-args))
                       (,g-store (gensym "G-STORE"))
-                      (,g-setter ',setf-fn))
+                      (,g-setter ',setf-fn)
+                      (,g-getter ',(second name)))
                   (values ,gensyms
                           ,g-args
                           (list ,g-store)
-                          (list* ,g-setter ,g-store ,g-args)
-                          nil))))))
+                          (list* ,g-setter ,g-store ,gensyms)
+                          (list* ,g-getter ,gensyms)))))))
         ((variable-symbol-p name)
          `(system::fset ',name (lambda ,lambda-list ,@body)))
         (t
