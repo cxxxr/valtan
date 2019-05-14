@@ -244,7 +244,7 @@
            `(progn
               (defun ,setf-fn ,lambda-list ,@body)
               (define-setf-expander ,(second name) (&rest ,g-args)
-                (let ((,gensyms (mapcar (lambda (x) (gensym (string x)))
+                (let ((,gensyms (mapcar (lambda (x) (declare (ignore x)) (gensym))
                                         ,g-args))
                       (,g-store (gensym "G-STORE"))
                       (,g-setter ',setf-fn))
