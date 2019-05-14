@@ -60,6 +60,7 @@
       (decf (hash-table-count* hash-table)))
     found))
 
+#|
 (defun maphash (function hash-table)
   )
 
@@ -68,3 +69,4 @@
 
 (defun clrhash (hash-table)
   )
+|#

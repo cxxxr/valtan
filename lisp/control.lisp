@@ -258,3 +258,19 @@
                             (declare (ignore ,rest))
                             ,@body)
        ,value-form)))
+
+(defun gen-binding (pattern tmp)
+  (cond ((null pattern) nil)
+        ((atom pattern) (list pattern tmp))
+        (t (let ((car-var (gensym))
+                 (cdr-var (gensym)))
+             (list* (list car-var `(car ,tmp))
+                    (gen-binding (first pattern) car-var)
+                    (list cdr-var `(cdr ,tmp))
+                    (gen-binding (rest pattern) cdr-var))))))
+
+(destructuring-bind (&optional a b) (list 1 2))
+
+(defmacro !destructuring-bind (lambda-list expression &body body)
+  `(let* ,(gen-binding lambda-list expression)
+     ,@body))
