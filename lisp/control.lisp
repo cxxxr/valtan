@@ -48,50 +48,50 @@
          (let* ,(rest bindings)
            ,@body))))
 
+(eval-when (:compile-toplevel)
+  (defun gensyms (list)
+    (mapcar (lambda (x)
+              (declare (ignore x))
+              (gensym))
+            list))
+  (defun !get-setf-expansion (place &optional environment)
+    (declare (ignore environment))
+    (let ((setf-expander nil))
+      (cond ((and (consp place)
+                  (setq setf-expander (get (first place) 'setf-expander)))
+             (cond
+               ((symbolp setf-expander)
+                (let ((vars (gensyms (rest place)))
+                      (store (gensym "STORE")))
+                  (values vars
+                          (rest place)
+                          (list store)
+                          `(,setf-expander ,@vars ,store)
+                          `(,(first place) ,@vars))))
+               ((consp setf-expander)
+                (let ((vars (gensyms (rest place)))
+                      (store (gensym "STORE"))
+                      (fn (eval `(lambda ,(first setf-expander)
+                                   (lambda ,@(rest setf-expander))))))
+                  (values vars
+                          (rest place)
+                          (list store)
+                          (funcall (apply fn vars) store)
+                          `(,(first place) ,@vars))))
+               ((functionp setf-expander)
+                (funcall setf-expander (rest place)))))
+            ;; TODO: マクロはホスト側で管理しているので
+            ;; コンパイラ内の情報を参照する必要があるはず
+            ;; ((and (consp place) (symbolp (first place)) (macro-function (first place)))
+            ;;  (get-setf-expansion (macroexpand place)))
+            (t
+             (let ((store (gensym)))
+               (values nil nil (list store) `(setq ,place ,store) place)))))))
+
 (defmacro setf (&rest pairs)
-  (labels ((gensyms (list)
-             (mapcar (lambda (x)
-                       (declare (ignore x))
-                       (gensym))
-                     list))
-           (get-setf-expansion (place &optional environment)
-             ;; これと同じものをdefunで定義しているが
-             ;; defmacroはホスト側で評価されるのでここにも必要
-             (declare (ignore environment))
-             (let ((setf-expander nil))
-               (cond ((and (consp place)
-                           (setq setf-expander (get (first place) 'setf-expander)))
-                      (cond
-                        ((symbolp setf-expander)
-                         (let ((vars (gensyms (rest place)))
-                               (store (gensym "STORE")))
-                           (values vars
-                                   (rest place)
-                                   (list store)
-                                   `(,setf-expander ,@vars ,store)
-                                   `(,(first place) ,@vars))))
-                        ((consp setf-expander)
-                         (let ((vars (gensyms (rest place)))
-                               (store (gensym "STORE"))
-                               (fn (eval `(lambda ,(first setf-expander)
-                                            (lambda ,@(rest setf-expander))))))
-                           (values vars
-                                   (rest place)
-                                   (list store)
-                                   (funcall (apply fn vars) store)
-                                   `(,(first place) ,@vars))))
-                        ((functionp setf-expander)
-                         (funcall setf-expander (rest place)))))
-                     ;; TODO: マクロはホスト側で管理しているので
-                     ;; コンパイラ内の情報を参照する必要があるはず
-                     ;; ((and (consp place) (symbolp (first place)) (macro-function (first place)))
-                     ;;  (get-setf-expansion (macroexpand place)))
-                     (t
-                      (let ((store (gensym)))
-                        (values nil nil (list store) `(setq ,place ,store) place))))))
-           (setf-expand-1 (place value)
+  (labels ((setf-expand-1 (place value)
              (multiple-value-bind (vars forms store set access)
-                 (get-setf-expansion place)
+                 (!get-setf-expansion place)
                (declare (ignore access))
                `(let* (,@(mapcar #'list
                                  (append vars store)
@@ -152,11 +152,15 @@
       `(defmacro ,name (,reference ,@lambda-list)
          ,(when documentation-p `(,documentation))
          (multiple-value-bind (vars values stores set-form access-form)
-             (get-setf-expansion ,reference)
-           (let* ,(mapcar #'list
-                          (append vars stores)
-                          (append values (list ,update-form)))
-             ,set-form))))))
+             (!get-setf-expansion ,reference)
+           (list 'let*
+                 (mapcar #'list
+                         (append vars stores)
+                         (append values (list ,update-form)))
+                 set-form))))))
+
+(define-modify-macro incf (&optional (n 1)) +)
+(define-modify-macro decf (&optional (n 1)) -)
 
 (defmacro psetq (&rest pairs)
   (when (oddp (length pairs))
