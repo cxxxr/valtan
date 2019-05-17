@@ -132,3 +132,23 @@
   (ffi:console.log 0 (hash-table-count x))
   (ffi:console.log (remhash "key1" x))
   )
+
+(destructuring-bind (a) (list 1)
+  (ffi:console.log a))
+
+(destructuring-bind ((a)) (list (list 2))
+  (ffi:console.log a))
+
+(destructuring-bind ((a &optional (b "default"))) (list (list 2))
+  (ffi:console.log a b))
+
+(destructuring-bind ((a &optional (b "default")) x y)
+    (list (list 2) 10 20)
+  (ffi:console.log a b x y))
+
+(ffi:console.log (car (cdr `((alpha) ,@(list 1 2 3)))))
+
+#+(or)
+(destructuring-bind ((a &optional (b 'bee)) one two three)
+    `((alpha) ,@(list 1 2 3))
+  (ffi:console.log a b three two one))
