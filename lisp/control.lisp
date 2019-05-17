@@ -176,7 +176,6 @@
                  vars gvars)
        nil)))
 
-;; TODO: (do ((var init)) ...)のときvarをループ毎に更新しないようにする
 (defmacro do (varlist endlist &body body)
   (let ((g-start (gensym)))
     `(block nil
@@ -187,13 +186,13 @@
          (tagbody
            ,g-start
            (if ,(first endlist)
-               (progn
-                 ,@(rest endlist))
+               (return (progn ,@(rest endlist)))
                (progn
                  (tagbody ,@body)
                  (psetq ,@(mapcan (lambda (var-spec)
-                                    `(,(first var-spec)
-                                      ,(third var-spec)))
+                                    (if (cddr var-spec)
+                                        `(,(first var-spec)
+                                          ,(third var-spec))))
                                   varlist))
                  (go ,g-start))))))))
 
