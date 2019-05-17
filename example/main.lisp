@@ -151,3 +151,6 @@
 (destructuring-bind ((a &optional (b 'bee)) one two three)
     `((alpha) ,@(list 1 2 3))
   (ffi:console.log a b three two one))
+
+(destructuring-bind (a . b) (cons 1 2)
+  (ffi:console.log a b))

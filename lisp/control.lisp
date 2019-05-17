@@ -251,6 +251,11 @@
                             ,@body)
        ,value-form)))
 
+(defun %db-length (list)
+  (do ((l list (cdr l))
+       (count 0 (+ count 1)))
+      ((atom l) count)))
+
 (eval-when (:compile-toplevel)
   (defvar *db-bindings*)
   (defvar *tmp-db-vars*)
@@ -282,7 +287,10 @@
             (invalid-lambda-list))
           (push (list (pop lambda-list) arg) *db-bindings*))
         (do ((ll lambda-list (rest ll)))
-            ((null ll))
+            ((atom ll)
+             (when ll
+               (setq restp t)
+               (push (list ll path) *db-bindings*)))
           (let ((x (first ll)))
             (cond ((eq state :aux)
                    (cond ((symbolp x)
@@ -392,8 +400,8 @@
                      (setq path cdr-var))))))
         (setf (second check-arg-placeholder)
               `(unless ,(if (or restp keyp)
-                            `(<= ,min (list-length ,arg))
-                            `(<= ,min (list-length ,arg) ,max))
+                            `(<= ,min (%db-length ,arg))
+                            `(<= ,min (%db-length ,arg) ,max))
                  (error "Invalid number of arguments: ~S ~S" ',lambda-list ,arg)))
         (when (and check-key-placeholder
                    (not allow-other-keys-p))
