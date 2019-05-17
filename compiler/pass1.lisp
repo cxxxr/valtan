@@ -533,7 +533,7 @@
                  (value (pass1 (second args) t nil)))
             (count-if-used binding)
             (push (make-ir (if binding 'lset 'gset)
-                           (if (null (rest args))
+                           (if (null (cddr args))
                                return-value-p
                                nil)
                            nil
