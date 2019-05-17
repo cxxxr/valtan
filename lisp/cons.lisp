@@ -180,7 +180,17 @@
   (error "nconc is undefined"))
 
 (defun append (&rest lists)
-  (error "append is undefined"))
+  (let ((head '())
+        (tail nil))
+    (dolist (list lists)
+      (dolist (x list)
+        (ffi:console.log head)
+        (cond ((null tail)
+               (setf head (setf tail (list x))))
+              (t
+               (setf (cdr tail) (list x))
+               (setf tail (cdr tail))))))
+    head))
 
 (defun revappend (list tail)
   (error "revappend is undefined"))

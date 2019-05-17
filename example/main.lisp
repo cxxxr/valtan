@@ -133,6 +133,8 @@
   (ffi:console.log (remhash "key1" x))
   )
 
+(ffi:console.log "==================== destructuring-bind ====================")
+
 (destructuring-bind (a) (list 1)
   (ffi:console.log a))
 
@@ -146,9 +148,6 @@
     (list (list 2) 10 20)
   (ffi:console.log a b x y))
 
-(ffi:console.log (car (cdr `((alpha) ,@(list 1 2 3)))))
-
-#+(or)
 (destructuring-bind ((a &optional (b 'bee)) one two three)
     `((alpha) ,@(list 1 2 3))
   (ffi:console.log a b three two one))
