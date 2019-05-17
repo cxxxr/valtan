@@ -41,13 +41,6 @@
 (defun not (x)
   (if x nil t))
 
-(defmacro let* (bindings &body body)
-  (if (null bindings)
-      `(progn ,@body)
-      `(let (,(first bindings))
-         (let* ,(rest bindings)
-           ,@body))))
-
 (eval-when (:compile-toplevel)
   (defun gensyms (list)
     (mapcar (lambda (x)

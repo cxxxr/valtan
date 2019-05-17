@@ -576,29 +576,47 @@
     (t
      (compile-error "~S is not a legal function name" thing))))
 
-(def-pass1-form let ((bindings &rest body) return-value-p multiple-values-p)
+(defun check-let-form (bindings)
   (unless (listp bindings)
     (compile-error "Malformed LET bindings: ~S" bindings))
+  (dolist (b bindings)
+    (unless (and (consp b)
+                 (<= 1 (length b) 2))
+      (compile-error "Malformed LET binding: ~S" b))
+    (let ((var (first b)))
+      (unless (variable-symbol-p var)
+        (compile-error "~S is not a variable" var)))))
+
+(defun pass1-let-body (bindings body return-value-p multiple-values-p)
+  (multiple-value-bind (body declares)
+      (parse-body body nil)
+    (let* ((inner-lexenv (mapcar #'first bindings))
+           (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
+           (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
+      (make-ir 'let
+               return-value-p
+               multiple-values-p
+               bindings
+               (pass1-forms body return-value-p multiple-values-p)))))
+
+(def-pass1-form let ((bindings &rest body) return-value-p multiple-values-p)
+  (check-let-form bindings)
   (let ((bindings (mapcar (lambda (b)
-                            (unless (and (consp b)
-                                         (<= 1 (length b) 2))
-                              (compile-error "Malformed LET binding: ~S" b))
-                            (let ((var (first b)))
-                              (unless (variable-symbol-p var)
-                                (compile-error "~S is not a variable" var))
-                              (list (make-variable-binding var)
-                                    (pass1 (second b) t nil))))
+                            (list (make-variable-binding (first b))
+                                  (pass1 (second b) t nil)))
                           bindings)))
-    (multiple-value-bind (body declares)
-        (parse-body body nil)
-      (let* ((inner-lexenv (mapcar #'first bindings))
-             (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
-             (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
-        (make-ir 'let
-                 return-value-p
-                 multiple-values-p
-                 bindings
-                 (pass1-forms body return-value-p multiple-values-p))))))
+    (pass1-let-body bindings body return-value-p multiple-values-p)))
+
+(def-pass1-form let* ((bindings &rest body) return-value-p multiple-values-p)
+  (check-let-form bindings)
+  (let ((*lexenv* *lexenv*))
+    (let ((bindings (mapcar (lambda (b)
+                              (let ((b (list (make-variable-binding (first b))
+                                             (pass1 (second b) t nil))))
+                                (push (first b) *lexenv*)
+                                b))
+                            bindings)))
+      (pass1-let-body bindings body return-value-p multiple-values-p))))
 
 (defun check-flet-definitions (definitions)
   (unless (listp definitions)
