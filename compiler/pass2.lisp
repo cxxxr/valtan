@@ -411,7 +411,6 @@
       (format t "switch(~A) {~%" tag)
       (dolist (tag-body (ir-arg2 ir))
         (destructuring-bind (tag . body) tag-body
-          (defparameter $ body)
           (format t "case ~D:~%" (tagbody-value-index tag))
           (pass2 body)))
       (write-line "}")
