@@ -65,11 +65,13 @@
 (defun symbol-to-js-function-var (symbol)
   (to-js-identier symbol "F_"))
 
-(defun symbol-to-js-global-var (symbol)
+(defun symbol-to-js-value (symbol)
   (check-type symbol symbol)
-  (or (gethash symbol *literal-symbols*)
-      (setf (gethash symbol *literal-symbols*)
-            (gen-var "G_"))))
+  (if (symbol-package symbol)
+      (or (gethash symbol *literal-symbols*)
+          (setf (gethash symbol *literal-symbols*)
+                (gen-var "G_")))
+      (format nil "new lisp.LispSymbol({name: \"~A\"})" symbol)))
 
 (let ((i 0))
   (defun gen-temporary-js-var (&optional (prefix "TMP_"))
@@ -144,7 +146,7 @@
 (defun emit-literal (x)
   (etypecase x
     (null (princ "lisp.nilValue"))
-    (symbol (princ (symbol-to-js-global-var x)))
+    (symbol (princ (symbol-to-js-value x)))
     (string (prin1 x))
     (number (princ x))
     (character (format t "new lisp.Character(~D)" (char-code x)))
@@ -168,7 +170,7 @@
        (princ (symbol-to-js-local-var (binding-value (ir-arg1 ir))))))))
 
 (def-emit gref (ir)
-  (let ((ident (symbol-to-js-global-var (ir-arg1 ir))))
+  (let ((ident (symbol-to-js-value (ir-arg1 ir))))
     (format t "lisp.symbol_value(~A)" ident)))
 
 (def-emit (lset gset) (ir)
@@ -178,7 +180,7 @@
          (format t "~A = " (symbol-to-js-local-var (binding-value (ir-arg1 ir))))
          (pass2 (ir-arg2 ir)))
         (t
-         (let ((ident (symbol-to-js-global-var (ir-arg1 ir))))
+         (let ((ident (symbol-to-js-value (ir-arg1 ir))))
            (format t "lisp.set_symbol_value(~A, " ident))
          (pass2 (ir-arg2 ir))
          (write-string ")")))
@@ -246,7 +248,7 @@
 (defun emit-declvar (var finally-stream)
   (ecase (binding-type var)
     ((:special)
-     (let ((identier (symbol-to-js-global-var (binding-value var)))
+     (let ((identier (symbol-to-js-value (binding-value var)))
            (save-var (to-js-identier (binding-value var) "SAVE_")))
        (format t "const ~A = ~A.value;~%" save-var identier)
        (format t "~A.value = " identier)
@@ -283,7 +285,7 @@
           (dolist (opt (parsed-lambda-list-keys parsed-lambda-list))
             (let ((var (first opt))
                   (value (second opt)))
-              (let ((keyword-var (symbol-to-js-global-var (fourth opt)))
+              (let ((keyword-var (symbol-to-js-value (fourth opt)))
                     (supplied-var (to-js-identier (binding-value var) "SUPPLIED_")))
                 (push keyword-var keyword-vars)
                 (format t "let ~A;~%" supplied-var)
@@ -359,7 +361,7 @@
 
 (def-emit call (ir)
   (let ((symbol (ir-arg1 ir)))
-    (format t "lisp.call_function(~A" (symbol-to-js-global-var symbol))
+    (format t "lisp.call_function(~A" (symbol-to-js-value symbol))
     (when (ir-arg2 ir)
       (write-string ", ")))
   (emit-call-args (ir-arg2 ir)))
@@ -380,7 +382,7 @@
          (format t "if (~A instanceof lisp.BlockValue && ~A.name === ~A) { return ~A.value; }~%"
                  error-var
                  error-var
-                 (symbol-to-js-global-var (binding-name name))
+                 (symbol-to-js-value (binding-name name))
                  error-var)
          (format t "else { throw ~A; }~%" error-var))
       (pass2-forms (ir-arg2 ir))))
@@ -389,7 +391,7 @@
 (def-emit return-from (ir)
   (pass2-enter (ir-return-value-p ir))
   (let ((name (ir-arg1 ir)))
-    (format t "throw new lisp.BlockValue(~A," (symbol-to-js-global-var (binding-name name)))
+    (format t "throw new lisp.BlockValue(~A," (symbol-to-js-value (binding-name name)))
     (pass2 (ir-arg2 ir))
     (write-string ")"))
   (pass2-exit (ir-return-value-p ir)))
