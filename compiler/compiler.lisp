@@ -105,13 +105,13 @@
       (get-output-stream-string *standard-output*))))
 
 (defun build-self (&optional output)
-  (build (and (get-lisp-files)
-              (directory-files "./compiler/"
-                               '("util"
-                                 "error"
-                                 "ir"
-                                 "pass1"
-                                 "pass2")))
+  (build (append (get-lisp-files)
+                 (directory-files "./compiler/"
+                                  '("util"
+                                    "error"
+                                    "ir"
+                                    "pass1"
+                                    "pass2")))
          output))
 
 (defparameter *module-table* (make-hash-table))
