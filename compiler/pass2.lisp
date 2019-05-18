@@ -361,7 +361,7 @@
 
 (def-emit call (ir)
   (let ((symbol (ir-arg1 ir)))
-    (format t "lisp.call_function(~A" (symbol-to-js-value symbol))
+    (format t "lisp.callFunction(~A" (symbol-to-js-value symbol))
     (when (ir-arg2 ir)
       (write-string ", ")))
   (emit-call-args (ir-arg2 ir)))
