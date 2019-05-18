@@ -171,7 +171,7 @@
 
 (def-emit gref (ir)
   (let ((ident (symbol-to-js-value (ir-arg1 ir))))
-    (format t "lisp.symbol_value(~A)" ident)))
+    (format t "lisp.symbolValue(~A)" ident)))
 
 (def-emit (lset gset) (ir)
   (when (ir-return-value-p ir)
@@ -181,7 +181,7 @@
          (pass2 (ir-arg2 ir)))
         (t
          (let ((ident (symbol-to-js-value (ir-arg1 ir))))
-           (format t "lisp.set_symbol_value(~A, " ident))
+           (format t "lisp.setSymbolValue(~A, " ident))
          (pass2 (ir-arg2 ir))
          (write-string ")")))
   (when (ir-return-value-p ir)
