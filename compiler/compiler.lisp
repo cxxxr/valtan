@@ -1,5 +1,32 @@
 (in-package :compiler)
 
+(defparameter *known-function-names*
+  '("VALUES"
+    "MULTIPLE-VALUE-CALL"
+    "EQ"
+    "EQL"
+    "FUNCALL"
+    "APPLY"
+    "SYMBOL-PLIST"
+    "BOUNDP"
+    "SYMBOL-FUNCTION"
+    "CONSP"
+    "CONS"
+    "CAR"
+    "CDR"
+    "RPLACA"
+    "RPLACD"
+    "+"
+    "-"
+    "*"
+    "="
+    ">"
+    "<"
+    ">="
+    "<="
+    "INTERN"
+    "COPY-STRUCTURE"))
+
 (defvar *quasiquote-readtable*
   (let ((*readtable* (copy-readtable)))
     (set-macro-character
@@ -36,8 +63,13 @@
         (*defined-function-names* '())
         (*called-function-names* '()))
     (let ((ir-forms (funcall function)))
-      (dolist (name (set-difference *called-function-names* *defined-function-names*))
-        (warn "undefined function: ~S" name))
+      (dolist (name (set-difference
+                     (set-difference *called-function-names* *defined-function-names*)
+                     *known-function-names*
+                     :test #'string=))
+        (unless (or (eq (symbol-package name) (find-package :system))
+                    (eq (symbol-package name) (find-package :ffi)))
+          (warn "undefined function: ~S" name)))
       (write-line "import * as lisp from 'lisp';")
       (loop :for (var . module) :in *require-modules*
             :do (format t "var ~A = require('~A');~%" (to-js-identier var) module))
