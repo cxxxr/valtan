@@ -60,7 +60,7 @@
            (princ-to-string value)))))
 
 (defun symbol-to-js-local-var (symbol)
-(to-js-identier symbol "L_"))
+  (to-js-identier symbol "L_"))
 
 (defun symbol-to-js-function-var (symbol)
   (to-js-identier symbol "F_"))
@@ -147,6 +147,7 @@
     (symbol (princ (symbol-to-js-global-var x)))
     (string (prin1 x))
     (number (princ x))
+    (character (format t "new lisp.Character(~D)" (char-code x)))
     (cons
      (princ "lisp.cons(")
      (emit-literal (car x))
