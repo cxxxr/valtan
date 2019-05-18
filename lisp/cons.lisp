@@ -247,8 +247,8 @@
 (defun mapc (function list &rest lists)
   (error "mapc is undefined"))
 
-(defun macar (function list &rest lists)
-  (error "macar is undefined"))
+(defun mapcar (function list &rest lists)
+  (error "mapcar is undefined"))
 
 (defun mapcan (function list &rest lists)
   (error "mapcan is undefined"))
