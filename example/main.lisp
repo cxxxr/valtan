@@ -159,5 +159,3 @@
 (ffi:console.log (apply '+ '()))
 (ffi:console.log (apply '+ '(1 2 3)))
 (ffi:console.log (apply '+ 1 2 3 '(4 5 6)))
-
-(ffi:console.log (intern "FOO"))
