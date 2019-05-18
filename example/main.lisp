@@ -154,3 +154,8 @@
 
 (destructuring-bind (a . b) (cons 1 2)
   (ffi:console.log a b))
+
+(ffi:console.log "==================== apply ====================")
+(ffi:console.log (apply '+ '()))
+(ffi:console.log (apply '+ '(1 2 3)))
+(ffi:console.log (apply '+ 1 2 3 '(4 5 6)))
