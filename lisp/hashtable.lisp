@@ -20,8 +20,6 @@
                        (:predicate hash-table-p)
                        (:constructor %make-hash-table))
   object
-  count*
-  keys
   (test :read-only t)
   (size :read-only t)
   (rehash-size :read-only t)
@@ -29,14 +27,14 @@
 
 (defun make-hash-table (&key test size rehash-size rehash-threshold)
   (%make-hash-table :object (ffi:make-object)
-                    :count* 0
                     :test test
                     :size size
                     :rehash-size rehash-size
                     :rehash-threshold rehash-threshold))
 
 (defun hash-table-count (hash-table)
-  (hash-table-count* hash-table))
+  (ffi:object-get ((ffi:ref "Object" "keys") (hash-table-object hash-table))
+                  "length"))
 
 (defun gethash (key hash-table &optional default)
   (let ((value (ffi:object-get (hash-table-object hash-table) key)))
@@ -45,9 +43,6 @@
         (values value t))))
 
 (defun (setf gethash) (value key hash-table &optional default)
-  (when (eq (ffi:object-get (hash-table-object hash-table) key)
-            (ffi:ref "undefined"))
-    (incf (hash-table-count* hash-table)))
   (ffi:object-set (hash-table-object hash-table) key value)
   value)
 
@@ -56,8 +51,6 @@
       (gethash key hash-table)
     (declare (ignore value))
     (setf (gethash key hash-table) (ffi:ref "undefined"))
-    (when found
-      (decf (hash-table-count* hash-table)))
     found))
 
 #|
