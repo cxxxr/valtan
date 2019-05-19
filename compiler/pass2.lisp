@@ -450,11 +450,17 @@
   (pass2-exit (ir-return-value-p ir)))
 
 (defun emit-ref (args)
-  (do ((args args (rest args)))
-      ((null args))
-    (write-string (to-js-identier (first args)))
-    (when (rest args)
-      (write-string "."))))
+  (destructuring-bind (object . keys) args
+    (if (ir-p object)
+        (pass2 object)
+        (write-string object))
+    (when keys
+      (write-string "."))
+    (do ((keys keys (rest keys)))
+        ((null keys))
+      (write-string (to-js-identier (first keys)))
+      (when (rest keys)
+        (write-string ".")))))
 
 (def-emit ffi:ref (ir)
   (emit-ref (ir-arg1 ir)))

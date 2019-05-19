@@ -819,16 +819,17 @@
   (push (cons name module-name) *require-modules*)
   (pass1-const nil return-value-p))
 
-(defun pass1-ref-names (names)
+(defun pass1-ref-names (object keys)
   (let ((arguments '()))
-    (dolist (name names)
-      (unless (or (symbolp name) (stringp name))
-        (compile-error "~S is not a string designator" name))
-      (push (string name) arguments))
+    (push (if (stringp object) object (pass1 object t nil)) arguments)
+    (dolist (key keys)
+      (unless (or (stringp key))
+        (compile-error "~S is not a string" key))
+      (push key arguments))
     (nreverse arguments)))
 
-(def-pass1-form ffi:ref ((name &rest names) return-value-p multiple-values-p)
-  (let ((arguments (pass1-ref-names (cons name names))))
+(def-pass1-form ffi:ref ((object &rest keys) return-value-p multiple-values-p)
+  (let ((arguments (pass1-ref-names object keys)))
     (make-ir 'ffi:ref return-value-p nil arguments)))
 
 (def-pass1-form ffi:set ((lhs rhs) return-value-p multiple-values-p)
@@ -839,14 +840,13 @@
            (pass1 rhs t nil)))
 
 (def-pass1-form ffi:var ((&rest vars) return-value-p multiple-values-p)
+  (dolist (var vars)
+    (unless (stringp var)
+      (compile-error "~S is not a string" var)))
   (make-ir 'ffi:var
            return-value-p
            multiple-values-p
-           (mapcar (lambda (var)
-                     (unless (or (symbolp var) (stringp var))
-                       (compile-error "~S is not a string designator" var))
-                     (string var))
-                   vars)))
+           vars))
 
 (def-pass1-form ffi:typeof ((x) return-value-p multiple-values-p)
   (make-ir 'ffi:typeof
