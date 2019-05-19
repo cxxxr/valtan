@@ -100,9 +100,6 @@
 (defmacro emit-for ((loop-var start end step) &body body)
   `(%emit-for ,loop-var ,start ,end ,step (lambda () ,@body)))
 
-(defun js-call (name &rest args)
-  (format nil "~A(~{~A~^,~})" name args))
-
 (defun pass2-form (form)
   (cond ((ir-return-value-p form)
          (princ "return ")
