@@ -167,3 +167,10 @@
 (ffi:console.log (apply '+ '()))
 (ffi:console.log (apply '+ '(1 2 3)))
 (ffi:console.log (apply '+ 1 2 3 '(4 5 6)))
+
+(ffi:console.log "(numberp 1)" (numberp 1))
+(ffi:console.log "(numberp 1.2)" (numberp 1.2))
+(ffi:console.log "(numberp 'a)" (numberp 'a))
+(ffi:console.log "(integerp 1)" (integerp 1))
+(ffi:console.log "(integerp 1.0)" (integerp 1.0))
+(ffi:console.log "(integerp 'a)" (integerp 'a))

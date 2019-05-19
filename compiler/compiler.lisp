@@ -124,6 +124,7 @@
                      "cons"
                      "symbol"
                      "type"
+                     "number"
                      "struct"
                      "array"
                      "hashtable")))
