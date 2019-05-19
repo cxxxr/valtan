@@ -36,10 +36,12 @@
 
 (ffi:console.log (fact 5))
 
+(ffi:console.log "==================== Array ====================")
 (ffi:console.log (make-array 3))
 (ffi:console.log (make-array 3 :initial-element 100))
+(ffi:console.log (arrayp (make-array 3)))
 
-(ffi:console.log "==================== JS Array ====================")
+(ffi:console.log "==================== ffi ====================")
 (let ((x (ffi:new (ffi:ref "Array") 10)))
   (ffi:console.log x)
   (ffi:set (ffi:index x 0) "a")

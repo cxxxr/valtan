@@ -1,7 +1,13 @@
 (in-package :common-lisp)
 
-(defun make-array (n &key initial-element)
-  (let ((vector (ffi:make-object "type" "array")))
-    (dotimes (i n)
-      (ffi:object-set vector i initial-element))
-    vector))
+(defstruct (array (:copier nil)
+                  (:predicate arrayp)
+                  (:constructor %make-array))
+  data)
+
+(defun make-array (dimensions &key initial-element)
+  (unless (integerp dimensions)
+    (error "error"))
+  (let ((array (ffi:new (ffi:ref "Array") dimensions)))
+    ((ffi:ref array "fill") initial-element)
+    (%make-array :data array)))
