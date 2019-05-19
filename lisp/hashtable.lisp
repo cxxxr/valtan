@@ -53,10 +53,18 @@
     (setf (gethash key hash-table) (ffi:ref "undefined"))
     found))
 
-#|
 (defun maphash (function hash-table)
-  )
+  (let* ((object (hash-table-object hash-table))
+         (js-keys ((ffi:ref "Object" "keys") object))
+         (length (ffi:object-get js-keys "length")))
+    (do ((i 0 (+ i 1)))
+        ((= i length))
+      (let* ((key (ffi:object-get js-keys i))
+             (value (ffi:object-get object key)))
+        (funcall function key value))))
+  nil)
 
+#|
 (defmacro with-hash-table-iterator ((name hash-table) &body body)
   )
 

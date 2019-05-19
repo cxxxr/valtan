@@ -133,6 +133,14 @@
   (ffi:console.log (remhash "key1" x))
   )
 
+(let ((ht (make-hash-table)))
+  (setf (gethash "key1" ht) 100)
+  (setf (gethash "key2" ht) 200)
+  (setf (gethash "key3" ht) 300)
+  (maphash (lambda (k v)
+             (ffi:console.log k v))
+           ht))
+
 (ffi:console.log "==================== destructuring-bind ====================")
 
 (destructuring-bind (a) (list 1)
