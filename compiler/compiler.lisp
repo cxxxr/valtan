@@ -27,7 +27,7 @@
     "INTERN"
     "COPY-STRUCTURE"))
 
-(defvar *quasiquote-readtable*
+(defvar *js-readtable*
   (let ((*readtable* (copy-readtable)))
     (set-macro-character
      #\`
@@ -45,6 +45,28 @@
              (t
               (list 'system::unquote
                     (read s t nil t))))))
+    (set-dispatch-macro-character
+     #\# #\j
+     (lambda (s c1 c2)
+       (declare (ignore c1 c2))
+       (let ((old (readtable-case *readtable*)))
+         (unwind-protect
+              (progn
+                (setf (readtable-case *readtable*) :invert)
+                (assert (char= #\: (read-char s t nil t)))
+                (loop :with acc := '() :and names = '()
+                      :for c := (peek-char nil s t nil t)
+                      :while (or (alphanumericp c) (member c '(#\_ #\:)))
+                      :do (case c
+                            (#\: (push (coerce (nreverse acc) 'string)
+                                       names)
+                                 (setq acc nil))
+                            (otherwise (push c acc)))
+                          (read-char s t nil t)
+                      :finally (return `(ffi:ref ,@(nreverse
+                                                    (cons (coerce (nreverse acc) 'string)
+                                                          names))))))
+           (setf (readtable-case *readtable*) old)))))
     *readtable*))
 
 (defmacro do-forms ((var stream) &body body)
@@ -53,7 +75,7 @@
     `(let ((*package* (find-package :cl-user)))
        (loop :with ,g-eof-value := '#:eof-value
              :and ,g-stream := ,stream
-             :for ,var := (let ((*readtable* *quasiquote-readtable*))
+             :for ,var := (let ((*readtable* *js-readtable*))
                             (read ,g-stream nil ,g-eof-value))
              :until (eq ,var ,g-eof-value)
              :do (progn ,@body)))))
