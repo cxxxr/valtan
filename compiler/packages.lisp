@@ -19,8 +19,6 @@
   (:use)
   (:export :console.log
            :make-object
-           :object-get
-           :object-set
            :var
            :ref
            :set
