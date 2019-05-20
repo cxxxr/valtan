@@ -176,3 +176,8 @@
 (ffi:console.log "(integerp 1)" (integerp 1))
 (ffi:console.log "(integerp 1.0)" (integerp 1.0))
 (ffi:console.log "(integerp 'a)" (integerp 'a))
+
+(ffi:console.log "==================== stream ====================")
+(ffi:console.log (with-output-to-string (out)
+  (write-string "string" out)
+  (write-char #\! out)))

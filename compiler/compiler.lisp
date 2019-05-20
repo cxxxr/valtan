@@ -5,8 +5,10 @@
     "MULTIPLE-VALUE-CALL"
     "EQ"
     "EQL"
+    "EQUAL"
     "FUNCALL"
     "APPLY"
+    "SYMBOLP"
     "SYMBOL-PLIST"
     "BOUNDP"
     "SYMBOL-FUNCTION"
@@ -24,6 +26,8 @@
     "<"
     ">="
     "<="
+    "CHARACTERP"
+    "STRINGP"
     "INTERN"
     "COPY-STRUCTURE"))
 
@@ -149,7 +153,9 @@
                      "number"
                      "struct"
                      "array"
-                     "hashtable")))
+                     "string"
+                     "hashtable"
+                     "stream")))
 
 (defun build (pathnames &optional output)
   (with-open-stream (*standard-output*

@@ -5,7 +5,8 @@
                   (:constructor %make-array))
   data)
 
-(defun make-array (dimensions &key initial-element)
+(defun make-array (dimensions &key element-type initial-element initial-contents adjustable
+                                   fill-pointer displaced-to displaced-index-offset)
   (unless (integerp dimensions)
     (error "error"))
   (let ((array (ffi:new (ffi:ref "Array") dimensions)))
