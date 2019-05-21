@@ -5,9 +5,8 @@
 
 (defun string (x)
   (cond ((characterp x)
-         ((ffi:ref "String" "fromCharCode") (ffi:ref x "code")))
+         ((ffi:ref "String" "fromCharCode") (char-code x)))
         ((symbolp x)
          (symbol-name x))
         (t
          (error "type error"))))
-
