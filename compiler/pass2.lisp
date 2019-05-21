@@ -71,7 +71,7 @@
       (or (gethash symbol *literal-symbols*)
           (setf (gethash symbol *literal-symbols*)
                 (gen-var "G_")))
-      (format nil "new lisp.LispSymbol({name: \"~A\"})" symbol)))
+      (format nil "lisp.makeSymbol(\"~A\")" symbol)))
 
 (let ((i 0))
   (defun gen-temporary-js-var (&optional (prefix "TMP_"))
