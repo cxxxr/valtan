@@ -185,3 +185,8 @@
 (ffi:console.log (keywordp :foo))
 (ffi:console.log (keywordp 1))
 
+(ffi:console.log "==================== package ====================")
+(ffi:console.log (package-name :cl))
+(ffi:console.log (package-name 'common-lisp))
+(ffi:console.log (find-package :keyword))
+(ffi:console.log (package-name (find-package :keyword)))

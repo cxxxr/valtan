@@ -9,6 +9,7 @@
     "FUNCALL"
     "APPLY"
     "SYMBOLP"
+    "KEYWORDP"
     "SYMBOL-PLIST"
     "BOUNDP"
     "SYMBOL-FUNCTION"
@@ -32,6 +33,7 @@
     "CODE-CHAR"
     "INTERN"
     "PACKAGE-NAME"
+    "FIND-PACKAGE"
     "COPY-STRUCTURE"))
 
 (defvar *js-readtable*
