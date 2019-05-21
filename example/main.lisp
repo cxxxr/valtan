@@ -181,3 +181,7 @@
 (ffi:console.log (with-output-to-string (out)
   (write-string "string" out)
   (write-char #\! out)))
+
+(ffi:console.log (keywordp :foo))
+(ffi:console.log (keywordp 1))
+

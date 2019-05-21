@@ -12,6 +12,7 @@
     "SYMBOL-PLIST"
     "BOUNDP"
     "SYMBOL-FUNCTION"
+    "SYMBOL-NAME"
     "CONSP"
     "CONS"
     "CAR"
@@ -27,8 +28,10 @@
     ">="
     "<="
     "CHARACTERP"
-    "STRINGP"
+    "CHAR-CODE"
+    "CODE-CHAR"
     "INTERN"
+    "PACKAGE-NAME"
     "COPY-STRUCTURE"))
 
 (defvar *js-readtable*
