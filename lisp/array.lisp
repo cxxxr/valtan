@@ -1,11 +1,5 @@
 (in-package :common-lisp)
 
-(defstruct (array (:copier nil)
-                  (:predicate arrayp)
-                  (:constructor %make-array))
-  data
-  fill-pointer)
-
 (defun make-array (dimensions &key element-type initial-element initial-contents adjustable
                                    fill-pointer displaced-to displaced-index-offset)
   (unless (integerp dimensions)
@@ -21,10 +15,29 @@
     (error "Bad fill-pointer"))
   (let ((array (ffi:new (ffi:ref "Array") dimensions)))
     ((ffi:ref array "fill") initial-element)
-    (%make-array :data array
-                 :fill-pointer fill-pointer)))
+    (ffi:set (ffi:ref array "fill-pointer") fill-pointer)
+    array))
+
+(defun aref (array sub)
+  (unless (arrayp array)
+    (error "type error"))
+  (when (or (< sub 0) (<= (ffi:ref array "length") sub))
+    (error "index error"))
+  (ffi:index array sub))
+
+(defun (setf aref) (value array sub)
+  (unless (arrayp array)
+    (error "type error"))
+  (when (or (< sub 0) (<= (ffi:ref array "length") sub))
+    (error "index error"))
+  (ffi:set (ffi:index array sub) value))
+
+(defun arrayp (x)
+  (or (stringp x)
+      (eq (ffi:instanceof x (ffi:ref "Array"))
+          (ffi:ref "true"))))
 
 (defun array-has-fill-pointer-p (array)
-  (if (array-fill-pointer array)
-      t
-      nil))
+  (and (equal (ffi:typeof array) "object")
+       (not (equal (ffi:ref array "fill-pointer")
+                   (ffi:ref "undefined")))))

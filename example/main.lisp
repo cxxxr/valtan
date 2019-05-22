@@ -41,7 +41,12 @@
 (ffi:console.log (make-array 3 :initial-element 100))
 (ffi:console.log (arrayp (make-array 3)))
 (let ((a (make-array 3 :fill-pointer t)))
-  (ffi:console.log (array-has-fill-pointer-p a)))
+  (ffi:console.log (array-has-fill-pointer-p a))
+  (ffi:console.log (array-has-fill-pointer-p 1))
+  (dotimes (i 3)
+    (setf (aref a i) i))
+  (dotimes (i 3)
+    (ffi:console.log (aref a i))))
 
 (ffi:console.log "==================== ffi ====================")
 (let ((x (ffi:new (ffi:ref "Array") 10)))
