@@ -43,6 +43,8 @@
 (let ((a (make-array 3 :fill-pointer t)))
   (ffi:console.log (array-has-fill-pointer-p a))
   (ffi:console.log (array-has-fill-pointer-p 1))
+  (ffi:console.log "array-rank" (array-rank a))
+  (ffi:console.log (vectorp a) (vectorp 1) (vectorp "test"))
   (dotimes (i 3)
     (setf (aref a i) i))
   (dotimes (i 3)

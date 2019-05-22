@@ -1,5 +1,10 @@
 (in-package :common-lisp)
 
+(defun arrayp (x)
+  (or (stringp x)
+      (eq (ffi:instanceof x (ffi:ref "Array"))
+          (ffi:ref "true"))))
+
 (defun make-array (dimensions &key element-type initial-element initial-contents adjustable
                                    fill-pointer displaced-to displaced-index-offset)
   (unless (integerp dimensions)
@@ -8,6 +13,7 @@
              (cdr dimensions)
              fill-pointer)
     (error "Only vectors can have fill pointers."))
+  ;; TODO element-typeがcharacterの場合にstringに変換
   (unless (or (eq fill-pointer t) (eq fill-pointer nil)
               (and (integerp fill-pointer)
                    (<= 0 fill-pointer)))
@@ -16,6 +22,10 @@
   (let ((array (ffi:new (ffi:ref "Array") dimensions)))
     ((ffi:ref array "fill") initial-element)
     (ffi:set (ffi:ref array "fill-pointer") fill-pointer)
+    (ffi:set (ffi:ref array "rank")
+             (if (listp dimensions)
+                 (length dimensions)
+                 1))
     array))
 
 (defun aref (array sub)
@@ -32,10 +42,16 @@
     (error "index error"))
   (ffi:set (ffi:index array sub) value))
 
-(defun arrayp (x)
+(defun array-rank (x)
+  (unless (arrayp x)
+    (error "type error"))
+  (ffi:ref x "rank"))
+
+(defun vectorp (x)
   (or (stringp x)
-      (eq (ffi:instanceof x (ffi:ref "Array"))
-          (ffi:ref "true"))))
+      (and (eq (ffi:instanceof x (ffi:ref "Array"))
+               (ffi:ref "true"))
+           (eql 1 (ffi:ref x "rank")))))
 
 (defun array-has-fill-pointer-p (array)
   (and (equal (ffi:typeof array) "object")
