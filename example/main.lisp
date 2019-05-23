@@ -130,6 +130,10 @@
 (setf (get 'aaa 'key1) 100)
 (ffi:console.log (get 'aaa 'key1))
 
+(ffi:console.log "(keywordp :foo)" (keywordp :foo))
+(ffi:console.log "(keywordp 'foo)" (keywordp 'foo))
+(ffi:console.log "(keywordp 1)" (keywordp 1))
+
 (ffi:console.log "==================== Hash Table ====================")
 (let ((x (make-hash-table)))
   (ffi:console.log x)
@@ -190,9 +194,6 @@
 (ffi:console.log (with-output-to-string (out)
   (write-string "string" out)
   (write-char #\! out)))
-
-(ffi:console.log (keywordp :foo))
-(ffi:console.log (keywordp 1))
 
 (ffi:console.log "==================== package ====================")
 (ffi:console.log (package-name :cl))

@@ -1,5 +1,10 @@
 (in-package :common-lisp)
 
+(defun keywordp (x)
+  (and (symbolp x)
+       (eq (symbol-package x)
+           (find-package :keyword))))
+
 (defun getf (place indicator &optional default)
   (do ((list place (cddr list)))
       ((null list) default)
