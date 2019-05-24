@@ -148,7 +148,7 @@
     (number (princ x))
     (character (format t "lisp.makeCharacter(~D)" (char-code x)))
     (cons
-     (princ "lisp.cons(")
+     (princ "lisp.makeCons(")
      (emit-literal (car x))
      (princ ", ")
      (emit-literal (cdr x))
