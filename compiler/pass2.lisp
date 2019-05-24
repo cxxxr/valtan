@@ -146,7 +146,7 @@
     (symbol (princ (symbol-to-js-value x)))
     (string (prin1 x))
     (number (princ x))
-    (character (format t "new lisp.Character(~D)" (char-code x)))
+    (character (format t "lisp.makeCharacter(~D)" (char-code x)))
     (cons
      (princ "lisp.cons(")
      (emit-literal (car x))
