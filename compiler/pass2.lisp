@@ -1,6 +1,8 @@
 (in-package :compiler)
 
+(defvar *toplevel-defun-stream* *standard-output*)
 (defvar *literal-symbols*)
+(defvar *defun-names*)
 
 (defparameter *character-map*
   '((#\! . "BANG")
@@ -449,6 +451,20 @@
   (write-string ")")
   (pass2-exit (ir-return-value-p ir)))
 
+(def-emit %defun (ir)
+  (let ((name (ir-arg1 ir))
+        (function (ir-arg2 ir)))
+    (let ((var (to-js-identier name "CL_")))
+      (push var *defun-names*)
+      (format *toplevel-defun-stream* "~A = " var)
+      (let ((*standard-output* *toplevel-defun-stream*))
+        (pass2 function)
+        (write-char #\;))
+      (let ((name-var (symbol-to-js-value name)))
+        (format t "lisp.setSymbolFunction(~A, ~A);" name-var var)
+        (format t "~A.func = ~A;~%" name-var var)
+        (write-line name-var)))))
+
 (defun emit-ref (args)
   (destructuring-bind (object . keys) args
     (if (ir-p object)
@@ -513,26 +529,40 @@
 (defun pass2-toplevel-1 (ir)
   (pass2 (make-ir 'progn nil nil (list ir))))
 
+(defun emit-initialize-vars ()
+  (maphash (lambda (symbol ident)
+             (declare (ignore symbol))
+             (format t "let ~A;~%" ident))
+           *literal-symbols*)
+  (dolist (name *defun-names*)
+    (format t "let ~A;~%" name)))
+
 (defun emit-initialize-symbols ()
   (maphash (lambda (symbol ident)
-             (format t "let ~A = lisp.intern('~A', '~A');~%"
+             (format t "~A = lisp.intern('~A', '~A');~%"
                      ident
                      symbol
                      (package-name (symbol-package symbol))))
            *literal-symbols*))
 
 (defun pass2-toplevel (ir)
-  (let ((*literal-symbols* (make-hash-table)))
+  (let ((*literal-symbols* (make-hash-table))
+        (*defun-names* '()))
     (let ((output (with-output-to-string (*standard-output*)
                     (pass2-toplevel-1 ir))))
-      (emit-initialize-symbols)
-      (write-string output)))
+      (emit-initialize-vars)
+      (write-string output)
+      (emit-initialize-symbols)))
   (values))
 
 (defun pass2-toplevel-forms (ir-forms)
-  (let ((*literal-symbols* (make-hash-table)))
-    (let ((output (with-output-to-string (*standard-output*)
-                    (dolist (ir ir-forms)
-                      (pass2-toplevel-1 ir)))))
+  (let ((*literal-symbols* (make-hash-table))
+        (*defun-names* '()))
+    (let* ((*toplevel-defun-stream* (make-string-output-stream))
+           (output (with-output-to-string (*standard-output*)
+                     (dolist (ir ir-forms)
+                       (pass2-toplevel-1 ir)))))
+      (emit-initialize-vars)
+      (write-string (get-output-stream-string *toplevel-defun-stream*))
       (emit-initialize-symbols)
       (write-string output))))

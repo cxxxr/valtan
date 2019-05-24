@@ -292,8 +292,11 @@
 (defun get-properties (plist indicator-list)
   (error "get-properties is undefined"))
 
-(defun getf (plist indicator &optional default)
-  (error "getf is undefined"))
+(defun getf (place indicator &optional default)
+  (do ((list place (cddr list)))
+      ((null list) default)
+    (when (eq indicator (car list))
+      (return (cadr list)))))
 
 (defsetf getf (plist indicator &optional default) (value)
   )

@@ -1,12 +1,6 @@
 (ffi:console.log "hello world")
 (ffi:console.log (list 1 2 3))
 
-(defun f1 (&key (foo 100))
-  foo)
-
-(ffi:console.log (f1))
-(ffi:console.log (f1 :foo 0))
-
 (dotimes (i 10)
   (ffi:console.log i))
 
@@ -72,7 +66,7 @@
 (ffi:console.log (list* 1 2 3))
 (ffi:console.log "member" (member 2 (list 1 2 3)))
 
-(ffi:console.log "==================== &rest ====================")
+(ffi:console.log "==================== lambda-list ====================")
 (defun f1 (&rest args)
   (ffi:console.log args))
 
@@ -84,6 +78,12 @@
 (f2 1 2)
 (f2 1 2 3)
 (f2 1 2 3 4)
+
+(defun f3 (&key (foo 100))
+  foo)
+
+(ffi:console.log (f3))
+(ffi:console.log (f3 :foo 0))
 
 (ffi:console.log "==================== defstruct ====================")
 (defstruct foo

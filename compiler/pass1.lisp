@@ -256,7 +256,7 @@
                           (list* ,g-setter ,g-store ,gensyms)
                           (list* ,g-getter ,gensyms)))))))
         ((variable-symbol-p name)
-         `(system::fset ',name (lambda ,lambda-list ,@body)))
+         `(%defun ,name ,lambda-list ,@body))
         (t
          (compile-error "The NAME argument to DEFUN, ~S, is not a function name." name))))
 
@@ -810,6 +810,9 @@
          (pass1 `(progn ,@body) return-value-p multiple-values-p))
         (t
          (pass1-const nil return-value-p))))
+
+(def-pass1-form %defun ((name lambda-list &rest body) return-value-p multiple-values-p)
+  (make-ir '%defun return-value-p nil name (pass1 `(lambda ,lambda-list ,@body) t nil)))
 
 (def-pass1-form ffi:require ((name module-name) return-value-p multiple-values-p)
   (unless (or (symbolp name) (stringp name))
