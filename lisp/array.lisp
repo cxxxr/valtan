@@ -1,9 +1,20 @@
 (in-package :common-lisp)
 
-(defun arrayp (x)
-  (or (stringp x)
-      (eq (ffi:instanceof x (ffi:ref "Array"))
-          (ffi:ref "true"))))
+(defstruct (array (:constructor %make-array)
+                  (:copier nil)
+                  (:predicate arrayp))
+  contents
+  fill-pointer
+  rank
+  length)
+
+(defun dimensions-to-total-size (dimensions)
+  (if (integerp dimensions)
+      dimensions
+      (let ((total-size (first dimensions)))
+        (dolist (d (rest dimensions))
+          (setq total-size (* total-size d)))
+        total-size)))
 
 (defun make-array (dimensions &key element-type initial-element initial-contents adjustable
                                    fill-pointer displaced-to displaced-index-offset)
@@ -19,41 +30,31 @@
                    (<= 0 fill-pointer)))
     ;(error "Bad fill-pointer: ~S" fill-pointer)
     (error "Bad fill-pointer"))
-  (let ((array (ffi:new (ffi:ref "Array") dimensions)))
-    ((ffi:ref array "fill") initial-element)
-    (ffi:set (ffi:ref array "fill-pointer") fill-pointer)
-    (ffi:set (ffi:ref array "rank")
-             (if (listp dimensions)
-                 (length dimensions)
-                 1))
-    array))
+  (let ((contents (ffi:new (ffi:ref "Array") dimensions)))
+    ((ffi:ref contents "fill") initial-element)
+    (%make-array :contents contents
+                 :fill-pointer fill-pointer
+                 :rank (if (listp dimensions)
+                           (length dimensions)
+                           1)
+                 :length (dimensions-to-total-size dimensions))))
 
 (defun aref (array sub)
   (unless (arrayp array)
     (error "type error"))
-  (when (or (< sub 0) (<= (ffi:ref array "length") sub))
+  (when (or (< sub 0) (<= (array-length array) sub))
     (error "index error"))
-  (ffi:index array sub))
+  (ffi:index (array-contents array) sub))
 
 (defun (setf aref) (value array sub)
   (unless (arrayp array)
     (error "type error"))
-  (when (or (< sub 0) (<= (ffi:ref array "length") sub))
+  (when (or (< sub 0) (<= (array-length array) sub))
     (error "index error"))
-  (ffi:set (ffi:index array sub) value))
-
-(defun array-rank (x)
-  (unless (arrayp x)
-    (error "type error"))
-  (ffi:ref x "rank"))
+  (ffi:set (ffi:index (array-contents array) sub) value))
 
 (defun vectorp (x)
-  (or (stringp x)
-      (and (eq (ffi:instanceof x (ffi:ref "Array"))
-               (ffi:ref "true"))
-           (eql 1 (ffi:ref x "rank")))))
+  (and (arrayp x) (= 1 (array-rank x))))
 
 (defun array-has-fill-pointer-p (array)
-  (and (equal (ffi:typeof array) "object")
-       (not (equal (ffi:ref array "fill-pointer")
-                   (ffi:ref "undefined")))))
+  (not (null (array-fill-pointer array))))
