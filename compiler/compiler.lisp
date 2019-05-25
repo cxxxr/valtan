@@ -9,11 +9,11 @@
     "FUNCALL"
     "APPLY"
     "SYMBOLP"
-    "KEYWORDP"
     "SYMBOL-PLIST"
     "BOUNDP"
     "SYMBOL-FUNCTION"
     "SYMBOL-NAME"
+    "SYMBOL-PACKAGE"
     "CONSP"
     "CONS"
     "CAR"
@@ -31,6 +31,7 @@
     "CHARACTERP"
     "CHAR-CODE"
     "CODE-CHAR"
+    "STRINGP"
     "INTERN"
     "PACKAGE-NAME"
     "FIND-PACKAGE"
@@ -159,7 +160,9 @@
                      "struct"
                      "array"
                      "string"
+                     "sequence"
                      "hashtable"
+                     "package"
                      "stream")))
 
 (defun build (pathnames &optional output)

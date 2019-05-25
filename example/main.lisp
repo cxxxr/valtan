@@ -207,3 +207,6 @@
   (ffi:console.log "b"))
 
 (foo)
+
+(ffi:console.log (find-if #'(lambda (x) (= x 2)) '(1 2 3)))
+
