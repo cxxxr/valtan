@@ -837,7 +837,7 @@
   (let ((arguments '()))
     (push (if (stringp object) object (pass1 object t nil)) arguments)
     (dolist (key keys)
-      (unless (or (stringp key))
+      (unless (stringp key)
         (compile-error "~S is not a string" key))
       (push key arguments))
     (nreverse arguments)))
