@@ -461,9 +461,10 @@
         (pass2 function)
         (write-char #\;))
       (let ((name-var (symbol-to-js-value name)))
+        (write-line "(function() {")
         (format t "lisp.setSymbolFunction(~A, ~A);" name-var var)
-        (format t "~A.func = ~A;~%" name-var var)
-        (write-line name-var)))))
+        (format t "return ~A;" name-var)
+        (write-string "})()")))))
 
 (defun emit-ref (args)
   (destructuring-bind (object . keys) args
