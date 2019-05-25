@@ -146,7 +146,7 @@
   (etypecase x
     (null (princ "lisp.nilValue"))
     (symbol (princ (symbol-to-js-value x)))
-    (string (format t "CL_JS_STRING_TO_ARRAY(~S)" x))
+    (string (format t "CL_SYSTEM_JS_STRING_TO_ARRAY(~S)" x))
     (number (princ x))
     (character (format t "lisp.makeCharacter(~D)" (char-code x)))
     (cons
@@ -454,7 +454,10 @@
 (def-emit %defun (ir)
   (let ((name (ir-arg1 ir))
         (function (ir-arg2 ir)))
-    (let ((var (to-js-identier name "CL_")))
+    (let ((var (to-js-identier name
+                               (if (symbol-package name)
+                                   (format nil "CL_~A_" (to-js-identier (package-name (symbol-package name))))
+                                   "CL_"))))
       (push var *defun-names*)
       (format *toplevel-defun-stream* "~A = " var)
       (let ((*standard-output* *toplevel-defun-stream*))
