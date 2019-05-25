@@ -162,7 +162,7 @@
                      "string"
                      "sequence"
                      "hashtable"
-                     "package"
+                     ;"package"
                      "stream")))
 
 (defun build (pathnames &optional output)
