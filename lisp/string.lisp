@@ -7,3 +7,7 @@
          (symbol-name x))
         (t
          (error "type error"))))
+
+(defun string= (x y)
+  (equal (string x)
+         (string y)))
