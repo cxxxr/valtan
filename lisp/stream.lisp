@@ -18,8 +18,8 @@
     (error "type error"))
   (cond ((string-output-stream-p stream)
          (setf (string-output-stream-buffer stream)
-               ((ffi:ref (string-output-stream-buffer stream) "concat")
-                (string char)))
+               (string-append (string-output-stream-buffer stream)
+                              (string char)))
          char)
         (t
          (error "stream-write-char trap"))))
@@ -29,8 +29,8 @@
     (error "type error"))
   (cond ((string-output-stream-p stream)
          (setf (string-output-stream-buffer stream)
-               ((ffi:ref (string-output-stream-buffer stream) "concat")
-                string))
+               (string-append (string-output-stream-buffer stream)
+                              string))
          string)
         (t
          (error "stream-write-string trap"))))

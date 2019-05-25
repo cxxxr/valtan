@@ -1,5 +1,8 @@
 (in-package :common-lisp)
 
+(defun make-symbol (string)
+  (system::%make-symbol (array-contents string)))
+
 (defun keywordp (x)
   (and (symbolp x)
        (eq (symbol-package x)

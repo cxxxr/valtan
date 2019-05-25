@@ -146,7 +146,7 @@
   (etypecase x
     (null (princ "lisp.nilValue"))
     (symbol (princ (symbol-to-js-value x)))
-    (string (prin1 x))
+    (string (format t "CL_JS_STRING_TO_ARRAY(~S)" x))
     (number (princ x))
     (character (format t "lisp.makeCharacter(~D)" (char-code x)))
     (cons

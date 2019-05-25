@@ -2,4 +2,4 @@
 
 (defun error (datum &rest arguments)
   ;(system:%error (format nil datum arguments))
-  (system:%error datum))
+  (system:%error (array-contents datum)))

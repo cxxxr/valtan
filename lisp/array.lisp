@@ -6,7 +6,8 @@
   contents
   fill-pointer
   rank
-  length)
+  length
+  element-type)
 
 (defun dimensions-to-total-size (dimensions)
   (if (integerp dimensions)
@@ -38,6 +39,12 @@
                            (length dimensions)
                            1)
                  :length (dimensions-to-total-size dimensions))))
+
+(defun system::js-string-to-array (js-string)
+  (%make-array :contents js-string
+               :rank 1
+               :length (ffi:ref js-string "length")
+               :element-type 'character))
 
 (defun aref (array sub)
   (unless (arrayp array)

@@ -33,8 +33,8 @@
                     :rehash-threshold rehash-threshold))
 
 (defun hash-table-count (hash-table)
-  (ffi:index ((ffi:ref "Object" "keys") (hash-table-object hash-table))
-             "length"))
+  (ffi:ref ((ffi:ref "Object" "keys") (hash-table-object hash-table))
+           "length"))
 
 (defun gethash (key hash-table &optional default)
   (let ((value (ffi:index (hash-table-object hash-table) key)))
@@ -56,7 +56,7 @@
 (defun maphash (function hash-table)
   (let* ((object (hash-table-object hash-table))
          (js-keys ((ffi:ref "Object" "keys") object))
-         (length (ffi:index js-keys "length")))
+         (length (ffi:ref js-keys "length")))
     (do ((i 0 (+ i 1)))
         ((= i length))
       (let* ((key (ffi:index js-keys i))

@@ -45,6 +45,11 @@
   (dotimes (i 3)
     (ffi:console.log (aref a i))))
 
+(let ((array "abcd"))
+  (ffi:console.log array)
+  (dotimes (i 4)
+    (ffi:console.log (aref array i))))
+
 (ffi:console.log "==================== ffi ====================")
 (let ((x (ffi:new (ffi:ref "Array") 10)))
   (ffi:console.log x)
@@ -192,9 +197,10 @@
 (ffi:console.log "(integerp 'a)" (integerp 'a))
 
 (ffi:console.log "==================== stream ====================")
-(ffi:console.log (with-output-to-string (out)
-  (write-string "string" out)
-  (write-char #\! out)))
+(ffi:console.log
+ (with-output-to-string (out)
+   (write-string "string" out)
+   (write-char #\! out)))
 
 (ffi:console.log "==================== package ====================")
 (ffi:console.log (package-name :cl))
@@ -211,3 +217,6 @@
 
 (ffi:console.log (find-if #'(lambda (x) (= x 2)) '(1 2 3)))
 
+
+
+(ffi:console.log (make-symbol "adlfjasldfkjksj"))
