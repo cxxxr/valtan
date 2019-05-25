@@ -200,3 +200,10 @@
 (ffi:console.log (package-name 'common-lisp))
 (ffi:console.log (find-package :keyword))
 (ffi:console.log (package-name (find-package :keyword)))
+
+(defun foo ()
+  (ffi:console.log "a")
+  (return-from foo)
+  (ffi:console.log "b"))
+
+(foo)

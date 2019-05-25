@@ -812,7 +812,18 @@
          (pass1-const nil return-value-p))))
 
 (def-pass1-form %defun ((name lambda-list &rest body) return-value-p multiple-values-p)
-  (make-ir '%defun return-value-p nil name (pass1 `(lambda ,lambda-list ,@body) t nil)))
+  (multiple-value-bind (body declares docstring)
+      (parse-body body t)
+    (declare (ignore docstring))
+    (let ((body `(block ,name ,@body)))
+      (make-ir '%defun
+               return-value-p
+               nil
+               name
+               (pass1 (if (null declares)
+                          `(lambda ,lambda-list ,body)
+                          `(lambda ,lambda-list (declare ,@declares) ,body))
+                      t nil)))))
 
 (def-pass1-form ffi:require ((name module-name) return-value-p multiple-values-p)
   (unless (or (symbolp name) (stringp name))
