@@ -7,7 +7,7 @@
         (options (if (consp name-and-options)
                      (rest name-and-options))))
     (check-type structure-name symbol)
-    (let* (conc-name-option
+    (let* ((conc-name (format nil "~A-" structure-name))
            constructor-option
            included-option
            type-option
@@ -25,7 +25,7 @@
         (unless (consp option) (setq option (list option)))
         (ecase (first option)
           (:conc-name
-           (setq conc-name-option (second option)))
+           (setq conc-name (second option)))
           (:constructor
            (setq constructor-name (second option)
                  constructor-option (rest option)))
@@ -72,7 +72,7 @@
                        (let* ((slot-name (if (consp slot-desc)
                                              (first slot-desc)
                                              slot-desc))
-                              (accessor (intern (format nil "~A-~A" structure-name slot-name))))
+                              (accessor (intern (format nil "~A~A" conc-name slot-name))))
                          (incf i)
                          `(progn
                             (defun ,accessor (structure)
