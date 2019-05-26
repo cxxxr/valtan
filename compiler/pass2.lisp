@@ -46,10 +46,7 @@
 
 (defparameter *emitter-table* (make-hash-table))
 
-(defparameter *var-counter* 0)
 
-(defun gen-var (prefix)
-  (format nil "~A~D" prefix (incf *var-counter*)))
 
 (defun to-js-identier (value &optional prefix)
   (flet ((f (c)
@@ -72,7 +69,7 @@
   (if (symbol-package symbol)
       (or (gethash symbol *literal-symbols*)
           (setf (gethash symbol *literal-symbols*)
-                (gen-var "G_")))
+                (genvar "G_")))
       (format nil "lisp.makeSymbol(\"~A\")" symbol)))
 
 (let ((i 0))
@@ -375,7 +372,7 @@
 (def-emit block (ir)
   (pass2-enter t)
   (let ((name (ir-arg1 ir))
-        (error-var (gen-var "E_")))
+        (error-var (genvar "E_")))
     (emit-try-catch
         ((error-var)
          (format t "if (~A instanceof lisp.BlockValue && ~A.name === ~A) { return ~A.value; }~%"
@@ -397,8 +394,8 @@
 
 (def-emit tagbody (ir)
   (pass2-enter (ir-return-value-p ir))
-  (let ((tag (gen-var "V"))
-        (err (gen-var "E_")))
+  (let ((tag (genvar "V"))
+        (err (genvar "E_")))
     (format t "let ~A = 0;~%" tag)
     (write-line "for (;;) {")
     (emit-try-catch
@@ -429,8 +426,8 @@
 
 (def-emit catch (ir)
   (pass2-enter t)
-  (let ((err (gen-var "E_"))
-        (tag (gen-var "TAG_")))
+  (let ((err (genvar "E_"))
+        (tag (genvar "TAG_")))
     (format t "let ~A = " tag)
     (pass2 (ir-arg1 ir))
     (write-line ";")

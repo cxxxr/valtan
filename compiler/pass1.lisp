@@ -14,12 +14,12 @@
 (defun make-variable-binding (symbol &optional (special-p (special-p symbol)))
   (make-binding :type (if special-p :special :variable)
                 :name symbol
-                :value symbol))
+                :value (genvar symbol)))
 
 (defun make-function-binding (symbol)
   (make-binding :type :function
                 :name symbol
-                :value symbol))
+                :value (genvar symbol)))
 
 (defun make-macro-binding (name value)
   (make-binding :type :macro
@@ -894,5 +894,6 @@
 
 (defun pass1-toplevel (form)
   (let ((*lexenv* '())
-        (*compile-level* -1))
+        (*compile-level* -1)
+        (*genvar-counter* 0))
     (pass1 form nil nil)))
