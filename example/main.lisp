@@ -220,3 +220,10 @@
 
 
 (ffi:console.log (make-symbol "adlfjasldfkjksj"))
+
+(let ((x 0))
+  (defun f ()
+    (setq x (+ x 1))))
+
+(ffi:console.log (f))
+(ffi:console.log (f))

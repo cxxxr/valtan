@@ -8,6 +8,9 @@
 (defvar *lexenv*)
 (defvar *compile-level* -1)
 
+(defun toplevel-p (&optional (level *compile-level*))
+  (>= 0 level))
+
 (defun make-variable-binding (symbol &optional (special-p (special-p symbol)))
   (make-binding :type (if special-p :special :variable)
                 :name symbol
@@ -256,7 +259,9 @@
                           (list* ,g-setter ,g-store ,gensyms)
                           (list* ,g-getter ,gensyms)))))))
         ((variable-symbol-p name)
-         `(%defun ,name ,lambda-list ,@body))
+         (if (toplevel-p)
+             `(%defun ,name ,lambda-list ,@body)
+             `(system::fset ',name (lambda ,lambda-list ,@body))))
         (t
          (compile-error "The NAME argument to DEFUN, ~S, is not a function name." name))))
 
@@ -797,7 +802,7 @@
   (pass1-const nil return-value-p))
 
 (def-pass1-form eval-when ((situations &rest body) return-value-p multiple-values-p)
-  (cond ((>= 0 *compile-level*)
+  (cond ((toplevel-p)
          (when (or (member :compile-toplevel situations)
                    (member 'compile situations))
            (eval `(progn ,@body)))
