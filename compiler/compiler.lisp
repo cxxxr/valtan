@@ -158,6 +158,7 @@
                      "type"
                      "number"
                      "struct"
+                     "character"
                      "array"
                      "string"
                      "sequence"

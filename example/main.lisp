@@ -227,3 +227,8 @@
 
 (ffi:console.log (f))
 (ffi:console.log (f))
+
+(ffi:console.log #\a)
+(ffi:console.log (characterp #\a))
+(ffi:console.log (code-char 70))
+(ffi:console.log (char-code #\a))

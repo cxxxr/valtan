@@ -148,7 +148,7 @@
     (symbol (princ (symbol-to-js-value x)))
     (string (format t "CL_SYSTEM_JS_STRING_TO_ARRAY(~S)" x))
     (number (princ x))
-    (character (format t "lisp.makeCharacter(~D)" (char-code x)))
+    (character (format t "CL_COMMON_LISP_CODE_CHAR(~D)" (char-code x)))
     (cons
      (princ "lisp.makeCons(")
      (emit-literal (car x))
