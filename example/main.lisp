@@ -236,3 +236,18 @@
 (ffi:console.log (funcall #'+ 1 2))
 (ffi:console.log (apply #'+ '(1 2 3)))
 (ffi:console.log (apply #'+ 100 200 '(1 2 3)))
+
+(defun return-values ()
+  (values 100 200))
+
+(assert (= 100 (multiple-value-call #'+ 100)))
+(assert (= 300 (multiple-value-call #'+ (return-values))))
+(assert (= 6 (multiple-value-call #'+ (values 1 2 3))))
+
+(assert (= 300 (multiple-value-call '+ 100 200)))
+(assert (= 600 (multiple-value-call '+ 100 200 300)))
+(assert (= 106 (multiple-value-call '+ 100 (values 1 2 3))))
+(assert (= 400 (multiple-value-call '+ 100 (return-values))))
+
+;(ffi:console.log (multiple-value-call #'+ 100 (values 1 2 3)))
+;(ffi:console.log (values 1 2 3))

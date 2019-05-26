@@ -424,3 +424,18 @@
 
 (defmacro destructuring-bind (lambda-list expression &body body)
   (expand-destructuring-bind lambda-list expression body))
+
+(defun values (&rest args)
+  (system::values (system::list-to-js-array args)))
+
+(defmacro multiple-value-call (function arg &rest args)
+  (if (null args)
+      `(system::multiple-value-call (ensure-function ,function)
+         ,(if (atom arg)
+              `(values ,arg)
+              arg))
+      `(system::multiple-value-call (ensure-function ,function)
+         ,arg
+         ,@(if (atom (car (last args)))
+               `(,@(butlast args) (values ,@(last args)))
+               args))))
