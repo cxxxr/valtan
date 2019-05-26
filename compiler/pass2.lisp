@@ -44,9 +44,12 @@
     (#\page . "PAGE")
     (#\tab . "TAB")))
 
+(defparameter *builtin-function-table* (make-hash-table))
+
+(setf (gethash 'system::apply *builtin-function-table*) "lisp.CL_apply")
+(setf (gethash 'system::functionp *builtin-function-table*) "lisp.CL_functionp")
+
 (defparameter *emitter-table* (make-hash-table))
-
-
 
 (defun to-js-identier (value &optional prefix)
   (flet ((f (c)
@@ -357,9 +360,13 @@
 
 (def-emit call (ir)
   (let ((symbol (ir-arg1 ir)))
-    (format t "lisp.callFunction(~A" (symbol-to-js-value symbol))
-    (when (ir-arg2 ir)
-      (write-string ", ")))
+    (let ((builtin (gethash symbol *builtin-function-table*)))
+      (cond (builtin
+             (format t "~A(" builtin))
+            (t
+             (format t "lisp.callFunction(~A" (symbol-to-js-value symbol))
+             (when (ir-arg2 ir)
+               (write-string ", "))))))
   (emit-call-args (ir-arg2 ir)))
 
 (def-emit unwind-protect (ir)

@@ -232,3 +232,7 @@
 (ffi:console.log (characterp #\a))
 (ffi:console.log (code-char 70))
 (ffi:console.log (char-code #\a))
+
+(ffi:console.log (funcall #'+ 1 2))
+(ffi:console.log (apply #'+ '(1 2 3)))
+(ffi:console.log (apply #'+ 100 200 '(1 2 3)))

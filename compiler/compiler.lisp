@@ -161,6 +161,7 @@
                      "character"
                      "array"
                      "string"
+                     "function"
                      "sequence"
                      "hashtable"
                      ;"package"
