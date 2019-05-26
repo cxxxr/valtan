@@ -74,9 +74,15 @@
                                              slot-desc))
                               (accessor (intern (format nil "~A~A" conc-name slot-name))))
                          (incf i)
-                         `(progn
-                            (defun ,accessor (structure)
-                              (system:structure-ref structure ,i))
-                            (defun (setf ,accessor) (value structure)
-                              (system:structure-set structure ,i value)))))
+                         (destructuring-bind (&key type read-only)
+                             (if (consp slot-desc)
+                                 (cddr slot-desc)
+                                 nil)
+                           (declare (ignore type))
+                           `(progn
+                              (defun ,accessor (structure)
+                                (system:structure-ref structure ,i))
+                              ,@(unless read-only
+                                  `((defun (setf ,accessor) (value structure)
+                                      (system:structure-set structure ,i value))))))))
                      slot-descriptions))))))

@@ -20,10 +20,10 @@
                        (:predicate hash-table-p)
                        (:constructor %make-hash-table))
   object
-  (test :read-only t)
-  (size :read-only t)
-  (rehash-size :read-only t)
-  (rehash-threshold :read-only t))
+  (test nil :read-only t)
+  (size nil :read-only t)
+  (rehash-size nil :read-only t)
+  (rehash-threshold nil :read-only t))
 
 (defun make-hash-table (&key test size rehash-size rehash-threshold)
   (%make-hash-table :object (ffi:make-object)
