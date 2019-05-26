@@ -1,5 +1,27 @@
 (in-package :common-lisp)
 
+(defstruct (cons (:predicate consp)
+                 (:copier nil)
+                 (:constructor cons (car cdr)))
+  car
+  cdr)
+
+(defun car (x)
+  (if (null x)
+      nil
+      (cons-car x)))
+
+(defun cdr (x)
+  (if (null x)
+      nil
+      (cons-cdr x)))
+
+(defun rplaca (cons value)
+  (setf (cons-car cons) value))
+
+(defun rplacd (cons value)
+  (setf (cons-cdr cons) value))
+
 (defun atom (x)
   (not (consp x)))
 
@@ -336,3 +358,16 @@
 
 (defun nunion (list-1 list-2 &key key test test-not)
   (error "nunion is undefined"))
+
+(defun system::js-arguments-to-list (js-arguments start)
+  (let ((list '()))
+    (do ((i (1- (ffi:ref js-arguments "length")) (1- i)))
+        ((< i start))
+      (setq list (cons (ffi:index js-arguments i) list)))
+    list))
+
+(defun system::list-to-js-array (list)
+  (let ((js-array (ffi:new (ffi:ref "Array"))))
+    (dolist (x list)
+      ((ffi:ref js-array "push") x))
+    js-array))

@@ -150,7 +150,7 @@
     (number (princ x))
     (character (format t "CL_COMMON_LISP_CODE_CHAR(~D)" (char-code x)))
     (cons
-     (princ "lisp.makeCons(")
+     (princ "CL_COMMON_LISP_CONS(")
      (emit-literal (car x))
      (princ ", ")
      (emit-literal (cdr x))
@@ -318,7 +318,7 @@
       (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
         (when rest-var
           (emit-declvar rest-var finally-stream)
-          (format t "lisp.jsArrayToList(arguments, ~D);~%" i)
+          (format t "CL_SYSTEM_JS_ARGUMENTS_TO_LIST(arguments, ~D);~%" i)
           (symbol-to-js-local-var (binding-value rest-var)))))))
 
 (def-emit lambda (ir)
