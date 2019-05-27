@@ -2,7 +2,7 @@
 
 (defun error (datum &rest arguments)
   ;(system:%error (format nil datum arguments))
-  (system:%error (array-contents datum)))
+  (system::error (array-contents datum)))
 
 (defmacro assert (test-form &optional place datum-form argument-form)
   (declare (ignore place datum-form argument-form))
