@@ -439,3 +439,17 @@
          ,@(if (atom (car (last args)))
                `(,@(butlast args) (values ,@(last args)))
                args))))
+
+(defun eq (x y)
+  (system::eq x y))
+
+(defun eql (x y)
+  (system::eq x y))
+
+(defun equal (x y)
+  (cond ((and (consp x)
+              (consp y))
+         (and (equal (car x) (car y))
+              (equal (cdr x) (cdr y))))
+        (t
+         (eql x y))))

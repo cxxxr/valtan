@@ -50,6 +50,7 @@
 (setf (gethash 'system::functionp *builtin-function-table*) "lisp.CL_functionp")
 (setf (gethash 'system::values *builtin-function-table*) "lisp.CL_values")
 (setf (gethash 'system::multiple-value-call *builtin-function-table*) "lisp.CL_multipleValueCall")
+(setf (gethash 'system::eq *builtin-function-table*) "lisp.CL_eq")
 
 (defparameter *emitter-table* (make-hash-table))
 

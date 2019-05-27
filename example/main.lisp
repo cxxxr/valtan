@@ -249,5 +249,11 @@
 (assert (= 106 (multiple-value-call '+ 100 (values 1 2 3))))
 (assert (= 400 (multiple-value-call '+ 100 (return-values))))
 
-;(ffi:console.log (multiple-value-call #'+ 100 (values 1 2 3)))
-;(ffi:console.log (values 1 2 3))
+(assert (equal 1 1))
+(assert (not (equal 1 2)))
+(assert (equal 'a 'a))
+(assert (not (equal 'a 'b)))
+(assert (equal (cons 1 2) (cons 1 2)))
+(assert (equal '(1 ((a b) 3)) '(1 ((a b) 3))))
+(assert (not (equal '(2 ((a b) 3)) '(1 ((a b) 3)))))
+(assert (not (equal (list 1 2) (list 1 2 3))))
