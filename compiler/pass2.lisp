@@ -52,6 +52,14 @@
 (setf (gethash 'system::multiple-value-call *builtin-function-table*) "lisp.CL_multipleValueCall")
 (setf (gethash 'system::eq *builtin-function-table*) "lisp.CL_eq")
 (setf (gethash 'system::error *builtin-function-table*) "lisp.CL_error")
+(setf (gethash 'system::add *builtin-function-table*) 'emit-add)
+(setf (gethash 'system::sub *builtin-function-table*) 'emit-sub)
+(setf (gethash 'system::mul *builtin-function-table*) 'emit-mul)
+(setf (gethash 'system::number-equal *builtin-function-table*) 'emit-number-equal)
+(setf (gethash 'system::greater-than *builtin-function-table*) 'emit-greater-than)
+(setf (gethash 'system::greater-equal *builtin-function-table*) 'emit-greater-equal)
+(setf (gethash 'system::less-than *builtin-function-table*) 'emit-less-than)
+(setf (gethash 'system::less-equal *builtin-function-table*) 'emit-less-equal)
 
 (defparameter *emitter-table* (make-hash-table))
 
@@ -362,16 +370,45 @@
   (format t "~A(" (symbol-to-js-function-var (binding-name (ir-arg1 ir))))
   (emit-call-args (ir-arg2 ir)))
 
+(defun emit-number-equal (ir)
+  (pass2-enter (ir-return-value-p ir))
+  (destructuring-bind (arg1 arg2) (ir-arg2 ir)
+    (let ((x (genvar "_X"))
+          (y (genvar "_Y")))
+      (format t "~A = " x)
+      (pass2 arg1)
+      (format t ";~%")
+      (format t "~A = " y)
+      (pass2 arg2)
+      (format t ";~%")
+      (format t "return ~A === ~A;" x y)))
+  (pass2-exit (ir-return-value-p ir)))
+
+(defun emit-greater-than (ir)
+  (declare (ignore ir)))
+
+(defun emit-greater-equal (ir)
+  (declare (ignore ir)))
+
+(defun emit-less-than (ir)
+  (declare (ignore ir)))
+
+(defun emit-less-equal (ir)
+  (declare (ignore ir)))
+
 (def-emit call (ir)
   (let ((symbol (ir-arg1 ir)))
     (let ((builtin (gethash symbol *builtin-function-table*)))
-      (cond (builtin
-             (format t "~A(" builtin))
-            (t
+      (cond ((null builtin)
              (format t "lisp.callFunction(~A" (symbol-to-js-value symbol))
              (when (ir-arg2 ir)
-               (write-string ", "))))))
-  (emit-call-args (ir-arg2 ir)))
+               (write-string ", "))
+             (emit-call-args (ir-arg2 ir)))
+            ((stringp builtin)
+             (format t "~A(" builtin)
+             (emit-call-args (ir-arg2 ir)))
+            (t
+             (funcall builtin ir))))))
 
 (def-emit unwind-protect (ir)
   (pass2-enter (ir-return-value-p ir))
@@ -559,7 +596,8 @@
 
 (defun pass2-toplevel (ir)
   (let ((*literal-symbols* (make-hash-table))
-        (*defun-names* '()))
+        (*defun-names* '())
+        (*genvar-counter* 0))
     (let ((output (with-output-to-string (*standard-output*)
                     (pass2-toplevel-1 ir))))
       (emit-initialize-vars)
@@ -569,7 +607,8 @@
 
 (defun pass2-toplevel-forms (ir-forms)
   (let ((*literal-symbols* (make-hash-table))
-        (*defun-names* '()))
+        (*defun-names* '())
+        (*genvar-counter* 0))
     (let* ((*toplevel-defun-stream* (make-string-output-stream))
            (output (with-output-to-string (*standard-output*)
                      (dolist (ir ir-forms)
