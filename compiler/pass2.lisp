@@ -370,7 +370,7 @@
   (format t "~A(" (symbol-to-js-function-var (binding-name (ir-arg1 ir))))
   (emit-call-args (ir-arg2 ir)))
 
-(defun emit-number-equal (ir)
+(defun emit-number-operate (ir op)
   (pass2-enter (ir-return-value-p ir))
   (destructuring-bind (arg1 arg2) (ir-arg2 ir)
     (let ((x (genvar "_X"))
@@ -381,20 +381,34 @@
       (format t "~A = " y)
       (pass2 arg2)
       (format t ";~%")
-      (format t "return ~A === ~A;" x y)))
+      (format t "if (typeof(~A) === 'number') error('type error');~%" x)
+      (format t "if (typeof(~A) === 'number') error('type error');~%" y)
+      (format t "return ~A ~A ~A;" x op y)))
   (pass2-exit (ir-return-value-p ir)))
 
+(defun emit-add (ir)
+  (emit-number-operate ir "+"))
+
+(defun emit-sub (ir)
+  (emit-number-operate ir "-"))
+
+(defun emit-mul (ir)
+  (emit-number-operate ir "*"))
+
+(defun emit-number-equal (ir)
+  (emit-number-operate ir "==="))
+
 (defun emit-greater-than (ir)
-  (declare (ignore ir)))
+  (emit-number-operate ir ">"))
 
 (defun emit-greater-equal (ir)
-  (declare (ignore ir)))
+  (emit-number-operate ir ">="))
 
 (defun emit-less-than (ir)
-  (declare (ignore ir)))
+  (emit-number-operate ir "<"))
 
 (defun emit-less-equal (ir)
-  (declare (ignore ir)))
+  (emit-number-operate ir "<="))
 
 (def-emit call (ir)
   (let ((symbol (ir-arg1 ir)))
