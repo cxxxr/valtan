@@ -60,6 +60,12 @@
 (setf (gethash 'system::greater-equal *builtin-function-table*) 'emit-greater-equal)
 (setf (gethash 'system::less-than *builtin-function-table*) 'emit-less-than)
 (setf (gethash 'system::less-equal *builtin-function-table*) 'emit-less-equal)
+(setf (gethash 'system::make-structure *builtin-function-table*) "lisp.CL_makeStructure")
+(setf (gethash 'system::copy-structure *builtin-function-table*) "lisp.CL_copyStructure")
+(setf (gethash 'system::structure-p *builtin-function-table*) "lisp.CL_structurep")
+(setf (gethash 'system::structure-name *builtin-function-table*) "lisp.CL_structureName")
+(setf (gethash 'system::structure-ref *builtin-function-table*) "lisp.CL_structureRef")
+(setf (gethash 'system::structure-set *builtin-function-table*) "lisp.CL_structureSet")
 
 (defparameter *emitter-table* (make-hash-table))
 
