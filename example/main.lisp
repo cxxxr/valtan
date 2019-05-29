@@ -1,7 +1,6 @@
-;(ffi:console.log "hello world")
-(list)
-;(ffi:console.log (list 1 2 3))
-#|
+(ffi:console.log "hello world")
+(ffi:console.log (list 1 2 3))
+
 (dotimes (i 10)
   (ffi:console.log i))
 
@@ -258,4 +257,3 @@
 (assert (equal '(1 ((a b) 3)) '(1 ((a b) 3))))
 (assert (not (equal '(2 ((a b) 3)) '(1 ((a b) 3)))))
 (assert (not (equal (list 1 2) (list 1 2 3))))
-|#
