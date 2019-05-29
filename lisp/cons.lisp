@@ -359,8 +359,9 @@
 
 (defun system::js-arguments-to-list (js-arguments start)
   (let ((list '()))
-    (do ((i (1- (ffi:ref js-arguments "length")) (1- i)))
-        ((< i start))
+    (do ((i (system::sub (ffi:ref js-arguments "length") 1)
+            (system::sub i 1)))
+        ((system::less-than i start))
       (setq list (cons (ffi:index js-arguments i) list)))
     list))
 
