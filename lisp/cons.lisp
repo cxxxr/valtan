@@ -146,8 +146,6 @@
              (when (endp y) (return n))
              (when (endp (cdr y)) (return (+ n 1)))
              (when (and (eq y z) (> n 0)) (return nil)))))
-    (ffi:console.log list)
-    (ffi:console.log x)
     x))
 
 (defun make-list (size &key initial-element)
