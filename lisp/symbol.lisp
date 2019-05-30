@@ -41,6 +41,9 @@
   (setf (symbol-%function symbol)
         function))
 
+(defun system::set-symbol-value (symbol value)
+  (setf (symbol-%value symbol) value))
+
 (defun boundp (symbol)
   (not (eq +unbound+ (symbol-value symbol))))
 

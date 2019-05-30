@@ -65,11 +65,3 @@
           (let ((symbol (%make-symbol string package)))
             (push symbol (package-internal-symbols package))
             (values symbol nil))))))
-
-(make-package "COMMON-LISP" :nicknames '("CL"))
-(make-package "SYSTEM")
-(make-package "FFI")
-(make-package "KEYWORD")
-(make-package "COMMON-LISP-USER" :nicknames '("CL-USER"))
-
-(defvar *package* (find-package "CL-USER"))
