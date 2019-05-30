@@ -56,6 +56,11 @@
         (when (equal string (symbol-name symbol))
           (return-from find-symbol (values symbol :inherited)))))))
 
+(defun %intern (string package)
+  (let ((symbol (%make-symbol :name string :package package)))
+    (push symbol (package-internal-symbols package))
+    symbol))
+
 (defun intern (string &optional (package-designator *package*))
   (let ((package (package-designator-to-package package-designator)))
     (multiple-value-bind (symbol found)

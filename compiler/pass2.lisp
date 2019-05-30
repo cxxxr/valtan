@@ -583,7 +583,7 @@
 
 (defun emit-initialize-symbols ()
   (maphash (lambda (symbol ident)
-             (format t "~A = CL_COMMON_LISP_INTERN('~A', '~A');~%"
+             (format t "~A = CL_COMMON_LISP_PERCENTINTERN('~A', '~A');~%"
                      ident
                      symbol
                      (package-name (symbol-package symbol))))

@@ -2,13 +2,11 @@
 
 ;; TODO: defconstantで定義する
 (defvar +unbound+ '#:unbound)
-(defvar t 't)
-(defvar nil 'nil)
 
 (ffi:set (ffi:ref "lisp" "tValue") t)
 (ffi:set (ffi:ref "lisp" "nilValue") nil)
 
-(defstruct (symbol (:constructor %make-symbol (name package))
+(defstruct (symbol (:constructor %make-symbol)
                    (:copier nil)
                    (:predicate symbolp))
   name
@@ -18,7 +16,7 @@
   package)
 
 (defun make-symbol (string)
-  (%make-symbol string nil))
+  (%make-symbol :name string))
 
 (defun keywordp (x)
   (and (symbolp x)
