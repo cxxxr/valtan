@@ -84,7 +84,7 @@
 
 (defun variable-symbol-p (x)
   (and (symbolp x)
-       (not (null x))
+       ;(not (null x))
        (not (keywordp x))))
 
 (defun proper-list-p (x)
