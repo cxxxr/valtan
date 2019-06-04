@@ -95,12 +95,6 @@
                 (genvar "G_")))
       (format nil "CL_COMMON_LISP_MAKE_SYMBOL(CL_SYSTEM_JS_STRING_TO_ARRAY(~S))" (symbol-name symbol))))
 
-(defun function-name-to-js-name (name)
-  (to-js-identier name
-                  (if (symbol-package name)
-                      (format nil "CL_~A_" (to-js-identier (package-name (symbol-package name))))
-                      "CL_")))
-
 (let ((i 0))
   (defun gen-temporary-js-var (&optional (prefix "TMP_"))
     (format nil "~A~D" prefix (incf i))))
@@ -196,10 +190,7 @@
 
 (def-emit gref (ir)
   (let ((ident (symbol-to-js-value (ir-arg1 ir))))
-    (pass2-enter t)
-    (format t "if (~A === undefined) throw new Error('~A');" ident (ir-arg1 ir))
-    (format t "CL_COMMON_LISP_SYMBOL_VALUE(~A)" ident)
-    (pass2-exit t)))
+    (format t "lisp.symbolValue(~A)" ident)))
 
 (def-emit (lset gset) (ir)
   (when (ir-return-value-p ir)
@@ -209,7 +200,7 @@
          (pass2 (ir-arg2 ir)))
         (t
          (let ((ident (symbol-to-js-value (ir-arg1 ir))))
-           (format t "CL_SYSTEM_SET_SYMBOL_VALUE(~A, " ident))
+           (format t "lisp.setSymbolValue(~A, " ident))
          (pass2 (ir-arg2 ir))
          (write-string ")")))
   (when (ir-return-value-p ir)
@@ -394,9 +385,7 @@
   (let ((symbol (ir-arg1 ir)))
     (let ((builtin (gethash symbol *builtin-function-table*)))
       (cond ((null builtin)
-             (format t "~A(" (function-name-to-js-name symbol))
-             ;(format t "CL_COMMON_LISP_SYMBOL_FUNCTION(~A)(" (symbol-to-js-value symbol))
-             #+(or)
+             (format t "lisp.callFunction(~A" (symbol-to-js-value symbol))
              (when (ir-arg2 ir)
                (write-string ", "))
              (emit-call-args (ir-arg2 ir)))
@@ -495,13 +484,14 @@
 (def-emit %defun (ir)
   (let ((name (ir-arg1 ir))
         (function (ir-arg2 ir)))
-    (let ((var (function-name-to-js-name name)))
+    (let ((var (to-js-identier name
+                               (if (symbol-package name)
+                                   (format nil "CL_~A_" (to-js-identier (package-name (symbol-package name))))
+                                   "CL_"))))
       (push var *defun-names*)
       (format *toplevel-defun-stream* "~A = " var)
       (let ((*standard-output* *toplevel-defun-stream*))
-        (let (($name name))
-          (declare (special $name))
-          (pass2 function))
+        (pass2 function)
         (write-char #\;))
       (let ((name-var (symbol-to-js-value name)))
         (write-line "(function() {")

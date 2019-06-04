@@ -165,8 +165,7 @@
                      "sequence"
                      "hashtable"
                      "package"
-                     "stream"
-                     "initialize")))
+                     "stream")))
 
 (defun build (pathnames &optional output)
   (with-open-stream (*standard-output*
