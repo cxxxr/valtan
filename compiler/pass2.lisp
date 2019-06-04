@@ -93,7 +93,7 @@
       (or (gethash symbol *literal-symbols*)
           (setf (gethash symbol *literal-symbols*)
                 (genvar "G_")))
-      (format nil "CL_COMMON_LISP_MAKE_SYMBOL(CL_SYSTEM_JS_STRING_TO_ARRAY(~S))" (symbol-name symbol))))
+      (format nil "lisp.makeSymbol(\"~A\")" symbol)))
 
 (let ((i 0))
   (defun gen-temporary-js-var (&optional (prefix "TMP_"))
@@ -573,7 +573,7 @@
 
 (defun emit-initialize-symbols ()
   (maphash (lambda (symbol ident)
-             (format t "~A = CL_COMMON_LISP_INTERN('~A', '~A');~%"
+             (format t "~A = lisp.intern('~A', '~A');~%"
                      ident
                      symbol
                      (package-name (symbol-package symbol))))
