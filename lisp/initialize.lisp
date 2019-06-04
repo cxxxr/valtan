@@ -6,6 +6,3 @@
 (make-package "KEYWORD")
 (let ((cl-user (make-package "COMMON-LISP-USER" :nicknames '("CL-USER"))))
   (defvar *package* cl-user))
-
-(defvar t 't)
-(defvar nil 'nil)
