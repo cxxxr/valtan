@@ -131,7 +131,7 @@
 
 (ffi:console.log "==================== Symbol ====================")
 (ffi:console.log (symbol-plist 'foo))
-(system::put-symbol-plist 'foo (list 'a 1 'b 2))
+(setf (symbol-plist 'foo) (list 'a 1 'b 2))
 (ffi:console.log (symbol-plist 'foo))
 (setf (get 'aaa 'key1) 100)
 (ffi:console.log (get 'aaa 'key1))
