@@ -30,6 +30,3 @@
                  (setf (cdr tail) (list a))
                  (setq tail (cdr tail))))
              (system::apply function (system::list-to-js-array head)))))))
-
-(defun functionp (x)
-  (system::functionp x))
