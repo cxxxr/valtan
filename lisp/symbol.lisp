@@ -3,6 +3,9 @@
 (defun make-symbol (string)
   (system::%make-symbol (array-contents string)))
 
+(defun symbol-package (symbol)
+  (find-package (system::symbol-package-name symbol)))
+
 (defun keywordp (x)
   (and (symbolp x)
        (eq (symbol-package x)
