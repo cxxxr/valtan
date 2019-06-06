@@ -259,3 +259,9 @@
 (assert (equal '(1 ((a b) 3)) '(1 ((a b) 3))))
 (assert (not (equal '(2 ((a b) 3)) '(1 ((a b) 3)))))
 (assert (not (equal (list 1 2) (list 1 2 3))))
+
+((lambda (&rest x) (assert (equal x (list 1 2 3)))) 1 2 3)
+((lambda (x &rest y)
+   (assert (eql x 1))
+   (assert (equal y (list 2 3))))
+ 1 2 3)

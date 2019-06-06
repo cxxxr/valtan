@@ -335,14 +335,6 @@
 (defun nunion (list-1 list-2 &key key test test-not)
   (error "nunion is undefined"))
 
-(defun system::js-arguments-to-list (js-arguments start)
-  (let ((list '()))
-    (do ((i (- (ffi:ref js-arguments "length") 1)
-            (- i 1)))
-        ((< i start))
-      (setq list (cons (ffi:index js-arguments i) list)))
-    list))
-
 (defun system::list-to-js-array (list)
   (let ((js-array (ffi:new (ffi:ref "Array"))))
     (dolist (x list)
