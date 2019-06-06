@@ -46,8 +46,6 @@
 
 (defparameter *builtin-function-table* (make-hash-table))
 
-(setf (gethash 'system::values *builtin-function-table*) "lisp.CL_values")
-(setf (gethash 'system::multiple-value-call *builtin-function-table*) "lisp.CL_multipleValueCall")
 (setf (gethash 'system::eq *builtin-function-table*) "lisp.CL_eq")
 (setf (gethash 'system::error *builtin-function-table*) "lisp.CL_error")
 (setf (gethash 'system::make-structure *builtin-function-table*) "lisp.CL_makeStructure")
