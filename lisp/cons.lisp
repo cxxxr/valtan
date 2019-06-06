@@ -297,7 +297,7 @@
       (return (cadr list)))))
 
 (defsetf getf (plist indicator &optional default) (value)
-  )
+  (error "(setf getf) is undefined"))
 
 (defmacro remf (place indicator)
   (declare (ignore place indicator)))
