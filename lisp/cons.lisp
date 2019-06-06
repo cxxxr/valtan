@@ -1,27 +1,5 @@
 (in-package :common-lisp)
 
-(defstruct (cons (:predicate consp)
-                 (:copier nil)
-                 (:constructor cons (car cdr)))
-  car
-  cdr)
-
-(defun car (x)
-  (if (null x)
-      nil
-      (cons-car x)))
-
-(defun cdr (x)
-  (if (null x)
-      nil
-      (cons-cdr x)))
-
-(defun rplaca (cons value)
-  (setf (cons-car cons) value))
-
-(defun rplacd (cons value)
-  (setf (cons-cdr cons) value))
-
 (defun atom (x)
   (not (consp x)))
 

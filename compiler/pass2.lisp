@@ -160,7 +160,7 @@
     (number (princ x))
     (character (format t "CL_COMMON_LISP_CODE_CHAR(~D)" (char-code x)))
     (cons
-     (princ "CL_COMMON_LISP_CONS(")
+     (princ "lisp.makeCons(")
      (emit-literal (car x))
      (princ ", ")
      (emit-literal (cdr x))
@@ -259,6 +259,7 @@
     ((:special)
      (let ((identier (symbol-to-js-value (binding-value var)))
            (save-var (to-js-identier (binding-value var) "SAVE_")))
+       ;;;;;;;;;;;; **************** TODO: ここのvalueを直接参照しているのを直す **********************
        (format t "const ~A = ~A.value;~%" save-var identier)
        (format t "~A.value = " identier)
        (format finally-stream "~A.value = ~A;~%" identier save-var)))
