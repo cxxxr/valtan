@@ -332,10 +332,7 @@
           (symbol-to-js-local-var (binding-value rest-var)))))))
 
 (def-emit lambda (ir)
-  (declare (special $name))
   (write-line "(function() {")
-  (when (boundp '$name)
-    (format t "console.log('~A');~%" $name))
   (let ((parsed-lambda-list (ir-arg1 ir)))
     (emit-check-arguments parsed-lambda-list)
     (let ((finally-code
