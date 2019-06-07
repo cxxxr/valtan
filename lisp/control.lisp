@@ -437,11 +437,8 @@
                `(,@(butlast args) (values ,@(last args)))
                args))))
 
-(defun eq (x y)
-  (system::eq x y))
-
 (defun eql (x y)
-  (system::eq x y))
+  (eq x y))
 
 (defun equal (x y)
   (cond ((and (consp x)
