@@ -48,12 +48,6 @@
 
 (setf (gethash 'system::eq *builtin-function-table*) "lisp.CL_eq")
 (setf (gethash 'system::error *builtin-function-table*) "lisp.CL_error")
-(setf (gethash 'system::make-structure *builtin-function-table*) "lisp.CL_makeStructure")
-(setf (gethash 'system::copy-structure *builtin-function-table*) "lisp.CL_copyStructure")
-(setf (gethash 'system::structure-p *builtin-function-table*) "lisp.CL_structurep")
-(setf (gethash 'system::structure-name *builtin-function-table*) "lisp.CL_structureName")
-(setf (gethash 'system::structure-ref *builtin-function-table*) "lisp.CL_structureRef")
-(setf (gethash 'system::structure-set *builtin-function-table*) "lisp.CL_structureSet")
 
 (defparameter *emitter-table* (make-hash-table))
 
