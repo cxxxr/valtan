@@ -148,15 +148,19 @@
   (ffi:console.log (piyo-p piyo)))
 
 (ffi:console.log "==================== Symbol ====================")
-(ffi:console.log (symbol-plist 'foo))
+(assert (equal (symbol-plist 'foo) '()))
 (setf (symbol-plist 'foo) (list 'a 1 'b 2))
-(ffi:console.log (symbol-plist 'foo))
+(assert (equal (symbol-plist 'foo) '(a 1 b 2)))
 (setf (get 'aaa 'key1) 100)
-(ffi:console.log (get 'aaa 'key1))
+(assert (= (get 'aaa 'key1) 100))
 
-(ffi:console.log "(keywordp :foo)" (keywordp :foo))
-(ffi:console.log "(keywordp 'foo)" (keywordp 'foo))
-(ffi:console.log "(keywordp 1)" (keywordp 1))
+(assert (keywordp :foo))
+(assert (not (keywordp 'foo)))
+(assert (not (keywordp 1)))
+
+(let ((name (symbol-name 'abc)))
+  (assert (stringp name))
+  (assert (string= name "ABC")))
 
 (ffi:console.log "==================== Hash Table ====================")
 (let ((x (make-hash-table)))

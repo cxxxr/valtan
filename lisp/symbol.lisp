@@ -3,6 +3,9 @@
 (defun make-symbol (string)
   (system::%make-symbol (array-contents string)))
 
+(defun symbol-name (symbol)
+  (system::js-string-to-array (system::%symbol-name symbol)))
+
 (defun symbol-package (symbol)
   (find-package (system::symbol-package-name symbol)))
 
