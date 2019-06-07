@@ -246,7 +246,8 @@
     ((:special)
      (let ((identier (symbol-to-js-value (binding-name var)))
            (save-var (to-js-identier (binding-value var) "SAVE_")))
-       ;;;;;;;;;;;; **************** TODO: ここのvalueを直接参照しているのを直す **********************
+       ;; lisp.symbolValue関数を使わずに直接valueを参照していて行儀が悪いが、
+       ;; この時点でスペシャル変数は未束縛の場合もありsymbolValueを使うとunboundエラーが起こる
        (format t "const ~A = ~A.value;~%" save-var identier)
        (format t "~A.value = " identier)
        (format finally-stream "~A.value = ~A;~%" identier save-var)))
