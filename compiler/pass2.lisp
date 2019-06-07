@@ -46,9 +46,6 @@
 
 (defparameter *builtin-function-table* (make-hash-table))
 
-(setf (gethash 'system::eq *builtin-function-table*) "lisp.CL_eq")
-(setf (gethash 'system::error *builtin-function-table*) "lisp.CL_error")
-
 (defparameter *emitter-table* (make-hash-table))
 
 (defun to-js-identier (value &optional prefix)
