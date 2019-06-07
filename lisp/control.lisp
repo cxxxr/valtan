@@ -445,5 +445,8 @@
               (consp y))
          (and (equal (car x) (car y))
               (equal (cdr x) (cdr y))))
+        ((and (stringp x)
+              (stringp y))
+         (string= x y))
         (t
          (eql x y))))

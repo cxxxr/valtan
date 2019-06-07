@@ -17,6 +17,15 @@
           (setq total-size (* total-size d)))
         total-size)))
 
+(defun make-array-contents (size element-type initial-element)
+  (cond ((eq element-type 'character)
+         ((ffi:ref ((ffi:ref "String" "fromCharCode")
+                    (char-code initial-element))
+                   "repeat")
+          size))
+        (t
+         ((ffi:ref (ffi:new (ffi:ref "Array") size) "fill") initial-element))))
+
 (defun make-array (dimensions &key element-type initial-element initial-contents adjustable
                                    fill-pointer displaced-to displaced-index-offset)
   (unless (integerp dimensions)
@@ -31,14 +40,14 @@
                    (<= 0 fill-pointer)))
     ;(error "Bad fill-pointer: ~S" fill-pointer)
     (error "Bad fill-pointer"))
-  (let ((contents (ffi:new (ffi:ref "Array") dimensions)))
-    ((ffi:ref contents "fill") initial-element)
+  (let ((contents (make-array-contents dimensions element-type initial-element)))
     (%make-array :contents contents
                  :fill-pointer fill-pointer
                  :rank (if (listp dimensions)
                            (length dimensions)
                            1)
-                 :length (dimensions-to-total-size dimensions))))
+                 :length (dimensions-to-total-size dimensions)
+                 :element-type element-type)))
 
 (defun system::js-string-to-array (js-string)
   (%make-array :contents js-string
