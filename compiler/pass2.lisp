@@ -149,7 +149,7 @@
         ((numberp x)
          (princ x))
         ((characterp x)
-         (format t "CL_COMMON_LISP_CODE_CHAR(~D)" (char-code x)))
+         (format t "lisp.makeCharacter(~D)" (char-code x)))
         ((consp x)
          (princ "lisp.makeCons(")
          (emit-literal (car x))
