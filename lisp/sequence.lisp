@@ -2,9 +2,9 @@
 
 (defun length (sequence)
   (cond ((listp sequence)
-         (length sequence))
+         (list-length sequence))
         ((vectorp sequence)
-         )
+         (array-length sequence))
         (t
          (error "type error"))))
 

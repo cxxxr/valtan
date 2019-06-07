@@ -31,9 +31,6 @@
 (ffi:console.log (fact 5))
 
 (ffi:console.log "==================== Character ====================")
-(ffi:console.log (ffi:typeof #\a)
-                 (ffi:ref #\a "length")
-                 #\a (characterp #\a))
 (assert (characterp #\a))
 (assert (not (characterp "a")))
 (assert (eql #\a (code-char 97)))
@@ -230,6 +227,12 @@
 (ffi:console.log (find-package :keyword))
 (ffi:console.log (package-name (find-package :keyword)))
 
+(ffi:console.log "==================== sequence ====================")
+(assert (= (length "abc") 3))
+(assert (= (length (make-array 10)) 10))
+(assert (= (length '(a b c)) 3))
+
+(ffi:console.log "==================================================")
 (defun foo ()
   (ffi:console.log "a")
   (return-from foo)
