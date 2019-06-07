@@ -54,8 +54,6 @@
 (setf (gethash 'system::structure-name *builtin-function-table*) "lisp.CL_structureName")
 (setf (gethash 'system::structure-ref *builtin-function-table*) "lisp.CL_structureRef")
 (setf (gethash 'system::structure-set *builtin-function-table*) "lisp.CL_structureSet")
-(setf (gethash 'ffi::make-object *builtin-function-table*) "lisp.CL_makeObject")
-(setf (gethash 'ffi::instanceof *builtin-function-table*) "lisp.CL_instanceof")
 
 (defparameter *emitter-table* (make-hash-table))
 
