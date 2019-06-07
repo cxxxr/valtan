@@ -265,3 +265,7 @@
    (assert (eql x 1))
    (assert (equal y (list 2 3))))
  1 2 3)
+
+(lambda (x)
+  (declare (special x))
+  x)
