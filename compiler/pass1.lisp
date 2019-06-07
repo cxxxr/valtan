@@ -261,7 +261,9 @@
         ((variable-symbol-p name)
          (if (toplevel-p)
              `(%defun ,name ,lambda-list ,@body)
-             `(system::fset ',name (lambda ,lambda-list ,@body))))
+             `(system::fset ',name
+                            (lambda ,lambda-list
+                              (block ,name ,@body)))))
         (t
          (compile-error "The NAME argument to DEFUN, ~S, is not a function name." name))))
 
