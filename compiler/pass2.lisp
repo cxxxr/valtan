@@ -58,10 +58,10 @@
                  (write-string (f c) out))
            (princ-to-string value)))))
 
-(defun symbol-to-js-local-var (symbol)
+(defun to-js-local-var (symbol)
   (to-js-identier symbol "L_"))
 
-(defun symbol-to-js-function-var (symbol)
+(defun to-js-function-var (symbol)
   (to-js-identier symbol "F_"))
 
 (defun symbol-to-js-value (symbol)
@@ -161,9 +161,9 @@
   (let ((binding (ir-arg1 ir)))
     (ecase (binding-type binding)
       ((:function)
-       (princ (symbol-to-js-function-var (binding-name binding))))
+       (princ (to-js-function-var (binding-name binding))))
       ((:variable)
-       (princ (symbol-to-js-local-var (binding-value (ir-arg1 ir))))))))
+       (princ (to-js-local-var (binding-value (ir-arg1 ir))))))))
 
 (def-emit gref (ir)
   (let ((ident (symbol-to-js-value (ir-arg1 ir))))
@@ -173,7 +173,7 @@
   (when (ir-return-value-p ir)
     (write-string "("))
   (cond ((eq 'lset (ir-op ir))
-         (format t "~A = " (symbol-to-js-local-var (binding-value (ir-arg1 ir))))
+         (format t "~A = " (to-js-local-var (binding-value (ir-arg1 ir))))
          (pass2 (ir-arg2 ir)))
         (t
          (let ((ident (symbol-to-js-value (ir-arg1 ir))))
@@ -252,10 +252,10 @@
        (format finally-stream "~A.value = ~A;~%" identier save-var)))
     ((:variable)
      (format t "let ~A = "
-             (symbol-to-js-local-var (binding-value var))))
+             (to-js-local-var (binding-value var))))
     ((:function)
      (format t "let ~A = "
-             (symbol-to-js-function-var (binding-name var) ; !!!
+             (to-js-function-var (binding-name var) ; !!!
                                         )))))
 
 (defun emit-lambda-list (parsed-lambda-list finally-stream)
@@ -317,7 +317,7 @@
         (when rest-var
           (emit-declvar rest-var finally-stream)
           (format t "lisp.jsArgumentsToList(arguments, ~D);~%" i)
-          (symbol-to-js-local-var (binding-value rest-var)))))))
+          (to-js-local-var (binding-value rest-var)))))))
 
 (def-emit lambda (ir)
   (write-line "(function() {")
@@ -353,7 +353,7 @@
   (write-string ")"))
 
 (def-emit lcall (ir)
-  (format t "~A(" (symbol-to-js-function-var (binding-name (ir-arg1 ir))))
+  (format t "~A(" (to-js-function-var (binding-name (ir-arg1 ir))))
   (emit-call-args (ir-arg2 ir)))
 
 (def-emit call (ir)
