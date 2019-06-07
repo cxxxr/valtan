@@ -266,6 +266,15 @@
    (assert (equal y (list 2 3))))
  1 2 3)
 
-(lambda (x)
+((lambda (x)
+   (declare (special x))
+   (assert (eql x 0)))
+ 0)
+
+(defun e18153e3-f341-4e18-8114-c98ca80b6835 ()
   (declare (special x))
-  x)
+  (assert (eql x 123)))
+
+(let ((x 123))
+  (declare (special x))
+  (e18153e3-f341-4e18-8114-c98ca80b6835))

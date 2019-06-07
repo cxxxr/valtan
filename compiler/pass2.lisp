@@ -244,7 +244,7 @@
 (defun emit-declvar (var finally-stream)
   (ecase (binding-type var)
     ((:special)
-     (let ((identier (symbol-to-js-value (binding-value var)))
+     (let ((identier (symbol-to-js-value (binding-name var)))
            (save-var (to-js-identier (binding-value var) "SAVE_")))
        ;;;;;;;;;;;; **************** TODO: ここのvalueを直接参照しているのを直す **********************
        (format t "const ~A = ~A.value;~%" save-var identier)
