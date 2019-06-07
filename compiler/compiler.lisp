@@ -1,41 +1,14 @@
 (in-package :compiler)
 
 (defparameter *known-function-names*
-  '("VALUES"
-    "MULTIPLE-VALUE-CALL"
-    "EQ"
-    "EQL"
-    "EQUAL"
-    "FUNCALL"
-    "APPLY"
-    "SYMBOLP"
-    "SYMBOL-PLIST"
-    "BOUNDP"
-    "SYMBOL-FUNCTION"
-    "SYMBOL-NAME"
-    "SYMBOL-PACKAGE"
-    "CONSP"
-    "CONS"
-    "CAR"
-    "CDR"
-    "RPLACA"
-    "RPLACD"
-    "+"
-    "-"
-    "*"
-    "="
-    ">"
-    "<"
-    ">="
-    "<="
-    "CHARACTERP"
-    "CHAR-CODE"
-    "CODE-CHAR"
-    "STRINGP"
-    "INTERN"
-    "PACKAGE-NAME"
-    "FIND-PACKAGE"
-    "COPY-STRUCTURE"))
+  (let ((file (asdf:system-relative-pathname :clscript "./lib/lisp.js")))
+    (with-open-file (in file)
+      (loop :for line := (read-line in nil nil)
+            :while line
+            :when (eql 0 (search "registerFunction(" line))
+            :collect (let* ((start (position #\' line))
+                            (end (position #\' line :start (1+ start))))
+                       (subseq line (1+ start) end))))))
 
 (defvar *js-readtable*
   (let ((*readtable* (copy-readtable)))
