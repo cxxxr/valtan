@@ -34,7 +34,6 @@
              (cdr dimensions)
              fill-pointer)
     (error "Only vectors can have fill pointers."))
-  ;; TODO element-typeがcharacterの場合にstringに変換
   (unless (or (eq fill-pointer t) (eq fill-pointer nil)
               (and (integerp fill-pointer)
                    (<= 0 fill-pointer)))
