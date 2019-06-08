@@ -109,9 +109,16 @@
 (defun tree-equal (tree-1 tree-2 &key test test-not)
   (error "tree-equal is undefined"))
 
-#+(or)
 (defun copy-list (list)
-  (error "copy-list is undefined"))
+  (let ((head nil)
+        (tail nil))
+    (dolist (x list)
+      (cond ((null tail)
+             (setf head (setf tail (list x))))
+            (t
+             (setf (cdr tail) (list x))
+             (setf tail (cdr tail)))))
+    head))
 
 (defun list (&rest list)
   list)
@@ -206,7 +213,6 @@
         (tail nil))
     (dolist (list lists)
       (dolist (x list)
-        (ffi:console.log head)
         (cond ((null tail)
                (setf head (setf tail (list x))))
               (t

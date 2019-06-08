@@ -177,6 +177,11 @@
   (assert (equal x nil))
   (assert (null (pop x))))
 
+(let* ((x (list 1 2 3))
+       (y (copy-list x)))
+  (assert (not (eq x y)))
+  (assert (equal x y)))
+
 (ffi:console.log "==================== lambda-list ====================")
 (defun f1 (&rest args)
   (ffi:console.log args))
