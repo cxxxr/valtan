@@ -138,7 +138,13 @@
        ,store-form)))
 
 (defmacro pop (place)
-  (declare (ignore place)))
+  (multiple-value-bind (vars vals stores store-form access-form)
+      (!get-setf-expansion place)
+    `(let* ,(mapcar #'list
+                    (append vars stores)
+                    (append vals (list (list 'cdr access-form))))
+       (prog1 (car ,access-form)
+         ,store-form))))
 
 (defun first (list) (car list))
 (defun second (list) (nth 1 list))

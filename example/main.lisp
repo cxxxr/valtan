@@ -109,6 +109,15 @@
   (push 2 (car x))
   (assert (equal (car x) '(2 1))))
 
+(let ((x (list 1 2 3)))
+  (assert (eql 1 (pop x)))
+  (assert (equal x '(2 3)))
+  (assert (eql 2 (pop x)))
+  (assert (equal x '(3)))
+  (assert (eql 3 (pop x)))
+  (assert (equal x nil))
+  (assert (null (pop x))))
+
 (ffi:console.log "==================== lambda-list ====================")
 (defun f1 (&rest args)
   (ffi:console.log args))
