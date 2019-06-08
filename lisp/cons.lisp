@@ -212,7 +212,9 @@
   (error "tailp is undefined"))
 
 (defun nthcdr (n list)
-  (error "nthcdr is undefined"))
+  (dotimes (_ n)
+    (setq list (cdr list)))
+  list)
 
 (defun rest (list)
   (cdr list))

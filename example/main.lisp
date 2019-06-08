@@ -87,6 +87,13 @@
 (ffi:console.log (list* 1 2 3))
 (ffi:console.log "member" (member 2 (list 1 2 3)))
 
+(assert (null (nthcdr 0 '())))
+(assert (equal (nthcdr 0 '(a b c)) '(a b c)))
+(assert (equal (nthcdr 1 '(a b c)) '(b c)))
+(assert (equal (nthcdr 2 '(a b c)) '(c)))
+(assert (equal (nthcdr 3 '(a b c)) '()))
+(assert (equal (nthcdr 4 '(a b c)) '()))
+
 (ffi:console.log "==================== lambda-list ====================")
 (defun f1 (&rest args)
   (ffi:console.log args))
