@@ -8,37 +8,121 @@
         (t
          (error "type error"))))
 
-(defun find-if (predicate sequence &key #+(or)from-end #+(or)start #+(or)end #+(or)key)
+(defun reverse-list (list)
+  (let ((reversed-list '()))
+    (dolist (x list)
+      (push x reversed-list))
+    reversed-list))
+
+(defun reverse-vector (vector)
+  (let* ((length (length vector))
+         (new-vector (make-array length :element-type (array-element-type vector))))
+    (do ((i 0 (1+ i))
+         (j (1- length) (1- j)))
+        ((= i length))
+      (setf (aref new-vector i)
+            (aref vector j)))
+    new-vector))
+
+(defun reverse (sequence)
   (cond ((listp sequence)
-         (dolist (x sequence)
-           (when (funcall predicate x)
-             (return x))))
+         (reverse-list sequence))
         ((vectorp sequence)
-         (let ((length sequence))
-           (do ((i 0 (1+ i)))
-               ((= i (length sequence)))
-             (let ((x (aref sequence i)))
-               (when (funcall predicate x)
-                 (return x))))))
+         (reverse-vector sequence))
         (t
          (error "type error"))))
 
-(defun remove-if-not (test sequence &key #|from-end start end count key|#)
+(defun subseq-list (list start end)
+  (when (and start
+             (< 0 start))
+    (setq list (nthcdr (1- start) list))
+    (when (null list)
+      (error "index error"))
+    (setq list (cdr list)))
+  (cond ((null end)
+         (copy-list list))
+        ((eql start end)
+         nil)
+        (t
+         (setq end (- end start))
+         (let ((new-list (copy-list list)))
+           (setf (cdr (nthcdr (1- end) new-list)) nil)
+           new-list))))
+
+(defun subseq-vector (vector start end)
+  (let ((length (length vector)))
+    (when (and end (< length end))
+      (error "index error"))
+    (unless end
+      (setq end length))
+    ;; XXX: javascriptのArrayのメソッドを使わず新しいベクタに一つずつ代入していて効率が悪い
+    (let ((new-vector
+            (make-array (- end start))))
+      (do ((i start (1+ i))
+           (j 0 (1+ j)))
+          ((= i end))
+        (setf (aref new-vector j)
+              (aref vector i)))
+      new-vector)))
+
+(defun subseq (sequence start &optional end)
+  (when (and (not (null end)) (> start end))
+    (error "start > end"))
   (cond ((listp sequence)
-         (let ((head nil)
-               (tail nil))
-           (dolist (x sequence)
-             (when (funcall test x)
-               (if (null head)
-                   (setf head
-                         (setf tail
-                               (list x)))
-                   (progn
-                     (setf (cdr tail) (list x))
-                     (setf tail (cdr tail))))))
-           head))
-        #+(or)
+         (subseq-list sequence start end))
         ((vectorp sequence)
-         )
+         (subseq-vector sequence start end))
         (t
          (error "type error"))))
+
+(defun map-sequence (function sequence from-end start end key)
+  (when start
+    (setq sequence (subseq sequence start end)))
+  (when from-end
+    ;; XXX: startと同時に使うとコピーを二度するので無駄がある
+    (setq sequence (reverse sequence)))
+  (cond ((listp sequence)
+         (if key
+             (dolist (x sequence)
+               (funcall function (funcall key x)))
+             (dolist (x sequence)
+               (funcall function x))))
+        ((vectorp sequence)
+         (if key
+             (dotimes (i (length sequence))
+               (funcall function (funcall key (aref sequence i))))
+             (dotimes (i (length sequence))
+               (funcall function (aref sequence i)))))
+        (t
+         (error "type error"))))
+
+(defun find-if (predicate sequence &key from-end start end key)
+  (map-sequence (lambda (x)
+                  (when (funcall predicate x)
+                    (return-from find-if x)))
+                sequence
+                from-end
+                start
+                end
+                key)
+  nil)
+
+(defun remove-if-not (test sequence &key from-end start end count key)
+  (let ((head nil)
+        (tail nil))
+    (map-sequence (lambda (x)
+                    (when (funcall test x)
+                      (if (null head)
+                          (setf head
+                                (setf tail
+                                      (list x)))
+                          (progn
+                            (setf (cdr tail) (list x))
+                            (setf tail (cdr tail))))))
+                  sequence
+                  from-end
+                  start
+                  end
+                  key)
+    head))
+

@@ -329,9 +329,47 @@
 (ffi:console.log (package-name (find-package :keyword)))
 
 (ffi:console.log "==================== sequence ====================")
+;; length
 (assert (= (length "abc") 3))
 (assert (= (length (make-array 10)) 10))
 (assert (= (length '(a b c)) 3))
+
+;; reverse
+(assert (equal (reverse '()) '()))
+(assert (equal (reverse '(a)) '(a)))
+(assert (equal (reverse '(a b)) '(b a)))
+(assert (equal (reverse '(a b c)) '(c b a)))
+
+(defun vector-equal (x y)
+  (and (= (length x) (length y))
+       (dotimes (i (length x) t)
+         (unless (eql (aref x i)
+                      (aref y i))
+           (return nil)))))
+
+(let ((x (make-array 3 :initial-contents '(1 2 3)))
+      (y (make-array 3 :initial-contents '(3 2 1))))
+  (assert (vector-equal (reverse x) y)))
+(assert (vector-equal (reverse "abc") "cba"))
+
+;; subseq
+(assert (equal (subseq '(a b c) 0) '(a b c)))
+(assert (equal (subseq '(a b c) 1) '(b c)))
+(assert (equal (subseq '(a b c) 3) nil))
+;(subseq '(a b c) 4) ; error
+(assert (equal (subseq '(a b c) 1 2) '(b)))
+(assert (equal (subseq '(a b c) 1 3) '(b c)))
+;(subseq #(a b c) 1 4) ; error
+(assert (vector-equal (subseq #(a b c) 0) #(a b c)))
+(assert (vector-equal (subseq #(a b c) 1) #(b c)))
+(assert (vector-equal (subseq #(a b c) 3) #()))
+(assert (vector-equal (subseq #(a b c) 1 2) #(b)))
+(assert (vector-equal (subseq #(a b c) 1 3) #(b c)))
+
+;; find-if
+(assert (eql 2 (find-if #'(lambda (x) (= x 2)) '(1 2 3))))
+
+;; remove-if-not
 (assert (equal (remove-if-not (lambda (x)
                                 (= x 1))
                               '(1 2 3))
@@ -360,10 +398,6 @@
   (ffi:console.log "b"))
 
 (foo)
-
-(ffi:console.log (find-if #'(lambda (x) (= x 2)) '(1 2 3)))
-
-
 
 (ffi:console.log (make-symbol "adlfjasldfkjksj"))
 
