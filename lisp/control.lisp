@@ -450,3 +450,9 @@
          (string= x y))
         (t
          (eql x y))))
+
+(defmacro prog1 (result &body body)
+  (let ((tmp (gensym)))
+    `(let ((,tmp ,result))
+       ,@body
+       ,tmp)))
