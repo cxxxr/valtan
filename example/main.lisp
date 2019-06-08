@@ -114,6 +114,14 @@
   (assert (stringp x))
   (assert (string= x "aaaaaaaaaa")))
 
+(assert (eql (aref "abc" 0) #\a))
+(let ((x "abc"))
+  (dotimes (i (length x))
+    (assert (eql (setf (aref x i) #\@) #\@))
+    (ffi:console.log x)
+    (assert (eql (aref x i) #\@)))
+  (assert (equal x "@@@")))
+
 (ffi:console.log "==================== ffi ====================")
 (let ((x (ffi:new (ffi:ref "Array") 10)))
   (ffi:console.log x)
