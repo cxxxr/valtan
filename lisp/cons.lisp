@@ -249,6 +249,7 @@
   (error "tailp is undefined"))
 
 (defun nthcdr (n list)
+  (assert (<= 0 n))
   (dotimes (_ n)
     (setq list (cdr list)))
   list)
