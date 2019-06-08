@@ -438,7 +438,10 @@
                args))))
 
 (defun eql (x y)
-  (eq x y))
+  (cond ((and (characterp x) (characterp y))
+         (char= x y))
+        (t
+         (eq x y))))
 
 (defun equal (x y)
   (cond ((and (consp x)
