@@ -22,3 +22,23 @@
                  (return x))))))
         (t
          (error "type error"))))
+
+(defun remove-if-not (test sequence &key #|from-end start end count key|#)
+  (cond ((listp sequence)
+         (let ((head nil)
+               (tail nil))
+           (dolist (x sequence)
+             (when (funcall test x)
+               (if (null head)
+                   (setf head
+                         (setf tail
+                               (list x)))
+                   (progn
+                     (setf (cdr tail) (list x))
+                     (setf tail (cdr tail))))))
+           head))
+        #+(or)
+        ((vectorp sequence)
+         )
+        (t
+         (error "type error"))))
