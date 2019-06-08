@@ -93,6 +93,10 @@
                :length (ffi:ref js-string "length")
                :element-type 'character))
 
+(defun vector (&rest args)
+  (make-array (length args)
+              :initial-contents args))
+
 (defun aref (array sub)
   (unless (arrayp array)
     (error "type error"))

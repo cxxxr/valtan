@@ -122,6 +122,12 @@
     (assert (eql (aref x i) #\@)))
   (assert (equal x "@@@")))
 
+(let ((x (vector 'a 'b 'c)))
+  (assert (= 3 (length x)))
+  (assert (eq 'a (aref x 0)))
+  (assert (eq 'b (aref x 1)))
+  (assert (eq 'c (aref x 2))))
+
 (ffi:console.log "==================== ffi ====================")
 (let ((x (ffi:new (ffi:ref "Array") 10)))
   (ffi:console.log x)
