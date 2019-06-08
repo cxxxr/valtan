@@ -69,36 +69,47 @@
 (defun (setf cdddar) (value x) (rplacd (cdr (cdr (car x))) value))
 (defun (setf cddddr) (value x) (rplacd (cdr (cdr (cdr x))) value))
 
+#+(or)
 (defun copy-tree (tree)
   (error "copy-tree is undefined"))
 
+#+(or)
 (defun sublis (alist tree &key key test test-not)
   (error "sublis is undefined"))
 
+#+(or)
 (defun nsublis (alist tree &key key test test-not)
   (error "nsublis is undefined"))
 
+#+(or)
 (defun subst (new old tree &key key test test-not)
   (error "subst is undefined"))
 
+#+(or)
 (defun subst-if (new predicate tree &key key)
   (error "subst-if is undefined"))
 
+#+(or)
 (defun subst-if-not (new predicate tree &key key)
   (error "subst-if-not is undefined"))
 
+#+(or)
 (defun nsubst (new old tree &key key test test-not)
   (error "nsubst is undefined"))
 
+#+(or)
 (defun nsubst-if (new predicate tree &key key)
   (error "nsubst-if is undefined"))
 
+#+(or)
 (defun nsubst-if-not (new predicate tree &key key)
   (error "nsubst-if-not is undefined"))
 
+#+(or)
 (defun tree-equal (tree-1 tree-2 &key test test-not)
   (error "tree-equal is undefined"))
 
+#+(or)
 (defun copy-list (list)
   (error "copy-list is undefined"))
 
@@ -126,6 +137,7 @@
              (when (and (eq y z) (> n 0)) (return nil)))))
     x))
 
+#+(or)
 (defun make-list (size &key initial-element)
   (error "make-list is undefined"))
 
@@ -185,6 +197,7 @@
       (null x)
       (error "type error")))
 
+#+(or)
 (defun nconc (&rest lists)
   (error "nconc is undefined"))
 
@@ -201,24 +214,31 @@
                (setf tail (cdr tail))))))
     head))
 
+#+(or)
 (defun revappend (list tail)
   (error "revappend is undefined"))
 
+#+(or)
 (defun nreconc (list tail)
   (error "nreconc is undefined"))
 
+#+(or)
 (defun butlast (list &optional n)
   (error "butlast is undefined"))
 
+#+(or)
 (defun nbutlast (list &optional n)
   (error "nbutlast is undefined"))
 
+#+(or)
 (defun last (list &optional n)
   (error "last is undefined"))
 
+#+(or)
 (defun ldiff (list object)
   (error "ldiff is undefined"))
 
+#+(or)
 (defun tailp (object list)
   (error "tailp is undefined"))
 
@@ -249,57 +269,74 @@
                         (eql test item (funcall key (car rest)))))
              (return list))))))
 
+#+(or)
 (defun member-if (predicate list &key key)
   (error "member-if is undefined"))
 
+#+(or)
 (defun member-if-not (predicate list &key key)
   (error "member-if-not is undefined"))
 
+#+(or)
 (defun mapc (function list &rest lists)
   (error "mapc is undefined"))
 
+#+(or)
 (defun mapcar (function list &rest lists)
   (error "mapcar is undefined"))
 
+#+(or)
 (defun mapcan (function list &rest lists)
   (error "mapcan is undefined"))
 
+#+(or)
 (defun mapl (function list &rest lists)
   (error "mapl is undefined"))
 
+#+(or)
 (defun maplist (function list &rest lists)
   (error "maplist is undefined"))
 
+#+(or)
 (defun mapcon (function list &rest lists)
   (error "mapcon is undefined"))
 
 (defun acons (key value alist)
   (cons (cons key value) alist))
 
+#+(or)
 (defun assoc (item alist &key key test test-not)
   (error "assoc is undefined"))
 
+#+(or)
 (defun assoc-if (predicate alist &key key)
   (error "assoc-if is undefined"))
 
+#+(or)
 (defun assoc-if-not (predicate alist &key key)
   (error "assoc-if-not is undefined"))
 
+#+(or)
 (defun copy-alist (alist)
   (error "copy-alist is undefined"))
 
+#+(or)
 (defun pairlis (keys data &optional alist)
   (error "pairlis is undefined"))
 
+#+(or)
 (defun rassoc (item alist &key key test test-not)
   (error "rassoc is undefined"))
 
+#+(or)
 (defun rassoc-if (predicate alist &key key)
   (error "rassoc-if is undefined"))
 
+#+(or)
 (defun rassoc-if-not (predicate alist &key key)
   (error "rassoc-if-not is undefined"))
 
+#+(or)
 (defun get-properties (plist indicator-list)
   (error "get-properties is undefined"))
 
@@ -309,42 +346,55 @@
     (when (eq indicator (car list))
       (return (cadr list)))))
 
+#+(or)
 (defsetf getf (plist indicator &optional default) (value)
   (error "(setf getf) is undefined"))
 
+#+(or)
 (defmacro remf (place indicator)
   (declare (ignore place indicator)))
 
+#+(or)
 (defun intersection (list-1 list-2 &key key test test-not)
   (error "intersection is undefined"))
 
+#+(or)
 (defun nintersection (list-1 list-2 &key key test test-not)
   (error "nintersection is undefined"))
 
+#+(or)
 (defun adjoin (item list &key key test test-not)
   (error "adjoin is undefined"))
 
+#+(or)
 (defmacro pushnew (item place &key key test test-not)
   (declare (ignore item place key test test-not)))
 
+#+(or)
 (defun set-difference (list-1 list-2 &key key test test-not)
   (error "set-difference is undefined"))
 
+#+(or)
 (defun nset-difference (list-1 list-2 &key key test test-not)
   (error "nset-difference is undefined"))
 
+#+(or)
 (defun set-exclusive-or (list-1 list-2 &key key test test-not)
   (error "set-exclusive-or is undefined"))
 
+#+(or)
 (defun nset-exclusive-or (list-1 list-2 &key key test test-not)
   (error "nset-exclusive-or is undefined"))
 
+#+(or)
 (defun subsetp (list-1 list-2 &key key test test-not)
   (error "subsetp is undefined"))
 
+#+(or)
 (defun union (list-1 list-2 &key key test test-not)
   (error "union is undefined"))
 
+#+(or)
 (defun nunion (list-1 list-2 &key key test test-not)
   (error "nunion is undefined"))
 
