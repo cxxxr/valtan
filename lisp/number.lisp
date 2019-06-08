@@ -8,3 +8,6 @@
 
 (defun 1- (x)
   (- x 1))
+
+(defun zerop (x)
+  (= x 0))
