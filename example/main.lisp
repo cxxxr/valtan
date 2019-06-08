@@ -82,10 +82,10 @@
 (let ((x (cons 1 2)))
   (setf (car x) 849213482)
   (assert (eql (car x) 849213482)))
-(ffi:console.log (list* 1))
-(ffi:console.log (list* 1 2))
-(ffi:console.log (list* 1 2 3))
-(ffi:console.log "member" (member 2 (list 1 2 3)))
+(assert (equal (list* 1) 1))
+(assert (equal (list* 1 2) '(1 . 2)))
+(assert (equal (list* 1 2 3) '(1 2 . 3)))
+(assert (equal (member 2 (list 1 2 3)) '(2 3)))
 
 (assert (null (nthcdr 0 '())))
 (assert (equal (nthcdr 0 '(a b c)) '(a b c)))
@@ -93,6 +93,9 @@
 (assert (equal (nthcdr 2 '(a b c)) '(c)))
 (assert (equal (nthcdr 3 '(a b c)) '()))
 (assert (equal (nthcdr 4 '(a b c)) '()))
+
+(assert (endp nil))
+(assert (not (endp '(a))))
 
 (ffi:console.log "==================== lambda-list ====================")
 (defun f1 (&rest args)
