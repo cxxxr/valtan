@@ -130,7 +130,12 @@
   (error "make-list is undefined"))
 
 (defmacro push (obj place)
-  (declare (ignore obj place)))
+  (multiple-value-bind (vars vals stores store-form access-form)
+      (!get-setf-expansion place)
+    `(let* ,(mapcar #'list
+                    (append vars stores)
+                    (append vals (list (list 'cons obj access-form))))
+       ,store-form)))
 
 (defmacro pop (place)
   (declare (ignore place)))

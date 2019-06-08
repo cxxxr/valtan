@@ -97,6 +97,18 @@
 (assert (endp nil))
 (assert (not (endp '(a))))
 
+(let ((ls nil))
+  (push 1 ls)
+  (assert (equal ls '(1)))
+  (push 2 ls)
+  (assert (equal ls '(2 1))))
+
+(let ((x (cons nil nil)))
+  (push 1 (car x))
+  (assert (equal (car x) '(1)))
+  (push 2 (car x))
+  (assert (equal (car x) '(2 1))))
+
 (ffi:console.log "==================== lambda-list ====================")
 (defun f1 (&rest args)
   (ffi:console.log args))
