@@ -71,6 +71,11 @@
 (assert (>= 3 3))
 (assert (not (>= 2 3)))
 (assert (= 3 (+ 1 2)))
+(assert (= (rem -1 5) -1))
+(assert (= (rem 13 4) 1))
+(assert (= (rem -13 4) -1))
+(assert (= (rem 13 -4) 1))
+(assert (= (rem -13 -4) -1))
 
 (ffi:console.log "==================== Character ====================")
 (assert (characterp #\a))
