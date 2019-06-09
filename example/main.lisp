@@ -258,6 +258,19 @@
 
 (assert (equal (assoc 'a '((a 1) (b 2) (c 3))) '(a 1)))
 
+(let ((slist '()))
+  (assert (equal (adjoin 'a slist) '(A)))
+  (assert (equal (setq slist (adjoin '(test-item 1) slist))
+                 '((TEST-ITEM 1))))
+  (assert (equal (adjoin '(test-item 1) slist)
+                 '((TEST-ITEM 1) (TEST-ITEM 1))))
+  (assert (equal (adjoin '(test-item 1) slist :test 'equal)
+                 '((TEST-ITEM 1))))
+  (assert (equal (adjoin '(new-test-item 1) slist :key #'cadr)
+                 '((TEST-ITEM 1))))
+  (assert (equal (adjoin '(new-test-item 1) slist)
+                 '((NEW-TEST-ITEM 1) (TEST-ITEM 1)))))
+
 (ffi:console.log "==================== lambda-list ====================")
 (defun f1 (&rest args)
   (ffi:console.log args))

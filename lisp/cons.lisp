@@ -400,9 +400,12 @@
 (defun nintersection (list-1 list-2 &key key test test-not)
   (error "nintersection is undefined"))
 
-#+(or)
-(defun adjoin (item list &key key test test-not)
-  (error "adjoin is undefined"))
+(defun adjoin (item list &key (key nil key-p) (test nil test-p) (test-not nil test-not-p))
+  (if (process-list (if key-p (funcall key item) item)
+                    list key key-p test test-p test-not test-not-p
+                    #'identity #'identity)
+      list
+      (cons item list)))
 
 #+(or)
 (defmacro pushnew (item place &key key test test-not)
