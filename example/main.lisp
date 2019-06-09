@@ -81,6 +81,10 @@
 (assert (evenp 2))
 (assert (not (evenp 3)))
 (assert (evenp 4))
+(multiple-value-bind (a b)
+    (floor 5 2)
+  (assert (= a 2))
+  (assert (= b 1)))
 
 (ffi:console.log "==================== Character ====================")
 (assert (characterp #\a))
