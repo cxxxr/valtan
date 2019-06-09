@@ -139,13 +139,22 @@
                    `(setf (gethash ',op *emitter-table*) ',name))
                  (if (consp op) op (list op))))))
 
+(defun parse-string (string)
+  (with-output-to-string (s)
+    (map nil
+         (lambda (c)
+           (if (char= c #\newline)
+               (write-string "\\n" s)
+               (write-char c s)))
+         string)))
+
 (defun emit-literal (x)
   (cond ((null x)
          (princ "lisp.nilValue"))
         ((symbolp x)
          (princ (symbol-to-js-value x)))
         ((stringp x)
-         (format t "CL_SYSTEM_JS_STRING_TO_ARRAY(~S)" x))
+         (format t "CL_SYSTEM_JS_STRING_TO_ARRAY(~S)" (parse-string x)))
         ((numberp x)
          (princ x))
         ((characterp x)
