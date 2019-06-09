@@ -459,3 +459,5 @@
     `(let ((,tmp ,result))
        ,@body
        ,tmp)))
+
+(defun identity (x) x)
