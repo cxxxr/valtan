@@ -484,6 +484,10 @@
                         '(1 2 3))))
   (assert (null x)))
 
+;; remove
+(assert (equal (remove 1 '(1 2 3)) '(2 3)))
+(assert (equal (remove 1 '(1 2 1 3)) '(2 3)))
+
 (ffi:console.log "==================================================")
 (defun foo ()
   (ffi:console.log "a")

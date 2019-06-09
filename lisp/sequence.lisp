@@ -107,7 +107,7 @@
                 key)
   nil)
 
-(defun remove-if-not (test sequence &key from-end start end count key)
+(defun remove-if-not (test sequence &key from-end start end #+(or)count key)
   (with-accumulate ()
     (map-sequence (lambda (x)
                     (when (funcall test x)
@@ -117,6 +117,17 @@
                   start
                   end
                   key)))
+
+(defun remove (item sequence)
+  (with-accumulate ()
+    (map-sequence (lambda (x)
+                    (unless (eql item x)
+                      (collect x)))
+                  sequence
+                  nil
+                  0
+                  nil
+                  nil)))
 
 (defun map (result-type function sequence &rest more-sequences)
   (cond ((and (null result-type) (null more-sequences))
