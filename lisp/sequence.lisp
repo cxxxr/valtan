@@ -108,23 +108,15 @@
   nil)
 
 (defun remove-if-not (test sequence &key from-end start end count key)
-  (let ((head nil)
-        (tail nil))
+  (with-accumulate ()
     (map-sequence (lambda (x)
                     (when (funcall test x)
-                      (if (null head)
-                          (setf head
-                                (setf tail
-                                      (list x)))
-                          (progn
-                            (setf (cdr tail) (list x))
-                            (setf tail (cdr tail))))))
+                      (collect x)))
                   sequence
                   from-end
                   start
                   end
-                  key)
-    head))
+                  key)))
 
 (defun map (result-type function sequence &rest more-sequences)
   (cond ((and (null result-type) (null more-sequences))
