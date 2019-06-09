@@ -1,3 +1,20 @@
+;; バッククォートのテスト 今の実装は不十分なので二重のバッククォートは使えずこのテストもこける
+;; (DEFMACRO FOO (X)
+;;   (SYSTEM:QUASIQUOTE
+;;    (SYSTEM:QUASIQUOTE
+;;     (LIST (SYSTEM:UNQUOTE (+ 1 2))
+;;           (SYSTEM:UNQUOTE '(SYSTEM:UNQUOTE X))))))
+;; (defmacro foo (x)
+;;   ``(list ,(+ 1 2)
+;;           ,',x))
+;; (ffi:console.log (foo 10))
+;; (defmacro defmacro-macrolet-test (&body body)
+;;   (let ((c 10))
+;;     `(macrolet ((foo (xxx)
+;;                   `(+ ,xxx ,',c)))
+;;        ,@body)))
+;; (assert (= 20 (defmacro-macrolet-test (foo 10))))
+
 (ffi:console.log "hello world")
 (ffi:console.log (list 1 2 3))
 
@@ -226,6 +243,10 @@
                    '(a b c))))
     (assert (equal res '(1 2)))
     (assert (= n 2))))
+
+(assert (equal (mapcar #'1+ '(1 2 3)) '(2 3 4)))
+(assert (equal (mapcar #'+ '(1 2 3) '(100 200 300 400))
+               '(101 202 303)))
 
 (ffi:console.log "==================== lambda-list ====================")
 (defun f1 (&rest args)
