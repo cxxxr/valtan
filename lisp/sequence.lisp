@@ -126,3 +126,8 @@
                   key)
     head))
 
+(defun map (result-type function sequence &rest more-sequences)
+  (cond ((and (null result-type) (null more-sequences))
+         (map-sequence function sequence nil nil nil nil))
+        (t
+         (error "trap"))))
