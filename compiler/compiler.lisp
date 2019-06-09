@@ -52,14 +52,17 @@
            (setf (readtable-case *readtable*) old)))))
     *readtable*))
 
+(defun !read (&rest args)
+  (let ((*readtable* *js-readtable*))
+    (apply #'read args)))
+
 (defmacro do-forms ((var stream) &body body)
   (let ((g-eof-value (gensym))
         (g-stream (gensym)))
     `(let ((*package* (find-package :cl-user)))
        (loop :with ,g-eof-value := '#:eof-value
              :and ,g-stream := ,stream
-             :for ,var := (let ((*readtable* *js-readtable*))
-                            (read ,g-stream nil ,g-eof-value))
+             :for ,var := (!read ,g-stream nil ,g-eof-value)
              :until (eq ,var ,g-eof-value)
              :do (progn ,@body)))))
 
