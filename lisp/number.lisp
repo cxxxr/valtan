@@ -11,3 +11,9 @@
 
 (defun zerop (x)
   (= x 0))
+
+(defun evenp (x)
+  (= 0 (rem x 2)))
+
+(defun oddp (x)
+  (= 1 (rem x 2)))

@@ -76,6 +76,11 @@
 (assert (= (rem -13 4) -1))
 (assert (= (rem 13 -4) 1))
 (assert (= (rem -13 -4) -1))
+(assert (evenp 0))
+(assert (not (evenp 1)))
+(assert (evenp 2))
+(assert (not (evenp 3)))
+(assert (evenp 4))
 
 (ffi:console.log "==================== Character ====================")
 (assert (characterp #\a))
