@@ -492,6 +492,15 @@
 (assert (equal (remove 1 '(1 2 3)) '(2 3)))
 (assert (equal (remove 1 '(1 2 1 3)) '(2 3)))
 
+;; nreverse
+(let ((v (list #\a #\b #\c #\d)))
+  (setq v (nreverse v))
+  (assert (equal v (list #\d #\c #\b #\a))))
+
+(let ((v (vector #\a #\b #\c #\d)))
+  (nreverse v)
+  (assert (vector-equal v (vector #\d #\c #\b #\a))))
+
 (ffi:console.log "==================================================")
 (defun foo ()
   (ffi:console.log "a")

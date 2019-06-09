@@ -32,6 +32,31 @@
         (t
          (error "type error"))))
 
+(defun nreverse-list (list)
+  (do ((1st (cdr list) (if (endp 1st) 1st (cdr 1st)))
+       (2nd list 1st)
+       (3rd '() 2nd))
+      ((atom 2nd) 3rd)
+    (rplacd 2nd 3rd)))
+
+(defun nreverse-vector (vector)
+  (let ((length (length vector)))
+    (dotimes (i (floor length 2))
+      (let ((j (- length i 1)))
+        (let ((x (aref vector i))
+              (y (aref vector (- length i 1))))
+          (setf (aref vector i) y
+                (aref vector j) x)))))
+  vector)
+
+(defun nreverse (sequence)
+  (cond ((listp sequence)
+         (nreverse-list sequence))
+        ((vectorp sequence)
+         (nreverse-vector sequence))
+        (t
+         (error "type error"))))
+
 (defun subseq-list (list start end)
   (when (and start
              (< 0 start))
