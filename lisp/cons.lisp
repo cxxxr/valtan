@@ -259,22 +259,22 @@
 
 (defsetf rest rplacd)
 
-(defun member (item list &key (key #'identity key-p) (test nil test-p) (test-not nil test-not-p))
-  (cond ((not (or key-p test-p test-not-p))
-         (do ((rest list (cdr rest)))
-             ((null rest))
-           (when (eql item (car rest))
-             (return rest))))
-        (t
-         (do ((rest list (cdr rest)))
-             ((null rest))
-           (when (cond (test-p
-                        (funcall test item (funcall key (car rest))))
-                       (test-not-p
-                        (not (funcall test-not item (funcall key (car rest)))))
-                       (t
-                        (eql item (funcall key (car rest)))))
-             (return list))))))
+(defun process-list (item list key key-p test test-p test-not test-not-p
+                     get-element return)
+  (unless key-p (setq key #'identity))
+  (let ((cmp (cond (test-p
+                    test)
+                   (test-not-p
+                    test-not)
+                   (t
+                    #'eql))))
+    (do ((rest list (cdr rest)))
+        ((null rest))
+      (when (funcall cmp item (funcall key (funcall get-element (car rest))))
+        (return (funcall return rest))))))
+
+(defun member (item list &key (key nil key-p) (test nil test-p) (test-not nil test-not-p))
+  (process-list item list key key-p test test-p test-not test-not-p #'identity #'identity))
 
 #+(or)
 (defun member-if (predicate list &key key)
@@ -343,9 +343,8 @@
 (defun acons (key value alist)
   (cons (cons key value) alist))
 
-#+(or)
-(defun assoc (item alist &key key test test-not)
-  (error "assoc is undefined"))
+(defun assoc (item alist &key (key nil key-p) (test nil test-p) (test-not nil test-not-p))
+  (process-list item alist key key-p test test-p test-not test-not-p #'car #'car))
 
 #+(or)
 (defun assoc-if (predicate alist &key key)

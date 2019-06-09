@@ -251,10 +251,12 @@
 (assert (equal (member 2 '(1 2 3)) '(2 3)))
 (assert (member "foo" '("foo" "bar" "baz") :test #'equal)
         '("foo" "bar" "baz"))
-(let ((mem (member #\f '("foo" "bar" "baz") :test #'equal :key (lambda (x) (aref x 0)))))
-  (assert mem '("foo" "bar" "baz")))
-(let ((mem (member #\f '("foo" "bar" "baz") :key (lambda (x) (aref x 0)))))
-  (assert mem '("foo" "bar" "baz")))
+(let ((mem (member #\b '("foo" "bar" "baz") :test #'equal :key (lambda (x) (aref x 0)))))
+  (assert mem '("bar" "baz")))
+(let ((mem (member #\b '("foo" "bar" "baz") :key (lambda (x) (aref x 0)))))
+  (assert mem '("bar" "baz")))
+
+(assert (equal (assoc 'a '((a 1) (b 2) (c 3))) '(a 1)))
 
 (ffi:console.log "==================== lambda-list ====================")
 (defun f1 (&rest args)
