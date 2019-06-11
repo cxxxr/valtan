@@ -1,5 +1,9 @@
 (in-package :common-lisp)
 
+(defun package-name (package)
+  (system::js-string-to-array (system::%package-name package)))
+
+#|
 (defvar *packages* '())
 
 (defstruct (package (:constructor %make-package)
@@ -65,3 +69,4 @@
           (let ((symbol (make-symbol string)))
             (push symbol (package-internal-symbols package))
             (values symbol nil))))))
+|#
