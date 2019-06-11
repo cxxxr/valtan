@@ -126,6 +126,25 @@
                   key)
     head))
 
+(defun find (item sequence &key from-end start end key test test-not)
+  (map-sequence (cond (test
+                       (lambda (x)
+                         (when (funcall test item x)
+                           (return-from find x))))
+                      (test-not
+                       (lambda (x)
+                         (when (not (funcall test-not item x))
+                           (return-from find x))))
+                      (t
+                       (lambda (x)
+                         (when (eql item x)
+                           (return-from find x)))))
+                sequence
+                from-end
+                start
+                end
+                key))
+
 (defun map (result-type function sequence &rest more-sequences)
   (cond ((and (null result-type) (null more-sequences))
          (map-sequence function sequence nil nil nil nil))

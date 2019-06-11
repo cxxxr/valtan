@@ -430,7 +430,7 @@
 (ffi:console.log "==================== package ====================")
 (assert (equal "COMMON-LISP" (package-name :cl)))
 (assert (equal "COMMON-LISP" (package-name 'common-lisp)))
-(assert (equal "KEYWORD" (package-name (find-package :keyword))))
+(assert (equal "KEYWORD" (package-name (find-package :abcd))))
 (let ((packages (mapcar #'package-name (list-all-packages))))
   (assert (find-if (lambda (x) (equal x "COMMON-LISP")) packages))
   (assert (find-if (lambda (x) (equal x "SYSTEM")) packages))
