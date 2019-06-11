@@ -429,9 +429,13 @@
 
 (ffi:console.log "==================== package ====================")
 (ffi:console.log (package-name :cl))
-(ffi:console.log (package-name 'common-lisp))
-(ffi:console.log (find-package :keyword))
-(ffi:console.log (package-name (find-package :keyword)))
+(assert (equal "COMMON-LISP" (package-name :cl)))
+(assert (equal "COMMON-LISP" (package-name 'common-lisp)))
+(assert (equal "KEYWORD" (package-name (find-package :keyword))))
+(assert (equal (mapcar #'package-name (list-all-packages))
+               '("COMMON-LISP" "KEYWORD" "SYSTEM")))
+(assert (not (packagep "foo")))
+(assert (packagep (first (list-all-packages))))
 
 (ffi:console.log "==================== sequence ====================")
 ;; length
@@ -561,6 +565,3 @@
 (let ((x 123))
   (declare (special x))
   (e18153e3-f341-4e18-8114-c98ca80b6835))
-
-(ffi:console.log (mapcar #'package-name (list-all-packages)))
-
