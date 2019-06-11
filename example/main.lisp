@@ -561,3 +561,6 @@
 (let ((x 123))
   (declare (special x))
   (e18153e3-f341-4e18-8114-c98ca80b6835))
+
+(ffi:console.log (mapcar #'package-name (list-all-packages)))
+
