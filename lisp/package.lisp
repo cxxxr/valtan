@@ -1,5 +1,37 @@
 (in-package :common-lisp)
 
+(defun find-package (name)
+  (cond ((packagep name)
+         name)
+        (t
+         (ffi:console.log name)
+         (ffi:console.log (symbol-name name))
+         (error "*******")
+         (dolist (package (list-all-packages))
+           (when (or (string= name (package-name package))
+                     (find name (package-nicknames package) :test #'string=))
+             (return package))))))
+
+(defun ensure-package (package-designator)
+  (if (packagep package-designator)
+      package-designator
+      (let ((package (cond ((symbolp package-designator)
+                            (find-package (symbol-name package-designator)))
+                           ((stringp package-designator)
+                            (find-package package-designator))
+                           (t
+                            (error "type error")))))
+        (unless package
+          (error "The Package ~A is undefined" package-designator))
+        package)))
+
+(defun package-name (package)
+  (system::js-string-to-array (system::%package-name (ensure-package package))))
+
+(defun package-nicknames (package)
+  (system::js-array-to-array (system::%package-nicknames (ensure-package package))))
+
+#|
 (defvar *packages* '())
 
 (defstruct (package (:constructor %make-package)
@@ -65,3 +97,4 @@
           (let ((symbol (make-symbol string)))
             (push symbol (package-internal-symbols package))
             (values symbol nil))))))
+|#

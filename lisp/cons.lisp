@@ -236,9 +236,21 @@
 (defun nbutlast (list &optional n)
   (error "nbutlast is undefined"))
 
-#+(or)
-(defun last (list &optional n)
-  (error "last is undefined"))
+(defun last1 (list)
+  (if (consp list)
+      (do ((l list next)
+           (next (cdr list) (cdr next)))
+          ((atom next) l))
+      list))
+
+(defun last (list &optional (n 1))
+  (if (= n 1)
+      (last1 list)
+      (do ((l list (cdr l))
+           (r list)
+           (i 0 (1+ i)))
+          ((atom l) r)
+        (when (>= i n) (pop r)))))
 
 #+(or)
 (defun ldiff (list object)
@@ -407,9 +419,14 @@
       list
       (cons item list)))
 
-#+(or)
-(defmacro pushnew (item place &key key test test-not)
-  (declare (ignore item place key test test-not)))
+(defmacro pushnew (item place &rest args &key key test test-not)
+  (declare (ignore key test test-not))
+  (multiple-value-bind (vars vals stores store-form access-form)
+      (!get-setf-expansion place)
+    `(let* ,(mapcar #'list
+                    (append vars stores)
+                    (append vals (list (list* 'adjoin item access-form args))))
+       ,store-form)))
 
 #+(or)
 (defun set-difference (list-1 list-2 &key key test test-not)

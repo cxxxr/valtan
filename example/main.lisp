@@ -285,6 +285,18 @@
   (assert (equal (adjoin '(new-test-item 1) slist)
                  '((NEW-TEST-ITEM 1) (TEST-ITEM 1)))))
 
+(let ((x '()))
+  (pushnew 1 x)
+  (assert (equal x '(1)))
+  (pushnew 2 x)
+  (assert (equal x '(2 1)))
+  (pushnew 2 x)
+  (assert (equal x '(2 1)))
+  (pushnew 1 x)
+  (assert (equal x '(2 1)))
+  (pushnew 3 x)
+  (assert (equal x '(3 2 1))))
+
 (ffi:console.log "==================== lambda-list ====================")
 (defun f1 (&rest args)
   (ffi:console.log args))
@@ -420,10 +432,15 @@
    (write-char #\! out)))
 
 (ffi:console.log "==================== package ====================")
-(ffi:console.log (package-name :cl))
-(ffi:console.log (package-name 'common-lisp))
-(ffi:console.log (find-package :keyword))
-(ffi:console.log (package-name (find-package :keyword)))
+(assert (equal "COMMON-LISP" (package-name :cl)))
+(assert (equal "COMMON-LISP" (package-name 'common-lisp)))
+(assert (equal "KEYWORD" (package-name (find-package :abcd))))
+(let ((packages (mapcar #'package-name (list-all-packages))))
+  (assert (find-if (lambda (x) (equal x "COMMON-LISP")) packages))
+  (assert (find-if (lambda (x) (equal x "SYSTEM")) packages))
+  (assert (find-if (lambda (x) (equal x "FFI")) packages)))
+(assert (not (packagep "foo")))
+(assert (packagep (first (list-all-packages))))
 
 (ffi:console.log "==================== sequence ====================")
 ;; length

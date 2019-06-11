@@ -49,7 +49,7 @@
         (t
          ((ffi:ref (ffi:new (ffi:ref "Array") size) "fill") initial-element))))
 
-(defun make-array (dimensions &key element-type
+(defun make-array (dimensions &key (element-type t)
                                    (initial-element nil initial-element-p)
                                    (initial-contents nil initial-contents-p)
                                    adjustable
@@ -86,6 +86,12 @@
                            1)
                  :length (dimensions-to-total-size dimensions)
                  :element-type element-type)))
+
+(defun system::js-array-to-array (js-array)
+  (%make-array :contents js-array
+               :rank 1
+               :length (ffi:ref js-array "length")
+               :element-type t))
 
 (defun system::js-string-to-array (js-string)
   (%make-array :contents js-string

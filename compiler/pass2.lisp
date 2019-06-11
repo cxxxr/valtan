@@ -342,7 +342,7 @@
       (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
         (when rest-var
           (emit-declvar rest-var finally-stream)
-          (format t "lisp.jsArgumentsToList(arguments, ~D);~%" i)
+          (format t "lisp.jsArrayToList(arguments, ~D);~%" i)
           (to-js-local-var (binding-value rest-var)))))))
 
 (def-emit lambda (ir)
