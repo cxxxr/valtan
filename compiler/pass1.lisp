@@ -280,13 +280,20 @@
 (def-transform lambda (args &rest body)
   `(function (lambda ,args ,@body)))
 
-(def-transform defvar (x &optional (value nil value-p) doc)
+(def-transform defvar (var &optional (value nil value-p) doc)
   (declare (ignore doc))
   `(progn
-     (declaim (special ,x))
+     (declaim (special ,var))
      ,(when value-p
-        `(if (boundp ',x) nil (setq ,x ,value)))
-     ',x))
+        `(if (boundp ',var) nil (setq ,var ,value)))
+     ',var))
+
+(def-transform defparameter (var value &optional doc)
+  (declare (ignore doc))
+  `(progn
+     (declaim (special ,var))
+     (setq ,var ,value)
+     ,var))
 
 (def-transform in-package (package)
   (let ((package (find-package package)))
