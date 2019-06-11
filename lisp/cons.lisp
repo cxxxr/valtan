@@ -419,9 +419,14 @@
       list
       (cons item list)))
 
-#+(or)
-(defmacro pushnew (item place &key key test test-not)
-  (declare (ignore item place key test test-not)))
+(defmacro pushnew (item place &rest args &key key test test-not)
+  (declare (ignore key test test-not))
+  (multiple-value-bind (vars vals stores store-form access-form)
+      (!get-setf-expansion place)
+    `(let* ,(mapcar #'list
+                    (append vars stores)
+                    (append vals (list (list* 'adjoin item access-form args))))
+       ,store-form)))
 
 #+(or)
 (defun set-difference (list-1 list-2 &key key test test-not)
