@@ -4,9 +4,6 @@
   (cond ((packagep name)
          name)
         (t
-         (ffi:console.log name)
-         (ffi:console.log (symbol-name name))
-         (error "*******")
          (dolist (package (list-all-packages))
            (when (or (string= name (package-name package))
                      (find name (package-nicknames package) :test #'string=))
