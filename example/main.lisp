@@ -361,7 +361,16 @@
 (setf (get 'aaa 'key1) 100)
 (assert (= (get 'aaa 'key1) 100))
 
+(dolist (p (list-all-packages))
+  (assert (packagep p))
+  (assert (stringp (package-name p))))
+
+(let ((p (symbol-package :foo)))
+  (assert (packagep p))
+  (assert (string= "KEYWORD" (package-name p))))
+
 (assert (keywordp :foo))
+
 (assert (not (keywordp 'foo)))
 (assert (not (keywordp 1)))
 
