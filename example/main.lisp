@@ -436,9 +436,11 @@
 
 (ffi:console.log "==================== stream ====================")
 (ffi:console.log
- (with-output-to-string (out)
-   (write-string "string" out)
-   (write-char #\! out)))
+ (assert
+  (string= "string!"
+           (with-output-to-string (out)
+             (write-string "string" out)
+             (write-char #\! out)))))
 
 (ffi:console.log "==================== package ====================")
 (assert (equal "COMMON-LISP" (package-name :cl)))
@@ -592,3 +594,5 @@
 (let ((x 123))
   (declare (special x))
   (e18153e3-f341-4e18-8114-c98ca80b6835))
+
+(write-line "hello world")
