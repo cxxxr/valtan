@@ -25,4 +25,4 @@
     (error "type error"))
   (system::js-string-to-array
    ((ffi:ref (array-contents x) "concat")
-    (array-contents x))))
+    (array-contents y))))
