@@ -7,7 +7,7 @@
   (system::js-string-to-array (system::%symbol-name symbol)))
 
 (defun symbol-package (symbol)
-  (find-package symbol))
+  (find-package (system::js-string-to-array (system::symbol-package-name symbol))))
 
 (defun keywordp (x)
   (and (symbolp x)
