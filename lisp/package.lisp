@@ -26,7 +26,8 @@
   (system::js-string-to-array (system::%package-name (ensure-package package))))
 
 (defun package-nicknames (package)
-  (system::js-array-to-array (system::%package-nicknames (ensure-package package))))
+  (mapcar #'system::js-string-to-array
+          (system::js-array-to-list (system::%package-nicknames (ensure-package package)))))
 
 #|
 (defvar *packages* '())
