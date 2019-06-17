@@ -32,3 +32,9 @@
 (defsetf get (symbol indicator)
     (value)
   `(%put ,symbol ,indicator ,value))
+
+(defvar *gensym-counter* 0)
+
+(defun gensym (&optional (prefix "G"))
+  (prog1 (make-symbol (string-append prefix (princ-to-string *gensym-counter*)))
+    (incf *gensym-counter*)))
