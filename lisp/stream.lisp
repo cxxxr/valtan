@@ -72,3 +72,6 @@
 (defun write-line (string &optional (stream *standard-output*) &key start end)
   (stream-write-string stream string)
   (stream-write-char stream #\newline))
+
+(defun finish-output (&optional (stream *standard-output*))
+  (flush stream))

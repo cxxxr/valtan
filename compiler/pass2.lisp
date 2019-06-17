@@ -562,7 +562,8 @@
   (funcall (gethash (ir-op ir) *emitter-table*) ir))
 
 (defun pass2-toplevel-1 (ir)
-  (pass2 (make-ir 'progn nil nil (list ir))))
+  (pass2 (make-ir 'progn nil nil (list ir)))
+  (write-line "CL_COMMON_LISP_FINISH();"))
 
 (defun emit-initialize-vars ()
   (maphash (lambda (symbol ident)
@@ -598,7 +599,7 @@
     (let* ((*toplevel-defun-stream* (make-string-output-stream))
            (output (with-output-to-string (*standard-output*)
                      (emit-try-catch (("err")
-                                      (write-line "console.log('********** ERROR **********', err);")
+                                      (write-line "console.log('*** ERROR ***', err);")
                                       (write-line "lisp.printCallStack();"))
                        (dolist (ir ir-forms)
                          (pass2-toplevel-1 ir))))))

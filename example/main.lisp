@@ -595,4 +595,6 @@
   (declare (special x))
   (e18153e3-f341-4e18-8114-c98ca80b6835))
 
-(write-line "hello world")
+(princ 'hoge)
+(princ t)
+(princ nil)
