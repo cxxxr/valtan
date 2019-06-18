@@ -595,11 +595,22 @@
   (declare (special x))
   (e18153e3-f341-4e18-8114-c98ca80b6835))
 
-(assert (string=
-         (with-output-to-string (*standard-output*)
-           (princ 'hoge)
-           (write-char #\space)
-           (princ t)
-           (write-char #\space)
-           (princ nil))
-         "HOGE T NIL"))
+(defmacro output-test (form string)
+  `(assert (string= ,string (with-output-to-string (*standard-output*) ,form))))
+
+(output-test (progn
+               (princ 'hoge)
+               (write-char #\space)
+               (princ t)
+               (write-char #\space)
+               (princ nil))
+             "HOGE T NIL")
+
+(output-test (princ "hello world") "hello world")
+(output-test (princ 123) "123")
+(output-test (princ #\a) "a")
+(output-test (princ (cons 1 2)) "(1 . 2)")
+(output-test (princ (cons 1 (cons 2 3))) "(1 2 . 3)")
+(output-test (princ (cons 1 (cons 2 (cons 3 nil)))) "(1 2 3)")
+(output-test (princ (vector)) "#()")
+(output-test (princ (vector 1 2 3)) "#(1 2 3)")
