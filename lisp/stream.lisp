@@ -20,8 +20,9 @@
 
 (defun flush (stream)
   (let ((x (standard-output-stream-buffer stream)))
-    (ffi:console.log (array-contents x))
-    (setf (standard-output-stream-buffer stream) "")))
+    (when (< 0 (length x))
+      (ffi:console.log (array-contents x))
+      (setf (standard-output-stream-buffer stream) ""))))
 
 (defun stream-write-char (stream char)
   (unless (characterp char)

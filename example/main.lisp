@@ -595,6 +595,11 @@
   (declare (special x))
   (e18153e3-f341-4e18-8114-c98ca80b6835))
 
-(princ 'hoge)
-(princ t)
-(princ nil)
+(assert (string=
+         (with-output-to-string (*standard-output*)
+           (princ 'hoge)
+           (write-char #\space)
+           (princ t)
+           (write-char #\space)
+           (princ nil))
+         "HOGE T NIL"))
