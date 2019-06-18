@@ -65,7 +65,6 @@
   (to-js-identier symbol "F_"))
 
 (defun symbol-to-js-value (symbol)
-  (check-type symbol symbol)
   (if (symbol-package symbol)
       (or (gethash symbol *literal-symbols*)
           (setf (gethash symbol *literal-symbols*)
