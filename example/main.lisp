@@ -614,3 +614,9 @@
 (output-test (princ (cons 1 (cons 2 (cons 3 nil)))) "(1 2 3)")
 (output-test (princ (vector)) "#()")
 (output-test (princ (vector 1 2 3)) "#(1 2 3)")
+
+(output-test (format t "hello") "hello")
+(output-test (format t "~A" 10) "10")
+(output-test (format t "~A" 'a) "A")
+(output-test (format t "~A" #\a) "a")
+(output-test (format t "aaa ~A ~C" 'test #\@) "aaa TEST @")

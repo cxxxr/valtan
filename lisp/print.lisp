@@ -53,5 +53,38 @@
     (princ object stream)))
 
 (defun format (destination control-string &rest format-arguments)
-  )
-
+  (flet ((take ()
+           (unless format-arguments
+             (error "No more arguments"))
+           (pop format-arguments)))
+    (let ((string
+            (with-output-to-string (buffer)
+              (do ((i 0 (1+ i)))
+                  ((>= i (length control-string)))
+                (let ((c (aref control-string i)))
+                  (cond ((char= c #\~)
+                         (incf i)
+                         (when (>= i (length control-string))
+                           (error "format error"))
+                         (case (aref control-string i)
+                           ((#\a #\A)
+                            (let ((arg (take)))
+                              (princ arg buffer)))
+                           ((#\d #\D)
+                            (let ((arg (take)))
+                              (princ arg buffer)))
+                           ((#\c #\C)
+                            (let ((arg (take)))
+                              (princ arg buffer)))
+                           ((#\%)
+                            (write-char #\newline buffer))
+                           (otherwise
+                            (error "unexpected format directive"))))
+                        (t
+                         (write-char c buffer))))))))
+      (cond ((eq destination t)
+             (write-string string *standard-output*))
+            ((eq destination nil)
+             string)
+            (t
+             (write-string string destination))))))
