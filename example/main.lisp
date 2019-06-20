@@ -620,3 +620,7 @@
 (output-test (format t "~A" 'a) "A")
 (output-test (format t "~A" #\a) "a")
 (output-test (format t "aaa ~A ~C" 'test #\@) "aaa TEST @")
+
+(in-package :compiler)
+
+(defun f ())
