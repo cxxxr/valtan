@@ -44,6 +44,12 @@
                                    (system::array-to-js-string (string nickname)))
                                  use))))
 
+(defmacro defpackage (package &body options)
+  (let ((g-package (gensym)))
+    `(let ((,g-package ,package))
+       (unless (find-package ,g-package)
+         (make-package ,g-package :use '("CL"))))))
+
 #|
 (defvar *packages* '())
 
