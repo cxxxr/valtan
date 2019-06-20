@@ -29,6 +29,10 @@
   (mapcar #'system::js-string-to-array
           (system::js-array-to-list (system::%package-nicknames (ensure-package package)))))
 
+(defun intern (name &optional (package *package*))
+  (system::intern (array-contents name)
+                  (find-package package)))
+
 #|
 (defvar *packages* '())
 
