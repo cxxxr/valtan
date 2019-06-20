@@ -123,25 +123,33 @@
               (make-pathname :name name :type "lisp" :defaults base-path))
             files)))
 
-(defun get-lisp-files ()
-  (directory-files "./lisp/"
-                   '("ffi"
-                     "control"
-                     "condition"
-                     "struct"
-                     "cons"
-                     "symbol"
-                     "type"
-                     "number"
-                     "character"
-                     "array"
-                     "string"
-                     "function"
-                     "sequence"
-                     "hashtable"
-                     "package"
-                     "stream"
-                     "print")))
+(defun get-lisp-files (&key self)
+  (append (directory-files "./lisp/"
+                           '("ffi"
+                             "control"
+                             "condition"
+                             "struct"
+                             "cons"
+                             "symbol"
+                             "type"
+                             "number"
+                             "character"
+                             "array"
+                             "string"
+                             "function"
+                             "sequence"
+                             "hashtable"
+                             "package"
+                             "stream"
+                             "print"))
+          (when self
+            (directory-files "./compiler/"
+                             '("packages"
+                               #|"util"
+                               "error"
+                               "ir"
+                               "pass1"
+                               "pass2"|#)))))
 
 (defun build (pathnames &optional output)
   (with-open-stream (*standard-output*
@@ -152,13 +160,7 @@
       (get-output-stream-string *standard-output*))))
 
 (defun build-self (&optional output)
-  (build (append (get-lisp-files)
-                 (directory-files "./compiler/"
-                                  '("util"
-                                    "error"
-                                    "ir"
-                                    "pass1"
-                                    "pass2")))
+  (build (get-lisp-files :self t)
          output))
 
 (defparameter *module-table* (make-hash-table))
@@ -194,5 +196,5 @@
         ;; XXX: *module-table*には要素が一つしか入っていないことを想定
         (maphash (lambda (module-name pathnames)
                    (declare (ignore module-name))
-                   (build (append (get-lisp-files) pathnames) output))
+                   (build (append (get-lisp-files :self t) pathnames) output))
                  *module-table*)))))
