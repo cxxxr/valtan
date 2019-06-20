@@ -33,6 +33,17 @@
   (system::intern (system::array-to-js-string name)
                   (find-package package)))
 
+(defun make-package (package-name &key nicknames use)
+  (system::make-package (system::array-to-js-string (string package-name))
+                        (system::list-to-js-array
+                         (mapcar (lambda (nickname)
+                                   (system::array-to-js-string (string nickname)))
+                                 nicknames))
+                        (system::list-to-js-array
+                         (mapcar (lambda (nickname)
+                                   (system::array-to-js-string (string nickname)))
+                                 use))))
+
 #|
 (defvar *packages* '())
 
