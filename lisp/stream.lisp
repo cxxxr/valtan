@@ -21,7 +21,7 @@
 (defun flush (stream)
   (let ((x (standard-output-stream-buffer stream)))
     (when (< 0 (length x))
-      (ffi:console.log (array-contents x))
+      (ffi:console.log (system::array-to-js-string x))
       (setf (standard-output-stream-buffer stream) ""))))
 
 (defun stream-write-char (stream char)

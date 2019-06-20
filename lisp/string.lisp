@@ -15,8 +15,8 @@
          (error "type error"))))
 
 (defun string= (x y)
-  (eql (array-contents (string x))
-       (array-contents (string y))))
+  (eql (system::array-to-js-string (string x))
+       (system::array-to-js-string (string y))))
 
 (defun string-append (x y)
   (unless (stringp x)
@@ -24,5 +24,5 @@
   (unless (stringp y)
     (error "type error"))
   (system::js-string-to-array
-   ((ffi:ref (array-contents x) "concat")
-    (array-contents y))))
+   ((ffi:ref (system::array-to-js-string x) "concat")
+    (system::array-to-js-string y))))

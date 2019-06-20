@@ -1,7 +1,7 @@
 (in-package :common-lisp)
 
 (defun make-symbol (string)
-  (system::%make-symbol (array-contents string)))
+  (system::%make-symbol (system::array-to-js-string string)))
 
 (defun symbol-name (symbol)
   (system::js-string-to-array (system::%symbol-name symbol)))

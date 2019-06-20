@@ -30,7 +30,7 @@
           (system::js-array-to-list (system::%package-nicknames (ensure-package package)))))
 
 (defun intern (name &optional (package *package*))
-  (system::intern (array-contents name)
+  (system::intern (system::array-to-js-string name)
                   (find-package package)))
 
 #|

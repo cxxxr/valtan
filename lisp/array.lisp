@@ -99,6 +99,9 @@
                :length (ffi:ref js-string "length")
                :element-type 'character))
 
+(defun system::array-to-js-string (array)
+  (array-contents array))
+
 (defun vector (&rest args)
   (make-array (length args)
               :initial-contents args))
@@ -108,10 +111,7 @@
     (error "type error"))
   (when (or (< sub 0) (<= (array-length array) sub))
     (error "index error"))
-  (cond ((eq (array-element-type array) 'character)
-         (ffi:index (array-contents array) sub))
-        (t
-         (ffi:index (array-contents array) sub))))
+  (ffi:index (array-contents array) sub))
 
 (defun (setf aref) (value array sub)
   (unless (arrayp array)
