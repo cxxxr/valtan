@@ -45,6 +45,7 @@
                                  use))))
 
 (defmacro defpackage (package &body options)
+  (declare (ignore options))
   (let ((g-package (gensym)))
     `(let ((,g-package ,package))
        (unless (find-package ,g-package)

@@ -58,8 +58,8 @@
          (error "stream-write-string trap")))
   string)
 
-(defmacro with-output-to-string ((var &optional string &key element-type) &body body)
-  (declare (ignore string element-type))
+(defmacro with-output-to-string ((var &optional string #|&key element-type|#) &body body)
+  (declare (ignore string #|element-type|#))
   `(let ((,var (make-string-output-stream)))
      ,@body
      (get-output-stream-string ,var)))
