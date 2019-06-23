@@ -499,6 +499,11 @@
         (format t "return ~A;" name-var)
         (write-string "})()")))))
 
+(def-emit system::%defpackage (ir)
+  (let ((name (ir-arg1 ir)))
+    (format *toplevel-defun-stream* "lisp.defpackage('~A');~%" name)
+    (format t "lisp.defpackage('~A')" name)))
+
 (defun emit-ref (args)
   (destructuring-bind (object . keys) args
     (if (ir-p object)

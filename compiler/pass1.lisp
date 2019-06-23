@@ -839,6 +839,13 @@
                           `(lambda ,lambda-list (declare ,@declares) ,body))
                       t nil)))))
 
+(def-pass1-form system::%defpackage ((name) return-value-p multiple-values-p)
+  (let ((name (string name)))
+    (make-ir 'system::%defpackage
+             return-value-p
+             nil
+             name)))
+
 (def-pass1-form ffi:require ((name module-name) return-value-p multiple-values-p)
   (unless (or (symbolp name) (stringp name))
     (compile-error "~S is not a string designator" name))
