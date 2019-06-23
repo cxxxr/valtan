@@ -623,4 +623,9 @@
 
 (in-package :compiler)
 
-(defun f ())
+(defun f ()
+  (assert (string= "COMPILER" (package-name *package*))))
+
+(f)
+
+(ffi:console.log (package-name *package*))
