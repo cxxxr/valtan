@@ -627,5 +627,3 @@
   (assert (string= "COMPILER" (package-name *package*))))
 
 (f)
-
-(ffi:console.log (package-name *package*))

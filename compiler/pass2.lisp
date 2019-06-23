@@ -502,7 +502,12 @@
 (def-emit system::%defpackage (ir)
   (let ((name (ir-arg1 ir)))
     (format *toplevel-defun-stream* "lisp.defpackage('~A');~%" name)
-    (format t "lisp.defpackage('~A')" name)))
+    (format t "lisp.ensurePackage('~A')" name)))
+
+(def-emit system::%in-package (ir)
+  (let ((name (ir-arg1 ir)))
+    (format *toplevel-defun-stream* "lisp.changeCurrentPackage('~A');~%" name)
+    (format t "lisp.ensurePackage('~A')" name)))
 
 (defun emit-ref (args)
   (destructuring-bind (object . keys) args
