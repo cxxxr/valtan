@@ -601,7 +601,7 @@
                                       (write-line "lisp.printCallStack();"))
                        (dolist (ir ir-forms)
                          (pass2-toplevel-1 ir))
-                       (write-line "CL_COMMON_LISP_FINISH_OUTPUT()")))))
+                       (write-line "CL_COMMON_LISP_FINISH_OUTPUT();")))))
       (emit-initialize-vars)
       (write-string (get-output-stream-string *toplevel-defun-stream*))
       (emit-initialize-symbols)
