@@ -635,6 +635,7 @@
                (princ nil))
              "HOGE T NIL")
 
+(write-line "## princ")
 (output-test (princ "hello world") "hello world")
 (output-test (princ 123) "123")
 (output-test (princ #\a) "a")
@@ -644,20 +645,23 @@
 (output-test (princ (vector)) "#()")
 (output-test (princ (vector 1 2 3)) "#(1 2 3)")
 
+(write-line "## format")
 (output-test (format t "hello") "hello")
 (output-test (format t "~A" 10) "10")
 (output-test (format t "~A" 'a) "A")
 (output-test (format t "~A" #\a) "a")
 (output-test (format t "aaa ~A ~C" 'test #\@) "aaa TEST @")
 
+(write-line "## prin1")
 (output-test (prin1 'hello) "HELLO")
+(output-test (prin1 :hello) ":HELLO")
 (output-test (prin1 '#:hello) "#:HELLO")
 
-(in-package :compiler)
+;; (in-package :compiler)
 
-(defun f ()
-  (assert (string= "COMPILER" (package-name *package*))))
+;; (defun f ()
+;;   (assert (string= "COMPILER" (package-name *package*))))
 
-(f)
+;; (f)
 
-(write-line "==================== compiler ====================")
+;; (write-line "==================== compiler ====================")
