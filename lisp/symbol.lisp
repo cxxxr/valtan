@@ -7,7 +7,9 @@
   (system::js-string-to-array (system::%symbol-name symbol)))
 
 (defun symbol-package (symbol)
-  (find-package (system::js-string-to-array (system::symbol-package-name symbol))))
+  (if (eq (system::symbol-package-name symbol) (ffi:ref "null"))
+      nil
+      (find-package (system::js-string-to-array (system::symbol-package-name symbol)))))
 
 (defun keywordp (x)
   (and (symbolp x)
