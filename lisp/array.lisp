@@ -21,8 +21,6 @@
   (let ((initial-contents-length (length initial-contents)))
     (unless (= dimensions
                initial-contents-length)
-      (error "error")
-      #+(or)
       (error "There are ~D elements in the :INITIAL-CONTENTS, but the vector length is ~D."
              initial-contents-length
              dimensions))))
@@ -65,8 +63,7 @@
   (unless (or (eq fill-pointer t) (eq fill-pointer nil)
               (and (integerp fill-pointer)
                    (<= 0 fill-pointer)))
-    ;(error "Bad fill-pointer: ~S" fill-pointer)
-    (error "Bad fill-pointer"))
+    (error "Bad fill-pointer: ~S" fill-pointer))
   (cond ((and initial-contents-p initial-element-p)
          (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
         (initial-contents-p
