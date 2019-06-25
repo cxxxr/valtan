@@ -1,3 +1,7 @@
+(in-package :cl-user)
+
+;; TODO: in-packageをファイル単位で有効にする
+
 ;; バッククォートのテスト 今の実装は不十分なので二重のバッククォートは使えずこのテストもこける
 ;; (DEFMACRO FOO (X)
 ;;   (SYSTEM:QUASIQUOTE
