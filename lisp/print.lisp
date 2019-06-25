@@ -4,7 +4,17 @@
 
 (defun print-symbol (symbol stream)
   (if *print-escape*
-      nil
+      (if (eq (symbol-package symbol) *package*)
+          (write-string (symbol-name symbol) stream)
+          (progn
+            (cond ((packagep symbol)
+                   (write-string ":" stream))
+                  (t
+                   (write-string (package-name symbol) stream)
+                   (if (eq :external (nth-value 1 (find-symbol (symbol-name symbol) (symbol-package symbol))))
+                       (write-string ":" stream)
+                       (write-string "::" stream))
+                   (write-string (symbol-name symbol) stream)))))
       (write-string (symbol-name symbol) stream)))
 
 (defun print-string (string stream)

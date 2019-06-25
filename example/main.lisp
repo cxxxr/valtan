@@ -621,6 +621,9 @@
 (output-test (format t "~A" #\a) "a")
 (output-test (format t "aaa ~A ~C" 'test #\@) "aaa TEST @")
 
+(output-test (prin1 'hello) "HELLO")
+(output-test (prin1 '#:hello) "#:HELLO")
+
 (in-package :compiler)
 
 (defun f ()
