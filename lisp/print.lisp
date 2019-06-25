@@ -1,20 +1,32 @@
 (in-package :common-lisp)
 
-#|
-(defun write (object &key array base case circle escape gensym length level lines miser-width
-                          pprint-dispatch pretty radix readably right-margin stream)
-  (declare (ignore array base case circle escape gensym length level lines miser-width
-                   pprint-dispatch pretty radix readably right-margin stream))
-  )
-|#
+(defvar *print-escape* t)
 
-(defun print-cons (cons stream print-fn)
+(defun print-symbol (symbol stream)
+  (if *print-escape*
+      nil
+      (write-string (symbol-name symbol) stream)))
+
+(defun print-string (string stream)
+  (if *print-escape*
+      nil
+      (write-string string stream)))
+
+(defun print-number (number stream)
+  (write-string (system::js-string-to-array ((ffi:ref "String") number)) stream))
+
+(defun print-character (char stream)
+  (if *print-escape*
+      nil
+      (write-char char stream)))
+
+(defun print-cons (cons stream)
   (labels ((f (x)
              (when (consp x)
-               (funcall print-fn (car x) stream)
+               (write (car x) :stream stream)
                (unless (listp (cdr x))
                  (write-string " . " stream)
-                 (funcall print-fn (cdr x) stream))
+                 (write (cdr x) :stream stream))
                (when (consp (cdr x))
                  (write-char #\space stream)
                  (f (cdr x))))))
@@ -22,31 +34,52 @@
     (f cons)
     (write-char #\) stream)))
 
-(defun print-vector (vector stream print-fn)
+(defun print-vector (vector stream)
   (write-string "#(" stream)
   (let ((len (length vector)))
     (do ((i 0 (1+ i)))
         ((= i len))
-      (funcall print-fn (aref vector i) stream)
+      (write (aref vector i) :stream stream)
       (when (< i (1- len))
         (write-char #\space stream))))
   (write-string ")" stream))
 
-(defun princ (object &optional (stream *standard-output*))
+(defun write (object &key array
+                          base
+                          case
+                          circle
+                          ((:escape *print-escape*) *print-escape*)
+                          gensym
+                          length
+                          level
+                          lines
+                          miser-width
+                          pprint-dispatch
+                          pretty
+                          radix
+                          readably
+                          right-margin
+                          (stream *standard-output*))
   (cond ((symbolp object)
-         (write-string (symbol-name object) stream))
+         (print-symbol object stream))
         ((stringp object)
-         (write-string object stream))
+         (print-string object stream))
         ((numberp object)
-         (write-string (system::js-string-to-array ((ffi:ref "String") object)) stream))
+         (print-number object stream))
         ((characterp object)
-         (write-char object stream))
+         (print-character object stream))
         ((consp object)
-         (print-cons object stream #'princ))
+         (print-cons object stream))
         ((vectorp object)
-         (print-vector object stream #'princ))
+         (print-vector object stream))
         (t
-         (error "princ error"))))
+         (error "write: unexpected object"))))
+
+(defun princ (object &optional (stream *standard-output*))
+  (write object :escape nil :stream stream))
+
+(defun prin1 (object &optional (stream *standard-output*))
+  (write object :escape t :stream stream))
 
 (defun princ-to-string (object)
   (with-output-to-string (stream)
