@@ -33,6 +33,10 @@
   (system::intern (system::array-to-js-string name)
                   (find-package package)))
 
+(defun find-symbol (name &optional (package *package*))
+  (system::find-symbol (system::array-to-js-string name)
+                       (find-package package)))
+
 (defun make-package (package-name &key nicknames use)
   (system::make-package (system::array-to-js-string (string package-name))
                         (system::list-to-js-array
