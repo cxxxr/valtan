@@ -47,7 +47,7 @@
 
 (ffi:console.log (fact 5))
 
-(ffi:console.log "==================== Number ====================")
+(write-line "==================== Number ====================")
 (assert (numberp 1))
 (assert (not (numberp "foo")))
 (assert (numberp 1.2))
@@ -86,7 +86,7 @@
   (assert (= a 2))
   (assert (= b 1)))
 
-(ffi:console.log "==================== Character ====================")
+(write-line "==================== Character ====================")
 (assert (characterp #\a))
 (assert (not (characterp "a")))
 (assert (eql #\a (code-char 97)))
@@ -118,7 +118,7 @@
 (assert (char>= #\b #\a #\a))
 (assert (not (char>= #\b #\a #\z)))
 
-(ffi:console.log "==================== Array ====================")
+(write-line "==================== Array ====================")
 (ffi:console.log (make-array 3))
 (ffi:console.log (make-array 3 :initial-element 100))
 (ffi:console.log (arrayp (make-array 3)))
@@ -159,13 +159,13 @@
   (assert (eq 'b (aref x 1)))
   (assert (eq 'c (aref x 2))))
 
-(ffi:console.log "==================== ffi ====================")
+(write-line "==================== ffi ====================")
 (let ((x (ffi:new (ffi:ref "Array") 10)))
   (ffi:console.log x)
   (ffi:set (ffi:index x 0) "a")
   (ffi:console.log (ffi:index x 0)))
 
-(ffi:console.log "==================== cons ====================")
+(write-line "==================== cons ====================")
 (ffi:console.log (cons 1 2))
 (assert (eql 1 (car (cons 1 2))))
 (assert (eql 2 (cdr (cons 1 2))))
@@ -297,7 +297,7 @@
   (pushnew 3 x)
   (assert (equal x '(3 2 1))))
 
-(ffi:console.log "==================== lambda-list ====================")
+(write-line "==================== lambda-list ====================")
 (defun f1 (&rest args)
   (ffi:console.log args))
 
@@ -316,7 +316,7 @@
 (ffi:console.log (f3))
 (ffi:console.log (f3 :foo 0))
 
-(ffi:console.log "==================== defstruct ====================")
+(write-line "==================== defstruct ====================")
 (defstruct foo
   x y z)
 (ffi:console.log (make-foo))
@@ -354,7 +354,7 @@
   (ffi:console.log (eq piyo (copy-piyo piyo)))
   (ffi:console.log (piyo-p piyo)))
 
-(ffi:console.log "==================== Symbol ====================")
+(write-line "==================== Symbol ====================")
 (assert (equal (symbol-plist 'foo) '()))
 (setf (symbol-plist 'foo) (list 'a 1 'b 2))
 (assert (equal (symbol-plist 'foo) '(a 1 b 2)))
@@ -378,7 +378,7 @@
   (assert (stringp name))
   (assert (string= name "ABC")))
 
-(ffi:console.log "==================== Hash Table ====================")
+(write-line "==================== Hash Table ====================")
 (let ((x (make-hash-table)))
   (ffi:console.log x)
   (ffi:console.log (hash-table-p x))
@@ -400,7 +400,7 @@
              (ffi:console.log k v))
            ht))
 
-(ffi:console.log "==================== destructuring-bind ====================")
+(write-line "==================== destructuring-bind ====================")
 
 (destructuring-bind (a) (list 1)
   (ffi:console.log a))
@@ -422,7 +422,7 @@
 (destructuring-bind (a . b) (cons 1 2)
   (ffi:console.log a b))
 
-(ffi:console.log "==================== apply ====================")
+(write-line "==================== apply ====================")
 (ffi:console.log (apply '+ '()))
 (ffi:console.log (apply '+ '(1 2 3)))
 (ffi:console.log (apply '+ 1 2 3 '(4 5 6)))
@@ -434,7 +434,7 @@
 (ffi:console.log "(integerp 1.0)" (integerp 1.0))
 (ffi:console.log "(integerp 'a)" (integerp 'a))
 
-(ffi:console.log "==================== stream ====================")
+(write-line "==================== stream ====================")
 (ffi:console.log
  (assert
   (string= "string!"
@@ -442,7 +442,7 @@
              (write-string "string" out)
              (write-char #\! out)))))
 
-(ffi:console.log "==================== package ====================")
+(write-line "==================== package ====================")
 (assert (equal "COMMON-LISP" (package-name :cl)))
 (assert (equal "COMMON-LISP" (package-name 'common-lisp)))
 (assert (null (find-package :abcd)))
@@ -453,7 +453,7 @@
 (assert (not (packagep "foo")))
 (assert (packagep (first (list-all-packages))))
 
-(ffi:console.log "==================== sequence ====================")
+(write-line "==================== sequence ====================")
 ;; length
 (assert (= (length "abc") 3))
 (assert (= (length (make-array 10)) 10))
@@ -529,7 +529,7 @@
   (nreverse v)
   (assert (vector-equal v (vector #\d #\c #\b #\a))))
 
-(ffi:console.log "==================================================")
+(write-line "==================================================")
 (defun foo ()
   (ffi:console.log "a")
   (return-from foo)
@@ -627,3 +627,5 @@
   (assert (string= "COMPILER" (package-name *package*))))
 
 (f)
+
+(write-line "==================== compiler ====================")

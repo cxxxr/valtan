@@ -145,11 +145,11 @@
           (when self
             (directory-files "./compiler/"
                              '("packages"
-                               #|"util"
+                               "util"
                                "error"
                                "ir"
                                "pass1"
-                               "pass2"|#)))))
+                               "pass2")))))
 
 (defun build (pathnames &optional output)
   (with-open-stream (*standard-output*
