@@ -295,9 +295,6 @@
      (setq ,var ,value)
      ,var))
 
-(def-transform in-package (package)
-  `(system::%in-package ,package))
-
 (defun expand-quasiquote (x)
   (cond ((atom x)
          (list 'quote x))
@@ -844,7 +841,7 @@
              nil
              name)))
 
-(def-pass1-form system::%in-package ((name) return-value-p multiple-values-p)
+(def-pass1-form in-package ((name) return-value-p multiple-values-p)
   (setq *package* (find-package name))
   (let ((name (string name)))
     (make-ir 'system::%in-package

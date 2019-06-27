@@ -657,11 +657,13 @@
 (output-test (prin1 :hello) ":HELLO")
 (output-test (prin1 '#:hello) "#:HELLO")
 
-;; (in-package :compiler)
+(write-line (package-name *package*))
 
-;; (defun f ()
-;;   (assert (string= "COMPILER" (package-name *package*))))
+(in-package :compiler)
 
-;; (f)
+(defun f ()
+  (assert (string= "COMPILER" (package-name *package*))))
 
-;; (write-line "==================== compiler ====================")
+(f)
+
+(write-line "==================== compiler ====================")
