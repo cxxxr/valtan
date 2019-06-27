@@ -101,6 +101,11 @@
   (with-output-to-string (stream)
     (princ object stream)))
 
+(defun print (object &optional (stream *standard-output*))
+  (terpri stream)
+  (prin1 object stream)
+  (write-char #\space stream))
+
 (defun format (destination control-string &rest format-arguments)
   (flet ((take ()
            (unless format-arguments

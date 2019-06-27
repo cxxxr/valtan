@@ -76,3 +76,6 @@
 
 (defun finish-output (&optional (stream *standard-output*))
   (flush stream))
+
+(defun terpri (&optional (stream *standard-output*))
+  (write-char #\newline stream))
