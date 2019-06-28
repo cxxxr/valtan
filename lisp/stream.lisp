@@ -17,6 +17,7 @@
   (buffer ""))
 
 (defvar *standard-output* (make-standard-output-stream))
+(defvar *error-output* (make-standard-output-stream))
 
 (defun flush (stream)
   (let ((x (standard-output-stream-buffer stream)))
