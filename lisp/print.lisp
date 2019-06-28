@@ -2,6 +2,15 @@
 
 (defvar *print-escape* t)
 
+(defmacro print-unreadable-object ((object stream &key type identity) &body body)
+  (declare (ignore object type identity))
+  (let ((g-stream (gensym)))
+    `(let ((,g-stream ,stream))
+       (write-string "#<" ,g-stream)
+       ,@body
+       (write-string ">" ,g-stream)
+       nil)))
+
 (defun print-symbol (symbol stream)
   (if *print-escape*
       (if (eq (symbol-package symbol) *package*)
@@ -60,6 +69,11 @@
         (write-char #\space stream))))
   (write-string ")" stream))
 
+(defun print-function (function stream)
+  (print-unreadable-object (function stream)
+    (write-string (system::js-string-to-array ((ffi:ref "String") function))
+                  stream)))
+
 (defun write (object &key array
                           base
                           case
@@ -88,6 +102,8 @@
          (print-cons object stream))
         ((vectorp object)
          (print-vector object stream))
+        ((functionp object)
+         (print-function object stream))
         (t
          (error "write: unexpected object"))))
 
