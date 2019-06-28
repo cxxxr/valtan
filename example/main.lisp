@@ -661,7 +661,7 @@
 (defstruct print-test-structure x y z)
 
 (output-test (prin1 (make-print-test-structure :x 100 :y 200 :z 300))
-             "#S(PRINT-TEST-STRUCTURE :X 100:Y 200:Z 300)")
+             "#S(PRINT-TEST-STRUCTURE :X 100 :Y 200 :Z 300)")
 
 (in-package :compiler)
 

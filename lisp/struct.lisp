@@ -97,6 +97,7 @@
                  ,@(let ((i -1))
                      (mapcar (lambda (slot-desc)
                                `(progn
+                                  ,(unless (= i -1) '(write-string " " stream))
                                   (prin1 ,(intern (string (if (consp slot-desc)
                                                               (first slot-desc)
                                                               slot-desc))
