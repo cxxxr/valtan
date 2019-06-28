@@ -38,7 +38,7 @@
 
 (defun gethash (key hash-table &optional default)
   (let ((value (ffi:index (hash-table-object hash-table) key)))
-    (if (eq (ffi:typeof value) "undefined")
+    (if (eq value (ffi:ref "undefined"))
         (values default nil)
         (values value t))))
 
