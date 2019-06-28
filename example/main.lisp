@@ -359,11 +359,12 @@
   (ffi:console.log (piyo-p piyo)))
 
 (write-line "==================== Symbol ====================")
-(assert (equal (symbol-plist 'foo) '()))
-(setf (symbol-plist 'foo) (list 'a 1 'b 2))
-(assert (equal (symbol-plist 'foo) '(a 1 b 2)))
-(setf (get 'aaa 'key1) 100)
-(assert (= (get 'aaa 'key1) 100))
+(let ((symbol '#:foo))
+  (assert (equal (symbol-plist symbol) '()))
+  (setf (symbol-plist symbol) (list 'a 1 'b 2))
+  (assert (equal (symbol-plist symbol) '(a 1 b 2)))
+  (setf (get 'aaa 'key1) 100)
+  (assert (= (get 'aaa 'key1) 100)))
 
 (dolist (p (list-all-packages))
   (assert (packagep p))
