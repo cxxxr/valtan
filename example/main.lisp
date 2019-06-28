@@ -663,6 +663,10 @@
 (output-test (prin1 (make-print-test-structure :x 100 :y 200 :z 300))
              "#S(PRINT-TEST-STRUCTURE :X 100 :Y 200 :Z 300)")
 
+(progn
+  (defun #1=#:foo (x) x)
+  (assert (functionp (symbol-function '#1#))))
+
 (in-package :compiler)
 
 (defun f ()
