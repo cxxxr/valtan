@@ -65,11 +65,9 @@
   (to-js-identier symbol "F_"))
 
 (defun symbol-to-js-value (symbol)
-  (if (symbol-package symbol)
-      (or (gethash symbol *literal-symbols*)
-          (setf (gethash symbol *literal-symbols*)
-                (genvar "G_")))
-      (format nil "lisp.makeSymbol(\"~A\")" symbol)))
+  (or (gethash symbol *literal-symbols*)
+      (setf (gethash symbol *literal-symbols*)
+            (genvar "G_"))))
 
 (let ((i 0))
   (defun gen-temporary-js-var (&optional (prefix "TMP_"))
@@ -582,10 +580,12 @@
 
 (defun emit-initialize-symbols ()
   (maphash (lambda (symbol ident)
-             (format t "~A = lisp.intern('~A', '~A');~%"
-                     ident
-                     symbol
-                     (package-name (symbol-package symbol))))
+             (if (symbol-package symbol)
+                 (format t "~A = lisp.intern('~A', '~A');~%"
+                         ident
+                         symbol
+                         (package-name (symbol-package symbol)))
+                 (format t "~A = lisp.makeSymbol(\"~A\");" ident symbol)))
            *literal-symbols*))
 
 (defun pass2-toplevel (ir)
