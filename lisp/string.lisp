@@ -12,7 +12,7 @@
         ((symbolp x)
          (symbol-name x))
         (t
-         (error "type error"))))
+         (type-error x 'string-designator))))
 
 (defun string= (x y)
   (eql (system::array-to-js-string (string x))
@@ -20,9 +20,9 @@
 
 (defun string-append (x y)
   (unless (stringp x)
-    (error "type error"))
+    (type-error x 'string))
   (unless (stringp y)
-    (error "type error"))
+    (type-error y 'string))
   (system::js-string-to-array
    ((ffi:ref (system::array-to-js-string x) "concat")
     (system::array-to-js-string y))))

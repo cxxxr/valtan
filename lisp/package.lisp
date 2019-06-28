@@ -17,7 +17,7 @@
                            ((stringp package-designator)
                             (find-package package-designator))
                            (t
-                            (error "type error")))))
+                            (type-error package-designator 'package)))))
         (unless package
           (error "The Package ~A is undefined" package-designator))
         package)))

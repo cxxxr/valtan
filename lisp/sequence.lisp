@@ -6,7 +6,7 @@
         ((vectorp sequence)
          (array-length sequence))
         (t
-         (error "type error"))))
+         (type-error sequence 'sequence))))
 
 (defun reverse-list (list)
   (let ((reversed-list '()))
@@ -30,7 +30,7 @@
         ((vectorp sequence)
          (reverse-vector sequence))
         (t
-         (error "type error"))))
+         (type-error sequence 'sequence))))
 
 (defun nreverse-list (list)
   (do ((1st (cdr list) (if (endp 1st) 1st (cdr 1st)))
@@ -55,7 +55,7 @@
         ((vectorp sequence)
          (nreverse-vector sequence))
         (t
-         (error "type error"))))
+         (type-error sequence 'sequence))))
 
 (defun subseq-list (list start end)
   (when (and start
@@ -98,7 +98,7 @@
         ((vectorp sequence)
          (subseq-vector sequence start end))
         (t
-         (error "type error"))))
+         (type-error sequence 'sequence))))
 
 (defun map-sequence (function sequence from-end start end key)
   (when start
@@ -119,7 +119,7 @@
              (dotimes (i (length sequence))
                (funcall function (aref sequence i)))))
         (t
-         (error "type error"))))
+         (type-error sequence 'sequence))))
 
 (defun find-if (predicate sequence &key from-end start end key)
   (map-sequence (lambda (x)

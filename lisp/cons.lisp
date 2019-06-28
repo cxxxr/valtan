@@ -202,7 +202,7 @@
 (defun endp (x)
   (if (listp x)
       (null x)
-      (error "type error")))
+      (type-error x 'list)))
 
 #+(or)
 (defun nconc (&rest lists)

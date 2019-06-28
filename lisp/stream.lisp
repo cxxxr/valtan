@@ -26,7 +26,7 @@
 
 (defun stream-write-char (stream char)
   (unless (characterp char)
-    (error "type error"))
+    (type-error char 'character))
   (cond ((string-output-stream-p stream)
          (setf (string-output-stream-buffer stream)
                (string-append (string-output-stream-buffer stream)
@@ -44,7 +44,7 @@
 
 (defun stream-write-string (stream string)
   (unless (stringp string)
-    (error "type error"))
+    (type-error string 'string))
   (cond ((string-output-stream-p stream)
          (setf (string-output-stream-buffer stream)
                (string-append (string-output-stream-buffer stream)

@@ -6,7 +6,7 @@
         ((symbolp value)
          (symbol-function value))
         (t
-         (error "type error"))))
+         (type-error value 'function))))
 
 (defun funcall (function &rest args)
   (let ((function (ensure-function function)))
@@ -16,7 +16,7 @@
   (let ((function (ensure-function function)))
     (cond ((null args)
            (unless (listp arg)
-             (error "type error"))
+             (type-error arg 'list))
            (system::apply function (system::list-to-js-array arg)))
           (t
            (let* ((head (list arg))
@@ -24,7 +24,7 @@
              (do ((rest args (cdr rest)))
                  ((null (cdr rest))
                   (unless (listp (car rest))
-                    (error "type error"))
+                    (type-error (car rest) 'list))
                   (setf (cdr tail) (car rest)))
                (let ((a (car rest)))
                  (setf (cdr tail) (list a))
