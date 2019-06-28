@@ -110,7 +110,7 @@
         ((system::structure-p object)
          (print-structure object stream))
         (t
-         (error "write: unexpected object"))))
+         (error "write: unexpected object: ~A" (system::js-string-to-array ((ffi:ref "String") object))))))
 
 (defun princ (object &optional (stream *standard-output*))
   (write object :escape nil :stream stream))
