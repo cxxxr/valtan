@@ -74,6 +74,9 @@
     (write-string (system::js-string-to-array ((ffi:ref "String") function))
                   stream)))
 
+(defun print-structure (structure stream)
+  (funcall (structure-printer structure) structure stream))
+
 (defun write (object &key array
                           base
                           case
@@ -104,6 +107,8 @@
          (print-vector object stream))
         ((functionp object)
          (print-function object stream))
+        ((system::structure-p object)
+         (print-structure object stream))
         (t
          (error "write: unexpected object"))))
 
