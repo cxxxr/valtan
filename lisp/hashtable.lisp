@@ -20,6 +20,7 @@
                        (:predicate hash-table-p)
                        (:constructor %make-hash-table))
   object
+  (keys nil)
   (test nil :read-only t)
   (size nil :read-only t)
   (rehash-size nil :read-only t)
@@ -44,6 +45,7 @@
 
 (defun (setf gethash) (value key hash-table &optional default)
   (ffi:set (ffi:index (hash-table-object hash-table) key) value)
+  (push key (hash-table-keys hash-table))
   value)
 
 (defun remhash (key hash-table)
@@ -55,13 +57,11 @@
 
 (defun maphash (function hash-table)
   (let* ((object (hash-table-object hash-table))
-         (js-keys ((ffi:ref "Object" "keys") object))
-         (length (ffi:ref js-keys "length")))
-    (do ((i 0 (+ i 1)))
-        ((= i length))
-      (let* ((key (ffi:index js-keys i))
-             (value (ffi:index object key)))
-        (funcall function key value))))
+         (keys (hash-table-keys hash-table)))
+    (dolist (key keys)
+      (let ((value (ffi:index object key)))
+        (unless (eq value (ffi:ref "undefined"))
+          (funcall function key value)))))
   nil)
 
 #|
