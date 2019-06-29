@@ -104,10 +104,6 @@
             (push (pass1-toplevel form) ir-forms))))
       (nreverse ir-forms))))
 
-(defun compile-toplevel (form)
-  (with-compile ()
-    (list (pass1-toplevel form))))
-
 (defmacro with-js-beautify (&body body)
   `(let ((output
            (with-output-to-string (*standard-output*)
@@ -149,7 +145,9 @@
                                "error"
                                "ir"
                                "pass1"
-                               "pass2")))))
+                               "pass2")))
+          (directory-files "./lisp/"
+                           '("compilation"))))
 
 (defun build (pathnames &optional output)
   (with-open-stream (*standard-output*

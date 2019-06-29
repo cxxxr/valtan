@@ -678,4 +678,4 @@
 
 (write-line "==================== compiler ====================")
 
-(pass1-toplevel '(+ 1 2))
+(eval '(princ (+ 1 100)))
