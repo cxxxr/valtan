@@ -6,4 +6,4 @@
       (compiler::pass2-toplevel ir))))
 
 (defun eval (x)
-  (ffi::js-eval (compile-toplevel x)))
+  ((ffi:ref "eval") (compile-toplevel x)))
