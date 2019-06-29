@@ -911,8 +911,8 @@
                            (pass1 x t nil))
                          other-indexes))))
 
-(defun pass1-toplevel (form)
+(defun pass1-toplevel (form &optional return-value-p multiple-values-p)
   (let ((*lexenv* '())
         (*compile-level* -1)
         (*genvar-counter* 0))
-    (pass1 form nil nil)))
+    (pass1 form return-value-p multiple-values-p)))
