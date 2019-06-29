@@ -657,6 +657,8 @@
 (output-test (prin1 'hello) "HELLO")
 (output-test (prin1 :hello) ":HELLO")
 (output-test (prin1 '#:hello) "#:HELLO")
+(output-test (prin1 (find-package :cl)) "#<PACKAGE \"COMMON-LISP\">")
+(output-test (prin1 "abc") "\"abc\"")
 
 (defstruct print-test-structure x y z)
 

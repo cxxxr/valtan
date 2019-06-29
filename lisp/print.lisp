@@ -33,9 +33,12 @@
       (write-string (symbol-name symbol) stream)))
 
 (defun print-string (string stream)
-  (if *print-escape*
-      nil
-      (write-string string stream)))
+  (cond (*print-escape*
+         (write-char #\" stream)
+         (write-string string stream)
+         (write-char #\" stream))
+        (t
+         (write-string string stream))))
 
 (defun print-number (number stream)
   (write-string (system::js-string-to-array ((ffi:ref "String") number)) stream))
@@ -74,6 +77,13 @@
     (write-string (system::js-string-to-array ((ffi:ref "String") function))
                   stream)))
 
+(defun print-package (package stream)
+  (print-unreadable-object (package stream)
+    (write-string "PACKAGE " stream)
+    (write-char #\" stream)
+    (write-string (package-name package) stream)
+    (write-char #\" stream)))
+
 (defun print-structure (structure stream)
   (funcall (structure-printer structure) structure stream))
 
@@ -107,6 +117,8 @@
          (print-vector object stream))
         ((functionp object)
          (print-function object stream))
+        ((packagep object)
+         (print-package object stream))
         ((system::structure-p object)
          (print-structure object stream))
         (t
