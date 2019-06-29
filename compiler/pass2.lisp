@@ -595,8 +595,8 @@
     (let ((output (with-output-to-string (*standard-output*)
                     (pass2-toplevel-1 ir))))
       (emit-initialize-vars)
-      (write-string output)
-      (emit-initialize-symbols)))
+      (emit-initialize-symbols)
+      (write-string output)))
   (values))
 
 (defun pass2-toplevel-forms (ir-forms)
