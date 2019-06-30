@@ -125,10 +125,12 @@
          (error "write: unexpected object: ~A" (system::js-string-to-array ((ffi:ref "String") object))))))
 
 (defun princ (object &optional (stream *standard-output*))
-  (write object :escape nil :stream stream))
+  (write object :escape nil :stream stream)
+  object)
 
 (defun prin1 (object &optional (stream *standard-output*))
-  (write object :escape t :stream stream))
+  (write object :escape t :stream stream)
+  object)
 
 (defun princ-to-string (object)
   (with-output-to-string (stream)
@@ -137,7 +139,8 @@
 (defun print (object &optional (stream *standard-output*))
   (terpri stream)
   (prin1 object stream)
-  (write-char #\space stream))
+  (write-char #\space stream)
+  object)
 
 (defun format (destination control-string &rest format-arguments)
   (flet ((take ()
