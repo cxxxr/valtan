@@ -26,5 +26,5 @@
     (if (and (string= string "") (not next-line-p))
         (if eof-error-p
             (eof-error)
-            eof-value)
+            (values eof-value t))
         (values string (not next-line-p)))))

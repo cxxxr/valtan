@@ -457,7 +457,9 @@
 (let ((in (make-string-input-stream "abc
 ")))
   (assert (equal (multiple-value-list (read-line in))
-                 '("abc" nil))))
+                 '("abc" nil)))
+  (assert (equal (multiple-value-list (read-line in nil :foo))
+                 '(:foo t))))
 
 (write-line "==================== package ====================")
 (assert (equal "COMMON-LISP" (package-name :cl)))
