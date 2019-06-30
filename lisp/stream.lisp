@@ -40,7 +40,7 @@
                    (string-append (standard-output-stream-buffer stream)
                                   (string char)))))
         (t
-         (error "stream-write-char trap")))
+         (type-error stream 'output-stream)))
   char)
 
 (defun stream-write-string (stream string)
@@ -56,7 +56,7 @@
                (string-append (standard-output-stream-buffer stream)
                               string)))
         (t
-         (error "stream-write-string trap")))
+         (type-error stream 'output-stream)))
   string)
 
 (defmacro with-output-to-string ((var &optional string #|&key element-type|#) &body body)
