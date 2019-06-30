@@ -137,7 +137,8 @@
                              "hashtable"
                              "package"
                              "stream"
-                             "print"))
+                             "print"
+                             "read"))
           (when self
             (directory-files "./compiler/"
                              '("packages"

@@ -437,6 +437,9 @@
                `(,@(butlast args) (values ,@(last args)))
                args))))
 
+(defmacro multiple-value-list (value-form)
+  `(multiple-value-call #'list ,value-form))
+
 (defun eql (x y)
   (cond ((and (characterp x) (characterp y))
          (char= x y))

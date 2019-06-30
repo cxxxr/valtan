@@ -10,3 +10,6 @@
 
 (defun type-error (value type-name)
   (error "The value ~S is not of the expected type ~A" value type-name))
+
+(defun eof-error ()
+  (error "End of file"))

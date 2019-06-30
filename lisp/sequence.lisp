@@ -82,7 +82,7 @@
       (setq end length))
     ;; XXX: javascriptのArrayのメソッドを使わず新しいベクタに一つずつ代入していて効率が悪い
     (let ((new-vector
-            (make-array (- end start))))
+            (make-array (- end start) :element-type (array-element-type vector))))
       (do ((i start (1+ i))
            (j 0 (1+ j)))
           ((= i end))

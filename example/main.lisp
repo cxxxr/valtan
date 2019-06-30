@@ -447,6 +447,18 @@
              (write-string "string" out)
              (write-char #\! out)))))
 
+(let ((in (make-string-input-stream "abc")))
+  (assert (char= #\a (read-char in)))
+  (assert (char= #\b (read-char in)))
+  (assert (char= #\c (read-char in)))
+  (assert (eql :foo (read-char in nil :foo)))
+  (assert (eql :bar (read-char in nil :bar))))
+
+(let ((in (make-string-input-stream "abc
+")))
+  (assert (equal (multiple-value-list (read-line in))
+                 '("abc" nil))))
+
 (write-line "==================== package ====================")
 (assert (equal "COMMON-LISP" (package-name :cl)))
 (assert (equal "COMMON-LISP" (package-name 'common-lisp)))

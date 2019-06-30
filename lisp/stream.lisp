@@ -80,3 +80,55 @@
 
 (defun terpri (&optional (stream *standard-output*))
   (write-char #\newline stream))
+
+(defstruct (string-input-stream (:copier nil)
+                                (:constructor %make-string-input-stream))
+  string
+  position
+  end)
+
+(defun make-string-input-stream (string &optional (start 0) end)
+  (%make-string-input-stream :string string
+                             :position start
+                             :end (or end (length string))))
+
+(defun string-input-stream-eof-p (stream)
+  (>= (string-input-stream-position stream)
+      (string-input-stream-end stream)))
+
+(defstruct (standard-input-stream (:copier nil)))
+
+(defvar *standard-input* (make-standard-input-stream))
+
+(defun stream-read-line (stream)
+  (cond ((string-input-stream-p stream)
+         (if (string-input-stream-eof-p stream)
+             (values "" nil)
+             (let ((start (string-input-stream-position stream)))
+               (do ((i (string-input-stream-position stream) (1+ i)))
+                   ((>= i (string-input-stream-end stream))
+                    (setf (string-input-stream-position stream) i)
+                    (values (subseq (string-input-stream-string stream) start) nil))
+                 (when (char= #\newline
+                              (aref (string-input-stream-string stream)
+                                    i))
+                   (setf (string-input-stream-position stream) (1+ i))
+                   (return (values (subseq (string-input-stream-string stream)
+                                           start i)
+                                   t)))))))
+        ((standard-input-stream-p stream)
+         (system::get-line stream))
+        (t
+         (type-error stream 'input-stream))))
+
+(defun stream-read-char (stream)
+  (cond ((string-input-stream-p stream)
+         (if (string-input-stream-eof-p stream)
+             :eof
+             (prog1 (aref (string-input-stream-string stream)
+                          (string-input-stream-position stream))
+               (incf (string-input-stream-position stream)))))
+        ((standard-input-stream-p stream)
+         )
+        (t
+         (type-error stream 'input-stream))))
