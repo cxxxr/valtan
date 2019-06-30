@@ -461,6 +461,17 @@
   (assert (equal (multiple-value-list (read-line in nil :foo))
                  '(:foo t))))
 
+(let ((in (make-string-input-stream "abc
+d
+efg")))
+  (assert (equal (multiple-value-list (read-line in))
+                 '("abc" nil)))
+  (assert (equal (read-char in) #\d))
+  (assert (equal (read-char in) #\newline))
+  (assert (equal (read-char in) #\e))
+  (assert (equal (multiple-value-list (read-line in))
+                 '("fg" t))))
+
 (write-line "==================== package ====================")
 (assert (equal "COMMON-LISP" (package-name :cl)))
 (assert (equal "COMMON-LISP" (package-name 'common-lisp)))
