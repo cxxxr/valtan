@@ -96,7 +96,22 @@
   (>= (string-input-stream-position stream)
       (string-input-stream-end stream)))
 
-(defstruct (standard-input-stream (:copier nil)))
+(defstruct (standard-input-stream (:copier nil))
+  (string "")
+  (position 0))
+
+(defun empty-buffer-p (stream)
+  (>= (length (standard-input-stream-string stream))
+      (standard-input-stream-position stream)))
+
+(defun fetch-stdin-line (stream)
+  (setf (standard-input-stream-string stream) (system::get-line)
+        (standard-input-stream-position stream) 0))
+
+(defun fetch-stdin-line-if-required (stream)
+  (do ()
+      ((not (empty-buffer-p stream)))
+    (fetch-stdin-line stream)))
 
 (defvar *standard-input* (make-standard-input-stream))
 
@@ -117,7 +132,14 @@
                                            start i)
                                    t)))))))
         ((standard-input-stream-p stream)
-         (system::get-line stream))
+         (fetch-stdin-line-if-required stream)
+         (prog1 (values (if (= 0 (standard-input-stream-position stream))
+                            (standard-input-stream-string stream)
+                            (subseq (standard-input-stream-string stream)
+                                    (standard-input-stream-position stream)))
+                        t)
+           (setf (standard-input-stream-position stream)
+                 (length (standard-input-stream-string stream)))))
         (t
          (type-error stream 'input-stream))))
 
@@ -129,6 +151,9 @@
                           (string-input-stream-position stream))
                (incf (string-input-stream-position stream)))))
         ((standard-input-stream-p stream)
-         )
+         (fetch-stdin-line-if-required stream)
+         (prog1 (aref (standard-input-stream-string stream)
+                      (standard-input-stream-position stream))
+           (incf (standard-input-stream-position stream))))
         (t
          (type-error stream 'input-stream))))
