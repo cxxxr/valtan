@@ -472,6 +472,20 @@ efg")))
   (assert (equal (multiple-value-list (read-line in))
                  '("fg" t))))
 
+(let ((in (make-string-input-stream "  ab")))
+  (assert (char= #\a (peek-char t in)))
+  (assert (char= #\a (peek-char t in))))
+
+(let ((in (make-string-input-stream "abc")))
+  (assert (char= #\a (peek-char nil in)))
+  (assert (char= #\a (peek-char t in))))
+
+(let ((in (make-string-input-stream "")))
+  (assert (eql :hoge (peek-char nil in nil :hoge))))
+
+(let ((in (make-string-input-stream "")))
+  (assert (eql :hoge (peek-char t in nil :hoge))))
+
 (write-line "==================== package ====================")
 (assert (equal "COMMON-LISP" (package-name :cl)))
 (assert (equal "COMMON-LISP" (package-name 'common-lisp)))

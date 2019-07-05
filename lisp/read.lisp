@@ -1,9 +1,28 @@
 (in-package :common-lisp)
 
-#+(or)
 (defun peek-char (&optional peek-type (stream *standard-input*) (eof-error-p t) eof-value
                             recursive-p)
-  )
+  (cond ((null peek-type)
+         (let ((c (stream-peek-char stream)))
+           (if (eq c :eof)
+               (if eof-error-p
+                   (eof-error)
+                   eof-value)
+               c)))
+        (t
+         (do ()
+             ()
+           (let ((c (stream-peek-char stream)))
+             (cond ((eq c :eof)
+                    (if eof-error-p
+                        (eof-error)
+                        (return eof-value)))
+                   ((if (eq peek-type t)
+                        (not (find c '(#\space #\tab #\newline)))
+                        (eql c peek-type))
+                    (return c))
+                   (t
+                    (stream-read-char stream))))))))
 
 #+(or)
 (defun read (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)

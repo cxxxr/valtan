@@ -159,3 +159,16 @@
            (incf (standard-input-stream-position stream))))
         (t
          (type-error stream 'input-stream))))
+
+(defun stream-peek-char (stream)
+  (cond ((string-input-stream-p stream)
+         (if (string-input-stream-eof-p stream)
+             :eof
+             (aref (string-input-stream-string stream)
+                   (string-input-stream-position stream))))
+        ((standard-input-stream-p stream)
+         (fetch-stdin-line-if-required stream)
+         (aref (standard-input-stream-string stream)
+               (standard-input-stream-position stream)))
+        (t
+         (type-error stream 'input-stream))))
