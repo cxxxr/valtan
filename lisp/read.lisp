@@ -24,10 +24,32 @@
                    (t
                     (stream-read-char stream))))))))
 
-#+(or)
+(defstruct (readtable (:predicate readtablep))
+  (case :upcase)
+  (table (make-hash-table)))
+
+(defvar *readtable* (make-readtable))
+
+(defun get-macro-character (char &optional (readtable *readtable*))
+  (let ((value (gethash char (readtable-table readtable))))
+    (if value
+        (values (car value) (cdr value))
+        (values nil nil))))
+
+(defun set-macro-character (char function &optional non-terminating-p (readtable *readtable*))
+  (setf (gethash char (readtable-table readtable))
+        (cons function non-terminating-p))
+  t)
+
 (defun read (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)
-  (let ((c (peek-char t stream eof-error-p eof-value recursive-p)))
-    ))
+  (let* ((inner-eof-value '#:eof)
+         (c (peek-char t stream eof-error-p inner-eof-value recursive-p)))
+    (cond ((eq c inner-eof-value)
+           eof-value)
+          (t
+           (multiple-value-bind (function non-terminating-p)
+               (get-macro-character c)
+             (funcall function stream c))))))
 
 (defun read-char (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)
   (declare (ignore recursive-p))
