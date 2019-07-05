@@ -704,3 +704,12 @@ efg")))
 (write-line "==================== compiler ====================")
 
 (eval '(princ (+ 1 100)))
+
+#|
+(ffi:require "readlineSync" "readline-sync")
+
+(let ((system::*get-stdin-line-function*
+        (lambda ()
+          (system::js-string-to-array ((ffi:ref "readlineSync" "question"))))))
+  (ffi:console.log (read-char)))
+|#

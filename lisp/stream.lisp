@@ -1,5 +1,7 @@
 (in-package :common-lisp)
 
+(defvar system::*get-stdin-line-function*)
+
 (defstruct (string-output-stream (:copier nil)
                                  (:constructor %make-string-output-stream))
   (buffer ""))
@@ -101,11 +103,11 @@
   (position 0))
 
 (defun empty-buffer-p (stream)
-  (>= (length (standard-input-stream-string stream))
+  (<= (length (standard-input-stream-string stream))
       (standard-input-stream-position stream)))
 
 (defun fetch-stdin-line (stream)
-  (setf (standard-input-stream-string stream) (system::get-line)
+  (setf (standard-input-stream-string stream) (funcall system::*get-stdin-line-function*)
         (standard-input-stream-position stream) 0))
 
 (defun fetch-stdin-line-if-required (stream)
