@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = {
   mode: 'none',
+  target: 'node',
   entry: './example/example.js',
   output: {
     filename: 'main.js',
