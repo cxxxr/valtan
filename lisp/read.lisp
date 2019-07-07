@@ -1,5 +1,8 @@
 (in-package :common-lisp)
 
+(defvar *inner-list-p* nil)
+(defvar *dot-marker* (gensym "DOT"))
+
 (defparameter *whitespaces* '(#\space #\tab #\newline #\linefeed #\page #\return))
 
 (defun whitespacep (c)
@@ -79,17 +82,22 @@
     found-number-p))
 
 (defun check-dot (token)
-  (unless (dotimes (i (length token))
-            (unless (char= #\. (aref token i))
-              (return t)))
-    (error "dot error")))
+  (cond ((string= token ".")
+         (unless *inner-list-p*
+           (error "dot error")))
+        ((not (dotimes (i (length token))
+                (unless (char= #\. (aref token i))
+                  (return t))))
+         (error "dot error"))))
 
 (defun parse-token (token)
   (cond ((number-string-p token)
          (ffi::parse-float token))
         (t
          (check-dot token)
-         (intern token))))
+         (if (string= token ".")
+             *dot-marker*
+             (intern token)))))
 
 (defun read-multiple-escape-1 (stream)
   (with-output-to-string (out)
@@ -152,15 +160,29 @@
 
 (defun read-list (stream c)
   (declare (ignore c))
-  (let ((list '()))
+  (let ((head nil)
+        (tail nil)
+        (*inner-list-p* t))
     (do () (nil)
-      (let ((c (peek-char t stream)))
-        (when (char= c #\))
-          (read-char stream)
-          (return))
-        (let ((x (read stream)))
-          (push x list))))
-    (nreverse list)))
+      (let ((c (peek-char t stream t nil t)))
+        (cond ((char= c #\))
+               (read-char stream t nil t)
+               (return))
+              (t
+               (let ((x (read stream)))
+                 (cond ((eq x *dot-marker*)
+                        (unless head (error "dot error"))
+                        (setf (cdr tail) (read stream t nil t))
+                        (unless (char= (peek-char t stream t nil t) #\))
+                          (error "dot error"))
+                        (read-char stream t nil t)
+                        (return))
+                       ((null tail)
+                        (setf head (setf tail (list x))))
+                       (t
+                        (setf (cdr tail) (list x))
+                        (setf tail (cdr tail)))))))))
+    head))
 
 (defun read-right-paren (stream c)
   (declare (ignore stream c))
