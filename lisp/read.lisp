@@ -90,6 +90,29 @@
                   (return t))))
          (error "dot error"))))
 
+(defun parse-symbol (token)
+  (flet ((f (package-name symbol-name external-p)
+           (let ((package (find-package package-name)))
+             (cond
+               ((null package)
+                (error "Package ~A does not exist." package-name))
+               ((find #\: symbol-name)
+                (error "too many colons after ~S name" package-name))
+               (t
+                ;; TODO: コロンが一つの場合にそのシンボルがexternalか確認する
+                (intern symbol-name package-name))))))
+    (let ((pos (position #\: token)))
+      (cond ((null pos)
+             (intern pos))
+            ((char= #\: (aref token (1+ pos)))
+             (f (subseq token 0 pos)
+                (subseq token (1+ pos))
+                nil))
+            (t
+             (f (subseq token 0 pos)
+                (subseq token pos)
+                t))))))
+
 (defun parse-token (token)
   (cond ((number-string-p token)
          (ffi::parse-float token))
@@ -97,7 +120,7 @@
          (check-dot token)
          (if (string= token ".")
              *dot-marker*
-             (intern token)))))
+             (parse-symbol token)))))
 
 (defun read-multiple-escape-1 (stream)
   (with-output-to-string (out)
