@@ -172,3 +172,7 @@
                (standard-input-stream-position stream)))
         (t
          (type-error stream 'input-stream))))
+
+(defmacro with-input-from-string ((stream string) &body body)
+  `(let ((,stream (make-string-input-stream ,string)))
+     ,@body))
