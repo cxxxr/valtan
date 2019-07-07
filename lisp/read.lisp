@@ -152,8 +152,27 @@
   (declare (ignore stream c))
   (error "unmatched close parenthesis"))
 
+(defun read-quote (stream c)
+  (declare (ignore c))
+  (list 'quote (read stream t nil t)))
+
+(defun read-quasiquote (stream c)
+  (declare (ignore c))
+  (list 'system::quasiquote (read stream t nil t)))
+
+(defun read-unquote (stream c)
+  (declare (ignore c))
+  (cond ((char= #\@ (peek-char nil stream t nil t))
+         (read-char stream t nil t)
+         (list 'system::unquote-splicing (read stream t nil t)))
+        (t
+         (list 'system::unquote (read stream t nil t)))))
+
 (set-macro-character #\( 'read-list)
 (set-macro-character #\) 'read-right-paren)
+(set-macro-character #\' 'read-quote)
+(set-macro-character #\` 'read-quasiquote)
+(set-macro-character #\, 'read-unquote)
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)

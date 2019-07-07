@@ -722,6 +722,8 @@ efg")))
 (assert (equal '(a (b) ((c) d))
                (read-from-string "(a (b) ((c) d))")))
 
+(assert (equal '(quote x) (read-from-string "'x")))
+
 (progn
   (defun #1=#:foo (x) x)
   (assert (functionp (symbol-function '#1#))))
