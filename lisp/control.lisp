@@ -177,6 +177,7 @@
        nil)))
 
 (defmacro do (varlist endlist &body body)
+  (assert (not (null endlist)))
   (let ((g-start (gensym)))
     `(block nil
        (let ,(mapcar (lambda (var-spec)

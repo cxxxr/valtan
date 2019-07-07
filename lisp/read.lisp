@@ -16,7 +16,7 @@
                c)))
         (t
          (do ()
-             ()
+             (nil)
            (let ((c (stream-peek-char stream)))
              (cond ((eq c :eof)
                     (if eof-error-p
