@@ -78,10 +78,18 @@
                (return-from number-string-p nil)))))
     found-number-p))
 
+(defun check-dot (token)
+  (unless (dotimes (i (length token))
+            (unless (char= #\. (aref token i))
+              (return t)))
+    (error "dot error")))
+
 (defun parse-token (token)
-  (if (number-string-p token)
-      (ffi::parse-float token)
-      (intern token)))
+  (cond ((number-string-p token)
+         (ffi::parse-float token))
+        (t
+         (check-dot token)
+         (intern token))))
 
 (defun read-multiple-escape-1 (stream)
   (with-output-to-string (out)
