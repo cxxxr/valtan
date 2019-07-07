@@ -160,6 +160,16 @@
         (t
          (type-error stream 'input-stream))))
 
+(defun stream-unread-char (stream)
+  (cond ((string-input-stream-p stream)
+         (decf (string-input-stream-position stream))
+         nil)
+        ((standard-input-stream-p stream)
+         (decf (standard-input-stream-position stream))
+         nil)
+        (t
+         (type-error stream 'input-stream))))
+
 (defun stream-peek-char (stream)
   (cond ((string-input-stream-p stream)
          (if (string-input-stream-eof-p stream)

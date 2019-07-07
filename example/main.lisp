@@ -704,6 +704,24 @@ efg")))
 (output-test (prin1 (make-print-test-structure :x 100 :y 200 :z 300))
              "#S(PRINT-TEST-STRUCTURE :X 100 :Y 200 :Z 300)")
 
+(assert (eq 'abc (read-from-string "abc")))
+(assert (eq 'abc (read-from-string "Abc")))
+(assert (= 100 (read-from-string "100")))
+(assert (= 0.2 (read-from-string ".2")))
+(assert (= 1 (read-from-string "1.")))
+(assert (= 123 (read-from-string "+123")))
+(assert (= -123 (read-from-string "-123")))
+(assert (eq '|a| (read-from-string "\\a")))
+(assert (eq '|aB| (read-from-string "\\ab")))
+(assert (string= "abc" (string (read-from-string "|abc|"))))
+(assert (eq :eof (read-from-string "  " nil :eof)))
+(assert (equal '(abc abc 100 0.2 1 123 -123 |a| |abc|)
+               (read-from-string "(abc Abc 100
+.2 1. +123
+ -123 \\a |abc|)")))
+(assert (equal '(a (b) ((c) d))
+               (read-from-string "(a (b) ((c) d))")))
+
 (progn
   (defun #1=#:foo (x) x)
   (assert (functionp (symbol-function '#1#))))

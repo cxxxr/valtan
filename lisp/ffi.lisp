@@ -13,3 +13,6 @@
   (let* ((code (format nil "(function(lisp) { 'use strict'; ~A; });" x))
          (fn (ffi::%js-eval (system::array-to-js-string code))))
     (funcall fn (ffi:ref "lisp"))))
+
+(defun ffi::parse-float (string)
+  ((ffi:ref "parseFloat") (system::array-to-js-string string)))
