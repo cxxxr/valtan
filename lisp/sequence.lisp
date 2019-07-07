@@ -173,6 +173,36 @@
                 end
                 key))
 
+(defun position (item sequence &key from-end test test-not start end key)
+  (let ((pos (if from-end (1- (length sequence)) 0)))
+    (map-sequence (cond (test
+                         (lambda (x)
+                           (when (funcall test item x)
+                             (return-from find pos))
+                           (if from-end
+                               (decf pos)
+                               (incf pos))))
+                        (test-not
+                         (lambda (x)
+                           (when (not (funcall test-not item x))
+                             (return-from find pos))
+                           (if from-end
+                               (decf pos)
+                               (incf pos))))
+                        (t
+                         (lambda (x)
+                           (when (eql item x)
+                             (return-from find pos))
+                           (if from-end
+                               (decf pos)
+                               (incf pos)))))
+                  sequence
+                  from-end
+                  start
+                  end
+                  key)
+    pos))
+
 (defun map (result-type function sequence &rest more-sequences)
   (cond ((and (null result-type) (null more-sequences))
          (map-sequence function sequence nil nil nil nil))
