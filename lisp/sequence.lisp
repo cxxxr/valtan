@@ -178,21 +178,21 @@
     (map-sequence (cond (test
                          (lambda (x)
                            (when (funcall test item x)
-                             (return-from find pos))
+                             (return-from position pos))
                            (if from-end
                                (decf pos)
                                (incf pos))))
                         (test-not
                          (lambda (x)
                            (when (not (funcall test-not item x))
-                             (return-from find pos))
+                             (return-from position pos))
                            (if from-end
                                (decf pos)
                                (incf pos))))
                         (t
                          (lambda (x)
                            (when (eql item x)
-                             (return-from find pos))
+                             (return-from position pos))
                            (if from-end
                                (decf pos)
                                (incf pos)))))
@@ -201,7 +201,7 @@
                   start
                   end
                   key)
-    pos))
+    nil))
 
 (defun map (result-type function sequence &rest more-sequences)
   (cond ((and (null result-type) (null more-sequences))
