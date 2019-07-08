@@ -103,14 +103,14 @@
                 (intern symbol-name package-name))))))
     (let ((pos (position #\: token)))
       (cond ((null pos)
-             (intern pos))
+             (intern token))
             ((char= #\: (aref token (1+ pos)))
              (f (subseq token 0 pos)
-                (subseq token (1+ pos))
+                (subseq token (+ pos 2))
                 nil))
             (t
              (f (subseq token 0 pos)
-                (subseq token pos)
+                (subseq token (1+ pos))
                 t))))))
 
 (defun parse-token (token)

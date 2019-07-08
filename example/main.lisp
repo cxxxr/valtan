@@ -726,6 +726,8 @@ efg")))
 (assert (equal '(a . b) (read-from-string "(a . b)")))
 (assert (equal '(a . (b . c)) (read-from-string "(a . (b . c))")))
 (assert (equal '((a . d) . (b . c)) (read-from-string "((a . d) . (b . c))")))
+(assert (eq 'cl:car (read-from-string "cl:car")))
+(assert (eq 'compiler::pass1 (read-from-string "compiler::pass1")))
 
 (progn
   (defun #1=#:foo (x) x)
