@@ -742,7 +742,7 @@ efg")))
 
 (write-line "==================== compiler ====================")
 
-(eval '(princ (+ 1 100)))
+(assert (= (eval '(+ 1 100)) 101))
 
 #|
 (ffi:require "readlineSync" "readline-sync")

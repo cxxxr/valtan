@@ -6,4 +6,6 @@
       (compiler::pass2-toplevel ir))))
 
 (defun eval (x)
-  ((ffi:ref "eval") (compile-toplevel x)))
+  (let* ((code (format nil "(function (lisp) { 'use strict'; ~A; })" (compile-toplevel x)))
+         (fn ((ffi:ref "eval") (system::array-to-js-string code))))
+    (funcall fn (ffi:ref "lisp"))))
