@@ -138,7 +138,8 @@
                              "package"
                              "stream"
                              "print"
-                             "read"))
+                             "read"
+                             "pkg"))
           (when self
             (directory-files "./compiler/"
                              '("packages"
