@@ -49,8 +49,9 @@
                                  use))))
 
 (defmacro defpackage (package &body options)
-  (declare (ignore options))
-  `(system::%defpackage ,package))
+  (let ((export (cdr (assoc :export options)))
+        (use (cdr (assoc :use options))))
+    `(system::%defpackage ,package :export ,export :use ,use)))
 
 #|
 (defvar *packages* '())

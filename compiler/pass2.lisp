@@ -501,7 +501,27 @@
 
 (def-emit system::%defpackage (ir)
   (let ((name (ir-arg1 ir)))
-    (format *toplevel-defun-stream* "lisp.defpackage('~A');~%" name)
+    (format *toplevel-defun-stream* "lisp.defpackage('~A', {" name)
+    (destructuring-bind (export-names use-package-names)
+        (ir-arg2 ir)
+      (let ((first t))
+        (write-string "exportNames: [" *toplevel-defun-stream*)
+        (dolist (name export-names)
+          (if first
+              (setq first nil)
+              (write-string ", " *toplevel-defun-stream*))
+          (format *toplevel-defun-stream* "'~A'" name))
+        (write-string "]" *toplevel-defun-stream*))
+      (write-string ", " *toplevel-defun-stream*)
+      (let ((first t))
+        (write-string "usePackageNames: [" *toplevel-defun-stream*)
+        (dolist (name use-package-names)
+          (if first
+              (setq first nil)
+              (write-string ", " *toplevel-defun-stream*))
+          (format *toplevel-defun-stream* "'~A'" name))
+        (write-string "]" *toplevel-defun-stream*)))
+    (write-line "});" *toplevel-defun-stream*)
     (format t "lisp.ensurePackage('~A')" name)))
 
 (def-emit system::%in-package (ir)
