@@ -227,11 +227,17 @@
         (t
          (list 'system::unquote (read stream t nil t)))))
 
+(defun read-line-comment (stream c)
+  (declare (ignore c))
+  (read-line stream t nil t)
+  (values))
+
 (set-macro-character #\( 'read-list)
 (set-macro-character #\) 'read-right-paren)
 (set-macro-character #\' 'read-quote)
 (set-macro-character #\` 'read-quasiquote)
 (set-macro-character #\, 'read-unquote)
+(set-macro-character #\; 'read-line-comment)
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)

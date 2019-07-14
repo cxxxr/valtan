@@ -721,6 +721,8 @@ efg")))
  -123 \\a |abc|)")))
 (assert (equal '(a (b) ((c) d))
                (read-from-string "(a (b) ((c) d))")))
+(assert (equal '(foo bar) (read-from-string "(foo; comment
+bar)")))
 
 (assert (equal '(quote x) (read-from-string "'x")))
 (assert (equal '(a . b) (read-from-string "(a . b)")))
