@@ -259,7 +259,7 @@
 
 (defun read-line-comment (stream c)
   (declare (ignore c))
-  (read-line stream t nil t)
+  (peek-char #\newline stream t nil t)
   (values))
 
 (defun read-string (stream c)
