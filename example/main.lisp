@@ -149,6 +149,13 @@
   (assert (stringp x))
   (assert (string= x "aaaaaaaaaa")))
 
+(assert (string= "ABC" (string-upcase "abc")))
+(assert (string= "aBC" (string-upcase "abc" :start 1)))
+(assert (string= "aBc" (string-upcase "abc" :start 1 :end 2)))
+(assert (string= "abc" (string-downcase "ABC")))
+(assert (string= "Abc" (string-downcase "ABC" :start 1)))
+(assert (string= "AbC" (string-downcase "ABC" :start 1 :end 2)))
+
 (assert (eql (aref "abc" 0) #\a))
 (let ((x "abc"))
   (dotimes (i (length x))

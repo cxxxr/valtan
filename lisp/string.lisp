@@ -26,3 +26,26 @@
   (system::js-string-to-array
    ((ffi:ref (system::array-to-js-string x) "concat")
     (system::array-to-js-string y))))
+
+(defun system::string-append* (string &rest strings)
+  (dolist (s strings)
+    (setq string (system::string-append string s)))
+  string)
+
+(defun string-upcase (string &key (start 0) (end (length string)))
+  (if (and (= start 0) (= end (length string)))
+      (system::js-string-to-array ((ffi:ref (system::array-to-js-string string) "toUpperCase")))
+      (system::string-append* (subseq string 0 start)
+                              (system::js-string-to-array
+                               ((ffi:ref (system::array-to-js-string (subseq string start end))
+                                         "toUpperCase")))
+                              (subseq string end))))
+
+(defun string-downcase (string &key (start 0) (end (length string)))
+  (if (and (= start 0) (= end (length string)))
+      (system::js-string-to-array ((ffi:ref (system::array-to-js-string string) "toLowerCase")))
+      (system::string-append* (subseq string 0 start)
+                              (system::js-string-to-array
+                               ((ffi:ref (system::array-to-js-string (subseq string start end))
+                                         "toLowerCase")))
+                              (subseq string end))))
