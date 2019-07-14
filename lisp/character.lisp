@@ -11,3 +11,21 @@
       (code-char (+ (- (char-code char) (char-code #\a))
                     (char-code #\A)))
       char))
+
+(defun %alpha-to-digit (char)
+  (+ 10 (- (char-code (char-downcase char))
+           (char-code #\a))))
+
+(defun %digit-char-to-digit (char)
+  (when (char<= #\0 char #\9)
+    (- (char-code char)
+       (char-code #\0))))
+
+(defun digit-char-p (char &optional (radix 10))
+  (assert (<= 2 radix 36))
+  (let ((digit (if (or (char<= #\a char #\z)
+                       (char<= #\A char #\Z))
+                   (%alpha-to-digit char)
+                   (%digit-char-to-digit char))))
+    (when (and digit (< -1 digit radix))
+      digit)))
