@@ -79,10 +79,10 @@
         (cons function non-terminating-p))
   t)
 
-(defun terminate-macro-character-p (c)
+(defun non-terminate-macro-character-p (c)
   (multiple-value-bind (function non-terminating-p)
       (get-macro-character c)
-    (and function non-terminating-p)))
+    (and function (not non-terminating-p))))
 
 (defun number-string-p (token)
   (let ((pos (case (aref token 0)
@@ -174,7 +174,7 @@
              (return))
             ((whitespacep c)
              (return))
-            ((get-macro-character c)
+            ((non-terminate-macro-character-p c)
              (unread-char c stream)
              (return))
             ((char= c #\\)
