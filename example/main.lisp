@@ -740,6 +740,12 @@ bar)")))
 (assert (string= "foo" (read-from-string "\"foo\"")))
 (assert (string= "f\"oo" (read-from-string "\"f\\\"oo\"")))
 
+(let ((*readtable* (copy-readtable nil)))
+  (setf (readtable-case *readtable*) :invert)
+  (assert (string= "zebra" (string (read-from-string "ZEBRA"))))
+  (assert (string= "Zebra" (string (read-from-string "Zebra"))))
+  (assert (string= "ZEBRA" (string (read-from-string "zebra")))))
+
 (progn
   (defun #1=#:foo (x) x)
   (assert (functionp (symbol-function '#1#))))
