@@ -730,6 +730,8 @@ bar)")))
 (assert (equal '((a . d) . (b . c)) (read-from-string "((a . d) . (b . c))")))
 (assert (eq 'cl:car (read-from-string "cl:car")))
 (assert (eq 'compiler::pass1 (read-from-string "compiler::pass1")))
+(assert (string= "foo" (read-from-string "\"foo\"")))
+(assert (string= "f\"oo" (read-from-string "\"f\\\"oo\"")))
 
 (progn
   (defun #1=#:foo (x) x)

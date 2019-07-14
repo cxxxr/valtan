@@ -232,12 +232,27 @@
   (read-line stream t nil t)
   (values))
 
+(defun read-string (stream c)
+  (declare (ignore c))
+  (with-output-to-string (out)
+    (do ()
+        (nil)
+      (let ((c (read-char stream t nil t)))
+        (case c
+          (#\"
+           (return))
+          (#\\
+           (write-char (read-char stream t nil t) out))
+          (otherwise
+           (write-char c out)))))))
+
 (set-macro-character #\( 'read-list)
 (set-macro-character #\) 'read-right-paren)
 (set-macro-character #\' 'read-quote)
 (set-macro-character #\` 'read-quasiquote)
 (set-macro-character #\, 'read-unquote)
 (set-macro-character #\; 'read-line-comment)
+(set-macro-character #\" 'read-string)
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)
