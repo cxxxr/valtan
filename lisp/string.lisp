@@ -18,7 +18,7 @@
   (eql (system::array-to-js-string (string x))
        (system::array-to-js-string (string y))))
 
-(defun string-append (x y)
+(defun system::string-append (x y)
   (unless (stringp x)
     (type-error x 'string))
   (unless (stringp y)
