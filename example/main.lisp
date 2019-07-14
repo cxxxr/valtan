@@ -746,6 +746,10 @@ bar)")))
   (assert (string= "Zebra" (string (read-from-string "Zebra"))))
   (assert (string= "ZEBRA" (string (read-from-string "zebra")))))
 
+(assert (char= #\a (read-from-string "#\\a")))
+(assert (char= #\A (read-from-string "#\\A")))
+(assert (char= #\space (read-from-string "#\\space")))
+
 (progn
   (defun #1=#:foo (x) x)
   (assert (functionp (symbol-function '#1#))))

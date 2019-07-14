@@ -18,6 +18,9 @@
   (eql (system::array-to-js-string (string x))
        (system::array-to-js-string (string y))))
 
+(defun string-equal (x y)
+  (string= (string-upcase x) (string-upcase y)))
+
 (defun system::string-append (x y)
   (unless (stringp x)
     (type-error x 'string))
