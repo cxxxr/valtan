@@ -32,11 +32,41 @@
                    (t
                     (stream-read-char stream))))))))
 
-(defstruct (readtable (:predicate readtablep))
+(defstruct (readtable (:predicate readtablep)
+                      (:copier %copy-readtable))
   (case :upcase)
-  (table (make-hash-table)))
+  (table (make-hash-table))
+  (dispatch-macro-table (make-hash-table)))
 
 (defvar *readtable* (make-readtable))
+
+(defun init-readtable (readtable)
+  (set-macro-character #\( 'read-list nil readtable)
+  (set-macro-character #\) 'read-right-paren nil readtable)
+  (set-macro-character #\' 'read-quote nil readtable)
+  (set-macro-character #\` 'read-quasiquote nil readtable)
+  (set-macro-character #\, 'read-unquote nil readtable)
+  (set-macro-character #\; 'read-line-comment nil readtable)
+  (set-macro-character #\" 'read-string nil readtable)
+  (set-macro-character #\# 'read-dispatch-macro-character t readtable)
+  readtable)
+
+(defun set-readtable (to-readtable from-readtable)
+  (setf (readtable-case to-readtable) (readtable-case from-readtable))
+  (setf (readtable-table to-readtable) (readtable-table from-readtable))
+  (setf (readtable-dispatch-macro-table to-readtable)
+        (readtable-dispatch-macro-table from-readtable))
+  from-readtable)
+
+(defun copy-readtable (&optional (from-readtable *readtable*) to-readtable)
+  (cond ((and from-readtable to-readtable)
+         (set-readtable to-readtable from-readtable))
+        (from-readtable
+         (%copy-readtable from-readtable))
+        (to-readtable
+         (init-readtable (set-readtable to-readtable (make-readtable))))
+        (t
+         (init-readtable (make-readtable)))))
 
 (defun get-macro-character (char &optional (readtable *readtable*))
   (let ((value (gethash char (readtable-table readtable))))
@@ -246,13 +276,12 @@
           (otherwise
            (write-char c out)))))))
 
-(set-macro-character #\( 'read-list)
-(set-macro-character #\) 'read-right-paren)
-(set-macro-character #\' 'read-quote)
-(set-macro-character #\` 'read-quasiquote)
-(set-macro-character #\, 'read-unquote)
-(set-macro-character #\; 'read-line-comment)
-(set-macro-character #\" 'read-string)
+(defun read-dispatch-macro-character (stream disp-char)
+  (let* ((sub-char (char-upcase (read-char stream t nil t)))
+         (digit (digit-char-p sub-char)))
+    (let ((fn (get-dispatch-macro-character disp-char sub-char)))
+      (unless fn
+        (error "no dispatch function defined for #\~A" sub-char)))))
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)
@@ -279,3 +308,5 @@
             (eof-error)
             (values eof-value t))
         (values string (not next-line-p)))))
+
+(copy-readtable nil *readtable*)
