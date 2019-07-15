@@ -52,6 +52,7 @@
   (set-dispatch-macro-character #\# #\\ 'read-sharp-backslash)
   (set-dispatch-macro-character #\# #\' 'read-sharp-quote)
   (set-dispatch-macro-character #\# #\( 'read-sharp-left-paren)
+  (set-dispatch-macro-character #\# #\: 'read-sharp-colon)
   readtable)
 
 (defun set-readtable (to-readtable from-readtable)
@@ -200,49 +201,53 @@
       (char= c #\\)
       (char= c #\|)))
 
+(defun maybe-invert (token)
+  (when (eq :invert (readtable-case *readtable*))
+    (let ((state nil))
+      (dotimes (i (length token)
+                  (setq token
+                        (ecase state
+                          ((nil))
+                          (:upcase
+                           (string-downcase token))
+                          (:downcase
+                           (string-upcase token)))))
+        (let ((c (aref token i)))
+          (cond ((char<= #\a c #\z)
+                 (when (eq state :upcase)
+                   (return))
+                 (setq state :downcase))
+                ((char<= #\A c #\Z)
+                 (when (eq state :downcase)
+                   (return))
+                 (setq state :upcase)))))))
+  token)
+
 (defun read-token-1 (stream c readtable-case)
-  (with-output-to-string (out)
-    (do ((c c (read-char stream nil nil)))
-        (nil)
-      (cond ((null c)
-             (return))
-            ((whitespacep c)
-             (return))
-            ((non-terminate-macro-character-p c)
-             (unread-char c stream)
-             (return))
-            ((char= c #\\)
-             (write-char (read-char stream) out))
-            ((char= c #\|)
-             (write-string (read-multiple-escape-1 stream) out))
-            (t
-             (write-char (case readtable-case
-                           (:upcase (char-upcase c))
-                           (:downcase (char-downcase c))
-                           (otherwise c))
-                         out))))))
+  (maybe-invert
+   (with-output-to-string (out)
+     (do ((c c (read-char stream nil nil)))
+         (nil)
+       (cond ((null c)
+              (return))
+             ((whitespacep c)
+              (return))
+             ((non-terminate-macro-character-p c)
+              (unread-char c stream)
+              (return))
+             ((char= c #\\)
+              (write-char (read-char stream) out))
+             ((char= c #\|)
+              (write-string (read-multiple-escape-1 stream) out))
+             (t
+              (write-char (case readtable-case
+                            (:upcase (char-upcase c))
+                            (:downcase (char-downcase c))
+                            (otherwise c))
+                          out)))))))
 
 (defun read-token (stream c)
   (let ((token (read-token-1 stream c (readtable-case *readtable*))))
-    (when (eq :invert (readtable-case *readtable*))
-      (let ((state nil))
-        (dotimes (i (length token)
-                    (setq token
-                          (ecase state
-                            ((nil))
-                            (:upcase
-                             (string-downcase token))
-                            (:downcase
-                             (string-upcase token)))))
-          (let ((c (aref token i)))
-            (cond ((char<= #\a c #\z)
-                   (when (eq state :upcase)
-                     (return))
-                   (setq state :downcase))
-                  ((char<= #\A c #\Z)
-                   (when (eq state :downcase)
-                     (return))
-                   (setq state :upcase)))))))
     (parse-token token)))
 
 (defun read (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)
@@ -379,6 +384,15 @@
 (defun read-sharp-left-paren (stream sub-char arg)
   (declare (ignore sub-char arg))
   (apply #'vector (read-delimited-list #\) stream t)))
+
+(defun read-sharp-colon (stream sub-char arg)
+  (declare (ignore sub-char arg))
+  (let ((token (read-token-1 stream
+                             (read-char stream t nil t)
+                             (readtable-case *readtable*))))
+    (when (number-string-p token)
+      (error "The symbol following #: has numeric syntax: ~S" token))
+    (make-symbol token)))
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)

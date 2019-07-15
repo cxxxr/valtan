@@ -751,6 +751,9 @@ bar)")))
 (assert (char= #\space (read-from-string "#\\space")))
 (assert (equal '(function cons) (read-from-string "#'cons")))
 (assert (vector-equal #(1 2 3) (read-from-string "#(1 2 3)")))
+(let ((symbol (read-from-string "#:foo")))
+  (assert (null (symbol-package symbol)))
+  (assert (string= "FOO" symbol)))
 
 (progn
   (defun #1=#:foo (x) x)
