@@ -750,6 +750,7 @@ bar)")))
 (assert (char= #\A (read-from-string "#\\A")))
 (assert (char= #\space (read-from-string "#\\space")))
 (assert (equal '(function cons) (read-from-string "#'cons")))
+(assert (vector-equal #(1 2 3) (read-from-string "#(1 2 3)")))
 
 (progn
   (defun #1=#:foo (x) x)

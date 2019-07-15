@@ -51,6 +51,7 @@
   (make-dispatch-macro-character #\# t readtable)
   (set-dispatch-macro-character #\# #\\ 'read-sharp-backslash)
   (set-dispatch-macro-character #\# #\' 'read-sharp-quote)
+  (set-dispatch-macro-character #\# #\( 'read-sharp-left-paren)
   readtable)
 
 (defun set-readtable (to-readtable from-readtable)
@@ -275,7 +276,7 @@
                (read-char stream t nil t)
                (return))
               (t
-               (let ((x (read stream)))
+               (let ((x (read stream t nil t)))
                  (cond ((eq x *dot-marker*)
                         (unless head (error "dot error"))
                         (setf (cdr tail) (read stream t nil t))
@@ -374,6 +375,10 @@
 (defun read-sharp-quote (stream sub-char arg)
   (declare (ignore sub-char arg))
   (list 'function (read stream t nil t)))
+
+(defun read-sharp-left-paren (stream sub-char arg)
+  (declare (ignore sub-char arg))
+  (apply #'vector (read-delimited-list #\) stream t)))
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)
