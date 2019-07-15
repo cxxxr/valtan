@@ -834,7 +834,8 @@
                           `(lambda ,lambda-list (declare ,@declares) ,body))
                       t nil)))))
 
-(def-pass1-form system::%defpackage ((name &key export use) return-value-p multiple-values-p)
+(def-pass1-form system::%defpackage ((name &key export use nicknames)
+                                     return-value-p multiple-values-p)
   (let ((name (string name))
         (export-names (mapcar #'string export))
         (use-package-names (mapcar #'string use)))
@@ -843,7 +844,8 @@
              nil
              name
              (list export-names
-                   use-package-names))))
+                   use-package-names
+                   nicknames))))
 
 (def-pass1-form in-package ((name) return-value-p multiple-values-p)
   (setq *package* (find-package name))
