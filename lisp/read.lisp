@@ -50,6 +50,7 @@
   (set-macro-character #\" 'read-string nil readtable)
   (make-dispatch-macro-character #\# t readtable)
   (set-dispatch-macro-character #\# #\\ 'read-sharp-backslash)
+  (set-dispatch-macro-character #\# #\' 'read-sharp-quote)
   readtable)
 
 (defun set-readtable (to-readtable from-readtable)
@@ -370,6 +371,10 @@
                 (t
                  (error "unrecognized character name: ~S" name)))))))
 
+(defun read-sharp-quote (stream sub-char arg)
+  (declare (ignore sub-char arg))
+  (list 'function (read stream t nil t)))
+
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)
     (read in eof-error-p eof-value)))
@@ -395,5 +400,22 @@
             (eof-error)
             (values eof-value t))
         (values string (not next-line-p)))))
+
+(defun read-delimited-list (char &optional (stream *standard-input*) recursive-p)
+  (let ((head nil)
+        (tail nil))
+    (do () (nil)
+      (let ((c (peek-char t stream t nil recursive-p)))
+        (cond ((char= c #\))
+               (read-char stream t nil recursive-p)
+               (return))
+              (t
+               (let ((x (read stream t nil recursive-p)))
+                 (cond ((null tail)
+                        (setf head (setf tail (list x))))
+                       (t
+                        (setf (cdr tail) (list x))
+                        (setf tail (cdr tail)))))))))
+    head))
 
 (copy-readtable nil *readtable*)
