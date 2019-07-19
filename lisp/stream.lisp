@@ -98,6 +98,9 @@
   (>= (string-input-stream-position stream)
       (string-input-stream-end stream)))
 
+(defstruct file-input-stream
+  string-stream)
+
 (defstruct (standard-input-stream (:copier nil))
   (string "")
   (position 0))
@@ -147,6 +150,8 @@
                         t)
            (setf (standard-input-stream-position stream)
                  (length (standard-input-stream-string stream)))))
+        ((file-input-stream-p stream)
+         (stream-read-line (file-input-stream-string-stream stream)))
         (t
          (type-error stream 'input-stream))))
 
@@ -162,6 +167,8 @@
          (prog1 (aref (standard-input-stream-string stream)
                       (standard-input-stream-position stream))
            (incf (standard-input-stream-position stream))))
+        ((file-input-stream-p stream)
+         (stream-read-char (file-input-stream-string-stream stream)))
         (t
          (type-error stream 'input-stream))))
 
@@ -172,6 +179,8 @@
         ((standard-input-stream-p stream)
          (decf (standard-input-stream-position stream))
          nil)
+        ((file-input-stream-p stream)
+         (stream-unread-char (file-input-stream-string-stream stream)))
         (t
          (type-error stream 'input-stream))))
 
@@ -185,9 +194,20 @@
          (fetch-stdin-line-if-required stream)
          (aref (standard-input-stream-string stream)
                (standard-input-stream-position stream)))
+        ((file-input-stream-p stream)
+         (stream-peek-char (file-input-stream-string-stream stream)))
         (t
          (type-error stream 'input-stream))))
 
 (defmacro with-input-from-string ((stream string) &body body)
   `(let ((,stream (make-string-input-stream ,string)))
      ,@body))
+
+(defmacro with-open-stream ((var stream) &body body)
+  (let ((,var ,stream))
+    (unwind-protect (progn ,@body)
+      (close ,var))))
+
+(defun close (stream)
+  (declare (ignore stream))
+  t)

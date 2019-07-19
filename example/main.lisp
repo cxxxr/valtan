@@ -776,5 +776,8 @@ bar)")))
 (let ((system::*get-stdin-line-function*
         (lambda ()
           (system::js-string-to-array ((ffi:ref "readlineSync" "question"))))))
-  (ffi:console.log (read-char)))
+  (print (read-line))
+  (terpri))
 |#
+
+;(write-line (open "~/hoge"))

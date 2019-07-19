@@ -139,6 +139,7 @@
                              "stream"
                              "print"
                              "read"
+                             "file"
                              "pkg"))
           (when self
             (directory-files "./compiler/"
