@@ -107,8 +107,10 @@
       (standard-input-stream-position stream)))
 
 (defun fetch-stdin-line (stream)
-  (setf (standard-input-stream-string stream) (funcall system::*get-stdin-line-function*)
-        (standard-input-stream-position stream) 0))
+  (setf (standard-input-stream-string stream)
+        (system::string-append (funcall system::*get-stdin-line-function*) (string #\newline))
+        (standard-input-stream-position stream)
+        0))
 
 (defun fetch-stdin-line-if-required (stream)
   (do ()
@@ -136,9 +138,12 @@
         ((standard-input-stream-p stream)
          (fetch-stdin-line-if-required stream)
          (prog1 (values (if (= 0 (standard-input-stream-position stream))
-                            (standard-input-stream-string stream)
                             (subseq (standard-input-stream-string stream)
-                                    (standard-input-stream-position stream)))
+                                    0
+                                    (1- (length (standard-input-stream-string stream))))
+                            (subseq (standard-input-stream-string stream)
+                                    (standard-input-stream-position stream)
+                                    (1- (length (standard-input-stream-string stream)))))
                         t)
            (setf (standard-input-stream-position stream)
                  (length (standard-input-stream-string stream)))))
