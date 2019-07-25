@@ -232,7 +232,7 @@
            (format t "if (arguments.length !== ~D) {~%" min))
           (t
            (format t "if (arguments.length < ~D || ~D < arguments.length) {~%" min max)))
-    (write-line "throw new Error('invalid number of arguments');")
+    (write-line "lisp.raise('invalid number of arguments');")
     (write-line "}")))
 
 (defmacro with-emit-paren (&body body)
@@ -326,7 +326,7 @@
                   (emit-declvar (third opt) finally-stream)
                   (format t "(~A ? lisp.tValue : lisp.nilValue);~%" supplied-var)))))
           (format t "if ((arguments.length - ~D) % 2 === 1)" i)
-          (write-line "{ throw new Error('odd number of &KEY arguments'); }")
+          (write-line "{ lisp.raise('odd number of &KEY arguments'); }")
           (when (and keyword-vars
                      (null (parsed-lambda-list-allow-other-keys parsed-lambda-list)))
             (let ((loop-var (gen-temporary-js-var)))
@@ -337,7 +337,7 @@
                   (format t "arguments[~D] !== ~A" loop-var (first keyword-var*))
                   (when (rest keyword-var*)
                     (write-string " && ")))
-                (format t ") { throw new Error('Unknown &KEY argument: ' + arguments[~A].name); }~%" loop-var))))))
+                (format t ") { lisp.raise('Unknown &KEY argument: ' + arguments[~A].name); }~%" loop-var))))))
       (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
         (when rest-var
           (emit-declvar rest-var finally-stream)
@@ -637,8 +637,7 @@
     (let* ((*toplevel-defun-stream* (make-string-output-stream))
            (output (with-output-to-string (*standard-output*)
                      (emit-try-catch (("err")
-                                      (write-line "console.log('*** ERROR ***', err);")
-                                      (write-line "lisp.printCallStack();"))
+                                      (write-line "console.log(err);"))
                        (dolist (ir ir-forms)
                          (pass2-toplevel-1 ir))
                        (write-line "CL_COMMON_LISP_FINISH_OUTPUT();")))))
