@@ -721,6 +721,7 @@ efg")))
 (assert (eq '|a| (read-from-string "\\a")))
 (assert (eq '|aB| (read-from-string "\\ab")))
 (assert (string= "abc" (string (read-from-string "|abc|"))))
+(assert (eq :common-lisp (read-from-string ":common-lisp")))
 (assert (eq :eof (read-from-string "  " nil :eof)))
 (assert (equal '(abc abc 100 0.2 1 123 -123 |a| |abc|)
                (read-from-string "(abc Abc 100

@@ -162,6 +162,8 @@
     (let ((pos (position #\: token)))
       (cond ((null pos)
              (intern token))
+            ((= pos 0)
+             (f :keyword (subseq token 1) nil))
             ((char= #\: (aref token (1+ pos)))
              (f (subseq token 0 pos)
                 (subseq token (+ pos 2))
