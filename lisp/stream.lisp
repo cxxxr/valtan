@@ -204,9 +204,9 @@
      ,@body))
 
 (defmacro with-open-stream ((var stream) &body body)
-  (let ((,var ,stream))
-    (unwind-protect (progn ,@body)
-      (close ,var))))
+  `(let ((,var ,stream))
+     (unwind-protect (progn ,@body)
+       (close ,var))))
 
 (defun close (stream)
   (declare (ignore stream))
