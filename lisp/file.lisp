@@ -21,5 +21,5 @@
                                              if-does-not-exist)
                           &body body)
   (declare (ignore direction element-type if-exists if-does-not-exist))
-  `(with-open-stream (in (open ,filename ,@options))
+  `(with-open-stream (,var (open ,filename ,@options))
      ,@body))
