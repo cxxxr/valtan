@@ -52,9 +52,9 @@
          (ffi:ref "true"))
         ((eq value nil)
          (ffi:ref "false"))
-        ((functionp value)
-         (lambda (&rest args)
-           (apply value (mapcar #'ffi:cl->js args))))
+        ;; ((functionp value)
+        ;;  (lambda (&rest args)
+        ;;    (apply value (mapcar #'ffi:cl->js args))))
         (t
          value)))
 
