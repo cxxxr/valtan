@@ -18,7 +18,7 @@
 (defpackage :ffi
   (:use)
   (:export :console.log
-           :make-object
+           :object
            :var
            :ref
            :set

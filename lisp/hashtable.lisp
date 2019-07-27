@@ -27,7 +27,7 @@
   (rehash-threshold nil :read-only t))
 
 (defun make-hash-table (&key test size rehash-size rehash-threshold)
-  (%make-hash-table :object (ffi:make-object)
+  (%make-hash-table :object (ffi:object)
                     :test test
                     :size size
                     :rehash-size rehash-size

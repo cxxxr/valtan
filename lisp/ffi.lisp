@@ -6,6 +6,16 @@
      (ffi:set (ffi:ref ,(string name))
               (lambda ,arguments ,@body))))
 
+(defun ffi:object (&rest plist)
+  (let ((object (js:-object)))
+    (do ((rest plist (cddr rest)))
+        ((null rest))
+      (let ((key (car rest))
+            (value (cadr rest)))
+        (ffi:set (ffi:index object (ffi:cl->js key))
+                 (ffi:cl->js value))))
+    object))
+
 (defmacro ffi:console.log (&rest args)
   `((ffi:ref "console" "log") ,@args))
 
