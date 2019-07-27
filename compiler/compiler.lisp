@@ -121,8 +121,8 @@
 
 (defun get-lisp-files (&key self)
   (append (directory-files "./lisp/"
-                           '("ffi"
-                             "control"
+                           '("control"
+                             "ffi"
                              "condition"
                              "struct"
                              "cons"
