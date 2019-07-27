@@ -771,13 +771,16 @@ bar)")))
 
 (assert (= (eval '(+ 1 100)) 101))
 
+#|
 (ffi:require js:readline-sync "readline-sync")
 
 (let ((system::*get-stdin-line-function*
         (lambda ()
           (js:readline-sync.question))))
-  (print (eval (read)))
-  (terpri))
+  (do () (nil)
+    (print (eval (read)))
+    (terpri)))
+|#
 
 ;(write-line (open "~/hoge"))
 
