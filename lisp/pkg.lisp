@@ -248,3 +248,22 @@
 
 (defpackage :js
   (:use))
+
+(defpackage :ffi
+  (:use)
+  (:export #:instanceof
+           #:require
+           #:ref
+           #:set
+           #:var
+           #:new
+           #:%aget
+           #:define-function
+           #:define
+           #:object
+           #:aget
+           #:console.log
+           #:js-eval
+           #:cl->js
+           #:js->cl
+           #:typeof))

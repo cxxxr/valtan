@@ -787,12 +787,12 @@ bar)")))
 ;; (js:console.log js:global.clear-immediate)
 ;; (js:console.log (ffi:new js:-array))
 
-(js:console.log (ffi::object "foo" 100 "bar" 200))
+(js:console.log (ffi:object "foo" 100 "bar" 200))
 
-(let ((obj (ffi::object "foo" (ffi:object "baz" 100) "bar" 200)))
+(let ((obj (ffi:object "foo" (ffi:object "baz" 100) "bar" 200)))
   (ffi:console.log obj)
-  (ffi:console.log (ffi::aget obj "foo"))
-  (ffi:console.log (ffi::aget obj "foo" "baz")))
+  (ffi:console.log (ffi:aget obj "foo"))
+  (ffi:console.log (ffi:aget obj "foo" "baz")))
 
 
 (ffi:define-function js:foo (x) (1+ x))

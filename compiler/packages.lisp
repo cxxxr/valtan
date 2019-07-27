@@ -17,17 +17,22 @@
 
 (defpackage :ffi
   (:use)
-  (:export :console.log
-           :object
-           :var
-           :ref
-           :set
-           :instanceof
-           :define-function
-           :require
-           :typeof
-           :new
-           :%aget))
+  (:export #:instanceof
+           #:require
+           #:ref
+           #:set
+           #:var
+           #:new
+           #:%aget
+           #:define-function
+           #:define
+           #:object
+           #:aget
+           #:console.log
+           #:js-eval
+           #:cl->js
+           #:js->cl
+           #:typeof))
 
 (defpackage :clscript-system
   (:use))

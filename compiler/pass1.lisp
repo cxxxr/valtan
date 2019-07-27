@@ -505,13 +505,13 @@
              (make-ir 'call
                       return-value-p
                       multiple-values-p
-                      'ffi::js->cl
+                      'ffi:js->cl
                       (list (make-ir 'js-call
                                      return-value-p
                                      multiple-values-p
                                      (pass1-ref-names (first names) (rest names))
                                      (mapcar (lambda (arg)
-                                               (pass1 `(ffi::cl->js ,arg) t nil))
+                                               (pass1 `(ffi:cl->js ,arg) t nil))
                                              args))))))
           ((and (consp fn)
                 (eq 'ffi:ref (first fn)))
