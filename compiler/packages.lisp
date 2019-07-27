@@ -31,3 +31,6 @@
 
 (defpackage :clscript-system
   (:use))
+
+(defpackage :js
+  (:use))

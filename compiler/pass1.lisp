@@ -85,7 +85,8 @@
 (defun variable-symbol-p (x)
   (and (symbolp x)
        (not (null x))
-       (not (keywordp x))))
+       (not (keywordp x))
+       (not (js-symbol-p x))))
 
 (defun proper-list-p (x)
   (and (listp x)
@@ -322,11 +323,15 @@
   (make-ir 'const return-value-p nil x))
 
 (defun pass1-refvar (symbol return-value-p)
-  (let ((binding (lookup symbol '(:variable :special))))
-    (count-if-used binding)
-    (if (and binding (eq (binding-type binding) :variable))
-        (make-ir 'lref return-value-p nil binding)
-        (make-ir 'gref return-value-p nil symbol))))
+  (cond ((js-symbol-p symbol)
+         (let ((names (parse-js-name symbol)))
+           (make-ir 'ffi:ref return-value-p nil names)))
+        (t
+         (let ((binding (lookup symbol '(:variable :special))))
+           (count-if-used binding)
+           (if (and binding (eq (binding-type binding) :variable))
+               (make-ir 'lref return-value-p nil binding)
+               (make-ir 'gref return-value-p nil symbol))))))
 
 (defun pass1-forms (forms return-value-p multiple-values-p)
   (if (null forms)
@@ -492,12 +497,25 @@
            (pass1 (list* 'funcall fn args)
                   return-value-p
                   multiple-values-p))
+          ((js-symbol-p fn)
+           (let ((names (parse-js-name fn)))
+             (make-ir 'call
+                      return-value-p
+                      multiple-values-p
+                      'ffi::js-to-lisp-value
+                      (list (make-ir 'js-call
+                                     return-value-p
+                                     multiple-values-p
+                                     (pass1-ref-names (first names) (rest names))
+                                     (mapcar (lambda (arg)
+                                               (pass1 `(ffi::lisp-to-js-value ,arg) t nil))
+                                             args))))))
           ((and (consp fn)
                 (eq 'ffi:ref (first fn)))
            (make-ir 'js-call
                     return-value-p
                     multiple-values-p
-                    (ir-arg1 (pass1 fn return-value-p nil))
+                    (pass1-ref-names (cadr fn) (cddr fn))
                     (mapcar (lambda (arg)
                               (pass1 arg t nil))
                             args)))
