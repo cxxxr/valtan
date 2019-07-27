@@ -14,12 +14,12 @@
 (defmacro ffi:define (var value)
   `(progn
      (ffi:var ,var)
-     (ffi:set ,(cond ((stringp name) name)
-                     ((and (symbolp name)
-                           (string= "JS" (package-name (symbol-package name))))
-                      name)
+     (ffi:set ,(cond ((stringp var) var)
+                     ((and (symbolp var)
+                           (string= "JS" (package-name (symbol-package var))))
+                      var)
                      (t
-                      (string name)))
+                      (string var)))
               (ffi:cl->js ,value))))
 
 (defun ffi:object (&rest plist)
