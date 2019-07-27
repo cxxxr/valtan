@@ -910,12 +910,6 @@
            multiple-values-p
            vars))
 
-(def-pass1-form ffi:typeof ((x) return-value-p multiple-values-p)
-  (make-ir 'ffi:typeof
-           return-value-p
-           nil
-           (pass1 x t nil)))
-
 (def-pass1-form ffi:new ((constructor &rest args) return-value-p multiple-values-p)
   (make-ir 'ffi:new
            return-value-p
