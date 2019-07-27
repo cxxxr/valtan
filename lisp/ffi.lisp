@@ -11,7 +11,7 @@
 
 (defun ffi::js-eval (x)
   (let* ((code (format nil "(function(lisp) { 'use strict'; ~A; });" x))
-         (fn (ffi::%js-eval (system::array-to-js-string code))))
+         (fn (js:eval code)))
     (funcall fn (ffi:ref "lisp"))))
 
 (defun ffi::cl->js (value)
