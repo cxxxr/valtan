@@ -156,9 +156,16 @@
                 (error "Package ~A does not exist." package-name))
                ((find #\: symbol-name)
                 (error "too many colons after ~S name" package-name))
+               ((or (not external-p)
+                    (string= package-name "JS"))
+                (intern symbol-name package-name))
                (t
-                ;; TODO: コロンが一つの場合にそのシンボルがexternalか確認する
-                (intern symbol-name package-name))))))
+                (multiple-value-bind (symbol status)
+                    (find-symbol symbol-name package-name)
+                  (if (eq status :external)
+                      (intern symbol-name package-name)
+                      (error "Symbol ~S not found in the ~A package."
+                             symbol-name package-name))))))))
     (let ((pos (position #\: token)))
       (cond ((null pos)
              (intern token))

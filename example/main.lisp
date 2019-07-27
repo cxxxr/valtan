@@ -782,3 +782,7 @@ bar)")))
 |#
 
 ;(write-line (open "~/hoge"))
+
+;; (write-line (js:-string.prototype.concat "foo" "bar"))
+;; (js:console.log js:global.clear-immediate)
+;; (js:console.log (ffi:new js:-array))

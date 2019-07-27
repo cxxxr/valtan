@@ -54,7 +54,13 @@
 
 (defun !read (&rest args)
   (let ((*readtable* *js-readtable*))
-    (apply #'read args)))
+    (handler-bind ((sb-int:simple-reader-package-error
+                     (lambda (condition)
+                       (let ((name (first (simple-condition-format-arguments condition)))
+                             (package (slot-value condition 'package)))
+                         (export (intern name package) package)
+                         (continue condition)))))
+      (apply #'read args))))
 
 (defmacro do-forms ((var stream) &body body)
   (let ((g-eof-value (gensym))
