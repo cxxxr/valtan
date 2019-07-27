@@ -455,9 +455,3 @@
 #+(or)
 (defun nunion (list-1 list-2 &key key test test-not)
   (error "nunion is undefined"))
-
-(defun system::list-to-js-array (list)
-  (let ((js-array (ffi:new (ffi:ref "Array"))))
-    (dolist (x list)
-      ((ffi:ref js-array "push") x))
-    js-array))
