@@ -575,6 +575,11 @@
       (write-string ", ")))
   (write-line ";"))
 
+(def-emit ffi:typeof (ir)
+  (with-emit-paren
+    (write-string "typeof ")
+    (pass2 (ir-arg1 ir))))
+
 (def-emit ffi:new (ir)
   (with-emit-paren
     (write-string "new ")

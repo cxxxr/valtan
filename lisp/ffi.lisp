@@ -68,6 +68,3 @@
          nil)
         (t
          value)))
-
-(defun ffi:typeof (x)
-  ((ffi:ref "typeof") x))
