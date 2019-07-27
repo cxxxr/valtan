@@ -2,8 +2,13 @@
 
 (defmacro ffi:define-function (name arguments &body body)
   `(progn
-     (ffi:var ,(string name))
-     (ffi:set (ffi:ref ,(string name))
+     (ffi:var ,name)
+     (ffi:set ,(cond ((stringp name) name)
+                     ((and (symbolp name)
+                           (string= "JS" (package-name (symbol-package name))))
+                      name)
+                     (t
+                      (string name)))
               (lambda ,arguments ,@body))))
 
 (defun ffi:object (&rest plist)
