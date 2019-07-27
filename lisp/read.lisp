@@ -182,7 +182,7 @@
 
 (defun parse-token (token)
   (cond ((number-string-p token)
-         (ffi::parse-float token))
+         (js:parse-float token))
         (t
          (check-dot token)
          (if (string= token ".")
@@ -347,7 +347,7 @@
 (defun read-dispatch-macro-character (stream disp-char)
   (let* ((sub-char (char-upcase (read-char stream t nil t)))
          (arg (when (digit-char-p sub-char)
-                (ffi::parse-float
+                (js:parse-float
                  (with-output-to-string (out)
                    (write-char sub-char out)
                    (do ((c (peek-char nil stream t nil t) (read-char stream t nil t)))

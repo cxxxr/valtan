@@ -14,9 +14,6 @@
          (fn (ffi::%js-eval (system::array-to-js-string code))))
     (funcall fn (ffi:ref "lisp"))))
 
-(defun ffi::parse-float (string)
-  ((ffi:ref "parseFloat") (system::array-to-js-string string)))
-
 (defun ffi::cl->js (value)
   (cond ((stringp value)
          (system::array-to-js-string value))
