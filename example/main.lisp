@@ -771,15 +771,13 @@ bar)")))
 
 (assert (= (eval '(+ 1 100)) 101))
 
-#|
-(ffi:require "readlineSync" "readline-sync")
+(ffi:require js:readline-sync "readline-sync")
 
 (let ((system::*get-stdin-line-function*
         (lambda ()
-          (system::js-string-to-array ((ffi:ref "readlineSync" "question"))))))
-  (print (read-line))
+          (js:readline-sync.question))))
+  (print (eval (read)))
   (terpri))
-|#
 
 ;(write-line (open "~/hoge"))
 
@@ -793,7 +791,6 @@ bar)")))
   (ffi:console.log obj)
   (ffi:console.log (ffi:aget obj "foo"))
   (ffi:console.log (ffi:aget obj "foo" "baz")))
-
 
 (ffi:define-function js:foo (x) (1+ x))
 

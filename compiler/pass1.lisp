@@ -885,14 +885,6 @@
       (symbolp x)
       (ref-form-p x)))
 
-(def-pass1-form ffi:require ((name module-name) return-value-p multiple-values-p)
-  (unless (or (symbolp name) (stringp name))
-    (compile-error "~S is not a string designator" name))
-  (unless (stringp module-name)
-    (compile-error "~S is not a string" module-name))
-  (push (cons name module-name) *require-modules*)
-  (pass1-const nil return-value-p))
-
 (defun pass1-ref-names (object keys)
   (let ((arguments '()))
     (push (if (stringp object) object (pass1 object t nil)) arguments)
@@ -913,21 +905,31 @@
            (pass1 lhs t nil)
            (pass1 rhs t nil)))
 
+(defun convert-var (var)
+  (cond ((ref-form-p var)
+         (pass1 var nil nil))
+        ((js-symbol-p var)
+         (js-symbol-to-ref-form var nil))
+        (t
+         (string var))))
+
 (def-pass1-form ffi:var ((&rest vars) return-value-p multiple-values-p)
   (dolist (var vars)
     (unless (ident-place-p var)
-      (compile-error "~S is not a variable literal" var)))
+      (compile-error "~S is not a variable identifier" var)))
   (make-ir 'ffi:var
            return-value-p
            multiple-values-p
-           (mapcar (lambda (var)
-                     (cond ((ref-form-p var)
-                            (pass1 var nil nil))
-                           ((js-symbol-p var)
-                            (js-symbol-to-ref-form var nil))
-                           (t
-                            (string var))))
-                   vars)))
+           (mapcar #'convert-var vars)))
+
+(def-pass1-form ffi:require ((var module-name) return-value-p multiple-values-p)
+  (unless (ident-place-p var)
+    (compile-error "~S is not a variable identifer" var))
+  (unless (stringp module-name)
+    (compile-error "~S is not a string" module-name))
+  (push (cons (convert-var var) module-name)
+        *require-modules*)
+  (pass1-const nil return-value-p))
 
 (def-pass1-form ffi:new ((constructor &rest args) return-value-p multiple-values-p)
   (make-ir 'ffi:new

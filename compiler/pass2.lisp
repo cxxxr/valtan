@@ -559,15 +559,18 @@
     (write-string " = ")
     (pass2 (ir-arg2 ir))))
 
+(defun pass2-convert-var (var)
+  (if (stringp var)
+      (to-js-identier var)
+      (with-output-to-string (*standard-output*)
+        (emit-ref (ir-arg1 var)))))
+
 ;; TODO: これは使えない位置があるはずだけどエラーチェックをしていない
 (def-emit ffi:var (ir)
   (write-string "var ")
   (do ((vars (ir-arg1 ir) (rest vars)))
       ((null vars))
-    (let ((var (first vars)))
-      (if (stringp var)
-          (write-string (to-js-identier var))
-          (emit-ref (ir-arg1 var))))
+    (write-string (pass2-convert-var (first vars)))
     (when (rest vars)
       (write-string ", ")))
   (write-line ";"))
