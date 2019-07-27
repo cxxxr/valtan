@@ -16,3 +16,27 @@
 
 (defun ffi::parse-float (string)
   ((ffi:ref "parseFloat") (system::array-to-js-string string)))
+
+(defun ffi::lisp-to-js-value (value)
+  (cond ((stringp value)
+         (system::array-to-js-string value))
+        ((eq value t)
+         (ffi::%ref "true"))
+        ((eq value nil)
+         (ffi::%ref "false"))
+        ((functionp value)
+         (lambda (&rest args)
+           (apply value (mapcar #'ffi::lisp-to-js-value args))))
+        (t
+         value)))
+
+(defun ffi::js-to-lisp-value (value)
+  (cond ((eq (ffi:typeof value)
+             (system::array-to-js-string "string"))
+         (system::js-string-to-array value))
+        ((eq value (ffi::%ref "true"))
+         t)
+        ((eq value (ffi::%ref "false"))
+         nil)
+        (t
+         value)))
