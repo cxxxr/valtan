@@ -794,3 +794,7 @@ bar)")))
   (ffi:console.log (ffi::aget obj "foo"))
   (ffi:console.log (ffi::aget obj "foo" "baz")))
 
+
+(ffi:define-function js:foo (x) (1+ x))
+
+(ffi:console.log (js:foo 10))

@@ -11,6 +11,17 @@
                       (string name)))
               (lambda ,arguments ,@body))))
 
+(defmacro ffi:define (var value)
+  `(progn
+     (ffi:var ,var)
+     (ffi:set ,(cond ((stringp name) name)
+                     ((and (symbolp name)
+                           (string= "JS" (package-name (symbol-package name))))
+                      name)
+                     (t
+                      (string name)))
+              (ffi:cl->js ,value))))
+
 (defun ffi:object (&rest plist)
   (let ((object (js:-object)))
     (do ((rest plist (cddr rest)))
