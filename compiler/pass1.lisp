@@ -322,10 +322,13 @@
 (defun pass1-const (x return-value-p)
   (make-ir 'const return-value-p nil x))
 
+(defun js-symbol-to-ref-form (symbol return-value-p)
+  (let ((names (parse-js-name symbol)))
+    (make-ir 'ffi:ref return-value-p nil names)))
+
 (defun pass1-refvar (symbol return-value-p)
   (cond ((js-symbol-p symbol)
-         (let ((names (parse-js-name symbol)))
-           (make-ir 'ffi:ref return-value-p nil names)))
+         (js-symbol-to-ref-form symbol return-value-p))
         (t
          (let ((binding (lookup symbol '(:variable :special))))
            (count-if-used binding)
@@ -873,6 +876,15 @@
              nil
              name)))
 
+(defun ref-form-p (x)
+  (and (consp x)
+       (eq 'ffi:ref (car x))))
+
+(defun ident-place-p (x)
+  (or (stringp x)
+      (symbolp x)
+      (ref-form-p x)))
+
 (def-pass1-form ffi:require ((name module-name) return-value-p multiple-values-p)
   (unless (or (symbolp name) (stringp name))
     (compile-error "~S is not a string designator" name))
@@ -903,12 +915,19 @@
 
 (def-pass1-form ffi:var ((&rest vars) return-value-p multiple-values-p)
   (dolist (var vars)
-    (unless (stringp var)
-      (compile-error "~S is not a string" var)))
+    (unless (ident-place-p var)
+      (compile-error "~S is not a variable literal" var)))
   (make-ir 'ffi:var
            return-value-p
            multiple-values-p
-           vars))
+           (mapcar (lambda (var)
+                     (cond ((ref-form-p var)
+                            (pass1 var nil nil))
+                           ((js-symbol-p var)
+                            (js-symbol-to-ref-form var nil))
+                           (t
+                            (string var))))
+                   vars)))
 
 (def-pass1-form ffi:new ((constructor &rest args) return-value-p multiple-values-p)
   (make-ir 'ffi:new
