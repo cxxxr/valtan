@@ -173,8 +173,8 @@
 (write-line "==================== ffi ====================")
 (let ((x (ffi:new (ffi:ref "Array") 10)))
   (ffi:console.log x)
-  (ffi:set (ffi:index x 0) "a")
-  (ffi:console.log (ffi:index x 0)))
+  (ffi:set (ffi:%aget x 0) "a")
+  (ffi:console.log (ffi:%aget x 0)))
 
 (write-line "==================== cons ====================")
 (ffi:console.log (cons 1 2))
@@ -786,3 +786,11 @@ bar)")))
 ;; (write-line (js:-string.prototype.concat "foo" "bar"))
 ;; (js:console.log js:global.clear-immediate)
 ;; (js:console.log (ffi:new js:-array))
+
+(js:console.log (ffi::object "foo" 100 "bar" 200))
+
+(let ((obj (ffi::object "foo" (ffi:object "baz" 100) "bar" 200)))
+  (ffi:console.log obj)
+  (ffi:console.log (ffi::aget obj "foo"))
+  (ffi:console.log (ffi::aget obj "foo" "baz")))
+

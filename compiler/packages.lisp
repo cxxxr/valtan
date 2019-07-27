@@ -27,7 +27,7 @@
            :require
            :typeof
            :new
-           :index))
+           :%aget))
 
 (defpackage :clscript-system
   (:use))

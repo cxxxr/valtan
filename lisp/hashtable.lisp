@@ -38,13 +38,13 @@
            "length"))
 
 (defun gethash (key hash-table &optional default)
-  (let ((value (ffi:index (hash-table-object hash-table) key)))
+  (let ((value (ffi:%aget (hash-table-object hash-table) key)))
     (if (eq value (ffi:ref "undefined"))
         (values default nil)
         (values value t))))
 
 (defun (setf gethash) (value key hash-table &optional default)
-  (ffi:set (ffi:index (hash-table-object hash-table) key) value)
+  (ffi:set (ffi:%aget (hash-table-object hash-table) key) value)
   (push key (hash-table-keys hash-table))
   value)
 
@@ -59,7 +59,7 @@
   (let* ((object (hash-table-object hash-table))
          (keys (hash-table-keys hash-table)))
     (dolist (key keys)
-      (let ((value (ffi:index object key)))
+      (let ((value (ffi:%aget object key)))
         (unless (eq value (ffi:ref "undefined"))
           (funcall function key value)))))
   nil)

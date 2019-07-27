@@ -33,7 +33,7 @@
            (do ((i 0 (1+ i))
                 (initial-contents* initial-contents (cdr initial-contents*)))
                ((null initial-contents*))
-             (ffi:set (ffi:index js-array i) (car initial-contents*)))
+             (ffi:set (ffi:%aget js-array i) (car initial-contents*)))
            js-array))))
 
 (defun make-array-contents-with-initial-element (size element-type initial-element initial-element-p)
@@ -108,7 +108,7 @@
     (type-error array 'array))
   (when (or (< sub 0) (<= (array-length array) sub))
     (error "index error"))
-  (ffi:index (array-contents array) sub))
+  (ffi:%aget (array-contents array) sub))
 
 (defun (setf aref) (value array sub)
   (unless (arrayp array)
@@ -125,7 +125,7 @@
                 ((ffi:ref (array-contents array) "substring") (1+ sub))))
          value)
         (t
-         (ffi:set (ffi:index (array-contents array) sub) value))))
+         (ffi:set (ffi:%aget (array-contents array) sub) value))))
 
 (defun vectorp (x)
   (and (arrayp x) (= 1 (array-rank x))))

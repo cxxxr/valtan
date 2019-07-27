@@ -919,8 +919,8 @@
                      (pass1 arg t nil))
                    args)))
 
-(def-pass1-form ffi:index ((array index &rest other-indexes) return-value-p multiple-value-p)
-  (make-ir 'ffi:index
+(def-pass1-form ffi:%aget ((array index &rest other-indexes) return-value-p multiple-value-p)
+  (make-ir 'ffi:%aget
            return-value-p
            nil
            (pass1 array t nil)
