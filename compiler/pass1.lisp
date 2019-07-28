@@ -471,7 +471,7 @@
 (defun pass1-call (form return-value-p multiple-values-p)
   (let ((fn (first form))
         (args (rest form)))
-    (cond ((and (variable-symbol-p fn))
+    (cond ((variable-symbol-p fn)
            (let ((binding (lookup fn :function)))
              (count-if-used binding)
              (cond (binding
