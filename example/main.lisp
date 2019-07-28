@@ -771,19 +771,6 @@ bar)")))
 
 (assert (= (eval '(+ 1 100)) 101))
 
-#|
-(ffi:require js:readline-sync "readline-sync")
-
-(let ((system::*get-stdin-line-function*
-        (lambda ()
-          (js:readline-sync.question))))
-  (do () (nil)
-    (print (eval (read)))
-    (terpri)))
-|#
-
-;(write-line (open "~/hoge"))
-
 ;; (write-line (js:-string.prototype.concat "foo" "bar"))
 ;; (js:console.log js:global.clear-immediate)
 ;; (js:console.log (ffi:new js:-array))
