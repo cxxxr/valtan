@@ -173,8 +173,8 @@
                 end
                 key))
 
-(defun position (item sequence &key from-end test test-not start end key)
-  (let ((pos (if from-end (1- (length sequence)) 0)))
+(defun position (item sequence &key from-end test test-not (start 0) (end (length sequence)) key)
+  (let ((pos (if from-end (1- end) start)))
     (map-sequence (cond (test
                          (lambda (x)
                            (when (funcall test item x)
