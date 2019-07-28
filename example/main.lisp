@@ -567,6 +567,13 @@ efg")))
 (assert (vector-equal (subseq #(a b c) 1 2) #(b)))
 (assert (vector-equal (subseq #(a b c) 1 3) #(b c)))
 
+;; position
+(assert (= 1 (position #\. "a.b.c")))
+(assert (= 3 (position #\. "a.b.c" :start 2)))
+(assert (null (position #\. "a.b.c" :start 4)))
+(assert (= 3 (position #\. "a.b.c" :from-end t)))
+(assert (= 1 (position #\. "a.b.c" :from-end t :end 3)))
+
 ;; find-if
 (assert (eql 2 (find-if #'(lambda (x) (= x 2)) '(1 2 3))))
 
