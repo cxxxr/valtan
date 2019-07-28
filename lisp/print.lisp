@@ -44,9 +44,11 @@
   (write-string (system::js-string-to-array ((ffi:ref "String") number)) stream))
 
 (defun print-character (char stream)
-  (if *print-escape*
-      nil
-      (write-char char stream)))
+  (cond (*print-escape*
+         (write-string "#\\" stream)
+         (write-char char stream))
+        (t
+         (write-char char stream))))
 
 (defun print-cons (cons stream)
   (labels ((f (x)
