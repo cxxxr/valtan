@@ -168,7 +168,8 @@
 
 (defun build-self (&optional output)
   (build (get-lisp-files :self t)
-         output))
+         output)
+  (values))
 
 (defparameter *module-table* (make-hash-table))
 (defvar *module-directory*)
