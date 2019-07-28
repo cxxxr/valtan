@@ -1,5 +1,15 @@
 (in-package :common-lisp)
 
+(defun find-all-symbols (name)
+  (let ((symbols '()))
+    (dolist (package (list-all-packages))
+      (system::map-package-symbols
+       package
+       (lambda (symbol)
+         (when (string= name symbol)
+           (push symbol symbols)))))
+    symbols))
+
 (defun find-package (name)
   (cond ((packagep name)
          name)
