@@ -1,0 +1,13 @@
+*** sacla/lisp/test/must-printer.lisp	2004-08-03 08:34:55.000000000 +0200
+--- CLISP/clisp-20040712/sacla-tests/must-printer.lisp	2004-08-07 02:40:21.000000000 +0200
+***************
+*** 774,779 ****
+--- 774,780 ----
+  (string= "G01" (write-to-string (make-symbol "G01") :escape t :gensym nil))
+  (string= "G01" (write-to-string (make-symbol "G01") :escape nil :gensym nil))
+  (string= "#:G01" (write-to-string (make-symbol "G01") :escape t :gensym t))
++ #-CLISP ; CLISP prints symbols readably with vertical bars: "#:|G01|"
+  (string= "#:G01"
+           ;; Variable *PRINT-READABLY*
+           ;; http://www.lispworks.com/reference/HyperSpec/Body/v_pr_rda.htm
+

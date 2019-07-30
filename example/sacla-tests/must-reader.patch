@@ -1,0 +1,26 @@
+*** sacla/lisp/test/must-reader.lisp	2004-08-03 08:34:55.000000000 +0200
+--- CLISP/clisp-20040712/sacla-tests/must-reader.lisp	2004-08-07 02:10:05.000000000 +0200
+***************
+*** 1828,1837 ****
+  
+  
+  (progn
+!   #-clisp
+    (handler-case (null (let ((*features* '())) (read-from-string "#+test1 a")))
+      (error () nil))
+!   #+clisp 'skipped)
+  
+  (let ((*features* '()))
+    (equal (with-input-from-string (stream "#+test1 a #-test1 b")
+--- 1828,1838 ----
+  
+  
+  (progn
+!   #-CLISP ; ANSI CL 2.2. refers to the spec of READ, which says that an error
+!           ; of type end-of-file is signalled.
+    (handler-case (null (let ((*features* '())) (read-from-string "#+test1 a")))
+      (error () nil))
+!   #+CLISP 'skipped)
+  
+  (let ((*features* '()))
+    (equal (with-input-from-string (stream "#+test1 a #-test1 b")
