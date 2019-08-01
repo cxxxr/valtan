@@ -7,6 +7,7 @@
 (defvar *called-function-names* '())
 (defvar *lexenv*)
 (defvar *compile-level* -1)
+(defvar *macro-definitions* '())
 
 (defun toplevel-p (&optional (level *compile-level*))
   (>= 0 level))
@@ -271,7 +272,8 @@
 (def-transform defmacro (name lambda-list &rest body)
   (let* ((args (gensym))
          (fn `(lambda (,args) (destructuring-bind ,lambda-list ,args ,@body))))
-    (setf (get-macro name) (eval fn))
+    (setf (get-macro name) fn)
+    (pushnew name *macro-definitions*)
     `',name))
 
 (def-transform define-symbol-macro (name expansion)
@@ -463,7 +465,7 @@
                (values (apply (binding-value binding) (rest form)) t)
                (let ((fn (get-macro (first form))))
                  (if fn
-                     (values (funcall fn (rest form)) t)
+                     (values (funcall (eval fn) (rest form)) t)
                      (values form nil))))))
         (t
          (values form nil))))
@@ -965,3 +967,9 @@
         (*compile-level* -1)
         (*genvar-counter* 0))
     (pass1 form return-value-p multiple-values-p)))
+
+(defun pass1-dump-macros ()
+  (mapcar (lambda (name)
+            (pass1-toplevel `(setf (get-macro ',name)
+                                   ,(get-macro name))))
+          *macro-definitions*))

@@ -486,7 +486,9 @@
         (function (ir-arg2 ir)))
     (let ((var (to-js-identier name
                                (if (symbol-package name)
-                                   (format nil "CL_~A_" (to-js-identier (package-name (symbol-package name))))
+                                   (format nil
+                                           "CL_~A_"
+                                           (to-js-identier (package-name (symbol-package name))))
                                    "CL_"))))
       (push var *defun-names*)
       (format *toplevel-defun-stream* "~A = " var)
