@@ -1,0 +1,32 @@
+*** sacla/lisp/test/should-array.lisp	2004-08-03 08:34:55.000000000 +0200
+--- CLISP/clisp-20040712/sacla-tests/should-array.lisp	2004-08-06 03:27:42.000000000 +0200
+***************
+*** 31,43 ****
+    (ERROR NIL NIL)
+    (:NO-ERROR (&REST REST) (DECLARE (IGNORE REST)) NIL))
+  
+  (progn
+!   #-(or cmu clisp)
+    (HANDLER-CASE (PROGN (ADJUSTABLE-ARRAY-P "not-a-symbol"))
+      (TYPE-ERROR NIL T)
+      (ERROR NIL NIL)
+      (:NO-ERROR (&REST REST) (DECLARE (IGNORE REST)) NIL))
+!   #+(or cmu clisp) 'skipped)
+  
+  (progn
+    #-cmu
+--- 31,44 ----
+    (ERROR NIL NIL)
+    (:NO-ERROR (&REST REST) (DECLARE (IGNORE REST)) NIL))
+  
++ #-CLISP ; Why expect an error? A string _is_ an array.
+  (progn
+!   #-(or cmu clispxxx)
+    (HANDLER-CASE (PROGN (ADJUSTABLE-ARRAY-P "not-a-symbol"))
+      (TYPE-ERROR NIL T)
+      (ERROR NIL NIL)
+      (:NO-ERROR (&REST REST) (DECLARE (IGNORE REST)) NIL))
+!   #+(or cmu clispxxx) 'skipped)
+  
+  (progn
+    #-cmu

@@ -1,0 +1,13 @@
+*** sacla/lisp/test/must-loop.lisp	2004-08-03 08:34:55.000000000 +0200
+--- CLISP/clisp-20040712/sacla-tests/must-loop.lisp	2004-08-06 02:49:13.000000000 +0200
+***************
+*** 1195,1200 ****
+--- 1195,1202 ----
+           do (incf x)
+           initially (incf x) (incf x) finally (incf x) (return (incf x)))
+     7)
++ #-CLISP ; unfounded expectations about the value of for-as iteration variables
++         ; in INITIALLY and FINALLY clauses
+  (equal (let (val) (loop for a downto 3 from 100
+                          for b in '(x y z) and c = 50 then (1+ c)
+                          initially (setq val (list a b c))

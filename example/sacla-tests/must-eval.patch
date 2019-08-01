@@ -1,0 +1,15 @@
+*** sacla/lisp/test/must-eval.lisp	2004-08-03 08:34:54.000000000 +0200
+--- CLISP/clisp-20040712/sacla-tests/must-eval.lisp	2004-08-06 02:38:25.000000000 +0200
+***************
+*** 36,40 ****
+  (every #'special-operator-p '(block catch eval-when flet function go if labels let let* load-time-value locally macrolet multiple-value-call multiple-value-prog1 progn progv quote return-from setq symbol-macrolet tagbody the throw unwind-protect))
+  (not (special-operator-p 'car))
+  (not (special-operator-p 'cdr))
+! (not (special-operator-p 'cond))
+  (not (special-operator-p 'values))
+--- 36,40 ----
+  (every #'special-operator-p '(block catch eval-when flet function go if labels let let* load-time-value locally macrolet multiple-value-call multiple-value-prog1 progn progv quote return-from setq symbol-macrolet tagbody the throw unwind-protect))
+  (not (special-operator-p 'car))
+  (not (special-operator-p 'cdr))
+! #-CLISP (not (special-operator-p 'cond))
+  (not (special-operator-p 'values))

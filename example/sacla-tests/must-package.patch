@@ -1,0 +1,12 @@
+*** sacla/lisp/test/must-package.lisp	2004-08-03 08:34:55.000000000 +0200
+--- CLISP/clisp-20040712/sacla-tests/must-package.lisp	2004-08-06 03:13:08.000000000 +0200
+***************
+*** 1459,1464 ****
+--- 1459,1465 ----
+          '("TB-FOO" "TB-FOO-NICKNAME-1" "TB-FOO-NICKNAME-2" "TB-FOO-NICKNAME-3"))
+    (and (packagep (defpackage "TB-FOO" (:nicknames tb-foo-nickname-1)))
+         (equal (package-nicknames 'tb-foo) '("TB-FOO-NICKNAME-1"))))
++ #-CLISP ; unfounded assumptions about the order of the package-nicknames list
+  (progn
+    (mapc #'(lambda (name) (when (find-package name) (delete-package name)))
+          '("TB-FOO" "TB-FOO-NICKNAME-1" "TB-FOO-NICKNAME-2" "TB-FOO-NICKNAME-3"))

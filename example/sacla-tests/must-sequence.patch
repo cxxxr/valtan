@@ -1,0 +1,26 @@
+*** sacla/lisp/test/must-sequence.lisp	2004-08-03 08:34:55.000000000 +0200
+--- CLISP/clisp-20040712/sacla-tests/must-sequence.lisp	2004-08-06 03:23:37.000000000 +0200
+***************
+*** 9545,9550 ****
+--- 9545,9553 ----
+    (equal list '(0 4 5 6)))
+  
+  
++ #-CLISP ; The tests ignores ANSI CL "remove-duplicates returns a sequence that
++         ; may share with sequence or may be identical to sequence if no elements
++         ; need to be removed."
+  (let* ((list0 (list 0 1 2))
+         (list (remove-duplicates list0)))
+    (and (not (eq list0 list))
+***************
+*** 9555,9560 ****
+--- 9558,9566 ----
+    (and (not (eq list0 list))
+         (equal list0 '(2 1 0 1 0 1 2))
+         (equal list '(0 1 2))))
++ #-CLISP ; The tests ignores ANSI CL "remove-duplicates returns a sequence that
++         ; may share with sequence or may be identical to sequence if no elements
++         ; need to be removed."
+  (let* ((vector0 (vector 0 1 2))
+         (vector (remove-duplicates vector0)))
+    (and (not (eq vector0 vector))
