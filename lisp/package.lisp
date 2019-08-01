@@ -59,6 +59,7 @@
                                  use))))
 
 (defmacro defpackage (package &body options)
+  (eval `(defpackage ,package ,@options)) ;; ホスト側のsbclで定義しないとin-packageもエラーになる
   (let ((export (cdr (assoc :export options)))
         (use (cdr (assoc :use options)))
         (nicknames (cdr (assoc :nicknames options))))
