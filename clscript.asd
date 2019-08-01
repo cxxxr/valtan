@@ -2,8 +2,7 @@
   :serial t
   :components ((:module "compiler"
                 :components
-                ((:file "host")
-                 (:file "packages")
+                ((:file "packages")
                  (:file "util")
                  (:file "error")
                  (:file "ir")

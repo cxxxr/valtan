@@ -272,9 +272,7 @@
   (let* ((args (gensym))
          (fn `(lambda (,args) (destructuring-bind ,lambda-list ,args ,@body))))
     (setf (get-macro name) (eval fn))
-    `(progn
-       (system::register-macro ',name ,fn)
-       ',name)))
+    `',name))
 
 (def-transform define-symbol-macro (name expansion)
   (setf (get-symbol-macro name) expansion)
