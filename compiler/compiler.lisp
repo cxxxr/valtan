@@ -152,13 +152,9 @@
           (directory-files "./lisp/"
                            '("compilation"))))
 
-(defun build (pathnames &optional output)
-  (with-open-stream (*standard-output*
-                     (or output
-                         (make-string-output-stream)))
-    (compile-files pathnames)
-    (unless output
-      (get-output-stream-string *standard-output*))))
+(defun build (pathnames output)
+  (let ((*standard-output* output))
+    (compile-files pathnames)))
 
 (defparameter *module-table* (make-hash-table))
 (defvar *module-directory*)
