@@ -72,43 +72,37 @@
              :until (eq ,var ,g-eof-value)
              :do (progn ,@body)))))
 
-(defun call-with-compile (function)
+(defun in-pass2 (ir-forms)
   (let ((*require-modules* '())
         (*defined-function-names* '())
         (*called-function-names* '()))
-    (let ((ir-forms (funcall function)))
-      (dolist (name (set-difference
-                     (set-difference *called-function-names* *defined-function-names*)
-                     *known-function-names*
-                     :test #'string=))
-        (unless (or (eq (symbol-package name) (find-package :system))
-                    (eq (symbol-package name) (find-package :ffi)))
-          (warn "undefined function: ~S" name)))
-      (write-line "import * as lisp from 'lisp';")
-      (loop :for (var . module) :in *require-modules*
-            :do (format t "var ~A = require('~A');~%" (pass2-convert-var var) module))
-      (pass2-toplevel-forms ir-forms))
+    (dolist (name (set-difference
+                   (set-difference *called-function-names* *defined-function-names*)
+                   *known-function-names*
+                   :test #'string=))
+      (unless (or (eq (symbol-package name) (find-package :system))
+                  (eq (symbol-package name) (find-package :ffi)))
+        (warn "undefined function: ~S" name)))
+    (write-line "import * as lisp from 'lisp';")
+    (loop :for (var . module) :in *require-modules*
+          :do (format t "var ~A = require('~A');~%" (pass2-convert-var var) module))
+    (pass2-toplevel-forms ir-forms)
     (values)))
 
-(defmacro with-compile (() &body body)
-  `(call-with-compile (lambda () ,@body)))
-
 (defun compile-stdin ()
-  (with-compile ()
-    (let ((ir-forms '()))
-      (do-forms (form *standard-input*)
-        (push (pass1-toplevel form) ir-forms))
-      (nreverse ir-forms))))
+  (let ((ir-forms '()))
+    (do-forms (form *standard-input*)
+      (push (pass1-toplevel form) ir-forms))
+    (in-pass2 (nreverse ir-forms))))
 
 (defun compile-files (files)
   (unless (listp files) (setf files (list files)))
-  (with-compile ()
-    (let ((ir-forms '()))
-      (dolist (file files)
-        (with-open-file (in file)
-          (do-forms (form in)
-            (push (pass1-toplevel form) ir-forms))))
-      (nreverse ir-forms))))
+  (let ((ir-forms '()))
+    (dolist (file files)
+      (with-open-file (in file)
+        (do-forms (form in)
+          (push (pass1-toplevel form) ir-forms))))
+    (in-pass2 (nreverse ir-forms))))
 
 (defmacro with-js-beautify (&body body)
   `(let ((output
