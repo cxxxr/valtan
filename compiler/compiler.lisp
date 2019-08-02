@@ -160,11 +160,6 @@
     (unless output
       (get-output-stream-string *standard-output*))))
 
-(defun build-self (&optional output)
-  (build (get-lisp-files :self t)
-         output)
-  (values))
-
 (defparameter *module-table* (make-hash-table))
 (defvar *module-directory*)
 
