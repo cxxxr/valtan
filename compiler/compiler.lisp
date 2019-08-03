@@ -129,6 +129,7 @@
   (append (directory-files "./lisp/"
                            '("control"
                              "setf"
+                             "destructuring-bind"
                              "ffi"
                              "condition"
                              "struct"
