@@ -276,6 +276,12 @@
     (setf *macro-definitions* (nconc *macro-definitions* (list name)))
     `',name))
 
+(def-transform system::defmac (name lambda-list &rest body)
+  (let ((fn `(lambda ,lambda-list ,@body)))
+    (setf (get-macro name) fn)
+    (setf *macro-definitions* (nconc *macro-definitions* (list name)))
+    `',name))
+
 (def-transform define-symbol-macro (name expansion)
   (setf (get-symbol-macro name) expansion)
   `',name)
