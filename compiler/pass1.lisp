@@ -273,7 +273,7 @@
   (let* ((args (gensym))
          (fn `(lambda (,args) (destructuring-bind ,lambda-list ,args ,@body))))
     (setf (get-macro name) fn)
-    (pushnew name *macro-definitions*)
+    (setf *macro-definitions* (nconc *macro-definitions* (list name)))
     `',name))
 
 (def-transform define-symbol-macro (name expansion)
@@ -970,6 +970,6 @@
 
 (defun pass1-dump-macros ()
   (mapcar (lambda (name)
-            (pass1-toplevel `(setf (get-macro ',name)
-                                   ,(get-macro name))))
+            (pass1-toplevel
+             `(system::%put ',name 'macro ',(get-macro name))))
           *macro-definitions*))
