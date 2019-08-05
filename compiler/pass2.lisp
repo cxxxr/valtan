@@ -265,23 +265,28 @@
            ,form
            (emit-try-finally ,form (write-string ,unwind-code-var))))))
 
+(defun emit-unwind-var (var stream)
+  (when (eq :special (binding-type var))
+    (let ((identier (symbol-to-js-value (binding-name var)))
+          (save-var (to-js-identier (binding-value var) "SAVE_")))
+      (format stream "~A.value = ~A;~%" identier save-var))))
+
 (defun emit-declvar (var finally-stream)
   (ecase (binding-type var)
     ((:special)
      (let ((identier (symbol-to-js-value (binding-name var)))
            (save-var (to-js-identier (binding-value var) "SAVE_")))
-       ;; lisp.symbolValue関数を使わずに直接valueを参照していて行儀が悪いが、
-       ;; この時点でスペシャル変数は未束縛の場合もありsymbolValueを使うとunboundエラーが起こる
        (format t "const ~A = ~A.value;~%" save-var identier)
-       (format t "~A.value = " identier)
-       (format finally-stream "~A.value = ~A;~%" identier save-var)))
+       (format t "~A.value = " identier))
+     (when finally-stream
+       (emit-unwind-var var finally-stream)))
     ((:variable)
      (format t "let ~A = "
              (to-js-local-var (binding-value var))))
     ((:function)
      (format t "let ~A = "
              (to-js-function-var (binding-name var) ; !!!
-                                        )))))
+                                 )))))
 
 (defun emit-lambda-list (parsed-lambda-list finally-stream)
   (flet ()
@@ -358,16 +363,18 @@
 
 (def-emit let (ir)
   (pass2-enter (ir-return-value-p ir))
-  (let ((finally-stream (make-string-output-stream)))
-    (dolist (binding (ir-arg1 ir))
-      (emit-declvar (first binding) finally-stream)
-      (pass2 (second binding))
-      (format t ";~%"))
-    (with-unwind-special-vars
-        (progn
-          (pass2-forms (ir-arg2 ir)))
-      (get-output-stream-string finally-stream))
-    (pass2-exit (ir-return-value-p ir))))
+  (dolist (binding (ir-arg1 ir))
+    (emit-declvar (first binding) nil)
+    (pass2 (second binding))
+    (format t ";~%"))
+  (with-unwind-special-vars
+      (progn
+        (pass2-forms (ir-arg2 ir)))
+    (with-output-to-string (output)
+      (when (ir-arg1 ir)
+        (let ((binding (first (ir-arg1 ir))))
+          (emit-unwind-var (first binding) output)))))
+  (pass2-exit (ir-return-value-p ir)))
 
 (defun emit-call-args (args)
   (do ((arg* args (rest arg*)))

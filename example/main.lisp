@@ -678,6 +678,13 @@ efg")))
   (declare (special x))
   (e18153e3-f341-4e18-8114-c98ca80b6835))
 
+(defvar *e18153e3* nil)
+(let ((*e18153e3*))
+  (let* ((*e18153e3* (cons 0 *e18153e3*))
+         (*e18153e3* (cons 1 *e18153e3*))
+         (*e18153e3* (cons 2 *e18153e3*))))
+  (assert (null *e18153e3*)))
+
 (defmacro output-test (form string)
   `(assert (string= ,string (with-output-to-string (*standard-output*) ,form))))
 
