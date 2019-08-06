@@ -784,6 +784,11 @@ bar)")))
 (write-line "==================== compiler ====================")
 
 (assert (= (eval '(+ 1 100)) 101))
+(assert (= 1 (eval '(let ((form 1))
+                     (multiple-value-bind (form expanded-p)
+                         (%macroexpand-1 form)
+                       (declare (ignore expanded-p))
+                       form)))))
 
 ;; (write-line (js:-string.prototype.concat "foo" "bar"))
 ;; (js:console.log js:global.clear-immediate)
