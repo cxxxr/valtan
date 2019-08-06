@@ -294,15 +294,17 @@
   `(progn
      (declaim (special ,var))
      ,(when value-p
-        `(if (boundp ',var) nil (setq ,var ,value)))
+        `(if (boundp ',var) nil (set ',var ,value)))
+     (system::%put ',var 'special t)
      ',var))
 
 (def-transform defparameter (var value &optional doc)
   (declare (ignore doc))
   `(progn
      (declaim (special ,var))
-     (setq ,var ,value)
-     ,var))
+     (set ',var ,value)
+     (system::%put ',var 'special t)
+     ',var))
 
 (defun expand-quasiquote (x)
   (cond ((atom x)
