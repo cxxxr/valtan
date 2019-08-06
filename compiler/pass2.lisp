@@ -299,7 +299,7 @@
         (let ((var (first opt))
               (value (second opt)))
           (emit-declvar var finally-stream)
-          (format t "arguments[~D] || " i)
+          (format t "arguments.length > ~D ? arguments[~D] : " i i)
           (write-string "(")
           (pass2 value)
           (write-line ");")
