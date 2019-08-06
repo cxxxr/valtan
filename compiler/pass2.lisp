@@ -372,7 +372,7 @@
         (pass2-forms (ir-arg2 ir)))
     (with-output-to-string (output)
       (when (ir-arg1 ir)
-        (let ((binding (first (ir-arg1 ir))))
+        (dolist (binding (reverse (ir-arg1 ir)))
           (emit-unwind-var (first binding) output)))))
   (pass2-exit (ir-return-value-p ir)))
 
