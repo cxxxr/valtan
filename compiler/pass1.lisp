@@ -284,6 +284,7 @@
 
 (def-transform define-symbol-macro (name expansion)
   (setf (get-symbol-macro name) expansion)
+  (setf *macro-definitions* (nconc *macro-definitions* (list name)))
   `',name)
 
 (def-transform lambda (args &rest body)
@@ -976,5 +977,7 @@
 (defun pass1-dump-macros ()
   (mapcar (lambda (name)
             (pass1-toplevel
-             `(system::%put ',name 'macro ',(get-macro name))))
+             (if (get-symbol-macro name)
+                 `(system::%put ',name 'symbol-macro ',(get-symbol-macro name))
+                 `(system::%put ',name 'macro ',(get-macro name)))))
           *macro-definitions*))
