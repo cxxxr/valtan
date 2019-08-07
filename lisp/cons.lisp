@@ -336,9 +336,22 @@
                             (collect (caar l))
                             (setf (car l) (cdar l))))))))))
 
-#+(or)
 (defun mapcan (function list &rest lists)
-  (error "mapcan is undefined"))
+  (let ((arglists (copy-list (cons list lists)))
+        (acc '()))
+    (do ()
+        ((dolist (a arglists nil)
+           (if (null a) (return t))))
+      (setq acc
+            ;; TODO: appendではなくnconcにする
+            (append acc
+                    (apply function
+                           (with-accumulate ()
+                             (do ((l arglists (cdr l)))
+                                 ((null l))
+                               (collect (caar l))
+                               (setf (car l) (cdar l))))))))
+    acc))
 
 #+(or)
 (defun mapl (function list &rest lists)

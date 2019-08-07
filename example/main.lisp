@@ -198,6 +198,10 @@
 (assert (equal (list* 1 2 3) '(1 2 . 3)))
 (assert (equal (member 2 (list 1 2 3)) '(2 3)))
 
+(assert (equal '(1 2 3)
+               (mapcan (lambda (x) (list x))
+                       (list 1 2 3))))
+
 (assert (null (nthcdr 0 '())))
 (assert (equal (nthcdr 0 '(a b c)) '(a b c)))
 (assert (equal (nthcdr 1 '(a b c)) '(b c)))
