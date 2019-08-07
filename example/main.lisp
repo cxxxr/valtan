@@ -51,6 +51,10 @@
 
 (ffi:console.log (fact 5))
 
+(multiple-value-bind (form expanded-p)
+    (values 0 nil)
+  (assert (eq 0 form)))
+
 (write-line "==================== Number ====================")
 (assert (numberp 1))
 (assert (not (numberp "foo")))
@@ -804,3 +808,15 @@ bar)")))
 (ffi:define-function js:foo (x) (1+ x))
 
 (ffi:console.log (js:foo 10))
+
+(in-package :compiler)
+
+(let ((*lexenv* nil)
+      (*debug* t))
+  (eval
+   '(defun fact (n)
+     (cond ((= n 0)
+            1)
+           (t
+            (* n (fact (1- n)))))))
+  (assert (= 120 (eval '(fact 5)))))
