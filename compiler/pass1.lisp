@@ -326,9 +326,6 @@
 (def-transform system::quasiquote (x)
   (expand-quasiquote x))
 
-(defmacro system::quasiquote (x)
-  (expand-quasiquote x))
-
 (defun pass1-const (x return-value-p)
   (make-ir 'const return-value-p nil x))
 

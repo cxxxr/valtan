@@ -1,5 +1,8 @@
 (in-package :compiler)
 
+(defmacro system::quasiquote (x)
+  (expand-quasiquote x))
+
 (defparameter *known-function-names*
   (let ((file (asdf:system-relative-pathname :clscript "./lib/lisp.js")))
     (with-open-file (in file)
