@@ -812,15 +812,3 @@ bar)")))
 (ffi:define-function js:foo (x) (1+ x))
 
 (ffi:console.log (js:foo 10))
-
-(in-package :compiler)
-
-(let ((*lexenv* nil)
-      (*debug* t))
-  (eval
-   '(defun fact (n)
-     (cond ((= n 0)
-            1)
-           (t
-            (* n (fact (1- n)))))))
-  (assert (= 120 (eval '(fact 5)))))
