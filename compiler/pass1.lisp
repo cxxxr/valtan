@@ -271,12 +271,12 @@
 
 (def-transform defmacro (name lambda-list &rest body)
   (let* ((args (gensym))
-         (fn `(lambda (,args) (destructuring-bind ,lambda-list ,args ,@body))))
+         (fn `(lambda (&rest ,args) (destructuring-bind ,lambda-list ,args ,@body))))
     (setf (get-macro name) fn)
     (setf *macro-definitions* (nconc *macro-definitions* (list name)))
     `',name))
 
-(def-transform system::defmac (name lambda-list &rest body)
+(def-transform system::defmacro* (name lambda-list &rest body)
   (let ((fn `(lambda ,lambda-list ,@body)))
     (setf (get-macro name) fn)
     (setf *macro-definitions* (nconc *macro-definitions* (list name)))
@@ -470,7 +470,7 @@
                (values (apply (binding-value binding) (rest form)) t)
                (let ((fn (get-macro (first form))))
                  (if fn
-                     (values (funcall (eval fn) (rest form)) t)
+                     (values (apply (eval fn) (rest form)) t)
                      (values form nil))))))
         (t
          (values form nil))))
