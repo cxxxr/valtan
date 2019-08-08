@@ -2,7 +2,8 @@
 
 (let ((system::*get-stdin-line-function*
         (lambda ()
-          (js:readline-sync.question))))
+          (let ((x (funcall js:readline-sync.question)))
+            (ffi:js->cl x)))))
   (do () (nil)
     (print (eval (read)))
     (terpri)))
