@@ -82,8 +82,7 @@
          ,@body))))
 
 (defun in-pass2 (ir-forms)
-  (let ((*require-modules* '())
-        (*defined-function-names* '())
+  (let ((*defined-function-names* '())
         (*called-function-names* '()))
     (dolist (name (set-difference
                    (set-difference *called-function-names* *defined-function-names*)
@@ -200,7 +199,8 @@
         ;; XXX: *module-table*には要素が一つしか入っていないことを想定
         (maphash (lambda (module-name pathnames)
                    (declare (ignore module-name))
-                   (let ((ir-forms '()))
+                   (let ((ir-forms '())
+                         (*require-modules* '()))
                      (dolist (file (get-lisp-files :self t))
                        (do-file-form (form file)
                          (push (pass1-toplevel form) ir-forms)))
