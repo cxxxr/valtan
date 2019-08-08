@@ -44,8 +44,23 @@
 (defvar *gensym-counter* 0)
 
 (defun gensym (&optional (prefix "G"))
-  (prog1 (make-symbol (system::string-append prefix (princ-to-string *gensym-counter*)))
-    (incf *gensym-counter*)))
+  (make-symbol (cond ((and (integerp prefix) (<= 0 prefix))
+                      (princ-to-string prefix))
+                     ((not (stringp prefix))
+                      (error "~S is not a string or non-negative integer"))
+                     (t
+                      (prog1 (system::string-append prefix (princ-to-string *gensym-counter*))
+                        (incf *gensym-counter*))))))
+
+(defvar *gentemp-counter* 0)
+
+(defun gentemp (&optional (prefix "T") (package *package*))
+  (do ()
+      (nil)
+    (let ((name (system::string-append prefix (princ-to-string *gentemp-counter*))))
+      (incf *gentemp-counter*)
+      (unless (find-symbol name package)
+        (return (intern name package))))))
 
 (defun copy-symbol (symbol &optional copy-props)
   (cond (copy-props
