@@ -35,8 +35,25 @@
     (value)
   `(%put ,symbol ,indicator ,value))
 
+(defun (setf symbol-value) (value symbol)
+  (set symbol value))
+
+(defun (setf symbol-function) (function symbol)
+  (system::fset symbol function))
+
 (defvar *gensym-counter* 0)
 
 (defun gensym (&optional (prefix "G"))
   (prog1 (make-symbol (system::string-append prefix (princ-to-string *gensym-counter*)))
     (incf *gensym-counter*)))
+
+(defun copy-symbol (symbol &optional copy-props)
+  (cond (copy-props
+         (let ((new-symbol (make-symbol (string symbol))))
+           (when (boundp symbol)
+             (setf (symbol-function new-symbol) (symbol-value symbol)))
+           (when (fboundp symbol)
+             (setf (symbol-function new-symbol) (symbol-function symbol)))
+           new-symbol))
+        (t
+         (make-symbol (string symbol)))))

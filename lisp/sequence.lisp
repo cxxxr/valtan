@@ -208,3 +208,17 @@
          (map-sequence function sequence nil nil nil nil))
         (t
          (error "trap"))))
+
+(defun every (function sequence &rest more-sequences)
+  (cond ((null more-sequences)
+         (map-sequence (lambda (x)
+                         (unless (funcall function x)
+                           (return-from every nil)))
+                       sequence
+                       nil
+                       nil
+                       nil
+                       nil)
+         t)
+        (t
+         (error "trap"))))
