@@ -22,19 +22,20 @@
 (defun (setf symbol-plist) (plist symbol)
   (system::put-symbol-plist symbol plist))
 
-(defun %put (symbol indicator value)
-  (let* ((plist (symbol-plist symbol))
-         (mem (member indicator plist)))
-    (if mem
-        (setf (cadr mem) value)
-        (setf (symbol-plist symbol)
-              (list* indicator value plist)))
-    value))
-
 (defsetf get (symbol indicator &optional default)
     (value)
-  `(%put ,symbol ,indicator
-         (progn ,default ,value)))
+  `(system::%put ,symbol ,indicator
+                 (progn ,default ,value)))
+
+(defun remprop (symbol indicator)
+  (do ((plist (symbol-plist symbol) (cddr plist))
+       (prev nil plist))
+      ((null plist))
+    (when (eq indicator (car plist))
+      (if prev
+          (setf (cddr prev) (cddr plist))
+          (setf (symbol-plist symbol) (cddr plist)))
+      (return))))
 
 (defun (setf symbol-value) (value symbol)
   (set symbol value))
