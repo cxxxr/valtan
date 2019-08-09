@@ -814,3 +814,8 @@ bar)")))
 (ffi:define-function js:foo (x) (1+ x))
 
 (ffi:console.log (js:foo 10))
+
+(let ((ht (make-hash-table)))
+  (setf (gethash 'cl::set ht) t)
+  (ffi:console.log (cl::hash-table-object ht))
+  (print (gethash 'ffi::set ht)))
