@@ -222,3 +222,17 @@
          t)
         (t
          (error "trap"))))
+
+(defun some (function sequence &rest more-sequences)
+  (cond ((null more-sequences)
+         (map-sequence (lambda (x)
+                         (when (funcall function x)
+                           (return-from some t)))
+                       sequence
+                       nil
+                       nil
+                       nil
+                       nil)
+         nil)
+        (t
+         (error "trap"))))

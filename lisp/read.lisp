@@ -53,6 +53,8 @@
   (set-dispatch-macro-character #\# #\' 'read-sharp-quote)
   (set-dispatch-macro-character #\# #\( 'read-sharp-left-paren)
   (set-dispatch-macro-character #\# #\: 'read-sharp-colon)
+  (set-dispatch-macro-character #\# #\+ 'read-sharp-plus-minus)
+  (set-dispatch-macro-character #\# #\- 'read-sharp-plus-minus)
   readtable)
 
 (defun set-readtable (to-readtable from-readtable)
@@ -402,6 +404,37 @@
     (when (number-string-p token)
       (error "The symbol following #: has numeric syntax: ~S" token))
     (make-symbol token)))
+
+(defun featurep (test)
+  (cond ((consp test)
+         (case (first test)
+           ((:not not)
+            (cond
+              ((cddr test)
+               (error "too many subexpressions in feature expression: ~S" test))
+              ((null (cdr test))
+               (error "too few subexpressions in feature expression: ~S" test))
+              (t (not (featurep (cadr test))))))
+           ((:and and)
+            (every #'featurep (rest test)))
+           ((:or or)
+            (some #'featurep (rest test)))
+           (otherwise
+            (error "unknown operator in feature expression: ~S." test))))
+        ((symbolp test)
+         (not (null (member test *features* :test #'string=))))
+        (t
+         (error "invalid feature expression: ~S" test))))
+
+(defun read-sharp-plus-minus (stream sub-char arg)
+  (declare (ignore arg))
+  ;; TODO: testがnilの場合は*read-suppress*をnilにしてreadする必要がある
+  (let ((test (let ((*keyword* (find-package :keyword)))
+                (read stream t nil t)))
+        (form (read stream t nil t)))
+    (if (char= sub-char (if (featurep test) #\+ #\-))
+        form
+        (values))))
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)

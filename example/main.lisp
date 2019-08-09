@@ -778,6 +778,8 @@ bar)")))
   (assert (null (symbol-package symbol)))
   (assert (string= "FOO" symbol)))
 
+(assert (eql 2 (read-from-string "#+(or) 1 2")))
+
 (progn
   (defun #1=#:foo (x) x)
   (assert (functionp (symbol-function '#1#))))
