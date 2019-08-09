@@ -154,6 +154,7 @@
           (when self
             (directory-files "./compiler/"
                              '("packages"
+                               "variables"
                                "util"
                                "error"
                                "ir"
@@ -186,7 +187,8 @@
   (unless (probe-file pathname)
     (error "~A does not exist" pathname))
   (let ((pathname (probe-file pathname))
-        (*module-table* (make-hash-table)))
+        (*module-table* (make-hash-table))
+        (*in-host-runtime* t))
     (load-module pathname)
     (let ((output-file (or output-file
                            (make-pathname :name (pathname-name pathname)

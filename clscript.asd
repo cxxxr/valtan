@@ -3,6 +3,7 @@
   :components ((:module "compiler"
                 :components
                 ((:file "packages")
+                 (:file "variables")
                  (:file "util")
                  (:file "error")
                  (:file "ir")

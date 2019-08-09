@@ -1,6 +1,6 @@
 (in-package :common-lisp)
 
-(defvar *features* nil)
+(defvar *features* '(:clscript))
 
 (defun compile-toplevel (x)
   (let ((ir (compiler::pass1-toplevel x t)))

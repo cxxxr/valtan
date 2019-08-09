@@ -202,3 +202,5 @@
        ,tmp)))
 
 (defun identity (x) x)
+
+(defun fdefinition (x) (symbol-function x))
