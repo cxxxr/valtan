@@ -31,9 +31,10 @@
               (list* indicator value plist)))
     value))
 
-(defsetf get (symbol indicator)
+(defsetf get (symbol indicator &optional default)
     (value)
-  `(%put ,symbol ,indicator ,value))
+  `(%put ,symbol ,indicator
+         (progn ,default ,value)))
 
 (defun (setf symbol-value) (value symbol)
   (set symbol value))
