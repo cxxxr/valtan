@@ -412,13 +412,27 @@
   (ffi:console.log (remhash "key1" x))
   )
 
-(let ((ht (make-hash-table)))
+(let ((ht (make-hash-table))
+      key1
+      key2
+      key3)
   (setf (gethash "key1" ht) 100)
   (setf (gethash "key2" ht) 200)
   (setf (gethash "key3" ht) 300)
   (maphash (lambda (k v)
-             (ffi:console.log k v))
-           ht))
+             (cond ((equal k "key1")
+                    (= v 100)
+                    (setq key1 t))
+                   ((equal k "key2")
+                    (= v 200)
+                    (setq key2 t))
+                   ((equal k "key3")
+                    (= v 300)
+                    (setq key3 t))
+                   (t
+                    (error "error"))))
+           ht)
+  (assert (and key1 key2 key3)))
 
 (write-line "==================== destructuring-bind ====================")
 

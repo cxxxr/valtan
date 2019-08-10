@@ -16,6 +16,8 @@
           clrhash
           sxhash))
 
+;;; XXX: jsのMapを使っているのでhash-tableのtestがequal, equalpの場合に機能しない
+
 (defstruct (hash-table (:copier nil)
                        (:predicate hash-table-p)
                        (:constructor %make-hash-table))
@@ -27,24 +29,23 @@
   (rehash-threshold nil :read-only t))
 
 (defun make-hash-table (&key test size rehash-size rehash-threshold)
-  (%make-hash-table :object (ffi:object)
+  (%make-hash-table :object (ffi:new (ffi:ref "Map"))
                     :test test
                     :size size
                     :rehash-size rehash-size
                     :rehash-threshold rehash-threshold))
 
 (defun hash-table-count (hash-table)
-  (ffi:ref ((ffi:ref "Object" "keys") (hash-table-object hash-table))
-           "length"))
+  (ffi:ref (hash-table-object hash-table) "size"))
 
 (defun gethash (key hash-table &optional default)
-  (let ((value (ffi:%aget (hash-table-object hash-table) key)))
+  (let ((value ((ffi:ref (hash-table-object hash-table) "get") key)))
     (if (eq value (ffi:ref "undefined"))
         (values default nil)
         (values value t))))
 
 (defun (setf gethash) (value key hash-table &optional default)
-  (ffi:set (ffi:%aget (hash-table-object hash-table) key) value)
+  ((ffi:ref (hash-table-object hash-table) "set") key value)
   (push key (hash-table-keys hash-table))
   value)
 
@@ -59,7 +60,7 @@
   (let* ((object (hash-table-object hash-table))
          (keys (hash-table-keys hash-table)))
     (dolist (key keys)
-      (let ((value (ffi:%aget object key)))
+      (let ((value ((ffi:ref object "get") key)))
         (unless (eq value (ffi:ref "undefined"))
           (funcall function key value)))))
   nil)
