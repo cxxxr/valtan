@@ -2,7 +2,7 @@
 
 (defvar *inner-list-p* nil)
 (defvar *dot-marker* (gensym "DOT"))
-
+(defvar *read-label-table*)
 (defparameter *whitespaces* '(#\space #\tab #\newline #\linefeed #\page #\return))
 
 (defun whitespacep (c)
@@ -55,6 +55,8 @@
   (set-dispatch-macro-character #\# #\: 'read-sharp-colon)
   (set-dispatch-macro-character #\# #\+ 'read-sharp-plus-minus)
   (set-dispatch-macro-character #\# #\- 'read-sharp-plus-minus)
+  (set-dispatch-macro-character #\# #\= 'read-sharp-equal)
+  (set-dispatch-macro-character #\# #\# 'read-sharp-sharp)
   readtable)
 
 (defun set-readtable (to-readtable from-readtable)
@@ -262,24 +264,25 @@
     (parse-token token)))
 
 (defun read (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)
-  (do () (nil)
-    (let* ((inner-eof-value '#:eof)
-           (c (peek-char t stream eof-error-p inner-eof-value recursive-p)))
-      (cond ((eq c inner-eof-value)
-             (return eof-value))
-            (t
-             (read-char stream)
-             (multiple-value-bind (function non-terminating-p)
-                 (get-macro-character c)
-               (cond
-                 (function
-                  (let ((values (multiple-value-list (funcall function stream c))))
-                    (when values
-                      (return (first values)))))
-                 ((char= c #\|)
-                  (return (read-multiple-escape stream)))
-                 (t
-                  (return (read-token stream c))))))))))
+  (let ((*read-label-table* (if recursive-p *read-label-table* (make-hash-table))))
+    (do () (nil)
+      (let* ((inner-eof-value '#:eof)
+             (c (peek-char t stream eof-error-p inner-eof-value recursive-p)))
+        (cond ((eq c inner-eof-value)
+               (return eof-value))
+              (t
+               (read-char stream)
+               (multiple-value-bind (function non-terminating-p)
+                   (get-macro-character c)
+                 (cond
+                   (function
+                    (let ((values (multiple-value-list (funcall function stream c))))
+                      (when values
+                        (return (first values)))))
+                   ((char= c #\|)
+                    (return (read-multiple-escape stream)))
+                   (t
+                    (return (read-token stream c)))))))))))
 
 (defun read-list (stream c)
   (declare (ignore c))
@@ -357,10 +360,12 @@
                      (if (digit-char-p c)
                          (write-char c out)
                          (return))))))))
+    (when arg
+      (setq sub-char (read-char stream t nil t)))
     (let ((fn (get-dispatch-macro-character disp-char sub-char)))
       (unless fn
         (error "no dispatch function defined for ~S" sub-char))
-      (funcall fn stream sub-char arg ))))
+      (funcall fn stream sub-char arg))))
 
 (defun read-sharp-backslash (stream sub-char arg)
   (declare (ignore sub-char arg))
@@ -435,6 +440,25 @@
     (if (char= sub-char (if (featurep test) #\+ #\-))
         form
         (values))))
+
+(defun read-sharp-equal (stream sub-char arg)
+  (unless arg
+    (error "Reader dispatch macro character #\= requires an argument."))
+  (let ((form (read stream t nil t)))
+    (multiple-value-bind (form defined)
+        (gethash arg *read-label-table*)
+      (when defined
+        (error "Multiply defined label: #~D=" arg)))
+    (setf (gethash arg *read-label-table*) form)))
+
+(defun read-sharp-sharp (stream sub-char arg)
+  (unless arg
+    (error "Reader dispatch macro character #\# requires an argument."))
+  (multiple-value-bind (form defined)
+      (gethash arg *read-label-table*)
+    (unless defined
+      (error "Reference to undefined label #~D#" arg))
+    form))
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)
