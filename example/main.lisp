@@ -794,6 +794,9 @@ bar)")))
 
 (assert (eql 2 (read-from-string "#+(or) 1 2")))
 
+(let ((tree (read-from-string "#1=(a b #1#)")))
+  (assert (eq tree (third tree))))
+
 (progn
   (defun #1=#:foo (x) x)
   (assert (functionp (symbol-function '#1#))))

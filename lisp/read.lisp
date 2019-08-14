@@ -3,6 +3,7 @@
 (defvar *inner-list-p* nil)
 (defvar *dot-marker* (gensym "DOT"))
 (defvar *read-label-table*)
+
 (defparameter *whitespaces* '(#\space #\tab #\newline #\linefeed #\page #\return))
 
 (defun whitespacep (c)
@@ -31,6 +32,12 @@
                     (return c))
                    (t
                     (stream-read-char stream))))))))
+
+(defparameter +sharp-equal-marker+ (gensym))
+
+(defstruct sharp-equal
+  label
+  (value +sharp-equal-marker+))
 
 (defstruct (readtable (:predicate readtablep)
                       (:copier %copy-readtable))
@@ -441,24 +448,52 @@
         form
         (values))))
 
-(defun read-sharp-equal (stream sub-char arg)
-  (unless arg
-    (error "Reader dispatch macro character #\= requires an argument."))
-  (let ((form (read stream t nil t)))
-    (multiple-value-bind (form defined)
-        (gethash arg *read-label-table*)
-      (when defined
-        (error "Multiply defined label: #~D=" arg)))
-    (setf (gethash arg *read-label-table*) form)))
+(defun subst-sharp-equal (tree)
+  (let ((visit (make-hash-table :test 'eq)))
+    (labels ((f (tree)
+               (cond ((and (sharp-equal-p tree)
+                           (not (eq (sharp-equal-value tree) +sharp-equal-marker+)))
+                      (sharp-equal-value tree))
+                     ((gethash tree visit)
+                      tree)
+                     (t
+                      (setf (gethash tree visit) t)
+                      (cond ((consp tree)
+                             (let ((car (f (car tree)))
+                                   (cdr (f (cdr tree))))
+                               (unless (eq car (car tree))
+                                 (rplaca tree car))
+                               (unless (eq cdr (cdr tree))
+                                 (rplacd tree cdr))))
+                            ((arrayp tree)
+                             (error "subst-sharp-equal trap")))
+                      tree))))
+      (f tree))))
 
-(defun read-sharp-sharp (stream sub-char arg)
-  (unless arg
+(defun read-sharp-equal (stream sub-char label)
+  (unless label
+    (error "Reader dispatch macro character #\= requires an argument."))
+  (when (gethash label *read-label-table*)
+    (error "Multiply defined label: #~D=" label))
+  (let* ((sharp-equal (make-sharp-equal :label label))
+         (form (progn
+                 (setf (gethash label *read-label-table*) sharp-equal)
+                 (read stream t nil t))))
+    (when (eq sharp-equal form)
+      (error "Must label something more than just #~D#" label))
+    (setf (sharp-equal-value sharp-equal) form)
+    (subst-sharp-equal form)))
+
+(defun read-sharp-sharp (stream sub-char label)
+  (unless label
     (error "Reader dispatch macro character #\# requires an argument."))
-  (multiple-value-bind (form defined)
-      (gethash arg *read-label-table*)
-    (unless defined
-      (error "Reference to undefined label #~D#" arg))
-    form))
+  (let ((sharp-equal (gethash label *read-label-table*)))
+    (cond ((null sharp-equal)
+           (error "Reference to undefined label #~D#" label))
+          ((eq (sharp-equal-value sharp-equal) +sharp-equal-marker+)
+           sharp-equal)
+          (t
+           (sharp-equal-value sharp-equal)))))
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)
