@@ -85,7 +85,9 @@
     (error ":TEST and :TEST-NOT were both supplied."))
   (labels ((f (tree)
              (let* ((k (apply-key key tree))
-                    (elt (assoc k alist)))
+                    (elt (if testp
+                             (assoc k alist :test test)
+                             (assoc k alist :test-not test-not))))
                (cond (elt (cdr elt))
                      ((atom tree) tree)
                      (t (let ((car (f (car tree)))
