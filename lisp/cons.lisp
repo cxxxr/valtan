@@ -69,13 +69,32 @@
 (defun (setf cdddar) (value x) (rplacd (cdr (cdr (car x))) value))
 (defun (setf cddddr) (value x) (rplacd (cdr (cdr (cdr x))) value))
 
-#+(or)
 (defun copy-tree (tree)
-  (error "copy-tree is undefined"))
+  (if (atom tree)
+      tree
+      (cons (copy-tree (car tree))
+            (copy-tree (cdr tree)))))
 
-#+(or)
-(defun sublis (alist tree &key key test test-not)
-  (error "sublis is undefined"))
+(defun apply-key (key value)
+  (if (null key)
+      value
+      (funcall key value)))
+
+(defun sublis (alist tree &key key (test #'eql testp) (test-not #'eql test-not-p))
+  (when (and testp test-not-p)
+    (error ":TEST and :TEST-NOT were both supplied."))
+  (labels ((f (tree)
+             (let* ((k (apply-key key tree))
+                    (elt (assoc k alist)))
+               (cond (elt (cdr elt))
+                     ((atom tree) tree)
+                     (t (let ((car (f (car tree)))
+                              (cdr (f (cdr tree))))
+                          (if (and (eq car (car tree))
+                                   (eq cdr (cdr tree)))
+                              tree
+                              (cons car cdr))))))))
+    (f tree)))
 
 #+(or)
 (defun nsublis (alist tree &key key test test-not)
