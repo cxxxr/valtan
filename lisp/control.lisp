@@ -204,3 +204,7 @@
 (defun identity (x) x)
 
 (defun fdefinition (x) (symbol-function x))
+
+(defun complement (function)
+  (lambda (&rest args)
+    (not (apply function args))))
