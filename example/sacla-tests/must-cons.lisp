@@ -73,7 +73,7 @@
 
 (listp (cons 'a 'b))
 
-(listp '#1=(1 2 . #1#))
+;(listp '#1=(1 2 . #1#))
 
 (not (listp 1))
 
@@ -119,7 +119,7 @@
 (let ((a (cons 1 2)))
   (eq (car (list a)) a))
 
-(eq (car '#1=(a . #1#)) 'a)
+;(eq (car '#1=(a . #1#)) 'a)
 
 (eq (cdr '(a . b)) 'b)
 (eq (rest '(a . b)) 'b)
@@ -132,10 +132,10 @@
 (let ((a (cons 1 2)))
   (eq (rest (cons 1 a)) a))
 
-(let ((x '#1=(a . #1#)))
-  (eq (cdr x) x))
-(let ((x '#1=(a . #1#)))
-  (eq (rest x) x))
+;; (let ((x '#1=(a . #1#)))
+;;   (eq (cdr x) x))
+;; (let ((x '#1=(a . #1#)))
+;;   (eq (rest x) x))
 
 (eq (caar '((a) b c)) 'a)
 
@@ -759,7 +759,7 @@
 
 (eql (list-length '(1 2)) 2)
 
-(null (list-length '#1=(1 2 3 4 . #1#)))
+;(null (list-length '#1=(1 2 3 4 . #1#)))
 
 
 (equal (make-list 5) '(nil nil nil nil nil))
@@ -814,7 +814,7 @@
 (let ((a (cons 1 2)))
   (eq (first (list a)) a))
 
-(eq (first '#1=(a . #1#)) 'a)
+;(eq (first '#1=(a . #1#)) 'a)
 
 (eql (first   '(1 2 3)) '1)
 (eql (second  '(1 2 3)) '2)

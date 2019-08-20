@@ -836,3 +836,12 @@ bar)")))
   (setf (gethash 'cl::set ht) t)
   (ffi:console.log (cl::hash-table-object ht))
   (print (gethash 'ffi::set ht)))
+
+(print (SUBLIS (QUOTE (((A) . 1) ((B) . 2) ((C) . 3)))
+               (QUOTE ((((A))) ((B)) (C)))
+               :TEST-NOT (COMPLEMENT (FUNCTION EQUAL))))
+
+(print (EQUAL (SUBLIS (QUOTE (((A) . 1) ((B) . 2) ((C) . 3)))
+                      (QUOTE ((((A))) ((B)) (C)))
+                      :TEST-NOT (COMPLEMENT (FUNCTION EQUAL)))
+              (QUOTE (((1)) (2) 3))))
