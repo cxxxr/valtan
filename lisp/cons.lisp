@@ -313,7 +313,7 @@
   (let ((cmp (cond (test-p
                     test)
                    (test-not-p
-                    test-not)
+                    (complement test-not))
                    (t
                     #'eql))))
     (do ((rest list (cdr rest)))
