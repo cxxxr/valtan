@@ -102,7 +102,7 @@
   (when (and testp test-not-p)
     (error ":TEST and :TEST-NOT were both supplied."))
   (labels ((assoc* (value)
-             (let* ((k (apply-key key value)))
+             (let ((k (apply-key key value)))
                (if test-not-p
                    (assoc k alist :test-not test-not)
                    (assoc k alist :test test))))
@@ -113,7 +113,7 @@
                      (t (let ((car (f (car tree)))
                               (cdr (f (cdr tree))))
                           (rplaca tree car)
-                          (rplaca tree cdr)
+                          (rplacd tree cdr)
                           tree))))))
     (f tree)))
 
