@@ -117,9 +117,24 @@
                           tree))))))
     (f tree)))
 
-#+(or)
-(defun subst (new old tree &key key test test-not)
-  (error "subst is undefined"))
+(defun subst (new old tree &key key (test #'eql testp) (test-not #'eql test-not-p))
+  (when (and testp test-not-p)
+    (error ":TEST and :TEST-NOT were both supplied."))
+  (labels ((f (tree)
+             (let ((k (apply-key key tree)))
+               (cond ((if test-not-p
+                          (not (funcall test-not old k))
+                          (funcall test old k))
+                      new)
+                     ((atom tree) tree)
+                     (t
+                      (let ((car (f (car tree)))
+                            (cdr (f (cdr tree))))
+                        (if (and (eq car (car tree))
+                                 (eq cdr (cdr tree)))
+                            tree
+                            (cons car cdr))))))))
+    (f tree)))
 
 #+(or)
 (defun subst-if (new predicate tree &key key)
