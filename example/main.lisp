@@ -836,3 +836,5 @@ bar)")))
   (setf (gethash 'cl::set ht) t)
   (ffi:console.log (cl::hash-table-object ht))
   (print (gethash 'ffi::set ht)))
+
+(print (mapcon (lambda (x y) (print (list x y))) (list 1 2 3) (list 'a 'b 'c)))

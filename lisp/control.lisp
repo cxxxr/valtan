@@ -44,10 +44,10 @@
 (system::defmacro* do* (varlist endlist &rest body)
   (let ((g-start (gensym)))
     `(block nil
-       (let ,(mapcar (lambda (var-spec)
-                       `(,(first var-spec)
-                         ,(second var-spec)))
-                     varlist)
+       (let* ,(mapcar (lambda (var-spec)
+                        `(,(first var-spec)
+                          ,(second var-spec)))
+                      varlist)
          (tagbody
            ,g-start
            (if ,(first endlist)
