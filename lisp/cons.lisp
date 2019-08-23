@@ -344,8 +344,10 @@
     (nreverse (nthcdr n (rev list nil)))))
 
 (defun nbutlast (list &optional (n 1))
-  (rplacd (last list (1+ n)) nil)
-  list)
+  (let ((last (last list (1+ n))))
+    (when last
+      (rplacd last nil))
+    list))
 
 (defun last1 (list)
   (if (consp list)
