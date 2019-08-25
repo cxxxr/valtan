@@ -42,7 +42,8 @@
   (if x nil t))
 
 (system::defmacro* do* (varlist endlist &rest body)
-  (let ((g-start (gensym)))
+  (let ((g-start (gensym))
+        (body (compiler::parse-body body nil)))
     `(block nil
        (let* ,(mapcar (lambda (var-spec)
                         `(,(first var-spec)
@@ -83,7 +84,8 @@
        nil)))
 
 (system::defmacro* do (varlist endlist &rest body)
-  (let ((g-start (gensym)))
+  (let ((g-start (gensym))
+        (body (compiler::parse-body body nil)))
     `(block nil
        (let ,(mapcar (lambda (var-spec)
                        `(,(first var-spec)
@@ -226,7 +228,9 @@
                   (return nil)))))
         ((and (hash-table-p x)
               (hash-table-p y))
-         )))
+         (error "trap"))
+        (t
+         (eql x y))))
 
 (system::defmacro* prog1 (result &rest body)
   (let ((tmp (gensym)))
