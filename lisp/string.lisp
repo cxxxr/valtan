@@ -52,3 +52,6 @@
                                ((ffi:ref (system::array-to-js-string (subseq string start end))
                                          "toLowerCase")))
                               (subseq string end))))
+
+(defun char (string index)
+  (aref string index))
