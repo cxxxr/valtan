@@ -763,6 +763,10 @@
         (push x acc)))
     acc))
 
-#+(or)
 (defun nunion (list-1 list-2 &key key (test nil testp) (test-not nil test-not-p))
-  )
+  (when (and testp test-not-p)
+    (error ":TEST and :TEST-NOT were both supplied."))
+  (dolist (x list-1)
+    (unless (member-aux x list-2 key test testp test-not test-not-p)
+      (push x list-1)))
+  list-1)
