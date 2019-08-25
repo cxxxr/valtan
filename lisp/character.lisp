@@ -32,7 +32,9 @@
 
 (defun char-cmp-ignore-case (cmp character characters)
   (dolist (c characters t)
-    (unless (funcall cmp (char-code character) (char-code c))
+    (unless (funcall cmp
+                     (char-code (char-upcase character))
+                     (char-code (char-upcase c)))
       (return nil))
     (setq character c)))
 
