@@ -29,3 +29,51 @@
                    (%digit-char-to-digit char))))
     (when (and digit (< -1 digit radix))
       digit)))
+
+(defun char-cmp-ignore-case (cmp character characters)
+  (dolist (c characters t)
+    (unless (funcall cmp (char-code character) (char-code c))
+      (return nil))
+    (setq character c)))
+
+(defun char-cmp (cmp character characters)
+  (dolist (c characters t)
+    (unless (funcall cmp (char-code character) (char-code c))
+      (return nil))
+    (setq character c)))
+
+(defun char= (character &rest characters)
+  (char-cmp #'= character characters))
+
+(defun char/= (character &rest characters)
+  (char-cmp #'/= character characters))
+
+(defun char< (character &rest characters)
+  (char-cmp #'< character characters))
+
+(defun char> (character &rest characters)
+  (char-cmp #'> character characters))
+
+(defun char<= (character &rest characters)
+  (char-cmp #'<= character characters))
+
+(defun char>= (character &rest characters)
+  (char-cmp #'>= character characters))
+
+(defun char-equal (character &rest characters)
+  (char-cmp-ignore-case #'= character characters))
+
+(defun char-not-equal (character &rest characters)
+  (char-cmp-ignore-case #'/= character characters))
+
+(defun char-lessp (character &rest characters)
+  (char-cmp-ignore-case #'> character characters))
+
+(defun char-greaterp (character &rest characters)
+  (char-cmp-ignore-case #'< character characters))
+
+(defun char-not-lessp (character &rest characters)
+  (char-cmp-ignore-case #'<= character characters))
+
+(defun char-not-greaterp (character &rest characters)
+  (char-cmp-ignore-case #'>= character characters))
