@@ -47,9 +47,6 @@
 (defun char= (character &rest characters)
   (char-cmp #'= character characters))
 
-(defun char/= (character &rest characters)
-  (char-cmp #'/= character characters))
-
 (defun char< (character &rest characters)
   (char-cmp #'< character characters))
 
@@ -65,17 +62,29 @@
 (defun char-equal (character &rest characters)
   (char-cmp-ignore-case #'= character characters))
 
-(defun char-not-equal (character &rest characters)
-  (char-cmp-ignore-case #'/= character characters))
-
 (defun char-lessp (character &rest characters)
-  (char-cmp-ignore-case #'> character characters))
-
-(defun char-greaterp (character &rest characters)
   (char-cmp-ignore-case #'< character characters))
 
+(defun char-greaterp (character &rest characters)
+  (char-cmp-ignore-case #'> character characters))
+
 (defun char-not-lessp (character &rest characters)
-  (char-cmp-ignore-case #'<= character characters))
+  (char-cmp-ignore-case #'>= character characters))
 
 (defun char-not-greaterp (character &rest characters)
-  (char-cmp-ignore-case #'>= character characters))
+  (char-cmp-ignore-case #'<= character characters))
+
+(defun char/= (character &rest characters)
+  (do ((c character (pop characters)))
+      ((null characters) t)
+    (when (member (char-code c) characters :test #'= :key #'char-code)
+      (return nil))))
+
+(defun char-not-equal (character &rest characters)
+  (do ((c character (pop characters)))
+      ((null characters) t)
+    (when (member (char-code (char-upcase c))
+                  characters
+                  :test #'/=
+                  :key (lambda (char) (char-code (char-upcase char))))
+      (return nil))))
