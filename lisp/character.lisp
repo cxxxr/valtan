@@ -101,3 +101,22 @@
              (error "Symbol name is not of length one: ~S" x)))
         (t
          (error "~S cannot be coerced to a character." x))))
+
+(defun alpha-char-p (c)
+  (char<= #\a (char-downcase c) #\z))
+
+(defun alphanumericp (c)
+  (or (alpha-char-p c)
+      (char<= #\0 c #\9)))
+
+(defun digit-char (weight &optional (radix 10))
+  (and (>= weight 0)
+       (< weight radix)
+       (< weight 36)
+       (code-char (if (< weight 10)
+                      (+ 48 weight)
+                      (+ 55 weight)))))
+
+#+(or)
+(defun digit-char-p (char &optional (radix 10))
+  )

@@ -203,6 +203,13 @@
                   key)
     nil))
 
+(defun map-sequences (function sequences)
+  (let ((sequences (copy-list sequences)))
+    (do ((i 0 (1+ i))
+         (length (apply #'min (mapcar #'length sequences))))
+        ((>= i l) nil)
+      (apply function (mapcar (lambda (s) (elt s i)) sequences)))))
+
 (defun map (result-type function sequence &rest more-sequences)
   (cond ((and (null result-type) (null more-sequences))
          (map-sequence function sequence nil nil nil nil))
@@ -221,7 +228,11 @@
                        nil)
          t)
         (t
-         (error "trap"))))
+         (map-sequences (lambda (args)
+                          (unless (apply function args)
+                            (return-from every nil)))
+                        (cons sequence sequences))
+         t)))
 
 (defun some (function sequence &rest more-sequences)
   (cond ((null more-sequences)
@@ -235,7 +246,14 @@
                        nil)
          nil)
         (t
-         (error "trap"))))
+         (map-sequences (lambda (args)
+                          (when (apply function args)
+                            (return-from some t)))
+                        (cons sequence more-sequences))
+         nil)))
+
+(defun notany (function sequence &rest more-sequences)
+  (not (apply #'some function sequence more-sequences)))
 
 (defun stable-sort-list (list predicate key)
   (labels ((merge* (list1 list2)
