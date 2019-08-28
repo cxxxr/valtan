@@ -279,9 +279,9 @@
                           (incf k)))
                     (dotimes (i k)
                       (setf (aref vector (+ left i)) (aref temp i))))
-                 (cond ((funcall predicate
-                                 (apply-key key (aref vector i))
-                                 (apply-key key (aref vector j)))
+                 (cond ((not (funcall predicate
+                                      (apply-key key (aref vector j))
+                                      (apply-key key (aref vector i))))
                         (setf (aref temp k) (aref vector i))
                         (incf i))
                        (t

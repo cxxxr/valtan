@@ -85,6 +85,19 @@
       ((null characters) t)
     (when (member (char-code (char-upcase c))
                   characters
-                  :test #'/=
+                  :test #'=
                   :key (lambda (char) (char-code (char-upcase char))))
       (return nil))))
+
+(defun character (x)
+  (cond ((characterp x) x)
+        ((stringp x)
+         (if (= 1 (length x))
+             (char x 0)
+             (error "String is not of length one: ~S" x)))
+        ((symbolp x)
+         (if (= 1 (length (symbol-name x)))
+             (char (symbol-name x) 0)
+             (error "Symbol name is not of length one: ~S" x)))
+        (t
+         (error "~S cannot be coerced to a character." x))))
