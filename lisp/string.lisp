@@ -55,3 +55,6 @@
 
 (defun char (string index)
   (aref string index))
+
+(defun schar (string index)
+  (aref string index))

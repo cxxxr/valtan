@@ -1,5 +1,17 @@
 (in-package :common-lisp)
 
+(defparameter char-code-limit 1114112)
+
+(defparameter *char-name-table*
+  '((#\newline . "Newline")
+    (#\space . "Space")
+    (#\rubout . "Rubout")
+    (#\page . "Page")
+    (#\tab . "Tab")
+    (#\backspace . "Backspace")
+    (#\return . "Return")
+    (#\linefeed . "Linefeed")))
+
 (defun char-downcase (char)
   (if (char<= #\A char #\Z)
       (code-char (+ (- (char-code char) (char-code #\A))
@@ -105,10 +117,6 @@
 (defun alpha-char-p (c)
   (char<= #\a (char-downcase c) #\z))
 
-(defun alphanumericp (c)
-  (or (alpha-char-p c)
-      (char<= #\0 c #\9)))
-
 (defun digit-char (weight &optional (radix 10))
   (and (>= weight 0)
        (< weight radix)
@@ -117,6 +125,36 @@
                       (+ 48 weight)
                       (+ 55 weight)))))
 
-#+(or)
-(defun digit-char-p (char &optional (radix 10))
-  )
+(defun char-int (char) (char-code char))
+
+(defun alphanumericp (c)
+  (or (alpha-char-p c)
+      (char<= #\0 c #\9)))
+
+(defun graphic-char-p (c)
+  (setq c (char-code c))
+  (or (<= 32 c 126)
+      (<= 160 c)))
+
+(defun standard-char-p (c)
+  (setq c (char-code c))
+  (or (<= 32 c 126)
+      (= c 10)))
+
+(defun upper-case-p (c)
+  (char<= #\A c #\Z))
+
+(defun lower-case-p (c)
+  (char<= #\a c #\z))
+
+(defun both-case-p (c)
+  (or (upper-case-p c)
+      (lower-case-p c)))
+
+(defun char-name (c)
+  (declare (ignore name))
+  (cdr (assoc c *char-name-table*)))
+
+(defun name-char (name)
+  (declare (ignore name))
+  (car (rassoc name *char-name-table* :test #'equal)))

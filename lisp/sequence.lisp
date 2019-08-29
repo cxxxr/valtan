@@ -203,18 +203,49 @@
                   key)
     nil))
 
+(defun elt (sequence index)
+  (cond ((consp sequence)
+         (let ((result (nthcdr index sequence)))
+           (if result
+               (car result)
+               (error "The index ~A is too large." index))))
+        ((stringp sequence)
+         (char sequence index))
+        ((vectorp sequence)
+         (aref sequence index))
+        (t (type-error sequence 'sequence))))
+
 (defun map-sequences (function sequences)
   (let ((sequences (copy-list sequences)))
     (do ((i 0 (1+ i))
          (length (apply #'min (mapcar #'length sequences))))
-        ((>= i l) nil)
-      (apply function (mapcar (lambda (s) (elt s i)) sequences)))))
+        ((>= i length) nil)
+      (funcall function (mapcar (lambda (s) (elt s i)) sequences)))))
 
 (defun map (result-type function sequence &rest more-sequences)
   (cond ((and (null result-type) (null more-sequences))
-         (map-sequence function sequence nil nil nil nil))
+         (map-sequence function sequence nil nil nil nil)
+         nil)
+        ((null result-type)
+         (map-sequences (lambda (args)
+                          (incf length)
+                          (push (apply function args) acc))
+                        (cons sequence more-sequences))
+         nil)
         (t
-         (error "trap"))))
+         (let ((acc '())
+               (length 0))
+           (map-sequences (lambda (args)
+                            (incf length)
+                            (push (apply function args) acc))
+                          (cons sequence more-sequences))
+           (setq acc (nreverse acc))
+           (case result-type
+             (list acc)
+             (vector
+              (make-array length :initial-contents acc))
+             (string
+              (make-array length :initial-contents acc :element-type 'string)))))))
 
 (defun every (function sequence &rest more-sequences)
   (cond ((null more-sequences)

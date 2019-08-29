@@ -127,6 +127,12 @@
         (t
          (ffi:set (ffi:%aget (array-contents array) sub) value))))
 
+(defun svref (vector index)
+  (aref vector index))
+
+(defun (setf svref) (value vector index)
+  (setf (aref vector index) value))
+
 (defun vectorp (x)
   (and (arrayp x) (= 1 (array-rank x))))
 
