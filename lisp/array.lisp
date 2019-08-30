@@ -27,13 +27,22 @@
 
 (defun make-array-contents-with-initial-contents (size element-type initial-contents)
   (cond ((eq element-type 'character)
-         (error "trap"))
+         (let ((js-string (ffi:new (ffi:ref "String"))))
+           (map nil
+                (lambda (content)
+                  (setq js-string
+                        ((ffi:ref js-string "concat")
+                         (system::array-to-js-string (string content)))))
+                initial-contents)
+           js-string))
         (t
-         (let ((js-array (ffi:new (ffi:ref "Array") size)))
-           (do ((i 0 (1+ i))
-                (initial-contents* initial-contents (cdr initial-contents*)))
-               ((null initial-contents*))
-             (ffi:set (ffi:%aget js-array i) (car initial-contents*)))
+         (let ((js-array (ffi:new (ffi:ref "Array") size))
+               (i 0))
+           (map nil
+                (lambda (content)
+                  (ffi:set (ffi:%aget js-array i) content)
+                  (incf i))
+                initial-contents)
            js-array))))
 
 (defun make-array-contents-with-initial-element (size element-type initial-element initial-element-p)
@@ -135,6 +144,11 @@
 
 (defun vectorp (x)
   (and (arrayp x) (= 1 (array-rank x))))
+
+(defun simple-vector-p (x)
+  (and (arrayp x)
+       (= 1 (array-rank x))
+       (not (array-has-fill-pointer-p x))))
 
 (defun array-has-fill-pointer-p (array)
   (not (null (array-fill-pointer array))))
