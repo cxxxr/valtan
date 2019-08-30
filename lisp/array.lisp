@@ -106,7 +106,9 @@
                :element-type 'character))
 
 (defun system::array-to-js-string (array)
-  (array-contents array))
+  (if (array-fill-pointer array)
+      ((ffi:ref (array-contents array) "substring") 0 (array-fill-pointer array))
+      (array-contents array)))
 
 (defun vector (&rest args)
   (make-array (length args)
@@ -152,3 +154,29 @@
 
 (defun array-has-fill-pointer-p (array)
   (not (null (array-fill-pointer array))))
+
+(defun array-length-with-fill-pointer (array)
+  (or (array-fill-pointer array)
+      (array-length array)))
+
+(defun array-total-size (array)
+  (ffi:ref (array-contents array) "length"))
+
+(defun vector-pop (vector)
+  (when (or (null (array-fill-pointer vector))
+            (>= 0 (array-fill-pointer vector)))
+    (error "error"))
+  (decf (array-fill-pointer vector))
+  (ffi:%aget (array-contents vector) (array-fill-pointer vector)))
+
+(defun vector-push (new-element vector)
+  (when (or (null (array-fill-pointer vector))
+            (>= 0 (array-fill-pointer vector)))
+    (error "error"))
+  (let ((i (array-fill-pointer vector)))
+    (when (>= i (array-total-size vector))
+      (error "error"))
+    (incf (array-fill-pointer vector))
+    (setf (aref vector i) new-element)
+    i))
+

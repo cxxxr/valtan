@@ -1,6 +1,6 @@
 (ffi:require js:fs "fs")
 
-(with-open-file (in "example/sacla-tests/must-character.lisp")
+(with-open-file (in "example/sacla-tests/must-string.lisp")
   (let ((eof-value '#:eof))
     (do ((form (read in nil eof-value) (read in nil eof-value)))
         ((eq form eof-value))

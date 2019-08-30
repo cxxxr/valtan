@@ -1,5 +1,5 @@
 (in-package :cl-user)
-
+#|
 ;; TODO: in-packageをファイル単位で有効にする
 
 ;; バッククォートのテスト 今の実装は不十分なので二重のバッククォートは使えずこのテストもこける
@@ -836,13 +836,6 @@ bar)")))
   (setf (gethash 'cl::set ht) t)
   (ffi:console.log (cl::hash-table-object ht))
   (print (gethash 'ffi::set ht)))
+|#
 
-(print (STABLE-SORT (list #\b #\A #\B #\a #\c #\C) (FUNCTION CHAR-LESSP)))
-(print (STABLE-SORT (vector #\b #\A #\B #\a #\c #\C) (FUNCTION CHAR-LESSP)))
-;(b A B)
-;(b) (A) (B)
-;(A b) (B)
-;(A b B)
-;(char-lessp #\b #\B)
-
-(print (stable-sort (vector #\b #\B) #'char-lessp))
+(print (STRING-TRIM "abc" "abcaakaaakabcaaa"))

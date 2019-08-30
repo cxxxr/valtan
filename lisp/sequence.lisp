@@ -4,7 +4,7 @@
   (cond ((listp sequence)
          (list-length sequence))
         ((vectorp sequence)
-         (array-length sequence))
+         (array-length-with-fill-pointer sequence))
         (t
          (type-error sequence 'sequence))))
 
@@ -97,6 +97,14 @@
          (subseq-list sequence start end))
         ((vectorp sequence)
          (subseq-vector sequence start end))
+        (t
+         (type-error sequence 'sequence))))
+
+(defun copy-seq (sequence)
+  (cond ((listp sequence)
+         (copy-list sequence))
+        ((vectorp sequence)
+         (make-array (length sequence) :element-type (array-element-type sequence) :initial-contents sequence))
         (t
          (type-error sequence 'sequence))))
 
