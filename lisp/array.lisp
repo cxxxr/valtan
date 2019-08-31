@@ -9,6 +9,15 @@
   length
   element-type)
 
+(defun upgraded-array-element-type (typespec)
+  (cond ((symbolp typespec)
+         (case typespec
+           ((character base-char standard-char)
+            'character)
+           (otherwise
+            t)))
+        (t t)))
+
 (defun dimensions-to-total-size (dimensions)
   (if (integerp dimensions)
       dimensions
@@ -77,6 +86,7 @@
          (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
         (initial-contents-p
          (check-dimensions-and-initial-contents dimensions initial-contents)))
+  (setq element-type (upgraded-array-element-type element-type))
   (let ((contents (if initial-contents-p
                       (make-array-contents-with-initial-contents dimensions
                                                                  element-type

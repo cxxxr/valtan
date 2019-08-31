@@ -837,5 +837,3 @@ bar)")))
   (ffi:console.log (cl::hash-table-object ht))
   (print (gethash 'ffi::set ht)))
 |#
-
-(print (STRING-TRIM "abc" "abcaakaaakabcaaa"))
