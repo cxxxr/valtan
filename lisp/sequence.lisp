@@ -1,5 +1,30 @@
 (in-package :common-lisp)
 
+(defun make-sequence (result-type size &key (initial-element nil initial-element-p))
+  (when (consp result-type)
+    (setq result-type (car result-type)))
+  (ecase result-type
+    ((list cons)
+     (when (and (eq result-type 'cons) (zerop size))
+       (error "The length requested (0) does not match the type restriction in CONS."))
+     (if initial-element-p
+         (make-list size :initial-element initial-element)
+         (make-list size)))
+    ((string simple-string base-string simple-base-string)
+     (if initial-element-p
+         (make-string size :initial-element initial-element)
+         (make-string size)))
+    (null
+     (when (zerop size)
+       (error "The length requested (1) does not match the type restriction in NULL."))
+     nil)
+    (bit-vector
+     (if initial-element-p
+         (make-array size :element-type 'bit :initial-element initial-element)
+         (make-array size :element-type 'bit :initial-element 0)))
+    (simple-vector
+     (make-array size :initial-element initial-element))))
+
 (defun length (sequence)
   (cond ((listp sequence)
          (list-length sequence))

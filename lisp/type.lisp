@@ -21,7 +21,7 @@
   (declare (ignore environment))
   (cond ((eq type1 type2)
          (values t t))
-        ((and (member type1 '(character base-char standard-char))
+        ((and (member type1 '(character base-char standard-char extended-char))
               (eq type2 'character))
          (values t t))
         (t

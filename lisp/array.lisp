@@ -12,7 +12,7 @@
 (defun upgraded-array-element-type (typespec)
   (cond ((symbolp typespec)
          (case typespec
-           ((character base-char standard-char)
+           ((character base-char standard-char extended-char)
             'character)
            (otherwise
             t)))
