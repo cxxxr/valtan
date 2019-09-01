@@ -175,6 +175,9 @@
        (= 1 (array-rank x))
        (not (array-has-fill-pointer-p x))))
 
+(defun simple-bit-vector-p (x)
+  (simple-vector-p x))
+
 (defun array-has-fill-pointer-p (array)
   (not (null (array-fill-pointer array))))
 

@@ -242,11 +242,19 @@
            (if result
                (car result)
                (error "The index ~A is too large." index))))
-        ((stringp sequence)
-         (char sequence index))
         ((vectorp sequence)
          (aref sequence index))
-        (t (type-error sequence 'sequence))))
+        (t
+         (type-error sequence 'sequence))))
+
+(defun (setf elt) (value sequence index)
+  (cond ((consp sequence)
+         (let ((result (nthcdr index sequence)))
+           (rplaca result value)))
+        ((vectorp sequence)
+         (setf (aref sequence index) value))
+        (t
+         (type-error sequence 'sequence))))
 
 (defun map-sequences (function sequences)
   (let ((sequences (copy-list sequences)))
@@ -387,5 +395,21 @@
          (stable-sort-list sequence predicate key))
         ((vectorp sequence)
          (stable-sort-vector sequence predicate key))
+        (t
+         (type-error sequence 'sequence))))
+
+(defun fill (sequence item &key (start 0) end)
+  (cond ((listp sequence)
+         (let ((list (nthcdr start sequence)))
+           (do ((list list (cdr list))
+                (start start (1+ start)))
+               ((if end (>= start end) (null list))
+                sequence)
+             (rplaca list item))))
+        ((vectorp sequence)
+         (unless end (setq end (length sequence)))
+         (do ((i start (1+ i)))
+             ((>= i end) sequence)
+           (setf (aref sequence i) item)))
         (t
          (type-error sequence 'sequence))))

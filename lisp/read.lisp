@@ -508,7 +508,8 @@
           (#\1
            (push 1 bits))
           (otherwise
-           (when (non-terminate-macro-character-p c)
+           (when (or (non-terminate-macro-character-p c)
+                     (whitespacep c))
              (return))))
         (read-char stream t nil t)))
     (setq bits (nreverse bits))
