@@ -499,7 +499,20 @@
 
 (defun read-sharp-star (stream sub-char arg)
   (declare (ignore sub-char arg))
-  )
+  (let ((bits '()))
+    (do () (nil)
+      (let ((c (peek-char nil stream nil nil t)))
+        (case c
+          (#\0
+           (push 0 bits))
+          (#\1
+           (push 1 bits))
+          (otherwise
+           (when (non-terminate-macro-character-p c)
+             (return))))
+        (read-char stream t nil t)))
+    (setq bits (nreverse bits))
+    (make-array (length bits) :element-type 'bit :initial-contents bits)))
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)
