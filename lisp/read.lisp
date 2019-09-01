@@ -64,6 +64,7 @@
   (set-dispatch-macro-character #\# #\- 'read-sharp-plus-minus)
   (set-dispatch-macro-character #\# #\= 'read-sharp-equal)
   (set-dispatch-macro-character #\# #\# 'read-sharp-sharp)
+  (set-dispatch-macro-character #\# #\* 'read-sharp-star)
   readtable)
 
 (defun set-readtable (to-readtable from-readtable)
@@ -495,6 +496,10 @@
            sharp-equal)
           (t
            (sharp-equal-value sharp-equal)))))
+
+(defun read-sharp-star (stream sub-char arg)
+  (declare (ignore sub-char arg))
+  )
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)

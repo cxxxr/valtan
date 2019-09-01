@@ -72,6 +72,9 @@
                                    fill-pointer
                                    displaced-to
                                    displaced-index-offset)
+  (when (and (consp dimensions) (cdr dimensions))
+    (error "error"))
+  (setq dimensions (car dimensions))
   (unless (integerp dimensions)
     (error "error"))
   (when (and (listp dimensions)
@@ -82,6 +85,9 @@
               (and (integerp fill-pointer)
                    (<= 0 fill-pointer)))
     (error "Bad fill-pointer: ~S" fill-pointer))
+  (when (eq fill-pointer t)
+    (assert (integerp dimensions))
+    (setq fill-pointer dimensions))
   (cond ((and initial-contents-p initial-element-p)
          (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
         (initial-contents-p
@@ -123,6 +129,12 @@
 (defun vector (&rest args)
   (make-array (length args)
               :initial-contents args))
+
+(defun fill-pointer (array)
+  (array-fill-pointer array))
+
+(defun (setf fill-pointer) (fill-pointer array)
+  (setf (array-fill-pointer array) fill-pointer))
 
 (defun aref (array sub)
   (unless (arrayp array)
