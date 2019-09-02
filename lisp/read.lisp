@@ -151,6 +151,143 @@
                (return-from number-string-p nil)))))
     found-number-p))
 
+#|
+数 ::= 整数 | 分数 | 浮動小数点数
+整数 ::= [符号] {桁}+ [10進小数点]
+分数 ::= [符号] {桁}+ / {桁}+
+浮動小数点数 ::= [符号] {桁}* 10進小数点 {桁}+ [指数]
+               | [符号] {桁}+ [10進小数点 {桁}*] 指数
+符号 ::= + | -
+10進小数点 ::= .
+桁 ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+指数 ::= 指数マーカ [符号] {桁}+
+指数マーカ ::= e | s | f | d | l | E | S | F | D | L
+|#
+
+(defun parse-number (string)
+  (let ((pos 0)
+        (len (length string)))
+    (labels ((end-of-string-p ()
+               (>= pos len))
+             (lookahead ()
+               (aref string pos))
+             (lookahead* ()
+               (unless (end-of-string-p)
+                 (lookahead)))
+             (next ()
+               (incf pos))
+             (accept (c)
+               (when (eql c (lookahead*))
+                 (next)))
+             (sign ()
+               (unless (end-of-string-p)
+                 (case (lookahead)
+                   (#\+
+                    (incf pos)
+                    nil)
+                   (#\-
+                    (incf pos)
+                    t))))
+             (digits ()
+               (let ((digits '()))
+                 (do () ((end-of-string-p))
+                   (let ((digit (digit-char-p (lookahead))))
+                     (unless digit
+                       (return))
+                     (push digit digits)
+                     (next)))
+                 digits))
+             (digits-to-integer (digits)
+               (let ((value 0)
+                     (i 1))
+                 (dolist (digit digits)
+                   (incf value (* digit i))
+                   (setq i (* i 10)))
+                 value))
+             (digit* ()
+               (let ((digits (digits)))
+                 (digits-to-integer digits)))
+             (digit+ ()
+               (let ((digits (digits)))
+                 (unless (null digits)
+                   (digits-to-integer digits))))
+             (integer-p ()
+               (let ((minus (sign))
+                     integer)
+                 (when (and (setq integer (digit+))
+                            (or (end-of-string-p)
+                                (and (accept #\.)
+                                     (end-of-string-p))))
+                   (if minus
+                       (- integer)
+                       integer))))
+             (fraction-p ()
+               (let ((minus (sign))
+                     numerator
+                     denominator)
+                 (when (and (setq numerator (digit+))
+                            (accept #\/)
+                            (setq denominator (digit+))
+                            (end-of-string-p))
+                   (if minus
+                       (- (/ numerator denominator))
+                       (/ numerator denominator)))))
+             (exponent ()
+               (unless (end-of-string-p)
+                 (let ((c (lookahead))
+                       (minus nil)
+                       value)
+                   (when (and (member c '(#\e #\s #\f #\d #\l #\E #\S #\F #\D #\L))
+                              (next)
+                              (or (setq minus (sign)) t)
+                              (setq value (digit+)))
+                     (expt 10 (if minus (- value) value))))))
+             (decimal-part ()
+               (let ((digits (digits)))
+                 (* (digits-to-integer digits)
+                    (expt 0.1 (length digits)))))
+             (float-case-1-p ()
+               (let ((minus (sign))
+                     integral-part
+                     decimal-part
+                     exponent)
+                 (when (and (setq integral-part (digit*))
+                            (accept #\.)
+                            (setq decimal-part (decimal-part))
+                            (or (setq exponent (exponent)) t)
+                            (end-of-string-p))
+                   (let ((value (+ integral-part decimal-part)))
+                     (when exponent
+                       (setq value (* value exponent)))
+                     (when minus
+                       (setq value (- value)))
+                     value))))
+             (float-case-2-p ()
+               (let ((minus (sign))
+                     integral-part
+                     decimal-part
+                     exponent)
+                 (when (and (setq integral-part (digit+))
+                            (or (and (accept #\.)
+                                     (setq decimal-part (decimal-part)))
+                                (setq decimal-part 0))
+                            (setq exponent (exponent))
+                            (end-of-string-p))
+                   (let ((value (* (+ integral-part decimal-part) exponent)))
+                     (when minus
+                       (setq value (- value)))
+                     value)))))
+      (or (integer-p)
+          (progn
+            (setq pos 0)
+            (fraction-p))
+          (progn
+            (setq pos 0)
+            (float-case-1-p))
+          (progn
+            (setq pos 0)
+            (float-case-2-p))))))
+
 (defun check-dot (token)
   (cond ((string= token ".")
          (unless *inner-list-p*
@@ -193,13 +330,12 @@
                 t))))))
 
 (defun parse-token (token)
-  (cond ((number-string-p token)
-         (js:parse-float (ffi:cl->js token)))
-        (t
-         (check-dot token)
-         (if (string= token ".")
-             *dot-marker*
-             (parse-symbol token)))))
+  (or (parse-number token)
+      (progn
+        (check-dot token)
+        (if (string= token ".")
+            *dot-marker*
+            (parse-symbol token)))))
 
 (defun read-multiple-escape-1 (stream)
   (with-output-to-string (out)

@@ -30,3 +30,9 @@
   (dolist (n more-numbers number)
     (when (> number n)
       (setq number n))))
+
+(defun expt (base power)
+  (let ((acc 1))
+    (dotimes (i power)
+      (setq acc (* acc base)))
+    acc))
