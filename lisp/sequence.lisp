@@ -4,6 +4,10 @@
   (when (consp result-type)
     (setq result-type (car result-type)))
   (ecase result-type
+    (null
+     (unless (zerop size)
+       (error "The length requested (1) does not match the type restriction in NULL."))
+     nil)
     ((list cons)
      (when (and (eq result-type 'cons) (zerop size))
        (error "The length requested (0) does not match the type restriction in CONS."))
@@ -14,10 +18,8 @@
      (if initial-element-p
          (make-string size :initial-element initial-element)
          (make-string size)))
-    (null
-     (when (zerop size)
-       (error "The length requested (1) does not match the type restriction in NULL."))
-     nil)
+    (vector
+     (make-array size :initial-element initial-element))
     (bit-vector
      (if initial-element-p
          (make-array size :element-type 'bit :initial-element initial-element)
