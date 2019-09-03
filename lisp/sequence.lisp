@@ -1,10 +1,13 @@
 (in-package :common-lisp)
 
+(defun check-both-bounds (start end length)
+  (unless (and (<= start length) (< length end))
+    (error "out of bounds")))
+
 (defun map-sequence (function sequence from-end start end key)
   (when start
     (setq sequence (subseq sequence start end)))
   (when from-end
-    ;; XXX: startと同時に使うとコピーを二度するので無駄がある
     (setq sequence (reverse sequence)))
   (cond ((listp sequence)
          (if key
@@ -142,6 +145,10 @@
          (subseq-vector sequence start end))
         (t
          (type-error sequence 'sequence))))
+
+(defun (setf subseq) (new-subsequence sequence start &optional end)
+  (replace sequence new-subsequence :start1 start :end1 end)
+  new-subsequence)
 
 (defun map (result-type function sequence &rest more-sequences)
   (cond ((and (null result-type) (null more-sequences))
@@ -388,9 +395,17 @@
 (defun mismatch (sequence-1 sequence-2 &key from-end test test-not key start1 start2 end1 end2)
   )
 
-#+(or)
-(defun replace (sequence-1 sequence-2 &key start1 end1 start2 end2)
-  )
+(defun replace (target-sequence source-sequence &key start1 end1 start2 end2)
+  (let ((length1 (length target-sequence))
+        (length2 (length source-sequence)))
+    (check-both-bounds start1 end1 length1)
+    (check-both-bounds start2 end2 length2)
+    (let ((width1 (- end1 start1))
+          (width2 (- end2 start2)))
+      (dotimes (i (min width1 width2))
+        (setf (elt target-sequence (+ start1 i))
+              (elt source-sequence (+ start2 i))))))
+  target-sequence)
 
 #+(or)
 (defun substitute (new old sequence &key from-end test test-not start end count key)
