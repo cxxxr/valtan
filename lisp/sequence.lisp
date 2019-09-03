@@ -1,31 +1,180 @@
 (in-package :common-lisp)
 
+(defun map-sequence (function sequence from-end start end key)
+  (when start
+    (setq sequence (subseq sequence start end)))
+  (when from-end
+    ;; XXX: startと同時に使うとコピーを二度するので無駄がある
+    (setq sequence (reverse sequence)))
+  (cond ((listp sequence)
+         (if key
+             (dolist (x sequence)
+               (funcall function (funcall key x)))
+             (dolist (x sequence)
+               (funcall function x))))
+        ((vectorp sequence)
+         (if key
+             (dotimes (i (length sequence))
+               (funcall function (funcall key (aref sequence i))))
+             (dotimes (i (length sequence))
+               (funcall function (aref sequence i)))))
+        (t
+         (type-error sequence 'sequence))))
+
+(defun map-sequences (function sequences)
+  (let ((sequences (copy-list sequences)))
+    (do ((i 0 (1+ i))
+         (length (apply #'min (mapcar #'length sequences))))
+        ((>= i length) nil)
+      (funcall function (mapcar (lambda (s) (elt s i)) sequences)))))
+
+(defun copy-seq (sequence)
+  (cond ((listp sequence)
+         (copy-list sequence))
+        ((vectorp sequence)
+         (make-array (length sequence) :element-type (array-element-type sequence) :initial-contents sequence))
+        (t
+         (type-error sequence 'sequence))))
+
+(defun elt (sequence index)
+  (cond ((consp sequence)
+         (let ((result (nthcdr index sequence)))
+           (if result
+               (car result)
+               (error "The index ~A is too large." index))))
+        ((vectorp sequence)
+         (aref sequence index))
+        (t
+         (type-error sequence 'sequence))))
+
+(defun (setf elt) (value sequence index)
+  (cond ((consp sequence)
+         (let ((result (nthcdr index sequence)))
+           (rplaca result value)))
+        ((vectorp sequence)
+         (setf (aref sequence index) value))
+        (t
+         (type-error sequence 'sequence))))
+
+(defun fill (sequence item &key (start 0) end)
+  (cond ((listp sequence)
+         (let ((list (nthcdr start sequence)))
+           (do ((list list (cdr list))
+                (start start (1+ start)))
+               ((if end (>= start end) (null list))
+                sequence)
+             (rplaca list item))))
+        ((vectorp sequence)
+         (unless end (setq end (length sequence)))
+         (do ((i start (1+ i)))
+             ((>= i end) sequence)
+           (setf (aref sequence i) item)))
+        (t
+         (type-error sequence 'sequence))))
+
 (defun make-sequence (result-type size &key (initial-element nil initial-element-p))
-  (when (consp result-type)
-    (setq result-type (car result-type)))
-  (ecase result-type
-    (null
-     (unless (zerop size)
-       (error "The length requested (1) does not match the type restriction in NULL."))
-     nil)
-    ((list cons)
-     (when (and (eq result-type 'cons) (zerop size))
-       (error "The length requested (0) does not match the type restriction in CONS."))
-     (if initial-element-p
-         (make-list size :initial-element initial-element)
-         (make-list size)))
-    ((string simple-string base-string simple-base-string)
-     (if initial-element-p
-         (make-string size :initial-element initial-element)
-         (make-string size)))
-    (vector
-     (make-array size :initial-element initial-element))
-    (bit-vector
-     (if initial-element-p
-         (make-array size :element-type 'bit :initial-element initial-element)
-         (make-array size :element-type 'bit :initial-element 0)))
-    (simple-vector
-     (make-array size :initial-element initial-element))))
+  (let ((type (if (consp result-type) (first result-type) result-type)))
+    (ecase type
+      (null
+       (unless (zerop size)
+         (error "The length requested (1) does not match the type restriction in NULL."))
+       nil)
+      ((list cons)
+       (when (and (eq type 'cons) (zerop size))
+         (error "The length requested (0) does not match the type restriction in CONS."))
+       (if initial-element-p
+           (make-list size :initial-element initial-element)
+           (make-list size)))
+      ((string simple-string base-string simple-base-string)
+       (if initial-element-p
+           (make-string size :initial-element initial-element)
+           (make-string size)))
+      ((vector array)
+       (if (and (consp result-type) (eq 'character (upgraded-array-element-type (second result-type))))
+           (make-string size :initial-element initial-element)
+           (make-array size :initial-element initial-element)))
+      (bit-vector
+       (if initial-element-p
+           (make-array size :element-type 'bit :initial-element initial-element)
+           (make-array size :element-type 'bit :initial-element 0)))
+      (simple-vector
+       (make-array size :initial-element initial-element)))))
+
+(defun subseq-list (list start end)
+  (when (and start
+             (< 0 start))
+    (setq list (nthcdr (1- start) list))
+    (when (null list)
+      (error "index error"))
+    (setq list (cdr list)))
+  (cond ((null end)
+         (copy-list list))
+        ((eql start end)
+         nil)
+        (t
+         (setq end (- end start))
+         (let ((new-list (copy-list list)))
+           (setf (cdr (nthcdr (1- end) new-list)) nil)
+           new-list))))
+
+(defun subseq-vector (vector start end)
+  (let ((length (length vector)))
+    (when (and end (< length end))
+      (error "index error"))
+    (unless end
+      (setq end length))
+    ;; XXX: javascriptのArrayのメソッドを使わず新しいベクタに一つずつ代入していて効率が悪い
+    (let ((new-vector
+            (make-array (- end start) :element-type (array-element-type vector))))
+      (do ((i start (1+ i))
+           (j 0 (1+ j)))
+          ((= i end))
+        (setf (aref new-vector j)
+              (aref vector i)))
+      new-vector)))
+
+(defun subseq (sequence start &optional end)
+  (when (and (not (null end)) (> start end))
+    (error "start > end"))
+  (cond ((listp sequence)
+         (subseq-list sequence start end))
+        ((vectorp sequence)
+         (subseq-vector sequence start end))
+        (t
+         (type-error sequence 'sequence))))
+
+(defun map (result-type function sequence &rest more-sequences)
+  (cond ((and (null result-type) (null more-sequences))
+         (map-sequence function sequence nil nil nil nil)
+         nil)
+        ((null result-type)
+         (map-sequences (lambda (args)
+                          (incf length)
+                          (push (apply function args) acc))
+                        (cons sequence more-sequences))
+         nil)
+        (t
+         (let ((acc '())
+               (length 0))
+           (map-sequences (lambda (args)
+                            (incf length)
+                            (push (apply function args) acc))
+                          (cons sequence more-sequences))
+           (setq acc (nreverse acc))
+           (case result-type
+             (list acc)
+             (vector
+              (make-array length :initial-contents acc))
+             (string
+              (make-array length :initial-contents acc :element-type 'string)))))))
+
+#+(or)
+(defun map-into (result-sequence function &rest sequences)
+  )
+
+#+(or)
+(defun reduce (function sequence &key key from-end start end initial-value)
+  )
 
 (defun length (sequence)
   (cond ((listp sequence)
@@ -84,250 +233,9 @@
         (t
          (type-error sequence 'sequence))))
 
-(defun subseq-list (list start end)
-  (when (and start
-             (< 0 start))
-    (setq list (nthcdr (1- start) list))
-    (when (null list)
-      (error "index error"))
-    (setq list (cdr list)))
-  (cond ((null end)
-         (copy-list list))
-        ((eql start end)
-         nil)
-        (t
-         (setq end (- end start))
-         (let ((new-list (copy-list list)))
-           (setf (cdr (nthcdr (1- end) new-list)) nil)
-           new-list))))
-
-(defun subseq-vector (vector start end)
-  (let ((length (length vector)))
-    (when (and end (< length end))
-      (error "index error"))
-    (unless end
-      (setq end length))
-    ;; XXX: javascriptのArrayのメソッドを使わず新しいベクタに一つずつ代入していて効率が悪い
-    (let ((new-vector
-            (make-array (- end start) :element-type (array-element-type vector))))
-      (do ((i start (1+ i))
-           (j 0 (1+ j)))
-          ((= i end))
-        (setf (aref new-vector j)
-              (aref vector i)))
-      new-vector)))
-
-(defun subseq (sequence start &optional end)
-  (when (and (not (null end)) (> start end))
-    (error "start > end"))
-  (cond ((listp sequence)
-         (subseq-list sequence start end))
-        ((vectorp sequence)
-         (subseq-vector sequence start end))
-        (t
-         (type-error sequence 'sequence))))
-
-(defun copy-seq (sequence)
-  (cond ((listp sequence)
-         (copy-list sequence))
-        ((vectorp sequence)
-         (make-array (length sequence) :element-type (array-element-type sequence) :initial-contents sequence))
-        (t
-         (type-error sequence 'sequence))))
-
-(defun map-sequence (function sequence from-end start end key)
-  (when start
-    (setq sequence (subseq sequence start end)))
-  (when from-end
-    ;; XXX: startと同時に使うとコピーを二度するので無駄がある
-    (setq sequence (reverse sequence)))
-  (cond ((listp sequence)
-         (if key
-             (dolist (x sequence)
-               (funcall function (funcall key x)))
-             (dolist (x sequence)
-               (funcall function x))))
-        ((vectorp sequence)
-         (if key
-             (dotimes (i (length sequence))
-               (funcall function (funcall key (aref sequence i))))
-             (dotimes (i (length sequence))
-               (funcall function (aref sequence i)))))
-        (t
-         (type-error sequence 'sequence))))
-
-(defun find-if (predicate sequence &key from-end start end key)
-  (map-sequence (lambda (x)
-                  (when (funcall predicate x)
-                    (return-from find-if x)))
-                sequence
-                from-end
-                start
-                end
-                key)
-  nil)
-
-(defun remove-if-not (test sequence &key from-end start end #+(or)count key)
-  (with-accumulate ()
-    (map-sequence (lambda (x)
-                    (when (funcall test x)
-                      (collect x)))
-                  sequence
-                  from-end
-                  start
-                  end
-                  key)))
-
-(defun remove (item sequence)
-  (with-accumulate ()
-    (map-sequence (lambda (x)
-                    (unless (eql item x)
-                      (collect x)))
-                  sequence
-                  nil
-                  0
-                  nil
-                  nil)))
-
-(defun find (item sequence &key from-end start end key test test-not)
-  (map-sequence (cond (test
-                       (lambda (x)
-                         (when (funcall test item x)
-                           (return-from find x))))
-                      (test-not
-                       (lambda (x)
-                         (when (not (funcall test-not item x))
-                           (return-from find x))))
-                      (t
-                       (lambda (x)
-                         (when (eql item x)
-                           (return-from find x)))))
-                sequence
-                from-end
-                start
-                end
-                key))
-
-(defun position (item sequence &key from-end test test-not (start 0) (end (length sequence)) key)
-  (let ((pos (if from-end (1- end) start)))
-    (map-sequence (cond (test
-                         (lambda (x)
-                           (when (funcall test item x)
-                             (return-from position pos))
-                           (if from-end
-                               (decf pos)
-                               (incf pos))))
-                        (test-not
-                         (lambda (x)
-                           (when (not (funcall test-not item x))
-                             (return-from position pos))
-                           (if from-end
-                               (decf pos)
-                               (incf pos))))
-                        (t
-                         (lambda (x)
-                           (when (eql item x)
-                             (return-from position pos))
-                           (if from-end
-                               (decf pos)
-                               (incf pos)))))
-                  sequence
-                  from-end
-                  start
-                  end
-                  key)
-    nil))
-
-(defun elt (sequence index)
-  (cond ((consp sequence)
-         (let ((result (nthcdr index sequence)))
-           (if result
-               (car result)
-               (error "The index ~A is too large." index))))
-        ((vectorp sequence)
-         (aref sequence index))
-        (t
-         (type-error sequence 'sequence))))
-
-(defun (setf elt) (value sequence index)
-  (cond ((consp sequence)
-         (let ((result (nthcdr index sequence)))
-           (rplaca result value)))
-        ((vectorp sequence)
-         (setf (aref sequence index) value))
-        (t
-         (type-error sequence 'sequence))))
-
-(defun map-sequences (function sequences)
-  (let ((sequences (copy-list sequences)))
-    (do ((i 0 (1+ i))
-         (length (apply #'min (mapcar #'length sequences))))
-        ((>= i length) nil)
-      (funcall function (mapcar (lambda (s) (elt s i)) sequences)))))
-
-(defun map (result-type function sequence &rest more-sequences)
-  (cond ((and (null result-type) (null more-sequences))
-         (map-sequence function sequence nil nil nil nil)
-         nil)
-        ((null result-type)
-         (map-sequences (lambda (args)
-                          (incf length)
-                          (push (apply function args) acc))
-                        (cons sequence more-sequences))
-         nil)
-        (t
-         (let ((acc '())
-               (length 0))
-           (map-sequences (lambda (args)
-                            (incf length)
-                            (push (apply function args) acc))
-                          (cons sequence more-sequences))
-           (setq acc (nreverse acc))
-           (case result-type
-             (list acc)
-             (vector
-              (make-array length :initial-contents acc))
-             (string
-              (make-array length :initial-contents acc :element-type 'string)))))))
-
-(defun every (function sequence &rest more-sequences)
-  (cond ((null more-sequences)
-         (map-sequence (lambda (x)
-                         (unless (funcall function x)
-                           (return-from every nil)))
-                       sequence
-                       nil
-                       nil
-                       nil
-                       nil)
-         t)
-        (t
-         (map-sequences (lambda (args)
-                          (unless (apply function args)
-                            (return-from every nil)))
-                        (cons sequence sequences))
-         t)))
-
-(defun some (function sequence &rest more-sequences)
-  (cond ((null more-sequences)
-         (map-sequence (lambda (x)
-                         (when (funcall function x)
-                           (return-from some t)))
-                       sequence
-                       nil
-                       nil
-                       nil
-                       nil)
-         nil)
-        (t
-         (map-sequences (lambda (args)
-                          (when (apply function args)
-                            (return-from some t)))
-                        (cons sequence more-sequences))
-         nil)))
-
-(defun notany (function sequence &rest more-sequences)
-  (not (apply #'some function sequence more-sequences)))
+#+(or)
+(defun sort (sequence predicate &key key)
+  )
 
 (defun stable-sort-list (list predicate key)
   (labels ((merge* (list1 list2)
@@ -400,18 +308,203 @@
         (t
          (type-error sequence 'sequence))))
 
-(defun fill (sequence item &key (start 0) end)
-  (cond ((listp sequence)
-         (let ((list (nthcdr start sequence)))
-           (do ((list list (cdr list))
-                (start start (1+ start)))
-               ((if end (>= start end) (null list))
-                sequence)
-             (rplaca list item))))
-        ((vectorp sequence)
-         (unless end (setq end (length sequence)))
-         (do ((i start (1+ i)))
-             ((>= i end) sequence)
-           (setf (aref sequence i) item)))
+(defun find (item sequence &key from-end start end key test test-not)
+  (map-sequence (cond (test
+                       (lambda (x)
+                         (when (funcall test item x)
+                           (return-from find x))))
+                      (test-not
+                       (lambda (x)
+                         (when (not (funcall test-not item x))
+                           (return-from find x))))
+                      (t
+                       (lambda (x)
+                         (when (eql item x)
+                           (return-from find x)))))
+                sequence
+                from-end
+                start
+                end
+                key))
+
+(defun find-if (predicate sequence &key from-end start end key)
+  (map-sequence (lambda (x)
+                  (when (funcall predicate x)
+                    (return-from find-if x)))
+                sequence
+                from-end
+                start
+                end
+                key)
+  nil)
+
+#+(or)
+(defun find-if-not (predicate sequence &key from-end start end key)
+  )
+
+(defun position (item sequence &key from-end test test-not (start 0) (end (length sequence)) key)
+  (let ((pos (if from-end (1- end) start)))
+    (map-sequence (cond (test
+                         (lambda (x)
+                           (when (funcall test item x)
+                             (return-from position pos))
+                           (if from-end
+                               (decf pos)
+                               (incf pos))))
+                        (test-not
+                         (lambda (x)
+                           (when (not (funcall test-not item x))
+                             (return-from position pos))
+                           (if from-end
+                               (decf pos)
+                               (incf pos))))
+                        (t
+                         (lambda (x)
+                           (when (eql item x)
+                             (return-from position pos))
+                           (if from-end
+                               (decf pos)
+                               (incf pos)))))
+                  sequence
+                  from-end
+                  start
+                  end
+                  key)
+    nil))
+
+#+(or)
+(defun position-if (predicate sequence &key from-end start end key)
+  )
+
+#+(or)
+(defun position-if-not (predicate sequence &key from-end start end key)
+  )
+
+#+(or)
+(defun search (sequence-1 sequence-2 &key from-end test test-not key start1 start2 end1 end2)
+  )
+
+#+(or)
+(defun mismatch (sequence-1 sequence-2 &key from-end test test-not key start1 start2 end1 end2)
+  )
+
+#+(or)
+(defun replace (sequence-1 sequence-2 &key start1 end1 start2 end2)
+  )
+
+#+(or)
+(defun substitute (new old sequence &key from-end test test-not start end count key)
+  )
+
+#+(or)
+(defun substitute-if (new predicate sequence &key from-end start end count key)
+  )
+
+#+(or)
+(defun substitute-if-not (new predicate sequence &key from-end start end count key)
+  )
+
+#+(or)
+(defun nsubstitute (new old sequence &key from-end test test-not start end count key)
+  )
+
+#+(or)
+(defun nsubstitute-if (new predicate sequence &key from-end start end count key)
+  )
+
+#+(or)
+(defun nsubstitute-if-not (new predicate sequence &key from-end start end count key)
+  )
+
+#+(or)
+(defun concatenate (result-type &rest sequences)
+  )
+
+#+(or)
+(defun merge (result-type sequence-1 sequence-2 predicate &key key)
+  )
+
+(defun remove (item sequence)
+  (with-accumulate ()
+    (map-sequence (lambda (x)
+                    (unless (eql item x)
+                      (collect x)))
+                  sequence
+                  nil
+                  0
+                  nil
+                  nil)))
+
+#+(or)
+(defun remove-if (test sequence &key from-end start end count key)
+  )
+
+(defun remove-if-not (test sequence &key from-end start end #+(or)count key)
+  (with-accumulate ()
+    (map-sequence (lambda (x)
+                    (when (funcall test x)
+                      (collect x)))
+                  sequence
+                  from-end
+                  start
+                  end
+                  key)))
+
+#+(or)
+(defun delete (item sequence &key from-end test test-not start end count key)
+  )
+
+#+(or)
+(defun delete-if (test sequence &key from-end start end count key)
+  )
+
+#+(or)
+(defun delete-if-not (test sequence &key from-end start end count key)
+  )
+
+#+(or)
+(defun remove-duplicates (sequence &key from-end test test-not start end key)
+  )
+
+#+(or)
+(defun delete-duplicates (sequence &key from-end test test-not start end key)
+  )
+
+(defun every (function sequence &rest more-sequences)
+  (cond ((null more-sequences)
+         (map-sequence (lambda (x)
+                         (unless (funcall function x)
+                           (return-from every nil)))
+                       sequence
+                       nil
+                       nil
+                       nil
+                       nil)
+         t)
         (t
-         (type-error sequence 'sequence))))
+         (map-sequences (lambda (args)
+                          (unless (apply function args)
+                            (return-from every nil)))
+                        (cons sequence sequences))
+         t)))
+
+(defun some (function sequence &rest more-sequences)
+  (cond ((null more-sequences)
+         (map-sequence (lambda (x)
+                         (when (funcall function x)
+                           (return-from some t)))
+                       sequence
+                       nil
+                       nil
+                       nil
+                       nil)
+         nil)
+        (t
+         (map-sequences (lambda (args)
+                          (when (apply function args)
+                            (return-from some t)))
+                        (cons sequence more-sequences))
+         nil)))
+
+(defun notany (function sequence &rest more-sequences)
+  (not (apply #'some function sequence more-sequences)))
