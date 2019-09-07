@@ -1,7 +1,7 @@
 (in-package :common-lisp)
 
 (defun check-both-bounds (start end length)
-  (unless (and (<= start length) (< length end))
+  (when (or (< length start) (and end (<= end length)))
     (error "out of bounds")))
 
 (defun map-sequence (function sequence from-end start end key)
@@ -397,11 +397,13 @@
 (defun mismatch (sequence-1 sequence-2 &key from-end test test-not key start1 start2 end1 end2)
   )
 
-(defun replace (target-sequence source-sequence &key start1 end1 start2 end2)
+(defun replace (target-sequence source-sequence &key (start1 0) end1 (start2 0) end2)
   (let ((length1 (length target-sequence))
         (length2 (length source-sequence)))
     (check-both-bounds start1 end1 length1)
     (check-both-bounds start2 end2 length2)
+    (unless end1 (setq end1 length1))
+    (unless end2 (setq end2 length2))
     (let ((width1 (- end1 start1))
           (width2 (- end2 start2)))
       (dotimes (i (min width1 width2))
