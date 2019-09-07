@@ -35,7 +35,9 @@
   (cond ((listp sequence)
          (copy-list sequence))
         ((vectorp sequence)
-         (make-array (length sequence) :element-type (array-element-type sequence) :initial-contents sequence))
+         (make-array (length sequence)
+                     :element-type (array-element-type sequence)
+                     :initial-contents sequence))
         (t
          (type-error sequence 'sequence))))
 
