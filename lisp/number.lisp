@@ -23,12 +23,12 @@
 
 (defun min (number &rest more-numbers)
   (dolist (n more-numbers number)
-    (when (< number n)
+    (when (< n number)
       (setq number n))))
 
 (defun max (number &rest more-numbers)
   (dolist (n more-numbers number)
-    (when (> number n)
+    (when (< number n)
       (setq number n))))
 
 (defun expt (base power)
