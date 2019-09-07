@@ -225,4 +225,4 @@
   (setf (aref string index) char))
 
 (defun make-string (size &key initial-element (element-type 'character))
-  (make-array size :initial-element (or initial-element (code-char 0)) :element-type element-type)) 
+  (make-array size :initial-element (or initial-element (code-char 0)) :element-type element-type))

@@ -1,7 +1,7 @@
 (in-package :common-lisp)
 
 (defun check-both-bounds (start end length)
-  (when (or (< length start) (and end (<= end length)))
+  (when (or (< length start) (and end (< length end)))
     (error "out of bounds")))
 
 (defun map-sequence (function sequence from-end start end key)
@@ -95,7 +95,8 @@
            (make-string size :initial-element initial-element)
            (make-string size)))
       ((vector array)
-       (if (and (consp result-type) (eq 'character (upgraded-array-element-type (second result-type))))
+       (if (and (consp result-type)
+                (eq 'character (upgraded-array-element-type (second result-type))))
            (make-string size :initial-element initial-element)
            (make-array size :initial-element initial-element)))
       (bit-vector
@@ -347,9 +348,8 @@
                 key)
   nil)
 
-#+(or)
 (defun find-if-not (predicate sequence &key from-end start end key)
-  )
+  (find-if (complement predicate) sequence :from-end from-end :start start :end end :key key))
 
 (defun position (item sequence &key from-end test test-not (start 0) (end (length sequence)) key)
   (let ((pos (if from-end (1- end) start)))
@@ -381,13 +381,22 @@
                   key)
     nil))
 
-#+(or)
-(defun position-if (predicate sequence &key from-end start end key)
-  )
+(defun position-if (predicate sequence &key from-end (start 0) (end (length sequence)) key)
+  (let ((pos (if from-end (1- end) start)))
+    (map-sequence (lambda (x)
+                    (when (funcall predicate (apply-key key x))
+                      (return-from position-if pos))
+                    (if from-end
+                        (decf pos)
+                        (incf pos)))
+                  sequence
+                  from-end
+                  start
+                  end
+                  key)))
 
-#+(or)
 (defun position-if-not (predicate sequence &key from-end start end key)
-  )
+  (position-if (complement predicate) sequence :from-end from-end :start start :end end :key key))
 
 #+(or)
 (defun search (sequence-1 sequence-2 &key from-end test test-not key start1 start2 end1 end2)
