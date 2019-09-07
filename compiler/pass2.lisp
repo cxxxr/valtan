@@ -654,6 +654,7 @@
     (let* ((*toplevel-defun-stream* (make-string-output-stream))
            (output (with-output-to-string (*standard-output*)
                      (emit-try-catch (("err")
+                                      (write-line "CL_COMMON_LISP_FINISH_OUTPUT();")
                                       #+(or)(write-line "console.log(err);"))
                        (dolist (ir ir-forms)
                          (pass2-toplevel-1 ir))
