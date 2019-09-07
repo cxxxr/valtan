@@ -76,6 +76,8 @@
 
 (defun print-function (function stream)
   (print-unreadable-object (function stream)
+    (write-string "Function" stream)
+    #+(or)
     (write-string (system::js-string-to-array ((ffi:ref "String") function))
                   stream)))
 
@@ -125,7 +127,8 @@
           ((system::structure-p object)
            (print-structure object stream))
           (t
-           (error "write: unexpected object: ~S" (system::js-string-to-array ((ffi:ref "String") object)))))))
+           (print-unreadable-object (nil stream)
+             (write-string (ffi:js->cl ((ffi:ref "String") object)) stream))))))
 
 (defun princ (object &optional (stream *standard-output*))
   (write object :escape nil :stream stream)
