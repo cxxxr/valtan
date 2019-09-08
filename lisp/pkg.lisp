@@ -245,25 +245,3 @@
            #:WITH-SIMPLE-RESTART #:WITH-SLOTS #:WITH-STANDARD-IO-SYNTAX
            #:WRITE #:WRITE-BYTE #:WRITE-CHAR #:WRITE-LINE #:WRITE-SEQUENCE
            #:WRITE-STRING #:WRITE-TO-STRING #:Y-OR-N-P #:YES-OR-NO-P #:ZEROP))
-
-(defpackage :js
-  (:use))
-
-(defpackage :ffi
-  (:use)
-  (:export #:instanceof
-           #:require
-           #:ref
-           #:set
-           #:var
-           #:new
-           #:%aget
-           #:define-function
-           #:define
-           #:object
-           #:aget
-           #:console.log
-           #:js-eval
-           #:cl->js
-           #:js->cl
-           #:typeof))
