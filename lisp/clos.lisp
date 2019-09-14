@@ -26,10 +26,14 @@
                     (nconc (getf result :readers)
                            (list value)))))
            (case key
-             ((:accessor :writer)
+             (:writer
               (setf (getf result :writer)
                     (nconc (getf result :writer)
-                           (list value))))))
+                           (list value))))
+             (:accessor
+              (setf (getf result :writer)
+                    (nconc (getf result :writer)
+                           (list `(setf ,value)))))))
           (:documentation
            (setf (getf result :documentation) value))
           (otherwise
