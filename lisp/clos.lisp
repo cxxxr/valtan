@@ -1,5 +1,18 @@
 (in-package :common-lisp)
 
+(defparameter *class-table* (make-hash-table))
+
+(defun find-class (symbol &optional (errorp t) environment)
+  (declare (ignore environment))
+  (let ((class (gethash symbol *class-table*)))
+    (when (and (null class) errorp)
+      (error "There is no class named ~S." symbol))
+    class))
+
+(defun (setf find-class) (class symbol &optional errorp environment)
+  (declare (ignore errorp environment))
+  (setf (gethash symbol *class-table*) class))
+
 (defun canonicalize-direct-slot (direct-slot-spec)
   (let ((result `(:name ,(if (consp direct-slot-spec)
                              (car direct-slot-spec)
