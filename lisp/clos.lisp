@@ -2,7 +2,7 @@
 
 (defparameter *class-table* (make-hash-table))
 
-(defstruct standard-instance
+(defstruct standard-object
   class
   slots)
 
@@ -45,12 +45,12 @@
                              (list value)))))
              (case key
                (:writer
-                (setf (getf result :writer)
-                      (nconc (getf result :writer)
+                (setf (getf result :writers)
+                      (nconc (getf result :writers)
                              (list value))))
                (:accessor
-                (setf (getf result :writer)
-                      (nconc (getf result :writer)
+                (setf (getf result :writers)
+                      (nconc (getf result :writers)
                              (list `(setf ,value)))))))
             (:documentation
              (setf (getf result :documentation) value))
@@ -67,12 +67,12 @@
                     v))))
       (do ((plist result (cddr plist)))
           ((null plist))
-        (setf (car plist) (list 'quote (car plist)))
-        (setf (cadr plist) (list 'quote (cadr plist))))
-      result))
+        (setf (car plist) `(quote ,(car plist)))
+        (setf (cadr plist) `(quote ,(cadr plist))))
+      `(list ,@result)))
 
   (defun canonicalize-direct-slot-specs (direct-slot-specs)
-    (mapcar #'canonicalize-direct-slot direct-slot-specs))
+    `(list ,@(mapcar #'canonicalize-direct-slot direct-slot-specs)))
 
   (defun canonicalize-defclass-options (options)
     (mapcar (lambda (elt)
@@ -92,16 +92,25 @@
                                    initargs))
                            (nreverse initargs)))
                         ((:metaclass :documentation)
-                         (list 'quote (car rest)))
+                         `(quote ,(car rest)))
                         (otherwise
-                         (list 'quote rest))))))
+                         `(quote ,rest))))))
             options)))
 
 (defun ensure-class-using-class (class name &key direct-default-initargs direct-slots
                                                  direct-superclasses #|name|# metaclass
                                             &allow-other-keys)
-  (setf (find-class name) (make-standard-instance))
-  )
+  (assert (null class))
+  (let ((class (make-standard-object :class metaclass
+                                     :slots (list (cons :name name)
+                                                  (cons :direct-default-initargs
+                                                        direct-default-initargs)
+                                                  (cons :direct-slots
+                                                        direct-slots)
+                                                  (cons :direct-superclasses
+                                                        direct-superclasses)))))
+    (setf (find-class name) class)
+    class))
 
 (defun ensure-class (name &rest args)
   (apply #'ensure-class-using-class (find-class name nil) name args))
