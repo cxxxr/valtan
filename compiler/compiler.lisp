@@ -161,7 +161,9 @@
                                "pass1"
                                "pass2")))
           (directory-files "./lisp/"
-                           '("compilation"))))
+                           '("compilation"))
+          (directory-files "./lisp/"
+                           '("clos"))))
 
 (defun build (pathnames output)
   (let ((*standard-output* output))
