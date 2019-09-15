@@ -5,6 +5,7 @@
     :initarg :x
     :accessor foo-x)
    (y)
-   z))
+   z)
+  (:default-initargs :x 10))
 
 (print (find-class 'foo))

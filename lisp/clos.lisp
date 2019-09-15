@@ -75,7 +75,7 @@
     `(list ,@(mapcar #'canonicalize-direct-slot direct-slot-specs)))
 
   (defun canonicalize-defclass-options (options)
-    (mapcar (lambda (elt)
+    (mapcan (lambda (elt)
               (let ((key (car elt))
                     (rest (cdr elt)))
                 (when (eq key :default-initargs)
@@ -88,7 +88,7 @@
                                ((null plist))
                              (push `(list ,(car plist)
                                           ,(cadr plist)
-                                          (lambda () ,@(cadr plist)))
+                                          (lambda () ,(cadr plist)))
                                    initargs))
                            (nreverse initargs)))
                         ((:metaclass :documentation)
