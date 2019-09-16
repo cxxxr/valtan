@@ -80,7 +80,7 @@
                     (rest (cdr elt)))
                 (when (eq key :default-initargs)
                   (setq key :direct-default-initargs))
-                (cons key
+                (list key
                       (case key
                         (:direct-default-initargs
                          (let ((initargs '()))
@@ -90,7 +90,7 @@
                                           ,(cadr plist)
                                           (lambda () ,(cadr plist)))
                                    initargs))
-                           (nreverse initargs)))
+                           `(list ,@(nreverse initargs))))
                         ((:metaclass :documentation)
                          `(quote ,(car rest)))
                         (otherwise
