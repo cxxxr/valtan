@@ -2,9 +2,44 @@
 
 (defparameter *class-table* (make-hash-table))
 
-(defstruct standard-object
+(defvar +standard-class+)
+(defvar +standard-class-slots+ '())
+
+(defstruct (standard-object (:print-function print-standard-object))
   class
   slots)
+
+(defun print-standard-object (standard-object stream depth)
+  (declare (ignore depth))
+  (print-unreadable-object (standard-object stream)
+    (format stream "~S ~S"
+            (class-name (standard-object-class standard-object))
+            (class-name standard-object))))
+
+(defun %slot-value (class slot-name)
+  (let ((elt (assoc slot-name (standard-object-slots class))))
+    (unless elt
+      (error "The slot ~S is unbound in the object ~S."
+             slot-name class))
+    (cdr elt)))
+
+(defun (setf %slot-value) (value class slot-name)
+  (let ((elt (assoc slot-name (standard-object-slots class))))
+    (if elt
+        (setf (cdr elt) value)
+        (push (cons slot-name value) (standard-object-slots class)))
+    value))
+
+(defun class-name (class)
+  (%slot-value class 'name))
+
+(defun (setf class-name) (name class)
+  (setf (%slot-value class 'name) name))
+
+(defun class-of (x)
+  (if (standard-object-p x)
+      (standard-object-class x)
+      (error "trap")))
 
 (defun find-class (symbol &optional (errorp t) environment)
   (declare (ignore environment))
@@ -97,6 +132,9 @@
                          `(quote ,rest))))))
             options)))
 
+(defun canonicalize-class (class &optional (errorp t))
+  (if (symbolp class) (find-class class errorp) class))
+
 (defun check-duplicate-direct-slots (direct-slots)
   (flet ((name (direct-slot) (getf direct-slot :name)))
     (do ((direct-slots direct-slots (cdr direct-slots)))
@@ -108,8 +146,6 @@
           (error "Duplicate slot ~S" (name direct-slot)))))))
 
 (defun check-duplicate-direct-default-initargs (direct-default-initargs class-name)
-  (print direct-default-initargs)
-  (terpri)
   (do ((direct-default-initargs direct-default-initargs (cdr direct-default-initargs)))
       ((null direct-default-initargs))
     (when (member (caar direct-default-initargs) (cdr direct-default-initargs) :key #'car)
@@ -118,29 +154,53 @@
              class-name))))
 
 (defun ensure-class-using-class (class name &key direct-default-initargs direct-slots
-                                                 direct-superclasses #|name|# metaclass
+                                                 direct-superclasses #|name|#
+                                                 (metaclass 'standard-class)
                                             &allow-other-keys)
   (assert (null class))
   (check-duplicate-direct-slots direct-slots)
   (check-duplicate-direct-default-initargs direct-default-initargs name)
-  (if class
-      nil ; TODO
-      (let ((class (make-standard-object :class metaclass
-                                         :slots (list (cons :name name)
-                                                      (cons :direct-default-initargs
-                                                            direct-default-initargs)
-                                                      (cons :direct-slots
-                                                            direct-slots)
-                                                      (cons :direct-superclasses
-                                                            direct-superclasses)))))
-        (setf (find-class name) class)
-        class)))
+  (cond (class)
+        (t
+         (setq metaclass (canonicalize-class metaclass))
+         (assert (eq metaclass +standard-class+))
+         (let ((class (make-standard-object :class metaclass
+                                            :slots (list (cons :direct-default-initargs
+                                                               direct-default-initargs)
+                                                         (cons :direct-slots
+                                                               direct-slots)
+                                                         (cons :direct-superclasses
+                                                               direct-superclasses)))))
+           (setf (class-name class) name)
+           ;; TODO: finalize-inheritance
+           (setf (find-class name) class)
+           class))))
 
 (defun ensure-class (name &rest args)
   (apply #'ensure-class-using-class (find-class name nil) name args))
 
-(defmacro defclass (name direct-super-classes direct-slot-specs &rest options)
+(defmacro defclass (name direct-superclasses direct-slot-specs &rest options)
   `(ensure-class ',name
-                 :direct-super-classes ',direct-super-classes
+                 :direct-superclasses ',direct-superclasses
                  :direct-slots ,(canonicalize-direct-slot-specs direct-slot-specs)
                  ,@(canonicalize-defclass-options options)))
+
+(defun allocate-instance (class)
+  (make-standard-object :class class))
+
+(defun initialize-instance (instance &rest initargs)
+  )
+
+(defun make-instance (class &rest initargs)
+  (setq class (canonicalize-class class))
+  (let ((instance (allocate-instance class)))
+    (apply #'initialize-instance instance initargs)
+    instance))
+
+(setq +standard-class+
+      (let ((standard-class (make-standard-object)))
+        (setf (standard-object-class standard-class) standard-class)
+        (setf (class-name standard-class) 'standard-class)
+        standard-class))
+
+(setf (find-class 'standard-class) +standard-class+)
