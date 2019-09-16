@@ -123,16 +123,18 @@
   (assert (null class))
   (check-duplicate-direct-slots direct-slots)
   (check-duplicate-direct-default-initargs direct-default-initargs name)
-  (let ((class (make-standard-object :class metaclass
-                                     :slots (list (cons :name name)
-                                                  (cons :direct-default-initargs
-                                                        direct-default-initargs)
-                                                  (cons :direct-slots
-                                                        direct-slots)
-                                                  (cons :direct-superclasses
-                                                        direct-superclasses)))))
-    (setf (find-class name) class)
-    class))
+  (if class
+      nil ; TODO
+      (let ((class (make-standard-object :class metaclass
+                                         :slots (list (cons :name name)
+                                                      (cons :direct-default-initargs
+                                                            direct-default-initargs)
+                                                      (cons :direct-slots
+                                                            direct-slots)
+                                                      (cons :direct-superclasses
+                                                            direct-superclasses)))))
+        (setf (find-class name) class)
+        class)))
 
 (defun ensure-class (name &rest args)
   (apply #'ensure-class-using-class (find-class name nil) name args))
