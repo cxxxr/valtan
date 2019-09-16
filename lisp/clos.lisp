@@ -97,10 +97,32 @@
                          `(quote ,rest))))))
             options)))
 
+(defun check-duplicate-direct-slots (direct-slots)
+  (flet ((name (direct-slot) (getf direct-slot :name)))
+    (do ((direct-slots direct-slots (cdr direct-slots)))
+        ((null direct-slots))
+      (let ((direct-slot (car direct-slots)))
+        (when (member (name direct-slot)
+                      (cdr direct-slots)
+                      :key #'name)
+          (error "Duplicate slot ~S" (name direct-slot)))))))
+
+(defun check-duplicate-direct-default-initargs (direct-default-initargs class-name)
+  (print direct-default-initargs)
+  (terpri)
+  (do ((direct-default-initargs direct-default-initargs (cdr direct-default-initargs)))
+      ((null direct-default-initargs))
+    (when (member (caar direct-default-initargs) (cdr direct-default-initargs) :key #'car)
+      (error "Duplicate initialization argument name ~S in :DEFAULT-INITARGS DEFCLASS ~S."
+             (caar direct-default-initargs)
+             class-name))))
+
 (defun ensure-class-using-class (class name &key direct-default-initargs direct-slots
                                                  direct-superclasses #|name|# metaclass
                                             &allow-other-keys)
   (assert (null class))
+  (check-duplicate-direct-slots direct-slots)
+  (check-duplicate-direct-default-initargs direct-default-initargs name)
   (let ((class (make-standard-object :class metaclass
                                      :slots (list (cons :name name)
                                                   (cons :direct-default-initargs
