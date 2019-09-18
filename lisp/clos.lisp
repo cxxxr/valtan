@@ -1,13 +1,19 @@
 (in-package :common-lisp)
 
-(defparameter *class-table* (make-hash-table))
-
 (defvar +standard-class+)
-(defvar +standard-class-slots+ '())
 
 (defstruct (standard-object (:print-function print-standard-object))
   class
   slots)
+
+(defstruct slot-definition
+  name
+  initargs
+  initform
+  initfunction
+  readers
+  writers
+  allocation)
 
 (defun print-standard-object (standard-object stream depth)
   (declare (ignore depth))
@@ -41,16 +47,17 @@
       (standard-object-class x)
       (error "trap")))
 
-(defun find-class (symbol &optional (errorp t) environment)
-  (declare (ignore environment))
-  (let ((class (gethash symbol *class-table*)))
-    (when (and (null class) errorp)
-      (error "There is no class named ~S." symbol))
-    class))
+(let ((class-table (make-hash-table)))
+  (defun find-class (symbol &optional (errorp t) environment)
+    (declare (ignore environment))
+    (let ((class (gethash symbol class-table)))
+      (when (and (null class) errorp)
+        (error "There is no class named ~S." symbol))
+      class))
 
-(defun (setf find-class) (class symbol &optional errorp environment)
-  (declare (ignore errorp environment))
-  (setf (gethash symbol *class-table*) class))
+  (defun (setf find-class) (class symbol &optional errorp environment)
+    (declare (ignore errorp environment))
+    (setf (gethash symbol class-table) class)))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun canonicalize-direct-slot (direct-slot-spec)
@@ -153,37 +160,86 @@
              (caar direct-default-initargs)
              class-name))))
 
-(defun ensure-class-using-class (class name &key direct-default-initargs direct-slots
-                                                 direct-superclasses #|name|#
-                                                 (metaclass 'standard-class)
-                                            &allow-other-keys)
-  (assert (null class))
-  (check-duplicate-direct-slots direct-slots)
-  (check-duplicate-direct-default-initargs direct-default-initargs name)
-  (cond (class)
-        (t
-         (setq metaclass (canonicalize-class metaclass))
-         (assert (eq metaclass +standard-class+))
-         (let ((class (make-standard-object :class metaclass
-                                            :slots (list (cons :direct-default-initargs
-                                                               direct-default-initargs)
-                                                         (cons :direct-slots
-                                                               direct-slots)
-                                                         (cons :direct-superclasses
-                                                               direct-superclasses)))))
-           (setf (class-name class) name)
-           ;; TODO: finalize-inheritance
-           (setf (find-class name) class)
-           class))))
-
-(defun ensure-class (name &rest args)
-  (apply #'ensure-class-using-class (find-class name nil) name args))
-
 (defmacro defclass (name direct-superclasses direct-slot-specs &rest options)
   `(ensure-class ',name
                  :direct-superclasses ',direct-superclasses
                  :direct-slots ,(canonicalize-direct-slot-specs direct-slot-specs)
                  ,@(canonicalize-defclass-options options)))
+
+(defun ensure-class (name &rest args)
+  (apply #'ensure-class-using-class (find-class name nil) name args))
+
+(defun ensure-class-using-class (class name &key direct-default-initargs direct-slots
+                                                 direct-superclasses #|name|#
+                                                 (metaclass 'standard-class)
+                                            &allow-other-keys)
+  (check-duplicate-direct-slots direct-slots)
+  (check-duplicate-direct-default-initargs direct-default-initargs name)
+  (cond (class
+         (error "trap"))
+        (t
+         (setq metaclass (canonicalize-class metaclass))
+         (setf (find-class name)
+               (apply (if (eq metaclass +standard-class+)
+                          #'make-instance-standard-class
+                          (error "make-instance trap"))
+                      metaclass
+                      :name name
+                      :direct-default-initargs direct-default-initargs
+                      :direct-slots direct-slots
+                      :direct-superclasses direct-superclasses)))))
+
+(defun make-instance-standard-class (metaclass &key name
+                                                    direct-superclasses
+                                                    direct-slots
+                                                    direct-default-initargs
+                                               &allow-other-keys)
+  ;(assert (eq metaclass +standard-class+))
+  (let ((class (allocate-instance metaclass)))
+    (setf (class-name class) name)
+    (setf (class-direct-subclasses class) '())
+    (setf (class-direct-methods class) '())
+    (setf (class-direct-default-initargs class) direct-default-initargs)
+    (std-after-initialization-for-classes
+     class
+     :direct-slots direct-slots
+     :direct-default-initargs direct-default-initargs)
+    class))
+
+(defun std-after-initialization-for-classes (class &key direct-superclasses
+                                                        direct-slots
+                                                   &allow-other-keys)
+  (let ((supers (or direct-superclasses (list (find-class 'standard-object)))))
+    (setf (class-direct-superclasses class) supers)
+    (dolist (superclass supers)
+      (push class (class-direct-subclasses superclass))))
+  (let ((slots
+          (mapcar (lambda (slot-plist)
+                    (apply #'make-direct-slot-definition slot-plist))
+                  direct-slots)))
+    (class-direct-slots class) slots)
+  (dolist (direct-slot slots)
+    (dolist (reader (slot-definition-readers direct-slot))
+      (add-reader-method class reader (slot-definition-name direct-slot)))
+    (dolist (writer (slot-definition-writers direct-slot))
+      (add-writer-method class writer (slot-definition-name direct-slot))))
+  (if (eq (class-of class) +standard-class+)
+      (std-finalize-inheritance class)
+      (error "finalize-inheritance trap")))
+
+(defun make-direct-slot-definition (&rest args
+                                    &key name initargs initform initfunction readers writers
+                                         (allocation :instance)
+                                    &allow-other-keys)
+  (declare (ignore name initargs initform initfunction readers writers allocation))
+  (apply #'make-slot-definition args))
+
+(defun make-effective-slot-definition (&rest args
+                                       &key name initargs initform initfunction
+                                            (allocation :instance)
+                                       &allow-other-keys)
+  (declare (ignore name initargs initform initfunction allocation))
+  (apply #'make-slot-definition args))
 
 (defun allocate-instance (class)
   (make-standard-object :class class))
@@ -196,6 +252,12 @@
   (let ((instance (allocate-instance class)))
     (apply #'initialize-instance instance initargs)
     instance))
+
+(defun add-reader-method (class fn-name slot-name)
+  )
+
+(defun add-writer-method (class fn-name slot-name)
+  )
 
 (setq +standard-class+
       (let ((standard-class (make-standard-object)))
