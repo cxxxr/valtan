@@ -270,9 +270,6 @@
         (std-finalize-inheritance class)
         (error "finalize-inheritance trap"))))
 
-(defun std-finalize-inheritance (class)
-  )
-
 (defun make-direct-slot-definition (&rest args
                                     &key name initargs initform initfunction readers writers
                                          (allocation :instance)
@@ -286,6 +283,79 @@
                                        &allow-other-keys)
   (declare (ignore name initargs initform initfunction allocation))
   (apply #'make-slot-definition args))
+
+(defun std-finalize-inheritance (class)
+  (setf (class-precedence-list class)
+        (if (eq (class-of class) +standard-class+)
+            (std-compute-class-precedence-list class)
+            (error "compute-class-precedence-list trap")))
+  (setf (class-slots class)
+        (if (eq (class-of class) +standard-class+)
+            (std-compute-slots class)
+            (error "compute-slots trap"))))
+
+(defun std-compute-class-precedence-list (class)
+  (let ((classes-to-order (collect-superclasses* class)))
+    (toplogical-sort classes-to-order
+                     (delete-duplicates
+                      (mapcan #'local-precedence-ordering
+                              classes-to-order))
+                     #'std-tie-breaker-rule)))
+
+(defun std-tie-breaker-rule (minimal-elements cpl-so-far)
+  (dolist (cpl-constituent (reverse cpl-so-far))
+    (dolist (element minimal-elements)
+      (when (find element (class-direct-superclasses cpl-constituent))
+        (return-from std-tie-breaker-rule element)))))
+
+(defun local-precedence-ordering (class)
+  (let ((supers (class-direct-superclasses class)))
+    (mapcar #'list
+            (cons class supers)
+            supers)))
+
+(defun toplogical-sort (elements constraints tie-breaker)
+  (let ((remaining-constraints constraints)
+        (remaining-elements elements)
+        (result ()))
+    (do () (nil)
+      (let ((minimal-elements
+              (remove-if
+               (lambda (class)
+                 (member class remaining-constraints
+                         :key #'cadr))
+               remaining-elements)))
+        (when (null minimal-elements)
+          (if (null remaining-elements)
+              (return-from topological-sort result)
+              (error "Inconsistent precedence graph.")))
+        (let ((choice (if (null (cdr minimal-elements))
+                          (car minimal-elements)
+                          (funcall tie-breaker
+                                   minimal-elements
+                                   result))))
+          (setq result (nconc result (list choice)))
+          (setq remaining-elements
+                (delete choice remaining-elements))
+          (setq remaining-constraints
+                (delete choice remaining-constraints
+                        :test #'member)))))))
+
+(defun collect-superclasses* (class)
+  (labels ((f (seen superclasses)
+             (let ((class-to-process
+                     (dolist (super superclasses nil)
+                       (unless (find super seen)
+                         (return super)))))
+               (if (null class-to-process)
+                   superclasses
+                   (f (cons class-to-process seen)
+                      (union (class-direct-superclasses class-to-processs)
+                             superclasses))))))
+    (f nil (list class))))
+
+(defun std-compute-slots (class)
+  )
 
 (defun allocate-instance (class)
   (make-standard-instance :class class))
