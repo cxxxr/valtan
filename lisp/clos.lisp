@@ -2,7 +2,7 @@
 
 (defvar +standard-class+)
 
-(defstruct (standard-object (:print-function print-standard-object))
+(defstruct (standard-instance (:print-function print-standard-instance))
   class
   slots)
 
@@ -15,25 +15,25 @@
   writers
   allocation)
 
-(defun print-standard-object (standard-object stream depth)
+(defun print-standard-instance (standard-instance stream depth)
   (declare (ignore depth))
-  (print-unreadable-object (standard-object stream)
+  (print-unreadable-object (standard-instance stream)
     (format stream "~S ~S"
-            (class-name (standard-object-class standard-object))
-            (class-name standard-object))))
+            (class-name (standard-instance-class standard-instance))
+            (class-name standard-instance))))
 
 (defun %slot-value (class slot-name)
-  (let ((elt (assoc slot-name (standard-object-slots class))))
+  (let ((elt (assoc slot-name (standard-instance-slots class))))
     (unless elt
       (error "The slot ~S is unbound in the object ~S."
              slot-name class))
     (cdr elt)))
 
 (defun (setf %slot-value) (value class slot-name)
-  (let ((elt (assoc slot-name (standard-object-slots class))))
+  (let ((elt (assoc slot-name (standard-instance-slots class))))
     (if elt
         (setf (cdr elt) value)
-        (push (cons slot-name value) (standard-object-slots class)))
+        (push (cons slot-name value) (standard-instance-slots class)))
     value))
 
 (defun class-name (class)
@@ -85,8 +85,8 @@
   (setf (%slot-value class 'slots) slots))
 
 (defun class-of (x)
-  (if (standard-object-p x)
-      (standard-object-class x)
+  (if (standard-instance-p x)
+      (standard-instance-class x)
       (error "trap")))
 
 (let ((class-table (make-hash-table)))
@@ -288,7 +288,7 @@
   (apply #'make-slot-definition args))
 
 (defun allocate-instance (class)
-  (make-standard-object :class class))
+  (make-standard-instance :class class))
 
 (defun initialize-instance (instance &rest initargs)
   )
@@ -306,8 +306,8 @@
   )
 
 (setq +standard-class+
-      (let ((standard-class (make-standard-object)))
-        (setf (standard-object-class standard-class) standard-class)
+      (let ((standard-class (make-standard-instance)))
+        (setf (standard-instance-class standard-class) standard-class)
         (setf (class-name standard-class) 'standard-class)
         standard-class))
 
