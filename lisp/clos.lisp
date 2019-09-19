@@ -42,6 +42,48 @@
 (defun (setf class-name) (name class)
   (setf (%slot-value class 'name) name))
 
+(defun class-precedence-list (class)
+  (%slot-value class 'precedence-list))
+
+(defun (setf class-precedence-list) (precedence-list class)
+  (setf (%slot-value class 'precedence-list) precedence-list))
+
+(defun class-direct-superclasses (class)
+  (%slot-value class 'direct-superclasses))
+
+(defun (setf class-direct-superclasses) (direct-superclasses class)
+  (setf (%slot-value class 'direct-superclasses) direct-superclasses))
+
+(defun class-direct-slots (class)
+  (%slot-value class 'direct-slots))
+
+(defun (setf class-direct-slots) (direct-slots class)
+  (setf (%slot-value class 'direct-slots) direct-slots))
+
+(defun class-direct-subclasses (class)
+  (%slot-value class 'direct-subclasses))
+
+(defun (setf class-direct-subclasses) (direct-subclasses class)
+  (setf (%slot-value class 'direct-subclasses) direct-subclasses))
+
+(defun class-direct-methods (class)
+  (%slot-value class 'direct-methods))
+
+(defun (setf class-direct-methods) (direct-methods class)
+  (setf (%slot-value class 'direct-methods) direct-methods))
+
+(defun class-direct-default-initargs (class)
+  (%slot-value class 'direct-default-initargs))
+
+(defun (setf class-direct-default-initargs) (direct-default-initargs class)
+  (setf (%slot-value class 'direct-default-initargs) direct-default-initargs))
+
+(defun class-slots (class)
+  (%slot-value class 'slots))
+
+(defun (setf class-slots) (slots class)
+  (setf (%slot-value class 'slots) slots))
+
 (defun class-of (x)
   (if (standard-object-p x)
       (standard-object-class x)
@@ -175,19 +217,20 @@
                                             &allow-other-keys)
   (check-duplicate-direct-slots direct-slots)
   (check-duplicate-direct-default-initargs direct-default-initargs name)
+  (setq direct-superclasses (mapcar #'find-class direct-superclasses))
   (cond (class
          (error "trap"))
         (t
          (setq metaclass (canonicalize-class metaclass))
          (setf (find-class name)
-               (apply (if (eq metaclass +standard-class+)
-                          #'make-instance-standard-class
-                          (error "make-instance trap"))
-                      metaclass
-                      :name name
-                      :direct-default-initargs direct-default-initargs
-                      :direct-slots direct-slots
-                      :direct-superclasses direct-superclasses)))))
+               (funcall (if (eq metaclass +standard-class+)
+                            #'make-instance-standard-class
+                            (error "make-instance trap"))
+                        metaclass
+                        :name name
+                        :direct-default-initargs direct-default-initargs
+                        :direct-slots direct-slots
+                        :direct-superclasses direct-superclasses)))))
 
 (defun make-instance-standard-class (metaclass &key name
                                                     direct-superclasses
@@ -202,8 +245,8 @@
     (setf (class-direct-default-initargs class) direct-default-initargs)
     (std-after-initialization-for-classes
      class
-     :direct-slots direct-slots
-     :direct-default-initargs direct-default-initargs)
+     :direct-superclasses direct-superclasses
+     :direct-slots direct-slots)
     class))
 
 (defun std-after-initialization-for-classes (class &key direct-superclasses
@@ -217,15 +260,18 @@
           (mapcar (lambda (slot-plist)
                     (apply #'make-direct-slot-definition slot-plist))
                   direct-slots)))
-    (class-direct-slots class) slots)
-  (dolist (direct-slot slots)
-    (dolist (reader (slot-definition-readers direct-slot))
-      (add-reader-method class reader (slot-definition-name direct-slot)))
-    (dolist (writer (slot-definition-writers direct-slot))
-      (add-writer-method class writer (slot-definition-name direct-slot))))
-  (if (eq (class-of class) +standard-class+)
-      (std-finalize-inheritance class)
-      (error "finalize-inheritance trap")))
+    (setf (class-direct-slots class) slots)
+    (dolist (direct-slot slots)
+      (dolist (reader (slot-definition-readers direct-slot))
+        (add-reader-method class reader (slot-definition-name direct-slot)))
+      (dolist (writer (slot-definition-writers direct-slot))
+        (add-writer-method class writer (slot-definition-name direct-slot))))
+    (if (eq (class-of class) +standard-class+)
+        (std-finalize-inheritance class)
+        (error "finalize-inheritance trap"))))
+
+(defun std-finalize-inheritance (class)
+  )
 
 (defun make-direct-slot-definition (&rest args
                                     &key name initargs initform initfunction readers writers
@@ -266,3 +312,16 @@
         standard-class))
 
 (setf (find-class 'standard-class) +standard-class+)
+
+(setf (find-class 't)
+      (let ((class (allocate-instance +standard-class+)))
+        (setf (class-name class) 't)
+        (setf (class-direct-subclasses class) ())
+        (setf (class-direct-superclasses class) ())
+        (setf (class-direct-methods class) ())
+        (setf (class-direct-slots class) ())
+        (setf (class-precedence-list class) (list class))
+        (setf (class-slots class) ())
+        class))
+
+(defclass standard-object (t) ())
