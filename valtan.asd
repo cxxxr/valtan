@@ -1,4 +1,4 @@
-(defsystem "clscript"
+(defsystem "valtan"
   :serial t
   :components ((:module "compiler"
                 :components

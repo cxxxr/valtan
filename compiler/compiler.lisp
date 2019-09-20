@@ -4,7 +4,7 @@
   (expand-quasiquote x))
 
 (defparameter *known-function-names*
-  (let ((file (asdf:system-relative-pathname :clscript "./lib/lisp.js")))
+  (let ((file (asdf:system-relative-pathname :valtan "./lib/lisp.js")))
     (with-open-file (in file)
       (loop :for line := (read-line in nil nil)
             :while line
@@ -122,7 +122,7 @@
                          :output t))))
 
 (defun directory-files (base-dir files)
-  (let ((base-path (asdf:system-relative-pathname :clscript base-dir)))
+  (let ((base-path (asdf:system-relative-pathname :valtan base-dir)))
     (mapcar (lambda (name)
               (make-pathname :name name :type "lisp" :defaults base-path))
             files)))
@@ -172,7 +172,7 @@
 (defparameter *module-table* (make-hash-table))
 (defvar *module-directory*)
 
-(defmacro clscript-system::module (name file-names)
+(defmacro valtan-system::module (name file-names)
   `(setf (gethash ',name *module-table*)
          (mapcar (lambda (file-name)
                    (make-pathname :name file-name
@@ -182,7 +182,7 @@
 
 (defun load-module (pathname)
   (let ((*module-directory* (pathname-directory (probe-file pathname)))
-        (*package* (find-package :clscript-system)))
+        (*package* (find-package :valtan-system)))
     (load pathname)))
 
 (defun build-system (pathname &key output-file)

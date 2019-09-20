@@ -34,7 +34,7 @@
            #:js->cl
            #:typeof))
 
-(defpackage :clscript-system
+(defpackage :valtan-system
   (:use))
 
 (defpackage :js
