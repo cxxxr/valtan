@@ -1,5 +1,16 @@
 (in-package :common-lisp)
 
+(defun list-remove-duplicates (list)
+  (let ((new-list '()))
+    (do ((list list (cdr list)))
+        ((null list))
+      (unless (member (car list) (cdr list))
+        (push (car list) new-list)))
+    new-list))
+
+(defun mappend (function &rest lists)
+  (apply #'append (apply #'mapcar function lists)))
+
 (defvar +standard-class+)
 
 (defstruct (standard-instance (:print-function print-standard-instance))
@@ -294,14 +305,6 @@
             (std-compute-slots class)
             (error "compute-slots trap"))))
 
-(defun list-remove-duplicates (list)
-  (let ((new-list '()))
-    (do ((list list (cdr list)))
-        ((null list))
-      (unless (member (car list) (cdr list))
-        (push (car list) new-list)))
-    new-list))
-
 (defun std-compute-class-precedence-list (class)
   (let ((classes-to-order (collect-superclasses* class)))
     (topological-sort classes-to-order
@@ -363,7 +366,34 @@
     (f nil (list class))))
 
 (defun std-compute-slots (class)
-  )
+  (let ((all-slots '()))
+    (dolist (class (class-precedence-list class))
+      (setq all-slots (append (class-direct-slots class) all-slots)))
+    (let ((all-names (list-remove-duplicates
+                      (mapcar #'slot-definition-name all-slots))))
+      (mapcar (if (eq (class-of class) +standard-class+)
+                  (lambda (name)
+                    (std-compute-effective-slot-definition
+                     class
+                     (remove-if-not (lambda (slot)
+                                      (eq name (slot-definition-name slot)))
+                                    all-slots)))
+                  (error "compute-effective-slot-definition trap"))
+              all-names))))
+
+(defun std-compute-effective-slot-definition (class direct-slots)
+  (let ((initer (find-if #'identity direct-slots :key #'slot-definition-initfunction)))
+    (make-effective-slot-definition
+     :name (slot-definition-name (car direct-slots))
+     :initform (if initer
+                   (slot-definition-initform initer)
+                   nil)
+     :initfunction (if initer
+                       (slot-definition-initfunction initer)
+                       nil)
+     :initargs (list-remove-duplicates
+                (mappend #'slot-definition-initargs direct-slots))
+     :allocation (slot-definition-allocation (car direct-slots)))))
 
 (defun allocate-instance (class)
   (make-standard-instance :class class))
