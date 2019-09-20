@@ -452,20 +452,23 @@
 (defun merge (result-type sequence-1 sequence-2 predicate &key key)
   )
 
-(defun remove (item sequence)
+(defun remove (item sequence &key (test nil test-p))
   (with-accumulate ()
-    (map-sequence (lambda (x)
-                    (unless (eql item x)
-                      (collect x)))
+    (map-sequence (if test-p
+                      (lambda (x)
+                        (unless (funcall test item x)
+                          (collect x)))
+                      (lambda (x)
+                        (unless (eql item x)
+                          (collect x))))
                   sequence
                   nil
                   0
                   nil
                   nil)))
 
-#+(or)
-(defun remove-if (test sequence &key from-end start end count key)
-  )
+(defun remove-if (test sequence &key from-end start end #+(or)count key)
+  (remove-if-not (complement test) sequence :from-end from-end :start start :end end :key key))
 
 (defun remove-if-not (test sequence &key from-end start end #+(or)count key)
   (with-accumulate ()

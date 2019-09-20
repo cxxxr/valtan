@@ -294,13 +294,21 @@
             (std-compute-slots class)
             (error "compute-slots trap"))))
 
+(defun list-remove-duplicates (list)
+  (let ((new-list '()))
+    (do ((list list (cdr list)))
+        ((null list))
+      (unless (member (car list) (cdr list))
+        (push (car list) new-list)))
+    new-list))
+
 (defun std-compute-class-precedence-list (class)
   (let ((classes-to-order (collect-superclasses* class)))
-    (toplogical-sort classes-to-order
-                     (delete-duplicates
-                      (mapcan #'local-precedence-ordering
-                              classes-to-order))
-                     #'std-tie-breaker-rule)))
+    (topological-sort classes-to-order
+                      (list-remove-duplicates
+                       (mapcan #'local-precedence-ordering
+                               classes-to-order))
+                      #'std-tie-breaker-rule)))
 
 (defun std-tie-breaker-rule (minimal-elements cpl-so-far)
   (dolist (cpl-constituent (reverse cpl-so-far))
@@ -314,7 +322,7 @@
             (cons class supers)
             supers)))
 
-(defun toplogical-sort (elements constraints tie-breaker)
+(defun topological-sort (elements constraints tie-breaker)
   (let ((remaining-constraints constraints)
         (remaining-elements elements)
         (result ()))
@@ -336,9 +344,9 @@
                                    result))))
           (setq result (nconc result (list choice)))
           (setq remaining-elements
-                (delete choice remaining-elements))
+                (remove choice remaining-elements)) ; TODO: delete
           (setq remaining-constraints
-                (delete choice remaining-constraints
+                (remove choice remaining-constraints ; TODO: delete
                         :test #'member)))))))
 
 (defun collect-superclasses* (class)
@@ -350,7 +358,7 @@
                (if (null class-to-process)
                    superclasses
                    (f (cons class-to-process seen)
-                      (union (class-direct-superclasses class-to-processs)
+                      (union (class-direct-superclasses class-to-process)
                              superclasses))))))
     (f nil (list class))))
 
