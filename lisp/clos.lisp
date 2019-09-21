@@ -8,8 +8,9 @@
         (push (car list) new-list)))
     new-list))
 
-(defun mappend (function &rest lists)
-  (apply #'append (apply #'mapcar function lists)))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun mappend (function &rest lists)
+    (apply #'append (apply #'mapcar function lists))))
 
 (defvar +standard-class+)
 
@@ -94,6 +95,12 @@
 
 (defun (setf class-slots) (slots class)
   (setf (%slot-value class 'slots) slots))
+
+(defun class-default-initargs (class)
+  (%slot-value class 'default-initargs))
+
+(defun (setf class-default-initargs) (default-initargs class)
+  (setf (%slot-value class 'default-initargs) default-initargs))
 
 (defun class-of (x)
   (if (standard-instance-p x)
@@ -446,11 +453,11 @@
 
 (defvar +standard-method+)
 
-(defun method-method-function (method)
-  (%slot-value method 'method-function))
+(defun method-function (method)
+  (%slot-value method 'function))
 
-(defun (setf method-method-function) (method-function method)
-  (setf (%slot-value method 'method-function) method-function))
+(defun (setf method-function) (function method)
+  (setf (%slot-value method 'function) function))
 
 (defun method-generic-function (method)
   (%slot-value method 'generic-function))
@@ -481,19 +488,20 @@
                             :lambda-list ',lambda-list
                             ,@(canonicalize-defgeneric-options options)))
 
-(defun canonicalize-defgeneric-options (options)
-  (mappend #'canonicalize-defgeneric-option options))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun canonicalize-defgeneric-option (option)
+    (case (car option)
+      (:method-function-class
+       (list :generic-function-class
+             `(find-class ',(cadr option))))
+      (:method-class
+       (list :method-class
+             `(find-class ',(cadr option))))
+      (otherwise
+       (list `',(car option) `',(cadr option)))))
 
-(defun canonicalize-defgeneric-option (option)
-  (case (car option)
-    (:method-function-class
-     (list :generic-function-class
-           `(find-class ',(cadr option))))
-    (:method-class
-     (list :method-class
-           `(find-class ',(cadr option))))
-    (otherwise
-     (list `',(car option) `',(cadr option)))))
+  (defun canonicalize-defgeneric-options (options)
+    (mappend #'canonicalize-defgeneric-option options)))
 
 (let ((generic-function-table (make-hash-table)))
   (defun find-generic-function (function-name)
@@ -507,9 +515,10 @@
                                      (generic-function-class +standard-generic-function+)
                                      (method-class +standard-method+)
                                 &allow-other-keys)
-  (ensure-generic-function-using-class (find-generic-function function-name)
-                                       function-name
-                                       all-keys))
+  (apply #'ensure-generic-function-using-class
+         (find-generic-function function-name)
+         function-name
+         all-keys))
 
 (defun ensure-generic-function-using-class
     (generic-function-or-null function-name
@@ -531,7 +540,7 @@
 (defun make-instance-standard-generic-function
     (generic-function-class &key name lambda-list method-class &allow-other-keys)
   (declare (ignore generic-function-class))
-  (let ((gf (make-standard-instance :class +standard-generic-function)))
+  (let ((gf (make-standard-instance :class +standard-generic-function+)))
     (setf (generic-function-name gf) name)
     (setf (generic-function-lambda-list gf) lambda-list)
     (setf (generic-function-method-class gf) method-class)
@@ -552,7 +561,6 @@
   )
 
 
-
 (defun allocate-instance (class)
   (make-standard-instance :class class))
 
@@ -571,6 +579,7 @@
 (defun add-writer-method (class fn-name slot-name)
   )
 
+
 (setq +standard-class+
       (let ((standard-class (make-standard-instance)))
         (setf (standard-instance-class standard-class) standard-class)
@@ -588,6 +597,24 @@
         (setf (class-direct-slots class) ())
         (setf (class-precedence-list class) (list class))
         (setf (class-slots class) ())
+        (setf (class-direct-default-initargs class) ())
         class))
 
 (defclass standard-object (t) ())
+
+(setq +standard-generic-function+
+      (defclass standard-generic-function ()
+        ((name)
+         (methods)
+         (lambda-list)
+         (method-class)
+         (emf-table)
+         (funcallable-instance))))
+
+(setq +standard-method+
+      (defclass standard-method ()
+        ((function)
+         (generic-function)
+         (lambda-list)
+         (specializers)
+         (qualifiers))))
