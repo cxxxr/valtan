@@ -249,7 +249,7 @@
                                                     direct-default-initargs
                                                &allow-other-keys)
   ;(assert (eq metaclass +standard-class+))
-  (let ((class (allocate-instance metaclass)))
+  (let ((class (make-standard-instance :class metaclass)))
     (setf (class-name class) name)
     (setf (class-direct-subclasses class) '())
     (setf (class-direct-methods class) '())
@@ -303,7 +303,11 @@
   (setf (class-slots class)
         (if (eq (class-of class) +standard-class+)
             (std-compute-slots class)
-            (error "compute-slots trap"))))
+            (error "compute-slots trap")))
+  (setf (class-default-initargs class)
+        (if (eq (class-of class) +standard-class+)
+            (std-compute-default-initargs class)
+            (error "compute-default-initargs trap"))))
 
 (defun std-compute-class-precedence-list (class)
   (let ((classes-to-order (collect-superclasses* class)))
@@ -394,6 +398,160 @@
      :initargs (list-remove-duplicates
                 (mappend #'slot-definition-initargs direct-slots))
      :allocation (slot-definition-allocation (car direct-slots)))))
+
+(defun std-compute-default-initargs (class)
+  (let ((names '())
+        (initargs '()))
+    (dolist (initarg (mappend #'class-direct-default-initargs (class-precedence-list class)))
+      (let ((name (car initarg)))
+        (unless (member name names)
+          (push name names)
+          (push initarg initargs))))
+    (nreverse initargs)))
+
+(defvar +standard-generic-function+)
+
+(defun generic-function-name (gf)
+  (%slot-value gf 'name))
+
+(defun (setf generic-function-name) (name gf)
+  (setf (%slot-value gf 'name) name))
+
+(defun generic-function-methods (gf)
+  (%slot-value gf 'methods))
+
+(defun (setf generic-function-methods) (methods gf)
+  (setf (%slot-value gf 'methods) methods))
+
+(defun generic-function-lambda-list (gf)
+  (%slot-value gf 'lambda-list))
+
+(defun (setf generic-function-lambda-list) (lambda-list gf)
+  (setf (%slot-value gf 'lambda-list) lambda-list))
+
+(defun generic-function-method-class (gf)
+  (%slot-value gf 'method-class))
+
+(defun (setf generic-function-method-class) (method-class gf)
+  (setf (%slot-value gf 'method-class) method-class))
+
+(defun classes-to-emf-table (gf)
+  (%slot-value gf 'classes-to-emf-table))
+
+(defun (setf classes-to-emf-table) (classes-to-emf-table gf)
+  (setf (%slot-value gf 'classes-to-emf-table) classes-to-emf-table))
+
+(defun set-funcallable-instance-function (gf function)
+  (setf (%slot-value gf 'funcallable-instance) function))
+
+(defvar +standard-method+)
+
+(defun method-method-function (method)
+  (%slot-value method 'method-function))
+
+(defun (setf method-method-function) (method-function method)
+  (setf (%slot-value method 'method-function) method-function))
+
+(defun method-generic-function (method)
+  (%slot-value method 'generic-function))
+
+(defun (setf method-generic-function) (generic-function method)
+  (setf (%slot-value method 'generic-function) generic-function))
+
+(defun method-lambda-list (method)
+  (%slot-value method 'lambda-list))
+
+(defun (setf method-lambda-list) (lambda-list method)
+  (setf (%slot-value method 'lambda-list) lambda-list))
+
+(defun method-specializers (method)
+  (%slot-value method 'specializers))
+
+(defun (setf method-specializers) (specializers method)
+  (setf (%slot-value method 'specializers) specializers))
+
+(defun method-qualifiers (method)
+  (%slot-value method 'qualifiers))
+
+(defun (setf method-qualifiers) (qualifiers method)
+  (setf (%slot-value method 'qualifiers) qualifiers))
+
+(defmacro defgeneric (function-name lambda-list &body options)
+  `(ensure-generic-function ',function-name
+                            :lambda-list ',lambda-list
+                            ,@(canonicalize-defgeneric-options options)))
+
+(defun canonicalize-defgeneric-options (options)
+  (mappend #'canonicalize-defgeneric-option options))
+
+(defun canonicalize-defgeneric-option (option)
+  (case (car option)
+    (:method-function-class
+     (list :generic-function-class
+           `(find-class ',(cadr option))))
+    (:method-class
+     (list :method-class
+           `(find-class ',(cadr option))))
+    (otherwise
+     (list `',(car option) `',(cadr option)))))
+
+(let ((generic-function-table (make-hash-table)))
+  (defun find-generic-function (function-name)
+    (gethash function-name generic-function-table))
+  (defun (setf find-generic-function) (gf function-name)
+    (setf (gethash function-name generic-function-table) gf)))
+
+(defun ensure-generic-function (function-name
+                                &rest all-keys
+                                &key lambda-list
+                                     (generic-function-class +standard-generic-function+)
+                                     (method-class +standard-method+)
+                                &allow-other-keys)
+  (ensure-generic-function-using-class (find-generic-function function-name)
+                                       function-name
+                                       all-keys))
+
+(defun ensure-generic-function-using-class
+    (generic-function-or-null function-name
+     &rest all-keys
+     &key lambda-list
+          (generic-function-class +standard-generic-function+)
+          (method-class +standard-method+)
+     &allow-other-keys)
+  (or generic-function-or-null
+      (let ((gf (apply (if (eq generic-function-class +standard-generic-function+)
+                           #'make-instance-standard-generic-function
+                           (error "make-instance trap"))
+                       generic-function-class
+                       :name function-name
+                       :method-class method-class
+                       all-keys)))
+        (setf (find-generic-function function-name) gf))))
+
+(defun make-instance-standard-generic-function
+    (generic-function-class &key name lambda-list method-class &allow-other-keys)
+  (declare (ignore generic-function-class))
+  (let ((gf (make-standard-instance :class +standard-generic-function)))
+    (setf (generic-function-name gf) name)
+    (setf (generic-function-lambda-list gf) lambda-list)
+    (setf (generic-function-method-class gf) method-class)
+    (setf (generic-function-methods gf) '())
+    (setf (classes-to-emf-table gf) (make-hash-table :test 'equal))
+    (finalize-generic-function gf)
+    gf))
+
+(defun finalize-generic-function (gf)
+  (set-funcallable-instance-function gf (if (eq (class-of gf) +standard-generic-function+)
+                                            (std-compute-discriminating-function gf)
+                                            (error "compute-discriminating-function trap")))
+  (setf (fdefinition (generic-function-name gf))
+        gf) ;TODO: funcallable
+  (clrhash (classes-to-emf-table gf)))
+
+(defmacro defmethod (&rest args)
+  )
+
+
 
 (defun allocate-instance (class)
   (make-standard-instance :class class))
