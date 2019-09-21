@@ -30,3 +30,8 @@
                  (setf (cdr tail) (list a))
                  (setq tail (cdr tail))))
              (system::apply function (system::list-to-js-array head)))))))
+
+(defun fdefinition (x) (symbol-function x))
+
+(defun (setf fdefinition) (function x)
+  (setf (symbol-function x) function))
