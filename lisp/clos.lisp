@@ -255,8 +255,8 @@
                                                     direct-slots
                                                     direct-default-initargs
                                                &allow-other-keys)
-  ;(assert (eq metaclass +standard-class+))
-  (let ((class (make-standard-instance :class metaclass)))
+  (declare (ignore metaclass))
+  (let ((class (make-standard-instance :class +standard-class+)))
     (setf (class-name class) name)
     (setf (class-direct-subclasses class) '())
     (setf (class-direct-methods class) '())
@@ -535,7 +535,8 @@
                        :name function-name
                        :method-class method-class
                        all-keys)))
-        (setf (find-generic-function function-name) gf))))
+        (setf (find-generic-function function-name) gf)
+        gf)))
 
 (defun make-instance-standard-generic-function
     (generic-function-class &key name lambda-list method-class &allow-other-keys)
@@ -678,7 +679,33 @@
                     :specializers ',specializers
                     :body ',body)))
 
-(defun ensure-method (function-name &key lambda-list qualifiers specializers body)
+(defun ensure-method (function-name &rest args &key lambda-list qualifiers specializers body)
+  (declare (ignore qualifiers specializers body))
+  (let* ((gf (ensure-generic-function function-name :lambda-list lambda-list))
+         (method-class (generic-function-method-class gf))
+         (method (apply (if (eq method-class +standard-method+)
+                            #'make-instance-standard-method
+                            (error "make-instance trap"))
+                        method-class
+                        args)))
+    (add-method gf method)
+    method))
+
+(defun make-instance-standard-method (method-class &key lambda-list qualifiers specializers body)
+  (declare (ignore method-class))
+  (let ((method (make-standard-instance :class +standard-method+)))
+    (setf (method-lambda-list method) lambda-list)
+    (setf (method-qualifiers method) qualifiers)
+    (setf (method-specializers method) specializers)
+    (setf (method-generic-function method) nil)
+    (setf (method-function method)
+          (compute-method-function method))
+    method))
+
+(defun add-method (gf method)
+  )
+
+(defun compute-method-function (method)
   )
 
 
