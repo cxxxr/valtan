@@ -699,13 +699,23 @@
     (setf (method-specializers method) specializers)
     (setf (method-generic-function method) nil)
     (setf (method-function method)
-          (compute-method-function method))
+          (%make-method-lambda lambda-list body))
     method))
 
-(defun add-method (gf method)
-  )
+(defun %make-method-lambda (lambda-list body)
+  (let ((args (gensym))
+        (next-emfun (gensym))
+        (call-next-method-args (gensym)))
+    `(lambda (,args ,next-emfun)
+       (flet ((call-next-method (&rest ,call-next-method-args)
+                (if (null ,next-emfun)
+                    (error "No next method")
+                    (funcall ,next-emfun (or call-next-method-args ,args))))
+              (next-method-p ()
+                (not (null ,next-emfun))))
+         ))))
 
-(defun compute-method-function (method)
+(defun add-method (gf method)
   )
 
 
