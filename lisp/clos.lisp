@@ -448,6 +448,12 @@
 (defun (setf classes-to-emf-table) (classes-to-emf-table gf)
   (setf (%slot-value gf 'classes-to-emf-table) classes-to-emf-table))
 
+(defun generic-function-min-argc (gf)
+  (%slot-value gf 'min-argc))
+
+(defun (setf generic-function-min-argc) (min-argc gf)
+  (setf (%slot-value gf 'min-argc) min-argc))
+
 (defun set-funcallable-instance-function (gf function)
   (setf (%slot-value gf 'funcallable-instance) function))
 
@@ -547,6 +553,9 @@
     (setf (generic-function-method-class gf) method-class)
     (setf (generic-function-methods gf) '())
     (setf (classes-to-emf-table gf) (make-hash-table :test 'equal))
+    (destructuring-bind (&key required-args &allow-other-keys)
+        (analyze-lambda-list lambda-list)
+      (setf (generic-function-min-argc gf) (length required-args)))
     (finalize-generic-function gf)
     gf))
 
@@ -558,8 +567,46 @@
         gf) ;TODO: funcallable
   (clrhash (classes-to-emf-table gf)))
 
+(defun required-classes (gf args)
+  (let ((argc (length args)))
+    (when (< argc (generic-function-min-argc gf))
+      (error "Too few arguments to generic function ~S." gf))
+    (let ((classes '()))
+      (dotimes (i argc)
+        (push (class-of (pop args)) classes))
+      (nreverse classes))))
+
 (defun std-compute-discriminating-function (gf)
-  (error "TODO"))
+  (lambda (&rest args)
+    (let ((classes (required-classes gf args))
+          (emfun (gethash classes (classes-to-emf-table gf))))
+      (if emfun
+          (funcall emfun args)
+          (slow-method-lookup gf args classes)))))
+
+(defun slow-method-lookup (gf args classes)
+  (%compute-applicable-methods gf args classes))
+
+(defun compute-applicable-methods (gf args)
+  (let ((applicable-methods (%compute-applicable-methods gf args (required-classes gf args))))
+    ))
+
+(defun %compute-applicable-methods (gf args required-classes)
+  (sort (remove-if-not (lambda (method)
+                         (every #'subclassp
+                                required-classes
+                                (method-specializers method)))
+                       (generic-function-methods gf))
+        (if (eq (class-of gf) +standard-method+)
+            (lambda (m1 m2)
+              (std-method-more-specific-p gf m1 m2 required-classes))
+            #+(or)
+            (lambda (m1 m2)
+              (method-more-specific-p gf m1 m2 required-classes))
+            (error "method-more-specific-p trap"))))
+
+(defun std-method-more-specific-p (gf m1 m2 required-classes)
+  )
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun parse-defmethod (args)
