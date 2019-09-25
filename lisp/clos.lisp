@@ -585,11 +585,15 @@
           (slow-method-lookup gf args classes)))))
 
 (defun slow-method-lookup (gf args classes)
-  (%compute-applicable-methods gf args classes))
+  (let* ((applicable-methods (%compute-applicable-methods gf args classes))
+         (emfun (if (eq (class-of gf) +standard-generic-function+)
+                    (std-compute-effective-method-function gf applicable-methods)
+                    (error "compute-effective-method-function trap"))))
+    (setf (gethash classes (classes-to-emf-table gf)) emfun)
+    (funcall emfun args)))
 
 (defun compute-applicable-methods (gf args)
-  (let ((applicable-methods (%compute-applicable-methods gf args (required-classes gf args))))
-    ))
+  (%compute-applicable-methods gf args (required-classes gf args)))
 
 (defun %compute-applicable-methods (gf args required-classes)
   (sort (remove-if-not (lambda (method)
@@ -606,6 +610,9 @@
             (error "method-more-specific-p trap"))))
 
 (defun std-method-more-specific-p (gf m1 m2 required-classes)
+  )
+
+(defun std-compute-effective-method-function (gf methods)
   )
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
