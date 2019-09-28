@@ -643,8 +643,28 @@
         (around (find-if #'around-method-p methods)))
     (if around
         (let ((next-fmfun
-                )))
-        nil)))
+                (if (eq (class-of gf) +standard-generic-function+)
+                    (std-compute-effective-method-function gf (remove around methods))
+                    (compute-effective-method-function gf (remove around methods)))))
+          (lambda (args)
+            (funcall (method-function around) args next-emfun)))
+        (let ((next-emfun (compute-primary-emfun (cdr primaries)))
+              (befores (remove-if-not #'before-method-p methods))
+              (afters (nreverse (remove-if-not #'after-method-p methods))))
+          (lambda (args)
+            (dolist (before befores)
+              (funcall (method-function before) args nil))
+            (multiple-value-prog1
+                (funcall (method-function (car primaries)) args next-emfun)
+              (dolist (after afters)
+                (funcall (method-function after) args nil))))))))
+
+(defun compute-primary-emfun (methods)
+  (if (null methods)
+      nil
+      (let ((next-emfun (compute-primary-emfun (cdr methods))))
+        (lambda (args)
+          (funcall (method-function (car methods)) args next-emfun)))))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun parse-defmethod (args)
