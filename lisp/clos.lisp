@@ -610,10 +610,41 @@
             (error "method-more-specific-p trap"))))
 
 (defun std-method-more-specific-p (gf m1 m2 required-classes)
-  )
+  (mapc (lambda (spec1 spec2 required-class)
+          (unless (eq spec1 spec2)
+            (return-from std-method-more-specific-p
+              (sub-specializer-p spec1 spec2 required-class))))
+        (method-specializers m1)
+        (method-specializers m2)
+        required-classes)
+  nil)
+
+(defun subclassp (c1 c2)
+  (not (null (find c2 (class-precedence-list c1)))))
+
+(defun sub-specializer-p (c1 c2 arg)
+  (let ((cpl (class-precedence-list arg)))
+    (not (null (find c2 (cdr (member c1 cpl)))))))
+
+(defun primary-method-p (method)
+  (null (method-qualifiers method)))
+
+(defun before-method-p (method)
+  (equal '(:before) (method-qualifiers method)))
+
+(defun after-method-p (method)
+  (equal '(:after) (method-qualifiers method)))
+
+(defun around-method-p (method)
+  (equal '(:around) (method-qualifiers method)))
 
 (defun std-compute-effective-method-function (gf methods)
-  )
+  (let ((primaries (remove-if-not #'primary-method-p methods))
+        (around (find-if #'around-method-p methods)))
+    (if around
+        (let ((next-fmfun
+                )))
+        nil)))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun parse-defmethod (args)
