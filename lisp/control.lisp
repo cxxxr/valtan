@@ -1,5 +1,8 @@
 (in-package :common-lisp)
 
+(defparameter lambda-list-keywords
+  '(&ALLOW-OTHER-KEYS &AUX &BODY &ENVIRONMENT &KEY &OPTIONAL &REST &WHOLE))
+
 (system::defmacro* return (&optional value)
   `(return-from nil ,value))
 
