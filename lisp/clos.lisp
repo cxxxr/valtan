@@ -773,7 +773,7 @@
 
 (defmacro defmethod (&rest args)
   (multiple-value-bind (function-name
-                        method-qualifiers
+                        qualifiers
                         lambda-list
                         specializers
                         body)
