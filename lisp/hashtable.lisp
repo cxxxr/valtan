@@ -65,10 +65,10 @@
           (funcall function key value)))))
   nil)
 
-#|
+#+(or)
 (defmacro with-hash-table-iterator ((name hash-table) &body body)
   )
 
 (defun clrhash (hash-table)
-  )
-|#
+  ((ffi:ref (hash-table-object hash-table) "clear"))
+  hash-table)
