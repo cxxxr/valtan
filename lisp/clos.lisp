@@ -667,52 +667,6 @@
           (funcall (method-function (car methods)) args next-emfun)))))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (defun parse-defmethod (args)
-    (let ((function-name (pop args))
-          (method-qualifiers '())
-          (specialized-lambda-list))
-      (do ()
-          (nil)
-        (let ((arg (car args)))
-          (if (and arg (atom arg))
-              (push (pop args) method-qualifiers)
-              (progn
-                (setq method-qualifiers (nreverse method-qualifiers))
-                (return)))))
-      (setq specialized-lambda-list (pop args))
-      (let ((body args))
-        (let ((analyzed-lambda-list (analyze-lambda-list specialized-lambda-list)))
-          (values function-name
-                  method-qualifiers
-                  (extract-lambda-list analyzed-lambda-list)
-                  (extract-specializers analyzed-lambda-list)
-                  (list* 'block
-                         (if (consp function-name)
-                             (cadr function-name)
-                             function-name)
-                         body))))))
-
-  (defun extract-lambda-list (analyzed-lambda-list)
-    (destructuring-bind (&key required-names
-                         rest-var
-                         key-args
-                         allow-other-keys
-                         optional-args
-                         auxiliary-args
-                         &allow-other-keys)
-        analyzed-lambda-list
-      `(,@required-names
-        ,@(when rest-var `(&rest ,rest-var))
-        ,@(when (or key-args allow-other-keys) `(&key ,@key-args))
-        ,@(when allow-other-keys '(&allow-other-keys))
-        ,@(when optional-args `(&optional ,@optional-args))
-        ,@(when auxiliary-args `(&aux ,@auxiliary-args)))))
-
-  (defun extract-specializers (analyzed-lambda-list)
-    (destructuring-bind (&key specializers &allow-other-keys)
-        analyzed-lambda-list
-      specializers))
-
   (defun analyze-lambda-list (lambda-list)
     (labels ((make-keyword (symbol)
                (intern (symbol-name symbol)
@@ -769,7 +723,53 @@
                :key-args (nreverse key-args)
                :auxiliary-args (nreverse auxs)
                :optional-args (nreverse optionals)
-               :allow-other-keys allow-other-keys)))))
+               :allow-other-keys allow-other-keys))))
+
+  (defun extract-lambda-list (analyzed-lambda-list)
+    (destructuring-bind (&key required-names
+                         rest-var
+                         key-args
+                         allow-other-keys
+                         optional-args
+                         auxiliary-args
+                         &allow-other-keys)
+        analyzed-lambda-list
+      `(,@required-names
+        ,@(when rest-var `(&rest ,rest-var))
+        ,@(when (or key-args allow-other-keys) `(&key ,@key-args))
+        ,@(when allow-other-keys '(&allow-other-keys))
+        ,@(when optional-args `(&optional ,@optional-args))
+        ,@(when auxiliary-args `(&aux ,@auxiliary-args)))))
+
+  (defun extract-specializers (analyzed-lambda-list)
+    (destructuring-bind (&key specializers &allow-other-keys)
+        analyzed-lambda-list
+      specializers))
+
+  (defun parse-defmethod (args)
+    (let ((function-name (pop args))
+          (method-qualifiers '())
+          (specialized-lambda-list))
+      (do ()
+          (nil)
+        (let ((arg (car args)))
+          (if (and arg (atom arg))
+              (push (pop args) method-qualifiers)
+              (progn
+                (setq method-qualifiers (nreverse method-qualifiers))
+                (return)))))
+      (setq specialized-lambda-list (pop args))
+      (let ((body args))
+        (let ((analyzed-lambda-list (analyze-lambda-list specialized-lambda-list)))
+          (values function-name
+                  method-qualifiers
+                  (extract-lambda-list analyzed-lambda-list)
+                  (extract-specializers analyzed-lambda-list)
+                  (list* 'block
+                         (if (consp function-name)
+                             (cadr function-name)
+                             function-name)
+                         body)))))))
 
 (defmacro defmethod (&rest args)
   (multiple-value-bind (function-name
