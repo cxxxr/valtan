@@ -778,7 +778,7 @@
                         specializers
                         body)
       (parse-defmethod args)
-    `(ensure-method ,function-name
+    `(ensure-method ',function-name
                     :lambda-list ',lambda-list
                     :qualifiers ',qualifiers
                     :specializers ',specializers
