@@ -581,9 +581,10 @@
     gf))
 
 (defun finalize-generic-function (gf)
-  (set-funcallable-instance-function gf (if (eq (class-of gf) +standard-generic-function+)
-                                            (std-compute-discriminating-function gf)
-                                            (error "compute-discriminating-function trap")))
+  (set-funcallable-instance-function
+   gf (if (eq (class-of gf) +standard-generic-function+)
+          (std-compute-discriminating-function gf)
+          (error "compute-discriminating-function trap")))
   (setf (fdefinition (generic-function-name gf))
         gf) ;TODO: funcallable
   (clrhash (classes-to-emf-table gf)))
@@ -817,13 +818,16 @@
     (add-method gf method)
     method))
 
+(defun canonicalize-method-specializers (specializers)
+  (mapcar #'find-class specializers))
+
 (defun make-instance-standard-method (method-class &key lambda-list qualifiers specializers body)
   (declare (ignore method-class))
   (let ((method (make-standard-instance :class +standard-method+
                                         :printer 'standard-method-printer)))
     (setf (method-lambda-list method) lambda-list)
     (setf (method-qualifiers method) qualifiers)
-    (setf (method-specializers method) specializers)
+    (setf (method-specializers method) (canonicalize-method-specializers specializers))
     (setf (method-generic-function method) nil)
     (setf (method-function method)
           (%make-method-lambda lambda-list body))
@@ -844,7 +848,39 @@
                 ,g-args)))))
 
 (defun add-method (gf method)
-  )
+  (let ((old-method
+          (find-method gf
+                       (method-qualifiers method)
+                       (method-specializers method)
+                       nil)))
+    (when old-method
+      (remove-method gf old-method))
+    (setf (method-generic-function method) gf)
+    (push method (generic-function-methods gf))
+    (dolist (specializer (method-specializers method))
+      (pushnew method (class-direct-methods specializer)))
+    (finalize-generic-function gf)
+    method))
+
+(defun remove-method (gf method)
+  (setf (generic-function-methods gf)
+        (delete method (generic-function-methods gf)))
+  (setf (method-generic-function method) nil)
+  (dolist (class (method-specializers method))
+    (setf (class-direct-methods class)
+          (remove method (class-direct-methods class))))
+  (finalize-generic-function gf)
+  method)
+
+(defun find-method (gf qualifiers specializers &optional (errorp t))
+  (let ((method
+          (find-if (lambda (method)
+                     (and (equal qualifiers (method-qualifiers method))
+                          (equal specializers (method-specializers method))))
+                   (generic-function-methods gf))))
+    (if (and (null method) errorp)
+        (error "No such method for ~S." (generic-function-name gf))
+        method)))
 
 
 (defun allocate-instance (class)
