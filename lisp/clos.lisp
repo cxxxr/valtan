@@ -15,6 +15,7 @@
 (defvar +standard-class+)
 
 (defstruct (standard-instance (:print-function print-standard-instance))
+  (printer 'standard-class-printer)
   class
   slots)
 
@@ -27,12 +28,16 @@
   writers
   allocation)
 
-(defun print-standard-instance (standard-instance stream depth)
+(defun standard-class-printer (standard-instance stream depth)
   (declare (ignore depth))
+  (format stream "~S ~S"
+          (class-name (standard-instance-class standard-instance))
+          (class-name standard-instance)))
+
+(defun print-standard-instance (standard-instance stream depth)
   (print-unreadable-object (standard-instance stream)
-    (format stream "~S ~S"
-            (class-name (standard-instance-class standard-instance))
-            (class-name standard-instance))))
+    (funcall (standard-instance-printer standard-instance)
+             standard-instance stream depth)))
 
 (defun %slot-value (class slot-name)
   (let ((elt (assoc slot-name (standard-instance-slots class))))
@@ -256,7 +261,8 @@
                                                     direct-default-initargs
                                                &allow-other-keys)
   (declare (ignore metaclass))
-  (let ((class (make-standard-instance :class +standard-class+)))
+  (let ((class (make-standard-instance :class +standard-class+
+                                       :printer 'standard-class-printer)))
     (setf (class-name class) name)
     (setf (class-direct-subclasses class) '())
     (setf (class-direct-methods class) '())
@@ -418,6 +424,12 @@
 
 (defvar +standard-generic-function+)
 
+(defun standard-generic-function-printer (gf stream depth)
+  (format stream "~S ~S ~S"
+          (class-name (standard-instance-class gf))
+          (generic-function-name gf)
+          (generic-function-lambda-list gf)))
+
 (defun generic-function-name (gf)
   (%slot-value gf 'name))
 
@@ -458,6 +470,14 @@
   (setf (%slot-value gf 'funcallable-instance) function))
 
 (defvar +standard-method+)
+
+(defun standard-method-printer (method stream depth)
+  (format stream "~S ~S ~S"
+          (class-name (standard-instance-class method))
+          (if (method-generic-function method)
+              (generic-function-name (method-generic-function method))
+              nil)
+          (method-specializers method)))
 
 (defun method-function (method)
   (%slot-value method 'function))
@@ -547,7 +567,8 @@
 (defun make-instance-standard-generic-function
     (generic-function-class &key name lambda-list method-class &allow-other-keys)
   (declare (ignore generic-function-class))
-  (let ((gf (make-standard-instance :class +standard-generic-function+)))
+  (let ((gf (make-standard-instance :class +standard-generic-function+
+                                    :printer 'standard-generic-function-printer)))
     (setf (generic-function-name gf) name)
     (setf (generic-function-lambda-list gf) lambda-list)
     (setf (generic-function-method-class gf) method-class)
@@ -793,14 +814,13 @@
                             (error "make-instance trap"))
                         method-class
                         args)))
-    ;; print-standard-instanceでclass-nameを参照するので、これを設定していないとエラーになる
-    (setf (class-name method) function-name)
     (add-method gf method)
     method))
 
 (defun make-instance-standard-method (method-class &key lambda-list qualifiers specializers body)
   (declare (ignore method-class))
-  (let ((method (make-standard-instance :class +standard-method+)))
+  (let ((method (make-standard-instance :class +standard-method+
+                                        :printer 'standard-method-printer)))
     (setf (method-lambda-list method) lambda-list)
     (setf (method-qualifiers method) qualifiers)
     (setf (method-specializers method) specializers)
