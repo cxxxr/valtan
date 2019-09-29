@@ -793,6 +793,8 @@
                             (error "make-instance trap"))
                         method-class
                         args)))
+    ;; print-standard-instanceでclass-nameを参照するので、これを設定していないとエラーになる
+    (setf (class-name method) function-name)
     (add-method gf method)
     method))
 
