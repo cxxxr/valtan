@@ -820,7 +820,15 @@
     method))
 
 (defun canonicalize-method-specializers (specializers)
-  (mapcar #'find-class specializers))
+  (mapcar #'canonicalize-method-specializer specializers))
+
+(defun canonicalize-method-specializer (specializer)
+  (cond ((standard-instance-p specializer)
+         specializer)
+        ((symbolp specializer)
+         (find-class specializer))
+        (t
+         (error "Unknown specializer: ~S" specializer))))
 
 (defun make-instance-standard-method (method-class &key lambda-list qualifiers specializers body)
   (declare (ignore method-class))
