@@ -900,19 +900,6 @@
                               new-value)))
 
 
-(defun allocate-instance (class)
-  (make-standard-instance :class class))
-
-(defun initialize-instance (instance &rest initargs)
-  )
-
-(defun make-instance (class &rest initargs)
-  (setq class (canonicalize-class class))
-  (let ((instance (allocate-instance class)))
-    (apply #'initialize-instance instance initargs)
-    instance))
-
-
 (setq +standard-class+
       (let ((standard-class (make-standard-instance)))
         (setf (standard-instance-class standard-class) standard-class)
@@ -951,3 +938,16 @@
          (lambda-list)
          (specializers)
          (qualifiers))))
+
+
+(defun allocate-instance (class)
+  (make-standard-instance :class class))
+
+(defun initialize-instance (instance &rest initargs)
+  )
+
+(defun make-instance (class &rest initargs)
+  (setq class (canonicalize-class class))
+  (let ((instance (allocate-instance class)))
+    (apply #'initialize-instance instance initargs)
+    instance))
