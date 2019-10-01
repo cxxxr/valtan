@@ -581,13 +581,14 @@
     gf))
 
 (defun finalize-generic-function (gf)
-  (set-funcallable-instance-function
-   gf (if (eq (class-of gf) +standard-generic-function+)
-          (std-compute-discriminating-function gf)
-          (error "compute-discriminating-function trap")))
-  (setf (fdefinition (generic-function-name gf))
-        gf) ;TODO: funcallable
-  (clrhash (classes-to-emf-table gf)))
+  (let ((discriminating-function
+          (if (eq (class-of gf) +standard-generic-function+)
+              (std-compute-discriminating-function gf)
+              (error "compute-discriminating-function trap"))))
+    (set-funcallable-instance-function gf discriminating-function)
+    ;; (setf (fdefinition (generic-function-name gf)) gf)
+    (setf (fdefinition (generic-function-name gf)) discriminating-function) ;TODO: funcallable
+    (clrhash (classes-to-emf-table gf))))
 
 (defun required-classes (gf args)
   (let ((argc (length args)))
