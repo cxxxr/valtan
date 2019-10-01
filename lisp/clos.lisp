@@ -884,6 +884,21 @@
         (error "No such method for ~S." (generic-function-name gf))
         method)))
 
+(defun add-reader-method (class fn-name slot-name)
+  (ensure-method (ensure-generic-function fn-name :lambda-list '(object))
+                 :lambda-list '(object)
+                 :qualifiers '()
+                 :specializers `(,class)
+                 :body `(slot-value ',slot-name)))
+
+(defun add-writer-method (class fn-name slot-name)
+  (ensure-method (ensure-generic-function fn-name :lambda-list '(new-value object))
+                 :lambda-list '(new-value object)
+                 :qualifiers ()
+                 :specializers `(,(find-class t) ,class)
+                 :body `(setf (slot-value object ',slot-name)
+                              new-value)))
+
 
 (defun allocate-instance (class)
   (make-standard-instance :class class))
@@ -896,12 +911,6 @@
   (let ((instance (allocate-instance class)))
     (apply #'initialize-instance instance initargs)
     instance))
-
-(defun add-reader-method (class fn-name slot-name)
-  )
-
-(defun add-writer-method (class fn-name slot-name)
-  )
 
 
 (setq +standard-class+
