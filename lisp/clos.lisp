@@ -885,14 +885,14 @@
         method)))
 
 (defun add-reader-method (class fn-name slot-name)
-  (ensure-method (ensure-generic-function fn-name :lambda-list '(object))
+  (ensure-method fn-name
                  :lambda-list '(object)
                  :qualifiers '()
                  :specializers `(,class)
                  :body `(slot-value ',slot-name)))
 
 (defun add-writer-method (class fn-name slot-name)
-  (ensure-method (ensure-generic-function fn-name :lambda-list '(new-value object))
+  (ensure-method fn-name
                  :lambda-list '(new-value object)
                  :qualifiers ()
                  :specializers `(,(find-class t) ,class)
@@ -909,7 +909,7 @@
 (setf (find-class 'standard-class) +standard-class+)
 
 (setf (find-class 't)
-      (let ((class (allocate-instance +standard-class+)))
+      (let ((class (make-standard-instance :class +standard-class+)))
         (setf (class-name class) 't)
         (setf (class-direct-subclasses class) ())
         (setf (class-direct-superclasses class) ())
@@ -940,14 +940,11 @@
          (qualifiers))))
 
 
-(defun allocate-instance (class)
-  (make-standard-instance :class class))
-
 (defun initialize-instance (instance &rest initargs)
   )
 
 (defun make-instance (class &rest initargs)
   (setq class (canonicalize-class class))
-  (let ((instance (allocate-instance class)))
+  (let ((instance (make-standard-instance :class class)))
     (apply #'initialize-instance instance initargs)
     instance))
