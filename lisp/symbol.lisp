@@ -24,8 +24,11 @@
 
 (defsetf get (symbol indicator &optional default)
     (value)
-  `(system::%put ,symbol ,indicator
-                 (progn ,default ,value)))
+  (let ((g-value (gensym)))
+    `(let ((,g-value ,value))
+       (system::%put ,symbol ,indicator
+                     (progn ,default ,g-value))
+       ,g-value)))
 
 (defun remprop (symbol indicator)
   (do ((plist (symbol-plist symbol) (cddr plist))
