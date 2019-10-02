@@ -837,3 +837,8 @@ bar)")))
   (ffi:console.log (cl::hash-table-object ht))
   (print (gethash 'ffi::set ht)))
 |#
+
+(print (fdefinition '(setf car)))
+(let ((x (list nil)))
+  (funcall (fdefinition '(setf car)) 100 x)
+  (print x))

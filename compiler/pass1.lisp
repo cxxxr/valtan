@@ -261,7 +261,9 @@
                             ,g-args
                             (list ,g-store)
                             (list* ,g-setter ,g-store ,gensyms)
-                            (list* ,g-getter ,gensyms)))))))
+                            (list* ,g-getter ,gensyms))))
+                (system::%put ',(second name) 'system::fdefinition-setf #',setf-fn)
+                ',name)))
           ((variable-symbol-p name)
            (if (toplevel-p)
                `(%defun ,name ,lambda-list ,@body)
