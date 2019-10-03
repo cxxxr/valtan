@@ -53,6 +53,12 @@
         (push (cons slot-name value) (standard-instance-slots class)))
     value))
 
+(defun slot-value (object slot-name)
+  (%slot-value object slot-name))
+
+(defun (setf slot-value) (value object slot-name)
+  (setf (%slot-value object slot-name) value))
+
 (defun class-name (class)
   (%slot-value class 'name))
 
