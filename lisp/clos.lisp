@@ -656,18 +656,19 @@
   (%compute-applicable-methods gf args (required-classes gf args)))
 
 (defun %compute-applicable-methods (gf args required-classes)
-  (sort (remove-if-not (lambda (method)
-                         (every #'subclassp
-                                required-classes
-                                (method-specializers method)))
-                       (generic-function-methods gf))
-        (if (eq (class-of gf) +standard-generic-function+)
-            (lambda (m1 m2)
-              (std-method-more-specific-p gf m1 m2 required-classes))
-            #+(or)
-            (lambda (m1 m2)
-              (method-more-specific-p gf m1 m2 required-classes))
-            (error "method-more-specific-p trap"))))
+  ;; XXX: sortが定義されてないので代わりにstable-sortを使っている
+  (stable-sort (remove-if-not (lambda (method)
+                                (every #'subclassp
+                                       required-classes
+                                       (method-specializers method)))
+                              (generic-function-methods gf))
+               (if (eq (class-of gf) +standard-generic-function+)
+                   (lambda (m1 m2)
+                     (std-method-more-specific-p gf m1 m2 required-classes))
+                   #+(or)
+                   (lambda (m1 m2)
+                     (method-more-specific-p gf m1 m2 required-classes))
+                   (error "method-more-specific-p trap"))))
 
 (defun std-method-more-specific-p (gf m1 m2 required-classes)
   (mapc (lambda (spec1 spec2 required-class)

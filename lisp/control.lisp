@@ -183,6 +183,12 @@
 (system::defmacro* multiple-value-list (value-form)
   `(multiple-value-call #'list ,value-form))
 
+(system::defmacro* multiple-value-prog1 (first-form &rest forms)
+  (let ((g-values (gensym)))
+    `(let ((,g-values (multiple-value-list ,first-form)))
+       ,@forms
+       (apply #'values ,g-values))))
+
 (defun eql (x y)
   (cond ((and (characterp x) (characterp y))
          (char= x y))
