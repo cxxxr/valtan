@@ -516,7 +516,7 @@
          (map-sequences (lambda (args)
                           (unless (apply function args)
                             (return-from every nil)))
-                        (cons sequence sequences))
+                        (cons sequence more-sequences))
          t)))
 
 (defun some (function sequence &rest more-sequences)

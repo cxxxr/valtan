@@ -638,8 +638,8 @@
 
 (defun std-compute-discriminating-function (gf)
   (lambda (&rest args)
-    (let ((classes (required-classes gf args))
-          (emfun (gethash classes (classes-to-emf-table gf))))
+    (let* ((classes (required-classes gf args))
+           (emfun (gethash classes (classes-to-emf-table gf))))
       (if emfun
           (funcall emfun args)
           (slow-method-lookup gf args classes)))))
@@ -661,7 +661,7 @@
                                 required-classes
                                 (method-specializers method)))
                        (generic-function-methods gf))
-        (if (eq (class-of gf) +standard-method+)
+        (if (eq (class-of gf) +standard-generic-function+)
             (lambda (m1 m2)
               (std-method-more-specific-p gf m1 m2 required-classes))
             #+(or)
