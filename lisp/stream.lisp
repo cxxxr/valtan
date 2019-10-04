@@ -211,3 +211,10 @@
 (defun close (stream)
   (declare (ignore stream))
   t)
+
+(defun streamp (x)
+  (or (string-output-stream-p x)
+      (standard-output-stream-p x)
+      (string-input-stream-p x)
+      (file-input-stream-p x)
+      (standard-input-stream-p x)))

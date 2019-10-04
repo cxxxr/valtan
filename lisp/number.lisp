@@ -1,5 +1,9 @@
 (in-package :common-lisp)
 
+(defun floatp (x)
+  (and (not (integerp x))
+       (numberp x)))
+
 (defun plusp (x)
   (< 0 x))
 
