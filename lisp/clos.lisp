@@ -271,7 +271,8 @@
 (defun ensure-class (name &rest args)
   (apply #'ensure-class-using-class (find-class name nil) name args))
 
-(defun ensure-class-using-class (class name &key direct-default-initargs direct-slots
+(defun ensure-class-using-class (class name &rest args
+                                            &key direct-default-initargs direct-slots
                                                  direct-superclasses #|name|#
                                                  (metaclass 'standard-class)
                                             &allow-other-keys)
@@ -279,7 +280,10 @@
   (check-duplicate-direct-default-initargs direct-default-initargs name)
   (setq direct-superclasses (mapcar #'find-class direct-superclasses))
   (cond (class
-         (error "trap"))
+         (std-after-initialization-for-classes class
+                                               :direct-superclasses direct-superclasses
+                                               :direct-slots direct-slots)
+         class)
         (t
          (setq metaclass (canonicalize-class metaclass))
          (setf (find-class name)
@@ -436,7 +440,8 @@
               all-names))))
 
 (defun std-compute-effective-slot-definition (class direct-slots)
-  (let ((initer (find-if #'identity direct-slots :key #'slot-definition-initfunction)))
+  (let ((initer (find-if (lambda (slot) (slot-definition-initform slot))
+                         direct-slots)))
     (make-effective-slot-definition
      :name (slot-definition-name (car direct-slots))
      :initform (if initer
