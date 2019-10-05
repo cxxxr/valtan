@@ -707,6 +707,8 @@
 (defun std-compute-effective-method-function (gf methods)
   (let ((primaries (remove-if-not #'primary-method-p methods))
         (around (find-if #'around-method-p methods)))
+    (when (null primaries)
+      (error "No primary methods for the generic function ~S." gf))
     (if around
         (let ((next-fmfun
                 (if (eq (class-of gf) +standard-generic-function+)
@@ -1039,4 +1041,4 @@
   (apply #'make-instance (find-class symbol) initargs))
 
 (defmethod make-instance ((class standard-class) &rest initargs)
-  (apply #'make-instance-standard-class class (class-name class) initargs))
+  (apply #'make-instance-standard-class class :name (class-name class) initargs))
