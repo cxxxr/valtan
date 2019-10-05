@@ -8,4 +8,10 @@
    z)
   (:default-initargs :x 10))
 
-(print (find-class 'foo))
+(print (defgeneric hoge (x y)))
+(print (defmethod hoge ((x integer) (y integer))
+         (+ x y)))
+
+(print (hoge 1 2))
+
+(print (make-instance 'foo))
