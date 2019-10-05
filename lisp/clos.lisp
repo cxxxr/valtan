@@ -955,6 +955,13 @@
       (let ((standard-class (make-standard-instance)))
         (setf (standard-instance-class standard-class) standard-class)
         (setf (class-name standard-class) 'standard-class)
+        (setf (class-direct-subclasses standard-class) ())
+        (setf (class-direct-superclasses standard-class) ())
+        (setf (class-direct-methods standard-class) ())
+        (setf (class-direct-slots standard-class) ())
+        (setf (class-precedence-list standard-class) (list standard-class))
+        (setf (class-slots standard-class) ())
+        (setf (class-direct-default-initargs standard-class) ())
         standard-class))
 
 (setf (find-class 'standard-class) +standard-class+)
@@ -973,6 +980,16 @@
 
 (defclass standard-object (t) ())
 
+(defclass standard-class ()
+  ((name :initarg :name)
+   (direct-superclasses :initarg :direct-superclasses)
+   (direct-slots :initform '())
+   (direct-default-initargs :initform '())
+   (class-precedence-list)
+   (effective-slots)
+   (direct-subclasses :initform '())
+   (direct-methods :initform '())))
+
 (setq +standard-generic-function+
       (defclass standard-generic-function ()
         ((name)
@@ -989,16 +1006,6 @@
          (lambda-list)
          (specializers)
          (qualifiers))))
-
-
-(defun initialize-instance (instance &rest initargs)
-  )
-
-(defun make-instance (class &rest initargs)
-  (setq class (canonicalize-class class))
-  (let ((instance (make-standard-instance :class class)))
-    (apply #'initialize-instance instance initargs)
-    instance))
 
 ;;(defclass t (t) ())
 (defclass array (t) ())
@@ -1025,3 +1032,11 @@
 (defclass readtable (t) ())
 (defclass stream (t) ())
 (defclass string (vector) ())
+
+(defgeneric make-instance (class &key))
+
+(defmethod make-instance ((symbol symbol) &rest initargs)
+  (apply #'make-instance (find-class symbol) initargs))
+
+(defmethod make-instance ((class standard-class) &rest initargs)
+  (apply #'make-instance-standard-class class (class-name class) initargs))
