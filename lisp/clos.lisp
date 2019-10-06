@@ -39,7 +39,7 @@
     (funcall (standard-instance-printer standard-instance)
              standard-instance stream depth)))
 
-(defun std-slot-boudnp (instance slot-name)
+(defun std-slot-boundp (instance slot-name)
   (if (assoc slot-name (standard-instance-slots instance))
       t
       nil))
@@ -1061,29 +1061,27 @@
 (defmethod allocate-instance ((class standard-class) &rest initargs)
   (make-standard-instance :class class :printer 'standard-class-printer))
 
-(defun shared-initialize (instance slot-names &rest initargs)
-  (when (eq slot-names t)
-    (setq slot-names (mapcar #'slot-definition-name (class-slots (class-of instance)))))
-  (dolist (slot (class-slots (class-of instance)))
-    (let ((slot-name (slot-definition-name slot)))
-      (multiple-value-bind (key value tail)
-          (get-properties initargs (slot-definition-initargs slot))
-        (declare (ignore key))
-        (if tail
-            (setf (slot-value instance slot-name) value)
-            (when (and (not (slot-boundp instance slot-name))
-                       (member name slot-names)
-                       (slot-definition-initfunction slot))
-              (setf (slot-value instance slot-name)
-                    (funcall (slot-definition-initfunction slot))))))))
-  instance)
+;; (defun shared-initialize (instance slot-names &rest initargs)
+;;   (when (eq slot-names t)
+;;     (setq slot-names (mapcar #'slot-definition-name (class-slots (class-of instance)))))
+;;   (dolist (slot (class-slots (class-of instance)))
+;;     (let ((slot-name (slot-definition-name slot)))
+;;       (multiple-value-bind (key value tail)
+;;           (get-properties initargs (slot-definition-initargs slot))
+;;         (declare (ignore key))
+;;         (if tail
+;;             (setf (slot-value instance slot-name) value)
+;;             (when (and (not (slot-boundp instance slot-name))
+;;                        (member slot-name slot-names)
+;;                        (slot-definition-initfunction slot))
+;;               (setf (slot-value instance slot-name)
+;;                     (funcall (slot-definition-initfunction slot))))))))
+;;   instance)
 
-#|
 (defgeneric shared-initialize (instance slot-names &key))
 
+(setq *shared-initialize*
 (defmethod shared-initialize ((instance standard-object) slot-names &rest initargs)
-  (when (eq slot-names t)
-    (setq slot-names (mapcar #'slot-definition-name (class-slots (class-of instance)))))
   (dolist (slot (class-slots (class-of instance)))
     (let ((slot-name (slot-definition-name slot)))
       (multiple-value-bind (key value tail)
@@ -1092,12 +1090,12 @@
         (if tail
             (setf (slot-value instance slot-name) value)
             (when (and (not (slot-boundp instance slot-name))
-                       (member name slot-names)
+                       (or (eq slot-names t)
+                           (member name slot-names))
                        (slot-definition-initfunction slot))
               (setf (slot-value instance slot-name)
                     (funcall (slot-definition-initfunction slot))))))))
-  instance)
-|#
+  instance))
 
 (defgeneric initialize-instance (instance &key))
 
