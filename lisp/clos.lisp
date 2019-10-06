@@ -39,6 +39,17 @@
     (funcall (standard-instance-printer standard-instance)
              standard-instance stream depth)))
 
+(defun std-slot-boudnp (instance slot-name)
+  (if (assoc slot-name (standard-instance-slots instance))
+      t
+      nil))
+
+(defun slot-boundp (object slot-name)
+  (if (eq (class-of (class-of object)) +standard-class+)
+      (std-slot-boundp object slot-name)
+      (error "slot-bound-using-class trap")
+      #+(or)(slot-bound-using-class (class-of object) object slot-name)))
+
 (defun %slot-value (class slot-name)
   (let ((elt (assoc slot-name (standard-instance-slots class))))
     (unless elt
@@ -899,8 +910,18 @@
                      (funcall ,g-next-emfun (or ,g-call-next-method-args ,g-args))))
                (next-method-p ()
                  (not (null ,g-next-emfun))))
-          (apply (lambda ,lambda-list ,body)
+          (apply (lambda ,(kludge-arglist lambda-list)
+                   ,body)
                  ,g-args))))))
+
+(defun kludge-arglist (lambda-list)
+  (if (and (member '&key lambda-list)
+           (not (member '&allow-other-keys lambda-list)))
+      (append lambda-list '(&allow-other-keys))
+      (if (and (not (member '&rest lambda-list))
+               (not (member '&key lambda-list)))
+          (append lambda-list '(&key &allow-other-keys))
+          lambda-list)))
 
 (defun add-method (gf method)
   (let ((old-method
@@ -1035,10 +1056,60 @@
 (defclass stream (t) ())
 (defclass string (vector) ())
 
+(defgeneric allocate-instance (class &key))
+
+(defmethod allocate-instance ((class standard-class) &rest initargs)
+  (make-standard-instance :class class :printer 'standard-class-printer))
+
+(defun shared-initialize (instance slot-names &rest initargs)
+  (when (eq slot-names t)
+    (setq slot-names (mapcar #'slot-definition-name (class-slots (class-of instance)))))
+  (dolist (slot (class-slots (class-of instance)))
+    (let ((slot-name (slot-definition-name slot)))
+      (multiple-value-bind (key value tail)
+          (get-properties initargs (slot-definition-initargs slot))
+        (declare (ignore key))
+        (if tail
+            (setf (slot-value instance slot-name) value)
+            (when (and (not (slot-boundp instance slot-name))
+                       (member name slot-names)
+                       (slot-definition-initfunction slot))
+              (setf (slot-value instance slot-name)
+                    (funcall (slot-definition-initfunction slot))))))))
+  instance)
+
+#|
+(defgeneric shared-initialize (instance slot-names &key))
+
+(defmethod shared-initialize ((instance standard-object) slot-names &rest initargs)
+  (when (eq slot-names t)
+    (setq slot-names (mapcar #'slot-definition-name (class-slots (class-of instance)))))
+  (dolist (slot (class-slots (class-of instance)))
+    (let ((slot-name (slot-definition-name slot)))
+      (multiple-value-bind (key value tail)
+          (get-properties initargs (slot-definition-initargs slot))
+        (declare (ignore key))
+        (if tail
+            (setf (slot-value instance slot-name) value)
+            (when (and (not (slot-boundp instance slot-name))
+                       (member name slot-names)
+                       (slot-definition-initfunction slot))
+              (setf (slot-value instance slot-name)
+                    (funcall (slot-definition-initfunction slot))))))))
+  instance)
+|#
+
+(defgeneric initialize-instance (instance &key))
+
+(defmethod initialize-instance ((instance standard-object) &rest initargs)
+  (apply #'shared-initialize instance t initargs))
+
 (defgeneric make-instance (class &key))
 
 (defmethod make-instance ((symbol symbol) &rest initargs)
   (apply #'make-instance (find-class symbol) initargs))
 
 (defmethod make-instance ((class standard-class) &rest initargs)
-  (apply #'make-instance-standard-class class :name (class-name class) initargs))
+  (let ((instance (apply #'allocate-instance class initargs)))
+    (apply #'initialize-instance instance initargs)
+    instance))
