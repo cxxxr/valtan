@@ -30,7 +30,7 @@
 
 (defun standard-class-printer (standard-instance stream depth)
   (declare (ignore depth))
-  (format stream "~S ~S"
+  (format stream "~S ~A"
           (class-name (standard-instance-class standard-instance))
           (class-name standard-instance)))
 
@@ -1098,8 +1098,10 @@
 (defmethod make-instance ((symbol symbol) &rest initargs)
   (apply #'make-instance (find-class symbol) initargs))
 
+(defvar *standard-object-counter* 0)
+
 (defmethod make-instance ((class standard-class) &rest initargs)
   (let ((instance (apply #'allocate-instance class initargs)))
-    (setf (class-name instance) *gensym-counter*)
+    (setf (class-name instance) (format nil "{~A}" (incf *standard-object-counter*)))
     (apply #'initialize-instance instance initargs)
     instance))
