@@ -162,7 +162,6 @@
                                "pass2")))
           (directory-files "./lisp/"
                            '("compilation"))
-          #+(or)
           (directory-files "./lisp/"
                            '("clos"))))
 

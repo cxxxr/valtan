@@ -1100,5 +1100,6 @@
 
 (defmethod make-instance ((class standard-class) &rest initargs)
   (let ((instance (apply #'allocate-instance class initargs)))
+    (setf (class-name instance) *gensym-counter*)
     (apply #'initialize-instance instance initargs)
     instance))
