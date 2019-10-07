@@ -850,6 +850,30 @@
                              function-name)
                          body)))))))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun kludge-arglist (lambda-list)
+    (if (and (member '&key lambda-list)
+             (not (member '&allow-other-keys lambda-list)))
+        (append lambda-list '(&allow-other-keys))
+        (if (and (not (member '&rest lambda-list))
+                 (not (member '&key lambda-list)))
+            (append lambda-list '(&key &allow-other-keys))
+            lambda-list))))
+
+(defmacro %make-method-lambda (lambda-list body)
+  (let ((g-args (gensym))
+        (g-next-emfun (gensym))
+        (g-call-next-method-args (gensym)))
+    `(lambda (,g-args ,g-next-emfun)
+       (flet ((call-next-method (&rest ,g-call-next-method-args)
+                (if (null ,g-next-emfun)
+                    (error "No next method")
+                    (funcall ,g-next-emfun (or ,g-call-next-method-args ,g-args))))
+              (next-method-p ()
+                (not (null ,g-next-emfun))))
+         (apply (lambda ,lambda-list ,body)
+                ,g-args)))))
+
 (defmacro defmethod (&rest args)
   (multiple-value-bind (function-name
                         qualifiers
@@ -861,10 +885,12 @@
                     :lambda-list ',lambda-list
                     :qualifiers ',qualifiers
                     :specializers ',specializers
-                    :body ',body)))
+                    :body ',body
+                    :function (%make-method-lambda ,(kludge-arglist lambda-list) ,body))))
 
-(defun ensure-method (function-name &rest args &key lambda-list qualifiers specializers body)
-  (declare (ignore qualifiers specializers body))
+(defun ensure-method (function-name &rest args &key lambda-list qualifiers specializers body
+                                                    function)
+  (declare (ignore qualifiers specializers body function))
   (let* ((gf (ensure-generic-function function-name :lambda-list lambda-list))
          (method-class (generic-function-method-class gf))
          (method (apply (if (eq method-class +standard-method+)
@@ -886,7 +912,8 @@
         (t
          (error "Unknown specializer: ~S" specializer))))
 
-(defun make-instance-standard-method (method-class &key lambda-list qualifiers specializers body)
+(defun make-instance-standard-method (method-class &key lambda-list qualifiers
+                                                        specializers body function)
   (declare (ignore method-class))
   (let ((method (make-standard-instance :class +standard-method+
                                         :printer 'standard-method-printer)))
@@ -894,34 +921,8 @@
     (setf (method-qualifiers method) qualifiers)
     (setf (method-specializers method) (canonicalize-method-specializers specializers))
     (setf (method-generic-function method) nil)
-    (setf (method-function method)
-          (%make-method-lambda lambda-list body))
+    (setf (method-function method) function)
     method))
-
-(defun %make-method-lambda (lambda-list body)
-  (let ((g-args (gensym))
-        (g-next-emfun (gensym))
-        (g-call-next-method-args (gensym)))
-    (eval
-     `(lambda (,g-args ,g-next-emfun)
-        (flet ((call-next-method (&rest ,g-call-next-method-args)
-                 (if (null ,g-next-emfun)
-                     (error "No next method")
-                     (funcall ,g-next-emfun (or ,g-call-next-method-args ,g-args))))
-               (next-method-p ()
-                 (not (null ,g-next-emfun))))
-          (apply (lambda ,(kludge-arglist lambda-list)
-                   ,body)
-                 ,g-args))))))
-
-(defun kludge-arglist (lambda-list)
-  (if (and (member '&key lambda-list)
-           (not (member '&allow-other-keys lambda-list)))
-      (append lambda-list '(&allow-other-keys))
-      (if (and (not (member '&rest lambda-list))
-               (not (member '&key lambda-list)))
-          (append lambda-list '(&key &allow-other-keys))
-          lambda-list)))
 
 (defun add-method (gf method)
   (let ((old-method
@@ -963,7 +964,11 @@
                  :lambda-list '(object)
                  :qualifiers '()
                  :specializers `(,class)
-                 :body `(slot-value ',slot-name)))
+                 :body `(slot-value ',slot-name)
+                 :function (lambda (args next-emfun)
+                             (declare (ignore next-emfun))
+                             (destructuring-bind (object &key &allow-other-keys) args
+                               (slot-value object slot-name)))))
 
 (defun add-writer-method (class fn-name slot-name)
   (ensure-method fn-name
@@ -971,7 +976,11 @@
                  :qualifiers ()
                  :specializers `(,(find-class t) ,class)
                  :body `(setf (slot-value object ',slot-name)
-                              new-value)))
+                              new-value)
+                 :function (lambda (args next-emfun)
+                             (declare (ignore next-emfun))
+                             (destructuring-bind (new-value object &key &allow-other-keys) args
+                               (setf (slot-value object slot-name) new-value)))))
 
 
 (setq +standard-class+
@@ -1061,26 +1070,8 @@
 (defmethod allocate-instance ((class standard-class) &rest initargs)
   (make-standard-instance :class class :printer 'standard-class-printer))
 
-;; (defun shared-initialize (instance slot-names &rest initargs)
-;;   (when (eq slot-names t)
-;;     (setq slot-names (mapcar #'slot-definition-name (class-slots (class-of instance)))))
-;;   (dolist (slot (class-slots (class-of instance)))
-;;     (let ((slot-name (slot-definition-name slot)))
-;;       (multiple-value-bind (key value tail)
-;;           (get-properties initargs (slot-definition-initargs slot))
-;;         (declare (ignore key))
-;;         (if tail
-;;             (setf (slot-value instance slot-name) value)
-;;             (when (and (not (slot-boundp instance slot-name))
-;;                        (member slot-name slot-names)
-;;                        (slot-definition-initfunction slot))
-;;               (setf (slot-value instance slot-name)
-;;                     (funcall (slot-definition-initfunction slot))))))))
-;;   instance)
-
 (defgeneric shared-initialize (instance slot-names &key))
 
-(setq *shared-initialize*
 (defmethod shared-initialize ((instance standard-object) slot-names &rest initargs)
   (dolist (slot (class-slots (class-of instance)))
     (let ((slot-name (slot-definition-name slot)))
@@ -1095,7 +1086,7 @@
                        (slot-definition-initfunction slot))
               (setf (slot-value instance slot-name)
                     (funcall (slot-definition-initfunction slot))))))))
-  instance))
+  instance)
 
 (defgeneric initialize-instance (instance &key))
 
