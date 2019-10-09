@@ -9,19 +9,27 @@
                       :format-arguments arguments)
       (apply #'make-condition datum arguments)))
 
+(defun signal-1 (condition)
+  (dolist (handler *handlers*)
+    (when (subclassp (car handler) condition)
+      (funcall (cdr handler) condition))))
+
 (defun signal (datum &rest arguments)
   (let ((condition (coerce-to-condition datum arguments 'simple-condition)))
-    (dolist (handler *handlers*)
-      (when (subclassp (car handler) condition)
-        (funcall (cdr handler) condition)))))
+    (signal-1 condition)))
 
 (defun invoke-debugger (condition)
-  (system::error (ffi:cl->js (princ-to-string condition))))
+  (system::error
+   (ffi:cl->js (apply #'format nil
+                      (simple-condition-format-control condition)
+                      (simple-condition-format-arguments condition)))))
 
 (defun error (datum &rest arguments)
-  (let ((condition (coerce-to-condition datum arguments 'simple-error)))
-    (signal condition)
-    (invoke-debugger condition)))
+  (if (not (fboundp 'make-instance))
+      (system::error (ffi:cl->js (apply #'format nil datum arguments)))
+      (let ((condition (coerce-to-condition datum arguments 'simple-error)))
+        (signal-1 condition)
+        (invoke-debugger condition))))
 
 (defmacro assert (test-form &optional place datum-form argument-form)
   (declare (ignore place datum-form argument-form))
