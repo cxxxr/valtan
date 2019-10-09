@@ -1,7 +1,27 @@
 (in-package :common-lisp)
 
+(defvar *handlers* '())
+
+(defun coerce-to-condition (datum arguments default-condition)
+  (if (or (stringp datum) (functionp datum))
+      (make-condition default-condition
+                      :format-control datum
+                      :format-arguments arguments)
+      (apply #'make-condition datum arguments)))
+
+(defun signal (datum &rest arguments)
+  (let ((condition (coerce-to-condition datum arguments 'simple-condition)))
+    (dolist (handler *handlers*)
+      (when (subclassp (car handler) condition)
+        (funcall (cdr handler) condition)))))
+
+(defun invoke-debugger (condition)
+  (system::error (ffi:cl->js (princ-to-string condition))))
+
 (defun error (datum &rest arguments)
-  (system::error (system::array-to-js-string (apply #'format nil datum arguments))))
+  (let ((condition (coerce-to-condition datum arguments 'simple-error)))
+    (signal condition)
+    (invoke-debugger condition)))
 
 (defmacro assert (test-form &optional place datum-form argument-form)
   (declare (ignore place datum-form argument-form))

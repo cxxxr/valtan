@@ -1105,3 +1105,24 @@
     (setf (class-name instance) (format nil "{~A}" (incf *standard-object-counter*)))
     (apply #'initialize-instance instance initargs)
     instance))
+
+(defmacro define-condition (name parent-types slot-specs &body options)
+  (let ((report (second (assoc :report options)))
+        (g-condition (gensym))
+        (g-stream (gensym)))
+    `(progn
+       (defclass ,name ,(or parent-types '(condition))
+         ,slot-specs
+         ,@options)
+       ,(cond ((null report))
+              ((stringp report)
+               `(defmethod print-object ((,g-condition ,name) ,g-stream)
+                  (if *print-escape*
+                      (call-next-method)
+                      (write-string ,report ,g-stream) ,g-condition)))
+              (t
+               `(defmethod print-object ((,g-condition ,name) ,g-stream)
+                  (if *print-escape*
+                      (call-next-method)
+                      (,report ,g-condition ,g-stream)))))
+       ,name)))
