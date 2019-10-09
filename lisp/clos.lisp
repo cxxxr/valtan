@@ -1125,4 +1125,28 @@
                   (if *print-escape*
                       (call-next-method)
                       (,report ,g-condition ,g-stream)))))
-       ,name)))
+       ',name)))
+
+(define-condition condition (standard-object)
+  ((format-control :initarg :format-control)
+   (format-arguments :initarg :format-arguments)))
+
+(define-condition warning (condition) ())
+(define-condition style-warning (warning) ())
+(define-condition serious-condition (condition) ())
+(define-condition error (serious-condition) ())
+(define-condition cell-error (error) ())
+(define-condition parse-error (error) ())
+(define-condition storage-condition (serious-condition) ())
+(define-condition simple-condition (condition)
+  ((format-control
+    :initarg :format-control
+    :reader simple-condition-format-control)
+   (format-arguments
+    :initarg :format-arguments
+    :reader simple-condition-format-arguments)))
+(define-condition simple-error (simple-condition error) ())
+(define-condition simple-warning (simple-condition warning) ())
+
+(defun make-condition (type &rest initargs)
+  (apply #'make-instance type initargs))
