@@ -1105,6 +1105,10 @@
     (setf (class-name instance) (format nil "{~A}" (incf *standard-object-counter*)))
     (apply #'initialize-instance instance initargs)
     instance))
+
+
+(defmacro defstruct (&rest args) `(defstruct! ,@args))
+
 
 (defmacro define-condition (name parent-types slot-specs &body options)
   (let ((report (second (assoc :report options)))
@@ -1150,6 +1154,3 @@
 
 (defun make-condition (type &rest initargs)
   (apply #'make-instance type initargs))
-
-(defmacro defstruct (&rest args)
-  `(defstruct! ,@args))
