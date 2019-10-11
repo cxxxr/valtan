@@ -3,7 +3,7 @@
 (defun copy-structure (x)
   (system::copy-structure x))
 
-(defmacro defstruct (name-and-options &rest slot-descriptions)
+(defmacro defstruct! (name-and-options &rest slot-descriptions)
   (let ((structure-name (if (consp name-and-options)
                             (first name-and-options)
                             name-and-options))

@@ -18,9 +18,9 @@
 
 ;;; XXX: jsのMapを使っているのでhash-tableのtestがequal, equalpの場合に機能しない
 
-(defstruct (hash-table (:copier nil)
-                       (:predicate hash-table-p)
-                       (:constructor %make-hash-table))
+(defstruct! (hash-table (:copier nil)
+                        (:predicate hash-table-p)
+                        (:constructor %make-hash-table))
   object
   (keys nil)
   (test nil :read-only t)

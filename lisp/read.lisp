@@ -35,12 +35,12 @@
 
 (defparameter +sharp-equal-marker+ (gensym))
 
-(defstruct sharp-equal
+(defstruct! sharp-equal
   label
   (value +sharp-equal-marker+))
 
-(defstruct (readtable (:predicate readtablep)
-                      (:copier %copy-readtable))
+(defstruct! (readtable (:predicate readtablep)
+                       (:copier %copy-readtable))
   (case :upcase)
   (table (make-hash-table))
   (dispatch-macro-table (make-hash-table)))

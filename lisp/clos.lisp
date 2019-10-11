@@ -14,12 +14,12 @@
 
 (defvar +standard-class+)
 
-(defstruct (standard-instance (:print-function print-standard-instance))
+(defstruct! (standard-instance (:print-function print-standard-instance))
   (printer 'standard-class-printer)
   class
   slots)
 
-(defstruct slot-definition
+(defstruct! slot-definition
   name
   initargs
   initform
@@ -1150,3 +1150,6 @@
 
 (defun make-condition (type &rest initargs)
   (apply #'make-instance type initargs))
+
+(defmacro defstruct (&rest args)
+  `(defstruct! ,@args))
