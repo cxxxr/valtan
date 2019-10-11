@@ -14,12 +14,12 @@
 
 (defvar +standard-class+)
 
-(defstruct! (standard-instance (:print-function print-standard-instance))
+(defstruct (standard-instance (:print-function print-standard-instance))
   (printer 'standard-class-printer)
   class
   slots)
 
-(defstruct! slot-definition
+(defstruct slot-definition
   name
   initargs
   initform
@@ -1105,9 +1105,6 @@
     (setf (class-name instance) (format nil "{~A}" (incf *standard-object-counter*)))
     (apply #'initialize-instance instance initargs)
     instance))
-
-
-(defmacro defstruct (&rest args) `(defstruct! ,@args))
 
 
 (defmacro define-condition (name parent-types slot-specs &body options)

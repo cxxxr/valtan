@@ -2,8 +2,8 @@
 
 (defvar system::*get-stdin-line-function*)
 
-(defstruct! (string-output-stream (:copier nil)
-                                  (:constructor %make-string-output-stream))
+(defstruct (string-output-stream (:copier nil)
+                                 (:constructor %make-string-output-stream))
   (buffer ""))
 
 (defun make-string-output-stream (&key element-type)
@@ -15,7 +15,7 @@
     (setf (string-output-stream-buffer stream) "")
     string))
 
-(defstruct! (standard-output-stream (:copier nil))
+(defstruct (standard-output-stream (:copier nil))
   (buffer ""))
 
 (defvar *standard-output* (make-standard-output-stream))
@@ -83,8 +83,8 @@
 (defun terpri (&optional (stream *standard-output*))
   (write-char #\newline stream))
 
-(defstruct! (string-input-stream (:copier nil)
-                                 (:constructor %make-string-input-stream))
+(defstruct (string-input-stream (:copier nil)
+                                (:constructor %make-string-input-stream))
   string
   position
   end)
@@ -98,10 +98,10 @@
   (>= (string-input-stream-position stream)
       (string-input-stream-end stream)))
 
-(defstruct! file-input-stream
+(defstruct file-input-stream
   string-stream)
 
-(defstruct! (standard-input-stream (:copier nil))
+(defstruct (standard-input-stream (:copier nil))
   (string "")
   (position 0))
 

@@ -57,7 +57,7 @@
               :predicate-name predicate-name
               :print-function print-function)))))
 
-(defmacro defstruct! (name-and-options &rest slot-descriptions)
+(defmacro defstruct (name-and-options &rest slot-descriptions)
   (destructuring-bind (&key structure-name conc-name constructor-option included-option type-option
                        named-option constructor-name copier-name predicate-name print-function)
       (parse-structure-name-and-options name-and-options)

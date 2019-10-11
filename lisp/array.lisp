@@ -1,8 +1,8 @@
 (in-package :common-lisp)
 
-(defstruct! (array (:constructor %make-array)
-                   (:copier nil)
-                   (:predicate arrayp))
+(defstruct (array (:constructor %make-array)
+                  (:copier nil)
+                  (:predicate arrayp))
   contents
   fill-pointer
   rank
