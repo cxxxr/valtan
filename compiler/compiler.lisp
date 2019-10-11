@@ -127,7 +127,7 @@
               (make-pathname :name name :type "lisp" :defaults base-path))
             files)))
 
-(defun get-lisp-files (&key self)
+(defun get-lisp-files ()
   (append (directory-files "./lisp/"
                            '("control"
                              "setf"
@@ -150,20 +150,18 @@
                              "print"
                              "read"
                              "file"
-                             "pkg"))
-          (when self
-            (directory-files "./compiler/"
-                             '("packages"
-                               "variables"
-                               "util"
-                               "error"
-                               "ir"
-                               "pass1"
-                               "pass2")))
+                             "pkg"
+                             "clos"))
+          (directory-files "./compiler/"
+                           '("packages"
+                             "variables"
+                             "util"
+                             "error"
+                             "ir"
+                             "pass1"
+                             "pass2"))
           (directory-files "./lisp/"
-                           '("compilation"))
-          (directory-files "./lisp/"
-                           '("clos"))))
+                           '("compilation"))))
 
 (defun build (pathnames output)
   (let ((*standard-output* output))
@@ -205,7 +203,7 @@
                    (declare (ignore module-name))
                    (let ((ir-forms '())
                          (*require-modules* '()))
-                     (dolist (file (get-lisp-files :self t))
+                     (dolist (file (get-lisp-files))
                        (do-file-form (form file)
                          (push (pass1-toplevel form) ir-forms)))
                      (dolist (ir-form (pass1-dump-macros))
