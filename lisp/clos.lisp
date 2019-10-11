@@ -15,7 +15,6 @@
 (defvar +standard-class+)
 
 (defstruct (standard-instance (:print-function print-standard-instance))
-  (printer 'standard-class-printer)
   class
   slots)
 
@@ -28,16 +27,9 @@
   writers
   allocation)
 
-(defun standard-class-printer (standard-instance stream depth)
-  (declare (ignore depth))
-  (format stream "~S ~A"
-          (class-name (standard-instance-class standard-instance))
-          (class-name standard-instance)))
-
 (defun print-standard-instance (standard-instance stream depth)
-  (print-unreadable-object (standard-instance stream)
-    (funcall (standard-instance-printer standard-instance)
-             standard-instance stream depth)))
+  (declare (ignore depth))
+  (print-object standard-instance stream))
 
 (defun std-slot-boundp (instance slot-name)
   (if (assoc slot-name (standard-instance-slots instance))
@@ -313,8 +305,7 @@
                                                     direct-default-initargs
                                                &allow-other-keys)
   (declare (ignore metaclass))
-  (let ((class (make-standard-instance :class +standard-class+
-                                       :printer 'standard-class-printer)))
+  (let ((class (make-standard-instance :class +standard-class+)))
     (setf (class-name class) name)
     (setf (class-direct-subclasses class) '())
     (setf (class-direct-methods class) '())
@@ -477,12 +468,6 @@
 
 (defvar +standard-generic-function+)
 
-(defun standard-generic-function-printer (gf stream depth)
-  (format stream "~S ~S ~S"
-          (class-name (standard-instance-class gf))
-          (generic-function-name gf)
-          (generic-function-lambda-list gf)))
-
 (defun generic-function-name (gf)
   (%slot-value gf 'name))
 
@@ -523,14 +508,6 @@
   (setf (%slot-value gf 'funcallable-instance) function))
 
 (defvar +standard-method+)
-
-(defun standard-method-printer (method stream depth)
-  (format stream "~S ~S ~S"
-          (class-name (standard-instance-class method))
-          (if (method-generic-function method)
-              (generic-function-name (method-generic-function method))
-              nil)
-          (method-specializers method)))
 
 (defun method-function (method)
   (%slot-value method 'function))
@@ -620,8 +597,7 @@
 (defun make-instance-standard-generic-function
     (generic-function-class &key name lambda-list method-class &allow-other-keys)
   (declare (ignore generic-function-class))
-  (let ((gf (make-standard-instance :class +standard-generic-function+
-                                    :printer 'standard-generic-function-printer)))
+  (let ((gf (make-standard-instance :class +standard-generic-function+)))
     (setf (generic-function-name gf) name)
     (setf (generic-function-lambda-list gf) lambda-list)
     (setf (generic-function-method-class gf) method-class)
@@ -915,8 +891,7 @@
 (defun make-instance-standard-method (method-class &key lambda-list qualifiers
                                                         specializers body function)
   (declare (ignore method-class))
-  (let ((method (make-standard-instance :class +standard-method+
-                                        :printer 'standard-method-printer)))
+  (let ((method (make-standard-instance :class +standard-method+)))
     (setf (method-lambda-list method) lambda-list)
     (setf (method-qualifiers method) qualifiers)
     (setf (method-specializers method) (canonicalize-method-specializers specializers))
@@ -1068,7 +1043,7 @@
 (defgeneric allocate-instance (class &key))
 
 (defmethod allocate-instance ((class standard-class) &rest initargs)
-  (make-standard-instance :class class :printer 'standard-class-printer))
+  (make-standard-instance :class class))
 
 (defgeneric shared-initialize (instance slot-names &key))
 
@@ -1105,6 +1080,37 @@
     (setf (class-name instance) (format nil "{~A}" (incf *standard-object-counter*)))
     (apply #'initialize-instance instance initargs)
     instance))
+
+
+(defgeneric print-object (object stream))
+
+(defmethod print-object ((object standard-class) stream)
+  (print-unreadable-object (object stream)
+    (format stream "~S ~A"
+            (class-name (standard-instance-class object))
+            (class-name object))))
+
+(defmethod print-object ((object standard-object) stream)
+  (print-unreadable-object (object stream)
+    (format stream "~S ~A"
+            (class-name (standard-instance-class object))
+            (class-name object))))
+
+(defmethod print-object ((object standard-generic-function) stream)
+  (print-unreadable-object (object stream)
+    (format stream "~S ~S ~S"
+            (class-name (standard-instance-class object))
+            (generic-function-name object)
+            (generic-function-lambda-list object))))
+
+(defmethod print-object ((object standard-method) stream)
+  (print-unreadable-object (object stream)
+    (format stream "~S ~S ~S"
+            (class-name (standard-instance-class object))
+            (if (method-generic-function object)
+                (generic-function-name (method-generic-function object))
+                nil)
+            (method-specializers object))))
 
 
 (defmacro define-condition (name parent-types slot-specs &body options)
