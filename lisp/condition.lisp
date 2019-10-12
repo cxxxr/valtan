@@ -10,9 +10,10 @@
       (apply #'make-condition datum arguments)))
 
 (defun signal-1 (condition)
-  (dolist (handler *handlers*)
-    (when (subclassp (class-of condition) (car handler))
-      (funcall (cdr handler) condition))))
+  (let ((class (class-of condition)))
+    (dolist (handler *handlers*)
+      (when (subclassp class (car handler))
+        (funcall (cdr handler) condition)))))
 
 (defun signal (datum &rest arguments)
   (let ((condition (coerce-to-condition datum arguments 'simple-condition)))
@@ -52,3 +53,30 @@
                  `(push (cons (find-class ',(car binding)) ,(cadr binding)) *handlers*))
                (reverse bindings))
      ,@forms))
+
+(defmacro handler-case (form &rest cases)
+  (let ((error-clauses
+          (remove :no-error cases :key #'car))
+        (no-error-clause
+          (find :no-error cases :key #'car))
+        (g-condition (gensym))
+        (g-name (gensym)))
+    `(block ,g-name
+       (handler-bind
+           ,(mapcar (lambda (c)
+                      `(,(car c)
+                        ,(if (consp (cadr c))
+                             `(lambda ,(cadr c)
+                                (return-from ,g-name
+                                  (progn ,@(cddr c))))
+                             `(lambda (,g-condition)
+                                (declare (ignore ,g-condition))
+                                (return-from ,g-name
+                                  (progn ,@(cdr c)))))))
+                    error-clauses)
+         ,(if no-error-clause
+              (destructuring-bind ((var) . body)
+                  (cdr no-error-clause)
+                `(let ((,var ,form))
+                   ,@body))
+              form)))))
