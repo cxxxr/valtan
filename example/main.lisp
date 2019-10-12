@@ -838,7 +838,25 @@ bar)")))
   (print (gethash 'ffi::set ht)))
 |#
 
-(print (fdefinition '(setf car)))
-(let ((x (list nil)))
-  (funcall (fdefinition '(setf car)) 100 x)
-  (print x))
+(defun benchmark (function)
+  (let ((start ((ffi:ref "Date" "now"))))
+    (write-line "start")
+    (funcall function)
+    (write-line "end")
+    (format t "time: ~A ms~%" (- ((ffi:ref "Date" "now")) start))))
+
+(benchmark
+ (lambda ()
+   (compiler::pass1-toplevel
+    '(LET ((PLACE (QUOTE ("love" "peace"))))
+      (AND (EQ (PUSHNEW "peace" PLACE :TEST (FUNCTION EQUAL)) PLACE)
+       (EQUAL PLACE (QUOTE ("love" "peace")))))
+    t)))
+
+(benchmark
+ (lambda ()
+   (compiler::pass1-toplevel
+    '(LET ((PLACE (QUOTE ("love" "peace"))))
+      (AND (EQ (PUSHNEW "peace" PLACE :TEST (FUNCTION EQUAL)) PLACE)
+       (EQUAL PLACE (QUOTE ("love" "peace")))))
+    t)))
