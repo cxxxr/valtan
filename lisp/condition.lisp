@@ -20,10 +20,7 @@
     (signal-1 condition)))
 
 (defun invoke-debugger (condition)
-  (system::error
-   (ffi:cl->js (apply #'format nil
-                      (simple-condition-format-control condition)
-                      (simple-condition-format-arguments condition)))))
+  (system::error (ffi:cl->js (princ-to-string condition))))
 
 (defvar *in-error* nil)
 

@@ -1160,5 +1160,18 @@
 (define-condition simple-error (simple-condition error) ())
 (define-condition simple-warning (simple-condition warning) ())
 
+(define-condition type-error (error)
+  ((datum
+    :initarg :datum
+    :reader type-error-datum)
+   (expected-type
+    :initarg :expected-type
+    :reader type-error-expected-type))
+  (:report
+   (lambda (c stream)
+     (format stream "The value ~S is not of the expected type ~A"
+             (type-error-datum c)
+             (type-error-expected-type c)))))
+
 (defun make-condition (type &rest initargs)
   (apply #'make-instance type initargs))
