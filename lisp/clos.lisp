@@ -1151,7 +1151,12 @@
     :reader simple-condition-format-control)
    (format-arguments
     :initarg :format-arguments
-    :reader simple-condition-format-arguments)))
+    :reader simple-condition-format-arguments))
+  (:report
+   (lambda (c stream)
+     (format stream
+             (simple-condition-format-control c)
+             (simple-condition-format-arguments c)))))
 (define-condition simple-error (simple-condition error) ())
 (define-condition simple-warning (simple-condition warning) ())
 

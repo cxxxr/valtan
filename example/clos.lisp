@@ -23,3 +23,10 @@
 ;; (hoge (make-instance 'foo) 100)
 
 (print (make-instance 'foo))
+
+(let ((e (make-instance 'simple-error
+                        :format-control "test"
+                        :format-arguments '())))
+  (print e)
+  (terpri)
+  (princ e))
