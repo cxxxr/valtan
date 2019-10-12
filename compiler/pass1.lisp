@@ -992,6 +992,22 @@
   (mapcar (lambda (name)
             (pass1-toplevel
              (if (get-symbol-macro name)
-                 `(system::%put ',name 'symbol-macro ',(get-symbol-macro name))
-                 `(system::%put ',name 'macro ',(get-macro name)))))
+                 `(system::%put ',name 'symbol-macro ',(macroexpand-walk (get-symbol-macro name)))
+                 `(system::%put ',name 'macro ',(macroexpand-walk (get-macro name))))))
           *macro-definitions*))
+
+(defun macroexpand-walk (x)
+  (labels ((rec (x)
+             (multiple-value-bind (x expanded-p)
+                 (%macroexpand-1 x)
+               (cond (expanded-p
+                      (rec x))
+                     ((atom x)
+                      x)
+                     ((eq (car x) 'system::quasiquote)
+                      (expand-quasiquote (cadr x)))
+                     (t
+                      (cons (rec (car x))
+                            (rec (cdr x))))))))
+    (let ((*lexenv* nil))
+      (rec x))))
