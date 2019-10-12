@@ -12,7 +12,7 @@
       (let ((clause (first clauses)))
         `(if ,(first clause)
              ,(if (null (rest clause))
-                  t
+                  t ; TODO: あとで直す
                   `(progn ,@(rest clause)))
              (cond ,@(rest clauses))))))
 
