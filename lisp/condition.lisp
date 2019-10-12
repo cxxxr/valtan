@@ -56,9 +56,9 @@
 
 (defmacro handler-case (form &rest cases)
   (let ((error-clauses
-          (remove :no-error cases :key #'car))
+          (remove-if (lambda (c) (eq (car c) :no-error)) cases))
         (no-error-clause
-          (find :no-error cases :key #'car))
+          (find-if (lambda (c) (eq (car c) :no-error)) cases))
         (g-condition (gensym))
         (g-name (gensym)))
     `(block ,g-name
@@ -75,8 +75,7 @@
                                   (progn ,@(cdr c)))))))
                     error-clauses)
          ,(if no-error-clause
-              (destructuring-bind ((var) . body)
+              (destructuring-bind (args . body)
                   (cdr no-error-clause)
-                `(let ((,var ,form))
-                   ,@body))
+                `(destructuring-bind ,args ,form ,@body))
               form)))))
