@@ -916,7 +916,7 @@
 
 (defun remove-method (gf method)
   (setf (generic-function-methods gf)
-        (delete method (generic-function-methods gf)))
+        (remove method (generic-function-methods gf))) ; TODO: delete
   (setf (method-generic-function method) nil)
   (dolist (class (method-specializers method))
     (setf (class-direct-methods class)
