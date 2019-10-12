@@ -458,6 +458,20 @@
                  parsed-lambda-list
                  (pass1-forms body t t))))))
 
+(defvar *macro-cache-table* (make-hash-table))
+
+(defun %macro-function (symbol)
+  (let ((binding (lookup symbol :macro)))
+    ;; (count-if-used binding)
+    (cond (binding
+           (binding-value binding))
+          (t
+           (or (gethash symbol *macro-cache-table*)
+               (let ((fn (get-macro symbol)))
+                 (if fn
+                     (setf (gethash symbol *macro-cache-table*) (eval fn))
+                     nil)))))))
+
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
          (let ((binding (lookup form :symbol-macro)))
@@ -469,14 +483,10 @@
                      (values expansion t)
                      (values form nil))))))
         ((and (consp form) (symbolp (first form)))
-         (let ((binding (lookup (first form) :macro)))
-           (count-if-used binding)
-           (if binding
-               (values (apply (binding-value binding) (rest form)) t)
-               (let ((fn (get-macro (first form))))
-                 (if fn
-                     (values (apply (eval fn) (rest form)) t)
-                     (values form nil))))))
+         (let ((function (%macro-function (first form))))
+           (if function
+               (values (apply function (rest form)) t)
+               (values form nil))))
         (t
          (values form nil))))
 
