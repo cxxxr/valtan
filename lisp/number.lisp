@@ -8,8 +8,8 @@
                       (error 'type-error :datum n :expected-type 'number))
                     (setq acc (,op acc n)))
                   acc))))
-  (def + system::add 0)
-  (def * system::mul 1))
+  (def + system::%add 0)
+  (def * system::%mul 1))
 
 (macrolet ((def (name op)
              `(defun ,name (number &rest numbers)
@@ -20,7 +20,7 @@
                     (error 'type-error :datum n :expected-type 'number))
                   (setq number (,op number n)))
                 number)))
-  (def - system::sub))
+  (def - system::%sub))
 
 (defun floatp (x)
   (and (not (integerp x))
