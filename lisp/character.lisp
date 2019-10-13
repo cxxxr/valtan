@@ -15,16 +15,12 @@
 (defun code-char (code)
   (unless (and (integerp code)
                (<= 0 code))
-    (error 'type-error
-           :datum code
-           :expected-type 'integer)) ; TODO: positive integer
+    (type-error code 'integer)) ; TODO: positive integer
   (system::%code-char code))
 
 (defun char-code (char)
   (unless (characterp char)
-    (error 'type-error
-           :datum char
-           :expected-type 'character))
+    (type-error char 'character))
   (system::%char-code char))
 
 (defun char-downcase (char)

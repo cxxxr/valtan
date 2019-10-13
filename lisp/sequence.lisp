@@ -178,7 +178,7 @@
              (string
               (make-array length :initial-contents acc :element-type 'string))
              (otherwise
-              (error 'type-error  :datum result-type :expected-type 'sequence)))))))
+              (type-error result-type 'sequence)))))))
 
 #+(or)
 (defun map-into (result-sequence function &rest sequences)

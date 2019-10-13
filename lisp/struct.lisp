@@ -2,7 +2,7 @@
 
 (defun copy-structure (x)
   (unless (system::structure-p x)
-    (error 'type-error :datum x :expected-type 'structure-object))
+    (type-error x 'structure-object))
   (system::%copy-structure x))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
@@ -104,16 +104,12 @@
                          `(progn
                             (defun ,accessor (structure)
                               (unless (system::structure-p structure)
-                                (error 'type-error
-                                       :datum structure
-                                       :expected-type 'structure-object))
+                                (type-error structure 'structure-object))
                               (system::%structure-ref structure ,i))
                             ,@(unless read-only
                                 `((defun (setf ,accessor) (value structure)
                                     (unless (system::structure-p structure)
-                                      (error 'type-error
-                                             :datum structure
-                                             :expected-type 'structure-object))
+                                      (type-error structure 'structure-object))
                                     (system::%structure-set structure ,i value))))))))
                    slot-descriptions))
        (setf (get ',structure-name 'structure-printer)
