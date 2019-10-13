@@ -38,8 +38,8 @@
   `(unless ,test-form
      (error ,(format nil "assertion error: ~S" test-form))))
 
-(defun type-error (value type-name)
-  (error "The value ~S is not of the expected type ~A" value type-name))
+(defun type-error (datum expected-type)
+  (error 'type-error :datum datum :expected-type expected-type))
 
 (defun eof-error ()
   (error "End of file"))
