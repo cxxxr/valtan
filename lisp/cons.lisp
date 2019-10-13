@@ -9,6 +9,26 @@
 (defun listp (x)
   (or (null x) (consp x)))
 
+(defun car (x)
+  (unless (listp x)
+    (error 'type-error :datum x :expected-type 'list))
+  (system::%car x))
+
+(defun cdr (x)
+  (unless (listp x)
+    (error 'type-error :datum x :expected-type 'list))
+  (system::%cdr x))
+
+(defun rplaca (cons x)
+  (unless (consp cons)
+    (error 'type-error :datum cons :expected-type 'cons))
+  (system::%rplaca cons x))
+
+(defun rplacd (cons x)
+  (unless (consp cons)
+    (error 'type-error :datum cons :expected-type 'cons))
+  (system::%rplacd cons x))
+
 (defun (setf car) (value cons) (rplaca cons value) value)
 (defun (setf cdr) (value cons) (rplacd cons value) value)
 
