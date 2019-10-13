@@ -14,7 +14,7 @@
     (numberp (numberp object))
     (otherwise
      (if (system::structure-p object)
-         (eq (system::structure-name object)
+         (eq (system::%structure-name object)
              type)))))
 
 (defun subtypep (type1 type2 &optional environment)

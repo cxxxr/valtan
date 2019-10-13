@@ -1,7 +1,9 @@
 (in-package :common-lisp)
 
 (defun copy-structure (x)
-  (system::copy-structure x))
+  (unless (system::structure-p x)
+    (error 'type-error :datum x :expected-type 'structure-object))
+  (system::%copy-structure x))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun parse-structure-name-and-options (name-and-options)
@@ -66,7 +68,7 @@
     `(progn
        ,@(unless (null copier-name)
            `((defun ,copier-name (x)
-               (system::copy-structure x))))
+               (copy-structure x))))
        ,@(unless (null predicate-name)
            `((defun ,predicate-name (x)
                (typep x ',structure-name))))
@@ -79,7 +81,7 @@
                                                                   (second slot-desc))
                                                             slot-desc))
                                                       slot-descriptions)))
-         (system:make-structure ',structure-name
+         (system::make-structure ',structure-name
                                 ,@(mapcar (lambda (slot-desc)
                                             (let ((slot-name
                                                     (if (consp slot-desc)
@@ -101,10 +103,18 @@
                          (declare (ignore type))
                          `(progn
                             (defun ,accessor (structure)
-                              (system:structure-ref structure ,i))
+                              (unless (system::structure-p structure)
+                                (error 'type-error
+                                       :datum structure
+                                       :expected-type 'structure-object))
+                              (system::%structure-ref structure ,i))
                             ,@(unless read-only
                                 `((defun (setf ,accessor) (value structure)
-                                    (system:structure-set structure ,i value))))))))
+                                    (unless (system::structure-p structure)
+                                      (error 'type-error
+                                             :datum structure
+                                             :expected-type 'structure-object))
+                                    (system::%structure-set structure ,i value))))))))
                    slot-descriptions))
        (setf (get ',structure-name 'structure-printer)
              ,(if print-function
@@ -126,10 +136,10 @@
                                                       :keyword)
                                              stream)
                                       (write-string " " stream)
-                                      (prin1 (system::structure-ref structure ,(incf i)) stream)))
+                                      (prin1 (system::%structure-ref structure ,(incf i)) stream)))
                                  slot-descriptions))
                      (write-string ")" stream))))
        ',structure-name)))
 
 (defun structure-printer (structure)
-  (get (system::structure-name structure) 'structure-printer))
+  (get (system::%structure-name structure) 'structure-printer))

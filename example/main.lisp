@@ -1,5 +1,5 @@
 (in-package :cl-user)
-#|
+
 ;; TODO: in-packageをファイル単位で有効にする
 
 ;; バッククォートのテスト 今の実装は不十分なので二重のバッククォートは使えずこのテストもこける
@@ -753,7 +753,7 @@ efg")))
 (assert (= 0.2 (read-from-string ".2")))
 (assert (= 1 (read-from-string "1.")))
 (assert (= 123 (read-from-string "+123")))
-(assert (= -123 (read-from-string "-123")))
+(assert (= -123 (print (read-from-string "-123"))))
 (assert (eq '|a| (read-from-string "\\a")))
 (assert (eq '|aB| (read-from-string "\\ab")))
 (assert (string= "abc" (string (read-from-string "|abc|"))))
@@ -836,7 +836,6 @@ bar)")))
   (setf (gethash 'cl::set ht) t)
   (ffi:console.log (cl::hash-table-object ht))
   (print (gethash 'ffi::set ht)))
-|#
 
 (defun benchmark (function)
   (let ((start ((ffi:ref "Date" "now"))))
