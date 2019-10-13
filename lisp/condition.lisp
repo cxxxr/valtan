@@ -28,10 +28,10 @@
   (if (or *in-error*
           (not (fboundp 'make-instance)))
       (system::error (ffi:cl->js (apply #'format nil datum arguments)))
-      (let ((*in-error* t))
-        (let ((condition (coerce-to-condition datum arguments 'simple-error)))
-          (signal-1 condition)
-          (invoke-debugger condition)))))
+      (let ((*in-error* t)
+            (condition (coerce-to-condition datum arguments 'simple-error)))
+        (signal-1 condition)
+        (invoke-debugger condition))))
 
 (defmacro assert (test-form &optional place datum-form argument-form)
   (declare (ignore place datum-form argument-form))
