@@ -174,7 +174,12 @@
            (case (if (consp result-type)
                      (car result-type)
                      result-type)
-             ((list cons) acc)
+             (null
+              (when acc
+                (type-error acc 'null))
+              nil)
+             ((list cons)
+              acc)
              (vector
               (make-array length :initial-contents acc))
              (string
