@@ -12,4 +12,4 @@
 (test "example/sacla-tests/must-cons.lisp")
 (test "example/sacla-tests/must-character.lisp")
 (test "example/sacla-tests/must-string.lisp")
-(test "example/sacla-tests/must-sequence.lisp")
+;; (test "example/sacla-tests/must-sequence.lisp")

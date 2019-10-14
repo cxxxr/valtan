@@ -305,7 +305,7 @@
           (write-line ");")
           (when (third opt)
             (emit-declvar (third opt) finally-stream)
-            (format t "(arguments.length > ~D ? lisp.tValue : lisp.nilValue);~%" i))
+            (format t "(arguments.length > ~D ? lisp.S_t : lisp.nilValue);~%" i))
           (incf i)))
       (when (parsed-lambda-list-keys parsed-lambda-list)
         (let ((keyword-vars '()))
@@ -329,7 +329,7 @@
                 (write-line ");")
                 (when (third opt)
                   (emit-declvar (third opt) finally-stream)
-                  (format t "(~A ? lisp.tValue : lisp.nilValue);~%" supplied-var)))))
+                  (format t "(~A ? lisp.S_t : lisp.nilValue);~%" supplied-var)))))
           (format t "if ((arguments.length - ~D) % 2 === 1)" i)
           (write-line "{ lisp.raise('odd number of &KEY arguments'); }")
           (when (and keyword-vars
