@@ -88,5 +88,5 @@
          ,(if no-error-clause
               (destructuring-bind (args . body)
                   (cdr no-error-clause)
-                `(multiple-value-bind ,args ,form ,@body))
+                `(multiple-value-call (lambda ,args ,@body) ,form))
               form)))))
