@@ -403,8 +403,9 @@
                   end
                   key)))
 
-(defun position-if-not (predicate sequence &key from-end start end key)
-  (position-if (complement predicate) sequence :from-end from-end :start start :end end :key key))
+(defun position-if-not (predicate sequence &rest args &key from-end start end key)
+  (declare (ignore from-end start end key))
+  (apply #'position-if (complement predicate) sequence args))
 
 #+(or)
 (defun search (sequence-1 sequence-2 &key from-end test test-not key start1 start2 end1 end2)
