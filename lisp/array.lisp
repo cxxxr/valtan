@@ -117,6 +117,9 @@
                :element-type t))
 
 (defun system::js-string-to-array (js-string)
+  (simple-make-string js-string))
+
+(defun simple-make-string (js-string)
   (%make-array :contents js-string
                :rank 1
                :length (ffi:ref js-string "length")
@@ -205,4 +208,3 @@
     (incf (array-fill-pointer vector))
     (setf (aref vector i) new-element)
     i))
-

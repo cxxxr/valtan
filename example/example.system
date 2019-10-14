@@ -1,4 +1,4 @@
 ;; -*- mode:lisp -*-
 
 (module "example"
-        ("tests"))
+        ("main"))

@@ -862,6 +862,18 @@ bar)")))
     t)))
 |#
 
-(handler-case (consp)
-  (program-error (c)
-    (princ c)))
+(handler-case (intern "FOO" :hoge)
+  (error (e)
+    (princ e)
+    (terpri)))
+
+(handler-case (foo)
+  (error (e)
+    (princ e)
+    (terpri)))
+
+(handler-case foo
+  (error (e)
+    (princ e)
+    (terpri)))
+

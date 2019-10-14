@@ -38,6 +38,9 @@
   `(unless ,test-form
      (error ,(format nil "assertion error: ~S" test-form))))
 
+(defun simple-error (string &rest arguments)
+  (apply #'error string arguments))
+
 (defun arguments-error (name num-args)
   (error 'program-error
          :format-control "invalid number of arguments for ~A: ~A"
