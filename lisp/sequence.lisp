@@ -476,10 +476,11 @@
                   nil
                   nil)))
 
-(defun remove-if (test sequence &key from-end start end #+(or)count key)
-  (remove-if-not (complement test) sequence :from-end from-end :start start :end end :key key))
+(defun remove-if (test sequence &rest args &key from-end start end count key)
+  (declare (ignore from-end start end count key))
+  (apply #'remove-if-not (complement test) sequence args))
 
-(defun remove-if-not (test sequence &key from-end start end #+(or)count key)
+(defun remove-if-not (test sequence &key from-end start end count key)
   (with-accumulate ()
     (map-sequence (lambda (x)
                     (when (funcall test x)
