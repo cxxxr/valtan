@@ -179,7 +179,7 @@
               nil)
              ((list cons)
               acc)
-             (vector
+             ((vector simple-vector)
               (make-array length :initial-contents acc))
              (string
               (make-array length :initial-contents acc :element-type 'character))

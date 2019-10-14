@@ -862,17 +862,8 @@ bar)")))
     t)))
 |#
 
-(handler-case (intern "FOO" :hoge)
-  (error (e)
-    (princ e)
-    (terpri)))
-
-(handler-case (foo)
-  (undefined-function (e)
-    (princ e)
-    (terpri)))
-
-(handler-case foo
-  (unbound-variable (e)
-    (princ e)
-    (terpri)))
+(print (EQUALP (MAP (QUOTE (SIMPLE-VECTOR 2))
+                    (FUNCTION +)
+                    #(0 1)
+                    #(1 0))
+               #(1 1)))
