@@ -45,6 +45,9 @@
     (type-error divisor 'number))
   (system::%rem number divisor))
 
+(defun mod (number divisor)
+  (rem number divisor))
+
 (defun floor (number &optional (divisor 1))
   (unless (numberp number)
     (type-error number 'number))

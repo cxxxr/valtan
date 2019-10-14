@@ -176,7 +176,7 @@
              (vector
               (make-array length :initial-contents acc))
              (string
-              (make-array length :initial-contents acc :element-type 'string))
+              (make-array length :initial-contents acc :element-type 'character))
              (otherwise
               (type-error result-type 'sequence)))))))
 
