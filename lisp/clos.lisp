@@ -1134,10 +1134,7 @@
                       (,report ,g-condition ,g-stream)))))
        ',name)))
 
-(define-condition condition (standard-object)
-  ((format-control :initarg :format-control)
-   (format-arguments :initarg :format-arguments)))
-
+(define-condition condition (standard-object) ())
 (define-condition warning (condition) ())
 (define-condition style-warning (warning) ())
 (define-condition serious-condition (condition) ())
@@ -1154,9 +1151,10 @@
     :reader simple-condition-format-arguments))
   (:report
    (lambda (c stream)
-     (format stream
-             (simple-condition-format-control c)
-             (simple-condition-format-arguments c)))))
+     (apply #'format
+            stream
+            (simple-condition-format-control c)
+            (simple-condition-format-arguments c)))))
 (define-condition simple-error (simple-condition error) ())
 (define-condition simple-warning (simple-condition warning) ())
 
@@ -1172,6 +1170,8 @@
      (format stream "The value ~S is not of the expected type ~A"
              (type-error-datum c)
              (type-error-expected-type c)))))
+
+(define-condition program-error (simple-condition error) ())
 
 (defun make-condition (type &rest initargs)
   (apply #'make-instance type initargs))
