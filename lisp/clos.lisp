@@ -1139,7 +1139,8 @@
 (define-condition style-warning (warning) ())
 (define-condition serious-condition (condition) ())
 (define-condition error (serious-condition) ())
-(define-condition cell-error (error) ())
+(define-condition cell-error (error)
+  ((name :initarg :name :reader cell-error-name)))
 (define-condition parse-error (error) ())
 (define-condition storage-condition (serious-condition) ())
 (define-condition simple-condition (condition)
@@ -1172,6 +1173,16 @@
              (type-error-expected-type c)))))
 
 (define-condition program-error (simple-condition error) ())
+
+(define-condition undefined-function (cell-error) ()
+  (:report
+   (lambda (c stream)
+     (format stream "The function ~S is undefined" (cell-error-name c)))))
+
+(define-condition unbound-variable (cell-error) ()
+  (:report
+   (lambda (c stream)
+     (format stream "The variable ~S is unbound" (cell-error-name c)))))
 
 (defun make-condition (type &rest initargs)
   (apply #'make-instance type initargs))

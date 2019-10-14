@@ -41,6 +41,12 @@
 (defun simple-error (string &rest arguments)
   (apply #'error string arguments))
 
+(defun undefined-function (name)
+  (error 'undefined-function :name name))
+
+(defun unbound-variable (name)
+  (error 'unbound-variable :name name))
+
 (defun arguments-error (name num-args)
   (error 'program-error
          :format-control "invalid number of arguments for ~A: ~A"

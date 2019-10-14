@@ -868,12 +868,11 @@ bar)")))
     (terpri)))
 
 (handler-case (foo)
-  (error (e)
+  (undefined-function (e)
     (princ e)
     (terpri)))
 
 (handler-case foo
-  (error (e)
+  (unbound-variable (e)
     (princ e)
     (terpri)))
-
