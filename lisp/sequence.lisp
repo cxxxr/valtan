@@ -79,7 +79,7 @@
 
 (defun make-sequence (result-type size &key (initial-element nil initial-element-p))
   (let ((type (if (consp result-type) (first result-type) result-type)))
-    (ecase type
+    (case type
       (null
        (unless (zerop size)
          (error "The length requested (1) does not match the type restriction in NULL."))
@@ -94,7 +94,7 @@
        (if initial-element-p
            (make-string size :initial-element initial-element)
            (make-string size)))
-      ((vector array)
+      ((vector array simple-vector)
        (if (and (consp result-type)
                 (eq 'character (upgraded-array-element-type (second result-type))))
            (make-string size :initial-element initial-element)
@@ -103,8 +103,8 @@
        (if initial-element-p
            (make-array size :element-type 'bit :initial-element initial-element)
            (make-array size :element-type 'bit :initial-element 0)))
-      (simple-vector
-       (make-array size :initial-element initial-element)))))
+      (otherwise
+       (type-error result-type 'sequence)))))
 
 (defun subseq-list (list start end)
   (when (and start
