@@ -5,8 +5,8 @@
     (error "out of bounds")))
 
 (defun map-sequence (function sequence from-end start end key)
-  (when start
-    (setq sequence (subseq sequence start end)))
+  (when (or start end)
+    (setq sequence (subseq sequence (or start 0) end)))
   (when from-end
     (setq sequence (reverse sequence)))
   (cond ((listp sequence)
@@ -329,31 +329,31 @@
 (defun find (item sequence &key from-end start end key test test-not)
   (map-sequence (cond (test
                        (lambda (x)
-                         (when (funcall test item x)
+                         (when (funcall test item (apply-key key x))
                            (return-from find x))))
                       (test-not
                        (lambda (x)
-                         (when (not (funcall test-not item x))
+                         (when (not (funcall test-not item (apply-key key x)))
                            (return-from find x))))
                       (t
                        (lambda (x)
-                         (when (eql item x)
+                         (when (eql item (apply-key key x))
                            (return-from find x)))))
                 sequence
                 from-end
                 start
                 end
-                key))
+                nil))
 
 (defun find-if (predicate sequence &key from-end start end key)
   (map-sequence (lambda (x)
-                  (when (funcall predicate x)
+                  (when (funcall predicate (apply-key key x))
                     (return-from find-if x)))
                 sequence
                 from-end
                 start
                 end
-                key)
+                nil)
   nil)
 
 (defun find-if-not (predicate sequence &key from-end start end key)
