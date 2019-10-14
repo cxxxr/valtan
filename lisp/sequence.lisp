@@ -171,8 +171,10 @@
                             (push (apply function args) acc))
                           (cons sequence more-sequences))
            (setq acc (nreverse acc))
-           (case result-type
-             (list acc)
+           (case (if (consp result-type)
+                     (car result-type)
+                     result-type)
+             ((list cons) acc)
              (vector
               (make-array length :initial-contents acc))
              (string
