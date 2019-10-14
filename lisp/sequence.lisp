@@ -356,8 +356,9 @@
                 nil)
   nil)
 
-(defun find-if-not (predicate sequence &key from-end start end key)
-  (find-if (complement predicate) sequence :from-end from-end :start start :end end :key key))
+(defun find-if-not (predicate sequence &rest args &key from-end start end key)
+  (declare (ignore from-end start end key))
+  (apply #'find-if (complement predicate) sequence args))
 
 (defun position (item sequence &key from-end test test-not (start 0) (end (length sequence)) key)
   (let ((pos (if from-end (1- end) start)))
