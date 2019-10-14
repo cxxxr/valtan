@@ -159,8 +159,7 @@
          nil)
         ((null result-type)
          (map-sequences (lambda (args)
-                          (incf length)
-                          (push (apply function args) acc))
+                          (apply function args))
                         (cons sequence more-sequences))
          nil)
         (t

@@ -21,6 +21,14 @@
           (type-error n 'number))
         (setq number (system::%sub number n)))))
 
+(defun logand (&rest integers)
+  (let ((result -1))
+    (dolist (i integers)
+      (unless (integerp i)
+        (type-error i 'integer))
+      (setq result (system::%logand result i)))
+    result))
+
 (macrolet ((def (name cmp)
              `(defun ,name (number &rest numbers)
                 (unless (numberp number)
