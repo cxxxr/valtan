@@ -94,7 +94,7 @@
        (if initial-element-p
            (make-string size :initial-element initial-element)
            (make-string size)))
-      ((vector array simple-vector)
+      ((array vector simple-vector)
        (if (and (consp result-type)
                 (eq 'character (upgraded-array-element-type (second result-type))))
            (make-string size :initial-element initial-element)
@@ -179,7 +179,7 @@
               nil)
              ((list cons)
               acc)
-             ((vector simple-vector)
+             ((array vector simple-vector)
               (make-array length :initial-contents acc))
              (string
               (make-array length :initial-contents acc :element-type 'character))
