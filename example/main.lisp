@@ -1,5 +1,6 @@
 (in-package :cl-user)
 
+#|
 ;; TODO: in-packageをファイル単位で有効にする
 
 ;; バッククォートのテスト 今の実装は不十分なので二重のバッククォートは使えずこのテストもこける
@@ -859,3 +860,8 @@ bar)")))
       (AND (EQ (PUSHNEW "peace" PLACE :TEST (FUNCTION EQUAL)) PLACE)
        (EQUAL PLACE (QUOTE ("love" "peace")))))
     t)))
+|#
+
+(handler-case (consp)
+  (program-error (c)
+    (princ c)))
