@@ -40,9 +40,9 @@
     (cons (consp object))
     (symbol (symbolp object))
     (string (stringp object))
-    ;(hash-table (hash-table-p object))
+    (hash-table (hash-table-p object))
     (vector (vectorp object))
-    ;(array (arrayp object))
+    (array (arrayp object))
     (integer (integerp object))
     (numberp (numberp object))
     (otherwise
