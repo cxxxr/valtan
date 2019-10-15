@@ -294,6 +294,9 @@
 (def-transform lambda (args &rest body)
   `(function (lambda ,args ,@body)))
 
+(def-transform system::named-lambda (name args &rest body)
+  `(function (system::named-lambda ,name ,args ,@body)))
+
 (def-transform defvar (var &optional (value nil value-p) doc)
   (declare (ignore doc))
   `(progn
@@ -441,22 +444,27 @@
     inner-lexenv))
 
 (defun pass1-lambda (form return-value-p)
-  (assert (eq 'lambda (first form)))
-  (when (atom (rest form))
-    (compile-error "~S is not a valid lambda expression" form))
-  (let ((parsed-lambda-list (parse-lambda-list (second form)))
-        (body (cddr form)))
-    (multiple-value-bind (body declares docstring)
-        (parse-body body t)
-      (declare (ignore docstring))
-      (let* ((inner-lexenv (pass1-lambda-list parsed-lambda-list))
-             (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
-             (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
-        (make-ir 'lambda
-                 return-value-p
-                 nil
-                 parsed-lambda-list
-                 (pass1-forms body t t))))))
+  (assert (member (first form) '(lambda system::named-lambda)))
+  (multiple-value-bind (name args)
+      (if (eq (first form) 'lambda)
+          (values nil (rest form))
+          (values (second form) (rest (rest form))))
+    (when (atom args)
+      (compile-error "~S is not a valid lambda expression" form))
+    (destructuring-bind (lambda-list &body body) args
+      (let ((parsed-lambda-list (parse-lambda-list lambda-list)))
+        (multiple-value-bind (body declares docstring)
+            (parse-body body t)
+          (declare (ignore docstring))
+          (let* ((inner-lexenv (pass1-lambda-list parsed-lambda-list))
+                 (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
+                 (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
+            (make-ir 'lambda
+                     return-value-p
+                     nil
+                     name
+                     parsed-lambda-list
+                     (pass1-forms body t t))))))))
 
 (defun %macro-function (symbol)
   (let ((binding (lookup symbol :macro)))
@@ -623,7 +631,7 @@
            (pass1 `(symbol-function ',thing)
                   return-value-p
                   nil))))
-    ((and (consp thing) (eq (first thing) 'lambda))
+    ((and (consp thing) (member (first thing) '(lambda system::named-lambda)))
      (pass1-lambda thing return-value-p))
     (t
      (compile-error "~S is not a legal function name" thing))))
@@ -877,8 +885,8 @@
                nil
                name
                (pass1 (if (null declares)
-                          `(lambda ,lambda-list ,body)
-                          `(lambda ,lambda-list (declare ,@declares) ,body))
+                          `(system::named-lambda ,name ,lambda-list ,body)
+                          `(system::named-lambda ,name ,lambda-list (declare ,@declares) ,body))
                       t nil)))))
 
 (def-pass1-form system::%defpackage ((name &key export use nicknames)

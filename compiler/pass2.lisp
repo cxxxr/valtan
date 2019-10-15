@@ -223,7 +223,7 @@
   (pass2-forms (ir-arg1 ir))
   (pass2-exit (ir-return-value-p ir)))
 
-(defun emit-check-arguments (parsed-lambda-list)
+(defun emit-check-arguments (name parsed-lambda-list)
   (let ((min (parsed-lambda-list-min parsed-lambda-list))
         (max (parsed-lambda-list-max parsed-lambda-list)))
     (cond ((null max)
@@ -232,7 +232,7 @@
            (format t "if (arguments.length !== ~D) {~%" min))
           (t
            (format t "if (arguments.length < ~D || ~D < arguments.length) {~%" min max)))
-    (write-line "lisp.raise('invalid number of arguments');")
+    (format t "lisp.argumentsError(lisp.intern('~A'), arguments.length);~%" name)
     (write-line "}")))
 
 (defmacro with-emit-paren (&body body)
@@ -342,7 +342,8 @@
                   (format t "arguments[~D] !== ~A" loop-var (first keyword-var*))
                   (when (rest keyword-var*)
                     (write-string " && ")))
-                (format t ") { lisp.raise('Unknown &KEY argument: ' + arguments[~A].name); }~%" loop-var))))))
+                (format t ") { lisp.raise('Unknown &KEY argument: ' + arguments[~A].name); }~%"
+                        loop-var))))))
       (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
         (when rest-var
           (emit-declvar rest-var finally-stream)
@@ -351,13 +352,14 @@
 
 (def-emit lambda (ir)
   (write-line "(function() {")
-  (let ((parsed-lambda-list (ir-arg1 ir)))
-    (emit-check-arguments parsed-lambda-list)
+  (let ((name (ir-arg1 ir))
+        (parsed-lambda-list (ir-arg2 ir)))
+    (emit-check-arguments name parsed-lambda-list)
     (let ((finally-code
             (with-output-to-string (finally-stream)
               (emit-lambda-list parsed-lambda-list finally-stream))))
       (with-unwind-special-vars
-          (pass2-forms (ir-arg2 ir))
+          (pass2-forms (ir-arg3 ir))
         finally-code)))
   (write-string "})"))
 
