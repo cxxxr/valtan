@@ -331,7 +331,7 @@
                   (emit-declvar (third opt) finally-stream)
                   (format t "(~A ? lisp.S_t : lisp.S_nil);~%" supplied-var)))))
           (format t "if ((arguments.length - ~D) % 2 === 1)" i)
-          (write-line "{ lisp.raise('odd number of &KEY arguments'); }")
+          (write-line "{ lisp.programError('odd number of &KEY arguments'); }")
           (when (and keyword-vars
                      (null (parsed-lambda-list-allow-other-keys parsed-lambda-list)))
             (let ((loop-var (gen-temporary-js-var)))
@@ -342,8 +342,10 @@
                   (format t "arguments[~D] !== ~A" loop-var (first keyword-var*))
                   (when (rest keyword-var*)
                     (write-string " && ")))
-                (format t ") { lisp.raise('Unknown &KEY argument: ' + arguments[~A].name); }~%"
-                        loop-var))))))
+                (format
+                 t
+                 ") { lisp.programError('Unknown &KEY argument: ' + arguments[~A].name); }~%"
+                 loop-var))))))
       (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
         (when rest-var
           (emit-declvar rest-var finally-stream)

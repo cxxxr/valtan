@@ -41,6 +41,11 @@
 (defun simple-error (string &rest arguments)
   (apply #'error string arguments))
 
+(defun program-error (string &rest arguments)
+  (error 'program-error
+         :format-control string
+         :format-arguments arguments))
+
 (defun undefined-function (name)
   (error 'undefined-function :name name))
 
