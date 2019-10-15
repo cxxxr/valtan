@@ -862,6 +862,7 @@ bar)")))
     t)))
 |#
 
+#|
 (print (EQUALP (MAP (QUOTE (SIMPLE-ARRAY * 1)) (FUNCTION +) #(0 1) #(1 0)) #(1 1)))
 (print (EQUALP (MAP (QUOTE (ARRAY * (2))) (FUNCTION +) #(0 1) #(1 0)) #(1 1)))
 (print (EQUALP (MAP (QUOTE (SIMPLE-ARRAY * (2))) (FUNCTION +) #(0 1) #(1 0)) #(1 1)))
@@ -895,3 +896,4 @@ bar)")))
 (print (EQUALP (MAP (QUOTE (VECTOR BIT 4)) (FUNCTION LOGAND) (QUOTE (0 1 0 1)) #(1 0 1 0)) #(0 0 0 0)))
 (print (EQUAL (MAP (QUOTE LIST) (FUNCTION +) (QUOTE (0 1 2 3)) #(3 2 1 0) #(0 1 0 1)) (QUOTE (3 4 3 4))))
 (print (EQUALP (MAP (QUOTE VECTOR) (FUNCTION +) (QUOTE (0 1 2 3)) #(3 2 1 0) #(0 1 0 1)) #(3 4 3 4)))
+|#

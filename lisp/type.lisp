@@ -1,5 +1,38 @@
 (in-package :common-lisp)
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun parse-deftype-lambda-list (lambda-list)
+    (let ((state nil))
+      (mapcar (lambda (x)
+                (cond ((eq x '&optional)
+                       (setq state :optional)
+                       x)
+                      ((eq x '&key)
+                       (setq state :key)
+                       x)
+                      ((member x lambda-list-keywords)
+                       (setq state nil)
+                       x)
+                      ((member state '(:optional :key))
+                       (list (if (symbolp x) (car x) x)
+                             ''*))
+                      (t
+                       x)))
+              lambda-list))))
+
+(defmacro deftype (name lambda-list &body body)
+  (setq lambda-list (parse-deftype-lambda-list lambda-list))
+  `(progn
+     (setf (deftype-expander ',name)
+           (lambda ,lambda-list ,@body))
+     ',name))
+
+(defun deftype-expander (symbol)
+  (get symbol 'deftype-expander))
+
+(defun (setf deftype-expander) (expander symbol)
+  (setf (get symbol 'deftype-expander) expander))
+
 (defun typep (object type &optional environment)
   (declare (ignore environment))
   (case type
