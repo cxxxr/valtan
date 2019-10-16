@@ -153,6 +153,7 @@
   new-subsequence)
 
 (defun map (result-type function sequence &rest more-sequences)
+  (setq result-type (canonicalize-type result-type))
   (cond ((and (null result-type) (null more-sequences))
          (map-sequence function sequence nil nil nil nil)
          nil)
@@ -175,22 +176,19 @@
                  (type-args (if (consp result-type)
                                 (cdr result-type)
                                 nil)))
-             (case (if (consp result-type)
-                       (car result-type)
-                       result-type)
+             (case type-name
                (null
                 (when acc
                   (type-error acc 'null))
                 nil)
                ((list cons)
                 acc)
-               ((array simple-array vector simple-vector bit-vector simple-bit-vector)
-                (make-array length :initial-contents acc
-                            :element-type (if (member (car type-args) '(* nil))
-                                              t
-                                              (car type-args))))
-               ((string simple-string base-string simple-base-string)
-                (make-array length :initial-contents acc :element-type 'character))
+               (array
+                (make-array length
+                            :initial-contents acc
+                            :element-type (if type-args
+                                              (car type-args)
+                                              t)))
                (otherwise
                 (type-error result-type 'sequence))))))))
 

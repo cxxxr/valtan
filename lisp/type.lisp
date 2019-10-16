@@ -33,6 +33,31 @@
 (defun (setf deftype-expander) (expander symbol)
   (setf (get symbol 'deftype-expander) expander))
 
+(defun expand-deftype (type)
+  (do ()
+      (nil)
+    (let ((name (if (consp type) (car type) type))
+          (args (if (consp type) (cdr type) nil)))
+      (let ((expander (deftype-expander name)))
+        (if expander
+            (setq type (apply expand args))
+            (return type))))))
+
+(defun canonicalize-type (type)
+  (setq type (expand-deftype type))
+  (let ((name (if (consp type) (car type) type))
+        (args (if (consp type) (cdr type) nil)))
+    (case name
+      ((array simple-array vector simple-vector bit-vector simple-bit-vector)
+       (list 'array
+             (if (member (car args) '(* nil))
+                 t
+                 (car args))))
+      ((string simple-string base-string simple-base-string)
+       '(array character))
+      (otherwise
+       type))))
+
 (defun typep (object type &optional environment)
   (declare (ignore environment))
   (case type
