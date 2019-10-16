@@ -94,11 +94,10 @@
        (if initial-element-p
            (make-string size :initial-element initial-element)
            (make-string size)))
-      ((array vector simple-vector)
-       (if (and (consp result-type)
-                (eq 'character (upgraded-array-element-type (second result-type))))
-           (make-string size :initial-element initial-element)
-           (make-array size :initial-element initial-element)))
+      ((array simple-array vector simple-vector)
+       (make-array size
+                   :initial-element initial-element
+                   :element-type (or (second result-type) t)))
       (bit-vector
        (if initial-element-p
            (make-array size :element-type 'bit :initial-element initial-element)
@@ -170,21 +169,30 @@
                             (push (apply function args) acc))
                           (cons sequence more-sequences))
            (setq acc (nreverse acc))
-           (case (if (consp result-type)
-                     (car result-type)
-                     result-type)
-             (null
-              (when acc
-                (type-error acc 'null))
-              nil)
-             ((list cons)
-              acc)
-             ((array simple-array vector simple-vector)
-              (make-array length :initial-contents acc))
-             (string
-              (make-array length :initial-contents acc :element-type 'character))
-             (otherwise
-              (type-error result-type 'sequence)))))))
+           (let ((type-name (if (consp result-type)
+                                (car result-type)
+                                result-type))
+                 (type-args (if (consp result-type)
+                                (cdr result-type)
+                                nil)))
+             (case (if (consp result-type)
+                       (car result-type)
+                       result-type)
+               (null
+                (when acc
+                  (type-error acc 'null))
+                nil)
+               ((list cons)
+                acc)
+               ((array simple-array vector simple-vector bit-vector simple-bit-vector)
+                (make-array length :initial-contents acc
+                            :element-type (if (member (car type-args) '(* nil))
+                                              t
+                                              (car type-args))))
+               ((string simple-string base-string simple-base-string)
+                (make-array length :initial-contents acc :element-type 'character))
+               (otherwise
+                (type-error result-type 'sequence))))))))
 
 #+(or)
 (defun map-into (result-sequence function &rest sequences)
