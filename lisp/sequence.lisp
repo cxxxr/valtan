@@ -78,30 +78,24 @@
          (type-error sequence 'sequence))))
 
 (defun make-sequence (result-type size &key (initial-element nil initial-element-p))
-  (let ((type (if (consp result-type) (first result-type) result-type)))
-    (case type
+  (setq result-type (canonicalize-type result-type))
+  (let ((name (if (consp result-type) (car result-type) result-type))
+        (args (if (consp result-type) (cdr result-type) nil)))
+    (case (car result-type)
       (null
        (unless (zerop size)
          (error "The length requested (1) does not match the type restriction in NULL."))
        nil)
       ((list cons)
-       (when (and (eq type 'cons) (zerop size))
+       (when (and (eq name 'cons) (zerop size))
          (error "The length requested (0) does not match the type restriction in CONS."))
        (if initial-element-p
            (make-list size :initial-element initial-element)
            (make-list size)))
-      ((string simple-string base-string simple-base-string)
-       (if initial-element-p
-           (make-string size :initial-element initial-element)
-           (make-string size)))
-      ((array simple-array vector simple-vector)
+      (array
        (make-array size
                    :initial-element initial-element
-                   :element-type (or (second result-type) t)))
-      (bit-vector
-       (if initial-element-p
-           (make-array size :element-type 'bit :initial-element initial-element)
-           (make-array size :element-type 'bit :initial-element 0)))
+                   :element-type (or (car args) t)))
       (otherwise
        (type-error result-type 'sequence)))))
 
