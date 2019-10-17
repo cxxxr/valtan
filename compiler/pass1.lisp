@@ -889,6 +889,17 @@
                           `(system::named-lambda ,name ,lambda-list (declare ,@declares) ,body))
                       t nil)))))
 
+(def-pass1-form system::multiple-value-call ((function &rest args)
+                                             return-value-p multiple-values-p)
+  (make-ir 'call
+           return-value-p
+           multiple-values-p
+           'system::multiple-value-call
+           (cons (pass1 function t nil)
+                 (mapcar (lambda (arg)
+                           (pass1 arg t t))
+                         args))))
+
 (def-pass1-form system::%defpackage ((name &key export use nicknames)
                                      return-value-p multiple-values-p)
   (let ((name (string name))
