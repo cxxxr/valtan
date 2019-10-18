@@ -252,3 +252,8 @@
 (defun complement (function)
   (lambda (&rest args)
     (not (apply function args))))
+
+(defun constantly (value)
+  (lambda (&rest args)
+    (declare (ignore args))
+    value))
