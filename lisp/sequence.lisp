@@ -25,11 +25,13 @@
          (type-error sequence 'sequence))))
 
 (defun map-sequences (function sequences)
-  (let ((sequences (copy-list sequences)))
-    (do ((i 0 (1+ i))
-         (length (apply #'min (mapcar #'length sequences))))
-        ((>= i length) nil)
-      (funcall function (mapcar (lambda (s) (elt s i)) sequences)))))
+  (if (null sequences)
+      nil
+      (let ((sequences (copy-list sequences)))
+        (do ((i 0 (1+ i))
+             (length (apply #'min (mapcar #'length sequences))))
+            ((>= i length) nil)
+          (funcall function (mapcar (lambda (s) (elt s i)) sequences))))))
 
 (defun copy-seq (sequence)
   (cond ((listp sequence)
