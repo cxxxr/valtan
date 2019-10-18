@@ -363,8 +363,12 @@
   (declare (ignore from-end start end key))
   (apply #'find-if (complement predicate) sequence args))
 
-(defun position (item sequence &key from-end test test-not (start 0) (end (length sequence)) key)
-  (let ((pos (if from-end (1- end) start)))
+(defun position (item sequence &key from-end test test-not (start 0) end key)
+  (let ((pos (if from-end
+                 (if end
+                     (1- end)
+                     (1- (length sequence)))
+                 start)))
     (map-sequence (cond (test
                          (lambda (x)
                            (when (funcall test item x)
@@ -394,7 +398,11 @@
     nil))
 
 (defun position-if (predicate sequence &key from-end (start 0) (end (length sequence)) key)
-  (let ((pos (if from-end (1- end) start)))
+  (let ((pos (if from-end
+                 (if end
+                     (1- end)
+                     (1- (length sequence)))
+                 start)))
     (map-sequence (lambda (x)
                     (when (funcall predicate (apply-key key x))
                       (return-from position-if pos))
