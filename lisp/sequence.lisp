@@ -241,7 +241,7 @@
       (setq value (funcall function (apply-key key (car list)) value)))
     value))
 
-(defun reduce (function sequence &key key from-end start end (initial-value nil initial-value-p))
+(defun reduce (function sequence &key key from-end (start 0) end (initial-value nil initial-value-p))
   (unless end (setq end (length sequence)))
   (if (= start end)
       (if initial-value-p
