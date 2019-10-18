@@ -189,9 +189,30 @@
                (otherwise
                 (type-error result-type 'sequence))))))))
 
-#+(or)
 (defun map-into (result-sequence function &rest sequences)
-  )
+  (cond ((listp result-sequence)
+         (let ((current result-sequence))
+           (block end
+             (map-sequences (lambda (args)
+                              (unless current (return-from end))
+                              (rplaca current
+                                      (apply function args))
+                              (setq current (cdr current)))
+                            sequences))
+           result-sequence))
+        ((vectorp result-sequence)
+         (block end
+           (let ((i 0)
+                 (length (length result-sequence)))
+             (map-sequences (lambda (args)
+                              (when (>= i length) (return-from end))
+                              (setf (aref result-sequence i)
+                                    (apply function args))
+                              (incf i))
+                            sequences)))
+         result-sequence)
+        (t
+         (type-error result-sequence 'sequence))))
 
 #+(or)
 (defun reduce (function sequence &key key from-end start end initial-value)
