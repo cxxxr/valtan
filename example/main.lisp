@@ -861,7 +861,3 @@ bar)")))
        (EQUAL PLACE (QUOTE ("love" "peace")))))
     t)))
 |#
-
-(eval
- '(LET ((STR (MAKE-ARRAY '(3) :ELEMENT-TYPE 'CHARACTER :INITIAL-CONTENTS "abc" :FILL-POINTER T)))
-   (AND (EQL (LENGTH STR) 3) (EQL (SETF (FILL-POINTER STR) 2) 2) (EQL (LENGTH STR) 2))))

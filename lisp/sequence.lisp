@@ -81,7 +81,7 @@
   (setq result-type (canonicalize-type result-type))
   (let ((name (if (consp result-type) (car result-type) result-type))
         (args (if (consp result-type) (cdr result-type) nil)))
-    (case (car result-type)
+    (case name
       (null
        (unless (zerop size)
          (error "The length requested (1) does not match the type restriction in NULL."))
@@ -93,9 +93,12 @@
            (make-list size :initial-element initial-element)
            (make-list size)))
       (array
-       (make-array size
-                   :initial-element initial-element
-                   :element-type (or (car args) t)))
+       (if initial-element-p
+           (make-array size
+                       :initial-element initial-element
+                       :element-type (or (car args) t))
+           (make-array size
+                       :element-type (or (car args) t))))
       (otherwise
        (type-error result-type 'sequence)))))
 
