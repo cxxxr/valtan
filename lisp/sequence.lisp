@@ -214,9 +214,56 @@
         (t
          (type-error result-sequence 'sequence))))
 
-#+(or)
-(defun reduce (function sequence &key key from-end start end initial-value)
-  )
+(defun reduce-list (function list start end key initial-value initial-value-p)
+  (setq list (nthcdr start list))
+  (let ((value (if initial-value-p
+                   initial-value
+                   (apply-key key (car list)))))
+    (do ((list (if initial-value-p
+                   list
+                   (cdr list))
+               (cdr list))
+         (i start (1+ i)))
+        ((>= i (1- end)))
+      (setq value (funcall function value (apply-key key (car list)))))
+    value))
+
+(defun reduce-list-from-end (function list start end key initial-value initial-value-p)
+  (setq list (nreverse (subseq list start end)))
+  (let ((value (if initial-value-p
+                   initial-value
+                   (apply-key key (car list)))))
+    (do ((list (if initial-value-p
+                   list
+                   (cdr list))
+               (cdr list)))
+        ((null list))
+      (setq value (funcall function (apply-key key (car list)) value)))
+    value))
+
+(defun reduce (function sequence &key key from-end start end (initial-value nil initial-value-p))
+  (unless end (setq end (length sequence)))
+  (if (= start end)
+      (if initial-value-p
+          initial-value
+          (funcall function))
+      (if (listp sequence)
+          (if from-end
+              (reduce-list-from-end function sequence start end key initial-value initial-value-p)
+              (reduce-list function sequence start end key initial-value initial-value-p))
+          (let* ((step (if from-end (1+ i) (1- i)))
+                 (goal (if from-end start end))
+                 (first (if from-end (1- end) start))
+                 (value (if initial-value-p
+                            initial-value
+                            (apply-key key (aref sequence first)))))
+            (do ((i first step))
+                ((= i goal))
+              (let ((elt (apply-key key (aref sequence i))))
+                (setq value
+                      (if from-end
+                          (funcall function elt value)
+                          (funcall function value elt)))))))))
 
 (defun length (sequence)
   (cond ((listp sequence)
