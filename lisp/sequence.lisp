@@ -404,7 +404,7 @@
                      (1- (length sequence)))
                  start)))
     (map-sequence (lambda (x)
-                    (when (funcall predicate (apply-key key x))
+                    (when (funcall predicate x)
                       (return-from position-if pos))
                     (if from-end
                         (decf pos)
