@@ -326,9 +326,9 @@
         (t
          (type-error sequence 'sequence))))
 
-#+(or)
 (defun sort (sequence predicate &key key)
-  )
+  ;; TODO
+  (stable-sort sequence predicate :key key))
 
 (defun stable-sort-list (list predicate key)
   (labels ((merge* (list1 list2)
