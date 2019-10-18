@@ -329,7 +329,7 @@
                 (write-line ");")
                 (when (third opt)
                   (emit-declvar (third opt) finally-stream)
-                  (format t "(~A ? lisp.S_t : lisp.S_nil);~%" supplied-var)))))
+                  (format t "(~A !== undefined ? lisp.S_t : lisp.S_nil);~%" supplied-var)))))
           (format t "if ((arguments.length - ~D) % 2 === 1)" i)
           (write-line "{ lisp.programError('odd number of &KEY arguments'); }")
           (when (and keyword-vars

@@ -218,13 +218,14 @@
   (setq list (nthcdr start list))
   (let ((value (if initial-value-p
                    initial-value
-                   (apply-key key (car list)))))
+                   (apply-key key (car list))))
+        (goal (if initial-value-p end (1- end))))
     (do ((list (if initial-value-p
                    list
                    (cdr list))
                (cdr list))
          (i start (1+ i)))
-        ((>= i (1- end)))
+        ((>= i goal))
       (setq value (funcall function value (apply-key key (car list)))))
     value))
 
@@ -251,19 +252,22 @@
           (if from-end
               (reduce-list-from-end function sequence start end key initial-value initial-value-p)
               (reduce-list function sequence start end key initial-value initial-value-p))
-          (let* ((step (if from-end (1+ i) (1- i)))
-                 (goal (if from-end start end))
-                 (first (if from-end (1- end) start))
+          (let* ((step (if from-end -1 1))
+                 (goal (if from-end (1- start) end))
+                 (first (if initial-value-p
+                            (if from-end (- end 1) start)
+                            (if from-end (- end 2) (+ start 1))))
                  (value (if initial-value-p
                             initial-value
-                            (apply-key key (aref sequence first)))))
-            (do ((i first step))
+                            (apply-key key (aref sequence (if from-end (1- end) start))))))
+            (do ((i first (+ i step)))
                 ((= i goal))
               (let ((elt (apply-key key (aref sequence i))))
                 (setq value
                       (if from-end
                           (funcall function elt value)
-                          (funcall function value elt)))))))))
+                          (funcall function value elt)))))
+            value))))
 
 (defun length (sequence)
   (cond ((listp sequence)
