@@ -497,9 +497,38 @@
 (defun search (sequence-1 sequence-2 &key from-end test test-not key start1 start2 end1 end2)
   )
 
-#+(or)
-(defun mismatch (sequence-1 sequence-2 &key from-end test test-not key start1 start2 end1 end2)
-  )
+(defun mismatch (sequence-1 sequence-2
+                 &key from-end test test-not key (start1 0) (start2 0) end1 end2)
+  ;; XXX: listにもeltを使っている
+  (unless end1 (setq end1 (length sequence-1)))
+  (unless end2 (setq end2 (length sequence-2)))
+  (let ((step (if from-end -1 1)))
+    (do ((i (if from-end (1- end1) start1) (+ i step))
+         (j (if from-end (1- end2) start2) (+ j step)))
+        ((if from-end
+             (or (< i start1)
+                 (< j start2))
+             (or (>= i end1)
+                 (>= j end2)))
+         (if from-end
+             (if (and (< i start1) (< j start2))
+                 nil
+                 (1+ i))
+             (if (and (>= i end1) (>= j end2))
+                 nil
+                 i)))
+      (unless (cond (test
+                     (funcall test
+                              (apply-key key (elt sequence-1 i))
+                              (apply-key key (elt sequence-2 j))))
+                    (test-not
+                     (not (funcall test-not
+                                   (apply-key key (elt sequence-1 i))
+                                   (apply-key key (elt sequence-2 j)))))
+                    (t
+                     (eql (apply-key key (elt sequence-1 i))
+                          (apply-key key (elt sequence-2 j)))))
+        (return (if from-end (1+ i) i))))))
 
 (defun replace (target-sequence source-sequence &key (start1 0) end1 (start2 0) end2)
   (let ((length1 (length target-sequence))
