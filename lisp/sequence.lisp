@@ -759,7 +759,7 @@
                 (t
                  (setq previous (cdr previous))))))
       (let* ((saved-sequence (cons nil sequence))
-             (previous saved-sequence)
+             (previous (nthcdr start saved-sequence))
              (delete-count 0))
         (do ((list (nthcdr start sequence) (cdr list))
              (i start (1+ i)))
@@ -794,11 +794,18 @@
 
 (defun delete-if-vector (test vector from-end start end count key)
   (if from-end
-      (nreverse (delete-if-vector-1 test (nreverse vector) start end count key))
+      (let ((length (length vector)))
+        (nreverse (delete-if-vector-1 test
+                                      (nreverse vector)
+                                      (- length end)
+                                      (- length start)
+                                      count
+                                      key)))
       (delete-if-vector-1 test vector start end count key)))
 
 (defun delete-if (test sequence &key from-end (start 0) end count key)
   (unless end (setq end (length sequence)))
+  (when (and count (minusp count)) (setq count 0))
   (cond ((listp sequence)
          (delete-if-list test sequence from-end start end count key))
         ((vectorp sequence)
