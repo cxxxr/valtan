@@ -650,9 +650,51 @@
         (incf index)))
     new-sequence))
 
-#+(or)
+(defun sequence-to-list (sequence)
+  (cond ((listp sequence)
+         sequence)
+        ((vectorp sequence)
+         (map 'list #'identity sequence))
+        (t
+         (type-error sequence 'sequence))))
+
+(defun merge-lists (list-1 list-2 predicate key)
+  (let* ((list (list nil))
+         (splice list))
+    (do ((x1 list-1)
+         (x2 list-2))
+        ((or (endp x1) (endp x2))
+         (rplacd splice (or x1 x2))
+         (cdr list))
+      (if (funcall predicate (apply-key key (car x2)) (apply-key key (car x1)))
+          (setq splice (cdr (rplacd splice x2))
+                x2 (cdr x2))
+          (setq splice (cdr (rplacd splice x1))
+                x1 (cdr x1))))))
+
 (defun merge (result-type sequence-1 sequence-2 predicate &key key)
-  )
+  (let ((list (merge-lists (sequence-to-list sequence-1)
+                           (sequence-to-list sequence-2)
+                           predicate
+                           key)))
+    (setq result-type (canonicalize-type result-type))
+    (let ((name (if (consp result-type) (car result-type) result-type))
+          (args (if (consp result-type) (cdr result-type) nil)))
+      (case name
+        (null
+         (if (null merged-list)
+             merged-list
+             (error 'type-error
+                    :datum merged-list
+                    :expected-type 'null)))
+        ((list cons)
+         list)
+        (array
+         (make-array (length list)
+                     :initial-contents list
+                     :element-type (or (car args) t)))
+        (otherwise
+         (type-error result-type 'sequence))))))
 
 (defun remove (item sequence &key (test nil test-p))
   (with-accumulate ()
