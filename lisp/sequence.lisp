@@ -557,29 +557,87 @@
               (elt source-sequence (+ start2 i))))))
   target-sequence)
 
-#+(or)
-(defun substitute (new old sequence &key from-end test test-not start end count key)
-  )
+(defun substitute (new old sequence &rest args &key from-end test test-not (start 0) end count key)
+  (substitute-if new
+                 (lambda (x)
+                   (cond (test
+                          (funcall test old x))
+                         (test-not
+                          (not (funcall test-not old x)))
+                         (t
+                          (eql old x))))
+                 sequence
+                 :from-end from-end
+                 :start start
+                 :end end
+                 :count count
+                 :key key))
 
-#+(or)
-(defun substitute-if (new predicate sequence &key from-end start end count key)
-  )
+(defun substitute-if (new predicate sequence &key from-end (start 0) end count key)
+  (let* ((length (length sequence))
+         (new-sequence (copy-seq sequence))
+         (i (if from-end (1- (or end length)) start)))
+    (map-sequence (lambda (x)
+                    (when (and count (<= count 0))
+                      (return-from substitute-if new-sequence))
+                    (cond ((funcall predicate (apply-key key x))
+                           (setf (elt new-sequence i) new)
+                           (when count (decf count)))
+                          (t
+                           (setf (elt new-sequence i) x)))
+                    (if from-end
+                        (decf i)
+                        (incf i)))
+                  sequence
+                  from-end
+                  start
+                  end
+                  nil)
+    new-sequence))
 
-#+(or)
-(defun substitute-if-not (new predicate sequence &key from-end start end count key)
-  )
+(defun substitute-if-not (new predicate sequence &key from-end (start 0) end count key)
+  (substitute-if new (complement predicate) sequence
+                 :from-end from-end :start start :end end :count count :key key))
 
-#+(or)
-(defun nsubstitute (new old sequence &key from-end test test-not start end count key)
-  )
+(defun nsubstitute (new old sequence &key from-end test test-not (start 0) end count key)
+  (nsubstitute-if new
+                  (lambda (x)
+                    (cond (test
+                           (funcall test old x))
+                          (test-not
+                           (not (funcall test-not old x)))
+                          (t
+                           (eql old x))))
+                  sequence
+                  :from-end from-end
+                  :start start
+                  :end end
+                  :count count
+                  :key key))
 
-#+(or)
-(defun nsubstitute-if (new predicate sequence &key from-end start end count key)
-  )
+(defun nsubstitute-if (new predicate sequence &key from-end (start 0) end count key)
+  (let ((i (if from-end (1- (or end (length sequence))) start)))
+    (map-sequence (lambda (x)
+                    (when (and count (<= count 0))
+                      (return-from nsubstitute-if sequence))
+                    (cond ((funcall predicate (apply-key key x))
+                           (setf (elt sequence i) new)
+                           (when count (decf count)))
+                          (t
+                           (setf (elt sequence i) x)))
+                    (if from-end
+                        (decf i)
+                        (incf i)))
+                  sequence
+                  from-end
+                  start
+                  end
+                  nil))
+  sequence)
 
-#+(or)
-(defun nsubstitute-if-not (new predicate sequence &key from-end start end count key)
-  )
+(defun nsubstitute-if-not (new predicate sequence &key from-end (start 0) end count key)
+  (nsubstitute-if new (complement predicate) sequence
+                  :from-end from-end :start start :end end :count count :key key))
 
 #+(or)
 (defun concatenate (result-type &rest sequences)
