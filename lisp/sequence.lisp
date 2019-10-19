@@ -493,9 +493,22 @@
   (declare (ignore from-end start end key))
   (apply #'position-if (complement predicate) sequence args))
 
-#+(or)
-(defun search (sequence-1 sequence-2 &key from-end test test-not key start1 start2 end1 end2)
-  )
+(defun search (sequence-1 sequence-2 &key from-end test test-not key (start1 0) (start2 0)
+                                          end1 end2)
+  (unless end1 (setq end1 (length sequence-1)))
+  (unless end2 (setq end2 (length sequence-2)))
+  (let* ((span (- end1 start1))
+         (stop (- end2 span))
+         (last-match-index nil))
+    (do ((i start2 (1+ i)))
+        ((> i stop) last-match-index)
+      (unless (mismatch sequence-1 sequence-2
+                        :test test :test-not test-not :key key
+                        :start1 start1 :end1 end1
+                        :start2 i :end2 (+ i span))
+        (if from-end
+            (setq last-match-index i)
+            (return i))))))
 
 (defun mismatch (sequence-1 sequence-2
                  &key from-end test test-not key (start1 0) (start2 0) end1 end2)
