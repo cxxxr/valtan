@@ -726,17 +726,88 @@
                   end
                   key)))
 
-#+(or)
-(defun delete (item sequence &key from-end test test-not start end count key)
-  )
+(defun delete (item sequence &key from-end test test-not (start 0) end count key)
+  (delete-if (lambda (x)
+               (cond (test
+                      (funcall test item x))
+                     (test-not
+                      (not (funcall test-not item x)))
+                     (t
+                      (eql item x))))
+             sequence
+             :from-end from-end
+             :start start
+             :end end
+             :count count
+             :key key))
 
-#+(or)
-(defun delete-if (test sequence &key from-end start end count key)
-  )
+(defun delete-if-list (test sequence from-end start end count key)
+  (if from-end
+      (let* ((sequence (nreverse sequence))
+             (length (length sequence))
+             (saved-list (cons nil sequence))
+             (previous (nthcdr (- length end) saved-list))
+             (delete-count 0))
+        (do ((list (nthcdr (- length end) sequence) (cdr list))
+             (i start (1+ i)))
+            ((or (= i end)
+                 (eql count delete-count))
+             (nreverse (cdr saved-list)))
+          (cond ((funcall test (apply-key key (car list)))
+                 (setf (cdr previous) (cdr list))
+                 (incf delete-count))
+                (t
+                 (setq previous (cdr previous))))))
+      (let ((previous (cons nil sequence))
+            (delete-count 0))
+        (do ((list (nthcdr start sequence) (cdr list))
+             (i start (1+ i)))
+            ((or (= i end)
+                 (eql count delete-count))
+             sequence)
+          (cond ((funcall test (apply-key key (car list)))
+                 (setf (cdr previous) (cdr list))
+                 (incf delete-count))
+                (t
+                 (setq previous (cdr previous))))))))
 
-#+(or)
-(defun delete-if-not (test sequence &key from-end start end count key)
-  )
+(defun trim-vector (vector size)
+  (subseq vector 0 size))
+
+(defun delete-if-vector-1 (test vector start end count key)
+  (let ((length (length vector))
+        (delete-count 0))
+    (do ((i start (1+ i))
+         (j start))
+        ((or (= i end)
+             (eql delete-count count))
+         (do ((i i (1+ i))
+              (j j (1+ j)))
+             ((eql i length)
+              (trim-vector vector j))
+           (setf (aref vector j) (aref vector i))))
+      (setf (aref vector j) (aref vector i))
+      (if (funcall test (apply-key key (aref vector i)))
+          (incf delete-count)
+          (incf j)))))
+
+(defun delete-if-vector (test vector from-end start end count key)
+  (if from-end
+      (nreverse (delete-if-vector-1 test (nreverse vector) start end count key))
+      (delete-if-vector-1 test vector start end count key)))
+
+(defun delete-if (test sequence &key from-end (start 0) end count key)
+  (unless end (setq end (length sequence)))
+  (cond ((listp sequence)
+         (delete-if-list test sequence from-end start end count key))
+        ((vectorp sequence)
+         (delete-if-vector test sequence from-end start end count key))
+        (t
+         (type-error sequence 'sequence))))
+
+(defun delete-if-not (test sequence &key from-end (start 0) end count key)
+  (delete-if (complement test) sequence
+             :from-end from-end :start start :end end :count count :key key))
 
 #+(or)
 (defun remove-duplicates (sequence &key from-end test test-not start end key)
