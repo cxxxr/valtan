@@ -639,9 +639,16 @@
   (nsubstitute-if new (complement predicate) sequence
                   :from-end from-end :start start :end end :count count :key key))
 
-#+(or)
 (defun concatenate (result-type &rest sequences)
-  )
+  (let ((new-sequence (make-sequence result-type (reduce #'+ sequences :key #'length)))
+        (index 0))
+    (dolist (seq sequences)
+      (do ((i 0 (1+ i))
+           (len (length seq)))
+          ((>= i len))
+        (setf (elt new-sequence index) (elt seq i))
+        (incf index)))
+    new-sequence))
 
 #+(or)
 (defun merge (result-type sequence-1 sequence-2 predicate &key key)

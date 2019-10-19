@@ -203,6 +203,13 @@
         ((and (stringp x)
               (stringp y))
          (string= x y))
+        ((and (simple-bit-vector-p x)
+              (simple-bit-vector-p y))
+         (and (= (length x) (length y))
+              (dotimes (i (length x) t)
+                (unless (eql (aref x i)
+                             (aref y i))
+                  (return nil)))))
         (t
          (eql x y))))
 
