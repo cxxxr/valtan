@@ -483,11 +483,10 @@
                   key)
     nil))
 
-(defun position-if (predicate sequence &key from-end (start 0) (end (length sequence)) key)
+(defun position-if (predicate sequence &key from-end (start 0) end key)
+  (unless end (setq end (length sequence)))
   (let ((pos (if from-end
-                 (if end
-                     (1- end)
-                     (1- (length sequence)))
+                 (1- end)
                  start)))
     (map-sequence (lambda (x)
                     (when (funcall predicate x)
