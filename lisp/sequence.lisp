@@ -504,6 +504,35 @@
   (declare (ignore from-end start end key))
   (apply #'position-if (complement predicate) sequence args))
 
+(defun count (item sequence &key from-end (start 0) end key test test-not)
+  (count-if (lambda (x)
+              (cond (test
+                     (funcall test item x))
+                    (test-not
+                     (not (funcall test-not item x)))
+                    (t
+                     (eql item x))))
+            sequence
+            :from-end from-end
+            :start start
+            :end end
+            :key key))
+
+(defun count-if (predicate sequence &key from-end start end key)
+  (let ((count 0))
+    (map-sequence (lambda (x)
+                    (when (funcall predicate x)
+                      (incf count)))
+                  sequence
+                  :from-end from-end
+                  :start start
+                  :end end
+                  :key key)
+    count))
+
+(defun count-if-not (predicate sequence &key from-end (start 0) end key)
+  (count-if (complement predicate) sequence :from-end from-end :start start :end end :key key))
+
 (defun search (sequence-1 sequence-2 &key from-end test test-not key (start1 0) (start2 0)
                                           end1 end2)
   (unless end1 (setq end1 (length sequence-1)))
