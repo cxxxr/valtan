@@ -445,9 +445,8 @@
                 nil)
   nil)
 
-(defun find-if-not (predicate sequence &rest args &key from-end start end key)
-  (declare (ignore from-end start end key))
-  (apply #'find-if (complement predicate) sequence args))
+(defun find-if-not (predicate sequence &key from-end (start 0) end key)
+  (find-if (complement predicate) sequence :from-end from-end :start start :end end :key key))
 
 (defun position (item sequence &key from-end test test-not (start 0) end key)
   (let ((pos (if from-end
@@ -500,9 +499,9 @@
                   end
                   key)))
 
-(defun position-if-not (predicate sequence &rest args &key from-end start end key)
-  (declare (ignore from-end start end key))
-  (apply #'position-if (complement predicate) sequence args))
+(defun position-if-not (predicate sequence &key from-end (start 0) end key)
+  (position-if (complement predicate) sequence
+               :fro-end from-end :start start :end end :key key))
 
 (defun count (item sequence &key from-end (start 0) end key test test-not)
   (count-if (lambda (x)
@@ -741,17 +740,31 @@
         (otherwise
          (type-error result-type 'sequence))))))
 
-(defun remove (item sequence &rest args &key from-end test test-not start end count key)
-  (declare (ignore from-end test test-not start end count key))
-  (apply #'delete item (copy-seq sequence) args))
+(defun remove (item sequence &key from-end test test-not (start 0) end count key)
+  (delete item (copy-seq sequence)
+          :from-end from-end
+          :test test
+          :test-not test-not
+          :start start
+          :end end
+          :count count
+          :key key))
 
-(defun remove-if (test sequence &rest args &key from-end start end count key)
-  (declare (ignore from-end start end count key))
-  (apply #'delete-if test (copy-seq sequence) args))
+(defun remove-if (test sequence &key from-end (start 0) end count key)
+  (delete-if test (copy-seq sequence)
+             :from-end from-end
+             :start start
+             :end end
+             :count count
+             :key key))
 
-(defun remove-if-not (test sequence &rest args &key from-end start end count key)
-  (declare (ignore from-end start end count key))
-  (apply #'delete-if-not test (copy-seq sequence) args))
+(defun remove-if-not (test sequence &rest args &key from-end (start 0) end count key)
+  (delete-if-not test (copy-seq sequence)
+                 :from-end from-end
+                 :start start
+                 :end end
+                 :count count
+                 :key key))
 
 (defun delete (item sequence &key from-end test test-not (start 0) end count key)
   (delete-if (lambda (x)
@@ -844,9 +857,14 @@
   (delete-if (complement test) sequence
              :from-end from-end :start start :end end :count count :key key))
 
-(defun remove-duplicates (sequence &rest args &key from-end test test-not (start 0) end key)
-  (declare (ignore from-end test test-not start end key))
-  (apply #'delete-duplicates (copy-seq sequence) args))
+(defun remove-duplicates (sequence &key from-end test test-not (start 0) end key)
+  (delete-duplicates (copy-seq sequence) args
+                     :from-end from-end
+                     :test test
+                     :test-not test-not
+                     :start start
+                     :end end
+                     :key key))
 
 (defun delete-duplicates-list (list test test-not start end key)
   (setq test (cond (test test)
