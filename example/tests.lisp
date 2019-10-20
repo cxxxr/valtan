@@ -2,7 +2,9 @@
 
 (defun test (filename)
   (with-open-file (in filename)
-    (let ((eof-value '#:eof))
+    (let ((eof-value '#:eof)
+          (fail-forms '())
+          (error-forms '()))
       (do ((form (read in nil eof-value) (read in nil eof-value)))
           ((eq form eof-value))
         (prin1 form)
@@ -10,11 +12,25 @@
         (handler-case
             (eval form)
           (error (e)
+            (push form error-forms)
             (format t "*** ERROR ***: ~A~%" e))
           (:no-error (ok)
             (if ok
                 (write-line "OK")
-                (write-line "FAIL"))))))))
+                (progn
+                  (push form fail-forms)
+                  (write-line "FAIL"))))))
+      (terpri)
+      (terpri)
+      (write-line "==================== FAIL FORMS ====================")
+      (dolist (form (nreverse fail-forms))
+        (prin1 form)
+        (terpri))
+      (terpri)
+      (write-line "==================== ERROR FORMS ====================")
+      (dolist (form (nreverse error-forms))
+        (prin1 form)
+        (terpri)))))
 
 ;; (test "example/sacla-tests/must-cons.lisp")
 ;; (test "example/sacla-tests/must-character.lisp")
