@@ -1185,4 +1185,8 @@
      (format stream "The variable ~S is unbound" (cell-error-name c)))))
 
 (defun make-condition (type &rest initargs)
+  (let ((class (find-class type nil)))
+    (when (or (null class)
+              (not (subclassp class (find-class 'condition))))
+      (type-error type 'condition)))
   (apply #'make-instance type initargs))

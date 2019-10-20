@@ -25,9 +25,8 @@
 (defvar *in-error* nil)
 
 (defun error (datum &rest arguments)
-  (if (or *in-error*
-          (not (fboundp 'make-instance)))
-      (system::error (ffi:cl->js (apply #'format nil datum arguments)))
+  (if (not (fboundp 'make-instance))
+      (system::error (ffi:cl->js (apply #'format nil (princ-to-string datum) arguments)))
       (let ((*in-error* t)
             (condition (coerce-to-condition datum arguments 'simple-error)))
         (signal-1 condition)
