@@ -203,15 +203,27 @@
                             sequences))
            result-sequence))
         ((vectorp result-sequence)
-         (block end
-           (let ((i 0)
-                 (length (length result-sequence)))
+         (let* ((i 0)
+                (use-fill-pointer-p
+                  (and (not (listp result-sequence))
+                       (array-has-fill-pointer-p result-sequence)))
+                (size (if use-fill-pointer-p
+                          (array-total-size result-sequence)
+                          (length result-sequence))))
+           (when use-fill-pointer-p
+             (dolist (seq sequences)
+               (let ((len (length seq)))
+                 (when (< len size)
+                   (setq size len)))))
+           (block end
              (map-sequences (lambda (args)
-                              (when (>= i length) (return-from end))
+                              (when (>= i size) (return-from end))
                               (setf (aref result-sequence i)
                                     (apply function args))
                               (incf i))
-                            sequences)))
+                            sequences))
+           (when use-fill-pointer-p
+             (setf (fill-pointer result-sequence) size)))
          result-sequence)
         (t
          (type-error result-sequence 'sequence))))
