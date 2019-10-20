@@ -712,35 +712,17 @@
         (otherwise
          (type-error result-type 'sequence))))))
 
-(defun remove (item sequence &key (test nil test-p))
-  (with-accumulate ()
-    (map-sequence (if test-p
-                      (lambda (x)
-                        (unless (funcall test item x)
-                          (collect x)))
-                      (lambda (x)
-                        (unless (eql item x)
-                          (collect x))))
-                  sequence
-                  nil
-                  0
-                  nil
-                  nil)))
+(defun remove (item sequence &rest args &key from-end test test-not start end count key)
+  (declare (ignore from-end test test-not start end count key))
+  (apply #'delete item (copy-seq sequence) args))
 
 (defun remove-if (test sequence &rest args &key from-end start end count key)
   (declare (ignore from-end start end count key))
-  (apply #'remove-if-not (complement test) sequence args))
+  (apply #'delete-if test (copy-seq sequence) args))
 
-(defun remove-if-not (test sequence &key from-end start end count key)
-  (with-accumulate ()
-    (map-sequence (lambda (x)
-                    (when (funcall test x)
-                      (collect x)))
-                  sequence
-                  from-end
-                  start
-                  end
-                  key)))
+(defun remove-if-not (test sequence &rest args &key from-end start end count key)
+  (declare (ignore from-end start end count key))
+  (apply #'delete-if-not test (copy-seq sequence) args))
 
 (defun delete (item sequence &key from-end test test-not (start 0) end count key)
   (delete-if (lambda (x)
