@@ -601,7 +601,7 @@
               (elt source-sequence (+ start2 i))))))
   target-sequence)
 
-(defun substitute (new old sequence &rest args &key from-end test test-not (start 0) end count key)
+(defun substitute (new old sequence &key from-end test test-not (start 0) end count key)
   (substitute-if new
                  (lambda (x)
                    (cond (test
@@ -758,7 +758,7 @@
              :count count
              :key key))
 
-(defun remove-if-not (test sequence &rest args &key from-end (start 0) end count key)
+(defun remove-if-not (test sequence &key from-end (start 0) end count key)
   (delete-if-not test (copy-seq sequence)
                  :from-end from-end
                  :start start
@@ -858,7 +858,7 @@
              :from-end from-end :start start :end end :count count :key key))
 
 (defun remove-duplicates (sequence &key from-end test test-not (start 0) end key)
-  (delete-duplicates (copy-seq sequence) args
+  (delete-duplicates (copy-seq sequence)
                      :from-end from-end
                      :test test
                      :test-not test-not
