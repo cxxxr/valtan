@@ -501,7 +501,7 @@
 
 (defun position-if-not (predicate sequence &key from-end (start 0) end key)
   (position-if (complement predicate) sequence
-               :fro-end from-end :start start :end end :key key))
+               :from-end from-end :start start :end end :key key))
 
 (defun count (item sequence &key from-end (start 0) end key test test-not)
   (count-if (lambda (x)
@@ -523,10 +523,10 @@
                     (when (funcall predicate x)
                       (incf count)))
                   sequence
-                  :from-end from-end
-                  :start start
-                  :end end
-                  :key key)
+                  from-end
+                  start
+                  end
+                  key)
     count))
 
 (defun count-if-not (predicate sequence &key from-end (start 0) end key)
