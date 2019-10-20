@@ -815,10 +815,9 @@
   (delete-if (complement test) sequence
              :from-end from-end :start start :end end :count count :key key))
 
-(defun remove-duplicates (sequence &key from-end test test-not (start 0) end key)
-  (delete-duplicates (copy-seq sequence)
-                     :from-end from-end :test test :test-not test-not
-                     :start start :end end :key key))
+(defun remove-duplicates (sequence &rest args &key from-end test test-not (start 0) end key)
+  (declare (ignore from-end test test-not start end key))
+  (apply #'delete-duplicates (copy-seq sequence) args))
 
 (defun delete-duplicates-list (list test test-not start end key)
   (let ((head (cons nil list)))
@@ -855,7 +854,7 @@
       (unless (member-vector (aref vector i) (1+ i))
         (incf j)))))
 
-(defun delete-duplicates (sequence &key from-end test test-not start end key)
+(defun delete-duplicates (sequence &key from-end test test-not (start 0) end key)
   (if from-end
       (let ((length (length sequence)))
         (nreverse (delete-duplicates (nreverse sequence)
