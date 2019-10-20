@@ -38,7 +38,7 @@
       (if prev
           (setf (cddr prev) (cddr plist))
           (setf (symbol-plist symbol) (cddr plist)))
-      (return))))
+      (return plist))))
 
 (defun (setf symbol-value) (value symbol)
   (set symbol value))
@@ -50,7 +50,7 @@
 
 (defun gensym (&optional (prefix "G"))
   (make-symbol (cond ((and (integerp prefix) (<= 0 prefix))
-                      (princ-to-string prefix))
+                      (format nil "G~D" prefix))
                      ((not (stringp prefix))
                       (error "~S is not a string or non-negative integer"))
                      (t
