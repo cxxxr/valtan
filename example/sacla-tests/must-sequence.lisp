@@ -1747,7 +1747,8 @@
 (eql (position #\a "baobab" :from-end t) 4)
 (eql (position-if #'oddp '((1) (2) (3) (4)) :start 1 :key #'car) 2)
 (null (position 595 '()))
-(eql (position-if-not #'integerp '(1 2 3 4 5.0)) 4)
+;(eql (position-if-not #'integerp '(1 2 3 4 5.0)) 4) jsでは整数と浮動小数が判別できないので代わりに下の式を使う
+(eql (position-if-not #'integerp '(1 2 3 4 a)) 4)
 
 (eql (position 'a '(a b c)) 0)
 (eql (position 'b '(a b c)) 1)
