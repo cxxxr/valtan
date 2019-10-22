@@ -5,9 +5,7 @@ Common Lisp to JavaScript compiler
 ## Installation
 
 ```
-$ git clone git@github.com:cxxxr/valtan.git
-$ cd valtan
-$ ros install
+$ ros install cxxxr/valtan
 ```
 
 ## Status
