@@ -1,0 +1,29 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+(progn ;;init forms
+  (ros:ensure-asdf)
+  #+quicklisp(ql:quickload '("cl-project") :silent t)
+  )
+
+(defpackage :ros.script.valtan-init.3780739288
+  (:use :cl))
+(in-package :ros.script.valtan-init.3780739288)
+
+(defvar *skeleton-directory*
+  (asdf:system-relative-pathname :valtan #p"skeleton/"))
+
+(defun usage ()
+  (write-line "valtan-init.ros project-name")
+  (uiop:quit 1))
+
+(defun main (&rest argv)
+  (unless (= 1 (length argv))
+    (usage))
+  (let ((cl-project:*skeleton-directory* *skeleton-directory*)
+        (name (first argv)))
+    (cl-project:make-project (merge-pathnames name (probe-file ".")))))
+
+;;; vim: set ft=lisp lisp:
