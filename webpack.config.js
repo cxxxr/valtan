@@ -13,16 +13,5 @@ module.exports = {
       'node_modules',
       path.resolve(__dirname, 'lib')
     ]
-  },
-  resolveLoader: {
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, 'cl-loader')
-    ]
-  },
-  module: {
-    rules: [
-      { test: /\.lisp$/, loader: "./cl-loader" }
-    ]
   }
 };
