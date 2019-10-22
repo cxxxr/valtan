@@ -1,0 +1,3 @@
+node_modules/
+dist/
+ansi-tests.js
