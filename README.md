@@ -8,7 +8,6 @@ Common Lisp to JavaScript compiler
 $ git clone git@github.com:cxxxr/valtan.git
 $ cd valtan
 $ ros install
-$ npm install
 ```
 
 ## Status
