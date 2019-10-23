@@ -250,6 +250,8 @@
     x))
 
 (defun make-list (size &key initial-element)
+  (unless (and (integerp size) (<= 0 size))
+    (type-error size '(integer 0 *)))
   (labels ((f (n acc)
              (if (zerop n)
                  (nreverse acc)
