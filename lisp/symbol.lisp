@@ -52,7 +52,7 @@
   (make-symbol (cond ((and (integerp prefix) (<= 0 prefix))
                       (format nil "G~D" prefix))
                      ((not (stringp prefix))
-                      (error "~S is not a string or non-negative integer"))
+                      (type-error prefix '(or string unsigned-byte)))
                      (t
                       (prog1 (system::string-append prefix (princ-to-string *gensym-counter*))
                         (incf *gensym-counter*))))))
