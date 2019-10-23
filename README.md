@@ -33,8 +33,8 @@ $ ros install cxxxr/valtan
 - [ ] should-hash-table.lisp
 - [ ] should-package.lisp
 - [ ] should-sequence.lisp
-- [ ] should-string.lisp
-- [ ] should-symbol.lisp
+- [X] should-string.lisp
+- [X] should-symbol.lisp
 - [ ] x-sequence.lisp
 
 ## License
