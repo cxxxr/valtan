@@ -68,6 +68,7 @@
         (return (intern name package))))))
 
 (defun copy-symbol (symbol &optional copy-props)
+  (unless (symbolp symbol) (type-error symbol 'symbol))
   (cond (copy-props
          (let ((new-symbol (make-symbol (string symbol))))
            (when (boundp symbol)
