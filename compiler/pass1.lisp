@@ -762,11 +762,17 @@
     (compile-error "The block name ~S is not a symbol." name))
   (let* ((binding (make-block-binding name))
          (*lexenv* (cons binding *lexenv*)))
-    (make-ir 'block
-             return-value-p
-             multiple-values-p
-             binding
-             (pass1-forms forms return-value-p multiple-values-p))))
+    (let ((body (pass1-forms forms return-value-p multiple-values-p)))
+      (if (= 0 (binding-used-count binding))
+          (make-ir 'progn
+                   return-value-p
+                   multiple-values-p
+                   body)
+          (make-ir 'block
+                   return-value-p
+                   multiple-values-p
+                   binding
+                   body)))))
 
 (def-pass1-form return-from ((name &optional value) return-value-p multiple-values-p)
   (unless (symbolp name)
