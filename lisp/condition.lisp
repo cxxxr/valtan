@@ -94,3 +94,7 @@
                   (cdr no-error-clause)
                 `(multiple-value-call (lambda ,args ,@body) ,form))
               form)))))
+
+(defmacro ignore-errors (&rest forms)
+  `(handler-case (progn ,@forms)
+     (error (condition) (values nil condition))))
