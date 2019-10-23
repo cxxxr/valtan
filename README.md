@@ -9,6 +9,9 @@ $ ros install cxxxr/valtan
 ```
 
 ## Status
+ansiテストには(sacla common lisp)[https://minejima.jp/lisp/sacla/index-en.html]を使っています  
+下記は現在通っているテストの一覧です
+
 - [ ] desirable-printer.lisp
 - [ ] must-array.lisp
 - [X] must-character.lisp
