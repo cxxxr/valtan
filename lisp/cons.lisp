@@ -298,6 +298,7 @@
 (defsetf tenth (list) (value) `(setf (nth 9 ,list) ,value))
 
 (defun nth (n list)
+  (unless (<= 0 n) (type-error n '(integer 0 *)))
   (dotimes (i n)
     (setq list (cdr list)))
   (car list))
@@ -359,6 +360,8 @@
   (nconc (nreverse list) tail))
 
 (defun butlast (list &optional (n 1))
+  (unless (listp list) (type-error list 'list))
+  (unless (<= 0 n) (type-error n '(integer 0 *)))
   (do ((l list (cdr l))
        (r list)
        (acc nil)
@@ -373,6 +376,8 @@
   list)
 
 (defun nbutlast (list &optional (n 1))
+  (unless (listp list) (type-error list 'list))
+  (unless (<= 0 n) (type-error n '(integer 0 *)))
   (cond ((>= 0 n)
          list)
         (t
@@ -402,6 +407,7 @@
         (when (>= i n) (pop r)))))
 
 (defun ldiff (list object)
+  (unless (listp list) (type-error list 'list))
   (do* ((list list (cdr list))
         (result (list ()))
         (splice result))
@@ -414,13 +420,14 @@
         (setq splice (cdr (rplacd splice (list (car list))))))))
 
 (defun tailp (object list)
+  (unless (listp list) (type-error list 'list))
   (do ((list list (cdr list)))
       ((atom list) (eql list object))
     (if (eql object list)
         (return t))))
 
 (defun nthcdr (n list)
-  (assert (<= 0 n))
+  (unless (and (integerp n) (<= 0 n)) (type-error n '(integer 0 *)))
   (dotimes (_ n)
     (setq list (cdr list)))
   list)

@@ -27,7 +27,7 @@ $ ros install cxxxr/valtan
 - [X] must-symbol.lisp
 - [ ] should-array.lisp
 - [ ] should-character.lisp
-- [ ] should-cons.lisp
+- [X] should-cons.lisp
 - [ ] should-data-and-control.lisp
 - [ ] should-eval.lisp
 - [ ] should-hash-table.lisp
