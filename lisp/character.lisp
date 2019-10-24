@@ -15,7 +15,7 @@
 (defun code-char (code)
   (unless (and (integerp code)
                (<= 0 code))
-    (type-error code 'integer)) ; TODO: positive integer
+    (type-error code '(integer 0 *)))
   (system::%code-char code))
 
 (defun char-code (char)
