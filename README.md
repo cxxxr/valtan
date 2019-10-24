@@ -38,7 +38,7 @@ ansiテストには[sacla common lisp](https://minejima.jp/lisp/sacla/index-en.h
 - [X] must-string.lisp
 - [X] must-symbol.lisp
 - [ ] should-array.lisp
-- [ ] should-character.lisp
+- [X] should-character.lisp
 - [X] should-cons.lisp
 - [ ] should-data-and-control.lisp
 - [ ] should-eval.lisp

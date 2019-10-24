@@ -113,17 +113,19 @@
       (return nil))))
 
 (defun character (x)
-  (cond ((characterp x) x)
-        ((stringp x)
-         (if (= 1 (length x))
-             (char x 0)
-             (error "String is not of length one: ~S" x)))
-        ((symbolp x)
-         (if (= 1 (length (symbol-name x)))
-             (char (symbol-name x) 0)
-             (error "Symbol name is not of length one: ~S" x)))
-        (t
-         (error "~S cannot be coerced to a character." x))))
+  (flet ((type-error ()
+           (type-error x '(or character (array character (1))))))
+    (cond ((characterp x) x)
+          ((stringp x)
+           (if (= 1 (length x))
+               (char x 0)
+               (type-error)))
+          ((symbolp x)
+           (if (= 1 (length (symbol-name x)))
+               (char (symbol-name x) 0)
+               (type-error)))
+          (t
+           (type-error)))))
 
 (defun alpha-char-p (c)
   (char<= #\a (char-downcase c) #\z))
@@ -163,9 +165,9 @@
       (lower-case-p c)))
 
 (defun char-name (c)
-  (declare (ignore name))
+  (unless (characterp c) (type-error c 'character))
   (cdr (assoc c *char-name-table*)))
 
 (defun name-char (name)
-  (declare (ignore name))
+  (unless (stringp name) (type-error name 'string))
   (car (rassoc name *char-name-table* :test #'equal)))
