@@ -49,7 +49,7 @@
 ;; (test "sacla-tests/must-string.lisp")
 ;; (test "sacla-tests/must-symbol.lisp")
 ;; (test "sacla-tests/should-array.lisp")
-(test "sacla-tests/should-character.lisp")
+;; (test "sacla-tests/should-character.lisp")
 ;; (test "sacla-tests/should-cons.lisp")
 ;; (test "sacla-tests/should-data-and-control.lisp")
 ;; (test "sacla-tests/should-eval.lisp")
