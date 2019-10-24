@@ -3,6 +3,7 @@
 (defvar *inner-list-p* nil)
 (defvar *dot-marker* (gensym "DOT"))
 (defvar *read-label-table*)
+(defvar *read-skip-marker* (gensym "SKIP"))
 
 (defparameter *whitespaces* '(#\space #\tab #\newline #\linefeed #\page #\return))
 
@@ -423,8 +424,10 @@
                  (cond
                    (function
                     (let ((values (multiple-value-list (funcall function stream c))))
-                      (when values
-                        (return (first values)))))
+                      (cond (values
+                             (return (first values)))
+                            (*inner-list-p*
+                             (return *read-skip-marker*)))))
                    ((char= c #\|)
                     (return (read-multiple-escape stream)))
                    (t
@@ -442,7 +445,8 @@
                (return))
               (t
                (let ((x (read stream t nil t)))
-                 (cond ((eq x *dot-marker*)
+                 (cond ((eq x *read-skip-marker*))
+                       ((eq x *dot-marker*)
                         (unless head (error "dot error"))
                         (setf (cdr tail) (read stream t nil t))
                         (unless (char= (peek-char t stream t nil t) #\))
@@ -581,7 +585,7 @@
 (defun read-sharp-plus-minus (stream sub-char arg)
   (declare (ignore arg))
   ;; TODO: testがnilの場合は*read-suppress*をnilにしてreadする必要がある
-  (let ((test (let ((*keyword* (find-package :keyword)))
+  (let ((test (let ((*package* (find-package :keyword)))
                 (read stream t nil t)))
         (form (read stream t nil t)))
     (if (char= sub-char (if (featurep test) #\+ #\-))
