@@ -8,6 +8,15 @@ Common Lisp to JavaScript compiler
 $ ros install cxxxr/valtan
 ```
 
+## Demo
+
+```
+$ cd example/react-counter
+$ npm install
+$ npm start
+$ open index.html
+```
+
 ## Status
 ansiテストには[sacla common lisp](https://minejima.jp/lisp/sacla/index-en.html) を使っています  
 下記は現在通っているテストの一覧です
