@@ -7,10 +7,27 @@
   function
   interactive-function
   report-function
-  test-function)
+  test-function
+  (associated-conditions '()))
+
+(defun map-restarts (function condition)
+  (dolist (restart *restarts*)
+    (when (or (null condition)
+              (null (restart-associated-conditions restart))
+              (member condition (restart-associated-conditions restart)))
+      (funcall function restart))))
+
+(defun compute-restarts (&optional condition)
+  (with-accumulate ()
+    (map-restarts (lambda (restart)
+                    (collect restart))
+                  condition)))
 
 (defun find-restart (identier &optional condition)
-  (find identier *restarts* :key #'restart-name))
+  (map-restarts (lambda (restart)
+                  (when (eq identier (restart-name restart))
+                    (return-from find-restart restart)))
+                condition))
 
 (defun invoke-restart (restart-name &rest values)
   (let ((restart (find-restart restart-name)))
@@ -28,9 +45,9 @@
                      binding
                    `(push (make-restart :name ',name
                                         :function ,function
-                                        :interactive-function interactive-function
-                                        :report-function report-function
-                                        :test-function test-function)
+                                        :interactive-function ,interactive-function
+                                        :report-function ,report-function
+                                        :test-function ,test-function)
                           *restarts*)))
                (reverse bindings))
      ,@forms))
@@ -85,13 +102,35 @@
                                                        (return-from ,outer-block-name
                                                          (progn ,@forms)))
                                                      ,@options)))))
-                                clauses))
-         ,expression))))
+                                clauses)
+           ,expression)))))
 
-(defmacro with-simple-restart ((restart-name format-control &rest format-argument) &body forms)
+(defmacro with-simple-restart ((restart-name format-control &rest format-arguments) &body forms)
   (let ((g-stream (gensym)))
     `(restart-case (progn ,@forms)
        (,restart-name ()
          :report (lambda (,g-stream)
                    (format ,g-stream ,format-control ,@format-arguments)))
        (values nil t))))
+
+(defmacro with-condition-restarts (condition-form restarts-form &body body)
+  (let ((condition (gensym))
+        (restarts (gensym))
+        (restart (gensym)))
+    `(let ((,condition ,condition-form)
+           (,restarts ,restarts-form))
+       (unwind-protect
+            (progn
+              (dolist (,restart ,restarts)
+                (push ,condition (restart-associated-conditions ,restart)))
+              ,@body)
+         (dolist (,restart ,restarts)
+           (pop (restart-associated-conditions ,restart)))))))
+
+(defun cerror (continue-format-control datum &rest arguments)
+  (with-simple-restart (continue "~A" (apply #'format nil continue-format-string arguments))
+    (let ((condition (coerce-to-condition datum arguments 'simple-error)))
+      (with-condition-restarts condition (list (find-restart 'continue))
+        (signal-1 condition)
+        (invoke-debugger condition))))
+  nil)
