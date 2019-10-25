@@ -87,3 +87,11 @@
                                                      ,@options)))))
                                 clauses))
          ,expression))))
+
+(defmacro with-simple-restart ((restart-name format-control &rest format-argument) &body forms)
+  (let ((g-stream (gensym)))
+    `(restart-case (progn ,@forms)
+       (,restart-name ()
+         :report (lambda (,g-stream)
+                   (format ,g-stream ,format-control ,@format-arguments)))
+       (values nil t))))
