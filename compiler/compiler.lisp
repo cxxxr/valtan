@@ -151,7 +151,8 @@
                              "read"
                              "file"
                              "pkg"
-                             "clos"))
+                             "clos"
+                             "restart"))
           (directory-files "./compiler/"
                            '("packages"
                              "variables"
