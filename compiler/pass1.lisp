@@ -787,14 +787,14 @@
 
 (def-pass1-form tagbody ((&rest statements) return-value-p multiple-values-p)
   (let* ((tags (remove-if-not #'symbolp statements))
-         (index 0)
          (*lexenv*
-           (extend-lexenv (mapcar (lambda (tag)
-                                    (incf index)
-                                    (make-tag-binding tag
-                                                      (make-tagbody-value :index index
-                                                                          :level *tagbody-level*)))
-                                  tags)
+           (extend-lexenv (let ((index 0))
+                            (mapcar (lambda (tag)
+                                      (incf index)
+                                      (make-tag-binding tag
+                                                        (make-tagbody-value :index index
+                                                                            :level *tagbody-level*)))
+                                    tags))
                           *lexenv*)))
     (let* ((part-statements '())
            (tag-statements-pairs '())
