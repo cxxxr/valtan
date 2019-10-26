@@ -20,9 +20,9 @@
 (defun signal-1 (condition)
   (let ((class (class-of condition))
         (*handler-clusters* *handler-clusters*))
-    (do ((handlers (pop *handler-clusters*) (pop *handler-clusters*)))
-        ((null handlers))
-      (dolist (handler handlers)
+    (do ()
+        ((null *handler-clusters*))
+      (dolist (handler (pop *handler-clusters*))
         (when (subclassp class (car handler))
           (funcall (cadr handler) condition))))))
 
