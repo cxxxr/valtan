@@ -71,9 +71,14 @@
     (integer (integerp object))
     (numberp (numberp object))
     (otherwise
-     (if (system::structure-p object)
-         (eq (system::%structure-name object)
-             type)))))
+     (cond ((and (system::structure-p object)
+                 (eq (system::%structure-name object)
+                     'standard-instance)
+                 (find-class type nil))
+            (subclassp (class-of object) (find-class type nil)))
+           ((system::structure-p object)
+            (eq (system::%structure-name object)
+                type))))))
 
 (defun subtypep (type1 type2 &optional environment)
   (declare (ignore environment))
