@@ -134,3 +134,12 @@
         (signal-1 condition)
         (invoke-debugger condition))))
   nil)
+
+(defun warn (datum &rest arguments)
+  (let ((condition (coerce-to-condition datum arguments 'simple-warning)))
+    (restart-case (signal condition)
+      (muffle-warning ()
+        :report "Skip warning."
+        (return-from warn nil)))
+    (format *error-output* "~&Warning: ~A~%" condition)
+    nil))
