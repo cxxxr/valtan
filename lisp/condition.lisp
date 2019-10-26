@@ -1,6 +1,6 @@
 (in-package :common-lisp)
 
-(defvar *handlers* '())
+(defvar *handler-clusters* '())
 
 (defun coerce-to-condition (datum arguments default-condition)
   (cond ((or (stringp datum) (functionp datum))
@@ -18,12 +18,16 @@
          (apply #'make-condition datum arguments))))
 
 (defun signal-1 (condition)
-  (let ((class (class-of condition)))
-    (dolist (handler *handlers*)
-      (when (subclassp class (car handler))
-        (funcall (cdr handler) condition)))))
+  (let ((class (class-of condition))
+        (*handler-clusters* *handler-clusters*))
+    (do ((handlers (pop *handler-clusters*) (pop *handler-clusters*)))
+        ((null handlers))
+      (dolist (handler handlers)
+        (when (subclassp class (car handler))
+          (funcall (cadr handler) condition))))))
 
 (defun signal (datum &rest arguments)
+  ;; TODO: *break-on-signals*
   (let ((condition (coerce-to-condition datum arguments 'simple-condition)))
     (signal-1 condition)))
 
@@ -71,10 +75,13 @@
   (error "End of file"))
 
 (defmacro handler-bind (bindings &body forms)
-  `(let ((*handlers* *handlers*))
-     ,@(mapcar (lambda (binding)
-                 `(push (cons (find-class ',(car binding)) ,(cadr binding)) *handlers*))
-               (reverse bindings))
+  `(let ((*handler-clusters*
+           (cons (list ,@(mapcar (lambda (binding)
+                                   (destructuring-bind (type handler) binding
+                                     `(list (find-class ',type)
+                                            ,handler)))
+                                 bindings))
+                 *handler-clusters*)))
      ,@forms))
 
 (defmacro handler-case (form &rest cases)
