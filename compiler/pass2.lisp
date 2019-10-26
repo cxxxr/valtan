@@ -465,7 +465,7 @@
 (def-emit go (ir)
   (let ((tagbody-value (ir-arg2 ir)))
     (format t "throw new lisp.TagValue(~A, ~A)"
-            (tagbody-value-level tagbody-value)
+            (tagbody-value-id tagbody-value)
             (tagbody-value-index tagbody-value))))
 
 (def-emit catch (ir)

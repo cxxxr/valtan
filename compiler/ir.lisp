@@ -51,4 +51,4 @@
 
 (defstruct tagbody-value
   index
-  level)
+  id)

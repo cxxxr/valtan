@@ -783,9 +783,10 @@
         (make-ir 'return-from nil nil binding (pass1 value t t))
         (compile-error "return for unknown block: ~S" name))))
 
-(defvar *tagbody-level* 0)
+(defvar *tagbody-id* 0)
 
 (def-pass1-form tagbody ((&rest statements) return-value-p multiple-values-p)
+  (incf *tagbody-id*)
   (let* ((tags (remove-if-not #'symbolp statements))
          (*lexenv*
            (extend-lexenv (let ((index 0))
@@ -793,10 +794,10 @@
                                       (incf index)
                                       (make-tag-binding tag
                                                         (make-tagbody-value :index index
-                                                                            :level *tagbody-level*)))
+                                                                            :id *tagbody-id*)))
                                     tags))
                           *lexenv*))
-         (entry-tagbody-value (make-tagbody-value :index 0 :level *tagbody-level*)))
+         (entry-tagbody-value (make-tagbody-value :index 0 :id *tagbody-id*)))
     (let* ((part-statements '())
            (tag-statements-pairs '())
            (none '#:none)
@@ -814,7 +815,7 @@
                                  (make-ir 'progn nil nil (nreverse part-statements)))))
                      tag-statements-pairs)
                (setf part-statements nil)))
-        (let ((*tagbody-level* (1+ *tagbody-level*)))
+        (let ((*tagbody-id* *tagbody-id*))
           (do ((statements* statements (rest statements*)))
               ((null statements*)
                (add-statements))
@@ -826,7 +827,7 @@
         (make-ir 'tagbody
                  return-value-p
                  nil
-                 *tagbody-level*
+                 *tagbody-id*
                  (nreverse tag-statements-pairs))))))
 
 (def-pass1-form go ((tag) return-value-p multiple-values-p)
@@ -836,7 +837,7 @@
     (unless binding
       (compile-error "attempt to GO to nonexistent tag: ~A" tag))
     (count-if-used binding)
-    (make-ir 'go nil nil *tagbody-level* (binding-value binding))))
+    (make-ir 'go nil nil *tagbody-id* (binding-value binding))))
 
 (def-pass1-form catch ((tag &rest body) return-value-p multiple-values-p)
   (make-ir 'catch
