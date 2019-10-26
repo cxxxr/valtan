@@ -21,6 +21,20 @@
 (defvar *standard-output* (make-standard-output-stream))
 (defvar *error-output* (make-standard-output-stream))
 
+(defun compute-text-column (text)
+  (let ((pos (position #\newline text :from-end t)))
+    (if pos
+        (- (length text) pos 1)
+        (length text))))
+
+(defun stream-column (stream)
+  (cond ((stream-output-stream-p stream)
+         (compute-text-column (string-output-stream-buffer stream)))
+        ((standard-output-stream-p stream)
+         (compute-text-column (standard-output-stream-buffer stream)))
+        (t
+         (type-error stream 'output-stream))))
+
 (defun flush (stream)
   (let ((x (standard-output-stream-buffer stream)))
     (when (< 0 (length x))
@@ -82,6 +96,10 @@
 
 (defun terpri (&optional (stream *standard-output*))
   (write-char #\newline stream))
+
+(defun fresh-line (&optional (stream *standard-output*))
+  (when (< 0 (stream-column stream))
+    (terpri stream)))
 
 (defstruct (string-input-stream (:copier nil)
                                 (:constructor %make-string-input-stream))

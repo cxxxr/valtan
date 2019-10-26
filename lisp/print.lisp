@@ -173,6 +173,8 @@
                             (prin1 (take) buffer))
                            ((#\%)
                             (write-char #\newline buffer))
+                           ((#\&)
+                            (fresh-line buffer))
                            (otherwise
                             (error "unexpected format directive"))))
                         (t
