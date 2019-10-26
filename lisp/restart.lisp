@@ -1,6 +1,6 @@
 (in-package :common-lisp)
 
-(defvar *restarts* '())
+(defvar *restart-clustors* '())
 
 (defstruct restart
   name
@@ -11,11 +11,12 @@
   (associated-conditions '()))
 
 (defun map-restarts (function condition)
-  (dolist (restart *restarts*)
-    (when (or (null condition)
-              (null (restart-associated-conditions restart))
-              (member condition (restart-associated-conditions restart)))
-      (funcall function restart))))
+  (dolist (restarts *restart-clustors*)
+    (dolist (restart restarts)
+      (when (or (null condition)
+                (null (restart-associated-conditions restart))
+                (member condition (restart-associated-conditions restart)))
+        (funcall function restart)))))
 
 (defun compute-restarts (&optional condition)
   (with-accumulate ()
@@ -38,18 +39,24 @@
     (apply (restart-function restart) values)))
 
 (defmacro restart-bind (bindings &body forms)
-  `(let ((*restarts* *restarts*))
-     ,@(mapcar (lambda (binding)
-                 (destructuring-bind
-                       (name function &key interactive-function report-function test-function)
-                     binding
-                   `(push (make-restart :name ',name
-                                        :function ,function
-                                        :interactive-function ,interactive-function
-                                        :report-function ,report-function
-                                        :test-function ,test-function)
-                          *restarts*)))
-               (reverse bindings))
+  `(let ((*restart-clustors*
+           (cons (list ,@(mapcar
+                          (lambda (binding)
+                            (destructuring-bind
+                                  (name
+                                   function
+                                   &key
+                                   interactive-function
+                                   report-function
+                                   test-function)
+                                binding
+                              `(make-restart :name ',name
+                                             :function ,function
+                                             :interactive-function ,interactive-function
+                                             :report-function ,report-function
+                                             :test-function ,test-function)))
+                          bindings))
+                 *restart-clustors*)))
      ,@forms))
 
 (defmacro restart-case (expression &body clauses)
