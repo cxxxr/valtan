@@ -28,7 +28,7 @@
         (length text))))
 
 (defun stream-column (stream)
-  (cond ((stream-output-stream-p stream)
+  (cond ((string-output-stream-p stream)
          (compute-text-column (string-output-stream-buffer stream)))
         ((standard-output-stream-p stream)
          (compute-text-column (standard-output-stream-buffer stream)))
