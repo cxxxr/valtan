@@ -3,11 +3,17 @@
 (defvar *handlers* '())
 
 (defun coerce-to-condition (datum arguments default-condition)
-  (if (or (stringp datum) (functionp datum))
-      (make-condition default-condition
-                      :format-control datum
-                      :format-arguments arguments)
-      (apply #'make-condition datum arguments)))
+  (cond ((or (stringp datum) (functionp datum))
+         (make-condition default-condition
+                         :format-control datum
+                         :format-arguments arguments))
+        ((and (system::structure-p datum)
+              (eq (system::%structure-name datum)
+                  'standard-instance)
+              (subclassp (class-of datum) (find-class 'condition)))
+         datum)
+        (t
+         (apply #'make-condition datum arguments))))
 
 (defun signal-1 (condition)
   (let ((class (class-of condition)))
