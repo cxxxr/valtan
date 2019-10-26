@@ -11,6 +11,8 @@
               (eq (system::%structure-name datum)
                   'standard-instance)
               (subclassp (class-of datum) (find-class 'condition)))
+         (when arguments
+           (error 'type-error :datum arguments :expected-type nil))
          datum)
         (t
          (apply #'make-condition datum arguments))))

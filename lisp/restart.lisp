@@ -137,6 +137,8 @@
 
 (defun warn (datum &rest arguments)
   (let ((condition (coerce-to-condition datum arguments 'simple-warning)))
+    (unless (subclassp (class-of condition) (find-class 'warning))
+      (error 'type-error :datum condition :expected-type 'warning))
     (restart-case (signal condition)
       (muffle-warning ()
         :report "Skip warning."
