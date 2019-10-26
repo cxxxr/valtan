@@ -795,7 +795,8 @@
                                                         (make-tagbody-value :index index
                                                                             :level *tagbody-level*)))
                                     tags))
-                          *lexenv*)))
+                          *lexenv*))
+         (entry-tagbody-value (make-tagbody-value :index 0 :level *tagbody-level*)))
     (let* ((part-statements '())
            (tag-statements-pairs '())
            (none '#:none)
@@ -804,7 +805,7 @@
                (unless part-statements
                  (setf part-statements (list (pass1-const nil nil))))
                (push (if (eq last-tag none)
-                         (cons (make-tagbody-value :index 0 :level *tagbody-level*)
+                         (cons entry-tagbody-value
                                (make-ir 'progn nil nil (nreverse part-statements)))
                          (let ((binding (lookup last-tag :tag)))
                            (assert binding)
