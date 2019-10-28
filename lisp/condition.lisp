@@ -84,31 +84,58 @@
                  *handler-clusters*)))
      ,@forms))
 
+(defun gen-handler-case-1 (error-clauses form)
+  (let ((g-form-name (gensym "FORM-"))
+        (fun-names (mapcar (lambda (arg)
+                             (gensym (format nil "FUN-~A-" (car arg))))
+                           error-clauses))
+        (tag-names (mapcar (lambda (arg)
+                             (gensym (format nil "TAG-~A-" (car arg))))
+                           error-clauses))
+        (g-block-name (gensym "BLOCK-"))
+        (g-temp (gensym "TEMP-")))
+    `(flet ((,g-form-name () ,form)
+            ,@(mapcar (lambda (c fun-name)
+                        `(,fun-name ,@(cdr c)))
+                error-clauses
+                fun-names))
+       (block ,g-block-name
+         (tagbody
+           (handler-bind
+               ,(mapcar (lambda (c tag-name)
+                          (let ((arg (gensym)))
+                            `(,(car c)
+                              (lambda (,arg)
+                                (setq ,g-temp ,arg)
+                                (go ,tag-name)))))
+                        error-clauses
+                        tag-names)
+             (return-from ,g-block-name (,g-form-name)))
+           ,@(mapcan (lambda (tag-name fun-name error-clause)
+                       `(,tag-name
+                         (return-from ,g-block-name
+                           (,fun-name ,@(if (null (cadr error-clause))
+                                            nil
+                                            `(,g-temp))))))
+              tag-names
+              fun-names
+              error-clauses))))))
+
 (defmacro handler-case (form &rest cases)
   (let ((error-clauses
           (remove-if (lambda (c) (eq (car c) :no-error)) cases))
         (no-error-clause
-          (find-if (lambda (c) (eq (car c) :no-error)) cases))
-        (g-condition (gensym))
-        (g-name (gensym)))
-    `(block ,g-name
-       (handler-bind
-           ,(mapcar (lambda (c)
-                      `(,(car c)
-                        ,(if (consp (cadr c))
-                             `(lambda ,(cadr c)
-                                (return-from ,g-name
-                                  (progn ,@(cddr c))))
-                             `(lambda (,g-condition)
-                                (declare (ignore ,g-condition))
-                                (return-from ,g-name
-                                  (progn ,@(cdr c)))))))
-                    error-clauses)
-         ,(if no-error-clause
-              (destructuring-bind (args . body)
-                  (cdr no-error-clause)
-                `(multiple-value-call (lambda ,args ,@body) ,form))
-              form)))))
+          (find-if (lambda (c) (eq (car c) :no-error)) cases)))
+    (if no-error-clause
+        (let ((g-error-return (gensym "ERROR-RETURN-"))
+              (g-normal-return (gensym "NORMAL-RETURN-")))
+          `(block ,g-error-return
+             (multiple-value-call (lambda ,@(cdr no-error-clause))
+               (block ,g-normal-return
+                 (return-from ,g-error-return
+                   (handler-case (return-from ,g-normal-return ,form)
+                     ,@error-clauses))))))
+        (gen-handler-case-1 error-clauses form))))
 
 (defmacro ignore-errors (&rest forms)
   `(handler-case (progn ,@forms)
