@@ -21,9 +21,9 @@
      ,@body))
 
 (defmacro tag (tag option &body children)
-  `(js:react.create-element (ffi:cl->js ,(if (and (symbolp tag) (eq (find-package :js) (symbol-package tag)))
+  `(js:react.create-element #j,(if (and (symbolp tag) (eq (find-package :js) (symbol-package tag)))
                                              tag
-                                             (string-downcase tag)))
+                                             (string-downcase tag))
                             (ffi:object . ,option)
                             ,@children))
 
@@ -39,10 +39,11 @@
       (tag :div ()
            (tag js:-number () count)
            (tag :button
-                ((ffi:cl->js "onClick") handle-click)
-                (ffi:cl->js "click"))))))
+                (#j"onClick" handle-click)
+                #j"click")))))
 
-(unless (eq (ffi:typeof js:window) (ffi:cl->js "undefined"))
+(unless (eq (ffi:typeof js:window) #j"undefined")
   (js:react-dom.render
    (js:react.create-element js:-app)
-   (js:document.get-element-by-id (ffi:cl->js "example"))))
+   (js:document.get-element-by-id #j"example"))
+  (ffi:set js:window.lisp js:lisp))
