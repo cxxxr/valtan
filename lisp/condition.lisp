@@ -84,42 +84,43 @@
                  *handler-clusters*)))
      ,@forms))
 
-(defun gen-handler-case-1 (error-clauses form)
-  (let ((g-form-name (gensym "FORM-"))
-        (fun-names (mapcar (lambda (arg)
-                             (gensym (format nil "FUN-~A-" (car arg))))
-                           error-clauses))
-        (tag-names (mapcar (lambda (arg)
-                             (gensym (format nil "TAG-~A-" (car arg))))
-                           error-clauses))
-        (g-block-name (gensym "BLOCK-"))
-        (g-temp (gensym "TEMP-")))
-    `(flet ((,g-form-name () ,form)
-            ,@(mapcar (lambda (c fun-name)
-                        `(,fun-name ,@(cdr c)))
-                error-clauses
-                fun-names))
-       (block ,g-block-name
-         (tagbody
-           (handler-bind
-               ,(mapcar (lambda (c tag-name)
-                          (let ((arg (gensym)))
-                            `(,(car c)
-                              (lambda (,arg)
-                                (setq ,g-temp ,arg)
-                                (go ,tag-name)))))
-                        error-clauses
-                        tag-names)
-             (return-from ,g-block-name (,g-form-name)))
-           ,@(mapcan (lambda (tag-name fun-name error-clause)
-                       `(,tag-name
-                         (return-from ,g-block-name
-                           (,fun-name ,@(if (null (cadr error-clause))
-                                            nil
-                                            `(,g-temp))))))
-              tag-names
-              fun-names
-              error-clauses))))))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun gen-handler-case-1 (error-clauses form)
+    (let ((g-form-name (gensym "FORM-"))
+          (fun-names (mapcar (lambda (arg)
+                               (gensym (format nil "FUN-~A-" (car arg))))
+                             error-clauses))
+          (tag-names (mapcar (lambda (arg)
+                               (gensym (format nil "TAG-~A-" (car arg))))
+                             error-clauses))
+          (g-block-name (gensym "BLOCK-"))
+          (g-temp (gensym "TEMP-")))
+      `(flet ((,g-form-name () ,form)
+              ,@(mapcar (lambda (c fun-name)
+                          `(,fun-name ,@(cdr c)))
+                  error-clauses
+                  fun-names))
+         (block ,g-block-name
+           (tagbody
+             (handler-bind
+                 ,(mapcar (lambda (c tag-name)
+                            (let ((arg (gensym)))
+                              `(,(car c)
+                                (lambda (,arg)
+                                  (setq ,g-temp ,arg)
+                                  (go ,tag-name)))))
+                          error-clauses
+                          tag-names)
+               (return-from ,g-block-name (,g-form-name)))
+             ,@(mapcan (lambda (tag-name fun-name error-clause)
+                         `(,tag-name
+                           (return-from ,g-block-name
+                             (,fun-name ,@(if (null (cadr error-clause))
+                                              nil
+                                              `(,g-temp))))))
+                tag-names
+                fun-names
+                error-clauses)))))))
 
 (defmacro handler-case (form &rest cases)
   (let ((error-clauses
