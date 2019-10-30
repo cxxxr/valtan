@@ -42,6 +42,19 @@
                 (#j"onClick" handle-click)
                 #j"click")))))
 
+;; (define-react-component js:-app ()
+;;   (with-state ((text set-text "")
+;;                (result set-result nil))
+;;     (tag :div (#j"style" (ffi:object #j"display" #j"flex" #j"flexDirection" #j"column"))
+;;          (tag :input (#j"option" #j"text"
+;;                                  #j"onChange" (lambda (e)
+;;                                                 (funcall set-text (ffi:js->cl (ffi:ref e "target" "value"))))))
+;;          (tag :button (#j"onClick" (lambda (e)
+;;                                      (declare (ignore e))
+;;                                      (funcall set-result (eval (read-from-string text)))))
+;;               #j"eval")
+;;          (tag :span () (ffi:cl->js (format nil "~S" result))))))
+
 (unless (eq (ffi:typeof js:window) #j"undefined")
   (js:react-dom.render
    (js:react.create-element js:-app)
