@@ -1019,6 +1019,6 @@
   (mapcar (lambda (name)
             (pass1-toplevel
              (if (get-symbol-macro name)
-                 `(system::%put ',name 'symbol-macro ',(get-symbol-macro name))
-                 `(system::%put ',name 'macro ',(get-macro name)))))
+                 `(system::%put ',name 'symbol-macro ,(get-symbol-macro name))
+                 `(system::%put ',name 'macro ,(get-macro name)))))
           macro-definitions))
