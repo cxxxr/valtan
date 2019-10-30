@@ -52,7 +52,7 @@
 (defmacro do-forms ((var stream) &body body)
   (let ((g-eof-value (gensym))
         (g-stream (gensym)))
-    `(let ((*package* (find-package :cl-user)))
+    `(let ((*package* (find-package :valtan-user)))
        (loop :with ,g-eof-value := '#:eof-value
              :and ,g-stream := ,stream
              :for ,var := (!read ,g-stream nil ,g-eof-value)
@@ -193,9 +193,14 @@
                          (push (pass1-toplevel form) ir-forms)))
                      (dolist (ir-form (pass1-dump-macros))
                        (push ir-form ir-forms))
-                     (dolist (file pathnames)
-                       (do-file-form (form file)
-                         (push (pass1-toplevel form) ir-forms)))
-                     (let ((*standard-output* output))
-                       (in-pass2 (nreverse ir-forms)))))
+                     (let ((macro-definitions
+                             (let ((*macro-definitions* nil))
+                               (dolist (file pathnames)
+                                 (do-file-form (form file)
+                                   (push (pass1-toplevel form) ir-forms)))
+                               *macro-definitions*)))
+                       (dolist (ir-form (pass1-dump-macros macro-definitions))
+                         (push ir-form ir-forms))
+                       (let ((*standard-output* output))
+                         (in-pass2 (nreverse ir-forms))))))
                  *module-table*)))))
