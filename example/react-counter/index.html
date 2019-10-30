@@ -9,5 +9,36 @@
     <script src="./node_modules/react/umd/react.development.js"></script>
     <script src="./node_modules/react-dom/umd/react-dom.development.js"></script>
     <script src="./dist/main.js"></script>
+    <script>
+window.RemoteJS = {};
+var RemoteJS = window.RemoteJS;
+
+RemoteJS.send = function(data) {
+  RemoteJS.ws.send(data);
+};
+
+RemoteJS.connect = function() {
+  var ws  = new WebSocket("ws://0.0.0.0:40000/");
+
+  ws.onmessage = function(evt) {
+      console.log('receive');
+      const string = lisp.intern('JS->CL', lisp.ffi_package).func(evt.data);
+      const form = lisp.intern('READ-FROM-STRING', lisp.cl_package).func(string);
+      console.log(lisp.intern('EVAL').func(form));
+  };
+
+  ws.onopen = function() {
+    RemoteJS.send('connected');
+  };
+
+  ws.onclose = function() {
+    setTimeout(RemoteJS.connect, 1);
+  };
+
+  RemoteJS.ws = ws;
+};
+
+RemoteJS.connect();
+    </script>
   </body>
 </html>
