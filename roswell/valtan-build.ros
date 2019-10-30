@@ -12,8 +12,15 @@ exec ros -Q -- $0 "$@"
   (:use :cl))
 (in-package :ros.script.valtan-build.3765950064)
 
+(defun prepare-path-file ()
+  (with-open-file (out ".valtan-path"
+                       :direction :output
+                       :if-exists :supersede
+                       :if-does-not-exist :create)
+    (princ (asdf:system-relative-pathname :valtan "./lib/") out)))
+
 (defun main (&rest argv)
   (declare (ignorable argv))
-  (compiler::build-system (first argv))
-  (fresh-line))
+  (prepare-path-file)
+  (compiler::build-system (first argv)))
 ;;; vim: set ft=lisp lisp:

@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 
 module.exports = {
   mode: 'none',
@@ -11,7 +12,7 @@ module.exports = {
   resolve: {
     modules: [
       'node_modules',
-      path.resolve(__dirname, 'lib')
+      fs.readFileSync('.valtan-path', 'utf-8')
     ]
   }
 };
