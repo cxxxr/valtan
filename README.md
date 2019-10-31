@@ -1,6 +1,5 @@
-Common Lisp to JavaScript compiler
-
 # valtan
+Common Lisp to JavaScript compiler
 
 ## Installation
 
@@ -18,8 +17,10 @@ $ open index.html
 ```
 
 ## Status
-ansiテストには[sacla common lisp](https://minejima.jp/lisp/sacla/index-en.html) を使っています  
-下記は現在通っているテストの一覧です
+This project is still alpha quality.
+
+[sacla common lisp](https://minejima.jp/lisp/sacla/index-en.html) depends on Ansi test.
+The followings are list of Ansi test and the "Success or failure".
 
 - [ ] desirable-printer.lisp
 - [ ] must-array.lisp
