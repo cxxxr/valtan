@@ -16,6 +16,16 @@ $ npm run build
 $ open index.html
 ```
 
+## Create a project
+
+```
+$ valtan-init project-name
+$ cd project-name
+$ npm install
+
+$ npm start # run
+```
+
 ## Status
 This project is still alpha quality.
 
