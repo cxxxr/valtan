@@ -13,7 +13,7 @@ $ ros install cxxxr/valtan
 ```
 $ cd example/react-counter
 $ npm install
-$ npm start
+$ npm run build
 $ open index.html
 ```
 
