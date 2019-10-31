@@ -22,15 +22,15 @@
 
 (defmacro tag (tag option &body children)
   `(js:react.create-element #j,(if (and (symbolp tag) (eq (find-package :js) (symbol-package tag)))
-                                             tag
-                                             (string-downcase tag))
+                                   tag
+                                   (string-downcase tag))
                             (ffi:object . ,option)
                             ,@children))
 
 (define-react-component js:-number (children)
   (tag :h1 () children))
 
-(define-react-component js:-app ()
+(define-react-component js:-counter ()
   (with-state ((count set-count 0))
     (let ((handle-click
             (lambda (e)
@@ -42,18 +42,23 @@
                 (#j"onClick" handle-click)
                 #j"click")))))
 
-;; (define-react-component js:-app ()
-;;   (with-state ((text set-text "")
-;;                (result set-result nil))
-;;     (tag :div (#j"style" (ffi:object #j"display" #j"flex" #j"flexDirection" #j"column"))
-;;          (tag :input (#j"option" #j"text"
-;;                                  #j"onChange" (lambda (e)
-;;                                                 (funcall set-text (ffi:js->cl (ffi:ref e "target" "value"))))))
-;;          (tag :button (#j"onClick" (lambda (e)
-;;                                      (declare (ignore e))
-;;                                      (funcall set-result (eval (read-from-string text)))))
-;;               #j"eval")
-;;          (tag :span () (ffi:cl->js (format nil "~S" result))))))
+(define-react-component js:-repl ()
+  (with-state ((text set-text "")
+               (result set-result nil))
+    (tag :div (#j"style" (ffi:object #j"display" #j"flex" #j"flexDirection" #j"column"))
+         (tag :input (#j"option" #j"text"
+                                 #j"onChange" (lambda (e)
+                                                (funcall set-text (ffi:js->cl (ffi:ref e "target" "value"))))))
+         (tag :button (#j"onClick" (lambda (e)
+                                     (declare (ignore e))
+                                     (funcall set-result (eval (read-from-string text)))))
+              #j"eval")
+         (tag :span () #j(format nil "~S" result)))))
+
+(define-react-component js:-app ()
+  (tag :div ()
+       (tag js:-counter ())
+       (tag js:-repl ())))
 
 (unless (eq (ffi:typeof js:window) #j"undefined")
   (js:react-dom.render
