@@ -367,7 +367,7 @@
       (dotimes (i (length token)
                   (setq token
                         (ecase state
-                          ((nil))
+                          ((nil) token)
                           (:upcase
                            (string-downcase token))
                           (:downcase
