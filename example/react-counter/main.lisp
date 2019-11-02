@@ -36,7 +36,9 @@
     (let ((handle-click
             (lambda (e)
               (declare (ignore e))
-              (funcall set-count (1+ count)))))
+              (let ((start (js:-date.now)))
+                (funcall set-count (1+ count))
+                (ffi:console.log start (js:-date.now) (- (js:-date.now) start))))))
       (tag :div ()
            (tag js:-number () count)
            (tag :button
