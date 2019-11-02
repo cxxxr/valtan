@@ -32,6 +32,8 @@
                  (ffi:cl->js value))))
     object))
 
+(defun ffi:array (&rest args)
+  (apply (ffi:ref "Array") args))
 
 (defmacro ffi:console.log (&rest args)
   `((ffi:ref "console" "log") ,@args))

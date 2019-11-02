@@ -27,6 +27,7 @@
            #:define-function
            #:define
            #:object
+           #:array
            #:console.log
            #:js-eval
            #:cl->js
