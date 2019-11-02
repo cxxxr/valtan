@@ -28,8 +28,14 @@
         ((null rest))
       (let ((key (car rest))
             (value (cadr rest)))
-        (ffi:set (ffi:aget object (ffi:cl->js key))
-                 (ffi:cl->js value))))
+        (ffi:set (ffi:aget object
+                           (cond ((stringp key)
+                                  (ffi:cl->js key))
+                                 ((keywordp key)
+                                  (ffi:cl->js (compiler::kebab-to-lower-camel-case (string key))))
+                                 (t
+                                  key)))
+                 value)))
     object))
 
 (defun ffi:array (&rest args)
