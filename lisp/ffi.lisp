@@ -28,14 +28,10 @@
         ((null rest))
       (let ((key (car rest))
             (value (cadr rest)))
-        (ffi:set (ffi:%aget object (ffi:cl->js key))
+        (ffi:set (ffi:aget object (ffi:cl->js key))
                  (ffi:cl->js value))))
     object))
 
-(defun ffi:aget (object &rest keys)
-  (dolist (key keys)
-    (setq object (ffi:%aget object (ffi:cl->js key))))
-  object)
 
 (defmacro ffi:console.log (&rest args)
   `((ffi:ref "console" "log") ,@args))

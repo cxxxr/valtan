@@ -6,7 +6,7 @@
         (gargs (gensym)))
     `(ffi:define-function ,name (,garg &rest ,gargs)
        (let ,(mapcar (lambda (key)
-                       `(,key (ffi:aget ,garg ,(string-downcase key))))
+                       `(,key (ffi:aget ,garg (ffi:cl->js ,(string-downcase key)))))
                      keys)
          ,@body))))
 

@@ -23,11 +23,10 @@
            #:set
            #:var
            #:new
-           #:%aget
+           #:aget
            #:define-function
            #:define
            #:object
-           #:aget
            #:console.log
            #:js-eval
            #:cl->js

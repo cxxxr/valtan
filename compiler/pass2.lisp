@@ -600,7 +600,7 @@
     (write-string "(")
     (emit-call-args (ir-arg2 ir))))
 
-(def-emit ffi:%aget (ir)
+(def-emit ffi:aget (ir)
   (with-emit-paren
     (with-emit-paren
       (pass2 (ir-arg1 ir)))

@@ -49,7 +49,7 @@
                (i 0))
            (map nil
                 (lambda (content)
-                  (ffi:set (ffi:%aget js-array i) content)
+                  (ffi:set (ffi:aget js-array i) content)
                   (incf i))
                 initial-contents)
            js-array))))
@@ -145,7 +145,7 @@
     (type-error array 'array))
   (when (or (< sub 0) (<= (array-length array) sub))
     (error "index error"))
-  (ffi:%aget (array-contents array) sub))
+  (ffi:aget (array-contents array) sub))
 
 (defun (setf aref) (value array sub)
   (unless (arrayp array)
@@ -162,7 +162,7 @@
                 ((ffi:ref (array-contents array) "substring") (1+ sub))))
          value)
         (t
-         (ffi:set (ffi:%aget (array-contents array) sub) value))))
+         (ffi:set (ffi:aget (array-contents array) sub) value))))
 
 (defun svref (vector index)
   (aref vector index))
@@ -196,7 +196,7 @@
             (>= 0 (array-fill-pointer vector)))
     (error "error"))
   (decf (array-fill-pointer vector))
-  (ffi:%aget (array-contents vector) (array-fill-pointer vector)))
+  (ffi:aget (array-contents vector) (array-fill-pointer vector)))
 
 (defun vector-push (new-element vector)
   (when (or (null (array-fill-pointer vector))
