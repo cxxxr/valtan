@@ -22,7 +22,7 @@
                       (string var)))
               (ffi:cl->js ,value))))
 
-(defun ffi:object (&rest plist)
+(defun ffi::%object (&rest plist)
   (let ((object (js:-object)))
     (do ((rest plist (cddr rest)))
         ((null rest))
@@ -37,6 +37,22 @@
                                   key)))
                  value)))
     object))
+
+(defmacro ffi:object (&rest plist)
+  (let ((new-plist '()))
+    (do ((plist plist (cddr plist)))
+        ((null plist))
+      (let ((key (car plist))
+            (value (cadr plist)))
+        (push (cond ((stringp key)
+                     `(ffi:cl->js ,key))
+                    ((keywordp key)
+                     `(ffi:cl->js ,(compiler::kebab-to-lower-camel-case (string key))))
+                    (t
+                     key))
+              new-plist)
+        (push value new-plist)))
+    `(ffi::%object ,@(nreverse new-plist))))
 
 (defun ffi:array (&rest args)
   (apply (ffi:ref "Array") args))
