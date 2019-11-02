@@ -26,7 +26,8 @@
                                   tag
                                   (string-downcase tag)))
                             (ffi:object . ,option)
-                            ,@children))
+                            ,@(mapcar (lambda (c) `(ffi:cl->js ,c))
+                                      children)))
 
 (define-react-component js:-number (children)
   (tag :h1 () children))
@@ -41,7 +42,7 @@
            (tag js:-number () count)
            (tag :button
                 (:on-Click handle-click)
-                #j"click")))))
+                "click")))))
 
 (define-react-component js:-repl ()
   (with-state ((text set-text "")
@@ -53,8 +54,8 @@
          (tag :button (:on-click (lambda (e)
                                    (declare (ignore e))
                                    (funcall set-result (eval (read-from-string text)))))
-              #j"eval")
-         (tag :span () (ffi:cl->js (format nil "~S" result))))))
+              "eval")
+         (tag :span () (format nil "~S" result)))))
 
 (define-react-component js:-app ()
   (tag :div ()
