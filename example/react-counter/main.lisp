@@ -42,19 +42,19 @@
       (tag :div ()
            (tag js:-number () count)
            (tag :button
-                (#j"onClick" handle-click)
+                (:on-Click handle-click)
                 #j"click")))))
 
 (define-react-component js:-repl ()
   (with-state ((text set-text "")
                (result set-result nil))
-    (tag :div (#j"style" (ffi:object #j"display" #j"flex" #j"flexDirection" #j"column"))
-         (tag :input (#j"option" #j"text"
-                                 #j"onChange" (lambda (e)
-                                                (funcall set-text (ffi:js->cl (ffi:ref e "target" "value"))))))
-         (tag :button (#j"onClick" (lambda (e)
-                                     (declare (ignore e))
-                                     (funcall set-result (eval (read-from-string text)))))
+    (tag :div (:style #j{ :display #j"flex" :flex-Direction #j"column"})
+         (tag :input (:option #j"text"
+                      :on-change (lambda (e)
+                                   (funcall set-text (ffi:js->cl (ffi:ref e "target" "value"))))))
+         (tag :button (:on-click (lambda (e)
+                                   (declare (ignore e))
+                                   (funcall set-result (eval (read-from-string text)))))
               #j"eval")
          (tag :span () (ffi:cl->js (format nil "~S" result))))))
 
