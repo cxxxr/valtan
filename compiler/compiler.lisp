@@ -229,13 +229,17 @@
 (defparameter *module-table* (make-hash-table))
 (defvar *module-directory*)
 
-(defmacro valtan-system::module (name file-names)
+(defstruct module (pathnames '()) (enable-profile nil))
+
+(defmacro valtan-system::module (name file-names &key enable-profile)
   `(setf (gethash ',name *module-table*)
-         (mapcar (lambda (file-name)
-                   (make-pathname :name file-name
-                                  :type "lisp"
-                                  :directory *module-directory*))
-                 ',file-names)))
+         (make-module
+          :pathnames (mapcar (lambda (file-name)
+                               (make-pathname :name file-name
+                                              :type "lisp"
+                                              :directory *module-directory*))
+                             ',file-names)
+          :enable-profile ,enable-profile)))
 
 (defun load-module (pathname)
   (let ((*module-directory* (pathname-directory (probe-file pathname)))
@@ -258,10 +262,14 @@
                               :if-does-not-exist :create
                               :if-exists :supersede)
         ;; XXX: *module-table*には要素が一つしか入っていないことを想定
-        (maphash (lambda (module-name pathnames)
+        (maphash (lambda (module-name module)
                    (declare (ignore module-name))
-                   (let ((ir-forms '())
+                   (let ((pathnames (module-pathnames module))
+                         (ir-forms '())
                          (*require-modules* '()))
+                     (when (module-enable-profile module)
+                       (push (pass1-toplevel '((ffi:ref "lisp" "startProfile")))
+                             ir-forms))
                      (dolist (file (get-lisp-files))
                        (do-file-form (form file)
                          (push (pass1-toplevel form) ir-forms)))

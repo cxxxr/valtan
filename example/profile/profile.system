@@ -1,0 +1,5 @@
+;; -*- mode:lisp -*-
+
+(module "profile"
+        ("main")
+        :enable-profile t)

@@ -35,7 +35,7 @@
            #:typeof))
 
 (defpackage :valtan-system
-  (:use))
+  (:use :cl))
 
 (defpackage :js
   (:use))
