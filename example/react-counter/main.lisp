@@ -56,7 +56,7 @@
                                      (declare (ignore e))
                                      (funcall set-result (eval (read-from-string text)))))
               #j"eval")
-         (tag :span () #j(format nil "~S" result)))))
+         (tag :span () (ffi:cl->js (format nil "~S" result))))))
 
 (define-react-component js:-app ()
   (tag :div ()
