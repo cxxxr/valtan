@@ -21,9 +21,10 @@
      ,@body))
 
 (defmacro tag (tag option &body children)
-  `(js:react.create-element #j,(if (and (symbolp tag) (eq (find-package :js) (symbol-package tag)))
-                                   tag
-                                   (string-downcase tag))
+  `(js:react.create-element (ffi:cl->js
+                             ,(if (and (symbolp tag) (eq (find-package :js) (symbol-package tag)))
+                                  tag
+                                  (string-downcase tag)))
                             (ffi:object . ,option)
                             ,@children))
 
