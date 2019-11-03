@@ -266,7 +266,7 @@
                 ',name)))
           ((variable-symbol-p name)
            (if (toplevel-p)
-               `(%defun ,name ,lambda-list ,@body)
+               `(system::%defun ,name ,lambda-list ,@body)
                `(system::fset ',name
                               (lambda ,lambda-list
                                 (block ,name ,@body)))))
@@ -891,12 +891,12 @@
         (t
          (pass1-const nil return-value-p))))
 
-(def-pass1-form %defun ((name lambda-list &rest body) return-value-p multiple-values-p)
+(def-pass1-form system::%defun ((name lambda-list &rest body) return-value-p multiple-values-p)
   (multiple-value-bind (body declares docstring)
       (parse-body body t)
     (declare (ignore docstring))
     (let ((body `(block ,name ,@body)))
-      (make-ir '%defun
+      (make-ir 'system::%defun
                return-value-p
                nil
                name

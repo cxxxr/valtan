@@ -557,7 +557,7 @@
   (write-string ")")
   (pass2-exit (ir-return-value-p ir)))
 
-(def-emit %defun (ir)
+(def-emit system::%defun (ir)
   (let ((name (ir-arg1 ir))
         (function (ir-arg2 ir)))
     (let ((var (to-js-identier name
