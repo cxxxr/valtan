@@ -100,27 +100,28 @@
                           `(,fun-name ,@(cdr c)))
                   error-clauses
                   fun-names))
-         (block ,g-block-name
-           (tagbody
-             (handler-bind
-                 ,(mapcar (lambda (c tag-name)
-                            (let ((arg (gensym)))
-                              `(,(car c)
-                                (lambda (,arg)
-                                  (setq ,g-temp ,arg)
-                                  (go ,tag-name)))))
-                          error-clauses
-                          tag-names)
-               (return-from ,g-block-name (,g-form-name)))
-             ,@(mapcan (lambda (tag-name fun-name error-clause)
-                         `(,tag-name
-                           (return-from ,g-block-name
-                             (,fun-name ,@(if (null (cadr error-clause))
-                                              nil
-                                              `(,g-temp))))))
-                tag-names
-                fun-names
-                error-clauses)))))))
+         (let ((,g-temp))
+           (block ,g-block-name
+             (tagbody
+               (handler-bind
+                   ,(mapcar (lambda (c tag-name)
+                              (let ((arg (gensym)))
+                                `(,(car c)
+                                  (lambda (,arg)
+                                    (setq ,g-temp ,arg)
+                                    (go ,tag-name)))))
+                            error-clauses
+                            tag-names)
+                 (return-from ,g-block-name (,g-form-name)))
+               ,@(mapcan (lambda (tag-name fun-name error-clause)
+                           `(,tag-name
+                             (return-from ,g-block-name
+                               (,fun-name ,@(if (null (cadr error-clause))
+                                                nil
+                                                `(,g-temp))))))
+                  tag-names
+                  fun-names
+                  error-clauses))))))))
 
 (defmacro handler-case (form &rest cases)
   (let ((error-clauses
