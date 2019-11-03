@@ -21,8 +21,6 @@
         (prin1 form)
         (terpri)))))
 
-(test "sacla-tests/should-character.lisp")
-#|
 ;; (test "sacla-tests/desirable-printer.lisp")
 ;; (test "sacla-tests/must-array.lisp")
 (test "sacla-tests/must-character.lisp")
@@ -50,4 +48,3 @@
 (test "sacla-tests/should-string.lisp")
 (test "sacla-tests/should-symbol.lisp")
 ;; (test "sacla-tests/x-sequence.lisp")
-|#
