@@ -13,6 +13,24 @@
                             (end (position #\' line :start (1+ start))))
                        (subseq line (1+ start) end))))))
 
+#+(or)
+(let ((file (asdf:system-relative-pathname :valtan "./lib/lisp.js")))
+  (with-open-file (in file)
+    (loop :for line := (read-line in nil nil)
+          :while line
+          :when (ppcre:register-groups-bind (package-name symbol-name fn-name)
+                    ("^registerFunction\\((\\w+),\\s*'([^']*)',\\s*(\\w+)," line)
+                  (list (format nil "lisp.~A" fn-name)
+                        (format nil "~A:~A"
+                                (cond ((string= package-name "cl_package")
+                                       "CL:")
+                                      ((string= package-name "system_package")
+                                       "SYSTEM::")
+                                      ((string= package-name "ffi_package")
+                                       "FFI::"))
+                                symbol-name)))
+          :collect :it)))
+
 (defvar *js-readtable*
   (let ((*readtable* (copy-readtable)))
     (set-macro-character
