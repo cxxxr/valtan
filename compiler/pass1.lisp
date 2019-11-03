@@ -5,7 +5,7 @@
 (defvar *require-modules* '())
 (defvar *defined-function-names* '())
 (defvar *called-function-names* '())
-(defvar *lexenv*)
+(defvar *lexenv* nil)
 (defvar *compile-level* -1)
 (defvar *macro-definitions* '())
 

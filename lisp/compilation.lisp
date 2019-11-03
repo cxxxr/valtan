@@ -9,3 +9,14 @@
 
 (defun eval (x)
   (ffi:js-eval (compile-toplevel x)))
+
+(defun macroexpand-1 (x)
+  (let ((compiler::*lexenv* nil))
+    (compiler::%macroexpand-1 x)))
+
+(defun macroexpand (x)
+  (multiple-value-bind (form expanded-p)
+      (macroexpand-1 x)
+    (if expanded-p
+        (macroexpand-1 form)
+        form)))
