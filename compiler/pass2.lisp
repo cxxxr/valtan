@@ -509,7 +509,7 @@
     (write-line "for (;;) {")
     (emit-try-catch
         ((err)
-         (format t "if (~A instanceof lisp.TagValue && ~A.level === ~D) { ~A = ~A.index; }~%"
+         (format t "if (~A instanceof lisp.TagValue && ~A.id === ~A) { ~A = ~A.index; }~%"
                  err
                  err
                  (ir-arg1 ir)

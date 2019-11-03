@@ -785,6 +785,14 @@
 
 (defvar *tagbody-id* 0)
 
+(defun make-tagbody-id ()
+  (format nil
+          "'~A_~A'"
+          (if (member :valtan *features*)
+              :target
+              :host)
+          *tagbody-id*))
+
 (def-pass1-form tagbody ((&rest statements) return-value-p multiple-values-p)
   (incf *tagbody-id*)
   (let* ((tags (remove-if-not #'symbolp statements))
@@ -794,10 +802,10 @@
                                       (incf index)
                                       (make-tag-binding tag
                                                         (make-tagbody-value :index index
-                                                                            :id *tagbody-id*)))
+                                                                            :id (make-tagbody-id))))
                                     tags))
                           *lexenv*))
-         (entry-tagbody-value (make-tagbody-value :index 0 :id *tagbody-id*)))
+         (entry-tagbody-value (make-tagbody-value :index 0 :id (make-tagbody-id))))
     (let* ((part-statements '())
            (tag-statements-pairs '())
            (none '#:none)
@@ -827,7 +835,7 @@
         (make-ir 'tagbody
                  return-value-p
                  nil
-                 *tagbody-id*
+                 (make-tagbody-id)
                  (nreverse tag-statements-pairs))))))
 
 (def-pass1-form go ((tag) return-value-p multiple-values-p)
