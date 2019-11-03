@@ -787,7 +787,7 @@
 
 (defun make-tagbody-id ()
   (format nil
-          "'~A_~A'"
+          "~A_~A"
           (if (member :valtan *features*)
               :target
               :host)

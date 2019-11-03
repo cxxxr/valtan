@@ -509,7 +509,7 @@
     (write-line "for (;;) {")
     (emit-try-catch
         ((err)
-         (format t "if (~A instanceof lisp.TagValue && ~A.id === ~A) { ~A = ~A.index; }~%"
+         (format t "if (~A instanceof lisp.TagValue && ~A.id === '~A') { ~A = ~A.index; }~%"
                  err
                  err
                  (ir-arg1 ir)
@@ -529,7 +529,7 @@
 
 (def-emit go (ir)
   (let ((tagbody-value (ir-arg2 ir)))
-    (format t "throw new lisp.TagValue(~A, ~A)"
+    (format t "throw new lisp.TagValue('~A', ~A)"
             (tagbody-value-id tagbody-value)
             (tagbody-value-index tagbody-value))))
 
