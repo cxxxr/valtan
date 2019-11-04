@@ -246,19 +246,19 @@
 
 (defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library")))
 
-(defstruct module
+(defstruct system
   name
   (pathnames '())
   (enable-profile nil)
   (depends-on '()))
 
-(defun load-module (pathname)
+(defun load-system (pathname)
   (with-open-file (in pathname)
     (let ((plist (let ((*package* (find-package :valtan-system)))
                    (read in)))
           (directory (pathname-directory pathname)))
       (destructuring-bind (&key members enable-profile depends-on) plist
-        (make-module :name (pathname-name pathname)
+        (make-system :name (pathname-name pathname)
                      :pathnames (mapcar (lambda (name)
                                           (make-pathname :name name
                                                          :type "lisp"
@@ -271,7 +271,7 @@
   (unless (probe-file pathname)
     (error "~A does not exist" pathname))
   (let* ((pathname (probe-file pathname))
-         (module (load-module pathname))
+         (system (load-system pathname))
          (output-file (or output-file
                           (make-pathname :name (pathname-name pathname)
                                          :type "js"
@@ -281,10 +281,10 @@
                             :direction :output
                             :if-does-not-exist :create
                             :if-exists :supersede)
-      (let ((pathnames (module-pathnames module))
+      (let ((pathnames (system-pathnames system))
             (ir-forms '())
             (*require-modules* '()))
-        (when (module-enable-profile module)
+        (when (system-enable-profile system)
           (push (pass1-toplevel '((ffi:ref "lisp" "startProfile")))
                 ir-forms))
         (dolist (file (get-lisp-files))
