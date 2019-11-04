@@ -26,7 +26,6 @@
               (render-square 8)))))
 
 (defstruct moment
-  turn
   squares)
 
 (defun calculate-winner (squares)
@@ -55,7 +54,7 @@
          sequence)))
 
 (define-react-component js:-game ()
-  (with-state ((history set-history (list (make-moment :turn 0 :squares (make-array 9 :initial-element nil))))
+  (with-state ((history set-history (list (make-moment :squares (make-array 9 :initial-element nil))))
                (step-number set-step-number 0)
                (x-turn-p set-x-turn-p t))
     (flet ((handle-click (i)
@@ -64,12 +63,10 @@
                     (squares (copy-seq (moment-squares current))))
                (unless (or (calculate-winner squares) (aref squares i))
                  (setf (aref squares i) (if x-turn-p "X" "O"))
-                 (let ((history-length (length history)))
-                   (set-history (append history
-                                        (list (make-moment :turn history-length
-                                                           :squares squares))))
-                   (set-step-number history-length)
-                   (set-x-turn-p (not x-turn-p))))))
+                 (set-history (append history
+                                      (list (make-moment :squares squares))))
+                 (set-step-number (length history))
+                 (set-x-turn-p (not x-turn-p)))))
            (jump-to (step)
              (set-step-number step)
              (set-x-turn-p (evenp step))))
