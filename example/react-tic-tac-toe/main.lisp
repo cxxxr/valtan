@@ -94,10 +94,10 @@
                        (:squares (moment-squares current)
                         :on-click (lambda (i)
                                     (unless winner
-                                      (handle-click i)))))
-                  (tag :div (:class-name #j"game-info")
-                       (tag :div () status)
-                       (tag :div () moves))))))))
+                                      (handle-click i))))))
+             (tag :div (:class-name #j"game-info")
+                  (tag :div () status)
+                  (tag :ol () moves)))))))
 
 (js:react-dom.render
  (tag js:-game ())
