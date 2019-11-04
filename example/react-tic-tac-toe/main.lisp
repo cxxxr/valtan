@@ -62,13 +62,14 @@
              (let* ((history (subseq history 0 (1+ step-number)))
                     (current (car (last history)))
                     (squares (copy-seq (moment-squares current))))
-               (setf (aref squares i) (if x-turn-p "X" "O"))
-               (let ((history-length (length history)))
-                 (set-history (append history
-                                      (list (make-moment :turn history-length
-                                                         :squares squares))))
-                 (set-step-number history-length)
-                 (set-x-turn-p (not x-turn-p)))))
+               (unless (or (calculate-winner squares) (aref squares i))
+                 (setf (aref squares i) (if x-turn-p "X" "O"))
+                 (let ((history-length (length history)))
+                   (set-history (append history
+                                        (list (make-moment :turn history-length
+                                                           :squares squares))))
+                   (set-step-number history-length)
+                   (set-x-turn-p (not x-turn-p))))))
            (jump-to (step)
              (set-step-number step)
              (set-x-turn-p (evenp step))))
@@ -93,8 +94,7 @@
                   (tag js:-board
                        (:squares (moment-squares current)
                         :on-click (lambda (i)
-                                    (unless winner
-                                      (handle-click i))))))
+                                    (handle-click i)))))
              (tag :div (:class-name #j"game-info")
                   (tag :div () status)
                   (tag :ol () moves)))))))
