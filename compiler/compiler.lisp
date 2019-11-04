@@ -244,7 +244,7 @@
   (let ((*standard-output* output))
     (compile-files pathnames)))
 
-(defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library")))
+(defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
 
 (defstruct system
   name
@@ -267,6 +267,46 @@
                      :enable-profile enable-profile
                      :depends-on depends-on)))))
 
+(defun find-system (system-name &optional (errorp t))
+  (labels ((ok (pathname)
+             (when (and (equal (pathname-type pathname) "system")
+                        (equal (pathname-name pathname) system-name))
+               pathname))
+           (f (directory)
+             (or (some #'ok (uiop:directory-files directory))
+                 (some #'f (uiop:subdirectories directory)))))
+    (let ((system-pathname (some #'f *system-directories*)))
+      (cond (system-pathname
+             (load-system system-pathname))
+            (errorp
+             (error "System ~S is not found" system-name))))))
+
+(defun compile-with-system-1 (system ir-forms)
+  (dolist (system-name (system-depends-on system))
+    (let ((system (find-system system-name)))
+      (setf ir-forms (compile-with-system-1 system ir-forms))))
+  (let ((macro-definitions
+          (let ((*macro-definitions* nil))
+            (dolist (file (system-pathnames system))
+              (do-file-form (form file)
+                (push (pass1-toplevel form) ir-forms)))
+            *macro-definitions*)))
+    (dolist (ir-form (pass1-dump-macros macro-definitions))
+      (push ir-form ir-forms)))
+  ir-forms)
+
+(defun compile-with-system (system)
+  (let ((ir-forms
+          (if (system-enable-profile system)
+              (list (pass1-toplevel '((ffi:ref "lisp" "startProfile"))))
+              '())))
+    (dolist (file (get-lisp-files))
+      (do-file-form (form file)
+        (push (pass1-toplevel form) ir-forms)))
+    (dolist (ir-form (pass1-dump-macros))
+      (push ir-form ir-forms))
+    (nreverse (compile-with-system-1 system ir-forms))))
+
 (defun build-system (pathname &key output-file)
   (unless (probe-file pathname)
     (error "~A does not exist" pathname))
@@ -276,29 +316,12 @@
                           (make-pathname :name (pathname-name pathname)
                                          :type "js"
                                          :defaults pathname)))
-         (*in-host-runtime* t))
+         (*in-host-runtime* t)
+         (*require-modules* '()))
     (with-open-file (output output-file
                             :direction :output
                             :if-does-not-exist :create
                             :if-exists :supersede)
-      (let ((pathnames (system-pathnames system))
-            (ir-forms '())
-            (*require-modules* '()))
-        (when (system-enable-profile system)
-          (push (pass1-toplevel '((ffi:ref "lisp" "startProfile")))
-                ir-forms))
-        (dolist (file (get-lisp-files))
-          (do-file-form (form file)
-            (push (pass1-toplevel form) ir-forms)))
-        (dolist (ir-form (pass1-dump-macros))
-          (push ir-form ir-forms))
-        (let ((macro-definitions
-                (let ((*macro-definitions* nil))
-                  (dolist (file pathnames)
-                    (do-file-form (form file)
-                      (push (pass1-toplevel form) ir-forms)))
-                  *macro-definitions*)))
-          (dolist (ir-form (pass1-dump-macros macro-definitions))
-            (push ir-form ir-forms))
-          (let ((*standard-output* output))
-            (in-pass2 (nreverse ir-forms))))))))
+      (let ((ir-forms (compile-with-system system))
+            (*standard-output* output))
+        (in-pass2 ir-forms)))))
