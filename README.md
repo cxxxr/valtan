@@ -10,7 +10,7 @@ $ ros install cxxxr/valtan
 ## Demo
 
 ```
-$ cd example/react-counter
+$ cd example/react-tic-tac-toe
 $ npm install
 $ npm run build
 $ open index.html
