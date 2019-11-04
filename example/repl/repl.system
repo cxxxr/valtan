@@ -1,4 +1,3 @@
 ;; -*- mode:lisp -*-
 
-(module "repl"
-        ("repl"))
+(:members ("repl"))

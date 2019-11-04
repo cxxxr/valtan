@@ -1,4 +1,3 @@
 ;; -*- mode:lisp -*-
 
-(module "<% @var name %>"
-        ("main"))
+(:members "main")

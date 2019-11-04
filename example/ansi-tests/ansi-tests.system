@@ -1,4 +1,3 @@
 ;; -*- mode:lisp -*-
 
-(module "ansi-tests"
-        ("main"))
+(:members ("main"))

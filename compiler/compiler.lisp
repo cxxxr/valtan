@@ -244,63 +244,61 @@
   (let ((*standard-output* output))
     (compile-files pathnames)))
 
-(defparameter *module-table* (make-hash-table))
-(defvar *module-directory*)
+(defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library")))
 
-(defstruct module (pathnames '()) (enable-profile nil))
-
-(defmacro valtan-system::module (name file-names &key enable-profile)
-  `(setf (gethash ',name *module-table*)
-         (make-module
-          :pathnames (mapcar (lambda (file-name)
-                               (make-pathname :name file-name
-                                              :type "lisp"
-                                              :directory *module-directory*))
-                             ',file-names)
-          :enable-profile ,enable-profile)))
+(defstruct module
+  name
+  (pathnames '())
+  (enable-profile nil)
+  (depends-on '()))
 
 (defun load-module (pathname)
-  (let ((*module-directory* (pathname-directory (probe-file pathname)))
-        (*package* (find-package :valtan-system)))
-    (load pathname)))
+  (with-open-file (in pathname)
+    (let ((plist (let ((*package* (find-package :valtan-system)))
+                   (read in)))
+          (directory (pathname-directory pathname)))
+      (destructuring-bind (&key members enable-profile depends-on) plist
+        (make-module :name (pathname-name pathname)
+                     :pathnames (mapcar (lambda (name)
+                                          (make-pathname :name name
+                                                         :type "lisp"
+                                                         :directory directory))
+                                        members)
+                     :enable-profile enable-profile
+                     :depends-on depends-on)))))
 
 (defun build-system (pathname &key output-file)
   (unless (probe-file pathname)
     (error "~A does not exist" pathname))
-  (let ((pathname (probe-file pathname))
-        (*module-table* (make-hash-table))
-        (*in-host-runtime* t))
-    (load-module pathname)
-    (let ((output-file (or output-file
-                           (make-pathname :name (pathname-name pathname)
-                                          :type "js"
-                                          :defaults pathname))))
-      (with-open-file (output output-file
-                              :direction :output
-                              :if-does-not-exist :create
-                              :if-exists :supersede)
-        ;; XXX: *module-table*には要素が一つしか入っていないことを想定
-        (maphash (lambda (module-name module)
-                   (declare (ignore module-name))
-                   (let ((pathnames (module-pathnames module))
-                         (ir-forms '())
-                         (*require-modules* '()))
-                     (when (module-enable-profile module)
-                       (push (pass1-toplevel '((ffi:ref "lisp" "startProfile")))
-                             ir-forms))
-                     (dolist (file (get-lisp-files))
-                       (do-file-form (form file)
-                         (push (pass1-toplevel form) ir-forms)))
-                     (dolist (ir-form (pass1-dump-macros))
-                       (push ir-form ir-forms))
-                     (let ((macro-definitions
-                             (let ((*macro-definitions* nil))
-                               (dolist (file pathnames)
-                                 (do-file-form (form file)
-                                   (push (pass1-toplevel form) ir-forms)))
-                               *macro-definitions*)))
-                       (dolist (ir-form (pass1-dump-macros macro-definitions))
-                         (push ir-form ir-forms))
-                       (let ((*standard-output* output))
-                         (in-pass2 (nreverse ir-forms))))))
-                 *module-table*)))))
+  (let* ((pathname (probe-file pathname))
+         (module (load-module pathname))
+         (output-file (or output-file
+                          (make-pathname :name (pathname-name pathname)
+                                         :type "js"
+                                         :defaults pathname)))
+         (*in-host-runtime* t))
+    (with-open-file (output output-file
+                            :direction :output
+                            :if-does-not-exist :create
+                            :if-exists :supersede)
+      (let ((pathnames (module-pathnames module))
+            (ir-forms '())
+            (*require-modules* '()))
+        (when (module-enable-profile module)
+          (push (pass1-toplevel '((ffi:ref "lisp" "startProfile")))
+                ir-forms))
+        (dolist (file (get-lisp-files))
+          (do-file-form (form file)
+            (push (pass1-toplevel form) ir-forms)))
+        (dolist (ir-form (pass1-dump-macros))
+          (push ir-form ir-forms))
+        (let ((macro-definitions
+                (let ((*macro-definitions* nil))
+                  (dolist (file pathnames)
+                    (do-file-form (form file)
+                      (push (pass1-toplevel form) ir-forms)))
+                  *macro-definitions*)))
+          (dolist (ir-form (pass1-dump-macros macro-definitions))
+            (push ir-form ir-forms))
+          (let ((*standard-output* output))
+            (in-pass2 (nreverse ir-forms))))))))

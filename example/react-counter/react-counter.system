@@ -1,4 +1,3 @@
 ;; -*- mode:lisp -*-
 
-(module "react-counter"
-        ("main"))
+(:members ("main"))
