@@ -1,6 +1,34 @@
 (ffi:require js:react "react")
 (ffi:require js:react-dom "react-dom")
 
+(defstruct moment
+  squares)
+
+(defun map-index (type fn sequence)
+  (let ((i 0))
+    (map type
+         (lambda (x)
+           (declare (ignore x))
+           (prog1 (funcall fn i)
+             (incf i)))
+         sequence)))
+
+(defun calculate-winner (squares)
+  (macrolet ((line-test (x y z)
+               `(let ((tmp (aref squares ,x)))
+                  (if (and tmp
+                           (equal tmp (aref squares ,y))
+                           (equal tmp (aref squares ,z)))
+                      tmp))))
+    (or (line-test 0 1 2)
+        (line-test 3 4 5)
+        (line-test 6 7 8)
+        (line-test 0 3 6)
+        (line-test 1 4 7)
+        (line-test 2 5 8)
+        (line-test 0 4 8)
+        (line-test 2 4 6))))
+
 (define-react-component js:-square (on-click value)
   (tag :button (:class-name #j"square" :on-click on-click)
        value))
@@ -24,34 +52,6 @@
               (render-square 6)
               (render-square 7)
               (render-square 8)))))
-
-(defstruct moment
-  squares)
-
-(defun calculate-winner (squares)
-  (macrolet ((line-test (x y z)
-               `(let ((tmp (aref squares ,x)))
-                  (if (and tmp
-                           (equal tmp (aref squares ,y))
-                           (equal tmp (aref squares ,z)))
-                      tmp))))
-    (or (line-test 0 1 2)
-        (line-test 3 4 5)
-        (line-test 6 7 8)
-        (line-test 0 3 6)
-        (line-test 1 4 7)
-        (line-test 2 5 8)
-        (line-test 0 4 8)
-        (line-test 2 4 6))))
-
-(defun map-index (type fn sequence)
-  (let ((i 0))
-    (map type
-         (lambda (x)
-           (declare (ignore x))
-           (prog1 (funcall fn i)
-             (incf i)))
-         sequence)))
 
 (define-react-component js:-game ()
   (with-state ((history set-history (list (make-moment :squares (make-array 9 :initial-element nil))))
