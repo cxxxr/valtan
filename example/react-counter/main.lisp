@@ -9,7 +9,7 @@
     (let ((handle-click
             (lambda (e)
               (declare (ignore e))
-              (funcall set-count (1+ count)))))
+              (set-count (1+ count)))))
       (tag :div ()
            (tag js:-number () count)
            (tag :button
@@ -23,10 +23,10 @@
 ;;      (tag :div (:style #j{ :display #j"flex" :flex-Direction #j"column"})
 ;;           (tag :input (:option #j"text"
 ;;                        :on-change (lambda (e)
-;;                                     (funcall set-text (ffi:js->cl (ffi:ref e "target" "value"))))))
+;;                                     (set-text (ffi:js->cl (ffi:ref e "target" "value"))))))
 ;;           (tag :button (:on-click (lambda (e)
 ;;                                     (declare (ignore e))
-;;                                     (funcall set-result (eval (read-from-string text)))))
+;;                                     (set-result (eval (read-from-string text)))))
 ;;                "eval")
 ;;           (tag :span () (format nil "~S" result))))))
 
