@@ -3,10 +3,10 @@
 (defparameter lambda-list-keywords
   '(&ALLOW-OTHER-KEYS &AUX &BODY &ENVIRONMENT &KEY &OPTIONAL &REST &WHOLE))
 
-(system::defmacro* return (&optional value)
+(*:defmacro* return (&optional value)
   `(return-from nil ,value))
 
-(system::defmacro* cond (&rest clauses)
+(*:defmacro* cond (&rest clauses)
   (if (null clauses)
       nil
       (let ((clause (first clauses)))
@@ -16,7 +16,7 @@
                   `(progn ,@(rest clause)))
              (cond ,@(rest clauses))))))
 
-(system::defmacro* or (&rest forms)
+(*:defmacro* or (&rest forms)
   (if (null forms)
       nil
       (let ((value (gensym)))
@@ -25,18 +25,18 @@
                ,value
                (or ,@(rest forms)))))))
 
-(system::defmacro* and (&rest forms)
+(*:defmacro* and (&rest forms)
   (cond ((null forms))
         ((null (rest forms)) (first forms))
         (t `(if ,(first forms)
                 (and ,@(rest forms))
                 nil))))
 
-(system::defmacro* when (test &rest forms)
+(*:defmacro* when (test &rest forms)
   `(if ,test
        (progn ,@forms)))
 
-(system::defmacro* unless (test &rest forms)
+(*:defmacro* unless (test &rest forms)
   `(if ,test
        nil
        (progn ,@forms)))
@@ -44,7 +44,7 @@
 (defun not (x)
   (if x nil t))
 
-(system::defmacro* do* (varlist endlist &rest body)
+(*:defmacro* do* (varlist endlist &rest body)
   (let ((g-start (gensym))
         (body (compiler::parse-body body nil)))
     `(block nil
@@ -65,7 +65,7 @@
                                  varlist))
                  (go ,g-start))))))))
 
-(system::defmacro* psetq (&rest pairs)
+(*:defmacro* psetq (&rest pairs)
   (when (oddp (length pairs))
     (error "Odd number of args to PSETQ."))
   (let ((gvars '())
@@ -86,7 +86,7 @@
                  vars gvars)
        nil)))
 
-(system::defmacro* do (varlist endlist &rest body)
+(*:defmacro* do (varlist endlist &rest body)
   (let ((g-start (gensym))
         (body (compiler::parse-body body nil)))
     `(block nil
@@ -107,7 +107,7 @@
                                   varlist))
                  (go ,g-start))))))))
 
-(system::defmacro* dotimes (var-form &rest body)
+(*:defmacro* dotimes (var-form &rest body)
   (let ((var (first var-form))
         (expr (second var-form))
         (result (third var-form))
@@ -117,7 +117,7 @@
            ((>= ,var ,g-expr) ,result)
          ,@body))))
 
-(system::defmacro* dolist (var-form &rest body)
+(*:defmacro* dolist (var-form &rest body)
   (let* ((var (first var-form))
          (expr (second var-form))
          (result (third var-form))
@@ -134,7 +134,7 @@
              (go ,g-start))))
        ,result)))
 
-(system::defmacro* case (keyform &rest cases)
+(*:defmacro* case (keyform &rest cases)
   (let ((var (gensym)))
     `(let ((,var ,keyform))
        (cond ,@(mapcar (lambda (c)
@@ -148,7 +148,7 @@
                                   ,@(cdr c)))))
                        cases)))))
 
-(system::defmacro* ecase (keyform &rest cases)
+(*:defmacro* ecase (keyform &rest cases)
   (let ((var (gensym)))
     `(let ((,var ,keyform))
        (cond ,@(mapcar (lambda (c)
@@ -161,29 +161,29 @@
                        cases)
              (t (error "ecase error"))))))
 
-(system::defmacro* multiple-value-bind (vars value-form &rest body)
+(*:defmacro* multiple-value-bind (vars value-form &rest body)
   (let ((rest (gensym)))
     `(multiple-value-call (lambda (&optional ,@vars &rest ,rest)
                             (declare (ignore ,rest))
                             ,@body)
        ,value-form)))
 
-(system::defmacro* multiple-value-call (function arg &rest args)
+(*:defmacro* multiple-value-call (function arg &rest args)
   (if (null args)
-      `(system::multiple-value-call (ensure-function ,function)
+      `(*:multiple-value-call (ensure-function ,function)
          ,(if (atom arg)
               `(values ,arg)
               arg))
-      `(system::multiple-value-call (ensure-function ,function)
+      `(*:multiple-value-call (ensure-function ,function)
          ,arg
          ,@(if (atom (car (last args)))
                `(,@(butlast args) (values ,@(last args)))
                args))))
 
-(system::defmacro* multiple-value-list (value-form)
+(*:defmacro* multiple-value-list (value-form)
   `(multiple-value-call #'list ,value-form))
 
-(system::defmacro* multiple-value-prog1 (first-form &rest forms)
+(*:defmacro* multiple-value-prog1 (first-form &rest forms)
   (let ((g-values (gensym)))
     `(let ((,g-values (multiple-value-list ,first-form)))
        ,@forms
@@ -234,13 +234,13 @@
                 (unless (equalp (aref x i)
                                 (aref y i))
                   (return nil)))))
-        ((and (system::structure-p x)
-              (system::structure-p y))
-         (and (eq (system::%structure-name x)
-                  (system::%structure-name y))
-              (dotimes (i (system::%structure-slot-count x) t)
-                (unless (equalp (system::%structure-ref x i)
-                                (system::%structure-ref y i))
+        ((and (*:structure-p x)
+              (*:structure-p y))
+         (and (eq (*:%structure-name x)
+                  (*:%structure-name y))
+              (dotimes (i (*:%structure-slot-count x) t)
+                (unless (equalp (*:%structure-ref x i)
+                                (*:%structure-ref y i))
                   (return nil)))))
         ((and (hash-table-p x)
               (hash-table-p y))
@@ -248,7 +248,7 @@
         (t
          (eql x y))))
 
-(system::defmacro* prog1 (result &rest body)
+(*:defmacro* prog1 (result &rest body)
   (let ((tmp (gensym)))
     `(let ((,tmp ,result))
        ,@body

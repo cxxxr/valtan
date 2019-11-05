@@ -470,15 +470,15 @@
 
 (defun read-quasiquote (stream c)
   (declare (ignore c))
-  (list 'system::quasiquote (read stream t nil t)))
+  (list '*:quasiquote (read stream t nil t)))
 
 (defun read-unquote (stream c)
   (declare (ignore c))
   (cond ((char= #\@ (peek-char nil stream t nil t))
          (read-char stream t nil t)
-         (list 'system::unquote-splicing (read stream t nil t)))
+         (list '*:unquote-splicing (read stream t nil t)))
         (t
-         (list 'system::unquote (read stream t nil t)))))
+         (list '*:unquote (read stream t nil t)))))
 
 (defun read-line-comment (stream c)
   (declare (ignore c))

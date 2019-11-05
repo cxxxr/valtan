@@ -64,12 +64,12 @@
               (or (symbolp (first rest)) (functionp (first rest))))
          (setf (get access-fn 'setf-expander) (first rest))
          `(progn
-            (system::%put ',access-fn 'setf-expander ',(first rest))
+            (*:%put ',access-fn 'setf-expander ',(first rest))
             ',access-fn))
         (t
          (setf (get access-fn 'setf-expander) rest)
          `(progn
-            (system::%put ',access-fn 'setf-expander ',rest)
+            (*:%put ',access-fn 'setf-expander ',rest)
             ',access-fn))))
 
 (defmacro define-setf-expander (access-fn lambda-list &body body)
@@ -80,7 +80,7 @@
           (eval `(lambda (,g-rest)
                    (destructuring-bind ,lambda-list ,g-rest ,@body))))
     `(progn
-       (system::%put ',access-fn
+       (*:%put ',access-fn
                      'setf-expander
                      (lambda (,g-rest)
                        (destructuring-bind ,lambda-list ,g-rest ,@body)))

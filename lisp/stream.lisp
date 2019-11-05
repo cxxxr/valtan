@@ -1,6 +1,6 @@
 (in-package :common-lisp)
 
-(defvar system::*get-stdin-line-function*)
+(defvar *:*get-stdin-line-function*)
 
 (defstruct (string-output-stream (:copier nil)
                                  (:constructor %make-string-output-stream))
@@ -38,7 +38,7 @@
 (defun flush (stream)
   (let ((x (standard-output-stream-buffer stream)))
     (when (< 0 (length x))
-      (ffi:console.log (system::array-to-js-string x))
+      (ffi:console.log (*:array-to-js-string x))
       (setf (standard-output-stream-buffer stream) ""))))
 
 (defun stream-write-char (stream char)
@@ -46,14 +46,14 @@
     (type-error char 'character))
   (cond ((string-output-stream-p stream)
          (setf (string-output-stream-buffer stream)
-               (system::string-append (string-output-stream-buffer stream)
+               (*:string-append (string-output-stream-buffer stream)
                                       (string char)))
          char)
         ((standard-output-stream-p stream)
          (if (char= char #\newline)
              (flush stream) ; console.logが改行もしてしまうのでchar自体は出力しない
              (setf (standard-output-stream-buffer stream)
-                   (system::string-append (standard-output-stream-buffer stream)
+                   (*:string-append (standard-output-stream-buffer stream)
                                           (string char)))))
         (t
          (type-error stream 'output-stream)))
@@ -64,12 +64,12 @@
     (type-error string 'string))
   (cond ((string-output-stream-p stream)
          (setf (string-output-stream-buffer stream)
-               (system::string-append (string-output-stream-buffer stream)
+               (*:string-append (string-output-stream-buffer stream)
                                       string))
          string)
         ((standard-output-stream-p stream)
          (setf (standard-output-stream-buffer stream)
-               (system::string-append (standard-output-stream-buffer stream)
+               (*:string-append (standard-output-stream-buffer stream)
                                       string)))
         (t
          (type-error stream 'output-stream)))
@@ -129,7 +129,7 @@
 
 (defun fetch-stdin-line (stream)
   (setf (standard-input-stream-string stream)
-        (system::string-append (funcall system::*get-stdin-line-function*) (string #\newline))
+        (*:string-append (funcall *:*get-stdin-line-function*) (string #\newline))
         (standard-input-stream-position stream)
         0))
 

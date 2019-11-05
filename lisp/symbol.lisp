@@ -1,15 +1,15 @@
 (in-package :common-lisp)
 
 (defun make-symbol (string)
-  (system::%make-symbol (system::array-to-js-string string)))
+  (*:%make-symbol (*:array-to-js-string string)))
 
 (defun symbol-name (symbol)
-  (system::js-string-to-array (system::%symbol-name symbol)))
+  (*:js-string-to-array (*:%symbol-name symbol)))
 
 (defun symbol-package (symbol)
-  (if (eq (system::symbol-package-name symbol) (ffi:ref "null"))
+  (if (eq (*:symbol-package-name symbol) (ffi:ref "null"))
       nil
-      (find-package (system::js-string-to-array (system::symbol-package-name symbol)))))
+      (find-package (*:js-string-to-array (*:symbol-package-name symbol)))))
 
 (defun keywordp (x)
   (and (symbolp x)
@@ -20,13 +20,13 @@
   (getf (symbol-plist symbol) indicator default))
 
 (defun (setf symbol-plist) (plist symbol)
-  (system::put-symbol-plist symbol plist))
+  (*:put-symbol-plist symbol plist))
 
 (defsetf get (symbol indicator &optional default)
     (value)
   (let ((g-value (gensym)))
     `(let ((,g-value ,value))
-       (system::%put ,symbol ,indicator
+       (*:%put ,symbol ,indicator
                      (progn ,default ,g-value))
        ,g-value)))
 
@@ -44,7 +44,7 @@
   (set symbol value))
 
 (defun (setf symbol-function) (function symbol)
-  (system::fset symbol function))
+  (*:fset symbol function))
 
 (defvar *gensym-counter* 0)
 
@@ -54,7 +54,7 @@
                      ((not (stringp prefix))
                       (type-error prefix '(or string (integer 0 *))))
                      (t
-                      (prog1 (system::string-append prefix (princ-to-string *gensym-counter*))
+                      (prog1 (*:string-append prefix (princ-to-string *gensym-counter*))
                         (incf *gensym-counter*))))))
 
 (defvar *gentemp-counter* 0)
@@ -62,7 +62,7 @@
 (defun gentemp (&optional (prefix "T") (package *package*))
   (do ()
       (nil)
-    (let ((name (system::string-append prefix (princ-to-string *gentemp-counter*))))
+    (let ((name (*:string-append prefix (princ-to-string *gentemp-counter*))))
       (incf *gentemp-counter*)
       (unless (find-symbol name package)
         (return (intern name package))))))

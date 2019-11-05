@@ -1,6 +1,6 @@
 (ffi:require js:readline-sync "readline-sync")
 
-(let ((system::*get-stdin-line-function*
+(let ((*:*get-stdin-line-function*
         (lambda ()
           (ffi:js->cl (funcall js:readline-sync.question)))))
   (do ()

@@ -1,6 +1,6 @@
 (in-package :compiler)
 
-(defmacro system::quasiquote (x)
+(defmacro *:quasiquote (x)
   (expand-quasiquote x))
 
 (defparameter *known-function-names*
@@ -37,7 +37,7 @@
      #\`
      (lambda (s c)
        (declare (ignore c))
-       (list 'system::quasiquote
+       (list '*:quasiquote
              (read s t nil t))))
     (set-macro-character
      #\,
@@ -45,9 +45,9 @@
        (declare (ignore c))
        (cond ((eql #\@ (peek-char nil s t nil t))
               (read-char s t nil t)
-              (list 'system::unquote-splicing (read s t nil t)))
+              (list '*:unquote-splicing (read s t nil t)))
              (t
-              (list 'system::unquote
+              (list '*:unquote
                     (read s t nil t))))))
     (set-dispatch-macro-character
      #\# #\j

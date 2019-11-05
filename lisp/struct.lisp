@@ -1,9 +1,9 @@
 (in-package :common-lisp)
 
 (defun copy-structure (x)
-  (unless (system::structure-p x)
+  (unless (*:structure-p x)
     (type-error x 'structure-object))
-  (system::%copy-structure x))
+  (*:%copy-structure x))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun parse-structure-name-and-options (name-and-options)
@@ -81,7 +81,7 @@
                                                                   (second slot-desc))
                                                             slot-desc))
                                                       slot-descriptions)))
-         (system::make-structure ',structure-name
+         (*:make-structure ',structure-name
                                 ,@(mapcar (lambda (slot-desc)
                                             (let ((slot-name
                                                     (if (consp slot-desc)
@@ -103,14 +103,14 @@
                          (declare (ignore type))
                          `(progn
                             (defun ,accessor (structure)
-                              (unless (system::structure-p structure)
+                              (unless (*:structure-p structure)
                                 (type-error structure 'structure-object))
-                              (system::%structure-ref structure ,i))
+                              (*:%structure-ref structure ,i))
                             ,@(unless read-only
                                 `((defun (setf ,accessor) (value structure)
-                                    (unless (system::structure-p structure)
+                                    (unless (*:structure-p structure)
                                       (type-error structure 'structure-object))
-                                    (system::%structure-set structure ,i value))))))))
+                                    (*:%structure-set structure ,i value))))))))
                    slot-descriptions))
        (setf (get ',structure-name 'structure-printer)
              ,(if print-function
@@ -132,10 +132,10 @@
                                                       :keyword)
                                              stream)
                                       (write-string " " stream)
-                                      (prin1 (system::%structure-ref structure ,(incf i)) stream)))
+                                      (prin1 (*:%structure-ref structure ,(incf i)) stream)))
                                  slot-descriptions))
                      (write-string ")" stream))))
        ',structure-name)))
 
 (defun structure-printer (structure)
-  (get (system::%structure-name structure) 'structure-printer))
+  (get (*:%structure-name structure) 'structure-printer))

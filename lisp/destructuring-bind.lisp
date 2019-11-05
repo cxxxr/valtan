@@ -174,5 +174,5 @@
            (declare (ignorable . ,*tmp-db-vars*))
            ,@body)))))
 
-(system::defmacro* destructuring-bind (lambda-list expression &rest body)
+(*:defmacro* destructuring-bind (lambda-list expression &rest body)
   (expand-destructuring-bind lambda-list expression body))

@@ -12,22 +12,22 @@
 (defun car (x)
   (unless (listp x)
     (type-error x 'list))
-  (system::%car x))
+  (*:%car x))
 
 (defun cdr (x)
   (unless (listp x)
     (type-error x 'list))
-  (system::%cdr x))
+  (*:%cdr x))
 
 (defun rplaca (cons x)
   (unless (consp cons)
     (type-error cons 'cons))
-  (system::%rplaca cons x))
+  (*:%rplaca cons x))
 
 (defun rplacd (cons x)
   (unless (consp cons)
     (type-error cons 'cons))
-  (system::%rplacd cons x))
+  (*:%rplacd cons x))
 
 (defun (setf car) (value cons) (rplaca cons value) value)
 (defun (setf cdr) (value cons) (rplacd cons value) value)

@@ -16,12 +16,12 @@
   (unless (and (integerp code)
                (<= 0 code))
     (type-error code '(integer 0 *)))
-  (system::%code-char code))
+  (*:%code-char code))
 
 (defun char-code (char)
   (unless (characterp char)
     (type-error char 'character))
-  (system::%char-code char))
+  (*:%char-code char))
 
 (defun char-downcase (char)
   (if (char<= #\A char #\Z)

@@ -3,7 +3,7 @@
 (defun find-all-symbols (name)
   (let ((symbols '()))
     (dolist (package (list-all-packages))
-      (system::map-package-symbols
+      (*:map-package-symbols
        package
        (lambda (symbol)
          (when (string= name symbol)
@@ -33,29 +33,29 @@
         package)))
 
 (defun package-name (package)
-  (system::js-string-to-array (system::%package-name (ensure-package package))))
+  (*:js-string-to-array (*:%package-name (ensure-package package))))
 
 (defun package-nicknames (package)
-  (mapcar #'system::js-string-to-array
-          (system::js-array-to-list (system::%package-nicknames (ensure-package package)))))
+  (mapcar #'*:js-string-to-array
+          (*:js-array-to-list (*:%package-nicknames (ensure-package package)))))
 
 (defun intern (name &optional (package *package*))
-  (system::intern (system::array-to-js-string name)
+  (*:intern (*:array-to-js-string name)
                   (find-package package)))
 
 (defun find-symbol (name &optional (package *package*))
-  (system::find-symbol (system::array-to-js-string name)
+  (*:find-symbol (*:array-to-js-string name)
                        (find-package package)))
 
 (defun make-package (package-name &key nicknames use)
-  (system::make-package (system::array-to-js-string (string package-name))
-                        (system::list-to-js-array
+  (*:make-package (*:array-to-js-string (string package-name))
+                        (*:list-to-js-array
                          (mapcar (lambda (nickname)
-                                   (system::array-to-js-string (string nickname)))
+                                   (*:array-to-js-string (string nickname)))
                                  nicknames))
-                        (system::list-to-js-array
+                        (*:list-to-js-array
                          (mapcar (lambda (nickname)
-                                   (system::array-to-js-string (string nickname)))
+                                   (*:array-to-js-string (string nickname)))
                                  use))))
 
 (defmacro defpackage (package &body options)
@@ -65,7 +65,7 @@
   (let ((export (cdr (assoc :export options)))
         (use (cdr (assoc :use options)))
         (nicknames (cdr (assoc :nicknames options))))
-    `(system::%defpackage ,package :export ,export :use ,use :nicknames ,nicknames)))
+    `(*:%defpackage ,package :export ,export :use ,use :nicknames ,nicknames)))
 
 #|
 (defvar *packages* '())

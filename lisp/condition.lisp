@@ -7,8 +7,8 @@
          (make-condition default-condition
                          :format-control datum
                          :format-arguments arguments))
-        ((and (system::structure-p datum)
-              (eq (system::%structure-name datum)
+        ((and (*:structure-p datum)
+              (eq (*:%structure-name datum)
                   'standard-instance)
               (subclassp (class-of datum) (find-class 'condition)))
          (when arguments
@@ -32,13 +32,13 @@
     (signal-1 condition)))
 
 (defun invoke-debugger (condition)
-  (system::error (ffi:cl->js (princ-to-string condition))))
+  (*:error (ffi:cl->js (princ-to-string condition))))
 
 (defvar *in-error* nil)
 
 (defun error (datum &rest arguments)
   (if (not (fboundp 'make-instance))
-      (system::error (ffi:cl->js (apply #'format nil (princ-to-string datum) arguments)))
+      (*:error (ffi:cl->js (apply #'format nil (princ-to-string datum) arguments)))
       (let ((*in-error* t)
             (condition (coerce-to-condition datum arguments 'simple-error)))
         (signal-1 condition)

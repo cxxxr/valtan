@@ -13,34 +13,34 @@
   (cond ((stringp x)
          x)
         ((characterp x)
-         (system::js-string-to-array ((ffi:ref "String" "fromCharCode") (char-code x))))
+         (*:js-string-to-array ((ffi:ref "String" "fromCharCode") (char-code x))))
         ((symbolp x)
          (symbol-name x))
         (t
          (type-error x 'string-designator))))
 
-(defun system::string-append (x y)
+(defun *:string-append (x y)
   (unless (stringp x)
     (type-error x 'string))
   (unless (stringp y)
     (type-error y 'string))
-  (system::js-string-to-array
-   ((ffi:ref (system::array-to-js-string x) "concat")
-    (system::array-to-js-string y))))
+  (*:js-string-to-array
+   ((ffi:ref (*:array-to-js-string x) "concat")
+    (*:array-to-js-string y))))
 
-(defun system::string-append* (string &rest strings)
+(defun *:string-append* (string &rest strings)
   (dolist (s strings)
-    (setq string (system::string-append string s)))
+    (setq string (*:string-append string s)))
   string)
 
 (defun string-upcase (string &key (start 0) end)
   (setq string (string string))
   (unless end (setq end (length string)))
   (if (and (= start 0) (= end (length string)))
-      (system::js-string-to-array ((ffi:ref (system::array-to-js-string string) "toUpperCase")))
-      (system::string-append* (subseq string 0 start)
-                              (system::js-string-to-array
-                               ((ffi:ref (system::array-to-js-string (subseq string start end))
+      (*:js-string-to-array ((ffi:ref (*:array-to-js-string string) "toUpperCase")))
+      (*:string-append* (subseq string 0 start)
+                              (*:js-string-to-array
+                               ((ffi:ref (*:array-to-js-string (subseq string start end))
                                          "toUpperCase")))
                               (subseq string end))))
 
@@ -48,10 +48,10 @@
   (setq string (string string))
   (unless end (setq end (length string)))
   (if (and (= start 0) (= end (length string)))
-      (system::js-string-to-array ((ffi:ref (system::array-to-js-string string) "toLowerCase")))
-      (system::string-append* (subseq string 0 start)
-                              (system::js-string-to-array
-                               ((ffi:ref (system::array-to-js-string (subseq string start end))
+      (*:js-string-to-array ((ffi:ref (*:array-to-js-string string) "toLowerCase")))
+      (*:string-append* (subseq string 0 start)
+                              (*:js-string-to-array
+                               ((ffi:ref (*:array-to-js-string (subseq string start end))
                                          "toLowerCase")))
                               (subseq string end))))
 

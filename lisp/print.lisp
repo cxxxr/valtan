@@ -41,7 +41,7 @@
          (write-string string stream))))
 
 (defun print-number (number stream)
-  (write-string (system::js-string-to-array ((ffi:ref "String") number)) stream))
+  (write-string (*:js-string-to-array ((ffi:ref "String") number)) stream))
 
 (defun print-character (char stream)
   (cond (*print-escape*
@@ -78,7 +78,7 @@
   (print-unreadable-object (function stream)
     (write-string "Function" stream)
     #+(or)
-    (write-string (system::js-string-to-array ((ffi:ref "String") function))
+    (write-string (*:js-string-to-array ((ffi:ref "String") function))
                   stream)))
 
 (defun print-package (package stream)
@@ -123,7 +123,7 @@
          (print-function object stream))
         ((packagep object)
          (print-package object stream))
-        ((system::structure-p object)
+        ((*:structure-p object)
          (print-structure object stream))
         (t
          (setq object (ffi:js->cl object))

@@ -41,7 +41,7 @@
                 (lambda (content)
                   (setq js-string
                         ((ffi:ref js-string "concat")
-                         (system::array-to-js-string (string content)))))
+                         (*:array-to-js-string (string content)))))
                 initial-contents)
            js-string))
         (t
@@ -110,13 +110,13 @@
                  :length (dimensions-to-total-size dimensions)
                  :element-type element-type)))
 
-(defun system::js-array-to-array (js-array)
+(defun *:js-array-to-array (js-array)
   (%make-array :contents js-array
                :rank 1
                :length (ffi:ref js-array "length")
                :element-type t))
 
-(defun system::js-string-to-array (js-string)
+(defun *:js-string-to-array (js-string)
   (simple-make-string js-string))
 
 (defun simple-make-string (js-string)
@@ -125,7 +125,7 @@
                :length (ffi:ref js-string "length")
                :element-type 'character))
 
-(defun system::array-to-js-string (array)
+(defun *:array-to-js-string (array)
   (if (array-fill-pointer array)
       ((ffi:ref (array-contents array) "substring") 0 (array-fill-pointer array))
       (array-contents array)))

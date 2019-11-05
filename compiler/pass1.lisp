@@ -262,12 +262,12 @@
                             (list ,g-store)
                             (list* ,g-setter ,g-store ,gensyms)
                             (list* ,g-getter ,gensyms))))
-                (system::%put ',(second name) 'system::fdefinition-setf #',setf-fn)
+                (*:%put ',(second name) '*:fdefinition-setf #',setf-fn)
                 ',name)))
           ((variable-symbol-p name)
            (if (toplevel-p)
-               `(system::%defun ,name ,lambda-list ,@body)
-               `(system::fset ',name
+               `(*:%defun ,name ,lambda-list ,@body)
+               `(*:fset ',name
                               (lambda ,lambda-list
                                 (block ,name ,@body)))))
           (t
@@ -280,7 +280,7 @@
     (setf *macro-definitions* (nconc *macro-definitions* (list name)))
     `',name))
 
-(def-transform system::defmacro* (name lambda-list &rest body)
+(def-transform *:defmacro* (name lambda-list &rest body)
   (let ((fn `(lambda ,lambda-list ,@body)))
     (setf (get-macro name) fn)
     (setf *macro-definitions* (nconc *macro-definitions* (list name)))
@@ -294,8 +294,8 @@
 (def-transform lambda (args &rest body)
   `(function (lambda ,args ,@body)))
 
-(def-transform system::named-lambda (name args &rest body)
-  `(function (system::named-lambda ,name ,args ,@body)))
+(def-transform *:named-lambda (name args &rest body)
+  `(function (*:named-lambda ,name ,args ,@body)))
 
 (def-transform defvar (var &optional (value nil value-p) doc)
   (declare (ignore doc))
@@ -303,7 +303,7 @@
      (declaim (special ,var))
      ,(when value-p
         `(if (boundp ',var) nil (set ',var ,value)))
-     (system::%put ',var 'special t)
+     (*:%put ',var 'special t)
      ',var))
 
 (def-transform defparameter (var value &optional doc)
@@ -311,17 +311,17 @@
   `(progn
      (declaim (special ,var))
      (set ',var ,value)
-     (system::%put ',var 'special t)
+     (*:%put ',var 'special t)
      ',var))
 
 (defun expand-quasiquote (x)
   (cond ((atom x)
          (list 'quote x))
-        ((eq 'system::unquote (first x))
+        ((eq '*:unquote (first x))
          (assert (= 2 (length x)))
          (second x))
         ((and (consp (first x))
-              (eq (first (first x)) 'system::unquote-splicing))
+              (eq (first (first x)) '*:unquote-splicing))
          (assert (= 2 (length (first x))))
          (list 'append
                (second (first x))
@@ -331,7 +331,7 @@
                (expand-quasiquote (first x))
                (expand-quasiquote (rest x))))))
 
-(def-transform system::quasiquote (x)
+(def-transform *:quasiquote (x)
   (expand-quasiquote x))
 
 (defun pass1-const (x return-value-p)
@@ -444,7 +444,7 @@
     inner-lexenv))
 
 (defun pass1-lambda (form return-value-p)
-  (assert (member (first form) '(lambda system::named-lambda)))
+  (assert (member (first form) '(lambda *:named-lambda)))
   (multiple-value-bind (name args)
       (if (eq (first form) 'lambda)
           (values nil (rest form))
@@ -631,7 +631,7 @@
            (pass1 `(symbol-function ',thing)
                   return-value-p
                   nil))))
-    ((and (consp thing) (member (first thing) '(lambda system::named-lambda)))
+    ((and (consp thing) (member (first thing) '(lambda *:named-lambda)))
      (pass1-lambda thing return-value-p))
     (t
      (compile-error "~S is not a legal function name" thing))))
@@ -889,37 +889,37 @@
         (t
          (pass1-const nil return-value-p))))
 
-(def-pass1-form system::%defun ((name lambda-list &rest body) return-value-p multiple-values-p)
+(def-pass1-form *:%defun ((name lambda-list &rest body) return-value-p multiple-values-p)
   (multiple-value-bind (body declares docstring)
       (parse-body body t)
     (declare (ignore docstring))
     (let ((body `(block ,name ,@body)))
-      (make-ir 'system::%defun
+      (make-ir '*:%defun
                return-value-p
                nil
                name
                (pass1 (if (null declares)
-                          `(system::named-lambda ,name ,lambda-list ,body)
-                          `(system::named-lambda ,name ,lambda-list (declare ,@declares) ,body))
+                          `(*:named-lambda ,name ,lambda-list ,body)
+                          `(*:named-lambda ,name ,lambda-list (declare ,@declares) ,body))
                       t nil)))))
 
-(def-pass1-form system::multiple-value-call ((function &rest args)
+(def-pass1-form *:multiple-value-call ((function &rest args)
                                              return-value-p multiple-values-p)
   (make-ir 'call
            return-value-p
            multiple-values-p
-           'system::multiple-value-call
+           '*:multiple-value-call
            (cons (pass1 function t nil)
                  (mapcar (lambda (arg)
                            (pass1 arg t t))
                          args))))
 
-(def-pass1-form system::%defpackage ((name &key export use nicknames)
+(def-pass1-form *:%defpackage ((name &key export use nicknames)
                                      return-value-p multiple-values-p)
   (let ((name (string name))
         (export-names (mapcar #'string export))
         (use-package-names (mapcar #'string use)))
-    (make-ir 'system::%defpackage
+    (make-ir '*:%defpackage
              return-value-p
              nil
              name
@@ -930,7 +930,7 @@
 (def-pass1-form in-package ((name) return-value-p multiple-values-p)
   (setq *package* (find-package name))
   (let ((name (string name)))
-    (make-ir 'system::%in-package
+    (make-ir '*:%in-package
              return-value-p
              nil
              name)))
@@ -1025,6 +1025,6 @@
   (mapcar (lambda (name)
             (pass1-toplevel
              (if (get-symbol-macro name)
-                 `(system::%put ',name 'symbol-macro ,(get-symbol-macro name))
-                 `(system::%put ',name 'macro ,(get-macro name)))))
+                 `(*:%put ',name 'symbol-macro ,(get-symbol-macro name))
+                 `(*:%put ',name 'macro ,(get-macro name)))))
           macro-definitions))
