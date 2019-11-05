@@ -1,6 +1,6 @@
 (defpackage :compiler
   (:use :cl)
-  (:export :compile-stdin))
+  (:export :build-system))
 
 (defpackage :system
   (:use)
