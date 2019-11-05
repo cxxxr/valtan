@@ -472,17 +472,17 @@
     (cond (binding
            (binding-value binding))
           (t
-           (if (member :valtan *features*)
+           (if *in-host-runtime*
+               (let ((fn (get-macro symbol)))
+                 (if fn
+                     (eval fn)
+                     nil))
                (let ((fn (get-macro symbol)))
                  (cond ((functionp fn) fn)
                        (fn
                         (setf (get-macro symbol) (eval fn)))
                        (t
-                        nil)))
-               (let ((fn (get-macro symbol)))
-                 (if fn
-                     (eval fn)
-                     nil)))))))
+                        nil))))))))
 
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
@@ -788,9 +788,7 @@
 (defun make-tagbody-id ()
   (format nil
           "~A_~A"
-          (if (member :valtan *features*)
-              :target
-              :host)
+          (if *in-host-runtime* :host :target)
           *tagbody-id*))
 
 (def-pass1-form tagbody ((&rest statements) return-value-p multiple-values-p)
