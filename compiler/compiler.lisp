@@ -131,7 +131,7 @@
       (set-macro-character #\} (get-macro-character #\)) nil)
       (read in t nil t))))
 
-(defun !read (&rest args)
+(defun read-in-valtan (&rest args)
   (let ((*readtable* *js-readtable*))
     (handler-bind ((sb-int:simple-reader-package-error
                      (lambda (condition)
@@ -147,7 +147,7 @@
     `(let ((*package* (find-package :valtan-user)))
        (loop :with ,g-eof-value := '#:eof-value
              :and ,g-stream := ,stream
-             :for ,var := (!read ,g-stream nil ,g-eof-value)
+             :for ,var := (read-in-valtan ,g-stream nil ,g-eof-value)
              :until (eq ,var ,g-eof-value)
              :do (progn ,@body)))))
 
