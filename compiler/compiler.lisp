@@ -173,12 +173,6 @@
     (pass2-toplevel-forms ir-forms)
     (values)))
 
-(defun compile-stdin ()
-  (let ((ir-forms '()))
-    (do-forms (form *standard-input*)
-      (push (pass1-toplevel form) ir-forms))
-    (in-pass2 (nreverse ir-forms))))
-
 (defun compile-files (files)
   (unless (listp files) (setf files (list files)))
   (let ((ir-forms '()))
