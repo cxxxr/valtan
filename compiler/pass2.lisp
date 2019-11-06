@@ -619,7 +619,7 @@
                                            "CL_~A_"
                                            (to-js-identier (package-name (symbol-package name))))
                                    "CL_"))))
-      (push var *defun-names*)
+      (pushnew var *defun-names* :test #'equal)
       (format *toplevel-defun-stream* "~A = " var)
       (let ((*standard-output* *toplevel-defun-stream*))
         (pass2 function)
