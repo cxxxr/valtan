@@ -1021,6 +1021,9 @@
         (*genvar-counter* 0))
     (pass1 form return-value-p multiple-values-p)))
 
+(defun pass1-module (file ir-forms)
+  (make-ir 'module nil nil file ir-forms))
+
 (defun pass1-dump-macros (&optional (macro-definitions *macro-definitions*))
   (mapcar (lambda (name)
             (pass1-toplevel

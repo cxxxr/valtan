@@ -732,6 +732,11 @@
   (write-string "(")
   (emit-call-args (ir-arg2 ir)))
 
+(def-emit module (ir)
+  (format t "(function() { // *** module: ~A ***~%" (ir-arg1 ir))
+  (pass2-forms (ir-arg2 ir))
+  (write-line "})();"))
+
 (defun pass2 (ir)
   (funcall (gethash (ir-op ir) *emitter-table*) ir))
 

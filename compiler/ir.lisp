@@ -69,7 +69,7 @@
      `(throw ,(reduce-ir (ir-arg1 ir)) ,(reduce-ir (ir-arg2 ir))))
     ((*:%defun)
      `(*:%defun ,(ir-arg1 ir)
-                      ,(reduce-ir (ir-arg2 ir))))
+                ,(reduce-ir (ir-arg2 ir))))
     ((*:%defpackage) ir)
     ((*:%in-package) ir)
     ((ffi:ref) ir)
@@ -78,7 +78,9 @@
     ((ffi:typeof) ir)
     ((ffi:new) ir)
     ((ffi:aget) ir)
-    ((js-call) ir)))
+    ((js-call) ir)
+    ((module)
+     `(module ,(ir-arg1 ir) ,@(mapcar #'reduce-ir (ir-arg2 ir))))))
 
 (defun make-ir (op return-value-p multiple-values-p &rest args)
   (%make-ir :op op
