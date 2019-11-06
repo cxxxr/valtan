@@ -10,9 +10,7 @@
 (defun ir-arg2 (ir) (second (ir-args ir)))
 (defun ir-arg3 (ir) (third (ir-args ir)))
 
-(defgeneric reduce-ir (ir))
-
-(defmethod reduce-ir (ir)
+(defun reduce-ir (ir)
   (ecase (ir-op ir)
     ((const)
      `#(const ,(ir-arg1 ir)))
