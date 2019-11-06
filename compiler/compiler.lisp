@@ -189,15 +189,6 @@
     (pass2-toplevel-forms ir-forms)
     (values)))
 
-(defun compile-files (files)
-  (unless (listp files) (setf files (list files)))
-  (let ((ir-forms '()))
-    (dolist (file files)
-      (with-open-file (in file)
-        (do-forms (form in)
-          (push (pass1-toplevel form) ir-forms))))
-    (in-pass2 (nreverse ir-forms))))
-
 (defmacro with-js-beautify (&body body)
   `(let ((output
            (with-output-to-string (*standard-output*)
@@ -249,10 +240,6 @@
                              "pass2"))
           (directory-files "./lisp/"
                            '("compilation"))))
-
-(defun build (pathnames output)
-  (let ((*standard-output* output))
-    (compile-files pathnames)))
 
 (defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
 
