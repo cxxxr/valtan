@@ -10,6 +10,10 @@
 (defun ir-arg2 (ir) (second (ir-args ir)))
 (defun ir-arg3 (ir) (third (ir-args ir)))
 
+(defun (setf ir-arg1) (value ir) (setf (first (ir-args ir)) value))
+(defun (setf ir-arg2) (value ir) (setf (second (ir-args ir)) value))
+(defun (setf ir-arg3) (value ir) (setf (third (ir-args ir)) value))
+
 (defun reduce-ir (ir)
   (ecase (ir-op ir)
     ((const)
