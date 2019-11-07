@@ -1,5 +1,14 @@
 (in-package :compiler)
 
+(defun const-value-p (ir)
+  (eq 'const (ir-op ir)))
+
+(defun immutable-form-p (ir)
+  (const-value-p ir))
+
+(defun remake-ir (op ir &rest args)
+  (apply #'make-ir op (ir-return-value-p ir) (ir-multiple-values-p ir) args))
+
 (defun optimize1-let (ir lexenv)
   (let* ((bindings (ir-arg1 ir))
          (lexenv (append bindings lexenv)))
@@ -9,42 +18,42 @@
     (let ((body
             (mapcar (lambda (ir1)
                       (optimize1 ir1 lexenv))
-                    (ir-arg2 ir)))
-          (bindings
-            (remove-if (lambda (b)
-                         (zerop (binding-used-count (first b))))
-                       (ir-arg1 ir))))
-      (cond (bindings
-             (make-ir 'let
-                      (ir-return-value-p ir)
-                      (ir-multiple-values-p ir)
-                      bindings
-                      body))
-            ((null (cdr body))
-             (first body))
-            (t
-             (make-ir 'progn
-                      (ir-return-value-p ir)
-                      (ir-multiple-values-p ir)
-                      body))))))
+                    (ir-arg2 ir))))
+      (let ((before-forms '())
+            (bindings '()))
+        ;; 束縛した変数は使っていないが値に副作用がある場合は値の式だけを残す, before-formsはその式のリスト
+        ;; 例: (let ((x (f))) nil) -> (progn (f) nil)
+        ;; 束縛した変数を使っていない、かつ値が副作用のない式なら消す
+        ;; 例: (let ((x 0)) 'form) -> 'form
+        (dolist (b (ir-arg1 ir))
+          (cond ((plusp (binding-used-count (first b)))
+                 (push b bindings))
+                ((not (immutable-form-p (second b)))
+                 (push (second b) before-forms))))
+        (setq bindings (nreverse bindings)
+              body (nconc (nreverse before-forms) body))
+        (cond (bindings
+               (remake-ir 'let ir bindings body))
+              ((null (cdr body))
+               ;; 束縛する変数がなく本体が単一の式ならその式だけにする
+               (first body))
+              (t
+               ;; 束縛する変数がなく本体が複数の式ならprognにする
+               (remake-ir 'progn ir body)))))))
 
 (defun optimize1-call (ir lexenv)
-  (make-ir (ir-op ir)
-           (ir-return-value-p ir)
-           (ir-multiple-values-p ir)
-           (ir-arg1 ir)
-           (mapcar (lambda (ir) (optimize1 ir lexenv))
-                   (ir-arg2 ir))))
-
-(defun const-value-p (ir)
-  (eq 'const (ir-op ir)))
+  (remake-ir (ir-op ir)
+             ir
+             (ir-arg1 ir)
+             (mapcar (lambda (ir) (optimize1 ir lexenv))
+                     (ir-arg2 ir))))
 
 (defun optimize1 (ir lexenv)
   (ecase (ir-op ir)
     ((const) ir)
     ((lref)
      (let ((elt (assoc (ir-arg1 ir) lexenv)))
-       (cond ((and elt (const-value-p (second elt)))
+       (cond ((and elt (immutable-form-p (second elt)))
               (second elt))
              (t
               (incf (binding-used-count (ir-arg1 ir)))
