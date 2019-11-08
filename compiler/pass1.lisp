@@ -12,9 +12,10 @@
 (defun toplevel-p (&optional (level *compile-level*))
   (>= 0 level))
 
-(defun make-variable-binding (symbol &optional (special-p (special-p symbol)))
+(defun make-variable-binding (symbol &key (special-p (special-p symbol)) value)
   (make-binding :type (if special-p :special :variable)
                 :name symbol
+                :value value
                 :id (genvar symbol)))
 
 (defun make-function-binding (symbol)
@@ -409,7 +410,7 @@
          (let ((binding (lookup symbol '(:variable :special) inner-lexenv)))
            (if binding
                (setf (binding-type binding) :special)
-               (push (make-variable-binding symbol t)
+               (push (make-variable-binding symbol :special-p t)
                      *lexenv*)))))))
   *lexenv*)
 
