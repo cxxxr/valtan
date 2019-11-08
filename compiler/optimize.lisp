@@ -1,88 +1,101 @@
 (in-package :compiler)
 
-(defun const-value-p (ir)
-  (eq 'const (ir-op ir)))
+(defmacro define-optimize (name (ir) &body body)
+  (let ((g-name (make-symbol (string name))))
+    `(progn
+       (setf (get ',name 'optimize) g-name)
+       (defun ,g-name (,ir)
+         ,@body))))
 
-(defun immutable-form-p (ir)
-  (const-value-p ir))
+(defun get-optimizer (ir)
+  (get (ir-op ir) 'optimize))
 
-(defun remake-ir (op ir &rest args)
-  (apply #'make-ir op (ir-return-value-p ir) (ir-multiple-values-p ir) args))
+(defun optimize (ir)
+  (funcall (get-optimizer ir) ir))
 
-(defun optimize1-let (ir lexenv)
-  (let* ((bindings (ir-arg1 ir))
-         (lexenv (append bindings lexenv)))
-    (dolist (b bindings)
-      (let ((binding (first b)))
-        (setf (binding-used-count binding) 0)))
-    (let ((body
-            (mapcar (lambda (ir1)
-                      (optimize1 ir1 lexenv))
-                    (ir-arg2 ir))))
-      (let ((before-forms '())
-            (bindings '()))
-        ;; 束縛した変数は使っていないが値に副作用がある場合は値の式だけを残す, before-formsはその式のリスト
-        ;; 例: (let ((x (f))) nil) -> (progn (f) nil)
-        ;; 束縛した変数を使っていない、かつ値が副作用のない式なら消す
-        ;; 例: (let ((x 0)) 'form) -> 'form
-        (dolist (b (ir-arg1 ir))
-          (cond ((plusp (binding-used-count (first b)))
-                 (push b bindings))
-                ((not (immutable-form-p (second b)))
-                 (push (second b) before-forms))))
-        (setq bindings (nreverse bindings)
-              body (nconc (nreverse before-forms) body))
-        (cond (bindings
-               (remake-ir 'let ir bindings body))
-              ((null (cdr body))
-               ;; 束縛する変数がなく本体が単一の式ならその式だけにする
-               (first body))
-              (t
-               ;; 束縛する変数がなく本体が複数の式ならprognにする
-               (remake-ir 'progn ir body)))))))
+(define-optimize const (ir)
+  ir)
 
-(defun optimize1-call (ir lexenv)
-  (remake-ir (ir-op ir)
-             ir
-             (ir-arg1 ir)
-             (mapcar (lambda (ir) (optimize1 ir lexenv))
-                     (ir-arg2 ir))))
+(define-optimize lref (ir)
+  ir)
 
-(defun optimize1 (ir lexenv)
-  (ecase (ir-op ir)
-    ((const) ir)
-    ((lref)
-     (let ((elt (assoc (ir-arg1 ir) lexenv)))
-       (cond ((and elt (immutable-form-p (second elt)))
-              (second elt))
-             (t
-              (incf (binding-used-count (ir-arg1 ir)))
-              ir))))
-    ((gref) ir)
-    ((lset) ir)
-    ((gset) ir)
-    ((if) ir)
-    ((progn) ir)
-    ((lambda) ir)
-    ((let)
-     (optimize1-let ir lexenv))
-    ((lcall call)
-     (optimize1-call ir lexenv))
-    ((unwind-protect) ir)
-    ((block) ir)
-    ((return-from) ir)
-    ((tagbody) ir)
-    ((go) ir)
-    ((catch) ir)
-    ((throw) ir)
-    ((*:%defun) ir)
-    ((*:%defpackage) ir)
-    ((*:%in-package) ir)
-    ((ffi:ref) ir)
-    ((ffi:set) ir)
-    ((ffi:var) ir)
-    ((ffi:typeof) ir)
-    ((ffi:new) ir)
-    ((ffi:aget) ir)
-    ((js-call) ir)
-    ((module) ir)))
+(define-optimize gref (ir)
+  ir)
+
+(define-optimize lset (ir)
+  ir)
+
+(define-optimize gset (ir)
+  ir)
+
+(define-optimize if (ir)
+  ir)
+
+(define-optimize progn (ir)
+  ir)
+
+(define-optimize lambda (ir)
+  ir)
+
+(define-optimize let (ir)
+  ir)
+
+(define-optimize lcall (ir)
+  ir)
+
+(define-optimize call (ir)
+  ir)
+
+(define-optimize unwind-protect (ir)
+  ir)
+
+(define-optimize block (ir)
+  ir)
+
+(define-optimize return-from (ir)
+  ir)
+
+(define-optimize tagbody (ir)
+  ir)
+
+(define-optimize go (ir)
+  ir)
+
+(define-optimize catch (ir)
+  ir)
+
+(define-optimize throw (ir)
+  ir)
+
+(define-optimize *:%defun (ir)
+  ir)
+
+(define-optimize *:%defpackage (ir)
+  ir)
+
+(define-optimize *:%in-package (ir)
+  ir)
+
+(define-optimize ffi:ref (ir)
+  ir)
+
+(define-optimize ffi:set (ir)
+  ir)
+
+(define-optimize ffi:var (ir)
+  ir)
+
+(define-optimize ffi:typeof (ir)
+  ir)
+
+(define-optimize ffi:new (ir)
+  ir)
+
+(define-optimize ffi:aget (ir)
+  ir)
+
+(define-optimize js-call (ir)
+  ir)
+
+(define-optimize module (ir)
+  ir)
