@@ -115,7 +115,7 @@
   name
   type
   id
-  value
+  init-value
   (used-count 0))
 
 (defstruct tagbody-value

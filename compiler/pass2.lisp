@@ -219,7 +219,7 @@
       (write-line "}")))
 
 (defmacro def-emit (op (ir) &body body)
-  (let ((name (gensym)))
+  (let ((name (gensym (string (if (consp op) (car op) op)))))
     `(progn
        (defun ,name (,ir)
          (declare (ignorable ir))
@@ -460,8 +460,8 @@
 (def-emit let (ir)
   (pass2-enter (ir-return-value-p ir))
   (dolist (binding (ir-arg1 ir))
-    (emit-declvar (first binding) nil)
-    (pass2 (second binding))
+    (emit-declvar binding nil)
+    (pass2 (binding-init-value binding))
     (format t ";~%"))
   (with-unwind-special-vars
       (progn
@@ -469,7 +469,7 @@
     (with-output-to-string (output)
       (when (ir-arg1 ir)
         (dolist (binding (reverse (ir-arg1 ir)))
-          (emit-unwind-var (first binding) output)))))
+          (emit-unwind-var binding output)))))
   (pass2-exit (ir-return-value-p ir)))
 
 (defun emit-call-args (args)

@@ -12,15 +12,16 @@
 (defun toplevel-p (&optional (level *compile-level*))
   (>= 0 level))
 
-(defun make-variable-binding (symbol &key (special-p (special-p symbol)) value)
+(defun make-variable-binding (symbol &key (special-p (special-p symbol)) init-value)
   (make-binding :type (if special-p :special :variable)
                 :name symbol
-                :value value
+                :init-value init-value
                 :id (genvar symbol)))
 
-(defun make-function-binding (symbol)
+(defun make-function-binding (symbol &key init-value)
   (make-binding :type :function
                 :name symbol
+                :init-value init-value
                 :id (genvar symbol)))
 
 (defun make-macro-binding (name value)
@@ -655,7 +656,7 @@
 (defun pass1-let-body (bindings body return-value-p multiple-values-p)
   (multiple-value-bind (body declares)
       (parse-body body nil)
-    (let* ((inner-lexenv (mapcar #'first bindings))
+    (let* ((inner-lexenv bindings)
            (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
            (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
       (make-ir 'let
@@ -667,8 +668,9 @@
 (def-pass1-form let ((bindings &rest body) return-value-p multiple-values-p)
   (setf bindings (check-let-form bindings))
   (let ((bindings (mapcar (lambda (b)
-                            (list (make-variable-binding (first b))
-                                  (pass1 (second b) t nil)))
+                            (make-variable-binding
+                             (first b)
+                             :init-value (pass1 (second b) t nil)))
                           bindings)))
     (pass1-let-body bindings body return-value-p multiple-values-p)))
 
@@ -676,9 +678,10 @@
   (setf bindings (check-let-form bindings))
   (let ((*lexenv* *lexenv*))
     (let ((bindings (mapcar (lambda (b)
-                              (let ((b (list (make-variable-binding (first b))
-                                             (pass1 (second b) t nil))))
-                                (push (first b) *lexenv*)
+                              (let* ((b (make-variable-binding
+                                         (first b)
+                                         :init-value (pass1 (second b) t nil))))
+                                (push b *lexenv*)
                                 b))
                             bindings)))
       (pass1-let-body bindings body return-value-p multiple-values-p))))
@@ -694,11 +697,12 @@
 
 (defun parse-flet-definitions (definitions compile-lambda-p)
   (mapcar (lambda (definition)
-            (list (make-function-binding (first definition))
-                  (let ((fn `(lambda ,@(rest definition))))
-                    (if compile-lambda-p
-                        (pass1-lambda fn t)
-                        fn))))
+            (make-function-binding
+             (first definition)
+             :init-value (let ((fn `(lambda ,@(rest definition))))
+                           (if compile-lambda-p
+                               (pass1-lambda fn t)
+                               fn))))
           definitions))
 
 (def-pass1-form flet ((definitions &rest body) return-value-p multiple-values-p)
@@ -706,7 +710,7 @@
   (let ((bindings (parse-flet-definitions definitions t)))
     (multiple-value-bind (body declares)
         (parse-body body nil)
-      (let* ((inner-lexenv (mapcar #'first bindings))
+      (let* ((inner-lexenv bindings)
              (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
              (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
         (make-ir 'let
@@ -720,15 +724,16 @@
   (let ((bindings (parse-flet-definitions definitions nil)))
     (multiple-value-bind (body declares)
         (parse-body body nil)
-      (let* ((inner-lexenv (mapcar #'first bindings))
+      (let* ((inner-lexenv bindings)
              (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
              (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
+        (dolist (b bindings)
+          (setf (binding-init-value b)
+                (pass1 (binding-init-value b) t nil)))
         (make-ir 'let
                  return-value-p
                  multiple-values-p
-                 (mapcar (lambda (b)
-                           (list (first b) (pass1 (second b) t nil)))
-                         bindings)
+                 bindings
                  (pass1-forms body return-value-p multiple-values-p))))))
 
 (def-pass1-form macrolet ((definitions &rest body) return-value-p multiple-values-p)
