@@ -15,32 +15,32 @@
 (defun make-variable-binding (symbol &optional (special-p (special-p symbol)))
   (make-binding :type (if special-p :special :variable)
                 :name symbol
-                :value (genvar symbol)))
+                :id (genvar symbol)))
 
 (defun make-function-binding (symbol)
   (make-binding :type :function
                 :name symbol
-                :value (genvar symbol)))
+                :id (genvar symbol)))
 
 (defun make-macro-binding (name value)
   (make-binding :type :macro
                 :name name
-                :value value))
+                :id value))
 
 (defun make-symbol-macro-binding (name value)
   (make-binding :type :symbol-macro
                 :name name
-                :value value))
+                :id value))
 
 (defun make-block-binding (name)
   (make-binding :type :block
                 :name name
-                :value name))
+                :id name))
 
 (defun make-tag-binding (name value)
   (make-binding :type :tag
                 :name name
-                :value value))
+                :id value))
 
 (defun count-if-used (binding)
   (when binding
@@ -470,7 +470,7 @@
   (let ((binding (lookup symbol :macro)))
     ;; (count-if-used binding)
     (cond (binding
-           (binding-value binding))
+           (binding-id binding))
           (t
            (if *in-host-runtime*
                (let ((fn (get-macro symbol)))
@@ -489,7 +489,7 @@
          (let ((binding (lookup form :symbol-macro)))
            (count-if-used binding)
            (if binding
-               (values (binding-value binding) t)
+               (values (binding-id binding) t)
                (let ((expansion (get-symbol-macro form)))
                  (if expansion
                      (values expansion t)
@@ -817,7 +817,7 @@
                          (let ((binding (lookup last-tag :tag)))
                            (assert binding)
                            (count-if-used binding)
-                           (cons (binding-value binding)
+                           (cons (binding-id binding)
                                  (make-ir 'progn nil nil (nreverse part-statements)))))
                      tag-statements-pairs)
                (setf part-statements nil)))
@@ -843,7 +843,7 @@
     (unless binding
       (compile-error "attempt to GO to nonexistent tag: ~A" tag))
     (count-if-used binding)
-    (make-ir 'go nil nil *tagbody-id* (binding-value binding))))
+    (make-ir 'go nil nil *tagbody-id* (binding-id binding))))
 
 (def-pass1-form catch ((tag &rest body) return-value-p multiple-values-p)
   (make-ir 'catch

@@ -279,7 +279,7 @@
       ((:function)
        (princ (to-js-function-var (binding-name binding))))
       ((:variable)
-       (princ (to-js-local-var (binding-value (ir-arg1 ir))))))))
+       (princ (to-js-local-var (binding-id (ir-arg1 ir))))))))
 
 (def-emit gref (ir)
   (let ((ident (symbol-to-js-value (ir-arg1 ir))))
@@ -289,7 +289,7 @@
   (when (ir-return-value-p ir)
     (write-string "("))
   (cond ((eq 'lset (ir-op ir))
-         (format t "~A = " (to-js-local-var (binding-value (ir-arg1 ir))))
+         (format t "~A = " (to-js-local-var (binding-id (ir-arg1 ir))))
          (pass2 (ir-arg2 ir)))
         (t
          (let ((ident (symbol-to-js-value (ir-arg1 ir))))
@@ -360,21 +360,21 @@
 (defun emit-unwind-var (var stream)
   (when (eq :special (binding-type var))
     (let ((identier (symbol-to-js-value (binding-name var)))
-          (save-var (to-js-identier (binding-value var) "SAVE_")))
+          (save-var (to-js-identier (binding-id var) "SAVE_")))
       (format stream "~A.value = ~A;~%" identier save-var))))
 
 (defun emit-declvar (var finally-stream)
   (ecase (binding-type var)
     ((:special)
      (let ((identier (symbol-to-js-value (binding-name var)))
-           (save-var (to-js-identier (binding-value var) "SAVE_")))
+           (save-var (to-js-identier (binding-id var) "SAVE_")))
        (format t "const ~A = ~A.value;~%" save-var identier)
        (format t "~A.value = " identier))
      (when finally-stream
        (emit-unwind-var var finally-stream)))
     ((:variable)
      (format t "let ~A = "
-             (to-js-local-var (binding-value var))))
+             (to-js-local-var (binding-id var))))
     ((:function)
      (format t "let ~A = "
              (to-js-function-var (binding-name var) ; !!!
@@ -405,7 +405,7 @@
             (let ((var (first opt))
                   (value (second opt)))
               (let ((keyword-var (symbol-to-js-value (fourth opt)))
-                    (supplied-var (to-js-identier (binding-value var) "SUPPLIED_")))
+                    (supplied-var (to-js-identier (binding-id var) "SUPPLIED_")))
                 (push keyword-var keyword-vars)
                 (format t "let ~A;~%" supplied-var)
                 (let ((loop-var (gen-temporary-js-var)))
@@ -442,7 +442,7 @@
         (when rest-var
           (emit-declvar rest-var finally-stream)
           (format t "lisp.jsArrayToList(arguments, ~D);~%" i)
-          (to-js-local-var (binding-value rest-var)))))))
+          (to-js-local-var (binding-id rest-var)))))))
 
 (def-emit lambda (ir)
   (write-line "(function() {")

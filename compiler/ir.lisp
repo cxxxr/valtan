@@ -19,12 +19,12 @@
     ((const)
      `#(const ,(ir-arg1 ir)))
     ((lref)
-     `(,(ir-op ir) ,(binding-value (ir-arg1 ir))))
+     `(,(ir-op ir) ,(binding-id (ir-arg1 ir))))
     ((gref)
      `(,(ir-op ir) ,(ir-arg1 ir)))
     ((lset)
      `(,(ir-op ir)
-       ,(binding-value (ir-arg1 ir))
+       ,(binding-id (ir-arg1 ir))
        ,(reduce-ir (ir-arg2 ir))))
     ((gset)
      `(,(ir-op ir)
@@ -39,7 +39,7 @@
     ((let)
      `(let ,(mapcar (lambda (b)
                       (destructuring-bind (k v) b
-                        `(,(binding-value k)
+                        `(,(binding-id k)
                           ,(reduce-ir v)
                           ,@(if (eq :special (binding-type k))
                                 '(:special)))))
@@ -50,10 +50,10 @@
     ((unwind-protect)
      `(unwind-protect ,(reduce-ir (ir-arg1 ir)) ,(reduce-ir (ir-arg2 ir))))
     ((block)
-     `(block ,(binding-value (ir-arg1 ir))
+     `(block ,(binding-id (ir-arg1 ir))
         ,@(mapcar #'reduce-ir (ir-arg2 ir))))
     ((return-from)
-     `(return-from ,(binding-value (ir-arg1 ir))
+     `(return-from ,(binding-id (ir-arg1 ir))
         ,(reduce-ir (ir-arg2 ir))))
     ((tagbody)
      `(tagbody ,(ir-arg1 ir)
@@ -90,6 +90,9 @@
             :multiple-values-p multiple-values-p
             :args args))
 
+(defun remake-ir (op ir &rest args)
+  (apply #'make-ir op (ir-return-value-p ir) (ir-multiple-values-p ir) args))
+
 (defstruct parsed-lambda-list
   vars
   rest-var
@@ -111,7 +114,8 @@
 (defstruct binding
   name
   type
-  value
+  id
+  ;value
   (used-count 0))
 
 (defstruct tagbody-value
