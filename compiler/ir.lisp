@@ -40,7 +40,7 @@
      `(let ,(mapcar (lambda (b)
                       `(,(binding-id b)
                         ,(reduce-ir (binding-init-value b))
-                        ,@(if (eq :special (binding-type k))
+                        ,@(if (eq :special (binding-type b))
                               '(:special))))
                     (ir-arg1 ir))
         ,@(mapcar #'reduce-ir (ir-arg2 ir))))
