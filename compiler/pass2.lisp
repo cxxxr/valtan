@@ -527,7 +527,7 @@
 (def-emit unwind-protect (ir)
   (pass2-enter (ir-return-value-p ir))
   (emit-try-finally
-   (pass2 (ir-arg1 ir))
+   (pass2-form (ir-arg1 ir))
    (pass2 (ir-arg2 ir)))
   (pass2-exit (ir-return-value-p ir)))
 
