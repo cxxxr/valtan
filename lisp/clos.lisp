@@ -1172,6 +1172,8 @@
              (type-error-datum c)
              (type-error-expected-type c)))))
 
+(define-condition control-error (error) ())
+
 (define-condition program-error (simple-condition error) ())
 
 (define-condition undefined-function (cell-error) ()
