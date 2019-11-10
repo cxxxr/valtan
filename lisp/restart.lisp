@@ -138,8 +138,8 @@
     `(restart-case (progn ,@forms)
        (,restart-name ()
          :report (lambda (,g-stream)
-                   (format ,g-stream ,format-control ,@format-arguments)))
-       (values nil t))))
+                   (format ,g-stream ,format-control ,@format-arguments))
+         (values nil t)))))
 
 (defmacro with-condition-restarts (condition-form restarts-form &body body)
   (let ((condition (gensym))
