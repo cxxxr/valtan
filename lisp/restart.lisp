@@ -25,18 +25,35 @@
                   condition)))
 
 (defun find-restart (identier &optional condition)
-  (map-restarts (lambda (restart)
-                  (when (eq identier (restart-name restart))
-                    (return-from find-restart restart)))
-                condition))
+  (if (restart-p identier)
+      identier
+      (map-restarts (lambda (restart)
+                      (when (eq identier (restart-name restart))
+                        (return-from find-restart restart)))
+                    condition)))
 
-(defun invoke-restart (restart-name &rest values)
-  (let ((restart (find-restart restart-name)))
-    (unless restart
+(defun find-restart-or-control-error (restart &optional condition)
+  (let ((r (find-restart restart condition)))
+    (unless r
       (error 'control-error
              :format-control "No restart ~S is active"
-             :format-arguments (list restart-name)))
+             :format-arguments (list restart)))
+    r))
+
+(defun invoke-restart (restart &rest values)
+  (let ((restart (find-restart-or-control-error restart)))
     (apply (restart-function restart) values)))
+
+(defun interactive-restart-arguments (restart)
+  (let ((interactive-function (restart-interactive-function restart)))
+    (if interactive-function
+        (funcall interactive-function)
+        '())))
+
+(defun invoke-restart-interactively (restart)
+  (let* ((restart (find-restart-or-control-error restart))
+         (args (interactive-restart-arguments restart)))
+    (apply (restart-function restart) args)))
 
 (defmacro restart-bind (bindings &body forms)
   `(let ((*restart-clustors*
@@ -152,3 +169,15 @@
         (return-from warn nil)))
     (format *error-output* "~&Warning: ~A~%" condition)
     nil))
+
+(defun abort (&optional condition)
+  (let ((restart (find-restart 'abort condition)))
+    (when restart
+      (invoke-restart 'abort)))
+  (error 'control-error
+         :format-control "An ABORT restart was found that failed to transfer control dynamically."))
+
+(defun continue (&optional condition)
+  (let ((restart (find-restart 'continue condition)))
+    (when restart
+      (invoke-restart restart))))
