@@ -502,15 +502,14 @@
 (defun read-dispatch-macro-character (stream disp-char)
   (let* ((sub-char (char-upcase (read-char stream t nil t)))
          (arg (when (digit-char-p sub-char)
-                (js:parse-float
-                 (ffi:cl->js
-                  (with-output-to-string (out)
-                    (write-char sub-char out)
-                    (do ((c (peek-char nil stream t nil t) (read-char stream t nil t)))
-                        (nil)
-                      (if (digit-char-p c)
-                          (write-char c out)
-                          (return)))))))))
+                (parse-number
+                 (with-output-to-string (out)
+                   (write-char sub-char out)
+                   (do ((c (peek-char nil stream t nil t) (read-char stream t nil t)))
+                       (nil)
+                     (if (digit-char-p c)
+                         (write-char c out)
+                         (return))))))))
     (when arg
       (setq sub-char (read-char stream t nil t)))
     (let ((fn (get-dispatch-macro-character disp-char sub-char)))
