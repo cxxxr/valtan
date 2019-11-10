@@ -526,9 +526,29 @@
 
 (def-emit unwind-protect (ir)
   (pass2-enter (ir-return-value-p ir))
-  (emit-try-finally
-   (pass2-form (ir-arg1 ir))
-   (pass2 (ir-arg2 ir)))
+  (let ((result-var (gen-temporary-js-var "save_"))
+        (values-var (gen-temporary-js-var "values_"))
+        (protected-form (ir-arg1 ir)))
+    (format t "let ~A;~%" result-var)
+    (format t "let ~A;~%" values-var)
+    (emit-try-finally
+     (cond ((ir-return-value-p protected-form)
+            (format t "~A = " result-var)
+            (unless (ir-multiple-values-p protected-form)
+              (princ "lisp.values1("))
+            (pass2 protected-form)
+            (unless (ir-multiple-values-p protected-form)
+              (princ ")"))
+            (write-line ";")
+            (format t "~A = lisp.currentValues();" values-var)
+            (format t "return ~A;~%"  result-var))
+           (t
+            (pass2 protected-form)
+            (write-line ";")))
+     (progn
+       (pass2 (ir-arg2 ir))
+       (when (ir-return-value-p protected-form)
+         (format t "lisp.restoreValues(~A);~%" values-var)))))
   (pass2-exit (ir-return-value-p ir)))
 
 (def-emit block (ir)
