@@ -185,3 +185,16 @@
   (let ((restart (find-restart 'continue condition)))
     (when restart
       (invoke-restart restart))))
+
+(defun muffle-warning (&optional condition)
+  (invoke-restart (find-restart-or-control-error 'muffle-warning condition)))
+
+(defun store-value (value &optional condition)
+  (let ((restart (find-restart 'store-value condition)))
+    (when restart
+      (invoke-restart restart value))))
+
+(defun use-value (value &optional condition)
+  (let ((restart (find-restart 'use-value condition)))
+    (when restart
+      (invoke-restart restart value))))
