@@ -61,6 +61,7 @@
 (defun typep (object type &optional environment)
   (declare (ignore environment))
   (case type
+    (null (null object))
     (list (listp object))
     (cons (consp object))
     (symbol (symbolp object))

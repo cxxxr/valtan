@@ -198,3 +198,26 @@
   (let ((restart (find-restart 'use-value condition)))
     (when restart
       (invoke-restart restart value))))
+
+(defun read-evaluated-form ()
+  ;; TODO: *query-io*
+  (write-line "Enter a form to be evaluated' " #+(or)*query-io* *standard-output*)
+  (list (eval (read #+(or)*query-io* *standard-input*))))
+
+(defun check-type-error (type-spec place)
+  (let ((condition
+          (make-condition 'type-error
+                          :datum 'place
+                          :expected-type type-spec)))
+    (restart-case (error condition)
+      (store-value (value)
+        :report (lambda (stream)
+                  (format stream "Supply a new value for ~S" place))
+        :interactive read-evaluated-form
+        value))))
+
+(defmacro check-type (place type-spec &optional type-string)
+  (declare (ignore type-string))
+  `(do ()
+       ((typep ,place ',type-spec))
+     (setq ,place (check-type-error ',type-spec ',place))))
