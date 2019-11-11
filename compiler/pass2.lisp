@@ -488,7 +488,8 @@
   (format t "lisp.callFunctionWithCallStack(~A" (symbol-to-js-value (ir-arg1 ir)))
   (when (ir-arg2 ir)
     (write-string ", "))
-  (emit-call-args (ir-arg2 ir)))
+  (emit-call-args (ir-arg2 ir))
+  (format t  " // ~A~%" (ir-arg1 ir)))
 
 (defun call-builtin-using-list-spec (ir builtin)
   (flet ((gen (name)
