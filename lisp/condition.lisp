@@ -44,10 +44,11 @@
         (signal-1 condition)
         (invoke-debugger condition))))
 
-(defmacro assert (test-form &optional place datum-form argument-form)
-  (declare (ignore place datum-form argument-form))
+(defmacro assert (test-form &optional place (datum nil datum-p) &rest arguments)
+  (declare (ignore place))
   `(unless ,test-form
-     (error ,(format nil "assertion error: ~S" test-form))))
+     (error ,(if datum-p datum "assertion error: ~S")
+            ,@(if datum-p arguments))))
 
 (defun simple-error (string &rest arguments)
   (apply #'error string arguments))
