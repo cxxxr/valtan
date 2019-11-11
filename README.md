@@ -35,7 +35,7 @@ The followings are list of Ansi test and the "Success or failure".
 - [ ] desirable-printer.lisp
 - [ ] must-array.lisp
 - [X] must-character.lisp
-- [ ] must-condition.lisp
+- [X] must-condition.lisp
 - [X] must-cons.lisp
 - [ ] must-data-and-control.lisp
 - [ ] must-do.lisp
