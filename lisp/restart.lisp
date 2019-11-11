@@ -207,7 +207,7 @@
 (defun check-type-error (type-spec place)
   (let ((condition
           (make-condition 'type-error
-                          :datum 'place
+                          :datum place
                           :expected-type type-spec)))
     (restart-case (error condition)
       (store-value (value)
