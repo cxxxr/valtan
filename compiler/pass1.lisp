@@ -798,36 +798,35 @@
           *tagbody-id*))
 
 (def-pass1-form tagbody ((&rest statements) return-value-p multiple-values-p)
-  (incf *tagbody-id*)
-  (let* ((tags (remove-if-not #'symbolp statements))
-         (*lexenv*
-           (extend-lexenv (let ((index 0))
-                            (mapcar (lambda (tag)
-                                      (incf index)
-                                      (make-tag-binding tag
-                                                        (make-tagbody-value :index index
-                                                                            :id (make-tagbody-id))))
-                                    tags))
-                          *lexenv*))
-         (entry-tagbody-value (make-tagbody-value :index 0 :id (make-tagbody-id))))
-    (let* ((part-statements '())
-           (tag-statements-pairs '())
-           (none '#:none)
-           (last-tag none))
-      (flet ((add-statements ()
-               (unless part-statements
-                 (setf part-statements (list (pass1-const nil nil))))
-               (push (if (eq last-tag none)
-                         (cons entry-tagbody-value
-                               (make-ir 'progn nil nil (nreverse part-statements)))
-                         (let ((binding (lookup last-tag :tag)))
-                           (assert binding)
-                           (count-if-used binding)
-                           (cons (binding-id binding)
-                                 (make-ir 'progn nil nil (nreverse part-statements)))))
-                     tag-statements-pairs)
-               (setf part-statements nil)))
-        (let ((*tagbody-id* *tagbody-id*))
+  (let ((*tagbody-id* (gensym)))
+    (let* ((tags (remove-if-not #'symbolp statements))
+           (*lexenv*
+             (extend-lexenv (let ((index 0))
+                              (mapcar (lambda (tag)
+                                        (incf index)
+                                        (make-tag-binding tag
+                                                          (make-tagbody-value :index index
+                                                                              :id (make-tagbody-id))))
+                                      tags))
+                            *lexenv*))
+           (entry-tagbody-value (make-tagbody-value :index 0 :id (make-tagbody-id))))
+      (let* ((part-statements '())
+             (tag-statements-pairs '())
+             (none '#:none)
+             (last-tag none))
+        (flet ((add-statements ()
+                 (unless part-statements
+                   (setf part-statements (list (pass1-const nil nil))))
+                 (push (if (eq last-tag none)
+                           (cons entry-tagbody-value
+                                 (make-ir 'progn nil nil (nreverse part-statements)))
+                           (let ((binding (lookup last-tag :tag)))
+                             (assert binding)
+                             (count-if-used binding)
+                             (cons (binding-id binding)
+                                   (make-ir 'progn nil nil (nreverse part-statements)))))
+                       tag-statements-pairs)
+                 (setf part-statements nil)))
           (do ((statements* statements (rest statements*)))
               ((null statements*)
                (add-statements))
@@ -835,12 +834,12 @@
                    (add-statements)
                    (setf last-tag (first statements*)))
                   (t
-                   (push (pass1 (first statements*) nil nil) part-statements)))))
-        (make-ir 'tagbody
-                 return-value-p
-                 nil
-                 (make-tagbody-id)
-                 (nreverse tag-statements-pairs))))))
+                   (push (pass1 (first statements*) nil nil) part-statements))))
+          (make-ir 'tagbody
+                   return-value-p
+                   nil
+                   (make-tagbody-id)
+                   (nreverse tag-statements-pairs)))))))
 
 (def-pass1-form go ((tag) return-value-p multiple-values-p)
   (unless (symbolp tag)
