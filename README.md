@@ -38,7 +38,7 @@ The followings are list of Ansi test and the "Success or failure".
 - [X] must-condition.lisp
 - [X] must-cons.lisp
 - [ ] must-data-and-control.lisp
-- [ ] must-do.lisp
+- [X] must-do.lisp
 - [ ] must-eval.lisp
 - [ ] must-hash-table.lisp
 - [ ] must-loop.lisp

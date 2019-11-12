@@ -49,23 +49,32 @@
 (*:defmacro* do* (varlist endlist &rest body)
   (let ((g-start (gensym))
         (body (compiler::parse-body body nil)))
-    `(block nil
-       (let* ,(mapcar (lambda (var-spec)
-                        `(,(first var-spec)
-                          ,(second var-spec)))
-                      varlist)
-         (tagbody
-           ,g-start
-           (if ,(first endlist)
-               (return (progn ,@(rest endlist)))
-               (progn
-                 (tagbody ,@body)
-                 (setq ,@(mapcan (lambda (var-spec)
-                                   (if (cddr var-spec)
-                                       `(,(first var-spec)
-                                         ,(third var-spec))))
-                                 varlist))
-                 (go ,g-start))))))))
+    (multiple-value-bind (body declares)
+        (compiler::parse-body body nil)
+      (let ((varlist
+              (mapcar (lambda (var-spec)
+                        (if (symbolp var-spec)
+                            `(,var-spec nil)
+                            var-spec))
+                      varlist)))
+        `(block nil
+           (let* ,(mapcar (lambda (var-spec)
+                            `(,(first var-spec)
+                              ,(second var-spec)))
+                          varlist)
+             (declare ,@declares)
+             (tagbody
+               ,g-start
+               (if ,(first endlist)
+                   (return (progn ,@(rest endlist)))
+                   (progn
+                     (tagbody ,@body)
+                     (setq ,@(mapcan (lambda (var-spec)
+                                       (if (cddr var-spec)
+                                           `(,(first var-spec)
+                                             ,(third var-spec))))
+                                     varlist))
+                     (go ,g-start))))))))))
 
 (*:defmacro* psetq (&rest pairs)
   (when (oddp (length pairs))
@@ -92,24 +101,30 @@
   (let ((g-start (gensym)))
     (multiple-value-bind (body declares)
         (compiler::parse-body body nil)
-      `(block nil
-         (let ,(mapcar (lambda (var-spec)
-                         `(,(first var-spec)
-                           ,(second var-spec)))
-                       varlist)
-           (declare ,@declares)
-           (tagbody
-             ,g-start
-             (if ,(first endlist)
-                 (return (progn ,@(rest endlist)))
-                 (progn
-                   (tagbody ,@body)
-                   (psetq ,@(mapcan (lambda (var-spec)
-                                      (if (cddr var-spec)
-                                          `(,(first var-spec)
-                                            ,(third var-spec))))
-                                    varlist))
-                   (go ,g-start)))))))))
+      (let ((varlist
+              (mapcar (lambda (var-spec)
+                        (if (symbolp var-spec)
+                            `(,var-spec nil)
+                            var-spec))
+                      varlist)))
+        `(block nil
+           (let ,(mapcar (lambda (var-spec)
+                           `(,(first var-spec)
+                             ,(second var-spec)))
+                         varlist)
+             (declare ,@declares)
+             (tagbody
+               ,g-start
+               (if ,(first endlist)
+                   (return (progn ,@(rest endlist)))
+                   (progn
+                     (tagbody ,@body)
+                     (psetq ,@(mapcan (lambda (var-spec)
+                                        (if (cddr var-spec)
+                                            `(,(first var-spec)
+                                              ,(third var-spec))))
+                                      varlist))
+                     (go ,g-start))))))))))
 
 (*:defmacro* dotimes (var-form &rest body)
   (let ((var (first var-form))

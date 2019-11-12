@@ -140,6 +140,10 @@
 (defun (setf fill-pointer) (fill-pointer array)
   (setf (array-fill-pointer array) fill-pointer))
 
+(defun array-dimension (array axis-number)
+  (assert (zerop axis-number))
+  (array-length array))
+
 (defun aref (array sub)
   (unless (arrayp array)
     (type-error array 'array))
