@@ -125,18 +125,20 @@
          (expr (second var-form))
          (result (third var-form))
          (g-list (gensym))
-         (g-start (gensym))
-         (body (compiler::parse-body body nil)))
-    `(block nil
-       (let ((,g-list ,expr))
-         (tagbody
-           ,g-start
-           (unless (endp ,g-list)
-             (let ((,var (car ,g-list)))
-               (setq ,g-list (cdr ,g-list))
-               (tagbody ,@body))
-             (go ,g-start))))
-       ,result)))
+         (g-start (gensym)))
+    (multiple-value-bind (body declares)
+        (compiler::parse-body body nil)
+      `(block nil
+         (let ((,g-list ,expr))
+           (tagbody
+             ,g-start
+             (unless (endp ,g-list)
+               (let ((,var (car ,g-list)))
+                 (declare ,@declares)
+                 (setq ,g-list (cdr ,g-list))
+                 (tagbody ,@body))
+               (go ,g-start))))
+         ,result))))
 
 (*:defmacro* case (keyform &rest cases)
   (let ((var (gensym)))
