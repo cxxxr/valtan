@@ -21,6 +21,16 @@
           (type-error n 'number))
         (setq number (*:%sub number n)))))
 
+(defun / (number &rest numbers)
+  (unless (numberp number)
+    (type-error number 'number))
+  (if (null numbers)
+      (/ 1 number)
+      (dolist (n numbers number)
+        (unless (numberp n)
+          (type-error n 'number))
+        (setq number (*:%floor number n)))))
+
 (defun logand (&rest integers)
   (let ((result -1))
     (dolist (i integers)
