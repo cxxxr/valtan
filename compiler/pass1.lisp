@@ -797,9 +797,12 @@
           (if *in-host-runtime* :host :target)
           *tagbody-id*))
 
+(defun tag-literal-p (x)
+  (or (symbolp x) (integerp x)))
+
 (def-pass1-form tagbody ((&rest statements) return-value-p multiple-values-p)
   (let ((*tagbody-id* (gensym)))
-    (let* ((tags (remove-if-not #'symbolp statements))
+    (let* ((tags (remove-if-not #'tag-literal-p statements))
            (*lexenv*
              (extend-lexenv (let ((index 0))
                               (mapcar (lambda (tag)
@@ -830,7 +833,7 @@
           (do ((statements* statements (rest statements*)))
               ((null statements*)
                (add-statements))
-            (cond ((symbolp (first statements*))
+            (cond ((tag-literal-p (first statements*))
                    (add-statements)
                    (setf last-tag (first statements*)))
                   (t
@@ -842,7 +845,7 @@
                    (nreverse tag-statements-pairs)))))))
 
 (def-pass1-form go ((tag) return-value-p multiple-values-p)
-  (unless (symbolp tag)
+  (unless (tag-literal-p tag)
     (compile-error "~S is not a symbol" tag))
   (let ((binding (lookup tag :tag)))
     (unless binding
