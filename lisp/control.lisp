@@ -9,12 +9,14 @@
 (*:defmacro* cond (&rest clauses)
   (if (null clauses)
       nil
-      (let ((clause (first clauses)))
-        `(if ,(first clause)
-             ,(if (null (rest clause))
-                  t ; TODO: あとで直す
-                  `(progn ,@(rest clause)))
-             (cond ,@(rest clauses))))))
+      (let ((clause (first clauses))
+            (g-test (gensym)))
+        `(let ((,g-test ,(first clause)))
+           (if ,g-test
+               ,(if (null (rest clause))
+                    g-test
+                    `(progn ,@(rest clause)))
+               (cond ,@(rest clauses)))))))
 
 (*:defmacro* or (&rest forms)
   (if (null forms)
