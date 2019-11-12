@@ -111,7 +111,8 @@
   (let ((var (first var-form))
         (expr (second var-form))
         (result (third var-form))
-        (g-expr (gensym)))
+        (g-expr (gensym))
+        (body (compiler::parse-body body nil)))
     `(let ((,g-expr ,expr))
        (do ((,var 0 (+ ,var 1)))
            ((>= ,var ,g-expr) ,result)
@@ -122,7 +123,8 @@
          (expr (second var-form))
          (result (third var-form))
          (g-list (gensym))
-         (g-start (gensym)))
+         (g-start (gensym))
+         (body (compiler::parse-body body nil)))
     `(block nil
        (let ((,g-list ,expr))
          (tagbody
