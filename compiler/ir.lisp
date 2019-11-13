@@ -115,7 +115,8 @@
   type
   id
   init-value
-  (used-count 0))
+  (used-count 0)
+  (set-count 0))
 
 (defstruct tagbody-value
   index

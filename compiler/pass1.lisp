@@ -44,9 +44,11 @@
                 :name name
                 :id value))
 
-(defun count-if-used (binding)
+(defun count-if-used (binding &optional set-p)
   (when binding
-    (incf (binding-used-count binding))))
+    (if set-p
+        (incf (binding-set-count binding))
+        (incf (binding-used-count binding)))))
 
 (defmacro def-pass1-form (name (lambda-list return-value-p multiple-values-p) &body body)
   (let ((fn-name (intern (format nil "PASS1-~A" name))))
@@ -594,6 +596,7 @@
                  (binding (lookup symbol :variable))
                  (value (pass1 (second args) t nil)))
             (count-if-used binding)
+            (count-if-used binding t)
             (push (make-ir (if binding 'lset 'gset)
                            (if (null (cddr args))
                                return-value-p
