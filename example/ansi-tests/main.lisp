@@ -27,7 +27,7 @@
 ;; (test "sacla-tests/must-condition.lisp")
 (test "sacla-tests/must-cons.lisp")
 ;; (test "sacla-tests/must-data-and-control.lisp")
-;; (test "sacla-tests/must-do.lisp")
+(test "sacla-tests/must-do.lisp")
 ;; (test "sacla-tests/must-eval.lisp")
 ;; (test "sacla-tests/must-hash-table.lisp")
 ;; (test "sacla-tests/must-loop.lisp")
