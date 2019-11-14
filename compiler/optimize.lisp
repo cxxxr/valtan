@@ -24,7 +24,8 @@
 
 (defun const-ir-p (ir)
   (or (eq (ir-op ir) 'const)
-      (eq (ir-op ir) 'lref)))
+      (eq (ir-op ir) 'lref)
+      (eq (ir-op ir) 'gref)))
 
 (defun immutable-p (ir)
   (or (eq (ir-op ir) 'const)
@@ -52,10 +53,12 @@
   ir)
 
 (define-optimize lset (ir)
-  ir)
+  (with-ir-args (binding value) ir
+    (remake-ir 'lset ir binding (optimize1 value))))
 
 (define-optimize gset (ir)
-  ir)
+  (with-ir-args (binding value) ir
+    (remake-ir 'gset ir binding (optimize1 value))))
 
 (define-optimize if (ir)
   ir)
