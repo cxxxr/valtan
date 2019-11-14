@@ -99,7 +99,8 @@
     (optimize-progn-forms ir forms)))
 
 (define-optimize lambda (ir)
-  ir)
+  (with-ir-args (name lambda-list body) ir
+    (remake-ir 'lambda ir name lambda-list (mapcar #'optimize1 body))))
 
 (define-optimize let (ir)
   (with-ir-args (bindings body) ir
@@ -120,34 +121,49 @@
         ir)))
 
 (define-optimize lcall (ir)
-  ir)
+  (with-ir-args (fn-binding args) ir
+    (remake-ir 'lcall ir fn-binding (mapcar #'optimize1 args))))
 
 (define-optimize call (ir)
-  ir)
+  (with-ir-args (fn-name args) ir
+    (remake-ir 'call ir fn-name (mapcar #'optimize1 args))))
 
 (define-optimize unwind-protect (ir)
-  ir)
+  (with-ir-args (protected-form cleanup-form) ir
+    (remake-ir 'unwind-protect ir (optimize1 protected-form) (optimize1 cleanup-form))))
 
 (define-optimize block (ir)
-  ir)
+  (with-ir-args (name body) ir
+    (remake-ir 'block ir name (optimize1 body))))
 
 (define-optimize return-from (ir)
-  ir)
+  (with-ir-args (name value) ir
+    (remake-ir 'return-from ir name (optimize1 value))))
 
 (define-optimize tagbody (ir)
-  ir)
+  (with-ir-args (tagbody-id tag-statements-pairs) ir
+    (remake-ir 'tagbody
+               ir
+               tagbody-id
+               (mapcar (lambda (pair)
+                         (destructuring-bind (tag-binding . body) pair
+                           (cons tag-binding (optimize1 body))))
+                       tag-statements-pairs))))
 
 (define-optimize go (ir)
   ir)
 
 (define-optimize catch (ir)
-  ir)
+  (with-ir-args (tag body) ir
+    (remake-ir 'catch ir (optimize1 tag) (optimize1 body))))
 
 (define-optimize throw (ir)
-  ir)
+  (with-ir-args (tag result) ir
+    (remake-ir 'throw ir (optimize1 tag) (optimize1 result))))
 
 (define-optimize *:%defun (ir)
-  ir)
+  (with-ir-args (name lambda-form) ir
+    (remake-ir '*:%defun ir name (optimize1 lambda-form))))
 
 (define-optimize *:%defpackage (ir)
   ir)
