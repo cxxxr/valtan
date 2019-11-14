@@ -61,7 +61,17 @@
     (remake-ir 'gset ir binding (optimize1 value))))
 
 (define-optimize if (ir)
-  ir)
+  (with-ir-args (test then else) ir
+    (setq test (optimize1 test))
+    (cond ((eq (ir-op test) 'const)
+           (cond ((null (ir-arg1 test))
+                  else)
+                 (t
+                  test)))
+          (t
+           (setq then (optimize1 then)
+                 else (optimize1 else))
+           ir))))
 
 (defun optimize-progn-forms (ir forms)
   (let ((new-forms '()))

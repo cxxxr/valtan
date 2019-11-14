@@ -564,8 +564,8 @@
       (%macroexpand-1 form)
     (cond (expanded-p
            (pass1 form return-value-p multiple-values-p))
-          ((null form)
-           (pass1-const nil return-value-p))
+          ((member form '(t nil))
+           (pass1-const form return-value-p))
           ((keywordp form)
            (pass1-const form return-value-p))
           ((symbolp form)
