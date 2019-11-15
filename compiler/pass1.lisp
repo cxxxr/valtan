@@ -3,6 +3,7 @@
 (defparameter *pass1-form-table* (make-hash-table))
 
 (defvar *require-modules* '())
+(defvar *export-modules* '())
 (defvar *defined-function-names* '())
 (defvar *called-function-names* '())
 (defvar *lexenv* nil)
@@ -1001,6 +1002,13 @@
         *require-modules*)
   (pass1-const nil return-value-p))
 
+(def-pass1-form ffi:export ((name &key as) return-value-p pmultiple-values-p)
+  (unless (ident-place-p name)
+    (compile-error "~S is not a variable identifer" name))
+  (push (cons (convert-var name) (and as (convert-var as)))
+        *export-modules*)
+  (pass1-const nil return-value-p))
+
 (def-pass1-form ffi:typeof ((x) return-value-p multiple-values-p)
   (make-ir 'ffi:typeof
            return-value-p
@@ -1032,8 +1040,8 @@
         (*genvar-counter* 0))
     (pass1 form return-value-p multiple-values-p)))
 
-(defun pass1-module (file ir-forms)
-  (make-ir 'module nil nil file ir-forms))
+(defun pass1-module (file ir-forms export-modules)
+  (make-ir 'module nil nil file ir-forms export-modules))
 
 (defun pass1-dump-macros (&optional (macro-definitions *macro-definitions*))
   (mapcar (lambda (name)

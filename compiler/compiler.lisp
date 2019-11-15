@@ -285,10 +285,11 @@
   (let ((macro-definitions
           (let ((*macro-definitions* nil))
             (dolist (file (system-pathnames system))
-              (let ((file-ir-forms '()))
+              (let ((file-ir-forms '())
+                    (*export-modules* '()))
                 (do-file-form (form file)
                   (push (pass1-toplevel form) file-ir-forms))
-                (push (make-ir 'module nil nil file (nreverse file-ir-forms))
+                (push (pass1-module file (nreverse file-ir-forms) *export-modules*)
                       ir-forms)))
             *macro-definitions*)))
     (dolist (ir-form (pass1-dump-macros macro-definitions))

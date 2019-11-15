@@ -67,6 +67,7 @@
   (:use)
   (:export #:instanceof
            #:require
+           #:export
            #:ref
            #:set
            #:var

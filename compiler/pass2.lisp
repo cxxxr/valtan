@@ -754,9 +754,17 @@
   (emit-call-args (ir-arg2 ir)))
 
 (def-emit module (ir)
-  (format t "(function() { // *** module: ~A ***~%" (ir-arg1 ir))
-  (pass2-forms (ir-arg2 ir))
-  (write-line "})();"))
+  (let ((name (ir-arg1 ir))
+        (forms (ir-arg2 ir))
+        (export-modules (ir-arg3 ir)))
+    (format t "(function() { // *** module: ~A ***~%" name)
+    (pass2-forms forms)
+    (dolist (export-module export-modules)
+      (destructuring-bind (name . as) export-module
+        (if as
+            (format t "module.exports = ~A~%" (pass2-convert-var name))
+            (format t "module.exports.~A = ~A~%" (pass2-convert-var name) (pass2-convert-var as)))))
+    (write-line "})();")))
 
 (defun pass2 (ir)
   (funcall (gethash (ir-op ir) *emitter-table*) ir))
