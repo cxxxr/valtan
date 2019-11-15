@@ -1,5 +1,4 @@
 (ffi:require js:react "react")
-(ffi:require js:react-dom "react-dom")
 
 (defmacro define-react-component (name (&rest keys) &body body)
   (let ((garg (gensym))
