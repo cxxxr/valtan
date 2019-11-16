@@ -24,16 +24,20 @@
   object
   (keys nil)
   (test nil :read-only t)
-  (size nil :read-only t)
+  ;; (size nil :read-only t)
   (rehash-size nil :read-only t)
   (rehash-threshold nil :read-only t))
 
 (defun make-hash-table (&key test size rehash-size rehash-threshold)
+  (declare (ignore size))
   (%make-hash-table :object (ffi:new (ffi:ref "Map"))
                     :test test
-                    :size size
+                    ;; :size size
                     :rehash-size rehash-size
                     :rehash-threshold rehash-threshold))
+
+(defun hash-table-size (hash-table)
+  (hash-table-count hash-table))
 
 (defun hash-table-count (hash-table)
   (ffi:ref (hash-table-object hash-table) "size"))

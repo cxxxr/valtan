@@ -113,3 +113,22 @@
              (t (error "~S fell through ETYPECASE expression. Wanted one of ~S."
                        ,gvalue
                        ',expected-type))))))
+
+(defun type-of (object)
+  (typecase object
+    (integer
+     'integer)
+    (character
+     'character)
+    (symbol
+     (cond ((eq object t) 'boolean)
+           ((eq object nil) 'null)
+           ((keywordp object) 'keyword)
+           (t 'symbol)))
+    (array
+     `(,array (array-element-type object)))
+    (otherwise
+     (cond ((*:structure-p object)
+            (*:%structure-name object))
+           (t
+            (error "unexpected object: ~S" object))))))
