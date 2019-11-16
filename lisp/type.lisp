@@ -90,3 +90,26 @@
          (values t t))
         (t
          (values nil nil))))
+
+(defmacro typecase (keyform &body cases)
+  (let ((gvalue (gensym)))
+    `(let ((,gvalue ,keyform))
+       (cond ,@(mapcar (lambda (c)
+                         (destructuring-bind (type . body) c
+                           (if (eq type 'otherwise)
+                               `(t ,@body)
+                               `((typep ,gvalue ',type) ,@body))))
+                       cases)))))
+
+(defmacro etypecase (keyform &body cases)
+  (let ((gvalue (gensym))
+        (expected-type
+          `(or ,@(mapcar #'first cases))))
+    `(let ((,gvalue ,keyform))
+       (cond ,@(mapcar (lambda (c)
+                         (destructuring-bind (type . body) c
+                           `((typep ,gvalue ',type) ,@body)))
+                       cases)
+             (t (error "~S fell through ETYPECASE expression. Wanted one of ~S."
+                       ,gvalue
+                       ',expected-type))))))
