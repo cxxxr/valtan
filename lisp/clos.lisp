@@ -407,9 +407,9 @@
                                    result))))
           (setq result (nconc result (list choice)))
           (setq remaining-elements
-                (remove choice remaining-elements)) ; TODO: delete
+                (delete choice remaining-elements))
           (setq remaining-constraints
-                (remove choice remaining-constraints ; TODO: delete
+                (delete choice remaining-constraints
                         :test #'member)))))))
 
 (defun collect-superclasses* (class)
@@ -916,7 +916,7 @@
 
 (defun remove-method (gf method)
   (setf (generic-function-methods gf)
-        (remove method (generic-function-methods gf))) ; TODO: delete
+        (delete method (generic-function-methods gf)))
   (setf (method-generic-function method) nil)
   (dolist (class (method-specializers method))
     (setf (class-direct-methods class)
