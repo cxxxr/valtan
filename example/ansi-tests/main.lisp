@@ -24,7 +24,7 @@
 ;; (test "sacla-tests/desirable-printer.lisp")
 ;; (test "sacla-tests/must-array.lisp")
 (test "sacla-tests/must-character.lisp")
-;; (test "sacla-tests/must-condition.lisp")
+(test "sacla-tests/must-condition.lisp")
 (test "sacla-tests/must-cons.lisp")
 ;; (test "sacla-tests/must-data-and-control.lisp")
 (test "sacla-tests/must-do.lisp")
