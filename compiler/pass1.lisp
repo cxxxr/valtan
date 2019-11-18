@@ -340,11 +340,11 @@
   (expand-quasiquote x))
 
 (defun pass1-const (x return-value-p)
-  (make-ir 'const return-value-p nil x))
+  (make-hir 'const return-value-p nil x))
 
 (defun js-symbol-to-ref-form (symbol return-value-p)
   (let ((names (parse-js-name symbol)))
-    (make-ir 'ffi:ref return-value-p nil names)))
+    (make-hir 'ffi:ref return-value-p nil names)))
 
 (defun pass1-refvar (symbol return-value-p)
   (cond ((js-symbol-p symbol)
@@ -353,8 +353,8 @@
          (let ((binding (lookup symbol '(:variable :special))))
            (count-if-used binding)
            (if (and binding (eq (binding-type binding) :variable))
-               (make-ir 'lref return-value-p nil binding)
-               (make-ir 'gref return-value-p nil symbol))))))
+               (make-hir 'lref return-value-p nil binding)
+               (make-hir 'gref return-value-p nil symbol))))))
 
 (defun pass1-forms (forms return-value-p multiple-values-p)
   (if (null forms)
@@ -464,7 +464,7 @@
           (let* ((inner-lexenv (pass1-lambda-list parsed-lambda-list))
                  (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
                  (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
-            (make-ir 'lambda
+            (make-hir 'lambda
                      return-value-p
                      nil
                      name
@@ -514,7 +514,7 @@
            (let ((binding (lookup fn :function)))
              (count-if-used binding)
              (cond (binding
-                    (make-ir 'lcall
+                    (make-hir 'lcall
                              return-value-p
                              multiple-values-p
                              binding
@@ -527,7 +527,7 @@
                            multiple-values-p))
                    (t
                     (pushnew fn *called-function-names*)
-                    (make-ir 'call
+                    (make-hir 'call
                              return-value-p
                              multiple-values-p
                              fn
@@ -541,7 +541,7 @@
                   multiple-values-p))
           ((js-symbol-p fn)
            (let ((names (parse-js-name fn)))
-             (make-ir 'js-call
+             (make-hir 'js-call
                       return-value-p
                       multiple-values-p
                       (pass1-ref-names (first names) (rest names))
@@ -550,7 +550,7 @@
                               args))))
           ((and (consp fn)
                 (eq 'ffi:ref (first fn)))
-           (make-ir 'js-call
+           (make-hir 'js-call
                     return-value-p
                     multiple-values-p
                     (pass1-ref-names (cadr fn) (cddr fn))
@@ -598,7 +598,7 @@
                  (value (pass1 (second args) t nil)))
             (count-if-used binding)
             (count-if-used binding t)
-            (push (make-ir (if binding 'lset 'gset)
+            (push (make-hir (if binding 'lset 'gset)
                            (if (null (cddr args))
                                return-value-p
                                nil)
@@ -608,13 +608,13 @@
                   forms)))
         (if (null forms)
             (pass1-const nil return-value-p)
-            (make-ir 'progn
+            (make-hir 'progn
                      return-value-p
                      nil
                      (nreverse forms))))))
 
 (def-pass1-form if ((test then &optional else) return-value-p multiple-values-p)
-  (make-ir 'if
+  (make-hir 'if
            return-value-p
            multiple-values-p
            (pass1 test t nil)
@@ -622,7 +622,7 @@
            (pass1 else return-value-p multiple-values-p)))
 
 (def-pass1-form progn ((&rest forms) return-value-p multiple-values-p)
-  (make-ir 'progn
+  (make-hir 'progn
            return-value-p
            multiple-values-p
            (pass1-forms forms return-value-p multiple-values-p)))
@@ -633,7 +633,7 @@
      (let ((binding (lookup thing :function)))
        (count-if-used binding)
        (if binding
-           (make-ir 'lref return-value-p nil binding)
+           (make-hir 'lref return-value-p nil binding)
            (pass1 `(symbol-function ',thing)
                   return-value-p
                   nil))))
@@ -663,7 +663,7 @@
     (let* ((inner-lexenv bindings)
            (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
            (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
-      (make-ir 'let
+      (make-hir 'let
                return-value-p
                multiple-values-p
                bindings
@@ -717,7 +717,7 @@
       (let* ((inner-lexenv bindings)
              (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
              (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
-        (make-ir 'let
+        (make-hir 'let
                  return-value-p
                  multiple-values-p
                  bindings
@@ -734,7 +734,7 @@
         (dolist (b bindings)
           (setf (binding-init-value b)
                 (pass1 (binding-init-value b) t nil)))
-        (make-ir 'let
+        (make-hir 'let
                  return-value-p
                  multiple-values-p
                  bindings
@@ -761,7 +761,7 @@
     (apply #'pass1-progn return-value-p multiple-values-p body)))
 
 (def-pass1-form unwind-protect ((protected &rest cleanup) return-value-p multiple-values-p)
-  (make-ir 'unwind-protect
+  (make-hir 'unwind-protect
            return-value-p
            multiple-values-p
            (pass1 protected return-value-p multiple-values-p)
@@ -774,11 +774,11 @@
          (*lexenv* (cons binding *lexenv*)))
     (let ((body (pass1-forms forms return-value-p multiple-values-p)))
       (if (= 0 (binding-used-count binding))
-          (make-ir 'progn
+          (make-hir 'progn
                    return-value-p
                    multiple-values-p
                    body)
-          (make-ir 'block
+          (make-hir 'block
                    return-value-p
                    multiple-values-p
                    binding
@@ -790,7 +790,7 @@
   (let ((binding (lookup name :block)))
     (count-if-used binding)
     (if binding
-        (make-ir 'return-from nil nil binding (pass1 value t t))
+        (make-hir 'return-from nil nil binding (pass1 value t t))
         (compile-error "return for unknown block: ~S" name))))
 
 (defvar *tagbody-id* 0)
@@ -826,12 +826,12 @@
                    (setf part-statements (list (pass1-const nil nil))))
                  (push (if (eq last-tag none)
                            (cons entry-tagbody-value
-                                 (make-ir 'progn nil nil (nreverse part-statements)))
+                                 (make-hir 'progn nil nil (nreverse part-statements)))
                            (let ((binding (lookup last-tag :tag)))
                              (assert binding)
                              (count-if-used binding)
                              (cons (binding-id binding)
-                                   (make-ir 'progn nil nil (nreverse part-statements)))))
+                                   (make-hir 'progn nil nil (nreverse part-statements)))))
                        tag-statements-pairs)
                  (setf part-statements nil)))
           (do ((statements* statements (rest statements*)))
@@ -842,7 +842,7 @@
                    (setf last-tag (first statements*)))
                   (t
                    (push (pass1 (first statements*) nil nil) part-statements))))
-          (make-ir 'tagbody
+          (make-hir 'tagbody
                    return-value-p
                    nil
                    (make-tagbody-id)
@@ -855,17 +855,17 @@
     (unless binding
       (compile-error "attempt to GO to nonexistent tag: ~A" tag))
     (count-if-used binding)
-    (make-ir 'go nil nil *tagbody-id* (binding-id binding))))
+    (make-hir 'go nil nil *tagbody-id* (binding-id binding))))
 
 (def-pass1-form catch ((tag &rest body) return-value-p multiple-values-p)
-  (make-ir 'catch
+  (make-hir 'catch
            return-value-p
            multiple-values-p
            (pass1 tag t nil)
            (apply #'pass1-progn return-value-p multiple-values-p body)))
 
 (def-pass1-form throw ((tag result) return-value-p multiple-values-p)
-  (make-ir 'throw
+  (make-hir 'throw
            t
            t
            (pass1 tag t nil)
@@ -906,7 +906,7 @@
       (parse-body body t)
     (declare (ignore docstring))
     (let ((body `(block ,name ,@body)))
-      (make-ir '*:%defun
+      (make-hir '*:%defun
                return-value-p
                nil
                name
@@ -917,7 +917,7 @@
 
 (def-pass1-form *:multiple-value-call ((function &rest args)
                                              return-value-p multiple-values-p)
-  (make-ir 'call
+  (make-hir 'call
            return-value-p
            multiple-values-p
            '*:multiple-value-call
@@ -931,7 +931,7 @@
   (let ((name (string name))
         (export-names (mapcar #'string export))
         (use-package-names (mapcar #'string use)))
-    (make-ir '*:%defpackage
+    (make-hir '*:%defpackage
              return-value-p
              nil
              name
@@ -942,7 +942,7 @@
 (def-pass1-form in-package ((name) return-value-p multiple-values-p)
   (setq *package* (find-package name))
   (let ((name (string name)))
-    (make-ir '*:%in-package
+    (make-hir '*:%in-package
              return-value-p
              nil
              name)))
@@ -967,10 +967,10 @@
 
 (def-pass1-form ffi:ref ((object &rest keys) return-value-p multiple-values-p)
   (let ((arguments (pass1-ref-names object keys)))
-    (make-ir 'ffi:ref return-value-p nil arguments)))
+    (make-hir 'ffi:ref return-value-p nil arguments)))
 
 (def-pass1-form ffi:set ((lhs rhs) return-value-p multiple-values-p)
-  (make-ir 'ffi:set
+  (make-hir 'ffi:set
            return-value-p
            nil
            (pass1 lhs t nil)
@@ -988,7 +988,7 @@
   (dolist (var vars)
     (unless (ident-place-p var)
       (compile-error "~S is not a variable identifier" var)))
-  (make-ir 'ffi:var
+  (make-hir 'ffi:var
            return-value-p
            multiple-values-p
            (mapcar #'convert-var vars)))
@@ -1010,13 +1010,13 @@
   (pass1-const nil return-value-p))
 
 (def-pass1-form ffi:typeof ((x) return-value-p multiple-values-p)
-  (make-ir 'ffi:typeof
+  (make-hir 'ffi:typeof
            return-value-p
            nil
            (pass1 x t nil)))
 
 (def-pass1-form ffi:new ((constructor &rest args) return-value-p multiple-values-p)
-  (make-ir 'ffi:new
+  (make-hir 'ffi:new
            return-value-p
            nil
            (pass1 constructor t nil)
@@ -1025,7 +1025,7 @@
                    args)))
 
 (def-pass1-form ffi:aget ((array index &rest other-indexes) return-value-p multiple-value-p)
-  (make-ir 'ffi:aget
+  (make-hir 'ffi:aget
            return-value-p
            nil
            (pass1 array t nil)
@@ -1040,8 +1040,8 @@
         (*genvar-counter* 0))
     (pass1 form return-value-p multiple-values-p)))
 
-(defun pass1-module (file ir-forms export-modules)
-  (make-ir 'module nil nil file ir-forms export-modules))
+(defun pass1-module (file hir-forms export-modules)
+  (make-hir 'module nil nil file hir-forms export-modules))
 
 (defun pass1-dump-macros (&optional (macro-definitions *macro-definitions*))
   (mapcar (lambda (name)

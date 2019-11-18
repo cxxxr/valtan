@@ -6,7 +6,7 @@
                  (:file "variables")
                  (:file "util")
                  (:file "error")
-                 (:file "ir")
+                 (:file "hir")
                  (:file "pass1")
                  (:file "pass2")
                  (:file "compiler")))))

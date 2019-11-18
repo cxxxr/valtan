@@ -173,7 +173,7 @@
        (do-forms (,var ,in)
          ,@body))))
 
-(defun in-pass2 (ir-forms)
+(defun in-pass2 (hir-forms)
   (let ((*defined-function-names* '())
         (*called-function-names* '()))
     (dolist (name (set-difference
@@ -186,7 +186,7 @@
     (write-line "import * as lisp from 'lisp';")
     (loop :for (var . module) :in *require-modules*
           :do (format t "var ~A = require('~A');~%" (pass2-convert-var var) module))
-    (pass2-toplevel-forms ir-forms)
+    (pass2-toplevel-forms hir-forms)
     (values)))
 
 (defmacro with-js-beautify (&body body)
@@ -235,7 +235,7 @@
                              "variables"
                              "util"
                              "error"
-                             "ir"
+                             "hir"
                              "pass1"
                              "pass2"))
           (directory-files "./lisp/"
@@ -278,35 +278,35 @@
             (errorp
              (error "System ~S is not found" system-name))))))
 
-(defun compile-with-system-1 (system ir-forms)
+(defun compile-with-system-1 (system hir-forms)
   (dolist (system-name (system-depends-on system))
     (let ((system (find-system system-name)))
-      (setf ir-forms (compile-with-system-1 system ir-forms))))
+      (setf hir-forms (compile-with-system-1 system hir-forms))))
   (let ((macro-definitions
           (let ((*macro-definitions* nil))
             (dolist (file (system-pathnames system))
-              (let ((file-ir-forms '())
+              (let ((file-hir-forms '())
                     (*export-modules* '()))
                 (do-file-form (form file)
-                  (push (pass1-toplevel form) file-ir-forms))
-                (push (pass1-module file (nreverse file-ir-forms) *export-modules*)
-                      ir-forms)))
+                  (push (pass1-toplevel form) file-hir-forms))
+                (push (pass1-module file (nreverse file-hir-forms) *export-modules*)
+                      hir-forms)))
             *macro-definitions*)))
-    (dolist (ir-form (pass1-dump-macros macro-definitions))
-      (push ir-form ir-forms)))
-  ir-forms)
+    (dolist (hir-form (pass1-dump-macros macro-definitions))
+      (push hir-form hir-forms)))
+  hir-forms)
 
 (defun compile-with-system (system)
-  (let ((ir-forms
+  (let ((hir-forms
           (if (system-enable-profile system)
               (list (pass1-toplevel '((ffi:ref "lisp" "startProfile"))))
               '())))
     (dolist (file (get-lisp-files))
       (do-file-form (form file)
-        (push (pass1-toplevel form) ir-forms)))
-    (dolist (ir-form (pass1-dump-macros))
-      (push ir-form ir-forms))
-    (nreverse (compile-with-system-1 system ir-forms))))
+        (push (pass1-toplevel form) hir-forms)))
+    (dolist (hir-form (pass1-dump-macros))
+      (push hir-form hir-forms))
+    (nreverse (compile-with-system-1 system hir-forms))))
 
 (defun build-system (pathname &key output-file)
   (unless (probe-file pathname)
@@ -323,6 +323,6 @@
                             :direction :output
                             :if-does-not-exist :create
                             :if-exists :supersede)
-      (let ((ir-forms (compile-with-system system))
+      (let ((hir-forms (compile-with-system system))
             (*standard-output* output))
-        (in-pass2 ir-forms)))))
+        (in-pass2 hir-forms)))))
