@@ -4,6 +4,7 @@
 
 (defvar *compilation-vars* '())
 (defvar *compilation-functions* '())
+(defvar *compilation-body* '())
 
 (defstruct compilation
   vars
@@ -21,11 +22,12 @@
   (gen-temp "L"))
 
 (defun gen-var ()
-  (gen-temp "V"))
+  (let ((var (gen-temp "V")))
+    (push var *compilation-vars*)
+    var))
 
 (defun emit (lir)
-  (prin1 lir)
-  (terpri))
+  (push lir *compilation-body*))
 
 (defun hir-to-lir (hir)
   (ecase (hir-op hir)
@@ -33,14 +35,13 @@
      (let ((lir (make-lir 'const (hir-arg1 hir))))
        lir))
     ((lref)
-     (emit (make-lir 'lref (hir-arg1 hir)))
-     (hir-arg1 hir))
+     (binding-id (hir-arg1 hir)))
     ((gref)
-     (emit (make-lir 'gref (hir-arg1 hir)))
      (hir-arg1 hir))
     ((lset)
-     (emit (make-lir 'lset (hir-arg1 hir) (hir-arg2 hir)))
-     (hir-arg1 hir))
+     (let ((var (binding-id (hir-arg1 hir))))
+       (emit (make-lir 'lset var (hir-arg2 hir)))
+       var))
     ((gset)
      (emit (make-lir 'gset (hir-arg1 hir) (hir-arg2 hir)))
      (hir-arg1 hir))
@@ -67,15 +68,27 @@
          (setq r (hir-to-lir arg)))
        r))
     ((lambda)
-     #+(or)
-     (let ((name (ir-arg1 ir))
-           (lambda-list (ir-arg2 ir))
-           (forms (ir-arg3 ir)))
-       ))
+     )
     ((let)
-     )
+     (let ((bindings (hir-arg1 hir)))
+       (dolist (binding bindings)
+         (push (binding-id binding) *compilation-vars*)
+         (let ((r (hir-to-lir (binding-init-value binding))))
+           (emit (make-lir 'move (binding-id binding) r))))
+       (let (r)
+         (dolist (arg (hir-arg2 hir))
+           (setq r (hir-to-lir arg)))
+         r)))
     ((lcall call)
-     )
+     (let ((args (mapcar (lambda (arg)
+                           (let ((r (hir-to-lir arg))
+                                 (a (gen-var)))
+                             (emit (make-lir 'move a r))
+                             a))
+                         (hir-arg2 hir)))
+           (result (gen-var)))
+       (emit (make-lir 'move result (make-lir (hir-op hir) (hir-arg1 hir) args)))
+       result))
     ((unwind-protect)
      )
     ((block)
@@ -106,8 +119,12 @@
 (defun convert-to-lir (hir)
   (let ((*temp-counter* 0)
         (*compilation-vars* '())
-        (*compilation-functions* '()))
-    (hir-to-lir hir)))
+        (*compilation-functions* '())
+        (*compilation-body* '()))
+    (hir-to-lir hir)
+    (make-compilation :vars *compilation-vars*
+                      :functions *compilation-functions*
+                      :body (coerce (nreverse *compilation-body*) 'vector))))
 
 
 #|
