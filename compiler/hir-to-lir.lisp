@@ -15,7 +15,7 @@
   (cons op args))
 
 (defun gen-temp (prefix)
-  (prog1 (format nil "~A~A" prefix *temp-counter*)
+  (prog1 (make-symbol (format nil "~A~A" prefix *temp-counter*))
     (incf *temp-counter*)))
 
 (defun gen-label ()
