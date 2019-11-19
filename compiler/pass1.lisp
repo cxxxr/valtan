@@ -38,7 +38,7 @@
 (defun make-block-binding (name)
   (make-binding :type :block
                 :name name
-                :id name))
+                :id (gensym (string name))))
 
 (defun make-tag-binding (name value)
   (make-binding :type :tag
@@ -773,16 +773,11 @@
   (let* ((binding (make-block-binding name))
          (*lexenv* (cons binding *lexenv*)))
     (let ((body (pass1-forms forms return-value-p multiple-values-p)))
-      (if (= 0 (binding-used-count binding))
-          (make-hir 'progn
-                   return-value-p
-                   multiple-values-p
-                   body)
-          (make-hir 'block
-                   return-value-p
-                   multiple-values-p
-                   binding
-                   body)))))
+      (make-hir 'block
+                return-value-p
+                multiple-values-p
+                binding
+                body))))
 
 (def-pass1-form return-from ((name &optional value) return-value-p multiple-values-p)
   (unless (symbolp name)
