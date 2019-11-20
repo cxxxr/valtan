@@ -59,8 +59,9 @@
     ((gref)
      (hir-arg1 hir))
     ((lset)
-     (let ((var (binding-id (hir-arg1 hir))))
-       (emit-lir (make-lir 'lset var (hir-arg2 hir)))
+     (let ((var (binding-id (hir-arg1 hir)))
+           (result (hir-to-lir-1 (hir-arg2 hir))))
+       (emit-lir (make-lir 'lset var result))
        var))
     ((gset)
      (emit-lir (make-lir 'gset (hir-arg1 hir) (hir-arg2 hir)))
@@ -177,7 +178,7 @@
         (*compiland-vars* '())
         (*compiland-functions* '())
         (*compiland-body* '()))
-    (hir-to-lir-1 hir)
+    (emit-lir (make-lir 'return (hir-to-lir-1 hir)))
     (make-compiland :vars *compiland-vars*
                     :functions *compiland-functions*
                     :body (coerce (nreverse *compiland-body*) 'vector))))
