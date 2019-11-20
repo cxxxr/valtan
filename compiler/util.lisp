@@ -42,3 +42,17 @@
 (defun parse-js-name (symbol)
   (let ((parts (split-string #\. (symbol-name symbol))))
     (mapcar #'kebab-to-lower-camel-case parts)))
+
+(defmacro do-vector ((var vector) &body body)
+  (let ((g-vector (gensym))
+        (g-i (gensym)))
+    `(let ((,g-vector ,vector))
+       (dotimes (,g-i (length ,g-vector))
+         (let ((,var (aref ,g-vector ,g-i)))
+           ,@body)))))
+
+(defun vector-first (vector)
+  (aref vector 0))
+
+(defun vector-last (vector)
+  (aref vector (1- (length vector))))
