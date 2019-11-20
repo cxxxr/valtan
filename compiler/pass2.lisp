@@ -579,7 +579,7 @@
   (pass2-enter (hir-return-value-p hir))
   (let ((tag (genvar "V"))
         (err (genvar "E_")))
-    (format t "let ~A = 0;~%" tag)
+    (format t "let ~A = '~A';~%" tag (tagbody-value-index (binding-id (car (first (hir-arg2 hir))))))
     (write-line "for (;;) {")
     (emit-try-catch
         ((err)
@@ -593,7 +593,7 @@
       (format t "switch(~A) {~%" tag)
       (dolist (tag-body (hir-arg2 hir))
         (destructuring-bind (tag . body) tag-body
-          (format t "case ~D:~%" (tagbody-value-index (binding-id tag)))
+          (format t "case '~A':~%" (tagbody-value-index (binding-id tag)))
           (pass2 body)))
       (write-line "}")
       (write-line "break;"))
@@ -603,7 +603,7 @@
 
 (def-emit go (hir)
   (let ((tagbody-value (hir-arg1 hir)))
-    (format t "throw new lisp.TagValue('~A', ~A)"
+    (format t "throw new lisp.TagValue('~A', '~A')"
             (tagbody-value-id tagbody-value)
             (tagbody-value-index tagbody-value))))
 

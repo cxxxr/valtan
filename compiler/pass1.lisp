@@ -803,17 +803,15 @@
   (let ((*tagbody-id* (gensym)))
     (let* ((tags (remove-if-not #'tag-literal-p statements))
            (*lexenv*
-             (extend-lexenv (let ((index 0))
-                              (mapcar (lambda (tag)
-                                        (incf index)
-                                        (make-tag-binding tag
-                                                          (make-tagbody-value :index index
-                                                                              :id (make-tagbody-id))))
-                                      tags))
+             (extend-lexenv (mapcar (lambda (tag)
+                                      (make-tag-binding tag
+                                                        (make-tagbody-value :index (gensym)
+                                                                            :id (make-tagbody-id))))
+                                    tags)
                             *lexenv*))
            (entry-tagbody-value
              (make-tag-binding nil
-                               (make-tagbody-value :index 0 :id (make-tagbody-id)))))
+                               (make-tagbody-value :index (gensym) :id (make-tagbody-id)))))
       (let* ((part-statements '())
              (tag-statements-pairs '())
              (none '#:none)
@@ -840,10 +838,10 @@
                   (t
                    (push (pass1 (first statements*) nil nil) part-statements))))
           (make-hir 'tagbody
-                   return-value-p
-                   nil
-                   (make-tagbody-id)
-                   (nreverse tag-statements-pairs)))))))
+                    return-value-p
+                    nil
+                    (make-tagbody-id)
+                    (nreverse tag-statements-pairs)))))))
 
 (def-pass1-form go ((tag) return-value-p multiple-values-p)
   (unless (tag-literal-p tag)
