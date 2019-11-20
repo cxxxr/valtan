@@ -2,13 +2,18 @@
 
 (defparameter *temp-counter* 0)
 
-(defvar *compilation-vars* '())
-(defvar *compilation-functions* '())
-(defvar *compilation-body* '())
+(defvar *compiland-vars* '())
+(defvar *compiland-functions* '())
+(defvar *compiland-body* '())
 
-(defstruct compilation
+(defstruct compiland
   vars
   functions
+  body)
+
+(defstruct fn
+  name
+  lambda-list
   body)
 
 (defun make-lir (op &rest args)
@@ -23,11 +28,11 @@
 
 (defun gen-var ()
   (let ((var (gen-temp "V")))
-    (push var *compilation-vars*)
+    (push var *compiland-vars*)
     var))
 
 (defun emit-lir (lir)
-  (push lir *compilation-body*))
+  (push lir *compiland-body*))
 
 (defun emit-lir-forms (hir-forms)
   (let (r)
@@ -71,13 +76,28 @@
     ((progn)
      (emit-lir-forms (hir-arg1 hir)))
     ((lambda)
-     )
+     (let* ((name (hir-arg1 hir))
+            (lambda-list (hir-arg2 hir))
+            (body (hir-arg3 hir))
+            (lir-body (let ((*compiland-body* '()))
+                        (emit-lir-forms body)
+                        *compiland-body*)))
+       (let ((fn (make-fn :name (or name (gensym)) :lambda-list lambda-list :body lir-body)))
+         (push fn
+               *compiland-functions*)
+         (make-lir 'fn (fn-name fn)))))
     ((let)
      (let ((bindings (hir-arg1 hir)))
        (dolist (binding bindings)
-         (push (binding-id binding) *compilation-vars*)
-         (let ((r (hir-to-lir (binding-init-value binding))))
-           (emit-lir (make-lir 'move (binding-id binding) r))))
+         (ecase (binding-type binding)
+           (:variable
+            (push (binding-id binding) *compiland-vars*)
+            (let ((r (hir-to-lir (binding-init-value binding))))
+              (emit-lir (make-lir 'move (binding-id binding) r))))
+           (:function
+            (push (binding-id binding) *compiland-vars*)
+            (let ((r (hir-to-lir (binding-init-value binding))))
+              (emit-lir (make-lir 'move (binding-id binding) r))))))
        (emit-lir-forms (hir-arg2 hir))))
     ((lcall call)
      (let ((args (mapcar (lambda (arg)
@@ -87,7 +107,13 @@
                              a))
                          (hir-arg2 hir)))
            (result (gen-var)))
-       (emit-lir (make-lir 'move result (make-lir (hir-op hir) (hir-arg1 hir) args)))
+       (emit-lir (make-lir 'move
+                           result
+                           (make-lir (hir-op hir)
+                                     (if (eq 'lcall (hir-op hir))
+                                         (binding-id (hir-arg1 hir))
+                                         (hir-arg1 hir))
+                                     args)))
        result))
     ((unwind-protect)
      (let ((protected-form (hir-arg1 hir))
@@ -139,13 +165,13 @@
 
 (defun convert-to-lir (hir)
   (let ((*temp-counter* 0)
-        (*compilation-vars* '())
-        (*compilation-functions* '())
-        (*compilation-body* '()))
+        (*compiland-vars* '())
+        (*compiland-functions* '())
+        (*compiland-body* '()))
     (hir-to-lir hir)
-    (make-compilation :vars *compilation-vars*
-                      :functions *compilation-functions*
-                      :body (coerce (nreverse *compilation-body*) 'vector))))
+    (make-compiland :vars *compiland-vars*
+                      :functions *compiland-functions*
+                      :body (coerce (nreverse *compiland-body*) 'vector))))
 
 
 #|
@@ -162,11 +188,23 @@
 
 (let (("x_1" #(const 0)))
   (call system:fset #(const counter)
-        (named-lambda nil #s(parsed-lambda-list :vars nil :rest-var nil :optionals nil :keys nil :min 0 :max 0 :allow-other-keys nil)
+        (named-lambda nil #s(parsed-lambda-list :vars nil
+                                                :rest-var nil
+                                                :optionals nil
+                                                :keys nil
+                                                :min 0
+                                                :max 0
+                                                :allow-other-keys nil)
           (progn (progn (lset "x_1" (call + (lref "x_1") #(const 1))))))))
 
 (compiland :vars (x tmp0 tmp1 tmp2 tmp3 tmp4)
-           :functions #((named-lambda nil #s(parsed-lambda-list :vars nil :rest-var nil :optionals nil :keys nil :min 0 :max 0 :allow-other-keys nil)
+           :functions #((named-lambda nil #s(parsed-lambda-list :vars nil
+                                                                :rest-var nil
+                                                                :optionals nil
+                                                                :keys nil
+                                                                :min 0
+                                                                :max 0
+                                                                :allow-other-keys nil)
                           (lset tmp2 x)
                           (lset tmp3 (const 1))
                           (lset tmp4 (call + tmp2 tmp3))
