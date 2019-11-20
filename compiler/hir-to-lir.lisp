@@ -183,45 +183,24 @@
                     :functions *compiland-functions*
                     :body (coerce (nreverse *compiland-body*) 'vector))))
 
-
-#|
-(LET (("X_1" #(CONST 0)))
-  (CALL + (LREF "X_1") #(CONST 1)))
+(defun split-basic-blocks (code)
+  (let ((basic-blocks '())
+        (current-block '()))
+    (dotimes (i (length code))
+      (let ((lir (aref code i)))
+        (case (lir-op lir)
+          ((label)
+           (push (coerce (nreverse current-block) 'vector) basic-blocks)
+           (setf current-block (list lir)))
+          ((jump fjump)
+           (push lir current-block)
+           (push (coerce (nreverse current-block) 'vector) basic-blocks)
+           (setf current-block '()))
+          (otherwise
+           (push lir current-block)))))
+    (nreverse basic-blocks)))
 
-(prog (X_1)
-  (move X_1 (const 0))
-  (call + X_1 (const 1)))
-
-(let ((x 0))
-  (defun counter ()
-    (setq x (+ x 1))))
-
-(let (("x_1" #(const 0)))
-  (call system:fset #(const counter)
-        (named-lambda nil #s(parsed-lambda-list :vars nil
-                                                :rest-var nil
-                                                :optionals nil
-                                                :keys nil
-                                                :min 0
-                                                :max 0
-                                                :allow-other-keys nil)
-          (progn (progn (lset "x_1" (call + (lref "x_1") #(const 1))))))))
-
-(compiland :vars (x tmp0 tmp1 tmp2 tmp3 tmp4)
-           :functions #((named-lambda nil #s(parsed-lambda-list :vars nil
-                                                                :rest-var nil
-                                                                :optionals nil
-                                                                :keys nil
-                                                                :min 0
-                                                                :max 0
-                                                                :allow-other-keys nil)
-                          (lset tmp2 x)
-                          (lset tmp3 (const 1))
-                          (lset tmp4 (call + tmp2 tmp3))
-                          (return tmp4)))
-           :body #((lset x 0)
-                   (lset tmp0 (const counter))
-                   (lset tmp1 (fn 0))
-                   (call fset tmp0 tmp1)))
-
-|#
+(defun lir-optimize (compiland)
+  (let ((basic-blocks (split-basic-blocks (compiland-body compiland))))
+    (setf (compiland-body compiland) basic-blocks)
+    ))
