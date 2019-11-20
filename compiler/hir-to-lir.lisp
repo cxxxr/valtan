@@ -19,6 +19,15 @@
 (defun make-lir (op &rest args)
   (cons op args))
 
+(defun lir-op (lir)
+  (first lir))
+
+(defun lir-arg1 (lir)
+  (second lir))
+
+(defun lir-arg2 (lir)
+  (third lir))
+
 (defun gen-temp (prefix)
   (prog1 (make-symbol (format nil "~A~A" prefix *temp-counter*))
     (incf *temp-counter*)))
