@@ -593,7 +593,7 @@
       (format t "switch(~A) {~%" tag)
       (dolist (tag-body (hir-arg2 hir))
         (destructuring-bind (tag . body) tag-body
-          (format t "case ~D:~%" (tagbody-value-index tag))
+          (format t "case ~D:~%" (tagbody-value-index (binding-id tag)))
           (pass2 body)))
       (write-line "}")
       (write-line "break;"))
@@ -602,7 +602,7 @@
   (pass2-exit (hir-return-value-p hir)))
 
 (def-emit go (hir)
-  (let ((tagbody-value (hir-arg2 hir)))
+  (let ((tagbody-value (hir-arg1 hir)))
     (format t "throw new lisp.TagValue('~A', ~A)"
             (tagbody-value-id tagbody-value)
             (tagbody-value-index tagbody-value))))

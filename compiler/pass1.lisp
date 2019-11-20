@@ -811,7 +811,9 @@
                                                                               :id (make-tagbody-id))))
                                       tags))
                             *lexenv*))
-           (entry-tagbody-value (make-tagbody-value :index 0 :id (make-tagbody-id))))
+           (entry-tagbody-value
+             (make-tag-binding nil
+                               (make-tagbody-value :index 0 :id (make-tagbody-id)))))
       (let* ((part-statements '())
              (tag-statements-pairs '())
              (none '#:none)
@@ -825,7 +827,7 @@
                            (let ((binding (lookup last-tag :tag)))
                              (assert binding)
                              (count-if-used binding)
-                             (cons (binding-id binding)
+                             (cons binding
                                    (make-hir 'progn nil nil (nreverse part-statements)))))
                        tag-statements-pairs)
                  (setf part-statements nil)))
@@ -850,7 +852,7 @@
     (unless binding
       (compile-error "attempt to GO to nonexistent tag: ~A" tag))
     (count-if-used binding)
-    (make-hir 'go nil nil *tagbody-id* (binding-id binding))))
+    (make-hir 'go nil nil (binding-id binding))))
 
 (def-pass1-form catch ((tag &rest body) return-value-p multiple-values-p)
   (make-hir 'catch
