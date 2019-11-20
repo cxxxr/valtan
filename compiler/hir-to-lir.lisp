@@ -11,7 +11,7 @@
   functions
   body)
 
-(defstruct fn
+(defstruct lir-fn
   name
   lambda-list
   body)
@@ -37,10 +37,10 @@
 (defun emit-lir-forms (hir-forms)
   (let (r)
     (dolist (hir hir-forms)
-      (setq r (hir-to-lir hir)))
+      (setq r (hir-to-lir-1 hir)))
     r))
 
-(defun hir-to-lir (hir)
+(defun hir-to-lir-1 (hir)
   (ecase (hir-op hir)
     ((const)
      (let ((lir (make-lir 'const (hir-arg1 hir))))
@@ -57,18 +57,18 @@
      (emit-lir (make-lir 'gset (hir-arg1 hir) (hir-arg2 hir)))
      (hir-arg1 hir))
     ((if)
-     (let ((test (hir-to-lir (hir-arg1 hir)))
+     (let ((test (hir-to-lir-1 (hir-arg1 hir)))
            (flabel (gen-label))
            (tlabel (gen-label))
            (result (gen-var)))
        ;; then
        (emit-lir (make-lir 'fjump test flabel))
-       (let ((then (hir-to-lir (hir-arg2 hir))))
+       (let ((then (hir-to-lir-1 (hir-arg2 hir))))
          (emit-lir (make-lir 'move result then)))
        (emit-lir (make-lir 'jump tlabel))
        ;; else
        (emit-lir (make-lir 'label flabel))
-       (let ((else (hir-to-lir (hir-arg3 hir))))
+       (let ((else (hir-to-lir-1 (hir-arg3 hir))))
          (emit-lir (make-lir 'move result else)))
        ;; merge branch
        (emit-lir (make-lir 'label tlabel))
@@ -82,26 +82,26 @@
             (lir-body (let ((*compiland-body* '()))
                         (emit-lir-forms body)
                         *compiland-body*)))
-       (let ((fn (make-fn :name (or name (gensym)) :lambda-list lambda-list :body lir-body)))
+       (let ((fn (make-lir-fn :name (or name (gensym)) :lambda-list lambda-list :body lir-body)))
          (push fn
                *compiland-functions*)
-         (make-lir 'fn (fn-name fn)))))
+         (make-lir 'fn (lir-fn-name fn)))))
     ((let)
      (let ((bindings (hir-arg1 hir)))
        (dolist (binding bindings)
          (ecase (binding-type binding)
            (:variable
             (push (binding-id binding) *compiland-vars*)
-            (let ((r (hir-to-lir (binding-init-value binding))))
+            (let ((r (hir-to-lir-1 (binding-init-value binding))))
               (emit-lir (make-lir 'move (binding-id binding) r))))
            (:function
             (push (binding-id binding) *compiland-vars*)
-            (let ((r (hir-to-lir (binding-init-value binding))))
+            (let ((r (hir-to-lir-1 (binding-init-value binding))))
               (emit-lir (make-lir 'move (binding-id binding) r))))))
        (emit-lir-forms (hir-arg2 hir))))
     ((lcall call)
      (let ((args (mapcar (lambda (arg)
-                           (let ((r (hir-to-lir arg))
+                           (let ((r (hir-to-lir-1 arg))
                                  (a (gen-var)))
                              (emit-lir (make-lir 'move a r))
                              a))
@@ -119,9 +119,9 @@
      (let ((protected-form (hir-arg1 hir))
            (cleanup-form (hir-arg2 hir)))
        (emit-lir (make-lir 'unwind-protect))
-       (let ((result (hir-to-lir protected-form)))
+       (let ((result (hir-to-lir-1 protected-form)))
          (emit-lir (make-lir 'cleanup-start))
-         (hir-to-lir cleanup-form)
+         (hir-to-lir-1 cleanup-form)
          (emit-lir (make-lir 'cleanup-end))
          result)))
     ((block)
@@ -133,7 +133,7 @@
          result)))
     ((return-from)
      (let ((name (hir-arg1 hir))
-           (result (hir-to-lir (hir-arg2 hir))))
+           (result (hir-to-lir-1 (hir-arg2 hir))))
        (emit-lir (make-lir 'move (binding-init-value name) result))
        (emit-lir (make-lir 'jump (binding-id name)))
        (binding-init-value name)))
@@ -141,7 +141,7 @@
      (dolist (elt (hir-arg2 hir))
        (destructuring-bind (tag . form) elt
          (emit-lir (make-lir 'label (tagbody-value-index (binding-id tag))))
-         (hir-to-lir form)))
+         (hir-to-lir-1 form)))
      (make-lir 'const nil))
     ((go)
      (emit-lir (make-lir 'jump (tagbody-value-index (hir-arg1 hir))))
@@ -163,15 +163,15 @@
     ((js-call) hir)
     ((module) hir)))
 
-(defun convert-to-lir (hir)
+(defun hir-to-lir (hir)
   (let ((*temp-counter* 0)
         (*compiland-vars* '())
         (*compiland-functions* '())
         (*compiland-body* '()))
-    (hir-to-lir hir)
+    (hir-to-lir-1 hir)
     (make-compiland :vars *compiland-vars*
-                      :functions *compiland-functions*
-                      :body (coerce (nreverse *compiland-body*) 'vector))))
+                    :functions *compiland-functions*
+                    :body (coerce (nreverse *compiland-body*) 'vector))))
 
 
 #|
