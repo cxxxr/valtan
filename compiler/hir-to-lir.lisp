@@ -46,17 +46,17 @@
   succ
   use-p)
 
-(defun show-basic-block (basic-block)
-  (format t "~A~%" (basic-block-id basic-block))
-  (do-vector (lir (basic-block-code basic-block))
+(defun show-basic-block (bb)
+  (format t "~A~%" (basic-block-id bb))
+  (do-vector (lir (basic-block-code bb))
     (format t "  ~A~%" lir))
-  (let ((succ (basic-block-succ basic-block)))
+  (let ((succ (basic-block-succ bb)))
     (when succ
       (format t " ~A~%" `(succ ,(mapcar #'basic-block-id succ))))))
 
 (defun show-basic-blocks (basic-blocks)
-  (dolist (bb basic-blocks)
-    (show-basic-block bb)))
+  (mapc #'show-basic-block basic-blocks)
+  (values))
 
 (defun gen-temp (prefix)
   (prog1 (make-symbol (format nil "~A~A" prefix *temp-counter*))
@@ -250,7 +250,7 @@
                        (let ((succ '()))
                          (when to
                            (push to succ))
-                         (when prev
+                         (when (and prev (eq (lir-op last) 'fjump))
                            (push prev succ))
                          succ))))
               (otherwise
@@ -273,9 +273,9 @@
     (f (first basic-blocks)))
   (delete-if-not (lambda (bb)
                    (cond ((basic-block-use-p bb)
-                          (print (basic-block-id bb))
                           t)
                          (t
+                          (format t "~S~%" (basic-block-id bb))
                           nil)))
                  basic-blocks))
 
