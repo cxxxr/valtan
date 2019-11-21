@@ -44,10 +44,10 @@
   id
   code
   succ
-  use-p)
+  used-count)
 
 (defun show-basic-block (bb)
-  (format t "~A~%" (basic-block-id bb))
+  (format t "~A ~A~%" (basic-block-id bb) (basic-block-used-count bb))
   (do-vector (lir (basic-block-code bb))
     (format t "  ~A~%" lir))
   (let ((succ (basic-block-succ bb)))
@@ -221,7 +221,8 @@
                (let ((code (coerce (nreverse current-block) 'vector)))
                  (push (make-basic-block :id (gensym)
                                          :code code
-                                         :succ nil)
+                                         :succ nil
+                                         :used-count 0)
                        basic-blocks)))))
       (do-vector (lir code)
         (case (lir-op lir)
@@ -249,15 +250,21 @@
                  (setf (basic-block-succ bb)
                        (let ((succ '()))
                          (when to
+                           (incf (basic-block-used-count to))
                            (push to succ))
                          (when (and prev (eq (lir-op last) 'fjump))
+                           (incf (basic-block-used-count prev))
                            (push prev succ))
                          succ))))
               (otherwise
-               (setf (basic-block-succ bb)
-                     (if prev (list prev))))))
+               (when prev
+                 (incf (basic-block-used-count prev))
+                 (setf (basic-block-succ bb)
+                       (list prev))))))
           (setf prev bb)))
-      (nreverse basic-blocks))))
+      (let ((basic-blocks (nreverse basic-blocks)))
+        (setf (basic-block-used-count (first basic-blocks)) 1)
+        basic-blocks))))
 
 (defun flatten-basic-blocks (basic-blocks)
   (coerce (mapcan (lambda (bb)
@@ -266,18 +273,12 @@
           'vector))
 
 (defun remove-unused-block (basic-blocks)
-  (labels ((f (bb)
-             (unless (basic-block-use-p bb)
-               (setf (basic-block-use-p bb) t)
-               (mapc #'f (basic-block-succ bb)))))
-    (f (first basic-blocks)))
-  (delete-if-not (lambda (bb)
-                   (cond ((basic-block-use-p bb)
-                          t)
-                         (t
-                          (format t "~S~%" (basic-block-id bb))
-                          nil)))
-                 basic-blocks))
+  (delete-if (lambda (bb)
+               (when (zerop (basic-block-used-count bb))
+                 (dolist (succ-bb (basic-block-succ bb))
+                   (decf (basic-block-used-count succ-bb)))
+                 t))
+             basic-blocks))
 
 (defun test ()
   (let* ((compiland (hir-to-lir (pass1-toplevel '(dotimes (i 10) (f i)))))
