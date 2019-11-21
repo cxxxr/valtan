@@ -43,7 +43,20 @@
 (defstruct basic-block
   id
   code
-  next)
+  next
+  use-p)
+
+(defun show-basic-block (basic-block)
+  (format t "~A~%" (basic-block-id basic-block))
+  (do-vector (lir (basic-block-code basic-block))
+    (format t "  ~A~%" lir))
+  (let ((next (basic-block-next basic-block)))
+    (when next
+      (format t " ~A~%" `(next ,(basic-block-id next))))))
+
+(defun show-basic-blocks (basic-blocks)
+  (dolist (bb basic-blocks)
+    (show-basic-block bb)))
 
 (defun gen-temp (prefix)
   (prog1 (make-symbol (format nil "~A~A" prefix *temp-counter*))
@@ -234,16 +247,17 @@
                                              (and (eq (lir-op lir) 'label)
                                                   (eq (lir-arg1 lir) jump-label))))
                                          basic-blocks)))
-                          (and bb2 (basic-block-id bb2)))))
+                          bb2)))
                 (setf (basic-block-next bb)
-                      (and prev (basic-block-id prev)))))
+                      prev)))
           (setf prev bb)))
       (nreverse basic-blocks))))
 
 (defun flatten-basic-blocks (basic-blocks)
-  (mapcan (lambda (bb)
-            (coerce (basic-block-code bb) 'list))
-          basic-blocks))
+  (coerce (mapcan (lambda (bb)
+                    (coerce (basic-block-code bb) 'list))
+                  basic-blocks)
+          'vector))
 
 (defun remove-unused-label (basic-blocks)
   (let ((used-blocks (list (basic-block-id (car basic-blocks)))))
