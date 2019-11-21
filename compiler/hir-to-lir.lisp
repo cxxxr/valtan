@@ -43,16 +43,16 @@
 (defstruct basic-block
   id
   code
-  next
+  succ
   use-p)
 
 (defun show-basic-block (basic-block)
   (format t "~A~%" (basic-block-id basic-block))
   (do-vector (lir (basic-block-code basic-block))
     (format t "  ~A~%" lir))
-  (let ((next (basic-block-next basic-block)))
-    (when next
-      (format t " ~A~%" `(next ,(basic-block-id next))))))
+  (let ((succ (basic-block-succ basic-block)))
+    (when succ
+      (format t " ~A~%" `(succ ,(mapcar #'basic-block-id succ))))))
 
 (defun show-basic-blocks (basic-blocks)
   (dolist (bb basic-blocks)
@@ -221,7 +221,7 @@
                (let ((code (coerce (nreverse current-block) 'vector)))
                  (push (make-basic-block :id (gensym)
                                          :code code
-                                         :next nil)
+                                         :succ nil)
                        basic-blocks)))))
       (do-vector (lir code)
         (case (lir-op lir)
@@ -238,18 +238,24 @@
       (let (prev)
         (dolist (bb basic-blocks)
           (let ((last (vector-last (basic-block-code bb))))
-            (if (lir-jump-p last)
-                (let ((jump-label (lir-jump-label last)))
-                  (setf (basic-block-next bb)
-                        (let ((bb2
-                                (find-if (lambda (bb2)
-                                           (let ((lir (vector-first (basic-block-code bb2))))
-                                             (and (eq (lir-op lir) 'label)
-                                                  (eq (lir-arg1 lir) jump-label))))
-                                         basic-blocks)))
-                          bb2)))
-                (setf (basic-block-next bb)
-                      prev)))
+            (case (lir-op last)
+              ((jump fjump)
+               (let* ((jump-label (lir-jump-label last))
+                      (to (find-if (lambda (bb2)
+                                     (let ((lir (vector-first (basic-block-code bb2))))
+                                       (and (eq (lir-op lir) 'label)
+                                            (eq (lir-arg1 lir) jump-label))))
+                                   basic-blocks)))
+                 (setf (basic-block-succ bb)
+                       (let ((succ '()))
+                         (when to
+                           (push to succ))
+                         (when prev
+                           (push prev succ))
+                         succ))))
+              (otherwise
+               (setf (basic-block-succ bb)
+                     (if prev (list prev))))))
           (setf prev bb)))
       (nreverse basic-blocks))))
 
@@ -263,8 +269,7 @@
   (labels ((f (bb)
              (unless (basic-block-use-p bb)
                (setf (basic-block-use-p bb) t)
-               (when (basic-block-next bb)
-                 (f (basic-block-next bb))))))
+               (mapc #'f (basic-block-succ bb)))))
     (f (first basic-blocks)))
   (delete-if-not (lambda (bb)
                    (cond ((basic-block-use-p bb)
@@ -274,10 +279,9 @@
                           nil)))
                  basic-blocks))
 
-(defun lir-optimize (compiland)
-  (let ((code (compiland-body compiland)))
-    (print code)
-    (let ((basic-blocks (split-basic-blocks code)))
-      (setq basic-blocks (remove-unused-label basic-blocks))
-      (print (flatten-basic-blocks basic-blocks))
-      compiland)))
+(defun test ()
+  (let* ((compiland (hir-to-lir (pass1-toplevel '(dotimes (i 10) (f i)))))
+         (basic-blocks (split-basic-blocks (compiland-body compiland))))
+    (show-basic-blocks basic-blocks)
+    (write-line "==================================================")
+    (show-basic-blocks (remove-unused-block basic-blocks))))
