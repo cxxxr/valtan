@@ -44,10 +44,11 @@
   id
   code
   succ
+  pred
   used-count)
 
 (defun show-basic-block (bb)
-  (format t "~A ~A~%" (basic-block-id bb) (basic-block-used-count bb))
+  (format t "~A ~A ~A~%" (basic-block-id bb) (basic-block-used-count bb) (length (basic-block-pred bb)))
   (do-vector (lir (basic-block-code bb))
     (format t "  ~A~%" lir))
   (let ((succ (basic-block-succ bb)))
@@ -250,19 +251,23 @@
                  (setf (basic-block-succ bb)
                        (let ((succ '()))
                          (when to
+                           (push bb (basic-block-pred to))
                            (incf (basic-block-used-count to))
                            (push to succ))
                          (when (and prev (eq (lir-op last) 'fjump))
+                           (push bb (basic-block-pred prev))
                            (incf (basic-block-used-count prev))
                            (push prev succ))
                          succ))))
               (otherwise
                (when prev
+                 (push bb (basic-block-pred prev))
                  (incf (basic-block-used-count prev))
                  (setf (basic-block-succ bb)
                        (list prev))))))
           (setf prev bb)))
       (let ((basic-blocks (nreverse basic-blocks)))
+        (push 'start (basic-block-pred (first basic-blocks)))
         (setf (basic-block-used-count (first basic-blocks)) 1)
         basic-blocks))))
 
@@ -275,8 +280,9 @@
 (defun remove-unused-block (basic-blocks)
   (delete-if (lambda (bb)
                (when (zerop (basic-block-used-count bb))
-                 (dolist (succ-bb (basic-block-succ bb))
-                   (decf (basic-block-used-count succ-bb)))
+                 (dolist (s (basic-block-succ bb))
+                   (setf bb (delete bb (basic-block-pred s)))
+                   (decf (basic-block-used-count s)))
                  t))
              basic-blocks))
 
