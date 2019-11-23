@@ -13,6 +13,9 @@
 (defun make-lir (op &rest args)
   (cons op args))
 
+(defun lir-args (lir)
+  (rest lir))
+
 (defun lir-op (lir)
   (first lir))
 
