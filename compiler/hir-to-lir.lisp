@@ -8,12 +8,29 @@
 
 (defparameter +start-basic-block+ (make-basic-block :id (make-symbol "START")))
 
+(defun check-basic-block-succ-pred (bb)
+  (format t "~S~%"
+          (cons 'pred
+                (mapcar (lambda (pred)
+                          (let ((count (count (basic-block-id bb) (mapcar #'basic-block-id (basic-block-succ pred)) :test #'equal)))
+                            ;; (assert (= 1 count))
+                            count))
+                        (basic-block-pred bb))))
+  (format t "~S~%"
+          (cons 'succ
+                (mapcar (lambda (succ)
+                          (let ((count (count (basic-block-id bb) (mapcar #'basic-block-id (basic-block-pred succ)) :test #'equal)))
+                            ;; (assert (= 1 count))
+                            count))
+                        (basic-block-succ bb)))))
+
 (defun show-basic-block (bb)
   (format t "~A ~A~%" (basic-block-id bb) (mapcar #'basic-block-id (basic-block-pred bb)))
   (do-vector (lir (basic-block-code bb))
     (format t "  ~A~%" lir))
   (let ((succ (basic-block-succ bb)))
-    (format t " ~A~%" `(succ ,(mapcar #'basic-block-id succ)))))
+    (format t " ~A~%" (mapcar #'basic-block-id succ)))
+  (check-basic-block-succ-pred bb))
 
 (defun show-basic-blocks (basic-blocks)
   (mapc #'show-basic-block basic-blocks)
@@ -223,6 +240,7 @@
                        (list prev))))))
           (setf prev bb)))
       (let ((basic-blocks (nreverse basic-blocks)))
+        (setf (basic-block-succ +start-basic-block+) (list (first basic-blocks)))
         (push +start-basic-block+ (basic-block-pred (first basic-blocks)))
         basic-blocks))))
 
@@ -276,8 +294,11 @@
 (defun test ()
   (let* ((compiland (hir-to-lir (pass1-toplevel '(dotimes (i 10) (f i)))))
          (basic-blocks (split-basic-blocks (compiland-body compiland))))
-    (show-basic-blocks basic-blocks)
-    (write-line "==================================================")
-    (show-basic-blocks (setq basic-blocks (remove-unused-block basic-blocks)))
-    (write-line "==================================================")
-    (show-basic-blocks (setq basic-blocks (remove-unused-label basic-blocks)))))
+    (show-basic-blocks (setf (compiland-body compiland) basic-blocks))
+    (write-line "1 ==================================================")
+    (show-basic-blocks (setf (compiland-body compiland) (remove-unused-block basic-blocks)))
+    (write-line "2 ==================================================")
+    (show-basic-blocks (setf (compiland-body compiland) (remove-unused-label basic-blocks)))
+    ;(emit-js compiland)
+    (values)
+    ))
