@@ -9,20 +9,14 @@
 (defparameter +start-basic-block+ (make-basic-block :id (make-symbol "START")))
 
 (defun check-basic-block-succ-pred (bb)
-  (format t "~S~%"
-          (cons 'pred
-                (mapcar (lambda (pred)
-                          (let ((count (count (basic-block-id bb) (mapcar #'basic-block-id (basic-block-succ pred)) :test #'equal)))
-                            ;; (assert (= 1 count))
-                            count))
-                        (basic-block-pred bb))))
-  (format t "~S~%"
-          (cons 'succ
-                (mapcar (lambda (succ)
-                          (let ((count (count (basic-block-id bb) (mapcar #'basic-block-id (basic-block-pred succ)) :test #'equal)))
-                            ;; (assert (= 1 count))
-                            count))
-                        (basic-block-succ bb)))))
+  (mapc (lambda (pred)
+          (let ((count (count (basic-block-id bb) (mapcar #'basic-block-id (basic-block-succ pred)) :test #'equal)))
+            (assert (= 1 count))))
+        (basic-block-pred bb))
+  (mapc (lambda (succ)
+          (let ((count (count (basic-block-id bb) (mapcar #'basic-block-id (basic-block-pred succ)) :test #'equal)))
+            (assert (= 1 count))))
+          (basic-block-succ bb)))
 
 (defun show-basic-block (bb)
   (format t "~A ~A~%" (basic-block-id bb) (mapcar #'basic-block-id (basic-block-pred bb)))
@@ -260,7 +254,11 @@
                   (basic-block-succ pred))))
   (dolist (succ (basic-block-succ bb))
     (setf (basic-block-pred succ)
-          (delete bb (basic-block-pred succ))))
+          (mapcan (lambda (pred)
+                    (if (eq pred bb)
+                        (basic-block-pred bb)
+                        (list pred)))
+                  (basic-block-pred succ))))
   (values))
 
 (defun remove-unused-block (basic-blocks)
