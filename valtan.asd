@@ -9,4 +9,6 @@
                  (:file "hir")
                  (:file "pass1")
                  (:file "pass2")
+                 (:file "lir")
+                 (:file "hir-to-lir")
                  (:file "compiler")))))
