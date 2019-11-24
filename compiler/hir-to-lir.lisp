@@ -10,11 +10,15 @@
 
 (defun check-basic-block-succ-pred (bb)
   (mapc (lambda (pred)
-          (let ((count (count (basic-block-id bb) (mapcar #'basic-block-id (basic-block-succ pred)) :test #'equal)))
+          (let ((count (count (basic-block-id bb)
+                              (mapcar #'basic-block-id (basic-block-succ pred))
+                              :test #'equal)))
             (assert (= 1 count))))
         (basic-block-pred bb))
   (mapc (lambda (succ)
-          (let ((count (count (basic-block-id bb) (mapcar #'basic-block-id (basic-block-pred succ)) :test #'equal)))
+          (let ((count (count (basic-block-id bb)
+                              (mapcar #'basic-block-id (basic-block-pred succ))
+                              :test #'equal)))
             (assert (= 1 count))))
           (basic-block-succ bb)))
 
@@ -290,7 +294,10 @@
                basic-blocks)))
 
 (defun graphviz (compiland)
-  (with-open-file (out "/tmp/valtan.dot" :direction :output :if-exists :supersede :if-does-not-exist :create)
+  (with-open-file (out "/tmp/valtan.dot"
+                       :direction :output
+                       :if-exists :supersede
+                       :if-does-not-exist :create)
     (let ((basic-blocks (compiland-body compiland)))
       (write-line "digraph graph_name {" out)
       (write-line "graph [ labeljust = l; ]" out)
