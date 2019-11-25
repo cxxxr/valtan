@@ -36,8 +36,9 @@
     (error ()
       (format t "ERROR~%"))))
 
-(defun show-basic-blocks (basic-blocks)
-  (mapc #'show-basic-block basic-blocks)
+(defun show-basic-blocks (compiland)
+  (show-basic-block (compiland-start-basic-block compiland))
+  (mapc #'show-basic-block (compiland-basic-blocks compiland))
   (values))
 
 (defun create-compiland (hir)
@@ -162,7 +163,7 @@
                          :direction :output
                          :if-exists :supersede
                          :if-does-not-exist :create)
-      (let ((basic-blocks (compiland-basic-blocks compiland)))
+      (let ((basic-blocks (cons (compiland-start-basic-block compiland) (compiland-basic-blocks compiland))))
         (write-line "digraph graph_name {" out)
         (write-line "graph [ labeljust = l; ]" out)
         (write-line "node [ shape = box; ]" out)
@@ -184,11 +185,11 @@
 
 (defun test ()
   (let* ((compiland (create-compiland (pass1-toplevel '(dotimes (i 10) (f i))))))
-    (show-basic-blocks (setf (compiland-basic-blocks compiland) (compiland-basic-blocks compiland)))
+    (show-basic-blocks (progn (setf (compiland-basic-blocks compiland) (compiland-basic-blocks compiland)) compiland))
     (graphviz compiland "valtan-0" nil)
     (write-line "1 ==================================================")
-    (show-basic-blocks (setf (compiland-basic-blocks compiland) (remove-unused-block (compiland-basic-blocks compiland))))
+    (show-basic-blocks (progn (setf (compiland-basic-blocks compiland) (remove-unused-block (compiland-basic-blocks compiland))) compiland))
     (graphviz compiland "valtan-1" nil)
     (write-line "2 ==================================================")
-    (show-basic-blocks (setf (compiland-basic-blocks compiland) (remove-unused-label (compiland-basic-blocks compiland))))
+    (show-basic-blocks (progn (setf (compiland-basic-blocks compiland) (remove-unused-label (compiland-basic-blocks compiland))) compiland))
     (graphviz compiland "valtan-2" t)))
