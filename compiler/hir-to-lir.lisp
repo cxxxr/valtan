@@ -311,8 +311,11 @@
         (dolist (succ (basic-block-succ bb))
           (format out "~A -> ~A~%" (basic-block-id bb) (basic-block-id succ))))
       (write-line "}" out)))
-  (uiop:run-program (format nil "dot -Tpng '/tmp/valtan.dot' > '/tmp/valtan.png'" ))
-  (uiop:run-program (format nil "xdg-open '/tmp/valtan.png'")))
+  #+sbcl
+  (progn
+    (uiop:run-program (format nil "dot -Tpng '/tmp/valtan.dot' > '/tmp/valtan.png'" ))
+    #+linux (uiop:run-program (format nil "xdg-open '/tmp/valtan.png'"))
+    #+os-macosx (uiop:run-program (format nil "open '/tmp/valtan.png'"))))
 
 (defun test ()
   (let* ((compiland (hir-to-lir (pass1-toplevel '(dotimes (i 10) (f i)))))
