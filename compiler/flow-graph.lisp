@@ -183,7 +183,7 @@
         #+linux (uiop:run-program (format nil "xdg-open '~A'" img-filename))
         #+os-macosx (uiop:run-program (format nil "open '~A'" img-filename))))))
 
-(defun test ()
+(defun test (&optional (open-viewer-p t))
   (let* ((compiland (create-compiland (pass1-toplevel '(dotimes (i 10) (f i))))))
     (show-basic-blocks (progn (setf (compiland-basic-blocks compiland) (compiland-basic-blocks compiland)) compiland))
     (graphviz compiland "valtan-0" nil)
@@ -192,4 +192,4 @@
     (graphviz compiland "valtan-1" nil)
     (write-line "2 ==================================================")
     (show-basic-blocks (progn (setf (compiland-basic-blocks compiland) (remove-unused-label (compiland-basic-blocks compiland))) compiland))
-    (graphviz compiland "valtan-2" t)))
+    (graphviz compiland "valtan-2" open-viewer-p)))
