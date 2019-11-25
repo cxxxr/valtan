@@ -316,10 +316,11 @@
             (format out "~A -> ~A~%" (basic-block-id bb) (basic-block-id succ))))
         (write-line "}" out)))
     #+sbcl
-    (when open-viewer-p
+    (progn
       (uiop:run-program (format nil "dot -Tpng '~A' > '~A'" dot-filename img-filename))
-      #+linux (uiop:run-program (format nil "xdg-open '~A'" img-filename))
-      #+os-macosx (uiop:run-program (format nil "open '~A'" img-filename)))))
+      (when open-viewer-p
+        #+linux (uiop:run-program (format nil "xdg-open '~A'" img-filename))
+        #+os-macosx (uiop:run-program (format nil "open '~A'" img-filename))))))
 
 (defun test ()
   (let* ((compiland (hir-to-lir (pass1-toplevel '(dotimes (i 10) (f i)))))
