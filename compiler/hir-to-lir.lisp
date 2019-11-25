@@ -187,9 +187,16 @@
         (*compiland-functions* '())
         (*compiland-body* '()))
     (emit-lir (make-lir 'return (hir-to-lir-1 hir)))
-    (make-compiland :vars *compiland-vars*
-                    :functions *compiland-functions*
-                    :body (coerce (nreverse *compiland-body*) 'vector))))
+    (values (coerce (nreverse *compiland-body*) 'vector)
+            *compiland-vars*
+            *compiland-functions*)))
+
+(defun create-compiland (hir)
+  (multiple-value-bind (code vars functions)
+      (hir-to-lir hir)
+    (make-compiland :vars vars
+                    :functions functions
+                    :body (split-basic-blocks code))))
 
 (defun split-basic-blocks (code)
   (let ((current-block '())
@@ -323,14 +330,12 @@
         #+os-macosx (uiop:run-program (format nil "open '~A'" img-filename))))))
 
 (defun test ()
-  (let* ((compiland (hir-to-lir (pass1-toplevel '(dotimes (i 10) (f i)))))
-         (basic-blocks (split-basic-blocks (compiland-body compiland))))
-    (show-basic-blocks (setf (compiland-body compiland) basic-blocks))
+  (let* ((compiland (create-compiland (pass1-toplevel '(dotimes (i 10) (f i))))))
+    (show-basic-blocks (setf (compiland-body compiland) (compiland-body compiland)))
     (graphviz compiland "valtan-0" nil)
     (write-line "1 ==================================================")
-    (show-basic-blocks (setf (compiland-body compiland) (remove-unused-block basic-blocks)))
+    (show-basic-blocks (setf (compiland-body compiland) (remove-unused-block (compiland-body compiland))))
     (graphviz compiland "valtan-1" nil)
     (write-line "2 ==================================================")
-    (show-basic-blocks (setf (compiland-body compiland) (remove-unused-label basic-blocks)))
-    (graphviz compiland "valtan-2" t)
-    ))
+    (show-basic-blocks (setf (compiland-body compiland) (remove-unused-label (compiland-body compiland))))
+    (graphviz compiland "valtan-2" t)))
