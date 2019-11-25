@@ -295,37 +295,41 @@
                             nil)))))
                basic-blocks)))
 
-(defun graphviz (compiland)
-  (with-open-file (out "/tmp/valtan.dot"
-                       :direction :output
-                       :if-exists :supersede
-                       :if-does-not-exist :create)
-    (let ((basic-blocks (compiland-body compiland)))
-      (write-line "digraph graph_name {" out)
-      (write-line "graph [ labeljust = l; ]" out)
-      (write-line "node [ shape = box; ]" out)
-      (dolist (bb basic-blocks)
-        (format out "~A [label = \"" (basic-block-id bb))
-        (do-vector (lir (basic-block-code bb))
-          (write-string (princ-to-string (cons (lir-op lir) (lir-args lir))) out)
-          (write-string "\\l" out))
-        (format out "\"];~%")
-        (dolist (succ (basic-block-succ bb))
-          (format out "~A -> ~A~%" (basic-block-id bb) (basic-block-id succ))))
-      (write-line "}" out)))
-  #+sbcl
-  (progn
-    (uiop:run-program (format nil "dot -Tpng '/tmp/valtan.dot' > '/tmp/valtan.png'" ))
-    #+linux (uiop:run-program (format nil "xdg-open '/tmp/valtan.png'"))
-    #+os-macosx (uiop:run-program (format nil "open '/tmp/valtan.png'"))))
+(defun graphviz (compiland &optional (name "valtan") (open-viewer-p t))
+  (let ((dot-filename (format nil "/tmp/~A.dot" name))
+        (img-filename (format nil "/tmp/~A.png" name)))
+    (with-open-file (out dot-filename
+                         :direction :output
+                         :if-exists :supersede
+                         :if-does-not-exist :create)
+      (let ((basic-blocks (compiland-body compiland)))
+        (write-line "digraph graph_name {" out)
+        (write-line "graph [ labeljust = l; ]" out)
+        (write-line "node [ shape = box; ]" out)
+        (dolist (bb basic-blocks)
+          (format out "~A [label = \"~A\\l" (basic-block-id bb) (basic-block-id bb))
+          (do-vector (lir (basic-block-code bb))
+            (write-string (princ-to-string (cons (lir-op lir) (lir-args lir))) out)
+            (write-string "\\l" out))
+          (format out "\"];~%")
+          (dolist (succ (basic-block-succ bb))
+            (format out "~A -> ~A~%" (basic-block-id bb) (basic-block-id succ))))
+        (write-line "}" out)))
+    #+sbcl
+    (when open-viewer-p
+      (uiop:run-program (format nil "dot -Tpng '~A' > '~A'" dot-filename img-filename))
+      #+linux (uiop:run-program (format nil "xdg-open '~A'" img-filename))
+      #+os-macosx (uiop:run-program (format nil "open '~A'" img-filename)))))
 
 (defun test ()
   (let* ((compiland (hir-to-lir (pass1-toplevel '(dotimes (i 10) (f i)))))
          (basic-blocks (split-basic-blocks (compiland-body compiland))))
     (show-basic-blocks (setf (compiland-body compiland) basic-blocks))
+    (graphviz compiland "valtan-0" nil)
     (write-line "1 ==================================================")
     (show-basic-blocks (setf (compiland-body compiland) (remove-unused-block basic-blocks)))
+    (graphviz compiland "valtan-1" nil)
     (write-line "2 ==================================================")
     (show-basic-blocks (setf (compiland-body compiland) (remove-unused-label basic-blocks)))
-    (graphviz compiland)
+    (graphviz compiland "valtan-2" t)
     ))
