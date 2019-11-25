@@ -3,15 +3,14 @@
 (defstruct compiland
   vars
   functions
-  body)
+  start-basic-block
+  basic-blocks)
 
 (defstruct basic-block
   id
   code
   succ
   pred)
-
-(defparameter +start-basic-block+ (make-basic-block :id (make-symbol "START")))
 
 (defun check-basic-block-succ-pred (bb)
   (mapc (lambda (pred)
@@ -41,13 +40,15 @@
   (mapc #'show-basic-block basic-blocks)
   (values))
 
-
 (defun create-compiland (hir)
   (multiple-value-bind (code vars functions)
       (hir-to-lir hir)
-    (make-compiland :vars vars
-                    :functions functions
-                    :body (split-basic-blocks code))))
+    (multiple-value-bind (basic-blocks start-basic-block)
+        (split-basic-blocks code)
+      (make-compiland :vars vars
+                      :functions functions
+                      :basic-blocks basic-blocks
+                      :start-basic-block start-basic-block))))
 
 (defun split-basic-blocks (code)
   (let ((current-block '())
@@ -97,10 +98,11 @@
                  (setf (basic-block-succ bb)
                        (list prev))))))
           (setf prev bb)))
-      (let ((basic-blocks (nreverse basic-blocks)))
-        (setf (basic-block-succ +start-basic-block+) (list (first basic-blocks)))
-        (push +start-basic-block+ (basic-block-pred (first basic-blocks)))
-        basic-blocks))))
+      (let ((basic-blocks (nreverse basic-blocks))
+            (start-basic-block (make-basic-block :id (make-symbol "START"))))
+        (setf (basic-block-succ start-basic-block) (list (first basic-blocks)))
+        (push start-basic-block (basic-block-pred (first basic-blocks)))
+        (values basic-blocks start-basic-block)))))
 
 (defun flatten-basic-blocks (basic-blocks)
   (coerce (mapcan (lambda (bb)
@@ -160,7 +162,7 @@
                          :direction :output
                          :if-exists :supersede
                          :if-does-not-exist :create)
-      (let ((basic-blocks (compiland-body compiland)))
+      (let ((basic-blocks (compiland-basic-blocks compiland)))
         (write-line "digraph graph_name {" out)
         (write-line "graph [ labeljust = l; ]" out)
         (write-line "node [ shape = box; ]" out)
@@ -182,11 +184,11 @@
 
 (defun test ()
   (let* ((compiland (create-compiland (pass1-toplevel '(dotimes (i 10) (f i))))))
-    (show-basic-blocks (setf (compiland-body compiland) (compiland-body compiland)))
+    (show-basic-blocks (setf (compiland-basic-blocks compiland) (compiland-basic-blocks compiland)))
     (graphviz compiland "valtan-0" nil)
     (write-line "1 ==================================================")
-    (show-basic-blocks (setf (compiland-body compiland) (remove-unused-block (compiland-body compiland))))
+    (show-basic-blocks (setf (compiland-basic-blocks compiland) (remove-unused-block (compiland-basic-blocks compiland))))
     (graphviz compiland "valtan-1" nil)
     (write-line "2 ==================================================")
-    (show-basic-blocks (setf (compiland-body compiland) (remove-unused-label (compiland-body compiland))))
+    (show-basic-blocks (setf (compiland-basic-blocks compiland) (remove-unused-label (compiland-basic-blocks compiland))))
     (graphviz compiland "valtan-2" t)))
