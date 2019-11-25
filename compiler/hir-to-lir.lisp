@@ -28,7 +28,9 @@
     (format t "  ~A~%" lir))
   (let ((succ (basic-block-succ bb)))
     (format t " ~A~%" (mapcar #'basic-block-id succ)))
-  (check-basic-block-succ-pred bb))
+  (handler-case (check-basic-block-succ-pred bb)
+    (error ()
+      (format t "ERROR~%"))))
 
 (defun show-basic-blocks (basic-blocks)
   (mapc #'show-basic-block basic-blocks)
