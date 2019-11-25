@@ -156,7 +156,7 @@
                             nil)))))
                basic-blocks)))
 
-(defun create-dominator-tree (compiland)
+(defun create-dominator-table (compiland)
   (let ((d-table (make-hash-table)))
     (dolist (bb (compiland-basic-blocks compiland))
       (setf (gethash (basic-block-id bb) d-table)
@@ -211,4 +211,4 @@
     (write-line "2 ==================================================")
     (show-basic-blocks (progn (setf (compiland-basic-blocks compiland) (remove-unused-label (compiland-basic-blocks compiland))) compiland))
     (graphviz compiland "valtan-2" open-viewer-p)
-    (create-dominator-tree compiland)))
+    (create-dominator-table compiland)))
