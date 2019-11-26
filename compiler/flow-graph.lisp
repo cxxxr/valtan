@@ -190,8 +190,7 @@
                                  (remove-if-not (lambda (s)
                                                   (is-dominator-of bb s d-table))
                                                 (basic-block-succ bb))))
-                   (dolist (s (basic-block-succ bb))
-                     (f s))))))
+                   (mapc #'f (basic-block-succ bb))))))
       (f (compiland-start-basic-block compiland)))
     d-tree))
 
