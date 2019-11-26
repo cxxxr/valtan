@@ -222,7 +222,20 @@
         #+os-macosx (uiop:run-program (format nil "open '~A'" img-filename))))))
 
 (defun test (&optional (open-viewer-p t))
-  (let* ((compiland (create-compiland (pass1-toplevel '(dotimes (i 10) (f i))))))
+  (let* ((compiland (create-compiland (pass1-toplevel '(tagbody
+                                                        a
+                                                        (if x (go b) (go c))
+                                                        b
+                                                        (print 1)
+                                                        (go c)
+                                                        c
+                                                        (print 2)
+                                                        (go c)
+                                                        d
+                                                        (print 3)
+                                                        (go a))
+                                                      #+(or)
+                                                      '(dotimes (i 10) (f i))))))
     (show-basic-blocks (progn (setf (compiland-basic-blocks compiland) (compiland-basic-blocks compiland)) compiland))
     (graphviz compiland "valtan-0" nil)
     (write-line "1 ==================================================")
