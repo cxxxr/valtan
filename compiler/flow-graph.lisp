@@ -175,14 +175,13 @@
                     (adjoin self-id set))))))
     d-table))
 
-(defun is-dominator-of (a b d-table)
-  (member (basic-block-id a)
-          (gethash (basic-block-id b) d-table)))
-
 (defun create-dominator-tree (compiland d-table)
   (let ((d-tree (make-hash-table))
         (visited (make-hash-table)))
-    (labels ((f (bb)
+    (labels ((is-dominator-of (a b d-table)
+               (member (basic-block-id a)
+                       (gethash (basic-block-id b) d-table)))
+             (f (bb)
                (let ((self-id (basic-block-id bb)))
                  (unless (gethash self-id visited)
                    (setf (gethash self-id visited) t)
