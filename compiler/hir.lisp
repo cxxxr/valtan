@@ -57,12 +57,12 @@
     ((tagbody)
      `(tagbody ,(hir-arg1 hir)
         ,@(mapcar (lambda (x)
-                    (destructuring-bind (tagbody-value . body) x
-                      `(,(tagbody-value-index tagbody-value)
+                    (destructuring-bind (binding . body) x
+                      `(,(tagbody-value-index (binding-id binding))
                         ,(reduce-hir body))))
             (hir-arg2 hir))))
     ((go)
-     `(go ,(tagbody-value-index (hir-arg2 hir))))
+     `(go ,(tagbody-value-index (hir-arg1 hir))))
     ((catch)
      `(catch ,(reduce-hir (hir-arg1 hir))
         ,(reduce-hir (hir-arg2 hir))))
