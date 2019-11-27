@@ -185,16 +185,20 @@
                     (declare (ignore n))
                     (when (length>1 dominators)
                       (return nil)))))))
-    (do ((i 0 (1+ i)))
+    (dolist (elt d-table)
+      (when elt
+        (destructuring-bind (n . dominators) elt
+          (let ((dominators (delete n dominators :count 1)))
+            (setf (cdr elt) dominators)))))
+    (do ()
         ((finish-p))
       (let ((idoms '()))
         (dolist (elt d-table)
           (when elt
             (destructuring-bind (n . dominators) elt
-              (let ((dominators (delete n dominators :count 1)))
-                (when (length=1 dominators)
-                  (push (car dominators) idoms))
-                (setf (cdr elt) dominators)))))
+              (declare (ignore n))
+              (when (length=1 dominators)
+                (push (car dominators) idoms)))))
         (dolist (elt d-table)
           (when elt
             (destructuring-bind (n . dominators) elt
