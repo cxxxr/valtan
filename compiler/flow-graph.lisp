@@ -191,8 +191,8 @@
                                                   (is-dominator-of bb s d-table))
                                                 (basic-block-succ bb))))
                    (mapc #'f (basic-block-succ bb))))))
-      (f (compiland-start-basic-block compiland)))
-    d-tree))
+      (f (compiland-start-basic-block compiland))
+      d-tree)))
 
 (defun graphviz (compiland &optional (name "valtan") (open-viewer-p t))
   (let ((dot-filename (format nil "/tmp/~A.dot" name))
