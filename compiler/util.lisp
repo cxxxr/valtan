@@ -56,3 +56,17 @@
 
 (defun vector-last (vector)
   (aref vector (1- (length vector))))
+
+(defun length=1 (list)
+  (and (not (null list))
+       (null (cdr list))))
+
+(defun length>1 (list)
+  (not (null (cdr list))))
+
+(defun hash-table-to-alist (hash-table)
+  (let ((alist '()))
+    (maphash (lambda (n dominators)
+               (push (cons n dominators) alist))
+             hash-table)
+    alist))

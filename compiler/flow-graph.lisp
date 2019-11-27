@@ -1,5 +1,7 @@
 (in-package :compiler)
 
+(defparameter +start-node-name+ (make-symbol "START"))
+
 (defstruct compiland
   vars
   functions
@@ -100,7 +102,7 @@
                        (list prev))))))
           (setf prev bb)))
       (let ((basic-blocks (nreverse basic-blocks))
-            (start-basic-block (make-basic-block :id (make-symbol "START"))))
+            (start-basic-block (make-basic-block :id +start-node-name+)))
         (setf (basic-block-succ start-basic-block) (list (first basic-blocks)))
         (push start-basic-block (basic-block-pred (first basic-blocks)))
         (values basic-blocks start-basic-block)))))
@@ -173,26 +175,33 @@
                 (setq set (intersection set (gethash (basic-block-id p) d-table))))
               (setf (gethash self-id d-table)
                     (adjoin self-id set))))))
-    d-table))
+    (hash-table-to-alist d-table)))
 
-(defun create-dominator-tree (compiland d-table)
-  (let ((d-tree (make-hash-table))
-        (visited (make-hash-table)))
-    (labels ((is-dominator-of (a b d-table)
-               (member (basic-block-id a)
-                       (gethash (basic-block-id b) d-table)))
-             (f (bb)
-               (let ((self-id (basic-block-id bb)))
-                 (unless (gethash self-id visited)
-                   (setf (gethash self-id visited) t)
-                   (setf (gethash self-id d-tree)
-                         (mapcar #'basic-block-id
-                                 (remove-if-not (lambda (s)
-                                                  (is-dominator-of bb s d-table))
-                                                (basic-block-succ bb))))
-                   (mapc #'f (basic-block-succ bb))))))
-      (f (compiland-start-basic-block compiland))
-      d-tree)))
+(defun create-dominator-tree (d-table)
+  (flet ((finish-p ()
+           (dolist (elt d-table t)
+             (and elt
+                  (destructuring-bind (n . dominators) elt
+                    (declare (ignore n))
+                    (when (length>1 dominators)
+                      (return nil)))))))
+    (do ((i 0 (1+ i)))
+        ((finish-p))
+      (let ((idoms '()))
+        (dolist (elt d-table)
+          (when elt
+            (destructuring-bind (n . dominators) elt
+              (let ((dominators (delete n dominators :count 1)))
+                (when (length=1 dominators)
+                  (push (car dominators) idoms))
+                (setf (cdr elt) dominators)))))
+        (dolist (elt d-table)
+          (when elt
+            (destructuring-bind (n . dominators) elt
+              (declare (ignore n))
+              (unless (length=1 dominators)
+                (setf (cdr elt) (nset-difference dominators idoms)))))))))
+  d-table)
 
 (defun graphviz (compiland &optional (name "valtan") (open-viewer-p t))
   (let ((dot-filename (format nil "/tmp/~A.dot" name))
@@ -227,10 +236,10 @@
                                                         (if x (go b) (go c))
                                                         b
                                                         (print 1)
-                                                        (go c)
+                                                        (go d)
                                                         c
                                                         (print 2)
-                                                        (go c)
+                                                        (go d)
                                                         d
                                                         (print 3)
                                                         (go a))
@@ -245,4 +254,4 @@
     (show-basic-blocks (progn (setf (compiland-basic-blocks compiland) (remove-unused-label (compiland-basic-blocks compiland))) compiland))
     (graphviz compiland "valtan-2" open-viewer-p)
     (let ((d-table (create-dominator-table compiland)))
-      (create-dominator-tree compiland d-table))))
+      (create-dominator-tree d-table))))
