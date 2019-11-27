@@ -185,26 +185,24 @@
                     (declare (ignore n))
                     (when (length>1 dominators)
                       (return nil)))))))
+    (setf d-table (delete +start-node-name+ d-table :key #'car))
     (dolist (elt d-table)
-      (when elt
-        (destructuring-bind (n . dominators) elt
-          (let ((dominators (delete n dominators :count 1)))
-            (setf (cdr elt) dominators)))))
+      (destructuring-bind (n . dominators) elt
+        (let ((dominators (delete n dominators :count 1)))
+          (setf (cdr elt) dominators))))
     (do ()
         ((finish-p))
       (let ((idoms '()))
         (dolist (elt d-table)
-          (when elt
-            (destructuring-bind (n . dominators) elt
-              (declare (ignore n))
-              (when (length=1 dominators)
-                (push (car dominators) idoms)))))
+          (destructuring-bind (n . dominators) elt
+            (declare (ignore n))
+            (when (length=1 dominators)
+              (push (car dominators) idoms))))
         (dolist (elt d-table)
-          (when elt
-            (destructuring-bind (n . dominators) elt
-              (declare (ignore n))
-              (unless (length=1 dominators)
-                (setf (cdr elt) (nset-difference dominators idoms)))))))))
+          (destructuring-bind (n . dominators) elt
+            (declare (ignore n))
+            (unless (length=1 dominators)
+              (setf (cdr elt) (nset-difference dominators idoms))))))))
   d-table)
 
 (defun create-dominator-tree (compiland)
