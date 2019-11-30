@@ -178,6 +178,7 @@
     (hash-table-to-alist d-table)))
 
 (defun create-dominator-tree (d-table)
+  ;; この関数は間違った結果を返す
   (flet ((finish-p ()
            (dolist (elt d-table t)
              (and elt
@@ -204,6 +205,23 @@
             (unless (length=1 dominators)
               (setf (cdr elt) (nset-difference dominators idoms))))))))
   d-table)
+
+(defun create-loop-graph (compiland d-table)
+  (let ((visited (make-hash-table))
+        (loop-graph '()))
+    (labels ((f (bb)
+               (unless (gethash (basic-block-id bb) visited)
+                 (setf (gethash (basic-block-id bb) visited) t)
+                 (dolist (s (basic-block-succ bb))
+                   (if (and (gethash (basic-block-id s) visited)
+                            (member (basic-block-id s)
+                                    (cdr (assoc (basic-block-id bb) d-table))))
+                       (push (cons (basic-block-id s)
+                                   (basic-block-id bb))
+                             loop-graph))
+                   (f s)))))
+      (f (compiland-start-basic-block compiland))
+      loop-graph)))
 
 (defun graphviz (compiland &optional (name "valtan") (open-viewer-p t))
   (let ((dot-filename (format nil "/tmp/~A.dot" name))
@@ -234,7 +252,8 @@
         #+os-macosx (uiop:run-program (format nil "open '~A'" img-filename))))))
 
 (defun test (&optional (open-viewer-p t))
-  (let* ((compiland (create-compiland (pass1-toplevel '(tagbody
+  (let* ((compiland (create-compiland (pass1-toplevel ;#+(or)
+                                                      '(tagbody
                                                         a
                                                         (if x (go b) (go c))
                                                         b
@@ -247,7 +266,12 @@
                                                         (print 3)
                                                         (go a))
                                                       #+(or)
-                                                      '(dotimes (i 10) (f i))))))
+                                                      '(dotimes (i 10)
+                                                        (dotimes (j 20)
+                                                          (f i j)))
+                                                      #+(or)
+                                                      '(dotimes (i 10)
+                                                        (print i))))))
     (show-basic-blocks (progn (setf (compiland-basic-blocks compiland)
                                     (compiland-basic-blocks compiland))
                               compiland))
@@ -262,4 +286,4 @@
                                     (remove-unused-label (compiland-basic-blocks compiland)))
                               compiland))
     (graphviz compiland "valtan-2" open-viewer-p)
-    (create-dominator-tree (create-dominator-table compiland))))
+    (create-loop-graph compiland (create-dominator-table compiland))))
