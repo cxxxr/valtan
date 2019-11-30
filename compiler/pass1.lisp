@@ -38,7 +38,7 @@
 (defun make-block-binding (name)
   (make-binding :type :block
                 :name name
-                :id (gensym (string name))))
+                :id (genvar (string name) :symbol)))
 
 (defun make-tag-binding (name value)
   (make-binding :type :tag
@@ -664,10 +664,10 @@
            (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
            (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
       (make-hir 'let
-               return-value-p
-               multiple-values-p
-               bindings
-               (pass1-forms body return-value-p multiple-values-p)))))
+                return-value-p
+                multiple-values-p
+                bindings
+                (pass1-forms body return-value-p multiple-values-p)))))
 
 (def-pass1-form let ((bindings &rest body) return-value-p multiple-values-p)
   (setf bindings (check-let-form bindings))

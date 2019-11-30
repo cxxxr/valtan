@@ -5,8 +5,12 @@
 
 (defvar *genvar-counter* 0)
 
-(defun genvar (prefix)
-  (format nil "~A_~D" prefix (incf *genvar-counter*)))
+(defun genvar (prefix &optional (kind :string))
+  (ecase kind
+    (:string
+     (format nil "~A_~D" prefix (incf *genvar-counter*)))
+    (:symbol
+     (make-symbol (format nil "~A_~D" prefix (incf *genvar-counter*))))))
 
 (defun split-string (character string &key (start 0))
   (let ((pos (position character string :start start)))
