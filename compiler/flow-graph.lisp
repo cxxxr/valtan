@@ -60,7 +60,7 @@
     (flet ((add-block ()
              (unless (null current-block)
                (let ((code (coerce (nreverse current-block) 'vector)))
-                 (push (make-basic-block :id (prog1 (princ-to-string basic-block-counter)
+                 (push (make-basic-block :id (prog1 basic-block-counter
                                                (incf basic-block-counter))
                                          :code code
                                          :succ nil)
