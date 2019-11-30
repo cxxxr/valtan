@@ -55,11 +55,13 @@
 
 (defun split-basic-blocks (code)
   (let ((current-block '())
-        (basic-blocks '()))
+        (basic-blocks '())
+        (basic-block-counter 0))
     (flet ((add-block ()
              (unless (null current-block)
                (let ((code (coerce (nreverse current-block) 'vector)))
-                 (push (make-basic-block :id (gensym)
+                 (push (make-basic-block :id (prog1 (princ-to-string basic-block-counter)
+                                               (incf basic-block-counter))
                                          :code code
                                          :succ nil)
                        basic-blocks)))))
