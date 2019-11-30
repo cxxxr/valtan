@@ -254,26 +254,29 @@
         #+os-macosx (uiop:run-program (format nil "open '~A'" img-filename))))))
 
 (defun test (&optional (open-viewer-p t))
-  (let* ((compiland (create-compiland (pass1-toplevel ;#+(or)
-                                                      '(tagbody
-                                                        a
-                                                        (if x (go b) (go c))
-                                                        b
-                                                        (print 1)
-                                                        (go d)
-                                                        c
-                                                        (print 2)
-                                                        (go d)
-                                                        d
-                                                        (print 3)
-                                                        (go a))
-                                                      #+(or)
-                                                      '(dotimes (i 10)
-                                                        (dotimes (j 20)
-                                                          (f i j)))
-                                                      #+(or)
-                                                      '(dotimes (i 10)
-                                                        (print i))))))
+  (let* ((hir (let ((*gensym-counter* 0))
+                (pass1-toplevel #+(or)
+                                '(tagbody
+                                  a
+                                  (if x (go b) (go c))
+                                  b
+                                  (print 1)
+                                  (go d)
+                                  c
+                                  (print 2)
+                                  (go d)
+                                  d
+                                  (print 3)
+                                  (go a))
+                                #+(or)
+                                '(dotimes (i 10)
+                                  (dotimes (j 20)
+                                    (f i j)))
+                                ;#+(or)
+                                '(dotimes (i 10)
+                                  (print i)))))
+         (compiland (create-compiland hir)))
+    (pprint (reduce-hir hir))
     (show-basic-blocks (progn (setf (compiland-basic-blocks compiland)
                                     (compiland-basic-blocks compiland))
                               compiland))
