@@ -177,7 +177,7 @@
                     (adjoin self-id set))))))
     (hash-table-to-alist d-table)))
 
-(defun create-dominator-tree-1 (d-table)
+(defun create-dominator-tree (d-table)
   (flet ((finish-p ()
            (dolist (elt d-table t)
              (and elt
@@ -204,9 +204,6 @@
             (unless (length=1 dominators)
               (setf (cdr elt) (nset-difference dominators idoms))))))))
   d-table)
-
-(defun create-dominator-tree (compiland)
-  (create-dominator-tree-1 (create-dominator-table compiland)))
 
 (defun graphviz (compiland &optional (name "valtan") (open-viewer-p t))
   (let ((dot-filename (format nil "/tmp/~A.dot" name))
@@ -265,4 +262,4 @@
                                     (remove-unused-label (compiland-basic-blocks compiland)))
                               compiland))
     (graphviz compiland "valtan-2" open-viewer-p)
-    (create-dominator-tree compiland)))
+    (create-dominator-tree (create-dominator-table compiland))))
