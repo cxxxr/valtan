@@ -270,6 +270,24 @@
       (f (compiland-start-basic-block compiland))
       loop-graph)))
 
+(defun structural-analysis (compiland)
+  (let ((loop-graph (create-loop-graph compiland (create-dominator-table compiland))))
+    loop-graph
+    #+(or)
+    (labels ((while-header-p (bb)
+               (let ((header/footer (assoc (basic-block-id bb) loop-graph))
+                     (succ (basic-block-succ bb)))
+                 (and header/footer
+                      (let (s)
+                        (and (length=n succ 2)
+                             (setq s (second succ))
+                             (and (length=1 (basic-block-succ s))
+                                  (eql (basic-block-id s)
+                                       (cdr header/footer)))))))))
+      (dolist (bb (compiland-basic-blocks compiland))
+        (when (while-header-p bb)
+          )))))
+
 (defun graphviz (compiland &optional (name "valtan") (open-viewer-p t))
   (let ((dot-filename (format nil "/tmp/~A.dot" name))
         (img-filename (format nil "/tmp/~A.png" name)))
@@ -338,4 +356,6 @@
 
     ;; (create-loop-graph compiland (create-dominator-table compiland))
 
-    (graphviz compiland "valtan-1" open-viewer-p)))
+    (graphviz compiland "valtan-1" open-viewer-p)
+
+    (structural-analysis compiland)))

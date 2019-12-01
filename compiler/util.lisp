@@ -65,6 +65,9 @@
   (and (not (null list))
        (null (cdr list))))
 
+(defun length=n (list n)
+  (length=1 (nthcdr (1- n) list)))
+
 (defun length>1 (list)
   (not (null (cdr list))))
 
