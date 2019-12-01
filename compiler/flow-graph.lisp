@@ -162,7 +162,8 @@
 
 (defun create-dominator-table (compiland)
   (let ((d-table (make-hash-table))
-        (all-nodes (cons (compiland-start-basic-block compiland) (compiland-basic-blocks compiland))))
+        (all-nodes (cons (compiland-start-basic-block compiland)
+                         (compiland-basic-blocks compiland))))
     (dolist (bb all-nodes)
       (setf (gethash (basic-block-id bb) d-table)
             (mapcar #'basic-block-id all-nodes)))
