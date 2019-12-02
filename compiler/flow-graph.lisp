@@ -323,9 +323,10 @@
                 (while-header-p bb)
               (when while-header-block
                 (push while-footer-block deleting-blocks)
-                (setf (car bb*) (replace-to-while-block while-header-block
-                                                        while-footer-block
-                                                        break-block))))))
+                (setf (car bb*)
+                      (replace-to-while-block while-header-block
+                                              while-footer-block
+                                              break-block))))))
         (dolist (bb deleting-blocks)
           (setf (compiland-basic-blocks compiland)
                 (delete bb (compiland-basic-blocks compiland))))))))
