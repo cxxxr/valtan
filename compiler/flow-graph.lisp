@@ -14,6 +14,9 @@
   succ
   pred)
 
+(defstruct (while-block (:include basic-block))
+  exit)
+
 (defun check-basic-block-succ-pred (bb)
   (mapc (lambda (pred)
           (let ((count (count (basic-block-id bb)
@@ -272,21 +275,60 @@
 
 (defun structural-analysis (compiland)
   (let ((loop-graph (create-loop-graph compiland (create-dominator-table compiland))))
-    loop-graph
-    #+(or)
-    (labels ((while-header-p (bb)
+    (labels ((while-footer-p (bb header/footer)
+               (and (length=1 (basic-block-succ bb))
+                    (eql (basic-block-id bb)
+                         (cdr header/footer))
+                    (eql (basic-block-id (first (basic-block-succ bb)))
+                         (car header/footer))))
+             (while-header-p (bb)
                (let ((header/footer (assoc (basic-block-id bb) loop-graph))
                      (succ (basic-block-succ bb)))
-                 (and header/footer
-                      (let (s)
-                        (and (length=n succ 2)
-                             (setq s (second succ))
-                             (and (length=1 (basic-block-succ s))
-                                  (eql (basic-block-id s)
-                                       (cdr header/footer)))))))))
-      (dolist (bb (compiland-basic-blocks compiland))
-        (when (while-header-p bb)
-          )))))
+                 (when (and header/footer
+                            (length=n succ 2)
+                            (< 0 (length (basic-block-code bb)))
+                            (eq 'fjump (lir-op (vector-last (basic-block-code bb)))))
+                   (multiple-value-bind (while-header-block while-footer-block break-block)
+                       (cond ((while-footer-p (second succ) header/footer)
+                              (values bb (second succ) (first succ)))
+                             ((while-footer-p (first succ) header/footer)
+                              (values bb (first succ) (second succ))))
+                     (let ((code (basic-block-code while-footer-block)))
+                       (and (< 0 (length code))
+                            (eq 'label (lir-op (vector-first code)))
+                            (eql (lir-arg1 (vector-first code))
+                                 (lir-arg2 (vector-last (basic-block-code bb))))
+                            (values while-header-block while-footer-block break-block)))))))
+             (replace-to-while-block (while-header-block while-footer-block break-block)
+               (let* ((header-code (basic-block-code while-header-block))
+                      (footer-code (basic-block-code while-footer-block)))
+                 (setf (vector-last header-code)
+                       (make-lir 'break))
+                 (setf (vector-first footer-code)
+                       (make-lir 'nop))
+                 (make-while-block :id (basic-block-id while-header-block)
+                                   :pred (delete while-footer-block
+                                                 (basic-block-succ while-header-block))
+                                   :succ (delete while-footer-block
+                                                 (basic-block-succ while-header-block))
+                                   :exit break-block
+                                   :code (concatenate 'vector
+                                                      header-code
+                                                      (basic-block-code while-footer-block))))))
+      (let ((deleting-blocks '()))
+        (do ((bb* (compiland-basic-blocks compiland) (cdr bb*)))
+            ((null bb*))
+          (let ((bb (car bb*)))
+            (multiple-value-bind (while-header-block while-footer-block break-block)
+                (while-header-p bb)
+              (when while-header-block
+                (push while-footer-block deleting-blocks)
+                (setf (car bb*) (replace-to-while-block while-header-block
+                                                        while-footer-block
+                                                        break-block))))))
+        (dolist (bb deleting-blocks)
+          (setf (compiland-basic-blocks compiland)
+                (delete bb (compiland-basic-blocks compiland))))))))
 
 (defun graphviz (compiland &optional (name "valtan") (open-viewer-p t))
   (let ((dot-filename (format nil "/tmp/~A.dot" name))
@@ -356,6 +398,6 @@
 
     ;; (create-loop-graph compiland (create-dominator-table compiland))
 
-    (graphviz compiland "valtan-1" open-viewer-p)
+    (structural-analysis compiland)
 
-    (structural-analysis compiland)))
+    (graphviz compiland "valtan-1" open-viewer-p)))

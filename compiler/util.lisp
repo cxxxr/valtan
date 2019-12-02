@@ -58,8 +58,14 @@
 (defun vector-first (vector)
   (aref vector 0))
 
+(defun (setf vector-first) (value vector)
+  (setf (aref vector 0) value))
+
 (defun vector-last (vector)
   (aref vector (1- (length vector))))
+
+(defun (setf vector-last) (value vector)
+  (setf (aref vector (1- (length vector))) value))
 
 (defun length=1 (list)
   (and (not (null list))
