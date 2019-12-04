@@ -112,10 +112,10 @@
         (push start-basic-block (basic-block-pred (first basic-blocks)))
         (values basic-blocks start-basic-block)))))
 
-(defun flatten-basic-blocks (basic-blocks)
+(defun flatten-basic-blocks (compiland)
   (coerce (mapcan (lambda (bb)
                     (coerce (basic-block-code bb) 'list))
-                  basic-blocks)
+                  (compiland-basic-blocks compiland))
           'vector))
 
 (defun remove-basic-block (bb)
@@ -412,28 +412,17 @@
                                       (f)
                                       (g))))))
          (compiland (create-compiland hir)))
-    (pprint (reduce-hir hir))
-    ;; (graphviz-compiland compiland "valtan-0" nil)
+    ;; (pprint (reduce-hir hir))
 
-    (write-line "1 ==================================================")
     (remove-unused-block compiland)
-    (show-basic-blocks compiland)
-
-    (write-line "2 ==================================================")
     (remove-unused-label compiland)
-    (show-basic-blocks compiland)
-
-    ;; (write-line "3 ==================================================")
     ;; (merge-basic-blocks compiland)
-    ;; (show-basic-blocks compiland)
 
     (graphviz-compiland compiland "valtan-1" open-viewer-p)
 
-    (let* ((d-table (create-dominator-table compiland))
-           (loop-graph (create-loop-graph compiland d-table))
-           (d-tree (create-dominator-tree d-table)))
-      (declare (ignorable d-table loop-graph d-tree))
-      (graphviz-dominator-tree d-tree))
+    (defparameter $d-table (create-dominator-table compiland))
+    (defparameter $loop-graph (create-loop-graph compiland $d-table))
+    (defparameter $d-tree (create-dominator-tree $d-table))
 
-    ;; (structural-analysis compiland)
+    (graphviz-dominator-tree $d-tree)
     ))
