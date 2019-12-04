@@ -264,21 +264,34 @@
                    (if (and (gethash (basic-block-id s) visited)
                             (member (basic-block-id s)
                                     (cdr (assoc (basic-block-id bb) d-table))))
-                       (push (cons (basic-block-id s)
+                       (push (list (basic-block-id s)
                                    (basic-block-id bb))
                              loop-graph))
                    (f s)))))
       (f (compiland-start-basic-block compiland))
       loop-graph)))
 
+(defun map-basic-block (function start)
+  (let ((visited (make-hash-table)))
+    (labels ((f (bb)
+               (unless (gethash (basic-block-id bb) visited)
+                 (setf (gethash (basic-block-id bb) visited) t)
+                 (funcall function bb)
+                 (dolist (s (basic-block-succ bb))
+                   (f s)))))
+      (f (basic-block-succ start)))))
+
 (defun structural-analysis (compiland)
-  (let ((loop-graph (create-loop-graph compiland (create-dominator-table compiland))))
+  (let* ((d-table (create-dominator-table compiland))
+         (loop-graph (create-loop-graph compiland d-table))
+         (d-tree (create-dominator-tree d-table)))
+    (declare (ignorable d-table loop-graph d-tree))
     (labels ((while-footer-p (bb header/footer)
                (and (length=1 (basic-block-succ bb))
                     (eql (basic-block-id bb)
-                         (cdr header/footer))
+                         (second header/footer))
                     (eql (basic-block-id (first (basic-block-succ bb)))
-                         (car header/footer))))
+                         (first header/footer))))
              (while-header-p (bb)
                (let ((header/footer (assoc (basic-block-id bb) loop-graph))
                      (succ (basic-block-succ bb)))
@@ -329,7 +342,7 @@
           (setf (compiland-basic-blocks compiland)
                 (delete bb (compiland-basic-blocks compiland))))))))
 
-(defun graphviz (compiland &optional (name "valtan") (open-viewer-p t))
+(defun graphviz-compiland (compiland &optional (name "valtan") (open-viewer-p t))
   (let ((dot-filename (format nil "/tmp/~A.dot" name))
         (img-filename (format nil "/tmp/~A.png" name)))
     (with-open-file (out dot-filename
@@ -357,6 +370,23 @@
         #+linux (uiop:run-program (format nil "xdg-open '~A'" img-filename))
         #+os-macosx (uiop:run-program (format nil "open '~A'" img-filename))))))
 
+(defun graphviz-dominator-tree (d-tree)
+  (let ((dot-filename "/tmp/d-tree.dot")
+        (img-filename "/tmp/d-tree.png"))
+    (with-open-file (out dot-filename
+                         :direction :output
+                         :if-exists :supersede
+                         :if-does-not-exist :create)
+      (write-line "digraph dominator_tree {" out)
+      (dolist (node d-tree)
+        (format out "~A -> ~A~%" (second node) (first node)))
+      (write-line "}" out))
+    #+sbcl
+    (progn
+      (uiop:run-program (format nil "dot -Tpng '~A' > '~A'" dot-filename img-filename))
+      #+linux (uiop:run-program (format nil "xdg-open '~A'" img-filename))
+      #+os-macosx (uiop:run-program (format nil "open '~A'" img-filename)))))
+
 (defun test (&optional (open-viewer-p t))
   (let* ((hir (let ((*gensym-counter* 0))
                 (pass1-toplevel #+(or)
@@ -378,10 +408,12 @@
                                     (f i j)))
                                 ;#+(or)
                                 '(dotimes (i 10)
-                                  (print i)))))
+                                  (if x
+                                      (f)
+                                      (g))))))
          (compiland (create-compiland hir)))
     (pprint (reduce-hir hir))
-    ;; (graphviz compiland "valtan-0" nil)
+    ;; (graphviz-compiland compiland "valtan-0" nil)
 
     (write-line "1 ==================================================")
     (remove-unused-block compiland)
@@ -391,12 +423,17 @@
     (remove-unused-label compiland)
     (show-basic-blocks compiland)
 
-    (write-line "3 ==================================================")
-    (merge-basic-blocks compiland)
-    (show-basic-blocks compiland)
+    ;; (write-line "3 ==================================================")
+    ;; (merge-basic-blocks compiland)
+    ;; (show-basic-blocks compiland)
 
-    ;; (create-loop-graph compiland (create-dominator-table compiland))
+    (graphviz-compiland compiland "valtan-1" open-viewer-p)
 
-    (structural-analysis compiland)
+    (let* ((d-table (create-dominator-table compiland))
+           (loop-graph (create-loop-graph compiland d-table))
+           (d-tree (create-dominator-tree d-table)))
+      (declare (ignorable d-table loop-graph d-tree))
+      (graphviz-dominator-tree d-tree))
 
-    (graphviz compiland "valtan-1" open-viewer-p)))
+    ;; (structural-analysis compiland)
+    ))
