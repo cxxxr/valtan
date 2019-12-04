@@ -228,7 +228,6 @@
     (hash-table-to-alist d-table)))
 
 (defun create-dominator-tree (d-table)
-  ;; この関数は間違った結果を返す
   (flet ((finish-p ()
            (dolist (elt d-table t)
              (and elt
@@ -236,11 +235,10 @@
                     (declare (ignore n))
                     (when (length>1 dominators)
                       (return nil)))))))
-    (setf d-table (delete +start-node-name+ d-table :key #'car))
+    (setq d-table (delete +start-node-name+ d-table :key #'car))
     (dolist (elt d-table)
       (destructuring-bind (n . dominators) elt
-        (let ((dominators (delete n dominators :count 1)))
-          (setf (cdr elt) dominators))))
+        (setf (cdr elt) (delete n dominators :count 1))))
     (do ()
         ((finish-p))
       (let ((idoms '()))
@@ -253,7 +251,7 @@
           (destructuring-bind (n . dominators) elt
             (declare (ignore n))
             (unless (length=1 dominators)
-              (setf (cdr elt) (nset-difference dominators idoms))))))))
+              (setf (cdr elt) (set-difference dominators idoms))))))))
   d-table)
 
 (defun create-loop-graph (compiland d-table)
