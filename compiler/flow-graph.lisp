@@ -1,6 +1,7 @@
 (in-package :compiler)
 
 (defparameter +start-node-name+ (make-symbol "START"))
+(defparameter +nop-lir+ (make-lir 'nop))
 
 (defstruct compiland
   vars
@@ -8,14 +9,23 @@
   start-basic-block
   basic-blocks)
 
-(defstruct basic-block
-  id
-  code
-  succ
-  pred)
+(defclass basic-block ()
+  ((id :initarg :id
+       :accessor basic-block-id
+       :initform nil)
+   (code :initarg :code
+         :accessor basic-block-code
+         :initform nil)
+   (succ :initarg :succ
+         :accessor basic-block-succ
+         :initform nil)
+   (pred :initarg :pred
+         :accessor basic-block-pred
+         :initform nil)))
 
-(defstruct (while-block (:include basic-block))
-  exit)
+(defclass loop-block (basic-block)
+  ((outer-edge
+    :accessor loop-block-outer-edge)))
 
 (defun check-basic-block-succ-pred (bb)
   (mapc (lambda (pred)
@@ -63,10 +73,11 @@
     (flet ((add-block ()
              (unless (null current-block)
                (let ((code (coerce (nreverse current-block) 'vector)))
-                 (push (make-basic-block :id (prog1 basic-block-counter
-                                               (incf basic-block-counter))
-                                         :code code
-                                         :succ nil)
+                 (push (make-instance 'basic-block
+                                      :id (prog1 basic-block-counter
+                                            (incf basic-block-counter))
+                                      :code code
+                                      :succ nil)
                        basic-blocks)))))
       (do-vector (lir code)
         (case (lir-op lir)
@@ -107,7 +118,7 @@
                        (list prev))))))
           (setf prev bb)))
       (let ((basic-blocks (nreverse basic-blocks))
-            (start-basic-block (make-basic-block :id +start-node-name+)))
+            (start-basic-block (make-instance 'basic-block :id +start-node-name+)))
         (setf (basic-block-succ start-basic-block) (list (first basic-blocks)))
         (push start-basic-block (basic-block-pred (first basic-blocks)))
         (values basic-blocks start-basic-block)))))
@@ -281,66 +292,76 @@
                    (f s)))))
       (f (basic-block-succ start)))))
 
+(defun dominator-tree-to-graph (d-tree)
+  (labels ((f (node)
+             (cons (first node)
+                   (loop :for x :in d-tree
+                         :when (eq (first node) (second x))
+                         :collect (f x)))))
+    (f (find +start-node-name+ d-tree :key #'second))))
+
+(defun find-basic-block (compiland id)
+  (dolist (bb (compiland-basic-blocks compiland))
+    (when (eql id (basic-block-id bb))
+      (return bb))))
+
+(defun map-basic-blocks (compiland function)
+  (let ((visited (make-hash-table)))
+    (labels ((f (bb)
+               (unless (gethash bb visited)
+                 (setf (gethash bb visited) t)
+                 (funcall function bb)
+                 (mapc #'f (basic-block-succ bb)))))
+      (f (compiland-start-basic-block compiland)))))
+
 (defun structural-analysis (compiland)
   (let* ((d-table (create-dominator-table compiland))
          (loop-graph (create-loop-graph compiland d-table))
-         (d-tree (create-dominator-tree d-table)))
-    (declare (ignorable d-table loop-graph d-tree))
-    (labels ((while-footer-p (bb header/footer)
-               (and (length=1 (basic-block-succ bb))
-                    (eql (basic-block-id bb)
-                         (second header/footer))
-                    (eql (basic-block-id (first (basic-block-succ bb)))
-                         (first header/footer))))
-             (while-header-p (bb)
+         (deleting-blocks '()))
+    (labels ((loop-structure (bb)
                (let ((header/footer (assoc (basic-block-id bb) loop-graph))
-                     (succ (basic-block-succ bb)))
+                     (successors (basic-block-succ bb)))
                  (when (and header/footer
-                            (length=n succ 2)
-                            (< 0 (length (basic-block-code bb)))
-                            (eq 'fjump (lir-op (vector-last (basic-block-code bb)))))
-                   (multiple-value-bind (while-header-block while-footer-block break-block)
-                       (cond ((while-footer-p (second succ) header/footer)
-                              (values bb (second succ) (first succ)))
-                             ((while-footer-p (first succ) header/footer)
-                              (values bb (first succ) (second succ))))
-                     (let ((code (basic-block-code while-footer-block)))
-                       (and (< 0 (length code))
-                            (eq 'label (lir-op (vector-first code)))
-                            (eql (lir-arg1 (vector-first code))
-                                 (lir-arg2 (vector-last (basic-block-code bb))))
-                            (values while-header-block while-footer-block break-block)))))))
-             (replace-to-while-block (while-header-block while-footer-block break-block)
-               (let* ((header-code (basic-block-code while-header-block))
-                      (footer-code (basic-block-code while-footer-block)))
-                 (setf (vector-last header-code)
-                       (make-lir 'break))
-                 (setf (vector-first footer-code)
-                       (make-lir 'nop))
-                 (make-while-block :id (basic-block-id while-header-block)
-                                   :pred (delete while-footer-block
-                                                 (basic-block-succ while-header-block))
-                                   :succ (delete while-footer-block
-                                                 (basic-block-succ while-header-block))
-                                   :exit break-block
-                                   :code (concatenate 'vector
-                                                      header-code
-                                                      (basic-block-code while-footer-block))))))
-      (let ((deleting-blocks '()))
-        (do ((bb* (compiland-basic-blocks compiland) (cdr bb*)))
-            ((null bb*))
-          (let ((bb (car bb*)))
-            (multiple-value-bind (while-header-block while-footer-block break-block)
-                (while-header-p bb)
-              (when while-header-block
-                (push while-footer-block deleting-blocks)
-                (setf (car bb*)
-                      (replace-to-while-block while-header-block
-                                              while-footer-block
-                                              break-block))))))
-        (dolist (bb deleting-blocks)
-          (setf (compiland-basic-blocks compiland)
-                (delete bb (compiland-basic-blocks compiland))))))))
+                            (length=n successors 2))
+                   (multiple-value-bind (header body outer)
+                       (cond ((eql (second header/footer) (basic-block-id (first successors)))
+                              (values bb
+                                      (first successors)
+                                      (second successors)))
+                             ((eql (second header/footer) (basic-block-id (second successors)))
+                              (values bb
+                                      (second successors)
+                                      (first successors)))
+                             (t
+                              nil))
+                     (when header
+                       (let* ((header-code (basic-block-code header))
+                              (body-code (basic-block-code body))
+                              (fjump-lir (vector-last header-code))
+                              (label-lir (vector-first body-code)))
+                         (when (and (eq 'fjump (lir-op fjump-lir))
+                                    (eq 'label (lir-op label-lir))
+                                    (eq (lir-arg2 fjump-lir)
+                                        (lir-arg1 label-lir)))
+                           (change-class header 'loop-block)
+                           (setf (vector-last header-code) (make-lir 'if-break (lir-arg1 (vector-last header-code))))
+                           (setf (vector-first body-code) +nop-lir+)
+                           (assert (eq 'jump (lir-op (vector-last body-code))))
+                           (setf (vector-first header-code) +nop-lir+)
+                           (setf (vector-last body-code) +nop-lir+)
+                           (setf (loop-block-outer-edge header) outer)
+                           (setf (basic-block-code header) (concatenate 'vector header-code body-code))
+                           (setf (basic-block-succ header) (delete body (basic-block-succ header)))
+                           (push body deleting-blocks)
+                           (print header)))))))))
+      (map-basic-blocks compiland
+                        (lambda (bb)
+                          (unless (member bb deleting-blocks)
+                            (loop-structure bb))))
+      (dolist (bb deleting-blocks)
+        (setf (compiland-basic-blocks compiland)
+              (delete bb (compiland-basic-blocks compiland))))
+      nil)))
 
 (defun graphviz-compiland (compiland &optional (name "valtan") (open-viewer-p t))
   (let ((dot-filename (format nil "/tmp/~A.dot" name))
@@ -355,7 +376,12 @@
         (write-line "graph [ labeljust = l; ]" out)
         (write-line "node [ shape = box; ]" out)
         (dolist (bb basic-blocks)
-          (format out "~A [label = \"~A\\l" (basic-block-id bb) (basic-block-id bb))
+          (format out "~A [label = \"~A " (basic-block-id bb) (basic-block-id bb))
+          (when (typep bb 'loop-block)
+            (write-string "loop" out))
+          (write-string "\\l" out)
+          (when (typep bb 'loop-block)
+            (format out "outer: ~A\\l" (basic-block-id (loop-block-outer-edge bb))))
           (do-vector (lir (basic-block-code bb))
             (write-string (princ-to-string (cons (lir-op lir) (lir-args lir))) out)
             (write-string "\\l" out))
@@ -409,8 +435,7 @@
                                 ;#+(or)
                                 '(dotimes (i 10)
                                   (if x
-                                      (f)
-                                      (g))))))
+                                      (f i))))))
          (compiland (create-compiland hir)))
     ;; (pprint (reduce-hir hir))
 
@@ -418,11 +443,12 @@
     (remove-unused-label compiland)
     ;; (merge-basic-blocks compiland)
 
-    (graphviz-compiland compiland "valtan-1" open-viewer-p)
-
+    (defparameter $compiland compiland)
     (defparameter $d-table (create-dominator-table compiland))
     (defparameter $loop-graph (create-loop-graph compiland $d-table))
     (defparameter $d-tree (create-dominator-tree $d-table))
 
-    (graphviz-dominator-tree $d-tree)
-    ))
+    ;; (structural-analysis compiland)
+
+    (graphviz-compiland compiland "valtan-1" open-viewer-p)
+    (values)))
