@@ -1,5 +1,7 @@
 (in-package :compiler)
 
+(defvar *current-tagbody-label* nil)
+
 (defmacro with-hir-args ((&rest args) hir &body body)
   (let ((g-hir (gensym)))
     `(let ((,g-hir ,hir))
@@ -93,7 +95,9 @@
 
 (define-hir-optimizer lambda (hir)
   (with-hir-args (name lambda-list body) hir
-    (remake-hir 'lambda hir name lambda-list (list (hir-optimize-progn-forms body body)))))
+    (remake-hir 'lambda hir name lambda-list
+                (let ((*current-tagbody-label* nil))
+                  (list (hir-optimize-progn-forms body body))))))
 
 (define-hir-optimizer let (hir)
   (with-hir-args (bindings body) hir
@@ -138,27 +142,41 @@
 
 (define-hir-optimizer tagbody (hir)
   (with-hir-args (tagbody-id tag-statements-pairs) hir
-    (dolist (tag-statements-pair tag-statements-pairs)
-      (let ((binding (car tag-statements-pair)))
-        (setf (binding-used-count binding) 0)))
-    (let ((statements-list
-            (mapcar (lambda (tag-statements-pair)
-                      (hir-optimize (cdr tag-statements-pair)))
-                    tag-statements-pairs)))
-      (if (null tag-statements-pairs)
-          (remake-hir 'const hir nil)
-          (remake-hir 'tagbody
-                      hir
-                      tagbody-id
-                      (mapcar (lambda (pair statements)
-                                (cons (car pair) statements))
-                              tag-statements-pairs
-                              statements-list))))))
+    (let ((first t))
+      (dolist (tag-statements-pair tag-statements-pairs)
+        (let ((binding (car tag-statements-pair)))
+          (setf (binding-used-count binding) (if first 0 1))
+          (setf (tagbody-value-escape-count (binding-id binding)) 0))
+        (setq first nil)))
+    (dolist (pair tag-statements-pairs)
+      (setf (cdr pair)
+            (let ((*current-tagbody-label* (car pair)))
+              (hir-optimize (cdr pair)))))
+    (let ((tag-statements-pairs
+            (delete-if (lambda (pair)
+                         (zerop (binding-used-count (car pair))))
+                       tag-statements-pairs)))
+      (cond ((null tag-statements-pairs)
+             (remake-hir 'const hir nil))
+            ((and (length=1 tag-statements-pairs)
+                  (zerop (tagbody-value-escape-count (binding-id (car (first tag-statements-pairs))))))
+             (remake-hir 'loop
+                         hir
+                         (cdr (first tag-statements-pairs))))
+            (t
+             (remake-hir 'tagbody
+                         hir
+                         tagbody-id
+                         tag-statements-pairs))))))
 
 (define-hir-optimizer go (hir)
   (with-hir-args (binding) hir
     (incf (binding-used-count binding))
-    hir))
+    (cond ((eq *current-tagbody-label* binding)
+           (remake-hir 'recur hir))
+          (t
+           (incf (tagbody-value-escape-count (binding-id binding)))
+           hir))))
 
 (define-hir-optimizer catch (hir)
   (with-hir-args (tag body) hir

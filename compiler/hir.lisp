@@ -81,7 +81,11 @@
     ((ffi:aget) hir)
     ((js-call) hir)
     ((module)
-     `(module ,(hir-arg1 hir) ,@(mapcar #'reduce-hir (hir-arg2 hir))))))
+     `(module ,(hir-arg1 hir) ,@(mapcar #'reduce-hir (hir-arg2 hir))))
+    ((recur)
+     `(recur))
+    ((loop)
+     `(loop ,(reduce-hir (hir-arg1 hir))))))
 
 (defun make-hir (op return-value-p multiple-values-p &rest args)
   (%make-hir :op op
@@ -120,7 +124,8 @@
 
 (defstruct tagbody-value
   index
-  id)
+  id
+  escape-count)
 
 (defparameter *equal-error* t)
 
