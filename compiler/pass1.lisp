@@ -599,19 +599,22 @@
             (count-if-used binding)
             (count-if-used binding t)
             (push (make-hir (if binding 'lset 'gset)
-                           (if (null (cddr args))
-                               return-value-p
-                               nil)
-                           nil
-                           (or binding symbol)
-                           value)
+                            (if (null (cddr args))
+                                return-value-p
+                                nil)
+                            nil
+                            (or binding symbol)
+                            value)
                   forms)))
-        (if (null forms)
-            (pass1-const nil return-value-p)
-            (make-hir 'progn
-                     return-value-p
-                     nil
-                     (nreverse forms))))))
+        (cond ((null forms)
+               (pass1-const nil return-value-p))
+              ((length=1 forms)
+               (first forms))
+              (t
+               (make-hir 'progn
+                         return-value-p
+                         nil
+                         (nreverse forms)))))))
 
 (def-pass1-form if ((test then &optional else) return-value-p multiple-values-p)
   (make-hir 'if
