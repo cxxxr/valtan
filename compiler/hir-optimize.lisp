@@ -38,6 +38,7 @@
 (define-hir-optimizer lref (hir)
   (with-hir-args (binding) hir
     (cond ((and (zerop (binding-set-count binding))
+                (not (null (binding-init-value binding)))
                 (immutable-p (binding-init-value binding)))
            (decf (binding-used-count binding))
            (let ((init-value (binding-init-value binding)))
@@ -54,6 +55,7 @@
 
 (define-hir-optimizer lset (hir)
   (with-hir-args (binding value) hir
+    (incf (binding-set-count binding))
     (remake-hir 'lset hir binding (hir-optimize value))))
 
 (define-hir-optimizer gset (hir)
@@ -65,9 +67,9 @@
     (setq test (hir-optimize test))
     (cond ((eq (hir-op test) 'const)
            (cond ((null (hir-arg1 test))
-                  else)
+                  (hir-optimize else))
                  (t
-                  test)))
+                  (hir-optimize then))))
           (t
            (setq then (hir-optimize then)
                  else (hir-optimize else))
@@ -85,7 +87,8 @@
                   (unless (const-hir-p optimized-form)
                     (push optimized-form new-forms)))))
           (let ((optimized-form (hir-optimize form)))
-            (unless (and (not (hir-return-value-p optimized-form)) (const-hir-p optimized-form))
+            (unless (and (not (hir-return-value-p optimized-form))
+                         (const-hir-p optimized-form))
               (push optimized-form new-forms)))))
     (cond ((null new-forms)
            (remake-hir 'const hir nil))
@@ -106,7 +109,9 @@
   (with-hir-args (bindings body) hir
     (dolist (binding bindings)
       (setf (binding-init-value binding)
-            (hir-optimize (binding-init-value binding))))
+            (hir-optimize (binding-init-value binding)))
+      (setf (binding-set-count binding)
+            0))
     (let ((forms (hir-optimize-progn-forms hir body)))
       (setf body
             (if (consp forms)
@@ -134,7 +139,8 @@
 
 (define-hir-optimizer block (hir)
   (with-hir-args (name body) hir
-    (remake-hir 'block hir name (hir-optimize body))))
+    (let ((form (hir-optimize-progn-forms hir body)))
+      (remake-hir 'block hir name (list form)))))
 
 (define-hir-optimizer return-from (hir)
   (with-hir-args (name value) hir
@@ -194,3 +200,56 @@
 
 (define-hir-optimizer module (hir)
   hir)
+
+(defun hir-optimize-test ()
+  (flet ((test (input expected)
+           (let ((actual (hir-optimize (pass1-toplevel input t nil))))
+             (unless (equal* actual expected)
+               (format t "ERROR: ~%expected: ~:W~%actual: ~W" expected actual))))
+         (binding (id type init-value)
+           (make-binding :id id :type type :init-value init-value)))
+    (test '(if t x y)
+          (make-HIR 'GREF T NIL 'X))
+    (test '(if t (if t 1 2) 3)
+          (make-HIR 'CONST T NIL 1))
+    (test '(let ((x 3)) x)
+          (make-HIR 'CONST T NIL 3))
+    (test '(let ((x 0))
+            (setq x 1)
+            x)
+          (make-hir 'let t nil
+                    (list (binding
+                           "X_1"
+                           :variable
+                           (make-hir 'const t nil 0)))
+                    (list (make-hir 'progn
+                                    t
+                                    nil
+                                    (list
+                                     (make-hir 'lset nil nil
+                                               (binding "X_1" :variable (make-hir 'const t nil 0))
+                                               (make-hir 'const t nil 1))
+                                     (make-hir 'lref
+                                               t
+                                               nil
+                                               (binding "X_1" :variable (make-hir 'const t nil 0))))))))
+    (test '(defun foo (x) 10 x)
+          (make-hir 'system:%defun t nil
+                    'foo
+                    (make-hir 'lambda t nil
+                              'foo
+                              (make-parsed-lambda-list
+                               :VARS (list (BINDING
+                                            "X_1"
+                                            :variable
+                                            nil))
+                               :REST-VAR NIL
+                               :OPTIONALS NIL
+                               :KEYS NIL
+                               :MIN 1
+                               :MAX 1
+                               :ALLOW-OTHER-KEYS NIL)
+                              (list (make-hir 'block t t
+                                              (binding  "FOO_2" :block nil)
+                                              (make-hir 'lref t nil
+                                                        (binding "X_1" :variable nil)))))))))

@@ -121,3 +121,52 @@
 (defstruct tagbody-value
   index
   id)
+
+(defparameter *equal-error* t)
+
+(defun maybe-equal-error (x y)
+  (if *equal-error*
+      (error "~:W is false" `(equal-with-hir ,x ,y))
+      nil))
+
+(defun equal-with-hir (x y)
+  (cond ((and (consp x)
+              (consp y))
+         (and (equal-with-hir (car x) (car y))
+              (equal-with-hir (cdr x) (cdr y))))
+        ((and (stringp x)
+              (stringp y))
+         (string= x y))
+        ((and (simple-bit-vector-p x)
+              (simple-bit-vector-p y))
+         (and (= (length x) (length y))
+              (dotimes (i (length x) t)
+                (unless (eql (aref x i)
+                             (aref y i))
+                  (return nil)))))
+        ((and (hir-p x) (hir-p y))
+         (equal-hir x y))
+        ((and (binding-p x) (binding-p y))
+         (equal-binding x y))
+        (t
+         (eql x y))))
+
+(defun equal-hir (hir1 hir2)
+  (if (and (eq (hir-op hir1) (hir-op hir2))
+           (eq (hir-return-value-p hir1) (hir-return-value-p hir2))
+           (eq (hir-multiple-values-p hir1) (hir-multiple-values-p hir2))
+           (every #'equal-with-hir
+                  (hir-args hir1)
+                  (hir-args hir2)))
+      t
+      (maybe-equal-error hir1 hir2)))
+
+(defun equal-binding (b1 b2)
+  (if (and (string= (binding-id b1)
+                    (binding-id b2))
+           (eq (binding-type b1)
+               (binding-type b2))
+           (equal-with-hir (binding-init-value b1)
+                   (binding-init-value b2)))
+      t
+      (maybe-equal-error b1 b2)))
