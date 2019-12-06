@@ -37,18 +37,8 @@
 
 (define-hir-optimizer lref (hir)
   (with-hir-args (binding) hir
-    (cond ((and (zerop (binding-set-count binding))
-                (not (null (binding-init-value binding)))
-                (immutable-p (binding-init-value binding)))
-           (decf (binding-used-count binding))
-           (let ((init-value (binding-init-value binding)))
-             (apply #'make-hir
-                    (hir-op init-value)
-                    (hir-return-value-p hir)
-                    (hir-multiple-values-p hir)
-                    (hir-args init-value))))
-          (t
-           hir))))
+    (incf (binding-used-count binding))
+    hir))
 
 (define-hir-optimizer gref (hir)
   hir)
@@ -103,15 +93,15 @@
 
 (define-hir-optimizer lambda (hir)
   (with-hir-args (name lambda-list body) hir
-    (remake-hir 'lambda hir name lambda-list (mapcar #'hir-optimize body))))
+    (remake-hir 'lambda hir name lambda-list (list (hir-optimize-progn-forms body body)))))
 
 (define-hir-optimizer let (hir)
   (with-hir-args (bindings body) hir
     (dolist (binding bindings)
       (setf (binding-init-value binding)
             (hir-optimize (binding-init-value binding)))
-      (setf (binding-set-count binding)
-            0))
+      (setf (binding-used-count binding) 0)
+      (setf (binding-set-count binding) 0))
     (let ((forms (hir-optimize-progn-forms hir body)))
       (setf body
             (if (consp forms)
@@ -148,16 +138,27 @@
 
 (define-hir-optimizer tagbody (hir)
   (with-hir-args (tagbody-id tag-statements-pairs) hir
-    (remake-hir 'tagbody
-               hir
-               tagbody-id
-               (mapcar (lambda (pair)
-                         (destructuring-bind (tag-binding . body) pair
-                           (cons tag-binding (hir-optimize body))))
-                       tag-statements-pairs))))
+    (dolist (tag-statements-pair tag-statements-pairs)
+      (let ((binding (car tag-statements-pair)))
+        (setf (binding-used-count binding) 0)))
+    (let ((statements-list
+            (mapcar (lambda (tag-statements-pair)
+                      (hir-optimize (cdr tag-statements-pair)))
+                    tag-statements-pairs)))
+      (if (null tag-statements-pairs)
+          (remake-hir 'const hir nil)
+          (remake-hir 'tagbody
+                      hir
+                      tagbody-id
+                      (mapcar (lambda (pair statements)
+                                (cons (car pair) statements))
+                              tag-statements-pairs
+                              statements-list))))))
 
 (define-hir-optimizer go (hir)
-  hir)
+  (with-hir-args (binding) hir
+    (incf (binding-used-count binding))
+    hir))
 
 (define-hir-optimizer catch (hir)
   (with-hir-args (tag body) hir
@@ -204,7 +205,7 @@
 (defun hir-optimize-test ()
   (flet ((test (input expected)
            (let ((actual (hir-optimize (pass1-toplevel input t nil))))
-             (unless (equal* actual expected)
+             (unless (equal-hir actual expected)
                (format t "ERROR: ~%expected: ~:W~%actual: ~W" expected actual))))
          (binding (id type init-value)
            (make-binding :id id :type type :init-value init-value)))

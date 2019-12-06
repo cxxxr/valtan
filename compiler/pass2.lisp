@@ -579,7 +579,9 @@
   (pass2-enter (hir-return-value-p hir))
   (let ((tag (genvar "V"))
         (err (genvar "E_")))
-    (format t "let ~A = '~A';~%" tag (tagbody-value-index (binding-id (car (first (hir-arg2 hir))))))
+    (if (null (hir-arg2 hir))
+        (format t "let ~A;~%" tag)
+        (format t "let ~A = '~A';~%" tag (tagbody-value-index (binding-id (car (first (hir-arg2 hir)))))))
     (write-line "for (;;) {")
     (emit-try-catch
         ((err)
@@ -602,7 +604,8 @@
   (pass2-exit (hir-return-value-p hir)))
 
 (def-emit go (hir)
-  (let ((tagbody-value (hir-arg1 hir)))
+  (let* ((binding (hir-arg1 hir))
+         (tagbody-value (binding-id binding)))
     (format t "throw new lisp.TagValue('~A', '~A')"
             (tagbody-value-id tagbody-value)
             (tagbody-value-index tagbody-value))))

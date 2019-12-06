@@ -62,7 +62,7 @@
                         ,(reduce-hir body))))
             (hir-arg2 hir))))
     ((go)
-     `(go ,(tagbody-value-index (hir-arg1 hir))))
+     `(go ,(tagbody-value-index (binding-id (hir-arg1 hir)))))
     ((catch)
      `(catch ,(reduce-hir (hir-arg1 hir))
         ,(reduce-hir (hir-arg2 hir))))

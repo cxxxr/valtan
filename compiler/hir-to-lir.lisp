@@ -166,7 +166,7 @@
          (hir-to-lir-1 form)))
      (make-lir 'const nil))
     ((go)
-     (emit-lir (make-lir 'jump (tagbody-value-index (hir-arg1 hir))))
+     (emit-lir (make-lir 'jump (tagbody-value-index (binding-id (hir-arg1 hir)))))
      (make-lir 'const nil))
     ((catch)
      )
