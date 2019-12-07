@@ -912,16 +912,15 @@
                           `(*:named-lambda ,name ,lambda-list (declare ,@declares) ,body))
                       t nil)))))
 
-(def-pass1-form *:multiple-value-call ((function &rest args)
-                                             return-value-p multiple-values-p)
+(def-pass1-form *:multiple-value-call ((function &rest args) return-value-p multiple-values-p)
   (make-hir 'call
-           return-value-p
-           multiple-values-p
-           '*:multiple-value-call
-           (cons (pass1 function t nil)
-                 (mapcar (lambda (arg)
-                           (pass1 arg t t))
-                         args))))
+            return-value-p
+            multiple-values-p
+            '*:multiple-value-call
+            (cons (pass1 function t nil)
+                  (mapcar (lambda (arg)
+                            (pass1 arg t t))
+                          args))))
 
 (def-pass1-form *:%defpackage ((name &key export use nicknames)
                                      return-value-p multiple-values-p)
