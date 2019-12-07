@@ -189,14 +189,17 @@
     (pass2-toplevel-forms hir-forms)
     (values)))
 
+(defun js-beautify (text &optional (output *standard-output*))
+  (with-input-from-string (in text)
+    (uiop:run-program "js-beautify"
+                      :input in
+                      :output output)))
+
 (defmacro with-js-beautify (&body body)
   `(let ((output
            (with-output-to-string (*standard-output*)
              (progn ,@body))))
-     (with-input-from-string (in output)
-       (uiop:run-program "js-beautify"
-                         :input in
-                         :output t))))
+     (js-beautify output)))
 
 (defun directory-files (base-dir files)
   (let ((base-path (asdf:system-relative-pathname :valtan base-dir)))
