@@ -48,7 +48,7 @@
   init-value
   (used-count 0)
   (set-count 0)
-  (escape-count 0))
+  (escape-count nil))
 
 (defstruct tagbody-value
   index
