@@ -812,7 +812,8 @@
                                                                             :id (make-tagbody-id))))
                                     tags)
                             *lexenv*))
-           (entry-statements)
+           (entry-tagbody-value
+             (make-tag-binding nil (make-tagbody-value :index (gensym) :id (make-tagbody-id))))
            (part-statements '())
            (tag-statements-pairs '())
            (none '#:none)
@@ -821,7 +822,9 @@
                (unless part-statements
                  (setf part-statements (list (pass1-const nil nil))))
                (if (eq last-tag none)
-                   (setq entry-statements (nreverse part-statements))
+                   (push (cons entry-tagbody-value
+                               (make-hir 'progn nil nil (nreverse part-statements)))
+                         tag-statements-pairs)
                    (push (let ((binding (lookup last-tag :tag)))
                            (assert binding)
                            (cons binding
@@ -836,15 +839,11 @@
                  (setf last-tag (first statements*)))
                 (t
                  (push (pass1 (first statements*) nil nil) part-statements))))
-        (make-hir 'progn
+        (make-hir 'tagbody
                   return-value-p
                   nil
-                  (append entry-statements
-                         (list (make-hir 'tagbody
-                                         return-value-p
-                                         nil
-                                         (make-tagbody-id)
-                                         (nreverse tag-statements-pairs)))))))))
+                  (make-tagbody-id)
+                  (nreverse tag-statements-pairs))))))
 
 (def-pass1-form go ((tag) return-value-p multiple-values-p)
   (unless (tag-literal-p tag)
