@@ -1,5 +1,6 @@
 (in-package :compiler)
 
+(defvar *env-for-escape* '())
 (defvar *current-tagbody-label* nil)
 
 (defmacro with-hir-args ((&rest args) hir &body body)
@@ -96,7 +97,8 @@
 (define-hir-optimizer lambda (hir)
   (with-hir-args (name lambda-list body) hir
     (remake-hir 'lambda hir name lambda-list
-                (let ((*current-tagbody-label* nil))
+                (let ((*current-tagbody-label* nil)
+                      (*env-for-escape* '()))
                   (list (hir-optimize-progn-forms body body))))))
 
 (define-hir-optimizer let (hir)
@@ -133,11 +135,16 @@
 
 (define-hir-optimizer block (hir)
   (with-hir-args (name body) hir
-    (let ((form (hir-optimize-progn-forms hir body)))
+    (setf (binding-escape-count name) 0)
+    (let ((form
+            (let ((*env-for-escape* (cons name *env-for-escape*)))
+              (hir-optimize-progn-forms hir body))))
       (remake-hir 'block hir name (list form)))))
 
 (define-hir-optimizer return-from (hir)
   (with-hir-args (name value) hir
+    (unless (member name *env-for-escape*)
+      (incf (binding-escape-count name)))
     (remake-hir 'return-from hir name (hir-optimize value))))
 
 (define-hir-optimizer tagbody (hir)
@@ -146,10 +153,11 @@
       (let ((binding (car tag-statements-pair)))
         (setf (binding-used-count binding) 1)
         (setf (binding-escape-count binding) 0)))
-    (dolist (pair tag-statements-pairs)
-      (setf (cdr pair)
-            (let ((*current-tagbody-label* (car pair)))
-              (hir-optimize (cdr pair)))))
+    (let ((*env-for-escape* (nconc (mapcar #'car tag-statements-pairs) *env-for-escape*)))
+      (dolist (pair tag-statements-pairs)
+        (setf (cdr pair)
+              (let ((*current-tagbody-label* (car pair)))
+                (hir-optimize (cdr pair))))))
     (let ((tag-statements-pairs
             (delete-if (lambda (pair)
                          (or (zerop (binding-used-count (car pair)))
@@ -174,6 +182,8 @@
     (incf (binding-used-count binding))
     (cond ((eq *current-tagbody-label* binding)
            (remake-hir 'recur hir))
+          ((member binding *env-for-escape*)
+           hir)
           (t
            (incf (binding-escape-count binding))
            hir))))
@@ -220,6 +230,12 @@
 (define-hir-optimizer module (hir)
   hir)
 
+(defun hir-optimize-toplevel (hir)
+  (let ((*env-for-escape* '()))
+    (hir-optimize hir)))
+
+
+
 (defun hir-optimize-test ()
   (flet ((test (input expected)
            (let ((actual (hir-optimize (pass1-toplevel input t nil))))
