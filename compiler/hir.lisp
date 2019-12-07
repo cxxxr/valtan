@@ -47,12 +47,12 @@
   id
   init-value
   (used-count 0)
-  (set-count 0))
+  (set-count 0)
+  (escape-count 0))
 
 (defstruct tagbody-value
   index
-  id
-  escape-count)
+  id)
 
 (defparameter *equal-error* t)
 

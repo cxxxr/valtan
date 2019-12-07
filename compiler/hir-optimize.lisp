@@ -145,7 +145,7 @@
     (dolist (tag-statements-pair tag-statements-pairs)
       (let ((binding (car tag-statements-pair)))
         (setf (binding-used-count binding) 1)
-        (setf (tagbody-value-escape-count (binding-id binding)) 0)))
+        (setf (binding-escape-count binding) 0)))
     (dolist (pair tag-statements-pairs)
       (setf (cdr pair)
             (let ((*current-tagbody-label* (car pair)))
@@ -159,7 +159,7 @@
       (cond ((null tag-statements-pairs)
              (remake-hir 'const hir nil))
             ((and (length=1 tag-statements-pairs)
-                  (zerop (tagbody-value-escape-count (binding-id (car (first tag-statements-pairs))))))
+                  (zerop (binding-escape-count (car (first tag-statements-pairs)))))
              (remake-hir 'loop
                          hir
                          (cdr (first tag-statements-pairs))))
@@ -175,7 +175,7 @@
     (cond ((eq *current-tagbody-label* binding)
            (remake-hir 'recur hir))
           (t
-           (incf (tagbody-value-escape-count (binding-id binding)))
+           (incf (binding-escape-count binding))
            hir))))
 
 (define-hir-optimizer catch (hir)
