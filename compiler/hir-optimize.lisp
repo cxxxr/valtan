@@ -148,34 +148,34 @@
     (remake-hir 'return-from hir name (hir-optimize value))))
 
 (define-hir-optimizer tagbody (hir)
-  (with-hir-args (tagbody-id tag-statements-pairs) hir
-    (dolist (tag-statements-pair tag-statements-pairs)
-      (let ((binding (car tag-statements-pair)))
+  (with-hir-args (tagbody-id tag-body-pairs) hir
+    (dolist (tag-body-pair tag-body-pairs)
+      (let ((binding (car tag-body-pair)))
         (setf (binding-used-count binding) 1)
         (setf (binding-escape-count binding) 0)))
-    (let ((*env-for-escape* (nconc (mapcar #'car tag-statements-pairs) *env-for-escape*)))
-      (dolist (pair tag-statements-pairs)
+    (let ((*env-for-escape* (nconc (mapcar #'car tag-body-pairs) *env-for-escape*)))
+      (dolist (pair tag-body-pairs)
         (setf (cdr pair)
               (let ((*current-tagbody-label* (car pair)))
                 (hir-optimize (cdr pair))))))
-    (let ((tag-statements-pairs
+    (let ((tag-body-pairs
             (delete-if (lambda (pair)
                          (or (zerop (binding-used-count (car pair)))
                              (and (= (binding-used-count (car pair)) 1)
                                   (const-hir-p (cdr pair)))))
-                       tag-statements-pairs)))
-      (cond ((null tag-statements-pairs)
+                       tag-body-pairs)))
+      (cond ((null tag-body-pairs)
              (remake-hir 'const hir nil))
-            ((and (length=1 tag-statements-pairs)
-                  (zerop (binding-escape-count (car (first tag-statements-pairs)))))
+            ((and (length=1 tag-body-pairs)
+                  (zerop (binding-escape-count (car (first tag-body-pairs)))))
              (remake-hir 'loop
                          hir
-                         (cdr (first tag-statements-pairs))))
+                         (cdr (first tag-body-pairs))))
             (t
              (remake-hir 'tagbody
                          hir
                          tagbody-id
-                         tag-statements-pairs))))))
+                         tag-body-pairs))))))
 
 (define-hir-optimizer go (hir)
   (with-hir-args (binding) hir
