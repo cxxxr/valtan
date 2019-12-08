@@ -12,6 +12,44 @@
      ,finally
      (write-line "}" *p2-emit-stream*)))
 
+(defmacro p2-emit-try-catch (try-form ((error-var) &body catch-form))
+  `(progn
+     (write-line "try {" *p2-emit-stream*)
+     ,try-form
+     (format *p2-emit-stream* "}catch(~A){" ,error-var)
+     ,@catch-form
+     (write-line "}" *p2-emit-stream*)))
+
+(defun p2-emit-for-aux (loop-var start end step function)
+  (write-string "for (let " *p2-emit-stream*)
+  (write-string loop-var *p2-emit-stream*)
+  (write-string " = " *p2-emit-stream*)
+  (princ start *p2-emit-stream*)
+  (write-string "; " *p2-emit-stream*)
+  (write-string loop-var *p2-emit-stream*)
+  (write-string " < " *p2-emit-stream*)
+  (write-string end *p2-emit-stream*)
+  (write-string "; " *p2-emit-stream*)
+  (write-string loop-var *p2-emit-stream*)
+  (if (= step 1)
+      (write-string " ++" *p2-emit-stream*)
+      (progn
+        (write-string " += " *p2-emit-stream*)
+        (princ step *p2-emit-stream*)))
+  (write-line ") {" *p2-emit-stream*)
+  (funcall function)
+  (write-line "}" *p2-emit-stream*))
+
+(defmacro p2-emit-for ((loop-var start end step) &body body)
+  `(p2-emit-for-aux ,loop-var ,start ,end ,step (lambda () ,@body)))
+
+(defmacro p2-with-unwind-special-vars (form unwind-code)
+  (let ((unwind-code-var (gensym)))
+    `(let ((,unwind-code-var ,unwind-code))
+       (if (string= ,unwind-code-var "")
+           ,form
+           (p2-emit-try-finally ,form (write-string ,unwind-code-var *p2-emit-stream*))))))
+
 (defmacro define-p2-emit (op (hir) &body body)
   (let ((name (make-symbol (format nil "~A:~A" (package-name (symbol-package op)) (symbol-name op)))))
     `(progn
@@ -31,21 +69,22 @@
 (defun p2-genvar (&optional (prefix "TMP"))
   (genvar prefix))
 
-(defun p2-escape-string (string)
+(defun p2-escape-string (string &optional prefix)
   (setq string (string string))
   (flet ((f (c)
            (or (cdr (assoc c *character-map*))
                (string c))))
     (with-output-to-string (out)
+      (when prefix (write-string prefix out))
       (map nil (lambda (c)
                  (write-string (f c) out))
            string))))
 
-(defun p2-local-var (symbol)
-  (concatenate 'string "L_" (p2-escape-string symbol)))
+(defun p2-local-var (symbol &optional (prefix "L_"))
+  (p2-escape-string symbol prefix))
 
 (defun p2-local-function (symbol)
-  (concatenate 'string "F_" (p2-escape-string symbol)))
+  (p2-escape-string symbol "F_"))
 
 (defun p2-symbol-to-js-value (symbol)
   (or (gethash symbol *p2-literal-symbols*)
@@ -159,28 +198,141 @@
           (format *p2-emit-stream* "}~%")
           (values)))))
 
-(defun p2-emit-declvar (binding value)
-  (ecase (binding-type binding)
-    ;; ((:special))
-    ((:variable)
-     (format *p2-emit-stream* "let ~A = ~A;~%" (p2-local-var (binding-id binding)) value))
-    ((:function)
-     (format *p2-emit-stream* "let ~A = ~A;~%" (p2-local-function (binding-name binding)) value))))
-
 (define-p2-emit progn (hir)
   (p2-forms (hir-arg1 hir)))
 
+(defun p2-emit-check-arguments (name parsed-lambda-list)
+  (let ((min (parsed-lambda-list-min parsed-lambda-list))
+        (max (parsed-lambda-list-max parsed-lambda-list)))
+    (cond ((null max)
+           (format *p2-emit-stream* "if(arguments.length < ~D) {~%" min))
+          ((= min max)
+           (format *p2-emit-stream* "if(arguments.length !== ~D) {~%" min))
+          (t
+           (format *p2-emit-stream* "if(arguments.length < ~D || ~D < arguments.length) {~%" min max)))
+    (if (null name)
+        (format *p2-emit-stream* "lisp.argumentsError(lisp.S_nil, arguments.length);~%")
+        (format *p2-emit-stream* "lisp.argumentsError(lisp.intern('~A'), arguments.length);~%" name))
+    (write-line "}" *p2-emit-stream*)))
+
+(defun p2-make-save-var (var)
+  (p2-local-var (binding-id var) "save_"))
+
+(defun p2-emit-unwind-var (var finally-stream)
+  (when (eq (binding-type var) :special)
+    (let ((js-var (p2-symbol-to-js-value (binding-name var)))
+          (save-var (p2-make-save-var var)))
+      (format finally-stream "~A.value=~A;~%" js-var save-var))))
+
+(defun p2-emit-declvar (var finally-stream)
+  (ecase (binding-type var)
+    ((:special)
+     (let ((js-var (p2-symbol-to-js-value (binding-name var)))
+           (save-var (p2-make-save-var var)))
+       (format *p2-emit-stream* "const ~A=~A.value;~%" save-var js-var)
+       (format *p2-emit-stream* "~A.value=" js-var))
+     (when finally-stream
+       (p2-emit-unwind-var var finally-stream)))
+    ((:variable)
+     (format *p2-emit-stream*
+             "let ~A="
+             (p2-local-var (binding-id var))))
+    ((:function)
+     (format *p2-emit-stream*
+             "let ~A="
+             (p2-local-function (binding-name var))))))
+
+(defun p2-emit-lambda-list (parsed-lambda-list finally-stream)
+  (let ((i 0))
+    (dolist (var (parsed-lambda-list-vars parsed-lambda-list))
+      (p2-emit-declvar var finally-stream)
+      (format *p2-emit-stream* "arguments[~D];~%" i)
+      (incf i))
+    (dolist (opt (parsed-lambda-list-optionals parsed-lambda-list))
+      (let ((var (first opt))
+            (value (second opt))
+            (supplied-binding (third opt)))
+        (let ((result (p2 value :expr)))
+          (p2-emit-declvar var finally-stream)
+          (format *p2-emit-stream* "arguments.length > ~D ? arguments[~D] : " i i)
+          (format *p2-emit-stream* "(~A);~%" result))
+        (when supplied-binding
+          (p2-emit-declvar supplied-binding finally-stream))
+        (incf i)))
+    (when (parsed-lambda-list-keys parsed-lambda-list)
+      (let ((keyword-vars '()))
+        (dolist (opt (parsed-lambda-list-keys parsed-lambda-list))
+          (let* ((var (first opt))
+                 (value (second opt))
+                 (supplied-binding (third opt))
+                 (keyword-var (p2-symbol-to-js-value (fourth opt)))
+                 (supplied-var (p2-local-var (binding-id var) "supplied_")))
+            (push keyword-var keyword-vars)
+            (format *p2-emit-stream* "let ~A;~%" supplied-var)
+            (let ((loop-var (p2-genvar)))
+              (p2-emit-for (loop-var i "arguments.length" 2)
+                (format *p2-emit-stream* "if(arguments[~D] === ~A){~%" loop-var keyword-var)
+                (format *p2-emit-stream* "~A=arguments[~D+1];~%" supplied-var loop-var)
+                (write-line "break;" *p2-emit-stream*)
+                (write-line "}" *p2-emit-stream*)))
+            (let ((result (p2 value :expr)))
+              (p2-emit-declvar var finally-stream)
+              (format *p2-emit-stream*
+                      "~A !== undefined ? ~A : (~A);~%"
+                      supplied-var
+                      supplied-var
+                      result))
+            (when supplied-binding
+              (p2-emit-declvar supplied-binding finally-stream)
+              (format *p2-emit-stream* "~A !== undefined ? lisp.S_t : lisp.S_nil);~%" supplied-var))))
+        (format *p2-emit-stream* "if((arguments.length-~D)%2===1)" i)
+        (write-line "{lisp.programError('odd number of &KEY arguments');}")
+        (when (and keyword-vars
+                   (null (parsed-lambda-list-allow-other-keys parsed-lambda-list)))
+          (let ((loop-var (p2-genvar)))
+            (p2-emit-for (loop-var i "arguments.length" 2)
+              (write-string "if(" *p2-emit-stream*)
+              (do ((keyword-vars keyword-vars (rest keyword-vars)))
+                  ((null keyword-vars))
+                (format *p2-emit-stream* "arguments[~D]!==~A" loop-var (first keyword-vars))
+                (when (rest keyword-vars)
+                  (write-string " && " *p2-emit-stream*)))
+              (format *p2-emit-stream*
+                      ") { lisp.programError('Unknown &KEY argument: ' + arguments[~A].name); }~%"
+                      loop-var))))))
+    (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
+      (when rest-var
+        (p2-emit-declvar rest-var finally-stream)
+        (format *p2-emit-stream* "lisp.jsArrayToList(arguments, ~D);~%" i)))))
+
 (define-p2-emit lambda (hir)
-  )
+  (let ((name (hir-arg1 hir))
+        (parsed-lambda-list (hir-arg2 hir))
+        (body (hir-arg3 hir)))
+    (write-line "(function(){" *p2-emit-stream*)
+    (p2-emit-check-arguments name parsed-lambda-list)
+    (let ((finally-code
+            (with-output-to-string (finally-stream)
+              (p2-emit-lambda-list parsed-lambda-list finally-stream))))
+      (p2-with-unwind-special-vars (let ((result (p2-forms body)))
+                                     (format *p2-emit-stream* "return ~A;~%" result))
+                                   finally-code))
+    (write-line "})" *p2-emit-stream*)))
 
 (define-p2-emit let (hir)
   (let ((bindings (hir-arg1 hir))
         (body (hir-arg2 hir)))
     (dolist (binding bindings)
       (let ((value (p2 (binding-init-value binding) :expr)))
-        (p2-emit-declvar binding value)))
-    ;; TODO: スペシャル変数の後始末
-    (p2-forms body)))
+        (p2-emit-declvar binding nil)
+        (format *p2-emit-stream* "~A;~%" value)))
+    (let (result)
+      (p2-with-unwind-special-vars
+       (setq result (p2-forms body))
+       (with-output-to-string (output)
+         (dolist (binding (reverse bindings))
+           (p2-emit-unwind-var binding output))))
+      result)))
 
 (defun p2-prepare-args (args)
   (mapcar (lambda (arg)
@@ -241,22 +393,49 @@
                                      saved-return-var))))
     result))
 
+(defvar *p2-block-result*)
+
 (define-p2-emit block (hir)
   (let ((name (hir-arg1 hir))
         (body (hir-arg2 hir)))
     (cond ((eql 0 (binding-escape-count name))
-           (format *p2-emit-stream* "~A: for(;;){" (binding-id name))
-           (p2-forms body)
-           (write-line "break;" *p2-emit-stream*)
-           (write-line "}" *p2-emit-stream*))
+           (let ((*p2-block-result* (p2-genvar)))
+             (format *p2-emit-stream* "let ~A;~%" *p2-block-result*)
+             (format *p2-emit-stream* "~A: for(;;){" (binding-id name))
+             (let ((result (p2-forms body)))
+               (format *p2-emit-stream* "~A=~A;~%" *p2-block-result* result))
+             (write-line "break;" *p2-emit-stream*)
+             (write-line "}" *p2-emit-stream*)
+             *p2-block-result*))
           (t
-           (error "Not yet implemented")))))
+           (let ((error-var (p2-genvar "E_"))
+                 result)
+             (p2-emit-try-catch
+              (setq result (p2-forms body))
+              ((error-var)
+               (format *p2-emit-stream*
+                       "if(~A instanceof lisp.BlockValue && ~A.name === ~A){return ~A.value;}~%"
+                       error-var
+                       error-var
+                       (p2-symbol-to-js-value (binding-name name))
+                       error-var)
+               (format *p2-emit-stream*
+                       "else{throw ~A;}~%" error-var)))
+             result)))))
 
 (define-p2-emit return-from (hir)
-  #+(or)
   (let ((name (hir-arg1 hir))
         (form (hir-arg2 hir)))
-    (format *p2-emit-stream* "break ~A;~%" (binding-id name))))
+    (cond ((eql 0 (binding-escape-count name))
+           (let ((result (p2-form form)))
+             (format *p2-emit-stream* "~A=~A;~%" *p2-block-result* result))
+           (format *p2-emit-stream* "break ~A;~%" (binding-id name)))
+          (t
+           (let ((result (p2-form form)))
+             (format *p2-emit-stream*
+                     "throw new lisp.BlockValue(~A,~A);"
+                     (p2-symbol-to-js-value (binding-name name))
+                     result))))))
 
 (define-p2-emit tagbody (hir)
   )
@@ -303,3 +482,12 @@
 (defun p2-toplevel (hir)
   (let ((*p2-literal-symbols* (make-hash-table)))
     (p2 hir (if (hir-return-value-p hir) :expr :stmt))))
+
+(defun p2-test (hir)
+  (let (result)
+    (let ((text
+            (with-output-to-string (*p2-emit-stream*)
+              (setq result (p2-toplevel hir)))))
+      (handler-case (js-beautify text)
+        (error () (write-line text)))
+      result)))
