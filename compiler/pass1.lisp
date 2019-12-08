@@ -788,7 +788,7 @@
   (let ((binding (lookup name :block)))
     (count-if-used binding)
     (if binding
-        (make-hir 'return-from nil nil binding (pass1 value t t))
+        (make-hir 'return-from return-value-p nil binding (pass1 value t t))
         (compile-error "return for unknown block: ~S" name))))
 
 (defvar *tagbody-id* 0)
