@@ -843,7 +843,8 @@
                   return-value-p
                   nil
                   (make-tagbody-id)
-                  (nreverse tag-statements-pairs))))))
+                  (nreverse tag-statements-pairs)
+                  nil)))))
 
 (def-pass1-form go ((tag) return-value-p multiple-values-p)
   (unless (tag-literal-p tag)

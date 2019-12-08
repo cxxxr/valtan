@@ -2,6 +2,7 @@
 
 (defvar *env-for-escape* '())
 (defvar *current-tagbody-label* nil)
+(defvar *tagbody-escape-pairs* nil)
 
 (defmacro with-hir-args ((&rest args) hir &body body)
   (let ((g-hir (gensym)))
@@ -153,29 +154,31 @@
       (let ((binding (car tag-body-pair)))
         (setf (binding-used-count binding) 1)
         (setf (binding-escape-count binding) 0)))
-    (let ((*env-for-escape* (nconc (mapcar #'car tag-body-pairs) *env-for-escape*)))
-      (dolist (pair tag-body-pairs)
-        (setf (cdr pair)
-              (let ((*current-tagbody-label* (car pair)))
-                (hir-optimize (cdr pair))))))
-    (let ((tag-body-pairs
-            (delete-if (lambda (pair)
-                         (or (zerop (binding-used-count (car pair)))
-                             (and (= (binding-used-count (car pair)) 1)
-                                  (const-hir-p (cdr pair)))))
-                       tag-body-pairs)))
-      (cond ((null tag-body-pairs)
-             (remake-hir 'const hir nil))
-            ((and (length=1 tag-body-pairs)
-                  (zerop (binding-escape-count (car (first tag-body-pairs)))))
-             (remake-hir 'loop
-                         hir
-                         (cdr (first tag-body-pairs))))
-            (t
-             (remake-hir 'tagbody
-                         hir
-                         tagbody-id
-                         tag-body-pairs))))))
+    (let ((*tagbody-escape-pairs* (acons tagbody-id nil *tagbody-escape-pairs*)))
+      (let ((*env-for-escape* (nconc (mapcar #'car tag-body-pairs) *env-for-escape*)))
+        (dolist (pair tag-body-pairs)
+          (setf (cdr pair)
+                (let ((*current-tagbody-label* (car pair)))
+                  (hir-optimize (cdr pair))))))
+      (let ((tag-body-pairs
+              (delete-if (lambda (pair)
+                           (or (zerop (binding-used-count (car pair)))
+                               (and (= (binding-used-count (car pair)) 1)
+                                    (const-hir-p (cdr pair)))))
+                         tag-body-pairs)))
+        (cond ((null tag-body-pairs)
+               (remake-hir 'const hir nil))
+              ((and (length=1 tag-body-pairs)
+                    (zerop (binding-escape-count (car (first tag-body-pairs)))))
+               (remake-hir 'loop
+                           hir
+                           (cdr (first tag-body-pairs))))
+              (t
+               (remake-hir 'tagbody
+                           hir
+                           tagbody-id
+                           tag-body-pairs
+                           (not (cdr (assoc tagbody-id *tagbody-escape-pairs* :test #'string=))))))))))
 
 (define-hir-optimizer go (hir)
   (with-hir-args (binding) hir
@@ -185,6 +188,9 @@
           ((member binding *env-for-escape*)
            hir)
           (t
+           (let ((tagbody-name (tagbody-value-id (binding-id binding))))
+             (setf (cdr (assoc tagbody-name *tagbody-escape-pairs* :test #'string=))
+                   t))
            (incf (binding-escape-count binding))
            hir))))
 
@@ -231,7 +237,8 @@
   hir)
 
 (defun hir-optimize-toplevel (hir)
-  (let ((*env-for-escape* '()))
+  (let ((*env-for-escape* '())
+        (*tagbody-escape-pairs* '()))
     (hir-optimize hir)))
 
 
