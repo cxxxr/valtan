@@ -144,6 +144,9 @@
        (p2-form (car forms)))
     (p2 (car forms) :stmt)))
 
+(defun p2-no-return ()
+  (p2-form (make-hir 'const t nil nil)))
+
 (define-p2-emit const (hir)
   (p2-literal (hir-arg1 hir)))
 
@@ -308,7 +311,11 @@
 (define-p2-emit lambda (hir)
   (let ((name (hir-arg1 hir))
         (parsed-lambda-list (hir-arg2 hir))
-        (body (hir-arg3 hir)))
+        (body (hir-arg3 hir))
+        lambda-result)
+    (when (hir-return-value-p hir)
+      (setq lambda-result (p2-genvar))
+      (format *p2-emit-stream* "let ~A=" lambda-result))
     (write-line "(function(){" *p2-emit-stream*)
     (p2-emit-check-arguments name parsed-lambda-list)
     (let ((finally-code
@@ -317,7 +324,9 @@
       (p2-with-unwind-special-vars (let ((result (p2-forms body)))
                                      (format *p2-emit-stream* "return ~A;~%" result))
                                    finally-code))
-    (write-line "})" *p2-emit-stream*)))
+    (write-line "});" *p2-emit-stream*)
+    (or lambda-result
+        (values))))
 
 (define-p2-emit let (hir)
   (let ((bindings (hir-arg1 hir))
@@ -393,20 +402,21 @@
                                      saved-return-var))))
     result))
 
-(defvar *p2-block-result*)
+(defun p2-block-result-var-name (name)
+  (concatenate 'string "BLOCK_" (string (binding-id name))))
 
 (define-p2-emit block (hir)
   (let ((name (hir-arg1 hir))
         (body (hir-arg2 hir)))
     (cond ((eql 0 (binding-escape-count name))
-           (let ((*p2-block-result* (p2-genvar)))
-             (format *p2-emit-stream* "let ~A;~%" *p2-block-result*)
+           (let ((block-result (p2-block-result-var-name name)))
+             (format *p2-emit-stream* "let ~A;~%" block-result)
              (format *p2-emit-stream* "~A: for(;;){" (binding-id name))
              (let ((result (p2-forms body)))
-               (format *p2-emit-stream* "~A=~A;~%" *p2-block-result* result))
+               (format *p2-emit-stream* "~A=~A;~%" block-result result))
              (write-line "break;" *p2-emit-stream*)
              (write-line "}" *p2-emit-stream*)
-             *p2-block-result*))
+             block-result))
           (t
            (let ((error-var (p2-genvar "E_"))
                  result)
@@ -428,25 +438,88 @@
         (form (hir-arg2 hir)))
     (cond ((eql 0 (binding-escape-count name))
            (let ((result (p2-form form)))
-             (format *p2-emit-stream* "~A=~A;~%" *p2-block-result* result))
+             (format *p2-emit-stream* "~A=~A;~%" (p2-block-result-var-name name) result))
            (format *p2-emit-stream* "break ~A;~%" (binding-id name)))
           (t
            (let ((result (p2-form form)))
              (format *p2-emit-stream*
                      "throw new lisp.BlockValue(~A,~A);"
                      (p2-symbol-to-js-value (binding-name name))
-                     result))))))
+                     result))))
+    (p2-no-return)))
+
+(define-p2-emit loop (hir)
+  (let ((body (hir-arg1 hir)))
+    (write-line "for(;;){" *p2-emit-stream*)
+    (p2 body :stmt)
+    (write-line "break;" *p2-emit-stream*)
+    (write-line "}" *p2-emit-stream*)
+    (p2-no-return)))
+
+(define-p2-emit recur (hir)
+  (write-line "continue;" *p2-emit-stream*)
+  (p2-no-return))
+
+(defun tagbody-state-name (tagbody-name)
+  (format nil "~A_STATE" tagbody-name))
+
+(defun tagbody-tag-name (tag)
+  (tagbody-value-index (binding-id tag)))
 
 (define-p2-emit tagbody (hir)
-  )
+  (let* ((tagbody-name (hir-arg1 hir))
+         (tag-body-pairs (hir-arg2 hir))
+         (exist-escape-p (not (hir-arg3 hir)))
+         (error-var (when exist-escape-p (p2-genvar "ERR"))))
+    (let ((state-var (tagbody-state-name tagbody-name)))
+      (format *p2-emit-stream* "let ~A;~%" state-var)
+      (progn
+        (format *p2-emit-stream* "~A: for(;;){~%" tagbody-name)
+        (progn
+          (when exist-escape-p
+            (write-line "try{" *p2-emit-stream*))
+          (progn
+            (format *p2-emit-stream* "switch(~A){~%" state-var)
+            (dolist (pair tag-body-pairs)
+              (destructuring-bind (tag . body) pair
+                (format *p2-emit-stream* "case '~A':~%" (tagbody-tag-name tag))
+                (p2 body :stmt)))
+            (write-line "}" *p2-emit-stream*))
+          (when exist-escape-p
+            (format *p2-emit-stream* "}catch(~A){~%" error-var)
+            (format *p2-emit-stream*
+                    "if(~A instanceof lisp.TagValue && ~A.id==='~A'){~A=~A.index;}~%"
+                    error-var
+                    error-var
+                    tagbody-name
+                    state-var
+                    error-var)
+            (format *p2-emit-stream* "else{throw ~A;}" error-var)
+            (write-line "}" *p2-emit-stream*)))
+        (write-line "break;" *p2-emit-stream*)
+        (write-line "}" *p2-emit-stream*)
+        (p2-no-return)))))
 
 (define-p2-emit go (hir)
-  )
+  (let ((tag (hir-arg1 hir)))
+    (cond ((eql 0 (binding-escape-count tag))
+           (let* ((name (tagbody-value-id (binding-id tag)))
+                  (state-var (tagbody-state-name name)))
+             (format *p2-emit-stream* "~A='~A';~%" state-var (tagbody-tag-name tag))
+             (format *p2-emit-stream* "continue ~A;~%" name)
+             (values)))
+          (t
+           (let ((tagbody-value (binding-id tag)))
+             (format *p2-emit-stream*
+                     "throw new lisp.TagValue('~A', '~A');~%"
+                     (tagbody-value-id tagbody-value)
+                     (tagbody-value-index tagbody-value))))))
+  (p2-no-return))
 
 (define-p2-emit catch (hir)
   )
 
-(define-p2-emit catch (hir)
+(define-p2-emit throw (hir)
   )
 
 (define-p2-emit *:%defun (hir)
