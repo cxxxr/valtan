@@ -232,7 +232,8 @@
                              "file"
                              "pkg"
                              "clos"
-                             "restart"))
+                             "restart"
+                             "catch-throw"))
           (directory-files "./compiler/"
                            '("packages"
                              "variables"

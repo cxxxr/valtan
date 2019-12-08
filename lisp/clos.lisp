@@ -1134,7 +1134,8 @@
                       (,report ,g-condition ,g-stream)))))
        ',name)))
 
-(define-condition condition (standard-object) ())
+(define-condition base-condition (standard-object) ())
+(define-condition condition (base-condition) ())
 (define-condition warning (condition) ())
 (define-condition style-warning (warning) ())
 (define-condition serious-condition (condition) ())
@@ -1189,6 +1190,6 @@
 (defun make-condition (type &rest initargs)
   (let ((class (find-class type nil)))
     (when (or (null class)
-              (not (subclassp class (find-class 'condition))))
+              (not (subclassp class (find-class 'base-condition))))
       (type-error type 'condition)))
   (apply #'make-instance type initargs))

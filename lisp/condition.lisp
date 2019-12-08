@@ -10,7 +10,7 @@
         ((and (*:structure-p datum)
               (eq (*:%structure-name datum)
                   'standard-instance)
-              (subclassp (class-of datum) (find-class 'condition)))
+              (subclassp (class-of datum) (find-class 'base-condition)))
          (when arguments
            (error 'type-error :datum arguments :expected-type nil))
          datum)

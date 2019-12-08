@@ -194,14 +194,6 @@
            (incf (binding-escape-count binding))
            hir))))
 
-(define-hir-optimizer catch (hir)
-  (with-hir-args (tag body) hir
-    (remake-hir 'catch hir (hir-optimize tag) (hir-optimize body))))
-
-(define-hir-optimizer throw (hir)
-  (with-hir-args (tag result) hir
-    (remake-hir 'throw hir (hir-optimize tag) (hir-optimize result))))
-
 (define-hir-optimizer *:%defun (hir)
   (with-hir-args (name lambda-form) hir
     (remake-hir '*:%defun hir name (hir-optimize lambda-form))))

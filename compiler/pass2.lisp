@@ -609,30 +609,6 @@
             (tagbody-value-id tagbody-value)
             (tagbody-value-index tagbody-value))))
 
-(def-emit catch (hir)
-  (pass2-enter t)
-  (let ((err (genvar "E_"))
-        (tag (genvar "TAG_")))
-    (format t "let ~A = " tag)
-    (pass2 (hir-arg1 hir))
-    (write-line ";")
-    (emit-try-catch
-        ((err)
-         (format t "if (~A instanceof lisp.CatchValue && ~A.symbol === ~A) { return ~A.value; }~%"
-                 err err tag err)
-         (format t "else { throw ~A; }~%" err))
-      (pass2 (hir-arg2 hir))))
-  (pass2-exit t))
-
-(def-emit throw (hir)
-  (pass2-enter (hir-return-value-p hir))
-  (write-string "throw new lisp.CatchValue(")
-  (pass2 (hir-arg1 hir))
-  (write-string ", ")
-  (pass2 (hir-arg2 hir))
-  (write-string ")")
-  (pass2-exit (hir-return-value-p hir)))
-
 (def-emit *:%defun (hir)
   (let ((name (hir-arg1 hir))
         (function (hir-arg2 hir)))

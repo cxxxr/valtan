@@ -855,20 +855,6 @@
     (count-if-used binding)
     (make-hir 'go nil nil binding)))
 
-(def-pass1-form catch ((tag &rest body) return-value-p multiple-values-p)
-  (make-hir 'catch
-           return-value-p
-           multiple-values-p
-           (pass1 tag t nil)
-           (apply #'pass1-progn return-value-p multiple-values-p body)))
-
-(def-pass1-form throw ((tag result) return-value-p multiple-values-p)
-  (make-hir 'throw
-           t
-           t
-           (pass1 tag t nil)
-           (pass1 result t t)))
-
 (def-pass1-form locally ((&rest body) return-value-p multiple-values-p)
   (multiple-value-bind (body declares)
       (parse-body body nil)

@@ -516,12 +516,6 @@
                      (tagbody-value-index tagbody-value))))))
   (p2-no-return))
 
-(define-p2-emit catch (hir)
-  )
-
-(define-p2-emit throw (hir)
-  )
-
 (define-p2-emit *:%defun (hir)
   )
 
