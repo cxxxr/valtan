@@ -642,7 +642,8 @@
     (when (rest vars)
       (write-string ", " *p2-emit-stream*)))
   (write-line ";" *p2-emit-stream*)
-  (p2-no-return))
+  (when (hir-return-value-p hir)
+    (p2-no-return)))
 
 (define-p2-emit ffi:typeof (hir)
   (let ((value (p2-form (hir-arg1 hir)))
