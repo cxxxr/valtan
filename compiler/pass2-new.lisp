@@ -2,6 +2,8 @@
 
 (defvar *p2-emit-stream* *standard-output*)
 (defvar *p2-literal-symbols* (make-hash-table))
+(defvar *p2-toplevel-defun-stream*)
+(defvar *p2-defun-names*)
 (defvar *p2-context*)
 
 (defmacro p2-emit-try-finally (try finally)
@@ -50,6 +52,12 @@
            ,form
            (p2-emit-try-finally ,form (write-string ,unwind-code-var *p2-emit-stream*))))))
 
+(defmacro p2-with-emit-paren (&body body)
+  `(progn
+     (write-string "(" *p2-emit-stream*)
+     ,@body
+     (write-string ")" *p2-emit-stream*)))
+
 (defmacro define-p2-emit (op (hir) &body body)
   (let ((name (make-symbol (format nil "~A:~A" (package-name (symbol-package op)) (symbol-name op)))))
     `(progn
@@ -83,8 +91,8 @@
 (defun p2-local-var (symbol &optional (prefix "L_"))
   (p2-escape-string symbol prefix))
 
-(defun p2-local-function (symbol)
-  (p2-escape-string symbol "F_"))
+(defun p2-local-function (symbol &optional (prefix "F_"))
+  (p2-escape-string symbol prefix))
 
 (defun p2-symbol-to-js-value (symbol)
   (or (gethash symbol *p2-literal-symbols*)
@@ -167,16 +175,22 @@
         (rhs (hir-arg2 hir)))
     (let ((result (p2-local-var (binding-id lhs)))
           (value (p2 rhs :expr)))
-      (format *p2-emit-stream* "~A = ~A;~%" result value)
-      result)))
+      (cond ((hir-return-value-p hir)
+             (format nil "(~A=~A)" result value))
+            (t
+             (format *p2-emit-stream* "~A=~A;~%" result value)
+             #+(or)(p2-no-return))))))
 
 (define-p2-emit gset (hir)
   (let ((lhs (hir-arg1 hir))
         (rhs (hir-arg2 hir)))
     (let ((ident (p2-symbol-to-js-value lhs))
           (value (p2 rhs :expr)))
-      (format *p2-emit-stream* "lisp.setSymbolValue(~A, ~A);~%" ident value)
-      ident)))
+      (cond ((hir-return-value-p hir)
+             (format nil "(~A=~A)" ident value))
+            (t
+             (format *p2-emit-stream* "lisp.setSymbolValue(~A, ~A);~%" ident value)
+             #+(or)(p2-no-return))))))
 
 (define-p2-emit if (hir)
   (let ((test (hir-arg1 hir))
@@ -213,9 +227,8 @@
            (format *p2-emit-stream* "if(arguments.length !== ~D) {~%" min))
           (t
            (format *p2-emit-stream* "if(arguments.length < ~D || ~D < arguments.length) {~%" min max)))
-    (if (null name)
-        (format *p2-emit-stream* "lisp.argumentsError(lisp.S_nil, arguments.length);~%")
-        (format *p2-emit-stream* "lisp.argumentsError(lisp.intern('~A'), arguments.length);~%" name))
+    (let ((symbol-var (p2-literal name)))
+      (format *p2-emit-stream* "lisp.argumentsError(~A, arguments.length);~%" symbol-var))
     (write-line "}" *p2-emit-stream*)))
 
 (defun p2-make-save-var (var)
@@ -344,9 +357,7 @@
       result)))
 
 (defun p2-prepare-args (args)
-  (mapcar (lambda (arg)
-            (p2 arg :expr))
-          args))
+  (mapcar #'p2-form args))
 
 (defun p2-emit-args (args)
   (do ((args args (cdr args)))
@@ -389,7 +400,9 @@
     (p2-emit-try-finally (setq result
                                (cond ((hir-return-value-p hir)
                                       (let ((protect-form-result (p2-form protected-form)))
-                                        (format *p2-emit-stream* "~A=lisp.currentValues();~%" saved-return-var)
+                                        (format *p2-emit-stream*
+                                                "~A=lisp.currentValues();~%"
+                                                saved-return-var)
                                         protect-form-result))
                                      (t
                                       (p2 protected-form :stmt)
@@ -517,28 +530,137 @@
   (p2-no-return))
 
 (define-p2-emit *:%defun (hir)
-  )
+  (let ((name (hir-arg1 hir))
+        (function (hir-arg2 hir)))
+    (let ((var (p2-local-function name
+                                  (if (symbol-package name)
+                                      (format nil
+                                              "CL_~A_"
+                                              (p2-escape-string
+                                               (package-name
+                                                (symbol-package name))))
+                                      "CL_"))))
+      (pushnew var *p2-defun-names* :test #'equal)
+      (let ((result (let ((*p2-emit-stream* *p2-toplevel-defun-stream*))
+                      (p2-form function))))
+        (format *p2-emit-stream* "~A=~A;~%" var result))
+      (let ((name-var (p2-symbol-to-js-value name)))
+        (format *p2-emit-stream* "lisp.setSymbolFunction(~A, ~A);~%" name-var var)
+        name-var))))
 
 (define-p2-emit *:%defpackage (hir)
-  )
+  (let ((name (hir-arg1 hir))
+        (specs (hir-arg2 hir)))
+    (destructuring-bind (export-names use-package-names nicknames) specs
+      (format *p2-toplevel-defun-stream* "lisp.defpackage('~A', {" name)
+      (let ((first t))
+        (write-string "exportNames: [" *p2-toplevel-defun-stream*)
+        (dolist (name export-names)
+          (if first
+              (setq first nil)
+              (write-string ", " *p2-toplevel-defun-stream*))
+          (format *p2-toplevel-defun-stream* "'~A'" name))
+        (write-string "]" *p2-toplevel-defun-stream*))
+      (write-string ", " *p2-toplevel-defun-stream*)
+      (let ((first t))
+        (write-string "usePackageNames: [" *p2-toplevel-defun-stream*)
+        (dolist (name use-package-names)
+          (if first
+              (setq first nil)
+              (write-string ", " *p2-toplevel-defun-stream*))
+          (format *p2-toplevel-defun-stream* "'~A'" name))
+        (write-string "]" *p2-toplevel-defun-stream*))
+      (write-string ", " *p2-toplevel-defun-stream*)
+      (let ((first t))
+        (write-string "nicknames: [" *p2-toplevel-defun-stream*)
+        (dolist (name nicknames)
+          (if first
+              (setq first nil)
+              (write-string ", " *p2-toplevel-defun-stream*))
+          (format *p2-toplevel-defun-stream* "'~A'" name))
+        (write-string "]" *p2-toplevel-defun-stream*)))
+    (write-line "});" *p2-toplevel-defun-stream*)
+    (let ((result (when (hir-return-value-p hir) (p2-genvar))))
+      (when (hir-return-value-p hir)
+        (format *p2-emit-stream* "~A=" result))
+      (format *p2-emit-stream* "lisp.ensurePackage('~A');" name)
+      (if (hir-return-value-p hir)
+          result
+          (p2-no-return)))))
 
 (define-p2-emit *:%in-package (hir)
-  )
+  (let ((name (hir-arg1 hir)))
+    (let ((result (when (hir-return-value-p hir) (p2-genvar))))
+      (when (hir-return-value-p hir)
+        (format *p2-emit-stream* "~A=" result))
+      (format *p2-emit-stream* "lisp.changeCurrentPackage('~A');" name)
+      (if (hir-return-value-p hir)
+          result
+          (p2-no-return)))))
+
+(defun p2-emit-ref (args)
+  (let ((code
+          (with-output-to-string (out)
+            (destructuring-bind (object . keys) args
+              (if (hir-p object)
+                  (let ((result (p2-form object)))
+                    (princ result out))
+                  (write-string object out))
+              (when keys
+                (write-string "." out))
+              (do ((keys keys (rest keys)))
+                  ((null keys))
+                (write-string (p2-escape-string (first keys)) out)
+                (when (rest keys)
+                  (write-string "." out)))))))
+    code))
 
 (define-p2-emit ffi:ref (hir)
-  )
+  (p2-emit-ref (hir-arg1 hir)))
 
 (define-p2-emit ffi:set (hir)
-  )
+  (let ((lhs (hir-arg1 hir))
+        (rhs (hir-arg2 hir)))
+    (let ((result (p2-form rhs)))
+      (format *p2-emit-stream*
+              "~A=~A;~%"
+              (p2 lhs (if (hir-return-value-p lhs) :expr :stmt))
+              result)
+      result)))
+
+(defun p2-convert-var (var)
+  (if (stringp var)
+      (p2-escape-string var)
+      (with-output-to-string (*p2-emit-stream*)
+        (p2-emit-ref (hir-arg1 var)))))
 
 (define-p2-emit ffi:var (hir)
-  )
+  (write-string "var " *p2-emit-stream*)
+  (do ((vars (hir-arg1 hir) (rest vars)))
+      ((null vars))
+    (write-string (p2-convert-var (first vars)) *p2-emit-stream*)
+    (when (rest vars)
+      (write-string ", " *p2-emit-stream*)))
+  (write-line ";" *p2-emit-stream*)
+  (p2-no-return))
 
 (define-p2-emit ffi:typeof (hir)
-  )
+  (let ((value (p2-form (hir-arg1 hir)))
+        (result (when (hir-return-value-p hir) (p2-genvar))))
+    (when (hir-return-value-p hir)
+      (format *p2-emit-stream* "~A=" result))
+    (format *p2-emit-stream* "(typeof ~A);~%" value)
+    (if (hir-return-value-p hir)
+        result
+        (p2-no-return))))
 
 (define-p2-emit ffi:aget (hir)
-  )
+  #+(or)
+  (let ((array (hir-arg1 hir))
+        (indexes (hir-arg2 hir)))
+    (let ((value (p2-form array))
+          (indexes (mapcar #'p2-form indexes)))
+      )))
 
 (define-p2-emit js-call (hir)
   )
@@ -552,9 +674,13 @@
 
 (defun p2-test (hir)
   (let (result)
-    (let ((text
-            (with-output-to-string (*p2-emit-stream*)
-              (setq result (p2-toplevel hir)))))
-      (handler-case (js-beautify text)
+    (let* ((*p2-toplevel-defun-stream* (make-string-output-stream))
+           (*p2-defun-names* '())
+           (text
+             (with-output-to-string (*p2-emit-stream*)
+               (setq result (p2-toplevel hir)))))
+      (handler-case (js-beautify (concatenate 'string
+                                              (get-output-stream-string *p2-toplevel-defun-stream*)
+                                              text))
         (error () (write-line text)))
       result)))
