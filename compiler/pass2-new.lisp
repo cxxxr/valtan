@@ -300,9 +300,9 @@
                       result))
             (when supplied-binding
               (p2-emit-declvar supplied-binding finally-stream)
-              (format *p2-emit-stream* "~A !== undefined ? lisp.S_t : lisp.S_nil);~%" supplied-var))))
+              (format *p2-emit-stream* "(~A !== undefined ? lisp.S_t : lisp.S_nil);~%" supplied-var))))
         (format *p2-emit-stream* "if((arguments.length-~D)%2===1)" i)
-        (write-line "{lisp.programError('odd number of &KEY arguments');}")
+        (write-line "{lisp.programError('odd number of &KEY arguments');}" *p2-emit-stream*)
         (when (and keyword-vars
                    (null (parsed-lambda-list-allow-other-keys parsed-lambda-list)))
           (let ((loop-var (p2-genvar)))
