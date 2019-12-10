@@ -655,6 +655,19 @@
         result
         (p2-no-return))))
 
+(define-p2-emit ffi:new (hir)
+  (let ((expr (hir-arg1 hir))
+        (args (hir-arg2 hir)))
+    (let ((fn (p2 expr :expr))
+          (args (p2-prepare-args args))
+          (result nil))
+      (when (hir-return-value-p hir)
+        (setq result (p2-genvar))
+        (format *p2-emit-stream* "~A=" result))
+      (format *p2-emit-stream* "new ~A(" fn)
+      (p2-emit-args args)
+      (or result (p2-no-return)))))
+
 (define-p2-emit ffi:aget (hir)
   (let ((array (hir-arg1 hir))
         (indexes (hir-arg2 hir)))
