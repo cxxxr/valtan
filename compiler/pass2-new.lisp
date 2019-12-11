@@ -787,6 +787,6 @@
         ;; (write-line "CL_COMMON_LISP_FINISH_OUTPUT();" *p2-emit-stream*)
         (format *p2-emit-stream* "console.log(~A);" err))))
     (p2-emit-initialize-vars stream)
-    (write-string (get-output-stream-string *p2-toplevel-defun-stream*) stream)
     (p2-emit-initialize-symbols stream)
+    (write-string (get-output-stream-string *p2-toplevel-defun-stream*) stream)
     (write-string (get-output-stream-string *p2-emit-stream*) stream)))
