@@ -74,6 +74,10 @@
     (assert fn)
     (funcall fn hir)))
 
+(defun p2-emit-declare-temporary-variables ()
+  (dolist (var (remove-duplicates *p2-temporary-variables* :test #'equal))
+    (format *p2-emit-stream* "let ~A;~%" var)))
+
 (defun p2-genvar (&optional (prefix "TMP"))
   (genvar prefix))
 
@@ -264,7 +268,7 @@
     ((:function)
      (let ((var (p2-local-function (binding-name var))))
        (push var *p2-temporary-variables*)
-       (format *p2-emit-stream* "let ~A=" var)))))
+       (format *p2-emit-stream* "~A=" var)))))
 
 (defun p2-emit-lambda-list (parsed-lambda-list finally-stream)
   (let ((i 0))
@@ -350,8 +354,7 @@
                    (let ((result (p2-forms body)))
                      (format *p2-emit-stream* "return ~A;~%" result))
                    finally-code)))))
-        (dolist (var *p2-temporary-variables*)
-          (format *p2-emit-stream* "let ~A;~%" var))
+        (p2-emit-declare-temporary-variables)
         (write-string code *p2-emit-stream*)))
     (write-line "});" *p2-emit-stream*)
     (or lambda-result
@@ -756,8 +759,7 @@
            *p2-literal-symbols*)
   (dolist (name *p2-defun-names*)
     (format stream "let ~A;~%" name))
-  (dolist (name *p2-temporary-variables*)
-    (format stream "let ~A;~%" name)))
+  (p2-emit-declare-temporary-variables))
 
 (defun p2-emit-initialize-symbols (stream)
   (maphash (lambda (symbol ident)
