@@ -144,11 +144,14 @@
         (t
          (error "unexpected literal: ~S" x))))
 
+(defun %p2-form (form)
+  (p2 form (if (hir-return-value-p form) :expr :stmt)))
+
 (defun p2-form (form)
   (cond ((hir-multiple-values-p form)
          (p2 form :expr))
         (t
-         (let ((result (p2 form (if (hir-return-value-p form) :expr :stmt))))
+         (let ((result (%p2-form form)))
            (format nil "lisp.values1(~A)" result)))))
 
 (defun p2-forms (forms)
@@ -179,7 +182,7 @@
   (let ((lhs (hir-arg1 hir))
         (rhs (hir-arg2 hir)))
     (let ((result (p2-local-var (binding-id lhs)))
-          (value (p2 rhs :expr)))
+          (value (p2-form rhs)))
       (cond ((hir-return-value-p hir)
              (format nil "(~A=~A)" result value))
             (t
@@ -190,7 +193,7 @@
   (let ((lhs (hir-arg1 hir))
         (rhs (hir-arg2 hir)))
     (let ((ident (p2-symbol-to-js-value lhs))
-          (value (p2 rhs :expr)))
+          (value (p2-form rhs)))
       (cond ((hir-return-value-p hir)
              (format nil "(~A=~A)" ident value))
             (t
@@ -203,7 +206,7 @@
         (else (hir-arg3 hir)))
     ;; TODO: elseが省略できる場合は省略する
     (if (hir-return-value-p hir)
-        (let ((test-result (p2 test :expr))
+        (let ((test-result (p2-form test))
               (if-result (p2-temporary-var)))
           (format *p2-emit-stream* "if(~A !== lisp.S_nil){~%" test-result)
           (format *p2-emit-stream* "~A=~A;~%" if-result (p2-form then))
@@ -211,7 +214,7 @@
           (format *p2-emit-stream* "~A=~A;~%" if-result (p2-form else))
           (format *p2-emit-stream* "}~%")
           if-result)
-        (let ((test-result (p2 test :expr)))
+        (let ((test-result (p2-form test)))
           (format *p2-emit-stream* "if(~A !== lisp.S_nil){~%" test-result)
           (p2 then :stmt)
           (format *p2-emit-stream* "}else{~%")
@@ -272,12 +275,13 @@
       (let ((var (first opt))
             (value (second opt))
             (supplied-binding (third opt)))
-        (let ((result (p2 value :expr)))
+        (let ((result (p2-form value)))
           (p2-emit-declvar var finally-stream)
           (format *p2-emit-stream* "arguments.length > ~D ? arguments[~D] : " i i)
           (format *p2-emit-stream* "(~A);~%" result))
         (when supplied-binding
-          (p2-emit-declvar supplied-binding finally-stream))
+          (p2-emit-declvar supplied-binding finally-stream)
+          (format *p2-emit-stream* "(arguments.length > ~D ? lisp.S_t : lisp.S_nil);~%" i))
         (incf i)))
     (when (parsed-lambda-list-keys parsed-lambda-list)
       (let ((keyword-vars '()))
@@ -295,7 +299,7 @@
                 (format *p2-emit-stream* "~A=arguments[~D+1];~%" supplied-var loop-var)
                 (write-line "break;" *p2-emit-stream*)
                 (write-line "}" *p2-emit-stream*)))
-            (let ((result (p2 value :expr)))
+            (let ((result (p2-form value)))
               (p2-emit-declvar var finally-stream)
               (format *p2-emit-stream*
                       "~A !== undefined ? ~A : (~A);~%"
@@ -356,7 +360,7 @@
   (let ((bindings (hir-arg1 hir))
         (body (hir-arg2 hir)))
     (dolist (binding bindings)
-      (let ((value (p2 (binding-init-value binding) :expr)))
+      (let ((value (p2-form (binding-init-value binding))))
         (p2-emit-declvar binding nil)
         (format *p2-emit-stream* "~A;~%" value)))
     (let (result)
@@ -637,7 +641,7 @@
     (let ((result (p2-form rhs)))
       (format *p2-emit-stream*
               "~A=~A;~%"
-              (p2 lhs (if (hir-return-value-p lhs) :expr :stmt))
+              (%p2-form lhs)
               result)
       result)))
 
@@ -671,7 +675,7 @@
 (define-p2-emit ffi:new (hir)
   (let ((expr (hir-arg1 hir))
         (args (hir-arg2 hir)))
-    (let ((fn (p2 expr :expr))
+    (let ((fn (%p2-form expr))
           (args (p2-prepare-args args))
           (result nil))
       (when (hir-return-value-p hir)
