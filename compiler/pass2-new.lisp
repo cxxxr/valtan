@@ -252,18 +252,19 @@
     ((:special)
      (let ((js-var (p2-symbol-to-js-value (binding-name var)))
            (save-var (p2-make-save-var var)))
-       (format *p2-emit-stream* "const ~A=~A.value;~%" save-var js-var)
+       (push save-var *p2-temporary-variables*)
+       (format *p2-emit-stream* "~A=~A.value;~%" save-var js-var)
        (format *p2-emit-stream* "~A.value=" js-var))
      (when finally-stream
        (p2-emit-unwind-var var finally-stream)))
     ((:variable)
-     (format *p2-emit-stream*
-             "let ~A="
-             (p2-local-var (binding-id var))))
+     (let ((var (p2-local-var (binding-id var))))
+       (push var *p2-temporary-variables*)
+       (format *p2-emit-stream* "~A=" var)))
     ((:function)
-     (format *p2-emit-stream*
-             "let ~A="
-             (p2-local-function (binding-name var))))))
+     (let ((var (p2-local-function (binding-name var))))
+       (push var *p2-temporary-variables*)
+       (format *p2-emit-stream* "let ~A=" var)))))
 
 (defun p2-emit-lambda-list (parsed-lambda-list finally-stream)
   (let ((i 0))
