@@ -185,8 +185,8 @@
         (warn "undefined function: ~S" name)))
     (write-line "import * as lisp from 'lisp';")
     (loop :for (var . module) :in *require-modules*
-          :do (format t "var ~A = require('~A');~%" (pass2-convert-var var) module))
-    (pass2-toplevel-forms hir-forms)
+          :do (format t "var ~A = require('~A');~%" (p2-convert-var var) module))
+    (p2-toplevel-forms hir-forms *standard-output*)
     (values)))
 
 (defun js-beautify (text &optional (output *standard-output*))
@@ -305,11 +305,11 @@
           (if (system-enable-profile system)
               (list (pass1-toplevel '((ffi:ref "lisp" "startProfile"))))
               '())))
-    (dolist (file (get-lisp-files))
-      (do-file-form (form file)
-        (push (pass1-toplevel form) hir-forms)))
-    (dolist (hir-form (pass1-dump-macros))
-      (push hir-form hir-forms))
+    ;; (dolist (file (get-lisp-files))
+    ;;   (do-file-form (form file)
+    ;;     (push (pass1-toplevel form) hir-forms)))
+    ;; (dolist (hir-form (pass1-dump-macros))
+    ;;   (push hir-form hir-forms))
     (nreverse (compile-with-system-1 system hir-forms))))
 
 (defun build-system (pathname &key output-file)
