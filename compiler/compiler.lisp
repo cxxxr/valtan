@@ -322,7 +322,9 @@
                                          :type "js"
                                          :defaults pathname)))
          (*in-host-runtime* t)
-         (*require-modules* '()))
+         (*require-modules* '())
+         (*genvar-counter* 0)
+         (*gensym-counter* 0))
     (with-open-file (output output-file
                             :direction :output
                             :if-does-not-exist :create

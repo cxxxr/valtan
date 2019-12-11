@@ -1019,9 +1019,7 @@
 
 (defun pass1-toplevel (form &optional return-value-p multiple-values-p)
   (let ((*lexenv* '())
-        (*compile-level* -1)
-        (*genvar-counter* 0)
-        (*gensym-counter* 0))
+        (*compile-level* -1))
     (pass1 form return-value-p multiple-values-p)))
 
 (defun pass1-module (file hir-forms export-modules)
