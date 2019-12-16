@@ -562,9 +562,14 @@
                                                 (symbol-package name))))
                                       "CL_"))))
       (pushnew var *p2-defun-names* :test #'equal)
-      (let ((result (let ((*p2-emit-stream* *p2-toplevel-defun-stream*))
-                      (p2-form function))))
-        (format *p2-emit-stream* "~A=~A;~%" var result))
+      (let ((*p2-temporary-variables* '()))
+        (let ((code (with-output-to-string (*p2-emit-stream*)
+                      (format *p2-emit-stream* "~A=~A;~%" var (p2-form function)))))
+          (format *p2-toplevel-defun-stream*
+                  "~A~A"
+                  (with-output-to-string (*p2-emit-stream*)
+                    (p2-emit-declare-temporary-variables))
+                  code)))
       (let ((name-var (p2-symbol-to-js-value name)))
         (format *p2-emit-stream* "lisp.setSymbolFunction(~A, ~A);~%" name-var var)
         name-var))))
@@ -716,14 +721,19 @@
   (let ((name (hir-arg1 hir))
         (forms (hir-arg2 hir))
         (export-modules (hir-arg3 hir)))
-    (format t "(function() { // *** module: ~A ***~%" name)
+    (format *p2-emit-stream* "(function() { // *** module: ~A ***~%" name)
     (p2-forms forms)
     (dolist (export-module export-modules)
       (destructuring-bind (name . as) export-module
         (if as
-            (format t "module.exports = ~A~%" (p2-convert-var name))
-            (format t "module.exports.~A = ~A~%" (p2-convert-var name) (p2-convert-var as)))))
-    (write-line "})();")))
+            (format *p2-emit-stream*
+                    "module.exports = ~A~%"
+                    (p2-convert-var name))
+            (format *p2-emit-stream*
+                    "module.exports.~A = ~A~%"
+                    (p2-convert-var name)
+                    (p2-convert-var as)))))
+    (write-line "})();" *p2-emit-stream*)))
 
 (defun p2-toplevel-1 (hir)
   (p2 hir (if (hir-return-value-p hir) :expr :stmt)))
@@ -759,7 +769,8 @@
            *p2-literal-symbols*)
   (dolist (name *p2-defun-names*)
     (format stream "let ~A;~%" name))
-  (p2-emit-declare-temporary-variables))
+  (let ((*p2-emit-stream* stream))
+    (p2-emit-declare-temporary-variables)))
 
 (defun p2-emit-initialize-symbols (stream)
   (maphash (lambda (symbol ident)
@@ -785,8 +796,12 @@
          (p2-toplevel-1 hir))
        ((err)
         ;; (write-line "CL_COMMON_LISP_FINISH_OUTPUT();" *p2-emit-stream*)
-        (format *p2-emit-stream* "console.log(~A);" err))))
+        (format *p2-emit-stream* "console.log(~A);~%" err))))
+    (write-line "// initialize-vars" stream)
     (p2-emit-initialize-vars stream)
-    (p2-emit-initialize-symbols stream)
+    (write-line "// toplevel defun" stream)
     (write-string (get-output-stream-string *p2-toplevel-defun-stream*) stream)
+    (write-line "// initialize symbols" stream)
+    (p2-emit-initialize-symbols stream)
+    (write-line "// main" stream)
     (write-string (get-output-stream-string *p2-emit-stream*) stream)))
