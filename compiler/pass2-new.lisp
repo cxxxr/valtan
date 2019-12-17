@@ -453,19 +453,20 @@
              block-result))
           (t
            (let ((error-var (p2-genvar "E_"))
-                 result)
+                 (result-var (p2-temporary-var)))
              (p2-emit-try-catch
-              (setq result (p2-forms body))
+              (format *p2-emit-stream* "~A=~A~%" result-var (p2-forms body))
               ((error-var)
                (format *p2-emit-stream*
-                       "if(~A instanceof lisp.BlockValue && ~A.name === ~A){return ~A.value;}~%"
+                       "if(~A instanceof lisp.BlockValue && ~A.name === ~A){~A=~A.value;}~%"
                        error-var
                        error-var
                        (p2-symbol-to-js-value (binding-name name))
+                       result-var
                        error-var)
                (format *p2-emit-stream*
                        "else{throw ~A;}~%" error-var)))
-             result)))))
+             result-var)))))
 
 (define-p2-emit return-from (hir)
   (let ((name (hir-arg1 hir))
@@ -518,7 +519,8 @@
               (destructuring-bind (tag . body) pair
                 (format *p2-emit-stream* "case '~A':~%" (tagbody-tag-name tag))
                 (p2 body :stmt)))
-            (write-line "}" *p2-emit-stream*))
+            (write-line "}" *p2-emit-stream*)
+            (write-line "break;" *p2-emit-stream*))
           (when exist-escape-p
             (format *p2-emit-stream* "}catch(~A){~%" error-var)
             (format *p2-emit-stream*
@@ -529,7 +531,6 @@
                     state-var
                     error-var)
             (format *p2-emit-stream* "else{throw ~A;}" error-var)
-            (write-line "break;" *p2-emit-stream*)
             (write-line "}" *p2-emit-stream*)))
         (write-line "}" *p2-emit-stream*)
         (p2-no-return)))))
