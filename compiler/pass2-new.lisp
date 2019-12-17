@@ -506,7 +506,7 @@
          (exist-escape-p (not (hir-arg3 hir)))
          (error-var (when exist-escape-p (p2-genvar "ERR"))))
     (let ((state-var (tagbody-state-name tagbody-name)))
-      (format *p2-emit-stream* "let ~A;~%" state-var)
+      (format *p2-emit-stream* "let ~A = '~A';~%" state-var (tagbody-tag-name (car (first tag-body-pairs))))
       (progn
         (format *p2-emit-stream* "~A: for(;;){~%" tagbody-name)
         (progn
@@ -529,8 +529,8 @@
                     state-var
                     error-var)
             (format *p2-emit-stream* "else{throw ~A;}" error-var)
+            (write-line "break;" *p2-emit-stream*)
             (write-line "}" *p2-emit-stream*)))
-        (write-line "break;" *p2-emit-stream*)
         (write-line "}" *p2-emit-stream*)
         (p2-no-return)))))
 
