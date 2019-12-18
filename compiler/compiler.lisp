@@ -237,20 +237,19 @@
                              "read"
                              "file"
                              "pkg"
-                             ;; "clos"
-                             ;; "restart"
-                             ;; "catch-throw"
+                             "clos"
+                             "restart"
+                             "catch-throw"
                              ))
           (directory-files "./compiler/"
                            '("packages"
-                             ;; "variables"
-                             ;; "util"
-                             ;; "error"
-                             ;; "hir"
-                             ;; "pass1"
-                             ;; "pass2"
+                             "variables"
+                             "util"
+                             "error"
+                             "hir"
+                             "pass1"
+                             "pass2"
                              ))
-          #+(or)
           (directory-files "./lisp/"
                            '("compilation"))))
 

@@ -218,6 +218,13 @@
       (write-string "})()")
       (write-line "}")))
 
+(defmacro with-pass2-expression (return-value-p &body body)
+  (let ((g-return-value-p (gensym)))
+    `(let ((,g-return-value-p ,return-value-p))
+       (pass2-enter ,g-return-value-p)
+       ,@body
+       (pass2-exit ,g-return-value-p))))
+
 (defmacro def-emit (op (hir) &body body)
   (let ((name (gensym (string (if (consp op) (car op) op)))))
     `(progn
@@ -300,20 +307,18 @@
     (write-string ")")))
 
 (def-emit if (hir)
-  (pass2-enter (hir-return-value-p hir))
-  (write-string "if (")
-  (pass2 (hir-arg1 hir))
-  (format t " !== lisp.S_nil) {~%")
-  (pass2-form (hir-arg2 hir))
-  (format t "} else {~%")
-  (pass2-form (hir-arg3 hir))
-  (format t "}")
-  (pass2-exit (hir-return-value-p hir)))
+  (with-pass2-expression (hir-return-value-p hir)
+    (write-string "if (")
+    (pass2 (hir-arg1 hir))
+    (format t " !== lisp.S_nil) {~%")
+    (pass2-form (hir-arg2 hir))
+    (format t "} else {~%")
+    (pass2-form (hir-arg3 hir))
+    (format t "}")))
 
 (def-emit progn (hir)
-  (pass2-enter (hir-return-value-p hir))
-  (pass2-forms (hir-arg1 hir))
-  (pass2-exit (hir-return-value-p hir)))
+  (with-pass2-expression (hir-return-value-p hir)
+    (pass2-forms (hir-arg1 hir))))
 
 (defun emit-check-arguments (name parsed-lambda-list)
   (let ((min (parsed-lambda-list-min parsed-lambda-list))
@@ -457,19 +462,18 @@
   (write-string "})"))
 
 (def-emit let (hir)
-  (pass2-enter (hir-return-value-p hir))
-  (dolist (binding (hir-arg1 hir))
-    (emit-declvar binding nil)
-    (pass2 (binding-init-value binding))
-    (format t ";~%"))
-  (with-unwind-special-vars
-      (progn
-        (pass2-forms (hir-arg2 hir)))
-    (with-output-to-string (output)
-      (when (hir-arg1 hir)
-        (dolist (binding (reverse (hir-arg1 hir)))
-          (emit-unwind-var binding output)))))
-  (pass2-exit (hir-return-value-p hir)))
+  (with-pass2-expression (hir-return-value-p hir)
+    (dolist (binding (hir-arg1 hir))
+      (emit-declvar binding nil)
+      (pass2 (binding-init-value binding))
+      (format t ";~%"))
+    (with-unwind-special-vars
+        (progn
+          (pass2-forms (hir-arg2 hir)))
+      (with-output-to-string (output)
+        (when (hir-arg1 hir)
+          (dolist (binding (reverse (hir-arg1 hir)))
+            (emit-unwind-var binding output)))))))
 
 (defun emit-call-args (args)
   (do ((arg* args (rest arg*)))
@@ -525,82 +529,78 @@
              (funcall builtin hir))))))
 
 (def-emit unwind-protect (hir)
-  (pass2-enter (hir-return-value-p hir))
-  (let ((result-var (gen-temporary-js-var "save_"))
-        (values-var (gen-temporary-js-var "values_"))
-        (protected-form (hir-arg1 hir)))
-    (format t "let ~A;~%" result-var)
-    (format t "let ~A;~%" values-var)
-    (emit-try-finally
-     (cond ((hir-return-value-p protected-form)
-            (format t "~A = " result-var)
-            (unless (hir-multiple-values-p protected-form)
-              (princ "lisp.values1("))
-            (pass2 protected-form)
-            (unless (hir-multiple-values-p protected-form)
-              (princ ")"))
-            (write-line ";")
-            (format t "~A = lisp.currentValues();" values-var)
-            (format t "return ~A;~%"  result-var))
-           (t
-            (pass2 protected-form)
-            (write-line ";")))
-     (progn
-       (pass2 (hir-arg2 hir))
-       (when (hir-return-value-p protected-form)
-         (format t "lisp.restoreValues(~A);~%" values-var)))))
-  (pass2-exit (hir-return-value-p hir)))
+  (with-pass2-expression (hir-return-value-p hir)
+    (let ((result-var (gen-temporary-js-var "save_"))
+          (values-var (gen-temporary-js-var "values_"))
+          (protected-form (hir-arg1 hir)))
+      (format t "let ~A;~%" result-var)
+      (format t "let ~A;~%" values-var)
+      (emit-try-finally
+       (cond ((hir-return-value-p protected-form)
+              (format t "~A = " result-var)
+              (unless (hir-multiple-values-p protected-form)
+                (princ "lisp.values1("))
+              (pass2 protected-form)
+              (unless (hir-multiple-values-p protected-form)
+                (princ ")"))
+              (write-line ";")
+              (format t "~A = lisp.currentValues();" values-var)
+              (format t "return ~A;~%"  result-var))
+             (t
+              (pass2 protected-form)
+              (write-line ";")))
+       (progn
+         (pass2 (hir-arg2 hir))
+         (when (hir-return-value-p protected-form)
+           (format t "lisp.restoreValues(~A);~%" values-var)))))))
 
 (def-emit block (hir)
-  (pass2-enter t)
-  (let ((name (hir-arg1 hir))
-        (error-var (genvar "E_")))
-    (emit-try-catch
-        ((error-var)
-         (format t "if (~A instanceof lisp.BlockValue && ~A.name === ~A) { return ~A.value; }~%"
-                 error-var
-                 error-var
-                 (symbol-to-js-value (binding-name name))
-                 error-var)
-         (format t "else { throw ~A; }~%" error-var))
-      (pass2-forms (hir-arg2 hir))))
-  (pass2-exit t))
+  (with-pass2-expression t ; 返り値が不要な場合はnilにできる？
+    (let ((name (hir-arg1 hir))
+          (error-var (genvar "E_")))
+      (emit-try-catch
+          ((error-var)
+           (format t "if (~A instanceof lisp.BlockValue && ~A.name === ~A) { return ~A.value; }~%"
+                   error-var
+                   error-var
+                   (symbol-to-js-value (binding-name name))
+                   error-var)
+           (format t "else { throw ~A; }~%" error-var))
+        (pass2-forms (hir-arg2 hir))))))
 
 (def-emit return-from (hir)
-  (pass2-enter (hir-return-value-p hir))
-  (let ((name (hir-arg1 hir)))
-    (format t "throw new lisp.BlockValue(~A," (symbol-to-js-value (binding-name name)))
-    (pass2 (hir-arg2 hir))
-    (write-string ")"))
-  (pass2-exit (hir-return-value-p hir)))
+  (with-pass2-expression (hir-return-value-p hir)
+    (let ((name (hir-arg1 hir)))
+      (format t "throw new lisp.BlockValue(~A," (symbol-to-js-value (binding-name name)))
+      (pass2 (hir-arg2 hir))
+      (write-string ")"))))
 
 (def-emit tagbody (hir)
-  (pass2-enter (hir-return-value-p hir))
-  (let ((tag (genvar "V"))
-        (err (genvar "E_")))
-    (if (null (hir-arg2 hir))
-        (format t "let ~A;~%" tag)
-        (format t "let ~A = '~A';~%" tag (tagbody-value-index (binding-id (car (first (hir-arg2 hir)))))))
-    (write-line "for (;;) {")
-    (emit-try-catch
-        ((err)
-         (format t "if (~A instanceof lisp.TagValue && ~A.id === '~A') { ~A = ~A.index; }~%"
-                 err
-                 err
-                 (hir-arg1 hir)
-                 tag
-                 err)
-         (format t "else { throw ~A; }~%" err))
-      (format t "switch(~A) {~%" tag)
-      (dolist (tag-body (hir-arg2 hir))
-        (destructuring-bind (tag . body) tag-body
-          (format t "case '~A':~%" (tagbody-value-index (binding-id tag)))
-          (pass2 body)))
+  (with-pass2-expression (hir-return-value-p hir)
+    (let ((tag (genvar "V"))
+          (err (genvar "E_")))
+      (if (null (hir-arg2 hir))
+          (format t "let ~A;~%" tag)
+          (format t "let ~A = '~A';~%" tag (tagbody-value-index (binding-id (car (first (hir-arg2 hir)))))))
+      (write-line "for (;;) {")
+      (emit-try-catch
+          ((err)
+           (format t "if (~A instanceof lisp.TagValue && ~A.id === '~A') { ~A = ~A.index; }~%"
+                   err
+                   err
+                   (hir-arg1 hir)
+                   tag
+                   err)
+           (format t "else { throw ~A; }~%" err))
+        (format t "switch(~A) {~%" tag)
+        (dolist (tag-body (hir-arg2 hir))
+          (destructuring-bind (tag . body) tag-body
+            (format t "case '~A':~%" (tagbody-value-index (binding-id tag)))
+            (pass2 body)))
+        (write-line "}")
+        (write-line "break;"))
       (write-line "}")
-      (write-line "break;"))
-    (write-line "}")
-    (when (hir-return-value-p hir) (write-line "return lisp.S_nil;")))
-  (pass2-exit (hir-return-value-p hir)))
+      (when (hir-return-value-p hir) (write-line "return lisp.S_nil;")))))
 
 (def-emit go (hir)
   (let* ((binding (hir-arg1 hir))
