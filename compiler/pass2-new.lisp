@@ -660,8 +660,7 @@
 (defun p2-convert-var (var)
   (if (stringp var)
       (p2-escape-string var)
-      (with-output-to-string (*p2-emit-stream*)
-        (p2-emit-ref (hir-arg1 var)))))
+      (p2-emit-ref (hir-arg1 var))))
 
 (define-p2-emit ffi:var (hir)
   (write-string "var " *p2-emit-stream*)
