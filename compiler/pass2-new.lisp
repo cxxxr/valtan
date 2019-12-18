@@ -378,7 +378,7 @@
       result)))
 
 (defun p2-prepare-args (args)
-  (mapcar #'p2-form args))
+  (mapcar #'%p2-form args))
 
 (defun p2-emit-args (args)
   (do ((args args (cdr args)))
@@ -786,7 +786,7 @@
                  (format stream "~A = lisp.makeSymbol(\"~A\");" ident symbol)))
            *p2-literal-symbols*))
 
-(defun p2-toplevel-forms (hir-forms stream)
+(defun p2-toplevel-forms (hir-forms &optional (stream *standard-output*))
   (let ((*p2-literal-symbols* (make-hash-table))
         (*p2-defun-names* '())
         (*p2-temporary-variables* '())
