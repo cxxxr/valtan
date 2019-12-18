@@ -173,6 +173,8 @@
        (do-forms (,var ,in)
          ,@body))))
 
+(defparameter *pass2-new* nil)
+
 (defun in-pass2 (hir-forms)
   (let ((*defined-function-names* '())
         (*called-function-names* '()))
@@ -185,8 +187,12 @@
         (warn "undefined function: ~S" name)))
     (write-line "import * as lisp from 'lisp';")
     (loop :for (var . module) :in *require-modules*
-          :do (format t "var ~A = require('~A');~%" (p2-convert-var var) module))
-    (p2-toplevel-forms hir-forms *standard-output*)
+          :do (if *pass2-new*
+                  (format t "var ~A = require('~A');~%" (p2-convert-var var) module)
+                  (format t "var ~A = require('~A');~%" (pass2-convert-var var) module)))
+    (if *pass2-new*
+        (p2-toplevel-forms hir-forms *standard-output*)
+        (pass2-toplevel-forms hir-forms))
     (values)))
 
 (defun js-beautify (text &optional (output *standard-output*))
