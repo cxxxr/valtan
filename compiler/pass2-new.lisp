@@ -174,7 +174,7 @@
   (let ((binding (hir-arg1 hir)))
     (ecase (binding-type binding)
       ((:function)
-       (p2-local-function (binding-name binding)))
+       (p2-local-function (binding-id binding)))
       ((:variable)
        (p2-local-var (binding-id (hir-arg1 hir)))))))
 
@@ -266,7 +266,7 @@
        (push var *p2-temporary-variables*)
        (format *p2-emit-stream* "~A=" var)))
     ((:function)
-     (let ((var (p2-local-function (binding-name var))))
+     (let ((var (p2-local-function (binding-id var))))
        (push var *p2-temporary-variables*)
        (format *p2-emit-stream* "~A=" var)))))
 
@@ -363,6 +363,7 @@
 (define-p2-emit let (hir)
   (let ((bindings (hir-arg1 hir))
         (body (hir-arg2 hir)))
+    (write-line "{" *p2-emit-stream*)
     (dolist (binding bindings)
       (let ((value (p2-form (binding-init-value binding))))
         (p2-emit-declvar binding nil)
@@ -373,6 +374,7 @@
        (with-output-to-string (output)
          (dolist (binding (reverse bindings))
            (p2-emit-unwind-var binding output))))
+      (write-line "}" *p2-emit-stream*)
       result)))
 
 (defun p2-prepare-args (args)
@@ -392,7 +394,7 @@
     (when (hir-return-value-p hir)
       (setq result (p2-temporary-var))
       (format *p2-emit-stream* "~A=" result))
-    (format *p2-emit-stream* "~A(" (p2-local-function (binding-name (hir-arg1 hir))))
+    (format *p2-emit-stream* "~A(" (p2-local-function (binding-id (hir-arg1 hir))))
     (p2-emit-args args)
     result))
 
@@ -401,6 +403,7 @@
   (let ((symbol (hir-arg1 hir))
         (args (p2-prepare-args (hir-arg2 hir)))
         (result nil))
+    (format *p2-emit-stream* "// ~A~%" symbol)
     (when (hir-return-value-p hir)
       (setq result (p2-temporary-var))
       (format *p2-emit-stream* "~A=" result))

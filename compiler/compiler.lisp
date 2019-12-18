@@ -173,7 +173,7 @@
        (do-forms (,var ,in)
          ,@body))))
 
-(defparameter *pass2-new* nil)
+(defparameter *pass2-new* t)
 
 (defun in-pass2 (hir-forms)
   (let ((*defined-function-names* '())
@@ -250,8 +250,9 @@
                              "pass1"
                              "pass2"
                              ))
-          (directory-files "./lisp/"
-                           '("compilation"))))
+          ;; (directory-files "./lisp/"
+          ;;                  '("compilation"))
+          ))
 
 (defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
 
