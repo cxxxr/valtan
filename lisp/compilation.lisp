@@ -5,7 +5,10 @@
 (defun compile-toplevel (x)
   (let ((ir (compiler::pass1-toplevel x t)))
     (with-output-to-string (*standard-output*)
-      (compiler::p2-toplevel ir))))
+      #+pass2-new
+      (compiler::p2-toplevel ir)
+      #-pass2-new
+      (compiler::pass2-toplevel ir))))
 
 (defun eval (x)
   (ffi:js-eval (compile-toplevel x)))
