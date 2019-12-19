@@ -9,7 +9,7 @@
                  (:file "hir")
                  (:file "pass1")
                  (:file "hir-optimize")
-                 (:file "pass2")
+                 ;; (:file "pass2")
                  (:file "pass2-new")
                  ;; (:file "hir-to-lir")
                  ;; (:file "flow-graph")

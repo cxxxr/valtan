@@ -1,5 +1,9 @@
 (ffi:require js:fs "fs")
 
+(let ((compiler::*debug* t))
+  (print (compiler::p2-symbol-to-js-value t)))
+
+#|
 (defun test (filename)
   (with-open-file (in filename)
     (let ((eof-value '#:eof)
@@ -48,3 +52,4 @@
 (test "sacla-tests/should-string.lisp")
 (test "sacla-tests/should-symbol.lisp")
 ;; (test "sacla-tests/x-sequence.lisp")
+|#
