@@ -144,10 +144,6 @@
   (p2-escape-string symbol prefix))
 
 (defun p2-symbol-to-js-value (symbol)
-  (when *debug*
-    (write-line "=== debug ===")
-    (genvar "G")
-    (write-line "=== end ==="))
   (or (gethash symbol *p2-literal-symbols*)
       (setf (gethash symbol *p2-literal-symbols*)
             (genvar "G"))))
