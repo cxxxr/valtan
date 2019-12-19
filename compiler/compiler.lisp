@@ -250,8 +250,8 @@
                              "pass1"
                              "pass2-new"
                              ))
-          ;; (directory-files "./lisp/"
-          ;;                  '("compilation"))
+          (directory-files "./lisp/"
+                           '("compilation"))
           ))
 
 (defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
