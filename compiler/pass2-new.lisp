@@ -239,7 +239,7 @@
     (let ((ident (p2-symbol-to-js-value lhs))
           (value (p2-form rhs)))
       (cond ((hir-return-value-p hir)
-             (format nil "(~A=~A)" ident value))
+             (format nil "lisp.setSymbolValue(~A, ~A)" ident value))
             (t
              (format *p2-emit-stream* "lisp.setSymbolValue(~A, ~A);~%" ident value)
              #+(or)(p2-no-return))))))
