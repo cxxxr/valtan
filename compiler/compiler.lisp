@@ -186,10 +186,10 @@
     (write-line "import * as lisp from 'lisp';")
     (loop :for (var . module) :in *require-modules*
           :do (progn
-                #+pass2-new (format t "var ~A = require('~A');~%" (p2-convert-var var) module)
-                #-pass2-new (format t "var ~A = require('~A');~%" (pass2-convert-var var) module)))
-    #+pass2-new (p2-toplevel-forms hir-forms *standard-output*)
-    #-pass2-new (pass2-toplevel-forms hir-forms)
+                #+valtan.pass2-new (format t "var ~A = require('~A');~%" (p2-convert-var var) module)
+                #-valtan.pass2-new (format t "var ~A = require('~A');~%" (pass2-convert-var var) module)))
+    #+valtan.pass2-new (p2-toplevel-forms hir-forms *standard-output*)
+    #-valtan.pass2-new (pass2-toplevel-forms hir-forms)
     (values)))
 
 (defun js-beautify (text &optional (output *standard-output*))
@@ -245,8 +245,8 @@
                              "error"
                              "hir"
                              "pass1"
-                             #+pass2-new "pass2-new"
-                             #-pass2-new "pass2"
+                             #+valtan.pass2-new "pass2-new"
+                             #-valtan.pass2-new "pass2"
                              ))
           (directory-files "./lisp/"
                            '("compilation"))
