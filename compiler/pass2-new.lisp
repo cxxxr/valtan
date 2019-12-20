@@ -194,9 +194,11 @@
 (defun p2-form (form)
   (cond ((hir-multiple-values-p form)
          (p2 form :expr))
+        ((hir-return-value-p form)
+         (format nil "lisp.values1(~A)" (%p2-form form)))
         (t
-         (let ((result (%p2-form form)))
-           (format nil "lisp.values1(~A)" result)))))
+         (%p2-form form)
+         (p2-no-return))))
 
 (defun p2-forms (forms)
   (do ((forms forms (cdr forms)))
