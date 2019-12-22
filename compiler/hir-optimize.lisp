@@ -194,6 +194,12 @@
            (incf (binding-escape-count binding))
            hir))))
 
+(define-hir-optimizer loop (hir)
+  hir)
+
+(define-hir-optimizer recur (hir)
+  hir)
+
 (define-hir-optimizer *:%defun (hir)
   (with-hir-args (name lambda-form) hir
     (remake-hir '*:%defun hir name (hir-optimize lambda-form))))
