@@ -100,7 +100,7 @@
     (remake-hir 'lambda hir name lambda-list
                 (let ((*current-tagbody-label* nil)
                       (*env-for-escape* '()))
-                  (list (hir-optimize-progn-forms body body))))))
+                  (hir-optimize body)))))
 
 (define-hir-optimizer let (hir)
   (with-hir-args (bindings body) hir

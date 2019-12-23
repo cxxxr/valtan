@@ -124,7 +124,7 @@
     ((progn)
      `(progn ,@(mapcar #'reduce-hir (hir-arg1 hir))))
     ((lambda)
-     `(named-lambda ,(hir-arg1 hir) ,(hir-arg2 hir) ,@(mapcar #'reduce-hir (hir-arg3 hir))))
+     `(named-lambda ,(hir-arg1 hir) ,(hir-arg2 hir) ,(reduce-hir (hir-arg3 hir))))
     ((let)
      `(let ,(mapcar (lambda (b)
                       `(,(binding-id b)

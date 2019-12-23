@@ -457,7 +457,7 @@
             (with-output-to-string (finally-stream)
               (emit-lambda-list parsed-lambda-list finally-stream))))
       (with-unwind-special-vars
-          (pass2-forms (hir-arg3 hir))
+          (pass2-form (hir-arg3 hir))
         finally-code)))
   (write-string "})"))
 

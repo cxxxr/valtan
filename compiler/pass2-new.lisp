@@ -487,7 +487,7 @@
                         (with-output-to-string (finally-stream)
                           (p2-emit-lambda-list parsed-lambda-list finally-stream))))
                   (p2-with-unwind-special-vars
-                   (let ((result (p2-forms body)))
+                   (let ((result (p2-form body)))
                      (format *p2-emit-stream* "return ~A;~%" result))
                    finally-code)))))
         (p2-emit-declare-temporary-variables)

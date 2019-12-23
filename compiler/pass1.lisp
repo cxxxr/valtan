@@ -465,11 +465,11 @@
                  (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
                  (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
             (make-hir 'lambda
-                     return-value-p
-                     nil
-                     name
-                     parsed-lambda-list
-                     (pass1-forms body t t))))))))
+                      return-value-p
+                      nil
+                      name
+                      parsed-lambda-list
+                      (make-hir 'progn t t (pass1-forms body t t)))))))))
 
 (defun %macro-function (symbol)
   (let ((binding (lookup symbol :macro)))
