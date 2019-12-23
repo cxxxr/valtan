@@ -307,6 +307,8 @@
       (push hir-form hir-forms)))
   hir-forms)
 
+(defparameter *hir-optimize* t)
+
 (defun compile-with-system (system)
   (let ((hir-forms
           (if (system-enable-profile system)
@@ -314,7 +316,10 @@
               '())))
     (dolist (file (get-lisp-files))
       (do-file-form (form file)
-        (push (pass1-toplevel form) hir-forms)))
+        (push (if *hir-optimize*
+                  (hir-optimize (pass1-toplevel form))
+                  (pass1-toplevel form))
+              hir-forms)))
     (dolist (hir-form (pass1-dump-macros))
       (push hir-form hir-forms))
     (nreverse (compile-with-system-1 system hir-forms))))

@@ -611,7 +611,10 @@
     result))
 
 (defun p2-block-result-var-name (name)
-  (concatenate 'string "BLOCK_" (string (binding-id name))))
+  (concatenate 'string "BLOCK_" (p2-escape-string (binding-id name))))
+
+(defun p2-escape-block-name (name)
+  (concatenate 'string "BLOCK_" (p2-escape-string (binding-id name))))
 
 (define-p2-emit block (hir)
   (let ((name (hir-arg1 hir))
@@ -619,7 +622,7 @@
     (cond ((eql 0 (binding-escape-count name))
            (let ((block-result (p2-block-result-var-name name)))
              (format *p2-emit-stream* "let ~A;~%" block-result)
-             (format *p2-emit-stream* "~A: for(;;){" (binding-id name))
+             (format *p2-emit-stream* "~A: for(;;){" (p2-escape-block-name name))
              (let ((result (p2-forms body)))
                (format *p2-emit-stream* "~A=~A;~%" block-result result))
              (write-line "break;" *p2-emit-stream*)
@@ -648,7 +651,7 @@
     (cond ((eql 0 (binding-escape-count name))
            (let ((result (p2-form form)))
              (format *p2-emit-stream* "~A=~A;~%" (p2-block-result-var-name name) result))
-           (format *p2-emit-stream* "break ~A;~%" (binding-id name)))
+           (format *p2-emit-stream* "break ~A;~%" (p2-escape-block-name name)))
           (t
            (let ((result (p2-form form)))
              (format *p2-emit-stream*
@@ -676,7 +679,7 @@
   (tagbody-value-index (binding-id tag)))
 
 (define-p2-emit tagbody (hir)
-  (let* ((tagbody-name (hir-arg1 hir))
+  (let* ((tagbody-name (p2-escape-string (hir-arg1 hir)))
          (tag-body-pairs (hir-arg2 hir))
          (exist-escape-p (not (hir-arg3 hir)))
          (error-var (when exist-escape-p (p2-genvar "ERR"))))
