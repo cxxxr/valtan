@@ -611,7 +611,7 @@
     result))
 
 (defun p2-block-result-var-name (name)
-  (concatenate 'string "BLOCK_" (p2-escape-string (binding-id name))))
+  (concatenate 'string "BLOCK_RESULT_" (p2-escape-string (binding-id name))))
 
 (defun p2-escape-block-name (name)
   (concatenate 'string "BLOCK_" (p2-escape-string (binding-id name))))
