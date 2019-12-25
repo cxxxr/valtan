@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"symbol.lisp")
+
 (in-package :common-lisp)
 
 (defun make-symbol (string)

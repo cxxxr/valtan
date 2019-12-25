@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"sequence.lisp")
+
 (in-package :common-lisp)
 
 (defun check-both-bounds (start end length)

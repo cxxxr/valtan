@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"hashtable.lisp")
+
 (in-package :common-lisp)
 
 #+(or)

@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"cons.lisp")
+
 (in-package :common-lisp)
 
 (defun atom (x)

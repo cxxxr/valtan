@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"string.lisp")
+
 (in-package :common-lisp)
 
 (defun stringp (x)

@@ -295,4 +295,11 @@
                               (list (make-hir 'block t t
                                               (binding  "FOO_2" :block nil)
                                               (make-hir 'lref t nil
-                                                        (binding "X_1" :variable nil)))))))))
+                                                        (binding "X_1" :variable nil)))))))
+    '(let ()
+      (block nil
+        (tagbody
+          (lambda () (return nil)))))
+    '(block nil
+      (tagbody
+        (lambda () (return nil))))))

@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"clos.lisp")
+
 (in-package :common-lisp)
 
 (defun list-remove-duplicates (list)
@@ -282,6 +284,7 @@
   (check-duplicate-direct-slots direct-slots)
   (check-duplicate-direct-default-initargs direct-default-initargs name)
   (setq direct-superclasses (mapcar #'find-class direct-superclasses))
+  ((ffi:ref "console" "log") #j"hoge")
   (cond (class
          (std-after-initialization-for-classes class
                                                :direct-superclasses direct-superclasses
@@ -958,6 +961,11 @@
                                (setf (slot-value object slot-name) new-value)))))
 
 
+((ffi:ref "console" "log") 1)
+
+;(print '(a b c)) ;これはエラー
+(mapcar #'identity '(1)) ;これは無限ループ
+
 (setq +standard-class+
       (let ((standard-class (make-standard-instance)))
         (setf (standard-instance-class standard-class) standard-class)
@@ -971,7 +979,11 @@
         (setf (class-direct-default-initargs standard-class) ())
         standard-class))
 
+((ffi:ref "console" "log") 2)
+
 (setf (find-class 'standard-class) +standard-class+)
+
+((ffi:ref "console" "log") 3)
 
 (setf (find-class 't)
       (let ((class (make-standard-instance :class +standard-class+)))
@@ -985,7 +997,11 @@
         (setf (class-direct-default-initargs class) ())
         class))
 
+((ffi:ref "console" "log") 4)
+
 (defclass standard-object (t) ())
+
+((ffi:ref "console" "log") 5)
 
 (defclass standard-class ()
   ((name :initarg :name)
@@ -997,6 +1013,8 @@
    (direct-subclasses :initform '())
    (direct-methods :initform '())))
 
+((ffi:ref "console" "log") 6)
+
 (setq +standard-generic-function+
       (defclass standard-generic-function ()
         ((name)
@@ -1006,6 +1024,8 @@
          (emf-table)
          (funcallable-instance))))
 
+((ffi:ref "console" "log") 7)
+
 (setq +standard-method+
       (defclass standard-method ()
         ((function)
@@ -1013,6 +1033,8 @@
          (lambda-list)
          (specializers)
          (qualifiers))))
+
+((ffi:ref "console" "log") 8)
 
 ;;(defclass t (t) ())
 (defclass array (t) ())

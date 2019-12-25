@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"pkg.lisp")
+
 (defpackage :common-lisp
   (:use)
   (:export #:&allow-other-keys #:&aux #:&body #:&environment #:&key

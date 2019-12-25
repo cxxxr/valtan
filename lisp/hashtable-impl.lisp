@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"hashtable-impl.lisp")
+
 (defpackage :hash-table-impl
   (:use :cl)
   (:shadow :hash-table
