@@ -621,7 +621,7 @@
         (body (hir-arg2 hir)))
     (cond ((eql 0 (binding-escape-count name))
            (let ((block-result (p2-block-result-var-name name)))
-             (format *p2-emit-stream* "let ~A;~%" block-result)
+             (push block-result *p2-temporary-variables*)
              (format *p2-emit-stream* "~A: for(;;){" (p2-escape-block-name name))
              (let ((result (p2-forms body)))
                (format *p2-emit-stream* "~A=~A;~%" block-result result))
