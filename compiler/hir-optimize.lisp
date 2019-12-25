@@ -195,7 +195,8 @@
            hir))))
 
 (define-hir-optimizer loop (hir)
-  hir)
+  (with-hir-args (body) hir
+    (hir-optimize body)))
 
 (define-hir-optimizer recur (hir)
   hir)
