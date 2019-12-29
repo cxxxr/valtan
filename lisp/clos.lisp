@@ -284,7 +284,6 @@
   (check-duplicate-direct-slots direct-slots)
   (check-duplicate-direct-default-initargs direct-default-initargs name)
   (setq direct-superclasses (mapcar #'find-class direct-superclasses))
-  ((ffi:ref "console" "log") #j"hoge")
   (cond (class
          (std-after-initialization-for-classes class
                                                :direct-superclasses direct-superclasses
