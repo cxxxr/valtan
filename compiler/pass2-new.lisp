@@ -133,6 +133,7 @@
     (setf (gethash (read-from-string "FFI::INSTANCEOF") table)
           (list "lisp.CL_instanceof" (list nil)))
 
+    ;; REVIEW
     (setf (gethash (read-from-string "FFI:CL->JS") table)
           'p2-cl->js)
 
