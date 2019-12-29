@@ -132,7 +132,20 @@
           (list "lisp.CL_charCode" (list 1)))
     (setf (gethash (read-from-string "FFI::INSTANCEOF") table)
           (list "lisp.CL_instanceof" (list nil)))
+
+    (setf (gethash (read-from-string "FFI:CL->JS") table)
+          'p2-cl->js)
+
     table))
+
+(defun p2-cl->js (hir)
+  (let ((args (hir-arg2 hir)))
+    (cond ((and (length=1 args)
+                (eq 'const (hir-op (first args)))
+                (stringp (hir-arg1 (first args))))
+           (format nil "lisp.codeArrayToString(~A)" (p2-encode-string (hir-arg1 (first args)))))
+          (t
+           (p2-call-default hir)))))
 
 (defvar *p2-emit-stream* *standard-output*)
 (defvar *p2-literal-symbols* (make-hash-table))
@@ -582,6 +595,9 @@
            (p2-call-default hir))
           ((consp builtin)
            (p2-call-builtin-using-list-spec hir builtin))
+          ((or (symbolp builtin)
+               (functionp builtin))
+           (funcall builtin hir))
           (t
            (error "internal error")))))
 

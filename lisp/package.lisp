@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"package.lisp")
+
 (in-package :common-lisp)
 
 (defun find-all-symbols (name)

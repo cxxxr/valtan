@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"file.lisp")
+
 (in-package :common-lisp)
 
 (defun open (filename &key (direction :input) element-type if-exists if-does-not-exist)

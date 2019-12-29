@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"print.lisp")
+
 (in-package :common-lisp)
 
 (defvar *print-escape* t)

@@ -125,6 +125,7 @@
 
 (define-hir-optimizer lcall (hir)
   (with-hir-args (fn-binding args) hir
+    (incf (binding-used-count fn-binding))
     (remake-hir 'lcall hir fn-binding (mapcar #'hir-optimize args))))
 
 (define-hir-optimizer call (hir)
@@ -136,6 +137,7 @@
     (remake-hir 'unwind-protect hir (hir-optimize protected-form) (hir-optimize cleanup-form))))
 
 (define-hir-optimizer block (hir)
+  ;; TODO: return-fromが無いときはprognに変える
   (with-hir-args (name body) hir
     (setf (binding-escape-count name) 0)
     (let ((form
@@ -196,7 +198,8 @@
            hir))))
 
 (define-hir-optimizer loop (hir)
-  hir)
+  (with-hir-args (body) hir
+    (hir-optimize body)))
 
 (define-hir-optimizer recur (hir)
   hir)
@@ -293,4 +296,11 @@
                               (list (make-hir 'block t t
                                               (binding  "FOO_2" :block nil)
                                               (make-hir 'lref t nil
-                                                        (binding "X_1" :variable nil)))))))))
+                                                        (binding "X_1" :variable nil)))))))
+    '(let ()
+      (block nil
+        (tagbody
+          (lambda () (return nil)))))
+    '(block nil
+      (tagbody
+        (lambda () (return nil))))))

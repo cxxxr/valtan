@@ -1,3 +1,5 @@
+((ffi:ref "console" "log") #j"condition.lisp")
+
 (in-package :common-lisp)
 
 (defvar *handler-clusters* '())
