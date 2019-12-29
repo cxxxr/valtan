@@ -118,9 +118,10 @@
           (delete-if (lambda (binding)
                        (zerop (binding-used-count binding)))
                      bindings))
-    (if (null bindings)
-        (hir-optimize (remake-hir 'progn hir body))
-        hir)))
+    (cond ((null bindings)
+           (remake-hir 'progn hir body))
+          (t
+           hir))))
 
 (define-hir-optimizer lcall (hir)
   (with-hir-args (fn-binding args) hir
