@@ -154,13 +154,14 @@
     (remake-hir 'unwind-protect hir (hir-optimize protected-form) (hir-optimize cleanup-form))))
 
 (define-hir-optimizer block (hir)
-  ;; TODO: return-fromが無いときはprognに変える
   (with-hir-args (name body) hir
     (setf (binding-escape-count name) 0)
     (let ((form
             (let ((*env-for-escape* (cons name *env-for-escape*)))
               (hir-optimize-progn-forms hir body))))
-      (remake-hir 'block hir name (list form)))))
+      (if (zerop (binding-used-count name))
+          form
+          (remake-hir 'block hir name (list form))))))
 
 (define-hir-optimizer return-from (hir)
   (with-hir-args (name value) hir
