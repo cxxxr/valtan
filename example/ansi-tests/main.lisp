@@ -27,6 +27,12 @@
        ,form
        (format t "~&time: ~A~%" (- (js:-date.now) ,start)))))
 
+(time (dotimes (i 10000)
+        (mapcar #'1+ (list 1 2 3 4 5 6))))
+
+;;(time (test "sacla-tests/must-character.lisp"))
+
+#|
 ;; (test "sacla-tests/desirable-printer.lisp")
 ;; (test "sacla-tests/must-array.lisp")
 (test "sacla-tests/must-character.lisp")
@@ -54,3 +60,4 @@
 (test "sacla-tests/should-string.lisp")
 (test "sacla-tests/should-symbol.lisp")
 ;; (test "sacla-tests/x-sequence.lisp")
+|#
