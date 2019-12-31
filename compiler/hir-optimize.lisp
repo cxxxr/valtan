@@ -116,7 +116,8 @@
                 (list forms))))
     (setf bindings
           (delete-if (lambda (binding)
-                       (zerop (binding-used-count binding)))
+                       (and (not (eq :special (binding-type binding)))
+                            (zerop (binding-used-count binding))))
                      bindings))
     (cond ((null bindings)
            (remake-hir 'progn hir body))
