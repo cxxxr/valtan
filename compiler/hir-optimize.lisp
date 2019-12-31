@@ -215,28 +215,48 @@
   hir)
 
 (define-hir-optimizer ffi:ref (hir)
-  hir)
+  (with-hir-args (place) hir
+    (unless (stringp (first place))
+      (setf (first place) (hir-optimize (first place))))
+    hir))
 
 (define-hir-optimizer ffi:set (hir)
-  hir)
+  (with-hir-args (lhs rhs) hir
+    (setq lhs (hir-optimize lhs))
+    (setq rhs (hir-optimize rhs))
+    hir))
 
 (define-hir-optimizer ffi:var (hir)
   hir)
 
 (define-hir-optimizer ffi:typeof (hir)
-  hir)
+  (with-hir-args (x) hir
+    (setq x (hir-optimize x))
+    hir))
 
 (define-hir-optimizer ffi:new (hir)
-  hir)
+  (with-hir-args (object args) hir
+    (setq object (hir-optimize object))
+    (setq args (mapcar #'hir-optimize args))
+    hir))
 
 (define-hir-optimizer ffi:aget (hir)
-  hir)
+  (with-hir-args (array indexes) hir
+    (setq array (hir-optimize array))
+    (setq indexes (mapcar #'hir-optimize indexes))
+    hir))
 
 (define-hir-optimizer js-call (hir)
-  hir)
+  (with-hir-args (place args) hir
+    (unless (stringp (first place))
+      (setf (first place) (hir-optimize (first place))))
+    (setq args (mapcar #'hir-optimize args))
+    hir))
 
 (define-hir-optimizer module (hir)
-  hir)
+  (with-hir-args (name forms export-modules) hir
+    (setq forms (mapcar #'hir-optimize forms))
+    hir))
 
 (defun hir-optimize-toplevel (hir)
   (let ((*env-for-escape* '())
