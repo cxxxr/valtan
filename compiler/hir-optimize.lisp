@@ -135,7 +135,7 @@
 
 (define-hir-optimizer lcall (hir)
   (with-hir-args (fn-binding args) hir
-    (incf (binding-used-count fn-binding))
+    ;; (incf (binding-used-count fn-binding))
     (remake-hir 'lcall hir fn-binding (mapcar #'hir-optimize args))))
 
 (defparameter *folding-function-names*
