@@ -41,15 +41,21 @@
 
 (define-hir-optimizer lref (hir)
   (with-hir-args (binding) hir
-    (incf (binding-used-count binding))
-    hir))
+    (cond ((and (zerop (binding-set-count binding))
+                (hir-p (binding-init-value binding))
+                (eq (hir-op (binding-init-value binding)) 'const))
+           (decf (binding-used-count binding))
+           (let ((const-hir (binding-init-value binding)))
+             (remake-hir 'const hir (hir-arg1 const-hir))))
+          (t
+           hir))))
 
 (define-hir-optimizer gref (hir)
   hir)
 
 (define-hir-optimizer lset (hir)
   (with-hir-args (binding value) hir
-    (incf (binding-set-count binding))
+    ;; (incf (binding-set-count binding))
     (remake-hir 'lset hir binding (hir-optimize value))))
 
 (define-hir-optimizer gset (hir)
@@ -69,6 +75,14 @@
                  else (hir-optimize else))
            hir))))
 
+(defun hir-optimize-normalize-progn (hir forms)
+  (cond ((null forms)
+         (remake-hir 'const hir nil))
+        ((null (cdr forms))
+         (car forms))
+        (t
+         (remake-hir 'progn hir (nreverse forms)))))
+
 (defun hir-optimize-progn-forms (hir forms)
   (let ((new-forms '()))
     (dolist (form forms)
@@ -84,12 +98,7 @@
             (unless (and (not (hir-return-value-p optimized-form))
                          (const-hir-p optimized-form))
               (push optimized-form new-forms)))))
-    (cond ((null new-forms)
-           (remake-hir 'const hir nil))
-          ((null (cdr new-forms))
-           (car new-forms))
-          (t
-           (remake-hir 'progn hir (nreverse new-forms))))))
+    (hir-optimize-normalize-progn hir new-forms)))
 
 (define-hir-optimizer progn (hir)
   (with-hir-args (forms) hir
@@ -107,8 +116,9 @@
     (dolist (binding bindings)
       (setf (binding-init-value binding)
             (hir-optimize (binding-init-value binding)))
-      (setf (binding-used-count binding) 0)
-      (setf (binding-set-count binding) 0))
+      ;; (setf (binding-used-count binding) 0)
+      ;; (setf (binding-set-count binding) 0)
+      )
     (let ((forms (hir-optimize-progn-forms hir body)))
       (setf body
             (if (consp forms)
@@ -119,10 +129,9 @@
                        (and (not (eq :special (binding-type binding)))
                             (zerop (binding-used-count binding))))
                      bindings))
-    (cond ((null bindings)
-           (remake-hir 'progn hir body))
-          (t
-           hir))))
+    (if (null bindings)
+        (hir-optimize-normalize-progn hir body)
+        hir)))
 
 (define-hir-optimizer lcall (hir)
   (with-hir-args (fn-binding args) hir
