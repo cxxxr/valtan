@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"compilation.lisp")
-
 (in-package :common-lisp)
 
 (defvar *features* '(:valtan))

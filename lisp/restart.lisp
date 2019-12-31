@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"restart.lisp")
-
 (in-package :common-lisp)
 
 (defvar *restart-clustors* '())

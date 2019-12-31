@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"stream.lisp")
-
 (in-package :common-lisp)
 
 (defvar *:*get-stdin-line-function*)

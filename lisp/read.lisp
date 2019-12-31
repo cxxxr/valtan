@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"read.lisp")
-
 (in-package :common-lisp)
 
 (defvar *inner-list-p* nil)

@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"setf.lisp")
-
 (in-package :common-lisp)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)

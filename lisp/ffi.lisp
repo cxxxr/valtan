@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"ffi.lisp")
-
 (in-package :common-lisp)
 
 (defmacro ffi:define-function (name arguments &body body)

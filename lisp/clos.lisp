@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"clos.lisp")
-
 (in-package :common-lisp)
 
 (defun list-remove-duplicates (list)

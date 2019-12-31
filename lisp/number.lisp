@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"number.lisp")
-
 (in-package :common-lisp)
 
 (macrolet ((def (name op initial-value)

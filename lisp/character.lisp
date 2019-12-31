@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"character.lisp")
-
 (in-package :common-lisp)
 
 (defparameter char-code-limit 1114112)

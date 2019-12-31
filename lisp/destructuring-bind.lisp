@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"destructuring-bind.lisp")
-
 (in-package :common-lisp)
 
 (defun %db-length (list)

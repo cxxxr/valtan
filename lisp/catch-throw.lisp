@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"catch-throw.lisp")
-
 (in-package :common-lisp)
 
 (define-condition throw-condition (base-condition)

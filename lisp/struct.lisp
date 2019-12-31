@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"struct.lisp")
-
 (in-package :common-lisp)
 
 (defun copy-structure (x)

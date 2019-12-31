@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"function.lisp")
-
 (in-package :common-lisp)
 
 (defun ensure-function (value)

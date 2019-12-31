@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"array.lisp")
-
 (in-package :common-lisp)
 
 (defstruct (array (:constructor %make-array)

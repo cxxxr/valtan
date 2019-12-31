@@ -1,5 +1,3 @@
-((ffi:ref "console" "log") #j"contro.lisp")
-
 (in-package :common-lisp)
 
 (defparameter lambda-list-keywords
