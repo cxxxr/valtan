@@ -696,7 +696,7 @@
   (tagbody-value-index (binding-id tag)))
 
 (define-p2-emit tagbody (hir)
-  (let* ((tagbody-name (p2-escape-string (hir-arg1 hir)))
+  (let* ((tagbody-name (hir-arg1 hir))
          (tag-body-pairs (hir-arg2 hir))
          (exist-escape-p (not (hir-arg3 hir)))
          (error-var (when exist-escape-p (p2-genvar "ERR"))))
