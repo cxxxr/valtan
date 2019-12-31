@@ -129,9 +129,16 @@
     (incf (binding-used-count fn-binding))
     (remake-hir 'lcall hir fn-binding (mapcar #'hir-optimize args))))
 
+(defparameter *folding-function-names*
+  '(length + - * 1+ 1- cons list not null code-char char-code))
+
 (define-hir-optimizer call (hir)
   (with-hir-args (fn-name args) hir
-    (remake-hir 'call hir fn-name (mapcar #'hir-optimize args))))
+    (let ((args (mapcar #'hir-optimize args)))
+      (if (and (member fn-name *folding-function-names*)
+               (every (lambda (hir) (eq (hir-op hir) 'const)) args))
+          (remake-hir 'const hir (apply fn-name (mapcar #'hir-arg1 args)))
+          (remake-hir 'call hir fn-name args)))))
 
 (define-hir-optimizer unwind-protect (hir)
   (with-hir-args (protected-form cleanup-form) hir
