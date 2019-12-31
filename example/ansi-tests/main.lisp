@@ -21,6 +21,12 @@
         (prin1 form)
         (terpri)))))
 
+(defmacro time (form)
+  (let ((start (gensym)))
+    `(let ((,start (js:-date.now)))
+       ,form
+       (format t "~&time: ~A~%" (- (js:-date.now) ,start)))))
+
 ;; (test "sacla-tests/desirable-printer.lisp")
 ;; (test "sacla-tests/must-array.lisp")
 (test "sacla-tests/must-character.lisp")
