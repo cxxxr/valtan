@@ -133,21 +133,61 @@
         (hir-optimize-normalize-progn hir body)
         hir)))
 
+#+valtan.inline-local-function
+(progn
+  (defun match-parsed-lambda-list-and-arguments (parsed-lambda-list args)
+    (let ((nargs (length args)))
+      (when (and (null (parsed-lambda-list-keys parsed-lambda-list))
+                 (null (parsed-lambda-list-optionals parsed-lambda-list))
+                 (null (parsed-lambda-list-rest-var parsed-lambda-list))
+                 (<= (parsed-lambda-list-min parsed-lambda-list) nargs)
+                 (or (null (parsed-lambda-list-max parsed-lambda-list))
+                     (<= nargs (parsed-lambda-list-max parsed-lambda-list))))
+        (mapcar #'list (parsed-lambda-list-vars parsed-lambda-list) args))))
+
+  (defun expand-hir-funcall (hir lambda-hir args)
+    (when (eq 'lambda (hir-op lambda-hir))
+      (let* ((parsed-lambda-list (hir-arg2 lambda-hir))
+             (body (hir-arg3 lambda-hir))
+             (bindings (match-parsed-lambda-list-and-arguments parsed-lambda-list args)))
+        (when bindings
+          (dolist (b bindings)
+            (let ((var (first b))
+                  (form (second b)))
+              (setf (binding-init-value var) form)))
+          (remake-hir 'let
+                      hir
+                      (mapcar #'first bindings)
+                      (list body)))))))
+
 (define-hir-optimizer lcall (hir)
   (with-hir-args (fn-binding args) hir
     ;; (incf (binding-used-count fn-binding))
-    (remake-hir 'lcall hir fn-binding (mapcar #'hir-optimize args))))
+    (let (#+valtan.inline-local-function expanded-hir)
+      (cond #+valtan.inline-local-function
+            ((and (= 1 (binding-used-count fn-binding))
+                  (setq expanded-hir (expand-hir-funcall hir (binding-init-value fn-binding) args)))
+             (decf (binding-used-count fn-binding))
+             expanded-hir)
+            (t
+             (remake-hir 'lcall hir fn-binding (mapcar #'hir-optimize args)))))))
 
 (defparameter *folding-function-names*
   '(length + - * 1+ 1- cons list not null code-char char-code))
 
 (define-hir-optimizer call (hir)
   (with-hir-args (fn-name args) hir
-    (let ((args (mapcar #'hir-optimize args)))
-      (if (and (member fn-name *folding-function-names*)
-               (every (lambda (hir) (eq (hir-op hir) 'const)) args))
-          (remake-hir 'const hir (apply fn-name (mapcar #'hir-arg1 args)))
-          (remake-hir 'call hir fn-name args)))))
+    (let ((args (mapcar #'hir-optimize args))
+          #+valtan.inline-local-function expanded-hir)
+      (cond ((and (member fn-name *folding-function-names*)
+                  (every (lambda (hir) (eq (hir-op hir) 'const)) args))
+             (remake-hir 'const hir (apply fn-name (mapcar #'hir-arg1 args))))
+            #+valtan.inline-local-function
+            ((and (eq fn-name 'funcall)
+                  (setq expanded-hir (expand-hir-funcall hir (first args) (rest args))))
+             (hir-optimize expanded-hir))
+            (t
+             (remake-hir 'call hir fn-name args))))))
 
 (define-hir-optimizer unwind-protect (hir)
   (with-hir-args (protected-form cleanup-form) hir
