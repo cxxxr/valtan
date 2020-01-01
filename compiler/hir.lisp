@@ -23,6 +23,15 @@
 (defun remake-hir (op hir &rest args)
   (apply #'make-hir op (hir-return-value-p hir) (hir-multiple-values-p hir) args))
 
+(defun lambda-hir-name (hir)
+  (hir-arg1 hir))
+
+(defun lambda-hir-parsed-lambda-list (hir)
+  (hir-arg2 hir))
+
+(defun lambda-hir-body (hir)
+  (hir-arg3 hir))
+
 (defstruct parsed-lambda-list
   vars
   rest-var

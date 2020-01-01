@@ -324,6 +324,17 @@
       (push hir-form hir-forms))
     (nreverse (compile-with-system-1 system hir-forms))))
 
+(defmacro %with-compilation-unit (options &body body)
+  (declare (ignore options))
+  `(let ((*require-modules* '())
+         (*genvar-counter* 0)
+         (*gensym-counter* 0)
+         (*defined-function-names* '())
+         (*called-function-names* '())
+         (*known-function-names* '())
+         (*known-toplevel-functions* '()))
+     ,@body))
+
 (defun build-system (pathname &key output-file)
   (unless (probe-file pathname)
     (error "~A does not exist" pathname))
@@ -333,17 +344,13 @@
                           (make-pathname :name (pathname-name pathname)
                                          :type "js"
                                          :defaults pathname)))
-         (*in-host-runtime* t)
-         (*require-modules* '())
-         (*genvar-counter* 0)
-         (*gensym-counter* 0)
-         (*defined-function-names* '())
-         (*called-function-names* '()))
-    (with-open-file (output output-file
-                            :direction :output
-                            :if-does-not-exist :create
-                            :if-exists :supersede)
-      (let ((hir-forms (compile-with-system system))
-            (*standard-output* output))
-        (report-undefined-functions)
-        (in-pass2 hir-forms)))))
+         (*in-host-runtime* t))
+    (%with-compilation-unit ()
+      (with-open-file (output output-file
+                              :direction :output
+                              :if-does-not-exist :create
+                              :if-exists :supersede)
+        (let ((hir-forms (compile-with-system system))
+              (*standard-output* output))
+          (report-undefined-functions)
+          (in-pass2 hir-forms))))))

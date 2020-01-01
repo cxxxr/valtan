@@ -566,10 +566,21 @@
     (when (hir-return-value-p hir)
       (setq result (p2-temporary-var))
       (format *p2-emit-stream* "~A=" result))
-    (format *p2-emit-stream*
-            "lisp.callFunctionWithCallStack(~A"
-            (p2-symbol-to-js-value symbol))
-    (when args (write-string "," *p2-emit-stream*))
+    (let (elt)
+      (cond ((and (setq elt (assoc symbol *known-toplevel-functions*))
+                  (let ((min (parsed-lambda-list-min (lambda-hir-parsed-lambda-list (cdr elt))))
+                        (max (parsed-lambda-list-max (lambda-hir-parsed-lambda-list (cdr elt)))))
+                    (if (parsed-lambda-list-max (lambda-hir-parsed-lambda-list (cdr elt)))
+                        (<= min (length args) max)
+                        (<= min (length args)))))
+             (format *p2-emit-stream*
+                     "~A("
+                     (p2-symbol-to-js-function-name symbol)))
+            (t
+             (format *p2-emit-stream*
+                     "lisp.callFunctionWithCallStack(~A"
+                     (p2-symbol-to-js-value symbol))
+             (when args (write-string "," *p2-emit-stream*)))))
     (p2-emit-args args)
     result))
 
