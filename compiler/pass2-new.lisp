@@ -256,6 +256,17 @@
       (setf (gethash symbol *p2-literal-symbols*)
             (genvar "G"))))
 
+(defun p2-symbol-to-js-function-name (symbol)
+  (p2-local-function
+   symbol
+   (if (symbol-package symbol)
+       (format nil
+               "CL_~A_"
+               (p2-escape-string
+                (package-name
+                 (symbol-package symbol))))
+       "CL_")))
+
 (defun p2-encode-string (string)
   (with-output-to-string (s)
     (write-char #\[ s)
@@ -748,14 +759,7 @@
 (define-p2-emit *:%defun (hir)
   (let ((name (hir-arg1 hir))
         (function (hir-arg2 hir)))
-    (let ((var (p2-local-function name
-                                  (if (symbol-package name)
-                                      (format nil
-                                              "CL_~A_"
-                                              (p2-escape-string
-                                               (package-name
-                                                (symbol-package name))))
-                                      "CL_"))))
+    (let ((var (p2-symbol-to-js-function-name name)))
       (pushnew var *p2-defun-names* :test #'equal)
       (let ((*p2-temporary-variables* '()))
         (let ((code (with-output-to-string (*p2-emit-stream*)
