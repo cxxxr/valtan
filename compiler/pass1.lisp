@@ -575,9 +575,15 @@
            (pass1-const form return-value-p))
           (t
            (let ((fn (gethash (first form) *pass1-form-table*))
-                 (*compile-level* (if (eq 'progn (first form))
-                                      *compile-level*
-                                      (1+ *compile-level*))))
+                 (*compile-level*
+                   (if (member (first form)
+                               '(progn
+                                 ;macrolet ;; macroletの本体をトップレベル扱いにするとなぜかエラーになる
+                                 symbol-macrolet
+                                 locally
+                                 eval-when))
+                       *compile-level*
+                       (1+ *compile-level*))))
              (if fn
                  (apply fn return-value-p multiple-values-p (rest form))
                  (pass1-call form return-value-p multiple-values-p)))))))
