@@ -891,13 +891,13 @@
     (declare (ignore docstring))
     (let ((body `(block ,name ,@body)))
       (make-hir '*:%defun
-               return-value-p
-               nil
-               name
-               (pass1 (if (null declares)
-                          `(*:named-lambda ,name ,lambda-list ,body)
-                          `(*:named-lambda ,name ,lambda-list (declare ,@declares) ,body))
-                      t nil)))))
+                return-value-p
+                nil
+                name
+                (pass1 (if (null declares)
+                           `(*:named-lambda ,name ,lambda-list ,body)
+                           `(*:named-lambda ,name ,lambda-list (declare ,@declares) ,body))
+                       t nil)))))
 
 (def-pass1-form *:multiple-value-call ((function &rest args) return-value-p multiple-values-p)
   (make-hir 'call
