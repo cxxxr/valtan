@@ -173,21 +173,25 @@
              (remake-hir 'lcall hir fn-binding (mapcar #'hir-optimize args)))))))
 
 (defparameter *folding-function-names*
-  '(length + - * 1+ 1- cons list not null code-char char-code))
+  '(length + - * 1+ 1- #|cons list|# not null code-char char-code))
 
 (define-hir-optimizer call (hir)
   (with-hir-args (fn-name args) hir
     (let ((args (mapcar #'hir-optimize args))
           #+valtan.inline-local-function expanded-hir)
-      (cond ((and (member fn-name *folding-function-names*)
-                  (every (lambda (hir) (eq (hir-op hir) 'const)) args))
-             (remake-hir 'const hir (apply fn-name (mapcar #'hir-arg1 args))))
-            #+valtan.inline-local-function
-            ((and (eq fn-name 'funcall)
-                  (setq expanded-hir (expand-hir-funcall hir (first args) (rest args))))
-             (hir-optimize expanded-hir))
-            (t
-             (remake-hir 'call hir fn-name args))))))
+      (cond
+        ;; ここでlist関数を定数にしてしまうと (let* ((x (list nil)) (y x)) (eq x y)) が
+        ;; (call eq (const nil) (const nil)) のhirになってしまいこれはeqでなくなってしまう
+        ;; なので一旦consの定数畳み込みはしないようにする
+        ((and (member fn-name *folding-function-names*)
+              (every (lambda (hir) (eq (hir-op hir) 'const)) args))
+         (remake-hir 'const hir (apply fn-name (mapcar #'hir-arg1 args))))
+        #+valtan.inline-local-function
+        ((and (eq fn-name 'funcall)
+              (setq expanded-hir (expand-hir-funcall hir (first args) (rest args))))
+         (hir-optimize expanded-hir))
+        (t
+         (remake-hir 'call hir fn-name args))))))
 
 (define-hir-optimizer unwind-protect (hir)
   (with-hir-args (protected-form cleanup-form) hir
