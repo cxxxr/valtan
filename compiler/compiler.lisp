@@ -174,23 +174,23 @@
          ,@body))))
 
 (defun in-pass2 (hir-forms)
-  (let ((*defined-function-names* '())
-        (*called-function-names* '()))
-    (dolist (name (set-difference
-                   (set-difference *called-function-names* *defined-function-names*)
-                   *known-function-names*
-                   :test #'string=))
-      (unless (or (eq (symbol-package name) (find-package :system))
-                  (eq (symbol-package name) (find-package :ffi)))
-        (warn "undefined function: ~S" name)))
-    (write-line "import * as lisp from 'lisp';")
-    (loop :for (var . module) :in *require-modules*
-          :do (progn
-                #+valtan.pass2-new (format t "var ~A = require('~A');~%" (p2-convert-var var) module)
-                #-valtan.pass2-new (format t "var ~A = require('~A');~%" (pass2-convert-var var) module)))
-    #+valtan.pass2-new (p2-toplevel-forms hir-forms *standard-output*)
-    #-valtan.pass2-new (pass2-toplevel-forms hir-forms)
-    (values)))
+  (write-line "import * as lisp from 'lisp';")
+  (loop :for (var . module) :in *require-modules*
+        :do (progn
+              #+valtan.pass2-new (format t "var ~A = require('~A');~%" (p2-convert-var var) module)
+              #-valtan.pass2-new (format t "var ~A = require('~A');~%" (pass2-convert-var var) module)))
+  #+valtan.pass2-new (p2-toplevel-forms hir-forms *standard-output*)
+  #-valtan.pass2-new (pass2-toplevel-forms hir-forms)
+  (values))
+
+(defun report-undefined-functions ()
+  (dolist (name (set-difference
+                 (set-difference *called-function-names* *defined-function-names*)
+                 *known-function-names*
+                 :test #'string=))
+    (unless (or (eq (symbol-package name) (find-package :system))
+                (eq (symbol-package name) (find-package :ffi)))
+      (warn "undefined function: ~S" name))))
 
 (defun js-beautify (text &optional (output *standard-output*))
   (with-input-from-string (in text)
@@ -336,11 +336,14 @@
          (*in-host-runtime* t)
          (*require-modules* '())
          (*genvar-counter* 0)
-         (*gensym-counter* 0))
+         (*gensym-counter* 0)
+         (*defined-function-names* '())
+         (*called-function-names* '()))
     (with-open-file (output output-file
                             :direction :output
                             :if-does-not-exist :create
                             :if-exists :supersede)
       (let ((hir-forms (compile-with-system system))
             (*standard-output* output))
+        (report-undefined-functions)
         (in-pass2 hir-forms)))))
