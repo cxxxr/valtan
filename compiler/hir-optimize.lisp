@@ -231,9 +231,10 @@
                (remake-hir 'const hir nil))
               ((and (length=1 tag-body-pairs)
                     (zerop (binding-escape-count (car (first tag-body-pairs)))))
-               (remake-hir 'loop
-                           hir
-                           (cdr (first tag-body-pairs))))
+               (hir-optimize
+                (remake-hir 'loop
+                            hir
+                            (cdr (first tag-body-pairs)))))
               (t
                (remake-hir 'tagbody
                            hir
@@ -255,11 +256,18 @@
            (incf (binding-escape-count binding))
            hir))))
 
+(defvar *hir-optimize-recur-count*)
+
 (define-hir-optimizer loop (hir)
   (with-hir-args (body) hir
-    (hir-optimize body)))
+    (let ((*hir-optimize-recur-count* 0))
+      (setq body (hir-optimize body))
+      (if (zerop *hir-optimize-recur-count*)
+          body
+          hir))))
 
 (define-hir-optimizer recur (hir)
+  (incf *hir-optimize-recur-count*)
   hir)
 
 (define-hir-optimizer *:%defun (hir)
