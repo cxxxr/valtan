@@ -322,7 +322,10 @@
               hir-forms)))
     (dolist (hir-form (pass1-dump-macros))
       (push hir-form hir-forms))
-    (nreverse (compile-with-system-1 system hir-forms))))
+    (let ((hir-forms (compile-with-system-1 system hir-forms)))
+      (when (system-enable-profile system)
+        (push (pass1-toplevel '((ffi:ref "lisp" "finishProfile"))) hir-forms))
+      (nreverse hir-forms))))
 
 (defmacro %with-compilation-unit (options &body body)
   (declare (ignore options))
