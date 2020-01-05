@@ -502,6 +502,13 @@
                             (collect (caar l))
                             (setf (car l) (cdar l))))))))))
 
+(defun *::%mapcar (function list)
+  (declare (type function function)
+           (type list list))
+  (with-accumulate ()
+    (dolist (x list)
+      (collect (funcall function x)))))
+
 (defun mapcan (function list &rest lists)
   (let ((arglists (copy-list (cons list lists)))
         (acc '()))

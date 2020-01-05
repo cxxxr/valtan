@@ -1016,3 +1016,7 @@
     (write-line "// main" stream)
     (write-string (get-output-stream-string *p2-emit-stream*) stream)
     (write-line "CL_COMMON_LISP_FINISH_OUTPUT();" stream)))
+
+;;;
+(setf (gethash 'cl:mapcar *builtin-function-table*)
+      (list (p2-symbol-to-js-function-name '*::%mapcar) (list 2)))
