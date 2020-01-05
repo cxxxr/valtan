@@ -289,6 +289,14 @@
             (errorp
              (error "System ~S is not found" system-name))))))
 
+(defparameter *hir-optimize* t)
+
+(defun pass1-toplevel-usign-optimize (form)
+  (let ((hir (pass1-toplevel form)))
+    (if *hir-optimize*
+        (hir-optimize hir)
+        hir)))
+
 (defun compile-with-system-1 (system hir-forms)
   (dolist (system-name (system-depends-on system))
     (let ((system (find-system system-name)))
@@ -299,15 +307,13 @@
               (let ((file-hir-forms '())
                     (*export-modules* '()))
                 (do-file-form (form file)
-                  (push (pass1-toplevel form) file-hir-forms))
+                  (push (pass1-toplevel-usign-optimize form) file-hir-forms))
                 (push (pass1-module file (nreverse file-hir-forms) *export-modules*)
                       hir-forms)))
             *macro-definitions*)))
     (dolist (hir-form (pass1-dump-macros macro-definitions))
       (push hir-form hir-forms)))
   hir-forms)
-
-(defparameter *hir-optimize* t)
 
 (defun compile-with-system (system)
   (let ((hir-forms
@@ -316,9 +322,7 @@
               '())))
     (dolist (file (get-lisp-files))
       (do-file-form (form file)
-        (push (if *hir-optimize*
-                  (hir-optimize (pass1-toplevel form))
-                  (pass1-toplevel form))
+        (push (pass1-toplevel-usign-optimize form)
               hir-forms)))
     (dolist (hir-form (pass1-dump-macros))
       (push hir-form hir-forms))
