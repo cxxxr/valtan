@@ -240,43 +240,41 @@
 
 (def-transform defun (name lambda-list &rest body)
   (pushnew name *defined-function-names*)
-  (multiple-value-bind (body declares docstring) (parse-body body t)
-    (declare (ignore declares docstring))
-    (cond ((and (consp name)
-                (eq 'setf (first name))
-                (= 2 (length name))
-                (proper-list-p name)
-                (variable-symbol-p (second name)))
-           (let ((gensyms (gensym "GENSYMS"))
-                 (g-args (gensym "ARGS"))
-                 (g-store (gensym "STORE"))
-                 (g-setter (gensym "SETTER"))
-                 (g-getter (gensym "GETTER"))
-                 (setf-fn (intern (format nil "(SETF ~A)" (second name))
-                                  (symbol-package (second name)))))
-             `(progn
-                (defun ,setf-fn ,lambda-list ,@body)
-                (define-setf-expander ,(second name) (&rest ,g-args)
-                  (let ((,gensyms (mapcar (lambda (x) (declare (ignore x)) (gensym))
-                                          ,g-args))
-                        (,g-store (gensym "G-STORE"))
-                        (,g-setter ',setf-fn)
-                        (,g-getter ',(second name)))
-                    (values ,gensyms
-                            ,g-args
-                            (list ,g-store)
-                            (list* ,g-setter ,g-store ,gensyms)
-                            (list* ,g-getter ,gensyms))))
-                (*:%put ',(second name) '*:fdefinition-setf #',setf-fn)
-                ',name)))
-          ((variable-symbol-p name)
-           (if (toplevel-p)
-               `(*:%defun ,name ,lambda-list ,@body)
-               `(*:fset ',name
-                        (lambda ,lambda-list
-                          (block ,name ,@body)))))
-          (t
-           (compile-error "The NAME argument to DEFUN, ~S, is not a function name." name)))))
+  (cond ((and (consp name)
+              (eq 'setf (first name))
+              (= 2 (length name))
+              (proper-list-p name)
+              (variable-symbol-p (second name)))
+         (let ((gensyms (gensym "GENSYMS"))
+               (g-args (gensym "ARGS"))
+               (g-store (gensym "STORE"))
+               (g-setter (gensym "SETTER"))
+               (g-getter (gensym "GETTER"))
+               (setf-fn (intern (format nil "(SETF ~A)" (second name))
+                                (symbol-package (second name)))))
+           `(progn
+              (defun ,setf-fn ,lambda-list ,@body)
+              (define-setf-expander ,(second name) (&rest ,g-args)
+                (let ((,gensyms (mapcar (lambda (x) (declare (ignore x)) (gensym))
+                                        ,g-args))
+                      (,g-store (gensym "G-STORE"))
+                      (,g-setter ',setf-fn)
+                      (,g-getter ',(second name)))
+                  (values ,gensyms
+                          ,g-args
+                          (list ,g-store)
+                          (list* ,g-setter ,g-store ,gensyms)
+                          (list* ,g-getter ,gensyms))))
+              (*:%put ',(second name) '*:fdefinition-setf #',setf-fn)
+              ',name)))
+        ((variable-symbol-p name)
+         (if (toplevel-p)
+             `(*:%defun ,name ,lambda-list ,@body)
+             `(*:fset ',name
+                      (lambda ,lambda-list
+                        (block ,name ,@(parse-body body t))))))
+        (t
+         (compile-error "The NAME argument to DEFUN, ~S, is not a function name." name))))
 
 (def-transform defmacro (name lambda-list &rest body)
   (let* ((args (gensym))
