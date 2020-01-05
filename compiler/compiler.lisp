@@ -347,7 +347,8 @@
                           (make-pathname :name (pathname-name pathname)
                                          :type "js"
                                          :defaults pathname)))
-         (*in-host-runtime* t))
+         (*in-host-runtime* t)
+         (*enable-profiling* (system-enable-profile system)))
     (%with-compilation-unit ()
       (with-open-file (output output-file
                               :direction :output
