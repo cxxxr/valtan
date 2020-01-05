@@ -126,7 +126,7 @@
                 (list forms))))
     (setf bindings
           (delete-if (lambda (binding)
-                       (and (not (eq :special (binding-type binding)))
+                       (and (not (eq :special (binding-kind binding)))
                             (zerop (binding-used-count binding))))
                      bindings))
     (if (null bindings)
@@ -341,7 +341,7 @@
              (unless (equal-hir actual expected)
                (format t "ERROR: ~%expected: ~:W~%actual: ~W" expected actual))))
          (binding (id type init-value)
-           (make-binding :id id :type type :init-value init-value)))
+           (make-binding :id id :kind type :init-value init-value)))
     (test '(if t x y)
           (make-HIR 'GREF T NIL 'X))
     (test '(if t (if t 1 2) 3)

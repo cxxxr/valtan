@@ -52,7 +52,7 @@
 
 (defstruct binding
   name
-  type
+  kind
   id
   init-value
   (used-count 0)
@@ -105,8 +105,8 @@
 (defun equal-binding (b1 b2)
   (if (and (string= (binding-id b1)
                     (binding-id b2))
-           (eq (binding-type b1)
-               (binding-type b2))
+           (eq (binding-kind b1)
+               (binding-kind b2))
            (equal-with-hir (binding-init-value b1)
                    (binding-init-value b2)))
       t
@@ -138,7 +138,7 @@
      `(let ,(mapcar (lambda (b)
                       `(,(binding-id b)
                         ,(reduce-hir (binding-init-value b))
-                        ,@(if (eq :special (binding-type b))
+                        ,@(if (eq :special (binding-kind b))
                               '(:special))))
                     (hir-arg1 hir))
         ,@(mapcar #'reduce-hir (hir-arg2 hir))))

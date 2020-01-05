@@ -333,7 +333,7 @@
 
 (define-p2-emit lref (hir)
   (let ((binding (hir-arg1 hir)))
-    (ecase (binding-type binding)
+    (ecase (binding-kind binding)
       ((:function)
        (p2-local-function (binding-id binding)))
       ((:variable)
@@ -407,13 +407,13 @@
   (p2-local-var (binding-id var) "save_"))
 
 (defun p2-emit-unwind-var (var finally-stream)
-  (when (eq (binding-type var) :special)
+  (when (eq (binding-kind var) :special)
     (let ((js-var (p2-symbol-to-js-value (binding-name var)))
           (save-var (p2-make-save-var var)))
       (format finally-stream "~A.value=~A;~%" js-var save-var))))
 
 (defun p2-emit-declvar (var finally-stream)
-  (ecase (binding-type var)
+  (ecase (binding-kind var)
     ((:special)
      (let ((js-var (p2-symbol-to-js-value (binding-name var)))
            (save-var (p2-make-save-var var)))

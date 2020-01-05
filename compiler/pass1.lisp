@@ -14,34 +14,34 @@
   (>= 0 level))
 
 (defun make-variable-binding (symbol &key (special-p (special-p symbol)) init-value)
-  (make-binding :type (if special-p :special :variable)
+  (make-binding :kind (if special-p :special :variable)
                 :name symbol
                 :init-value init-value
                 :id (genvar symbol)))
 
 (defun make-function-binding (symbol &key init-value)
-  (make-binding :type :function
+  (make-binding :kind :function
                 :name symbol
                 :init-value init-value
                 :id (genvar symbol)))
 
 (defun make-macro-binding (name value)
-  (make-binding :type :macro
+  (make-binding :kind :macro
                 :name name
                 :id value))
 
 (defun make-symbol-macro-binding (name value)
-  (make-binding :type :symbol-macro
+  (make-binding :kind :symbol-macro
                 :name name
                 :id value))
 
 (defun make-block-binding (name)
-  (make-binding :type :block
+  (make-binding :kind :block
                 :name name
                 :id (genvar (string name) :symbol)))
 
 (defun make-tag-binding (name value)
-  (make-binding :type :tag
+  (make-binding :kind :tag
                 :name name
                 :id value))
 
@@ -80,8 +80,8 @@
 (defun lookup (symbol types &optional (bindings *lexenv*))
   (dolist (binding bindings)
     (when (and (if (consp types)
-                   (member (binding-type binding) types)
-                   (eq types (binding-type binding)))
+                   (member (binding-kind binding) types)
+                   (eq types (binding-kind binding)))
                (eq symbol (binding-name binding)))
       (return binding))))
 
@@ -352,7 +352,7 @@
         (t
          (let ((binding (lookup symbol '(:variable :special))))
            (count-if-used binding)
-           (if (and binding (eq (binding-type binding) :variable))
+           (if (and binding (eq (binding-kind binding) :variable))
                (make-hir 'lref return-value-p nil binding)
                (make-hir 'gref return-value-p nil symbol))))))
 
@@ -413,7 +413,7 @@
        (dolist (symbol (rest spec))
          (let ((binding (lookup symbol '(:variable :special) inner-lexenv)))
            (if binding
-               (setf (binding-type binding) :special)
+               (setf (binding-kind binding) :special)
                (push (make-variable-binding symbol :special-p t)
                      *lexenv*)))))))
   *lexenv*)

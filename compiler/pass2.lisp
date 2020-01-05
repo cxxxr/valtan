@@ -282,7 +282,7 @@
 
 (def-emit lref (hir)
   (let ((binding (hir-arg1 hir)))
-    (ecase (binding-type binding)
+    (ecase (binding-kind binding)
       ((:function)
        (princ (to-js-function-var (binding-name binding))))
       ((:variable)
@@ -363,13 +363,13 @@
            (emit-try-finally ,form (write-string ,unwind-code-var))))))
 
 (defun emit-unwind-var (var stream)
-  (when (eq :special (binding-type var))
+  (when (eq :special (binding-kind var))
     (let ((identier (symbol-to-js-value (binding-name var)))
           (save-var (to-js-identier (binding-id var) "SAVE_")))
       (format stream "~A.value = ~A;~%" identier save-var))))
 
 (defun emit-declvar (var finally-stream)
-  (ecase (binding-type var)
+  (ecase (binding-kind var)
     ((:special)
      (let ((identier (symbol-to-js-value (binding-name var)))
            (save-var (to-js-identier (binding-id var) "SAVE_")))
