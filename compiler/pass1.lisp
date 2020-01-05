@@ -413,7 +413,19 @@
            (if binding
                (setf (binding-kind binding) :special)
                (push (make-variable-binding symbol :special-p t)
-                     *lexenv*)))))))
+                     *lexenv*)))))
+      ((optimize))
+      ((inline))
+      (otherwise
+       (multiple-value-bind (type vars)
+           (if (eq 'type (first spec))
+               (values (second spec) (cddr spec))
+               (values (first spec) (cdr spec)))
+         (dolist (var vars)
+           (let ((binding (lookup var '(:variable :special) *lexenv*)))
+             (if binding
+                 (setf (binding-var-type binding) type)
+                 (compile-error "invalid declaration specifier: ~S" spec))))))))
   *lexenv*)
 
 (defun pass1-lambda-list (parsed-lambda-list)

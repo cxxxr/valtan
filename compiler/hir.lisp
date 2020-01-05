@@ -4,6 +4,7 @@
   op
   return-value-p
   multiple-values-p
+  (result-type t)
   args)
 
 (defun hir-arg1 (hir) (first (hir-args hir)))
@@ -16,9 +17,9 @@
 
 (defun make-hir (op return-value-p multiple-values-p &rest args)
   (%make-hir :op op
-            :return-value-p return-value-p
-            :multiple-values-p multiple-values-p
-            :args args))
+             :return-value-p return-value-p
+             :multiple-values-p multiple-values-p
+             :args args))
 
 (defun remake-hir (op hir &rest args)
   (apply #'make-hir op (hir-return-value-p hir) (hir-multiple-values-p hir) args))
@@ -57,7 +58,8 @@
   init-value
   (used-count 0)
   (set-count 0)
-  (escape-count nil))
+  (escape-count nil)
+  var-type)
 
 (defstruct tagbody-value
   index
