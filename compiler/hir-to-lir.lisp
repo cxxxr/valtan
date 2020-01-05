@@ -109,7 +109,7 @@
     ((let)
      (let ((bindings (hir-arg1 hir)))
        (dolist (binding bindings)
-         (ecase (binding-type binding)
+         (ecase (binding-kind binding)
            (:variable
             (push (binding-id binding) *compiland-vars*)
             (let ((r (hir-to-lir-1 (binding-init-value binding))))
