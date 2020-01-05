@@ -175,9 +175,21 @@
 (defparameter *folding-function-names*
   '(length + - * 1+ 1- #|cons list|# not null code-char char-code))
 
+(defmacro define-hir-call-optimizer (name (hir args) &body body)
+  `(progn
+     (setf (get ',name 'hir-call-optimizer)
+           (lambda (,hir ,args) ,@body))
+     ',name))
+
+(define-hir-call-optimizer mapcar (hir args)
+  (if (length=n args 2)
+      (remake-hir 'call hir '*::%mapcar args)
+      nil))
+
 (define-hir-optimizer call (hir)
   (with-hir-args (fn-name args) hir
     (let ((args (mapcar #'hir-optimize args))
+          call-optimizer
           #+valtan.inline-local-function expanded-hir)
       (cond
         ;; ここでlist関数を定数にしてしまうと (let* ((x (list nil)) (y x)) (eq x y)) が
@@ -190,6 +202,8 @@
         ((and (eq fn-name 'funcall)
               (setq expanded-hir (expand-hir-funcall hir (first args) (rest args))))
          (hir-optimize expanded-hir))
+        ((and (setq call-optimizer (get fn-name 'hir-call-optimizer))
+              (funcall call-optimizer hir args)))
         (t
          (remake-hir 'call hir fn-name args))))))
 
