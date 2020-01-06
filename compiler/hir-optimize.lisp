@@ -175,13 +175,13 @@
 (defparameter *folding-function-names*
   '(length + - * 1+ 1- #|cons list|# not null code-char char-code))
 
-(defmacro define-hir-call-optimizer (name (hir args) &body body)
+(defmacro define-call-hir-optimizer (name (hir args) &body body)
   `(progn
-     (setf (get ',name 'hir-call-optimizer)
+     (setf (get ',name 'call-hir-optimizer)
            (lambda (,hir ,args) ,@body))
      ',name))
 
-(define-hir-call-optimizer mapcar (hir args)
+(define-call-hir-optimizer mapcar (hir args)
   (if (length=n args 2)
       (remake-hir 'call hir '*::%mapcar args)
       nil))
@@ -202,7 +202,7 @@
         ((and (eq fn-name 'funcall)
               (setq expanded-hir (expand-hir-funcall hir (first args) (rest args))))
          (hir-optimize expanded-hir))
-        ((and (setq call-optimizer (get fn-name 'hir-call-optimizer))
+        ((and (setq call-optimizer (get fn-name 'call-hir-optimizer))
               (funcall call-optimizer hir args)))
         (t
          (remake-hir 'call hir fn-name args))))))
