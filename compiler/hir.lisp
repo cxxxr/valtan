@@ -59,7 +59,7 @@
   (used-count 0)
   (set-count 0)
   (escape-count nil)
-  var-type)
+  (var-type t))
 
 (defstruct tagbody-value
   index

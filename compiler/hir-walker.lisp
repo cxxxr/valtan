@@ -44,7 +44,8 @@
         (body (hir-arg2 hir)))
     (dolist (binding bindings)
       (walk-hir walker (binding-init-value binding)))
-    (walk-hir walker body))
+    (dolist (form body)
+      (walk-hir walker form)))
   hir)
 
 (defmethod walk-hir-aux ((walker hir-walker) (op (eql 'call)) hir)
