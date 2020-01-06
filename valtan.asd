@@ -9,6 +9,7 @@
                  (:file "util")
                  (:file "error")
                  (:file "hir")
+                 (:file "hir-walker")
                  (:file "pass1")
                  (:file "hir-optimize")
                  #-valtan.pass2-new (:file "pass2")
