@@ -568,6 +568,7 @@
       (format *p2-emit-stream* "~A=" result))
     (let (elt)
       (cond ((and (not *enable-profiling*)
+                  *in-host-runtime*
                   (setq elt (assoc symbol *known-toplevel-functions*))
                   (let ((min (parsed-lambda-list-min (lambda-hir-parsed-lambda-list (cdr elt))))
                         (max (parsed-lambda-list-max (lambda-hir-parsed-lambda-list (cdr elt)))))
