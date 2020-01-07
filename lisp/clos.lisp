@@ -214,8 +214,9 @@
                     v))))
       (do ((plist result (cddr plist)))
           ((null plist))
-        (setf (car plist) `(quote ,(car plist)))
-        (setf (cadr plist) `(quote ,(cadr plist))))
+        (unless (eq (car plist) :initfunction)
+          (setf (cadr plist) `(quote ,(cadr plist))))
+        (setf (car plist) `(quote ,(car plist))))
       `(list ,@result)))
 
   (defun canonicalize-direct-slot-specs (direct-slot-specs)
