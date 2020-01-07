@@ -16,25 +16,23 @@
                 (:on-Click handle-click)
                 "click")))))
 
-;; (define-react-component js:-repl ()
-;;   (time
-;;    (with-state ((text set-text "")
-;;                 (result set-result nil))
-;;      (tag :div (:style #j{ :display #j"flex" :flex-Direction #j"column"})
-;;           (tag :input (:option #j"text"
-;;                        :on-change (lambda (e)
-;;                                     (set-text (ffi:js->cl (ffi:ref e "target" "value"))))))
-;;           (tag :button (:on-click (lambda (e)
-;;                                     (declare (ignore e))
-;;                                     (set-result (eval (read-from-string text)))))
-;;                "eval")
-;;           (tag :span () (format nil "~S" result))))))
+(define-react-component js:-repl ()
+  (with-state ((text set-text "")
+               (result set-result nil))
+    (tag :div (:style #j{ :display #j"flex" :flex-Direction #j"column"})
+         (tag :input (:option #j"text"
+                              :on-change (lambda (e)
+                                           (set-text (ffi:js->cl (ffi:ref e "target" "value"))))))
+         (tag :button (:on-click (lambda (e)
+                                   (declare (ignore e))
+                                   (set-result (eval (read-from-string text)))))
+              "eval")
+         (tag :span () (format nil "~S" result)))))
 
 (define-react-component js:-app ()
   (tag :div ()
        (tag js:-counter ())
-       ;; (tag js:-repl ())
-       ))
+       (tag js:-repl ())))
 
 (unless (eq (ffi:typeof js:window) #j"undefined")
   (js:react-dom.render
