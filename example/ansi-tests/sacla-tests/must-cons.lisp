@@ -2307,3 +2307,10 @@
 		      '("ALPHA" "BRAVO" "CHARLIE" "DELTA" "ECHO")
 		      :test-not (complement #'string-equal)))
 
+
+(let ((plist '()))
+  (setf (getf plist :foo) 1)
+  (setf (getf plist :bar) 2)
+  (and (= 4 (length plist))
+       (eql 1 (getf plist :foo))
+       (eql 2 (getf plist :bar))))

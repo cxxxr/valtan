@@ -81,9 +81,9 @@
                    (destructuring-bind ,lambda-list ,g-rest ,@body))))
     `(progn
        (*:%put ',access-fn
-                     'setf-expander
-                     (lambda (,g-rest)
-                       (destructuring-bind ,lambda-list ,g-rest ,@body)))
+               'setf-expander
+               (lambda (,g-rest)
+                 (destructuring-bind ,lambda-list ,g-rest ,@body)))
        ',access-fn)))
 
 (defmacro define-modify-macro (name lambda-list function &optional (documentation nil documentation-p))

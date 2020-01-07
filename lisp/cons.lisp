@@ -646,7 +646,7 @@
 
 (defun %putf (plist new-value indicator)
   (do ((plist* plist (cddr plist*)))
-      ((endp plist*) (list* indicator new-value plist*))
+      ((endp plist*) (list* indicator new-value plist))
     (when (eq (car plist*) indicator)
       (setf (cadr plist*) new-value)
       (return plist))))
