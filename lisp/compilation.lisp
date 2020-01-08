@@ -13,11 +13,13 @@
 (defun eval (x)
   (ffi:js-eval (compile-toplevel x)))
 
-(defun macroexpand-1 (x)
+(defun macroexpand-1 (x &optional environment)
+  (declare (ignore environment))
   (let ((compiler::*lexenv* nil))
     (compiler::%macroexpand-1 x)))
 
-(defun macroexpand (x)
+(defun macroexpand (x &optional environment)
+  (declare (ignore environment))
   (multiple-value-bind (form expanded-p)
       (macroexpand-1 x)
     (if expanded-p

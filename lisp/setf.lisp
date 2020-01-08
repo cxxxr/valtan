@@ -2,14 +2,16 @@
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun !get-setf-expansion (place &optional environment)
-    (declare (ignore environment))
     (flet ((gensyms (list)
              (mapcar (lambda (x)
                        (declare (ignore x))
                        (gensym))
                      list)))
       (let ((setf-expander nil))
-        (cond ((and (consp place)
+        (cond ((symbolp place)
+               (let ((store (gensym)))
+                 (values nil nil (list store) `(setq ,place ,store) place)))
+              ((and (consp place)
                     (setq setf-expander (get (first place) 'setf-expander)))
                (cond
                  ((symbolp setf-expander)
@@ -37,8 +39,18 @@
               ;; ((and (consp place) (symbolp (first place)) (macro-function (first place)))
               ;;  (get-setf-expansion (macroexpand place)))
               (t
-               (let ((store (gensym)))
-                 (values nil nil (list store) `(setq ,place ,store) place))))))))
+               (multiple-value-bind (expansion expanded-p)
+                   (macroexpand-1 place environment)
+                 (if expanded-p
+                     (!get-setf-expansion expansion environment)
+                     (let ((newvar (gensym))
+                           (vars (gensyms (cdr expansion)))
+                           (vals (cdr expansion)))
+                       (values vars
+                               vals
+                               (list newvar)
+                               `(funcall (fdefinition '(setf ,(car expansion))) ,newvar ,@vars)
+                               `(,(car expansion) ,@vars)))))))))))
 
 (defmacro setf (&rest pairs)
   (labels ((setf-expand-1 (place value)
