@@ -22,8 +22,8 @@ exec ros -Q -- $0 "$@"
 (defun main (&rest argv)
   (unless (= 1 (length argv))
     (usage))
-  (let ((cl-project:*skeleton-directory* *skeleton-directory*)
-        (name (first argv)))
-    (cl-project:make-project (merge-pathnames name (probe-file ".")))))
+  (let ((cl-project:*skeleton-directory* *skeleton-directory*))
+    (destructuring-bind (name) argv
+      (cl-project:make-project (merge-pathnames name (probe-file "."))))))
 
 ;;; vim: set ft=lisp lisp:
