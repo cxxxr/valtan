@@ -76,10 +76,11 @@
 
 (defun print-function (function stream)
   (print-unreadable-object (function stream)
-    (write-string "Function" stream)
-    #+(or)
-    (write-string (*:js-string-to-array ((ffi:ref "String") function))
-                  stream)))
+    (let ((name (ffi:ref function "lisp_name")))
+      (write-string "Function" stream)
+      (when (eq (ffi:typeof name) #j"string")
+        (write-char #\space stream)
+        (write-string (ffi:js->cl name) stream)))))
 
 (defun print-package (package stream)
   (print-unreadable-object (package stream)

@@ -783,6 +783,7 @@
                     (p2-emit-declare-temporary-variables))
                   code)))
       (let ((name-var (p2-symbol-to-js-value name)))
+        (format *p2-emit-stream* "~A.lisp_name = '~A'~%" var name)
         (format *p2-emit-stream* "lisp.setSymbolFunction(~A, ~A);~%" name-var var)
         name-var))))
 
@@ -848,7 +849,7 @@
                 (write-string "." out))
               (do ((keys keys (rest keys)))
                   ((null keys))
-                (write-string (p2-escape-string (first keys)) out)
+                (write-string (first keys) out)
                 (when (rest keys)
                   (write-string "." out)))))))
     code))
