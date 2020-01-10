@@ -1,6 +1,7 @@
 (defsystem "valtan"
   :serial t
   :components ((:module "compiler"
+                :pathname "library/valtan/compiler/"
                 :components
                 ((:file "packages")
                  (:file "variables")
