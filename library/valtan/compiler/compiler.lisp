@@ -224,7 +224,9 @@
                                                                   :type "lisp"
                                                                   :directory directory))))
                                             (unless file
-                                              (error "~S not found for system ~S" name system-name))
+                                              (error "~S not found for system ~S"
+                                                     name
+                                                     system-name))
                                             file))
                                         members)
                      :enable-profile enable-profile
