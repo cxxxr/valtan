@@ -264,13 +264,19 @@
   (with-open-file (in pathname)
     (let ((plist (let ((*package* (find-package :valtan-system)))
                    (read in)))
-          (directory (pathname-directory pathname)))
+          (directory (pathname-directory pathname))
+          (system-name (pathname-name pathname)))
       (destructuring-bind (&key members enable-profile depends-on) plist
-        (make-system :name (pathname-name pathname)
+        (make-system :name system-name
                      :pathnames (mapcar (lambda (name)
-                                          (make-pathname :name name
-                                                         :type "lisp"
-                                                         :directory directory))
+                                          (let ((file
+                                                  (probe-file
+                                                   (make-pathname :name name
+                                                                  :type "lisp"
+                                                                  :directory directory))))
+                                            (unless file
+                                              (error "~S not found for system ~S" name system-name))
+                                            file))
                                         members)
                      :enable-profile enable-profile
                      :depends-on depends-on)))))
