@@ -283,11 +283,11 @@
 
 (defun compile-with-system (system)
   (let ((hir-forms '()))
-    (when (system-enable-profile system)
+    (when *enable-profiling*
       (push (pass1-toplevel '((ffi:ref "lisp" "startProfile"))) hir-forms))
     (dolist (system (compute-system-precedence-list system))
       (setq hir-forms (compile-with-system-1 system hir-forms)))
-    (when (system-enable-profile system)
+    (when *enable-profiling*
       (push (pass1-toplevel '((ffi:ref "lisp" "finishProfile"))) hir-forms))
     (nreverse hir-forms)))
 
