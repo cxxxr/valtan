@@ -1,4 +1,4 @@
 ;; -*- mode:lisp -*-
 
 (:members ("main")
- :enable-profile t)
+ :enable-profile nil)

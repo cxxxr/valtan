@@ -176,11 +176,8 @@
 (defun in-pass2 (hir-forms)
   (write-line "import * as lisp from 'lisp';")
   (loop :for (var . module) :in *require-modules*
-        :do (progn
-              #+valtan.pass2-new (format t "var ~A = require('~A');~%" (p2-convert-var var) module)
-              #-valtan.pass2-new (format t "var ~A = require('~A');~%" (pass2-convert-var var) module)))
-  #+valtan.pass2-new (p2-toplevel-forms hir-forms *standard-output*)
-  #-valtan.pass2-new (pass2-toplevel-forms hir-forms)
+        :do (format t "var ~A = require('~A');~%" (p2-convert-var var) module))
+  (p2-toplevel-forms hir-forms *standard-output*)
   (values))
 
 (defun report-undefined-functions ()

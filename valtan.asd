@@ -1,5 +1,3 @@
-(pushnew :valtan.pass2-new *features*)
-
 (defsystem "valtan"
   :serial t
   :components ((:module "compiler"
@@ -13,8 +11,7 @@
                  (:file "hir-walker")
                  (:file "type-infer")
                  (:file "hir-optimize")
-                 #-valtan.pass2-new (:file "pass2")
-                 (:file "pass2-new")
+                 (:file "pass2")
                  ;; (:file "hir-to-lir")
                  ;; (:file "flow-graph")
                  (:file "compiler")))))

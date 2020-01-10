@@ -31,5 +31,5 @@
            "../../compiler/error"
            "../../compiler/hir"
            "../../compiler/pass1"
-           "../../compiler/pass2-new"
+           "../../compiler/pass2"
            "../../lisp/compilation"))
