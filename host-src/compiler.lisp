@@ -1,7 +1,7 @@
 (in-package :compiler)
 
 (defparameter *known-function-names*
-  (let ((file (asdf:system-relative-pathname :valtan "./lib/lisp.js")))
+  (let ((file (asdf:system-relative-pathname :valtan "./kernel/lisp.js")))
     (with-open-file (in file)
       (loop :for line := (read-line in nil nil)
             :while line
@@ -11,7 +11,7 @@
                        (subseq line (1+ start) end))))))
 
 #+(or)
-(let ((file (asdf:system-relative-pathname :valtan "./lib/lisp.js")))
+(let ((file (asdf:system-relative-pathname :valtan "./kernel/lisp.js")))
   (with-open-file (in file)
     (let ((*print-case* :downcase))
       (pprint

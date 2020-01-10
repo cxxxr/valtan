@@ -17,7 +17,7 @@ exec ros -Q -- $0 "$@"
                        :direction :output
                        :if-exists :supersede
                        :if-does-not-exist :create)
-    (princ (asdf:system-relative-pathname :valtan "./lib/") out)))
+    (princ (asdf:system-relative-pathname :valtan "./kernel/") out)))
 
 (defun main (&rest argv)
   (declare (ignorable argv))
