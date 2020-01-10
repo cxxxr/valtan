@@ -174,11 +174,14 @@
     (let ((cache (gethash file *compile-cache*)))
       (cond ((or (null cache)
                  *discard-cache*)
+             (format t "~&compiling: ~A~%" file)
              (main))
             ((not (eql (file-write-date file) (cache-date cache)))
-             (setq *discard-cache* t)
-             (main))
+             (format t "~&compiling: ~A~%" file)
+             (main)
+             (setq *discard-cache* t))
             (t
+             (format t "~&cache: ~A~%" file)
              (cache-value cache))))))
 
 (defun compile-with-system-1 (system hir-forms)
@@ -228,14 +231,16 @@
           (let ((*standard-output* output))
             (in-pass2 hir-forms)))))))
 
-(defun probe-file* (pathname)
+(defun ensure-system-file (pathname)
   (let ((pathname* (probe-file pathname)))
     (unless pathname*
       (error "~A does not exist" pathname))
+    (unless (equal (pathname-type pathname) "system")
+      (error "~A is not a system file" pathname))
     pathname*))
 
 (defun build-system (pathname)
-  (let* ((pathname (probe-file* pathname))
+  (let* ((pathname (ensure-system-file pathname))
          (system (load-system pathname)))
     (build-system-using-system system)))
 
@@ -249,16 +254,22 @@
                  :test #'uiop:pathname-equal)))
     directories))
 
+#+linux
 (defun run-build-server (pathname)
-  (let* ((pathname (probe-file* pathname))
+  (let* ((pathname (ensure-system-file pathname))
+         (system-directory (make-pathname :directory (pathname-directory pathname)))
          (system (load-system pathname)))
-    (build-system-using-system system)
     (let* ((directories (all-directories-to-notify system))
            (paths-with-masks
              (loop :for directory :in directories
                    :collect (list directory inotify:in-modify))))
-      (loop
-        (inotify:with-inotify (inot paths-with-masks)
-          (inotify:read-events inot)
-          (build-system-using-system system)
-          (format t "~&update~%"))))))
+      (flet ((build ()
+               (when (ignore-errors (build-system-using-system system) t)
+                 (uiop:run-program (list "./node_modules/.bin/webpack")
+                                   :directory system-directory
+                                   :output t))))
+        (build)
+        (loop
+          (inotify:with-inotify (inot paths-with-masks)
+            (inotify:read-events inot)
+            (build)))))))
