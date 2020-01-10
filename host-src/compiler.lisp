@@ -10,7 +10,11 @@
                             (end (position #\' line :start (1+ start))))
                        (subseq line (1+ start) end))))))
 
+(defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
 (defparameter *hir-optimize* t)
+(defparameter *compile-cache* (make-hash-table :test 'equal))
+
+(defvar *discard-cache* nil)
 
 (defun generate-p2-builtin-function-table ()
   (let ((file (asdf:system-relative-pathname :valtan "./kernel/lisp.js")))
@@ -90,8 +94,6 @@
              (progn ,@body))))
      (js-beautify output)))
 
-(defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
-
 (defstruct system
   name
   (pathnames '())
@@ -154,13 +156,28 @@
         hir)))
 
 (defun !compile-file (file hir-forms)
-  (let ((file-hir-forms '())
-        (*export-modules* '()))
-    (do-file-form (form file)
-      (push (pass1-toplevel-usign-optimize form) file-hir-forms))
-    (push (pass1-module file (nreverse file-hir-forms) *export-modules*)
-          hir-forms))
-  hir-forms)
+  (labels ((cache-date (cache) (car cache))
+           (cache-value (cache) (cdr cache))
+           (make-cache (date value) (cons date value))
+           (main ()
+             (let ((file-hir-forms '())
+                   (*export-modules* '()))
+               (do-file-form (form file)
+                 (push (pass1-toplevel-usign-optimize form) file-hir-forms))
+               (push (pass1-module file (nreverse file-hir-forms) *export-modules*)
+                     hir-forms)
+               (setf (gethash file *compile-cache*)
+                     (make-cache (file-write-date file) hir-forms))
+               hir-forms)))
+    (let ((cache (gethash file *compile-cache*)))
+      (cond ((or (null cache)
+                 *discard-cache*)
+             (main))
+            ((not (eql (file-write-date file) (cache-date cache)))
+             (setq *discard-cache* t)
+             (main))
+            (t
+             (cache-value cache))))))
 
 (defun compile-with-system-1 (system hir-forms)
   (let ((*macro-definitions* nil))
@@ -171,14 +188,16 @@
     hir-forms))
 
 (defun compile-with-system (system)
-  (let ((hir-forms '()))
-    (when *enable-profiling*
-      (push (pass1-toplevel '((ffi:ref "lisp" "startProfile"))) hir-forms))
-    (dolist (system (compute-system-precedence-list system))
-      (setq hir-forms (compile-with-system-1 system hir-forms)))
-    (when *enable-profiling*
-      (push (pass1-toplevel '((ffi:ref "lisp" "finishProfile"))) hir-forms))
-    (nreverse hir-forms)))
+  (let ((*discard-cache* nil)
+        (hir-forms '()))
+    (handler-bind ((warning #'muffle-warning))
+      (when *enable-profiling*
+        (push (pass1-toplevel '((ffi:ref "lisp" "startProfile"))) hir-forms))
+      (dolist (system (compute-system-precedence-list system))
+        (setq hir-forms (compile-with-system-1 system hir-forms)))
+      (when *enable-profiling*
+        (push (pass1-toplevel '((ffi:ref "lisp" "finishProfile"))) hir-forms))
+      (nreverse hir-forms))))
 
 (defmacro %with-compilation-unit (options &body body)
   (declare (ignore options))
@@ -203,11 +222,11 @@
          (*in-host-runtime* t)
          (*enable-profiling* (system-enable-profile system)))
     (%with-compilation-unit ()
-      (with-open-file (output output-file
-                              :direction :output
-                              :if-does-not-exist :create
-                              :if-exists :supersede)
-        (let ((hir-forms (compile-with-system system))
-              (*standard-output* output))
+      (let ((hir-forms (compile-with-system system)))
+        (with-open-file (output output-file
+                                :direction :output
+                                :if-does-not-exist :create
+                                :if-exists :supersede)
           (report-undefined-functions)
-          (in-pass2 hir-forms))))))
+          (let ((*standard-output* output))
+            (in-pass2 hir-forms)))))))
