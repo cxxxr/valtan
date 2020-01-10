@@ -204,54 +204,6 @@
              (progn ,@body))))
      (js-beautify output)))
 
-(defun directory-files (base-dir files)
-  (let ((base-path (asdf:system-relative-pathname :valtan base-dir)))
-    (mapcar (lambda (name)
-              (make-pathname :name name :type "lisp" :defaults base-path))
-            files)))
-
-(defun get-lisp-files ()
-  (append (directory-files "./lisp/"
-                           '("control"
-                             "setf"
-                             "destructuring-bind"
-                             "ffi"
-                             "cons"
-                             "condition"
-                             "struct"
-                             "symbol"
-                             "type"
-                             "number"
-                             "array"
-                             "character"
-                             "string"
-                             "function"
-                             "sequence"
-                             "hashtable"
-                             "package"
-                             "stream"
-                             "print"
-                             "read"
-                             "file"
-                             "pkg"
-                             "clos"
-                             "restart"
-                             "catch-throw"
-                             ))
-          (directory-files "./compiler/"
-                           '("packages"
-                             "variables"
-                             "util"
-                             "error"
-                             "hir"
-                             "pass1"
-                             #+valtan.pass2-new "pass2-new"
-                             #-valtan.pass2-new "pass2"
-                             ))
-          (directory-files "./lisp/"
-                           '("compilation"))
-          ))
-
 (defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
 
 (defstruct system
@@ -279,7 +231,7 @@
                                             file))
                                         members)
                      :enable-profile enable-profile
-                     :depends-on depends-on)))))
+                     :depends-on (cons "valtan" depends-on))))))
 
 (defun find-system (system-name &optional (errorp t))
   (labels ((ok (pathname)
@@ -295,6 +247,18 @@
             (errorp
              (error "System ~S is not found" system-name))))))
 
+(defun compute-system-precedence-list (system)
+  (let ((seen (make-hash-table :test 'equal))
+        (systems '()))
+    (labels ((f (system)
+               (unless (gethash (system-name system) seen)
+                 (setf (gethash (system-name system) seen) t)
+                 (dolist (system-name (system-depends-on system))
+                   (f (find-system system-name)))
+                 (push system systems))))
+      (f system)
+      (nreverse systems))))
+
 (defparameter *hir-optimize* t)
 
 (defun pass1-toplevel-usign-optimize (form)
@@ -304,9 +268,6 @@
         hir)))
 
 (defun compile-with-system-1 (system hir-forms)
-  (dolist (system-name (system-depends-on system))
-    (let ((system (find-system system-name)))
-      (setf hir-forms (compile-with-system-1 system hir-forms))))
   (let ((macro-definitions
           (let ((*macro-definitions* nil))
             (dolist (file (system-pathnames system))
@@ -322,20 +283,14 @@
   hir-forms)
 
 (defun compile-with-system (system)
-  (let ((hir-forms
-          (if (system-enable-profile system)
-              (list (pass1-toplevel '((ffi:ref "lisp" "startProfile"))))
-              '())))
-    (dolist (file (get-lisp-files))
-      (do-file-form (form file)
-        (push (pass1-toplevel-usign-optimize form)
-              hir-forms)))
-    (dolist (hir-form (pass1-dump-macros))
-      (push hir-form hir-forms))
-    (let ((hir-forms (compile-with-system-1 system hir-forms)))
-      (when (system-enable-profile system)
-        (push (pass1-toplevel '((ffi:ref "lisp" "finishProfile"))) hir-forms))
-      (nreverse hir-forms))))
+  (let ((hir-forms '()))
+    (when (system-enable-profile system)
+      (push (pass1-toplevel '((ffi:ref "lisp" "startProfile"))) hir-forms))
+    (dolist (system (compute-system-precedence-list system))
+      (setq hir-forms (compile-with-system-1 system hir-forms)))
+    (when (system-enable-profile system)
+      (push (pass1-toplevel '((ffi:ref "lisp" "finishProfile"))) hir-forms))
+    (nreverse hir-forms)))
 
 (defmacro %with-compilation-unit (options &body body)
   (declare (ignore options))
