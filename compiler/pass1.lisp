@@ -961,10 +961,15 @@
   (let ((arguments '()))
     (push (if (stringp object) object (pass1 object t nil)) arguments)
     (dolist (key keys)
-      (unless (stringp key)
-        (compile-error "~S is not a string" key))
-      (push key arguments))
-    (nreverse arguments)))
+      (setq arguments
+            (nconc arguments
+                   (cond ((stringp key)
+                          (list key))
+                         ((symbolp key)
+                          (parse-js-name key))
+                         (t
+                          (compile-error "~S is not a string or symbol" key))))))
+    arguments))
 
 (def-pass1-form ffi:ref ((object &rest keys) return-value-p multiple-values-p)
   (let ((arguments (pass1-ref-names object keys)))
