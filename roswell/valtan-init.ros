@@ -5,25 +5,37 @@ exec ros -Q -- $0 "$@"
 |#
 (progn ;;init forms
   (ros:ensure-asdf)
-  #+quicklisp(ql:quickload '("cl-project") :silent t)
+  #+quicklisp(ql:quickload '("cl-project" "alexandria" "command-line-arguments") :silent t)
   )
 
 (defpackage :ros.script.valtan-init.3780739288
-  (:use :cl))
+  (:use :cl :command-line-arguments))
 (in-package :ros.script.valtan-init.3780739288)
 
-(defvar *skeleton-directory*
-  (asdf:system-relative-pathname :valtan #p"skeleton/"))
+(defparameter +option-spec+
+  '((("type" #\t) :type string :documentation "application type (\"browser\" or \"node\")")))
 
 (defun usage ()
-  (write-line "valtan-init.ros project-name")
-  (uiop:quit 1))
+  (write-line "valtan-init.ros [options] project-name")
+  (write-line "options:")
+  (show-option-help +option-spec+))
+
+(defun make-project (path cl-project:*skeleton-directory*)
+  (cl-project:make-project path))
+
+(defun init (args &key (type "node"))
+  (destructuring-bind (name) args
+    (make-project (merge-pathnames name (probe-file "."))
+                  (alexandria:eswitch (type :test #'string=)
+                    ("browser"
+                     (asdf:system-relative-pathname :valtan #p"skeleton/browser-skeleton/"))
+                    ("node"
+                     (asdf:system-relative-pathname :valtan #p"skeleton/node-skeleton/"))))))
 
 (defun main (&rest argv)
-  (unless (= 1 (length argv))
-    (usage))
-  (let ((cl-project:*skeleton-directory* *skeleton-directory*)
-        (name (first argv)))
-    (cl-project:make-project (merge-pathnames name (probe-file ".")))))
+  (handle-command-line +option-spec+
+                       #'init
+                       :command-line argv
+                       :rest-arity t))
 
 ;;; vim: set ft=lisp lisp:
