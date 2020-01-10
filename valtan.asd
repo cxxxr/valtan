@@ -1,5 +1,5 @@
 (defsystem "valtan"
-  :depends-on ("cl-ppcre")
+  :depends-on ("cl-ppcre" "inotify")
   :components ((:module "target"
                 :serial t
                 :pathname "library/valtan/compiler"

@@ -96,6 +96,7 @@
 
 (defstruct system
   name
+  pathname
   (pathnames '())
   (enable-profile nil)
   (depends-on '()))
@@ -108,6 +109,7 @@
           (system-name (pathname-name pathname)))
       (destructuring-bind (&key members enable-profile depends-on) plist
         (make-system :name system-name
+                     :pathname pathname
                      :pathnames (mapcar (lambda (name)
                                           (let ((file
                                                   (probe-file
@@ -210,23 +212,53 @@
          (*known-toplevel-functions* '()))
      ,@body))
 
-(defun build-system (pathname &key output-file)
-  (unless (probe-file pathname)
-    (error "~A does not exist" pathname))
-  (let* ((pathname (probe-file pathname))
-         (system (load-system pathname))
-         (output-file (or output-file
-                          (make-pathname :name (pathname-name pathname)
-                                         :type "js"
-                                         :defaults pathname)))
-         (*in-host-runtime* t)
-         (*enable-profiling* (system-enable-profile system)))
+(defun build-system-using-system (system)
+  (let ((output-file (make-pathname :name (pathname-name (system-pathname system))
+                                    :type "js"
+                                    :defaults (system-pathname system)))
+        (*in-host-runtime* t)
+        (*enable-profiling* (system-enable-profile system)))
     (%with-compilation-unit ()
       (let ((hir-forms (compile-with-system system)))
         (with-open-file (output output-file
                                 :direction :output
                                 :if-does-not-exist :create
                                 :if-exists :supersede)
-          (report-undefined-functions)
+          ;; (report-undefined-functions)
           (let ((*standard-output* output))
             (in-pass2 hir-forms)))))))
+
+(defun probe-file* (pathname)
+  (let ((pathname* (probe-file pathname)))
+    (unless pathname*
+      (error "~A does not exist" pathname))
+    pathname*))
+
+(defun build-system (pathname)
+  (let* ((pathname (probe-file* pathname))
+         (system (load-system pathname)))
+    (build-system-using-system system)))
+
+(defun all-directories-to-notify (system)
+  (let ((systems (compute-system-precedence-list system))
+        (directories '()))
+    (dolist (system systems)
+      (dolist (pathname (system-pathnames system))
+        (pushnew (make-pathname :directory (pathname-directory pathname))
+                 directories
+                 :test #'uiop:pathname-equal)))
+    directories))
+
+(defun run-build-server (pathname)
+  (let* ((pathname (probe-file* pathname))
+         (system (load-system pathname)))
+    (build-system-using-system system)
+    (let* ((directories (all-directories-to-notify system))
+           (paths-with-masks
+             (loop :for directory :in directories
+                   :collect (list directory inotify:in-modify))))
+      (loop
+        (inotify:with-inotify (inot paths-with-masks)
+          (inotify:read-events inot)
+          (build-system-using-system system)
+          (format t "~&update~%"))))))
