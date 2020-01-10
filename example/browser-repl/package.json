@@ -1,0 +1,23 @@
+{
+  "name": "browser-repl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "valtan-build browser-repl.system",
+    "build": "webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.0"
+  },
+  "dependencies": {
+    "codemirror": "^5.50.2",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
+  }
+}
