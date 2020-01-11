@@ -11,7 +11,6 @@
                        (subseq line (1+ start) end))))))
 
 (defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
-(defparameter *hir-optimize* t)
 
 (defvar *compile-cache* (make-hash-table :test 'equal))
 (defvar *discard-cache* nil)
@@ -150,12 +149,6 @@
                  (push system systems))))
       (f system)
       (nreverse systems))))
-
-(defun pass1-toplevel-usign-optimize (form)
-  (let ((hir (pass1-toplevel form)))
-    (if *hir-optimize*
-        (hir-optimize hir)
-        hir)))
 
 (defun !compile-file (file hir-forms)
   (labels ((cache-date (cache) (car cache))

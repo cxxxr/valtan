@@ -1,6 +1,7 @@
 (defpackage :compiler
   (:use :cl)
-  (:export :build-system))
+  (:export :build-system
+           :compile-toplevel))
 
 (defpackage :system
   (:nicknames :*)

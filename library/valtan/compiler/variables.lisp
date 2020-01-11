@@ -4,3 +4,4 @@
 (defvar *debug* nil)
 (defvar *known-toplevel-functions* '())
 (defvar *enable-profiling* nil)
+(defparameter *hir-optimize* t)

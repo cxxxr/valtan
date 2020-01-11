@@ -32,4 +32,5 @@
            "compiler/hir"
            "compiler/pass1"
            "compiler/pass2"
+           "compiler/compiler"
            "lisp/compilation"))

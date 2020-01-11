@@ -14,7 +14,8 @@
                              (:file "hir-optimize")
                              (:file "pass2")
                              #+(or)(:file "hir-to-lir")
-                             #+(or)(:file "flow-graph")))
+                             #+(or)(:file "flow-graph")
+                             (:file "compiler")))
                (:module "host"
                 :pathname "host-src"
                 :serial t
