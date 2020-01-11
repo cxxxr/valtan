@@ -3,6 +3,13 @@
   (:export :build-system))
 (in-package :valtan-host.build)
 
+(defmacro %with-compilation-unit (() &body body)
+  `(let ((compiler::*require-modules* '())
+         (compiler::*known-toplevel-functions* '())
+         (compiler::*genvar-counter* 0)
+         (*gensym-counter* 0))
+     ,@body))
+
 (defmacro do-forms ((var stream) &body body)
   (let ((g-eof-value (gensym))
         (g-stream (gensym)))
@@ -53,13 +60,6 @@
       (when compiler::*enable-profiling*
         (push (compiler::pass1-toplevel '((ffi:ref "lisp" "finishProfile"))) hir-forms))
       (nreverse hir-forms))))
-
-(defmacro %with-compilation-unit (() &body body)
-  `(let ((compiler::*require-modules* '())
-         (compiler::*known-toplevel-functions* '())
-         (compiler::*genvar-counter* 0)
-         (*gensym-counter* 0))
-     ,@body))
 
 (defun build-system-using-system (system)
   (let ((output-file (make-pathname :name (pathname-name (valtan-host.system:system-pathname system))
