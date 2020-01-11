@@ -36,16 +36,6 @@
   (compiler::p2-toplevel-forms hir-forms *standard-output*)
   (values))
 
-(defun report-undefined-functions ()
-  (dolist (name (set-difference
-                 (set-difference compiler::*called-function-names*
-                                 compiler::*defined-function-names*)
-                 *known-function-names*
-                 :test #'string=))
-    (unless (or (eq (symbol-package name) (find-package :system))
-                (eq (symbol-package name) (find-package :ffi)))
-      (warn "undefined function: ~S" name))))
-
 (defun !compile-file (file hir-forms)
   (let ((file-hir-forms '())
         (compiler::*export-modules* '()))
@@ -79,8 +69,6 @@
   `(let ((compiler::*require-modules* '())
          (compiler::*genvar-counter* 0)
          (*gensym-counter* 0)
-         (compiler::*defined-function-names* '())
-         (compiler::*called-function-names* '())
          (*known-function-names* '())
          (compiler::*known-toplevel-functions* '()))
      ,@body))
@@ -97,7 +85,6 @@
                                 :direction :output
                                 :if-does-not-exist :create
                                 :if-exists :supersede)
-          ;; (report-undefined-functions)
           (let ((*standard-output* output))
             (in-pass2 hir-forms)))))))
 

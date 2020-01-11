@@ -4,8 +4,6 @@
 
 (defvar *require-modules* '())
 (defvar *export-modules* '())
-(defvar *defined-function-names* '())
-(defvar *called-function-names* '())
 (defvar *lexenv* nil)
 (defvar *compile-level* -1)
 (defvar *macro-definitions* '())
@@ -239,7 +237,6 @@
          (lambda ,lambda-list ,@body)))
 
 (def-transform defun (name lambda-list &rest body)
-  (pushnew name *defined-function-names*)
   (cond ((and (consp name)
               (eq 'setf (first name))
               (= 2 (length name))
@@ -536,7 +533,6 @@
                            return-value-p
                            multiple-values-p))
                    (t
-                    (pushnew fn *called-function-names*)
                     (make-hir 'call
                              return-value-p
                              multiple-values-p
