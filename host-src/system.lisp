@@ -5,6 +5,7 @@
            :system-pathnames
            :system-enable-profile
            :system-depends-on
+           :system-target
            :load-system
            :find-system
            :compute-system-precedence-list))
@@ -17,7 +18,8 @@
   pathname
   (pathnames '())
   (enable-profile nil)
-  (depends-on '()))
+  (depends-on '())
+  (target nil :type (member :node :browser nil)))
 
 (defun ensure-system-package-exist ()
   (or (find-package :valtan-system)
@@ -29,7 +31,8 @@
                    (read in)))
           (directory (pathname-directory pathname))
           (system-name (pathname-name pathname)))
-      (destructuring-bind (&key members enable-profile depends-on) plist
+      (destructuring-bind (&key members enable-profile depends-on target) plist
+        (check-type target (member :node :browser nil))
         (make-system :name system-name
                      :pathname pathname
                      :pathnames (mapcar (lambda (name)
@@ -47,7 +50,8 @@
                      :enable-profile enable-profile
                      :depends-on (if (string= system-name "valtan")
                                      depends-on
-                                     (cons "valtan" depends-on)))))))
+                                     (cons "valtan" depends-on))
+                     :target target)))))
 
 (defun find-system (system-name &optional (errorp t))
   (labels ((ok (pathname)
