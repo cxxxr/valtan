@@ -20,4 +20,4 @@
                 :pathname "host-src"
                 :serial t
                 :components ((:file "read")
-                             (:file "compiler")))))
+                             (:file "build")))))
