@@ -12,8 +12,8 @@
 
 (defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
 (defparameter *hir-optimize* t)
-(defparameter *compile-cache* (make-hash-table :test 'equal))
 
+(defvar *compile-cache* (make-hash-table :test 'equal))
 (defvar *discard-cache* nil)
 
 (defun generate-p2-builtin-function-table ()
