@@ -1,3 +1,13 @@
+(defparameter *known-function-names*
+  (let ((file (asdf:system-relative-pathname :valtan "./kernel/lisp.js")))
+    (with-open-file (in file)
+      (loop :for line := (read-line in nil nil)
+            :while line
+            :when (eql 0 (search "registerFunction(" line))
+            :collect (let* ((start (position #\' line))
+                            (end (position #\' line :start (1+ start))))
+                       (subseq line (1+ start) end))))))
+
 (defun generate-p2-builtin-function-table ()
   (let ((file (asdf:system-relative-pathname :valtan "./kernel/lisp.js")))
     (with-open-file (in file)

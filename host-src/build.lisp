@@ -3,16 +3,6 @@
   (:export :build-system))
 (in-package :valtan-host.build)
 
-(defparameter *known-function-names*
-  (let ((file (asdf:system-relative-pathname :valtan "./kernel/lisp.js")))
-    (with-open-file (in file)
-      (loop :for line := (read-line in nil nil)
-            :while line
-            :when (eql 0 (search "registerFunction(" line))
-            :collect (let* ((start (position #\' line))
-                            (end (position #\' line :start (1+ start))))
-                       (subseq line (1+ start) end))))))
-
 (defmacro do-forms ((var stream) &body body)
   (let ((g-eof-value (gensym))
         (g-stream (gensym)))
@@ -69,7 +59,6 @@
   `(let ((compiler::*require-modules* '())
          (compiler::*genvar-counter* 0)
          (*gensym-counter* 0)
-         (*known-function-names* '())
          (compiler::*known-toplevel-functions* '()))
      ,@body))
 
