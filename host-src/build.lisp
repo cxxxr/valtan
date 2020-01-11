@@ -3,6 +3,8 @@
   (:export :build-system))
 (in-package :valtan-host.build)
 
+(defvar *cache-directory*)
+
 (defmacro %with-compilation-unit (() &body body)
   `(let ((compiler::*in-host-runtime* t)
          (compiler::*require-modules* '())
@@ -10,6 +12,16 @@
          (compiler::*genvar-counter* 0)
          (*gensym-counter* 0))
      ,@body))
+
+(defmacro with-write-file ((stream pathname) &body body)
+  (let ((g-pathname (gensym)))
+    `(let ((,g-pathname ,pathname))
+       (format t "creating ~A~%" ,g-pathname)
+       (with-open-file (,stream ,g-pathname
+                                :direction :output
+                                :if-exists :supersede
+                                :if-does-not-exist :create)
+         ,@body))))
 
 (defmacro do-forms ((var stream) &body body)
   (let ((g-eof-value (gensym))
@@ -34,8 +46,6 @@
   (compiler::p2-toplevel-forms hir-forms stream)
   (values))
 
-(defvar *cache-directory*)
-
 (defun input-file-to-output-file (input-file &optional (*cache-directory* *cache-directory*))
   (make-pathname :directory (append *cache-directory*
                                     (rest (pathname-directory input-file)))
@@ -48,15 +58,13 @@
             (let ((hir-forms '())
                   (compiler::*export-modules* '()))
               (do-file-form (form input-file)
-                (push (compiler::pass1-toplevel-usign-optimize form) hir-forms))
+                (push (handler-bind ((warning #'muffle-warning))
+                        (compiler::pass1-toplevel-usign-optimize form))
+                      hir-forms))
               (compiler::pass1-module input-file (nreverse hir-forms) compiler::*export-modules*))))
       (let ((output-file (input-file-to-output-file input-file)))
         (ensure-directories-exist output-file)
-        (format t "~&creating ~A~%" output-file)
-        (with-open-file (out output-file
-                             :direction :output
-                             :if-exists :supersede
-                             :if-does-not-exist :create)
+        (with-write-file (out output-file)
           (in-pass2 (list module) out))
         output-file))))
 
@@ -82,11 +90,7 @@
 (defun compile-system-file (system)
   (%with-compilation-unit ()
     (let ((output-file (input-file-to-output-file (valtan-host.system:system-pathname system))))
-      (format t "~&creating ~A~%" output-file)
-      (with-open-file (out output-file
-                           :direction :output
-                           :if-exists :supersede
-                           :if-does-not-exist :create)
+      (with-write-file (out output-file)
         (write-line "import * as lisp from 'lisp';" out)
         (dolist (system-name (valtan-host.system:system-depends-on system))
           (let* ((dependent-system (valtan-host.system:find-system system-name)) ;!!!
@@ -104,11 +108,7 @@
   (let ((output-file (make-pathname :type "js"
                                     :name (valtan-host.system:system-name system)
                                     :directory (pathname-directory (valtan-host.system:system-pathname system)))))
-    (format t "~&creating ~A~%" output-file)
-    (with-open-file (out output-file
-                         :direction :output
-                         :if-exists :supersede
-                         :if-does-not-exist :create)
+    (with-write-file (out output-file)
       (format out
               "require('~A');~%"
               (input-file-to-output-file (valtan-host.system:system-pathname system))))))
