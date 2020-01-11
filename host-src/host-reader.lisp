@@ -1,4 +1,7 @@
-(in-package :compiler)
+(defpackage :valtan-host.reader
+  (:use :cl)
+  (:export :read-in-valtan))
+(in-package :valtan-host.reader)
 
 (defparameter *whitespaces* '(#\space #\tab #\newline #\linefeed #\page #\return))
 
@@ -39,7 +42,7 @@
     *readtable*))
 
 (defmacro *:quasiquote (x)
-  (expand-quasiquote x))
+  (compiler::expand-quasiquote x))
 
 (defun non-terminate-macro-character-p (c)
   (multiple-value-bind (function non-terminating-p)

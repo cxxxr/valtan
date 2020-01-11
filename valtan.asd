@@ -19,5 +19,7 @@
                (:module "host"
                 :pathname "host-src"
                 :serial t
-                :components ((:file "read")
+                :components ((:file "util")
+                             (:file "host-reader")
+                             (:file "system")
                              (:file "build")))))
