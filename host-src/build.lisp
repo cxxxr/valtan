@@ -54,12 +54,11 @@
         (push (compiler::pass1-toplevel '((ffi:ref "lisp" "finishProfile"))) hir-forms))
       (nreverse hir-forms))))
 
-(defmacro %with-compilation-unit (options &body body)
-  (declare (ignore options))
+(defmacro %with-compilation-unit (() &body body)
   `(let ((compiler::*require-modules* '())
+         (compiler::*known-toplevel-functions* '())
          (compiler::*genvar-counter* 0)
-         (*gensym-counter* 0)
-         (compiler::*known-toplevel-functions* '()))
+         (*gensym-counter* 0))
      ,@body))
 
 (defun build-system-using-system (system)
