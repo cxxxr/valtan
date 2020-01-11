@@ -116,7 +116,7 @@
 (defun build-system-using-system (system)
   (let ((*cache-directory* (append (pathname-directory
                                     (valtan-host.system:system-pathname system))
-                                   (list "valtan-cache")))
+                                   (list ".valtan-cache")))
         (*features* *features*))
     (when (eql :node (valtan-host.system:system-target system))
       (push :node *features*))

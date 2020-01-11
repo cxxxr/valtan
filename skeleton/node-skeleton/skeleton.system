@@ -1,3 +1,4 @@
 ;; -*- mode:lisp -*-
 
-(:members ("main"))
+(:members ("main")
+ :target :node)
