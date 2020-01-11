@@ -4,7 +4,8 @@
 (in-package :valtan-host.build)
 
 (defmacro %with-compilation-unit (() &body body)
-  `(let ((compiler::*require-modules* '())
+  `(let ((compiler::*in-host-runtime* t)
+         (compiler::*require-modules* '())
          (compiler::*known-toplevel-functions* '())
          (compiler::*genvar-counter* 0)
          (*gensym-counter* 0))
@@ -65,7 +66,6 @@
   (let ((output-file (make-pathname :name (pathname-name (valtan-host.system:system-pathname system))
                                     :type "js"
                                     :defaults (valtan-host.system:system-pathname system)))
-        (compiler::*in-host-runtime* t)
         (compiler::*enable-profiling* (valtan-host.system:system-enable-profile system)))
     (%with-compilation-unit ()
       (let ((hir-forms (compile-with-system system)))
