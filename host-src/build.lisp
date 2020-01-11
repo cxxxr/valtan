@@ -27,62 +27,106 @@
        (do-forms (,var ,in)
          ,@body))))
 
-(defun in-pass2 (hir-forms)
-  (write-line "import * as lisp from 'lisp';")
+(defun in-pass2 (hir-forms &optional (stream *standard-output*))
+  (write-line "import * as lisp from 'lisp';" stream)
   (loop :for (var . module) :in compiler::*require-modules*
-        :do (format t "var ~A = require('~A');~%" (compiler::p2-convert-var var) module))
-  (compiler::p2-toplevel-forms hir-forms *standard-output*)
+        :do (format stream "var ~A = require('~A');~%" (compiler::p2-convert-var var) module))
+  (compiler::p2-toplevel-forms hir-forms stream)
   (values))
 
-(defun !compile-file (file hir-forms)
-  (let ((file-hir-forms '())
-        (compiler::*export-modules* '()))
-    (do-file-form (form file)
-      (push (compiler::pass1-toplevel-usign-optimize form) file-hir-forms))
-    (push (compiler::pass1-module file (nreverse file-hir-forms) compiler::*export-modules*)
-          hir-forms)
-    hir-forms))
+(defvar *cache-directory*)
 
-(defun compile-with-system-1 (system hir-forms)
-  (let ((compiler::*macro-definitions* nil))
-    (dolist (file (valtan-host.system:system-pathnames system))
-      (setq hir-forms (!compile-file file hir-forms)))
-    (dolist (hir-form (compiler::pass1-dump-macros compiler::*macro-definitions*))
-      (push hir-form hir-forms))
-    hir-forms))
+(defun input-file-to-output-file (input-file &optional (*cache-directory* *cache-directory*))
+  (make-pathname :directory (append *cache-directory*
+                                    (rest (pathname-directory input-file)))
+                 :name (pathname-name input-file)
+                 :type (format nil "~A.js" (pathname-type input-file))))
 
-(defun compile-with-system (system)
-  (let ((hir-forms '()))
-    (handler-bind ((warning #'muffle-warning))
-      (when compiler::*enable-profiling*
-        (push (compiler::pass1-toplevel '((ffi:ref "lisp" "startProfile"))) hir-forms))
-      (dolist (system (valtan-host.system:compute-system-precedence-list system))
-        (setq hir-forms (compile-with-system-1 system hir-forms)))
-      (when compiler::*enable-profiling*
-        (push (compiler::pass1-toplevel '((ffi:ref "lisp" "finishProfile"))) hir-forms))
-      (nreverse hir-forms))))
+(defun !compile-file (input-file)
+  (%with-compilation-unit ()
+    (let ((module
+            (let ((hir-forms '())
+                  (compiler::*export-modules* '()))
+              (do-file-form (form input-file)
+                (push (compiler::pass1-toplevel-usign-optimize form) hir-forms))
+              (compiler::pass1-module input-file (nreverse hir-forms) compiler::*export-modules*))))
+      (let ((output-file (input-file-to-output-file input-file)))
+        (ensure-directories-exist output-file)
+        (format t "~&creating ~A~%" output-file)
+        (with-open-file (out output-file
+                             :direction :output
+                             :if-exists :supersede
+                             :if-does-not-exist :create)
+          (in-pass2 (list module) out))
+        output-file))))
+
+(defun common-directory (pathname1 pathname2)
+  (loop :for dir1 := (pathname-directory pathname1) :then (rest dir1)
+        :for dir2 := (pathname-directory pathname2) :then (rest dir2)
+        :until (or (not (equal (first dir1) (first dir2)))
+                   (null dir1)
+                   (null dir2))
+        :finally (return (values dir1 dir2))))
+
+(defun resolve-path (pathname1 pathname2)
+  (multiple-value-bind (directory1 directory2)
+      (common-directory pathname1 pathname2)
+    (make-pathname :directory
+                   `(:relative
+                     "."
+                     ,@(loop :repeat (length directory1) :collect :up)
+                     ,@directory2)
+                   :name (pathname-name pathname2)
+                   :type (pathname-type pathname2))))
+
+(defun compile-system-file (system)
+  (%with-compilation-unit ()
+    (let ((output-file (input-file-to-output-file (valtan-host.system:system-pathname system))))
+      (format t "~&creating ~A~%" output-file)
+      (with-open-file (out output-file
+                           :direction :output
+                           :if-exists :supersede
+                           :if-does-not-exist :create)
+        (write-line "import * as lisp from 'lisp';" out)
+        (dolist (system-name (valtan-host.system:system-depends-on system))
+          (let* ((dependent-system (valtan-host.system:find-system system-name)) ;!!!
+                 (path (resolve-path (valtan-host.system:system-pathname system)
+                                     (valtan-host.system:system-pathname dependent-system))))
+            (format out "require('~A.js');~%" path)))
+        (dolist (pathname (valtan-host.system:system-pathnames system))
+          (let ((path (resolve-path (valtan-host.system:system-pathname system)
+                                    pathname)))
+            (format out "require('~A.js');~%" path)))
+        (compiler::p2-toplevel-forms (compiler::pass1-dump-macros compiler::*macro-definitions*)
+                                     out)))))
+
+(defun create-entry-file (system)
+  (with-open-file (out (make-pathname :type "js" :name (valtan-host.system:system-name system))
+                       :direction :output
+                       :if-exists :supersede
+                       :if-does-not-exist :create)
+    (format out
+            "require('~A');~%"
+            (input-file-to-output-file (valtan-host.system:system-pathname system)))))
 
 (defun build-system-using-system (system)
-  (let ((output-file (make-pathname :name (pathname-name (valtan-host.system:system-pathname system))
-                                    :type "js"
-                                    :defaults (valtan-host.system:system-pathname system)))
-        (compiler::*enable-profiling* (valtan-host.system:system-enable-profile system)))
-    (%with-compilation-unit ()
-      (let ((hir-forms (compile-with-system system)))
-        (with-open-file (output output-file
-                                :direction :output
-                                :if-does-not-exist :create
-                                :if-exists :supersede)
-          (let ((*standard-output* output))
-            (in-pass2 hir-forms)))))))
+  (let ((*cache-directory* (append (pathname-directory
+                                    (valtan-host.system:system-pathname system))
+                                   (list "valtan-cache"))))
+    (dolist (system (valtan-host.system:compute-system-precedence-list system))
+      (let ((compiler::*macro-definitions* '()))
+        (dolist (pathname (valtan-host.system:system-pathnames system))
+          (!compile-file pathname))
+        (compile-system-file system)))
+    (create-entry-file system)))
 
 (defun ensure-system-file (pathname)
-  (let ((pathname* (probe-file pathname)))
-    (unless pathname*
+  (let ((probed-pathname (probe-file pathname)))
+    (unless probed-pathname
       (error "~A does not exist" pathname))
     (unless (equal (pathname-type pathname) "system")
       (error "~A is not a system file" pathname))
-    pathname*))
+    probed-pathname))
 
 (defun build-system (pathname)
   (let* ((pathname (ensure-system-file pathname))

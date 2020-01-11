@@ -1,5 +1,7 @@
 (in-package :common-lisp)
 
+(ffi:require js:fs "fs") ; TODO: nodeかどうか判定する
+
 (defun open (filename &key (direction :input) element-type if-exists if-does-not-exist)
   (declare (ignore element-type if-exists if-does-not-exist))
   (ecase direction

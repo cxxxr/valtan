@@ -1,5 +1,7 @@
 (in-package :common-lisp)
 
+(*:%defpackage "COMPILER")
+
 (defparameter lambda-list-keywords
   '(&ALLOW-OTHER-KEYS &AUX &BODY &ENVIRONMENT &KEY &OPTIONAL &REST &WHOLE))
 

@@ -256,6 +256,10 @@
       (setf (gethash symbol *p2-literal-symbols*)
             (genvar "G"))))
 
+(defun p2-symbol-to-call-value (symbol)
+  (let ((value (p2-symbol-to-js-value symbol)))
+    (format nil "~A.func" value)))
+
 (defun p2-symbol-to-js-function-name (symbol)
   (p2-local-function
    symbol
@@ -284,7 +288,9 @@
         ((symbolp x)
          (p2-symbol-to-js-value x))
         ((stringp x)
-         (format nil "CL_SYSTEM_JS_STRING_TO_ARRAY(lisp.codeArrayToString(~A))" (p2-encode-string x)))
+         (format nil "~A(lisp.codeArrayToString(~A))"
+                 (p2-symbol-to-call-value '*:js-string-to-array)
+                 (p2-encode-string x)))
         ((numberp x)
          (princ-to-string x))
         ((characterp x)
@@ -295,7 +301,7 @@
                  (p2-literal (cdr x))))
         ((vectorp x)
          (with-output-to-string (out)
-           (write-string "CL_COMMON_LISP_VECTOR" out)
+           (write-string (p2-symbol-to-call-value 'cl:vector) out)
            (if (zerop (length x))
                (write-string "(" out)
                (dotimes (i (length x))
@@ -577,7 +583,7 @@
                         (<= min (length args)))))
              (format *p2-emit-stream*
                      "~A("
-                     (p2-symbol-to-js-function-name symbol)))
+                     (p2-symbol-to-call-value symbol)))
             (t
              (format *p2-emit-stream*
                      "lisp.callFunctionWithCallStack(~A"
@@ -937,6 +943,7 @@
     (p2-forms forms)
     (dolist (export-module export-modules)
       (destructuring-bind (name . as) export-module
+        ;; asの条件が逆?
         (if as
             (format *p2-emit-stream*
                     "module.exports = ~A~%"
@@ -983,7 +990,7 @@
       (p2-emit-try-catch
        (setq result (p2-toplevel-1 hir))
        ((err)
-        (write-line "CL_COMMON_LISP_FINISH_OUTPUT();" *p2-emit-stream*)
+        (format *p2-emit-stream* "~A();~%" (p2-symbol-to-call-value 'cl:finish-output))
         (format *p2-emit-stream* "console.log(~A);~%" err))))
     (write-line "// initialize-vars" stream)
     (p2-emit-initialize-vars stream)
@@ -1007,7 +1014,7 @@
        (dolist (hir hir-forms)
          (p2-toplevel-1 hir))
        ((err)
-        (write-line "CL_COMMON_LISP_FINISH_OUTPUT();" *p2-emit-stream*)
+        (format *p2-emit-stream* "~A();~%" (p2-symbol-to-call-value 'cl:finish-output))
         (format *p2-emit-stream* "console.log(~A);~%" err))))
     (write-line "// initialize-vars" stream)
     (p2-emit-initialize-vars stream)
@@ -1016,5 +1023,4 @@
     (write-line "// initialize symbols" stream)
     (p2-emit-initialize-symbols stream)
     (write-line "// main" stream)
-    (write-string (get-output-stream-string *p2-emit-stream*) stream)
-    (write-line "CL_COMMON_LISP_FINISH_OUTPUT();" stream)))
+    (write-string (get-output-stream-string *p2-emit-stream*) stream)))
