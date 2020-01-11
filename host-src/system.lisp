@@ -45,7 +45,9 @@
                                             file))
                                         members)
                      :enable-profile enable-profile
-                     :depends-on (cons "valtan" depends-on))))))
+                     :depends-on (if (string= system-name "valtan")
+                                     depends-on
+                                     (cons "valtan" depends-on)))))))
 
 (defun find-system (system-name &optional (errorp t))
   (labels ((ok (pathname)
