@@ -47,7 +47,7 @@
 
 (defun compile-with-system-1 (system hir-forms)
   (let ((compiler::*macro-definitions* nil))
-    (dolist (file (valtan-host.system::system-pathnames system))
+    (dolist (file (valtan-host.system:system-pathnames system))
       (setq hir-forms (!compile-file file hir-forms)))
     (dolist (hir-form (compiler::pass1-dump-macros compiler::*macro-definitions*))
       (push hir-form hir-forms))
@@ -58,7 +58,7 @@
     (handler-bind ((warning #'muffle-warning))
       (when compiler::*enable-profiling*
         (push (compiler::pass1-toplevel '((ffi:ref "lisp" "startProfile"))) hir-forms))
-      (dolist (system (valtan-host.system::compute-system-precedence-list system))
+      (dolist (system (valtan-host.system:compute-system-precedence-list system))
         (setq hir-forms (compile-with-system-1 system hir-forms)))
       (when compiler::*enable-profiling*
         (push (compiler::pass1-toplevel '((ffi:ref "lisp" "finishProfile"))) hir-forms))
@@ -74,11 +74,11 @@
      ,@body))
 
 (defun build-system-using-system (system)
-  (let ((output-file (make-pathname :name (pathname-name (valtan-host.system::system-pathname system))
+  (let ((output-file (make-pathname :name (pathname-name (valtan-host.system:system-pathname system))
                                     :type "js"
-                                    :defaults (valtan-host.system::system-pathname system)))
+                                    :defaults (valtan-host.system:system-pathname system)))
         (compiler::*in-host-runtime* t)
-        (compiler::*enable-profiling* (valtan-host.system::system-enable-profile system)))
+        (compiler::*enable-profiling* (valtan-host.system:system-enable-profile system)))
     (%with-compilation-unit ()
       (let ((hir-forms (compile-with-system system)))
         (with-open-file (output output-file
@@ -98,14 +98,14 @@
 
 (defun build-system (pathname)
   (let* ((pathname (ensure-system-file pathname))
-         (system (valtan-host.system::load-system pathname)))
+         (system (valtan-host.system:load-system pathname)))
     (build-system-using-system system)))
 
 (defun all-directories-to-notify (system)
-  (let ((systems (valtan-host.system::compute-system-precedence-list system))
+  (let ((systems (valtan-host.system:compute-system-precedence-list system))
         (directories '()))
     (dolist (system systems)
-      (dolist (pathname (valtan-host.system::system-pathnames system))
+      (dolist (pathname (valtan-host.system:system-pathnames system))
         (pushnew (make-pathname :directory (pathname-directory pathname))
                  directories
                  :test #'uiop:pathname-equal)))
@@ -115,7 +115,7 @@
 (defun run-build-server (pathname)
   (let* ((pathname (ensure-system-file pathname))
          (system-directory (make-pathname :directory (pathname-directory pathname)))
-         (system (valtan-host.system::load-system pathname)))
+         (system (valtan-host.system:load-system pathname)))
     (let* ((directories (all-directories-to-notify system))
            (paths-with-masks
              (loop :for directory :in directories
