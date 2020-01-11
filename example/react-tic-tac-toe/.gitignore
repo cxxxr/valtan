@@ -3,3 +3,4 @@ dist/
 package-lock.json
 react-tic-tac-toe.js
 .valtan-path
+.valtan-cache

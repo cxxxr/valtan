@@ -3,7 +3,6 @@ const fs = require('fs');
 
 module.exports = {
   mode: 'none',
-  // target: 'node',
   entry: './react-counter.js',
   output: {
     filename: 'main.js',

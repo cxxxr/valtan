@@ -3,7 +3,7 @@ const fs = require('fs');
 
 module.exports = {
   mode: 'none',
-  // target: 'node',
+  target: 'node',
   entry: './<% @var name %>.js',
   output: {
     filename: 'main.js',

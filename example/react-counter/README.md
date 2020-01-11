@@ -2,6 +2,6 @@
 
 ```
 $ npm install
-$ npm start
+$ npm run build
 $ open index.html
 ```

@@ -1,5 +1,4 @@
 ;; -*- mode:lisp -*-
 
 (:members ("main")
- :enable-profile nil
  :target :node)
