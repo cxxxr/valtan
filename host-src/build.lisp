@@ -101,13 +101,17 @@
                                      out)))))
 
 (defun create-entry-file (system)
-  (with-open-file (out (make-pathname :type "js" :name (valtan-host.system:system-name system))
-                       :direction :output
-                       :if-exists :supersede
-                       :if-does-not-exist :create)
-    (format out
-            "require('~A');~%"
-            (input-file-to-output-file (valtan-host.system:system-pathname system)))))
+  (let ((output-file (make-pathname :type "js"
+                                    :name (valtan-host.system:system-name system)
+                                    :directory (pathname-directory (valtan-host.system:system-pathname system)))))
+    (format t "~&creating ~A~%" output-file)
+    (with-open-file (out output-file
+                         :direction :output
+                         :if-exists :supersede
+                         :if-does-not-exist :create)
+      (format out
+              "require('~A');~%"
+              (input-file-to-output-file (valtan-host.system:system-pathname system))))))
 
 (defun build-system-using-system (system)
   (let ((*cache-directory* (append (pathname-directory
