@@ -101,8 +101,10 @@
           (let ((path (resolve-path (valtan-host.system:system-pathname system)
                                     pathname)))
             (format out "require('~A.js');~%" path)))
-        (compiler::p2-toplevel-forms (compiler::pass1-dump-macros compiler::*macro-definitions*)
-                                     out)))))
+        (compiler::p2-toplevel-forms
+         (append (compiler::pass1-dump-macros compiler::*macro-definitions*)
+                 (list (compiler::pass1-toplevel '(cl:finish-output) out)))
+         out)))))
 
 (defun create-entry-file (system)
   (let ((output-file (make-pathname :type "js"

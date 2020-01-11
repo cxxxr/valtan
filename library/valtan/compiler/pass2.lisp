@@ -978,6 +978,11 @@
                  (format stream "~A = lisp.makeSymbol(\"~A\");" ident symbol)))
            *p2-literal-symbols*))
 
+(defun p2-finish-output (stream)
+  (format stream
+          "~A();~%"
+          (p2-symbol-to-call-value 'cl:finish-output)))
+
 (defun p2-toplevel (hir &optional (stream *standard-output*))
   (let ((*p2-literal-symbols* (make-hash-table))
         (*p2-defun-names* '())
@@ -990,7 +995,7 @@
       (p2-emit-try-catch
        (setq result (p2-toplevel-1 hir))
        ((err)
-        (format *p2-emit-stream* "~A();~%" (p2-symbol-to-call-value 'cl:finish-output))
+        (p2-finish-output *p2-emit-stream*)
         (format *p2-emit-stream* "console.log(~A);~%" err))))
     (write-line "// initialize-vars" stream)
     (p2-emit-initialize-vars stream)
@@ -1014,7 +1019,7 @@
        (dolist (hir hir-forms)
          (p2-toplevel-1 hir))
        ((err)
-        (format *p2-emit-stream* "~A();~%" (p2-symbol-to-call-value 'cl:finish-output))
+        (p2-finish-output *p2-emit-stream*)
         (format *p2-emit-stream* "console.log(~A);~%" err))))
     (write-line "// initialize-vars" stream)
     (p2-emit-initialize-vars stream)
