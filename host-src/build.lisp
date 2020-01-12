@@ -4,7 +4,6 @@
 (in-package :valtan-host.build)
 
 (defvar *cache-directory*)
-
 (defvar *cache* (make-hash-table :test 'equal))
 (defvar *discard-cache* nil)
 
@@ -224,7 +223,9 @@
                (when (ignore-errors (build-system-using-system system) t)
                  (uiop:run-program (list "./node_modules/.bin/webpack")
                                    :directory system-directory
-                                   :output t))))
+                                   :output t
+                                   :error-output t
+                                   :ignore-error-status t))))
         (build)
         (loop
           (inotify:with-inotify (inot paths-with-masks)
