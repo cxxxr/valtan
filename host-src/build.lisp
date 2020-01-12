@@ -229,7 +229,7 @@
       (flet ((build ()
                (block exit
                  (handler-bind ((error (lambda (condition)
-                                         (terpri)
+                                         (format t "~&~%~A~%" condition)
                                          (uiop:print-backtrace :condition condition)
                                          (return-from exit))))
                    (build-system-using-system system))
