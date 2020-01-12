@@ -61,7 +61,9 @@
                 (push (handler-bind ((warning #'muffle-warning))
                         (compiler::pass1-toplevel-usign-optimize form))
                       hir-forms))
-              (compiler::pass1-module input-file (nreverse hir-forms) compiler::*export-modules*))))
+              (compiler::pass1-module input-file
+                                      (nreverse hir-forms)
+                                      compiler::*export-modules*))))
       (let ((output-file (input-file-to-output-file input-file)))
         (ensure-directories-exist output-file)
         (with-write-file (out output-file)
@@ -109,7 +111,8 @@
 (defun create-entry-file (system)
   (let ((output-file (make-pathname :type "js"
                                     :name (valtan-host.system:system-name system)
-                                    :directory (pathname-directory (valtan-host.system:system-pathname system)))))
+                                    :directory (pathname-directory
+                                                (valtan-host.system:system-pathname system)))))
     (with-write-file (out output-file)
       (format out
               "require('~A');~%"
