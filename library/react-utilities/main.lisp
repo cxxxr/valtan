@@ -28,10 +28,12 @@
          ,@body))))
 
 (defmacro tag (tag option &body children)
-  `(js:react.create-element (ffi:cl->js
-                             ,(if (and (symbolp tag) (eq (find-package :js) (symbol-package tag)))
-                                  tag
-                                  (string-downcase tag)))
+  `(js:react.create-element ,(cond ((and (symbolp tag) (eq (find-package :js) (symbol-package tag)))
+                                    `(ffi:cl->js ,tag))
+                                   ((or (stringp tag) (symbolp tag))
+                                    `(ffi:cl->js ,(string-downcase tag)))
+                                   (t
+                                    `(ffi:cl->js ,tag)))
                             (ffi:object . ,option)
                             ,@(mapcar (lambda (c) `(ffi:cl->js ,c))
                                       children)))
