@@ -220,7 +220,12 @@
              (loop :for directory :in directories
                    :collect (list directory inotify:in-modify))))
       (flet ((build ()
-               (when (ignore-errors (build-system-using-system system) t)
+               (block exit
+                 (handler-bind ((error (lambda (condition)
+                                         (terpri)
+                                         (uiop:print-backtrace :condition condition)
+                                         (return-from exit))))
+                   (build-system-using-system system))
                  (uiop:run-program (list "./node_modules/.bin/webpack")
                                    :directory system-directory
                                    :output t
