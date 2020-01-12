@@ -75,7 +75,14 @@
 (defun in-pass2 (hir-forms &optional (stream *standard-output*))
   (write-line "import * as lisp from 'lisp';" stream)
   (loop :for (var . module) :in compiler::*require-modules*
-        :do (format stream "var ~A = require('~A');~%" (compiler::p2-convert-var var) module))
+        :do (if var
+                (format stream
+                        "var ~A = require('~A');~%"
+                        (compiler::p2-convert-var var)
+                        module)
+                (format stream
+                        "require('~A');~%"
+                        module)))
   (compiler::p2-toplevel-forms hir-forms stream)
   (values))
 

@@ -995,14 +995,19 @@
            multiple-values-p
            (mapcar #'convert-var vars)))
 
-(def-pass1-form ffi:require ((var module-name) return-value-p multiple-values-p)
-  (unless (ident-place-p var)
-    (compile-error "~S is not a variable identifer" var))
-  (unless (stringp module-name)
-    (compile-error "~S is not a string" module-name))
-  (push (cons (convert-var var) module-name)
-        *require-modules*)
-  (pass1-const nil return-value-p))
+(def-pass1-form ffi:require ((&rest args) return-value-p multiple-values-p)
+  (destructuring-bind (var module-name)
+      (if (length=1 args)
+          (list nil (first args))
+          args)
+    (when var
+      (unless (ident-place-p var)
+        (compile-error "~S is not a variable identifer" var)))
+    (unless (stringp module-name)
+      (compile-error "~S is not a string" module-name))
+    (push (cons (if var (convert-var var)) module-name)
+          *require-modules*)
+    (pass1-const nil return-value-p)))
 
 (def-pass1-form ffi:export ((name &key as) return-value-p pmultiple-values-p)
   (unless (ident-place-p name)
