@@ -35,7 +35,7 @@
                                   (ffi:cl->js (compiler::kebab-to-lower-camel-case (string key))))
                                  (t
                                   key)))
-                 value)))
+                 (ffi:cl->js value))))
     object))
 
 (defmacro ffi:object (&rest plist)
