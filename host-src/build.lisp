@@ -5,6 +5,40 @@
 
 (defvar *cache-directory*)
 
+(defvar *cache* (make-hash-table :test 'equal))
+(defvar *discard-cache* nil)
+
+(defun cache-date (cache)
+  (car cache))
+
+(defun cache-output-file (cache)
+  (cdr cache))
+
+(defun make-cache (date output-file)
+  (cons date output-file))
+
+(defun latest-cache-p (cache file)
+  (eql (cache-date cache)
+       (file-write-date file)))
+
+(defun invoke-compile-file-with-cache (input-file compile-fn)
+  (flet ((main ()
+           (let ((output-file (funcall compile-fn)))
+             (setf (gethash input-file *cache*)
+                   (make-cache (file-write-date input-file)
+                               output-file))
+             output-file)))
+    (let ((cache (gethash input-file *cache*)))
+      (cond ((or (null cache) *discard-cache*)
+             (main))
+            ((not (latest-cache-p cache input-file))
+             (setq *discard-cache* t)
+             (main))
+            (t
+             (let ((output-file (cache-output-file cache)))
+               (format t "~&cache ~A~%" output-file)
+               output-file))))))
+
 (defmacro %with-compilation-unit (() &body body)
   `(let ((compiler::*in-host-runtime* t)
          (compiler::*require-modules* '())
@@ -70,6 +104,12 @@
           (in-pass2 (list module) out))
         output-file))))
 
+(defun compile-file-with-cache (input-file)
+  (invoke-compile-file-with-cache
+   input-file
+   (lambda ()
+     (!compile-file input-file))))
+
 (defun common-directory (pathname1 pathname2)
   (loop :for dir1 := (pathname-directory pathname1) :then (rest dir1)
         :for dir2 := (pathname-directory pathname2) :then (rest dir2)
@@ -106,7 +146,20 @@
         (compiler::p2-toplevel-forms
          (append (compiler::pass1-dump-macros compiler::*macro-definitions*)
                  (list (compiler::pass1-toplevel '(cl:finish-output) out)))
-         out)))))
+         out))
+      output-file)))
+
+(defun compile-system-file-with-cache (system)
+  (let ((input-file (valtan-host.system:system-pathname system)))
+    (invoke-compile-file-with-cache
+     input-file
+     (lambda ()
+     (compile-system-file system)))))
+
+(defun check-discarting-cache-system-file (system)
+  (let* ((input-file (valtan-host.system:system-pathname system))
+         (cache (gethash input-file *cache*)))
+    (and cache (not (latest-cache-p cache input-file)))))
 
 (defun create-entry-file (system)
   (let ((output-file (make-pathname :type "js"
@@ -122,14 +175,17 @@
   (let ((*cache-directory* (append (pathname-directory
                                     (valtan-host.system:system-pathname system))
                                    (list ".valtan-cache")))
+        (*discard-cache* nil)
         (*features* *features*))
     (when (eql :node (valtan-host.system:system-target system))
       (push :node *features*))
     (dolist (system (valtan-host.system:compute-system-precedence-list system))
       (let ((compiler::*macro-definitions* '()))
+        (when (check-discarting-cache-system-file system)
+          (setq *discard-cache* t))
         (dolist (pathname (valtan-host.system:system-pathnames system))
-          (!compile-file pathname))
-        (compile-system-file system)))
+          (compile-file-with-cache pathname))
+        (compile-system-file-with-cache system)))
     (create-entry-file system)))
 
 (defun ensure-system-file (pathname)
