@@ -361,12 +361,52 @@
              #+(or)(p2-no-return))))))
 
 (define-p2-emit gset (hir)
+#|
+NOTE:
+下のgsetでhir-return-value-pがtのときに(1)の方法だと
+
+(compile-toplevel
+ '(let ((*foo* *bar*))
+    (declare (special *foo* *bar*))
+    (setq *foo* 0)
+    (setq *bar* *foo*)))
+
+の出力結果が
+
+// initialize-vars
+let G_1;
+let G_2;
+let save_STARFOOSTAR__11;
+// toplevel defun
+// initialize symbols
+G_1 = lisp.intern('*BAR*', 'COMMON-LISP-USER');
+G_2 = lisp.intern('*FOO*', 'COMMON-LISP-USER');
+// main
+{
+    save_STARFOOSTAR__11 = G_2.value;
+    G_2.value = lisp.values1(lisp.symbolValue(G_1));
+    try {
+        lisp.setSymbolValue(G_2, lisp.values1(0));
+    } finally {
+        G_2.value = save_STARFOOSTAR__11;
+    }
+}
+return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))););
+
+になり*foo*の値が元に戻った後に*bar*に*foo*をセットしてしまう
+
+なので(2)の*p2-emit-stream*で*bar*に値をセットするコードを出力してから、返り値として*bar*の値を返すようにする必要がある
+|#
   (let ((lhs (hir-arg1 hir))
         (rhs (hir-arg2 hir)))
     (let ((ident (p2-symbol-to-js-value lhs))
           (value (p2-form rhs)))
       (cond ((hir-return-value-p hir)
-             (format nil "lisp.setSymbolValue(~A, ~A)" ident value))
+             ;; (format nil "lisp.setSymbolValue(~A, ~A);~%" ident value) ; (1)
+             ;; (2)
+             (format *p2-emit-stream* "lisp.setSymbolValue(~A, ~A);~%" ident value)
+             (format nil "~A.value" ident)
+             )
             (t
              (format *p2-emit-stream* "lisp.setSymbolValue(~A, ~A);~%" ident value)
              #+(or)(p2-no-return))))))
