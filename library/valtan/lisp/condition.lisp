@@ -143,3 +143,6 @@
 (defmacro ignore-errors (&rest forms)
   `(handler-case (progn ,@forms)
      (error (condition) (values nil condition))))
+
+(defun print-backtrace (&key (stream *standard-output*))
+  (write-string (ffi:js->cl ((ffi:ref "lisp" "getBacktrace"))) stream))

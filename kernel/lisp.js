@@ -21,7 +21,8 @@ from './header';
 
 export {
     raise,
-    setLispFormatFunction
+    setLispFormatFunction,
+    getBacktrace,
 }
 from './callstack';
 
