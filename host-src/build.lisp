@@ -216,6 +216,11 @@
                     :error-output t
                     :ignore-error-status t))
 
+(defun build-application (pathname)
+  (let ((directory (make-pathname :directory (pathname-directory pathname))))
+    (build-system pathname)
+    (webpack directory)))
+
 (defun run-node (pathname)
   (build-system pathname)
   (let ((directory (make-pathname :directory (pathname-directory pathname))))
