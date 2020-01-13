@@ -7,28 +7,27 @@
 #|
 TODO
 - スタックトレースを出す
-- REPLに色を付ける
-- 履歴機能
 - * ** *** + +++ +++ / // ///
 - リスタート
 |#
 
-(defun send-eval (e append-lines repl-package set-repl-package)
+(defun send-eval (code-mirror input repl-package set-repl-package)
   (let ((*package* repl-package))
     (declare (special *package*))
-    (let* ((text (ffi:js->cl ((ffi:ref e :get-value))))
+    (let* ((text (ffi:js->cl ((ffi:ref code-mirror :get-value))))
            (incomplete '#:incomplete)
            (form
              (handler-case (read-from-string text)
                (error () incomplete))))
       (if (eq form incomplete)
-          ((ffi:ref e :replace-selection) #j(string #\newline) #j"end")
+          ((ffi:ref code-mirror :replace-selection) #j(string #\newline) #j"end")
           (let ((value (handler-case (format nil "~S" (eval form))
-                         (error (e) (princ-to-string e)))))
-            (funcall append-lines
-                     (list (list (package-name repl-package) text)
-                           value))
-            ((ffi:ref e :set-value) #j"")))
+                         (error (code-mirror) (princ-to-string code-mirror)))))
+            (funcall input
+                     (package-name repl-package)
+                     text
+                     value)
+            ((ffi:ref code-mirror :set-value) #j"")))
       (funcall set-repl-package *package*))))
 
 (define-react-component js:-prompt (package-name)
@@ -53,30 +52,54 @@ TODO
 
 (define-react-component js:-repl ()
   (with-state ((lines set-lines nil)
-               (repl-package set-repl-package (find-package :cl-user)))
-    (tag :div ()
-         (tag js:-backlog (:lines lines))
-         (tag :div (:class-name "repl-input")
-              (tag js:-prompt (:package-name (package-name repl-package)))
-              (tag (ffi:ref js:-code-mirror :-un-controlled)
-                   (:value ""
-                    :options (ffi:object
-                              :mode "commonlisp"
-                              :key-map "emacs"
-                              :extra-keys (ffi:object
-                                           :-enter (lambda (e)
-                                                     (send-eval e
-                                                                (lambda (new-lines)
-                                                                  (set-lines
-                                                                   (append
-                                                                    lines
-                                                                    new-lines)))
-                                                                repl-package
-                                                                #'set-repl-package)))
-                              :autofocus js:true)
-                    :editor-did-mount (lambda (editor &rest args)
-                                        (declare (ignore args))
-                                        ((ffi:ref editor :focus)))))))))
+               (repl-package set-repl-package (find-package :cl-user))
+               (history-index set-history-index 0)
+               (history set-history nil))
+    (flet ((up (code-mirror)
+             (when (<= 0 (1- history-index) (1- (length history)))
+               ((ffi:ref code-mirror :set-value)
+                (ffi:cl->js (elt history (1- history-index))))
+               (set-history-index (1- history-index))))
+           (down (code-mirror)
+             (let ((next (1+ history-index))
+                   (last (1- (length history))))
+               (cond ((<= 0 next last)
+                      ((ffi:ref code-mirror :set-value)
+                       (ffi:cl->js (elt history next)))
+                      (set-history-index next))
+                     ((< last next)
+                      ((ffi:ref code-mirror :set-value)
+                       #j"")
+                      (set-history-index (1+ last)))))))
+      (tag :div ()
+           (tag js:-backlog (:lines lines))
+           (tag :div (:class-name "repl-input")
+                (tag js:-prompt (:package-name (package-name repl-package)))
+                (tag (ffi:ref js:-code-mirror :-un-controlled)
+                     (:value ""
+                      :options (ffi:object
+                                :mode "commonlisp"
+                                :key-map "emacs"
+                                :extra-keys (ffi:object
+                                             "Enter" (lambda (code-mirror)
+                                                       (send-eval code-mirror
+                                                                  (lambda (package-name text result)
+                                                                    (set-lines (append lines
+                                                                                       (list (list package-name text)
+                                                                                             result)))
+                                                                    (let ((history (append history (list text))))
+                                                                      (set-history history)
+                                                                      (set-history-index (length history))))
+                                                                  repl-package
+                                                                  #'set-repl-package))
+                                             "Up" #'up
+                                             "Ctrl-P" #'up
+                                             "Down" #'down
+                                             "Ctrl-N" #'down)
+                                :autofocus js:true)
+                      :editor-did-mount (lambda (editor &rest args)
+                                          (declare (ignore args))
+                                          ((ffi:ref editor :focus))))))))))
 
 (js:react-dom.render
  (js:react.create-element js:-repl)

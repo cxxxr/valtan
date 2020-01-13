@@ -2,7 +2,8 @@
   (:use :cl)
   (:export :build-system
            :run-build-application
-           :run-node))
+           :run-node
+           :run-build-server))
 (in-package :valtan-host.build)
 
 (defvar *cache-directory*)
