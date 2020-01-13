@@ -6,10 +6,22 @@
 
 #|
 TODO
-- スタックトレースを出す
 - * ** *** + +++ +++ / // ///
 - リスタート
 |#
+
+;; TODO: これに時間がかかるようなので最適化を頑張る
+(defun split-lines (text)
+  (let ((lines '()))
+    (do ((start 0))
+        ((>= start (length text)))
+      (let ((pos (position #\newline text :start start)))
+        (when (null pos)
+          (push (subseq text start) lines)
+          (return))
+        (push (subseq text start pos) lines)
+        (setq start (1+ pos))))
+    (nreverse lines)))
 
 (defun send-eval (code-mirror input repl-package set-repl-package)
   (let ((*package* repl-package))
@@ -21,8 +33,13 @@ TODO
                (error () incomplete))))
       (if (eq form incomplete)
           ((ffi:ref code-mirror :replace-selection) #j(string #\newline) #j"end")
-          (let ((value (handler-case (format nil "~S" (eval form))
-                         (error (code-mirror) (princ-to-string code-mirror)))))
+          (let ((value (block outer
+                         (handler-bind ((error (lambda (e)
+                                                 (return-from outer
+                                                   (with-output-to-string (out)
+                                                     (format out "~A~%" e)
+                                                     (cl::print-backtrace :stream out))))))
+                           (format nil "~S" (eval form))))))
             (funcall input
                      (package-name repl-package)
                      text
@@ -83,10 +100,10 @@ TODO
                                 :extra-keys (ffi:object
                                              "Enter" (lambda (code-mirror)
                                                        (send-eval code-mirror
-                                                                  (lambda (package-name text result)
+                                                                  (lambda (package-name text output)
                                                                     (set-lines (append lines
-                                                                                       (list (list package-name text)
-                                                                                             result)))
+                                                                                       (cons (list package-name text)
+                                                                                             (split-lines output))))
                                                                     (let ((history (append history (list text))))
                                                                       (set-history history)
                                                                       (set-history-index (length history))))
