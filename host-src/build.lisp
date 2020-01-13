@@ -177,11 +177,11 @@
               "require('~A');~%"
               (input-file-to-output-file (valtan-host.system:system-pathname system))))))
 
-(defun build-system-using-system (system)
+(defun build-system-using-system (system &key force)
   (let ((*cache-directory* (append (pathname-directory
                                     (valtan-host.system:system-pathname system))
                                    (list ".valtan-cache")))
-        (*discard-cache* nil)
+        (*discard-cache* (if force t nil))
         (*features* *features*))
     (when (eql :node (valtan-host.system:system-target system))
       (push :node *features*))
@@ -202,10 +202,10 @@
       (error "~A is not a system file" pathname))
     probed-pathname))
 
-(defun build-system (pathname)
+(defun build-system (pathname &key force)
   (let* ((pathname (ensure-system-file pathname))
          (system (valtan-host.system:load-system pathname)))
-    (build-system-using-system system)))
+    (build-system-using-system system :force force)))
 
 (defun all-directories-to-notify (system)
   (let ((systems (valtan-host.system:compute-system-precedence-list system))
