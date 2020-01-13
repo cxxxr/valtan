@@ -209,14 +209,23 @@
          (system (valtan-host.system:load-system pathname)))
     (build-system-using-system system :force force)))
 
-(defun run-node (pathname)
-  (build-system pathname)
-  (format t "~&==================================================~%")
-  (uiop:run-program (list "node" "./dist/main.js")
-                    :directory (make-pathname :directory (pathname-directory pathname))
+(defun webpack (directory)
+  (uiop:run-program (list "./node_modules/.bin/webpack")
+                    :directory directory
                     :output t
                     :error-output t
-                    :ignore-error-status t)
+                    :ignore-error-status t))
+
+(defun run-node (pathname)
+  (build-system pathname)
+  (let ((directory (make-pathname :directory (pathname-directory pathname))))
+    (webpack directory)
+    (format t "~&==================================================~%")
+    (uiop:run-program (list "node" "./dist/main.js")
+                      :directory directory
+                      :output t
+                      :error-output t
+                      :ignore-error-status t))
   (values))
 
 (defun all-directories-to-notify (system)
@@ -245,11 +254,7 @@
                                          (uiop:print-backtrace :condition condition)
                                          (return-from exit))))
                    (build-system-using-system system))
-                 (uiop:run-program (list "./node_modules/.bin/webpack")
-                                   :directory system-directory
-                                   :output t
-                                   :error-output t
-                                   :ignore-error-status t))))
+                 (webpack system-directory))))
         (build)
         (loop
           (inotify:with-inotify (inot paths-with-masks)
