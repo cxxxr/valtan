@@ -1,7 +1,8 @@
 (defpackage :valtan-host.build
   (:use :cl)
   (:export :build-system
-           :run-build-system))
+           :run-build-system
+           :run-node))
 (in-package :valtan-host.build)
 
 (defvar *cache-directory*)
@@ -207,6 +208,16 @@
   (let* ((pathname (ensure-system-file pathname))
          (system (valtan-host.system:load-system pathname)))
     (build-system-using-system system :force force)))
+
+(defun run-node (pathname)
+  (build-system pathname)
+  (format t "~&==================================================~%")
+  (uiop:run-program (list "node" "./dist/main.js")
+                    :directory (make-pathname :directory (pathname-directory pathname))
+                    :output t
+                    :error-output t
+                    :ignore-error-status t)
+  (values))
 
 (defun all-directories-to-notify (system)
   (let ((systems (valtan-host.system:compute-system-precedence-list system))
