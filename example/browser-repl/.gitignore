@@ -3,3 +3,4 @@ dist/
 package-lock.json
 browser-repl.js
 .valtan-path
+.valtan-cache

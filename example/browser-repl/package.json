@@ -18,6 +18,9 @@
   "dependencies": {
     "codemirror": "^5.50.2",
     "react": "^16.10.2",
+    "react-codemirror": "^1.0.0",
+    "react-codemirror2": "^6.0.0",
+    "react-create-class": "^1.0.0",
     "react-dom": "^16.10.2"
   }
 }

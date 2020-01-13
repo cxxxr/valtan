@@ -1,0 +1,22 @@
+.repl-input {
+  display: flex;
+  flex-direction: row;
+}
+
+.back-log {
+  list-style-type: none;
+  padding-left: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.prompt {
+  padding-top: 0px;
+  font-family: Monospace;
+}
+
+.CodeMirror {
+  margin-top: -4px;
+}
