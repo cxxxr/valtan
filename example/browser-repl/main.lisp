@@ -6,8 +6,6 @@
 
 #|
 TODO
-- *package*の値がおかしい
-- in-packageが動かない
 - スタックトレースを出す
 - REPLに色を付ける
 - 履歴機能
@@ -15,16 +13,13 @@ TODO
 - リスタート
 |#
 
-(defvar *repl-package* (find-package :valtan-user))
-
 (defun send-eval (e append-lines)
-  (let* ((*package* *repl-package*)
-         (text (ffi:js->cl ((ffi:ref e :get-value))))
+  (let* ((text (ffi:js->cl ((ffi:ref e :get-value))))
+         (old-package *package*)
          (incomplete '#:incomplete)
          (form
            (handler-case (read-from-string text)
-             (error () incomplete)))
-         (old-package *repl-package*))
+             (error () incomplete))))
     (if (eq form incomplete)
         ((ffi:ref e :replace-selection) #j(string #\newline) #j"end")
         (let ((value (handler-case (format nil "~S" (eval form))
@@ -49,7 +44,7 @@ TODO
     (tag :div ()
          (tag js:-backlog (:lines lines))
          (tag :div (:class-name "repl-input")
-              (tag :span (:class-name "prompt") (format nil "~A>" (package-name *repl-package*)))
+              (tag :span (:class-name "prompt") (format nil "~A>" (package-name *package*)))
               (tag (ffi:ref js:-code-mirror :-un-controlled)
                    (:value ""
                     :options (ffi:object
