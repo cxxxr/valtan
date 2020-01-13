@@ -94,20 +94,22 @@
 
 (defun !compile-file (input-file)
   (%with-compilation-unit ()
-    (let ((module
+    (let ((hir-forms
             (let ((hir-forms '())
-                  (compiler::*export-modules* '()))
+                  (compiler::*export-modules* '())
+                  (compiler::*macro-definitions* '()))
               (do-file-form (form input-file)
                 (push (handler-bind ((warning #'muffle-warning))
                         (compiler::pass1-toplevel-usign-optimize form))
                       hir-forms))
-              (compiler::pass1-module input-file
-                                      (nreverse hir-forms)
-                                      compiler::*export-modules*))))
+              (cons (compiler::pass1-module input-file
+                                            (nreverse hir-forms)
+                                            compiler::*export-modules*)
+                    (compiler::pass1-dump-macros compiler::*macro-definitions*)))))
       (let ((output-file (input-file-to-output-file input-file)))
         (ensure-directories-exist output-file)
         (with-write-file (out output-file)
-          (in-pass2 (list module) out))
+          (in-pass2 hir-forms out))
         output-file))))
 
 (defun compile-file-with-cache (input-file)
@@ -150,8 +152,7 @@
                                     pathname)))
             (format out "require('~A.js');~%" path)))
         (compiler::p2-toplevel-forms
-         (append (compiler::pass1-dump-macros compiler::*macro-definitions*)
-                 (list (compiler::pass1-toplevel '(cl:finish-output) out)))
+         (list (compiler::pass1-toplevel '(cl:finish-output) out))
          out))
       output-file)))
 
@@ -186,12 +187,11 @@
     (when (eql :node (valtan-host.system:system-target system))
       (push :node *features*))
     (dolist (system (valtan-host.system:compute-system-precedence-list system))
-      (let ((compiler::*macro-definitions* '()))
-        (when (check-discarting-cache-system-file system)
-          (setq *discard-cache* t))
-        (dolist (pathname (valtan-host.system:system-pathnames system))
-          (compile-file-with-cache pathname))
-        (compile-system-file-with-cache system)))
+      (when (check-discarting-cache-system-file system)
+        (setq *discard-cache* t))
+      (dolist (pathname (valtan-host.system:system-pathnames system))
+        (compile-file-with-cache pathname))
+      (compile-system-file-with-cache system))
     (create-entry-file system)))
 
 (defun ensure-system-file (pathname)

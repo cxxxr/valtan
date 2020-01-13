@@ -1,8 +1,8 @@
 ;; -*- mode:lisp -*-
 
 (:members ("lisp/control"
-           "lisp/setf"
            "lisp/destructuring-bind"
+           "lisp/setf"
            "lisp/ffi"
            "lisp/cons"
            "lisp/condition"
