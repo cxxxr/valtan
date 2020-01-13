@@ -8,9 +8,11 @@
 TODO
 - *package*の値がおかしい
 - in-packageが動かない
-- (cons 1 2 3)でエラーハンドリングできてなさそう
 - スタックトレースを出す
 - REPLに色を付ける
+- 履歴機能
+- * ** *** + +++ +++ / // ///
+- リスタート
 |#
 
 (defvar *repl-package* (find-package :valtan-user))
