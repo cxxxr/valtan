@@ -1,7 +1,7 @@
 (defpackage :valtan-host.build
   (:use :cl)
   (:export :build-system
-           :run-build-system
+           :run-build-application
            :run-node))
 (in-package :valtan-host.build)
 
