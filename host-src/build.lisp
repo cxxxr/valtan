@@ -99,15 +99,17 @@
     (let ((hir-forms
             (let ((hir-forms '())
                   (compiler::*export-modules* '())
-                  (compiler::*macro-definitions* '()))
+                  (compiler::*macro-definitions* '())
+                  (*package* (find-package :valtan-user)))
               (do-file-form (form input-file)
                 (push (handler-bind ((warning #'muffle-warning))
                         (compiler::pass1-toplevel-usign-optimize form))
                       hir-forms))
-              (cons (compiler::pass1-module input-file
-                                            (nreverse hir-forms)
-                                            compiler::*export-modules*)
-                    (compiler::pass1-dump-macros compiler::*macro-definitions*)))))
+              (list* (compiler::pass1-toplevel '(in-package "CL-USER"))
+                     (compiler::pass1-module input-file
+                                             (nreverse hir-forms)
+                                             compiler::*export-modules*)
+                     (compiler::pass1-dump-macros compiler::*macro-definitions*)))))
       (let ((output-file (input-file-to-output-file input-file)))
         (ensure-directories-exist output-file)
         (with-write-file (out output-file)

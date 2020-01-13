@@ -7,3 +7,5 @@
            :build-system
            :run-build-server))
 (in-package :valtan-host)
+
+(defpackage :valtan-user (:use :cl))

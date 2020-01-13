@@ -86,6 +86,3 @@
 
 (defpackage :js
   (:use))
-
-(defpackage :valtan-user
-  (:use :cl))
