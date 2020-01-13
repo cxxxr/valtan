@@ -70,4 +70,4 @@ TODO
 
 (js:react-dom.render
  (js:react.create-element js:-repl)
- (js:document.get-element-by-id #j"repl"))
+ (js:document.get-element-by-id #j"root"))
