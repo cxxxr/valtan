@@ -19,9 +19,9 @@ export function popCallStack() {
 
 export function getBacktrace() {
     let s = 'Backtrace:\n';
-    for (let i = callStack.length - 1; i >= 0; i--) {
+    for (let i = callStack.length - 1, n = 0; i >= 0; i--, n++) {
         const frame = callStack[i];
-        s += `${i}: `;
+        s += `${n}: `;
         try {
             s += lispFormatFunction("~S", frame);
         } catch (e) {
