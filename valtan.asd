@@ -22,4 +22,5 @@
                 :components ((:file "util")
                              (:file "host-reader")
                              (:file "system")
-                             (:file "build")))))
+                             (:file "build")
+                             (:file "valtan-host")))))
