@@ -13,21 +13,25 @@ TODO
 - リスタート
 |#
 
-(defun send-eval (e append-lines)
-  (let* ((text (ffi:js->cl ((ffi:ref e :get-value))))
-         (old-package *package*)
-         (incomplete '#:incomplete)
-         (form
-           (handler-case (read-from-string text)
-             (error () incomplete))))
-    (if (eq form incomplete)
-        ((ffi:ref e :replace-selection) #j(string #\newline) #j"end")
-        (let ((value (handler-case (format nil "~S" (eval form))
-                       (error (e) (princ-to-string e)))))
-          (funcall append-lines
-                   (list (format nil "~A> ~A" (package-name old-package) text)
-                         value))
-          ((ffi:ref e :set-value) #j"")))))
+(defun send-eval (e append-lines repl-package set-repl-package)
+  (let ((*package* repl-package))
+    (declare (special *package*))
+    (let* ((text (ffi:js->cl ((ffi:ref e :get-value))))
+           (incomplete '#:incomplete)
+           (form
+             (handler-case (read-from-string text)
+               (error () incomplete))))
+      (js:console.log (ffi:cl->js (package-name *package*)))
+      (if (eq form incomplete)
+          ((ffi:ref e :replace-selection) #j(string #\newline) #j"end")
+          (let ((value (handler-case (format nil "~S" (eval form))
+                         (error (e) (princ-to-string e)))))
+            (funcall append-lines
+                     (list (format nil "~A> ~A" (package-name repl-package) text)
+                           value))
+            ((ffi:ref e :set-value) #j"")))
+      (js:console.log (ffi:cl->js (package-name *package*)))
+      (funcall set-repl-package *package*))))
 
 (define-react-component js:-backlog (lines)
   (tag :ul (:class-name "back-log")
@@ -40,11 +44,12 @@ TODO
               lines))))
 
 (define-react-component js:-repl ()
-  (with-state ((lines set-lines nil))
+  (with-state ((lines set-lines nil)
+               (repl-package set-repl-package (find-package :cl-user)))
     (tag :div ()
          (tag js:-backlog (:lines lines))
          (tag :div (:class-name "repl-input")
-              (tag :span (:class-name "prompt") (format nil "~A>" (package-name *package*)))
+              (tag :span (:class-name "prompt") (format nil "~A>" (package-name repl-package)))
               (tag (ffi:ref js:-code-mirror :-un-controlled)
                    (:value ""
                     :options (ffi:object
@@ -57,7 +62,9 @@ TODO
                                                                   (set-lines
                                                                    (append
                                                                     lines
-                                                                    new-lines))))))
+                                                                    new-lines)))
+                                                                repl-package
+                                                                #'set-repl-package)))
                               :autofocus js:true)
                     :editor-did-mount (lambda (editor &rest args)
                                         (declare (ignore args))
