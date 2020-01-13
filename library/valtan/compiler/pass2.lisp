@@ -979,9 +979,8 @@
            *p2-literal-symbols*))
 
 (defun p2-finish-output (stream)
-  (format stream
-          "~A();~%"
-          (p2-symbol-to-call-value 'cl:finish-output)))
+  (let ((fn (p2-symbol-to-call-value 'cl:finish-output)))
+    (format stream "if (typeof fn === 'function') ~A();~%" fn)))
 
 (defun p2-toplevel (hir &optional (stream *standard-output*))
   (let ((*p2-literal-symbols* (make-hash-table))
