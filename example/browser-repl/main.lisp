@@ -6,9 +6,22 @@
 
 #|
 TODO
-- * ** *** + +++ +++ / // ///
 - リスタート
 |#
+
+(defvar * nil)
+(defvar ** nil)
+(defvar *** nil)
+
+(defvar + nil)
+(defvar ++ nil)
+(defvar +++ nil)
+
+(defvar / nil)
+(defvar // nil)
+(defvar /// nil)
+
+(defvar - nil)
 
 ;; TODO: これに時間がかかるようなので最適化を頑張る
 (defun split-lines (text)
@@ -37,7 +50,7 @@ TODO
 (defun input-newline (code-mirror)
   ((ffi:ref code-mirror :replace-selection) #j(string #\newline) #j"end"))
 
-(defun on-eval (printer form)
+(defun on-eval (form printer)
   (let ((values
           (multiple-value-list
            (handler-bind ((error (lambda (e)
@@ -52,51 +65,24 @@ TODO
     (dolist (value values)
       (dolist (line (split-lines (format nil "~S" value)))
         (funcall printer line)))
-    #+(or)
-    (setq * (first values)
-          * **
-          ** ***
-          / values
-          // /
-          /// //
-          - form)))
+    (setq - form)
+    (setq +++ ++  /// //      *** (first ///)
+          ++  +   //  /       **  (first //)
+          +   -   /   values  *   (first /))))
 
-(defun on-enter (code-mirror repl-package set-repl-package printer)
+(defun on-enter (code-mirror repl-package set-repl-package)
   (let ((*package* repl-package)
         (input (get-editor-value code-mirror)))
     (multiple-value-bind (form ok) (complete-input-p input)
       (cond ((not ok)
              (input-newline code-mirror))
             (t
-             (funcall printer (list (package-name *package*) input))
-             (on-eval printer form)
-             (unless (eq repl-package *package*)
-               (funcall set-repl-package *package*))
-             (set-editor-value code-mirror ""))))))
-
-(defun send-eval (code-mirror input repl-package set-repl-package)
-  (let ((*package* repl-package))
-    (declare (special *package*))
-    (let* ((text (ffi:js->cl ((ffi:ref code-mirror :get-value))))
-           (incomplete '#:incomplete)
-           (form
-             (handler-case (read-from-string text)
-               (error () incomplete))))
-      (if (eq form incomplete)
-          ((ffi:ref code-mirror :replace-selection) #j(string #\newline) #j"end")
-          (let ((value (block outer
-                         (handler-bind ((error (lambda (e)
-                                                 (return-from outer
-                                                   (with-output-to-string (out)
-                                                     (format out "~A~%" e)
-                                                     (cl::print-backtrace :stream out))))))
-                           (format nil "~S" (eval form))))))
-            (funcall input
-                     (package-name repl-package)
-                     text
-                     value)
-            ((ffi:ref code-mirror :set-value) #j"")))
-      (funcall set-repl-package *package*))))
+             (let ((lines (list (cons (package-name *package*) input))))
+               (on-eval form (lambda (line) (push line lines)))
+               (unless (eq repl-package *package*)
+                 (funcall set-repl-package *package*))
+               (set-editor-value code-mirror "")
+               (nreverse lines)))))))
 
 (define-react-component js:-prompt (package-name)
   ;; (tag js:-prompt (:package-name ...))で受け取ったときにはstringがcl->jsされているので一旦元に戻さないといけない
@@ -110,7 +96,7 @@ TODO
               (lambda (line)
                 (tag :li (:key (incf i))
                      (if (consp line)
-                         (destructuring-bind (package-name code) line
+                         (destructuring-bind (package-name . code) line
                            (tag :div (:class-name "line")
                                 (tag js:-prompt (:package-name package-name))
                                 (tag :span (:class-name "code") code)))
@@ -150,11 +136,11 @@ TODO
                                 :key-map "emacs"
                                 :extra-keys (ffi:object
                                              "Enter" (lambda (code-mirror)
-                                                       (on-enter code-mirror
-                                                                 repl-package
-                                                                 #'set-repl-package
-                                                                 (lambda (line)
-                                                                   (set-lines (append lines (list line))))))
+                                                       (let ((new-lines
+                                                               (on-enter code-mirror
+                                                                         repl-package
+                                                                         #'set-repl-package)))
+                                                         (set-lines (append lines new-lines))))
                                              "Up" #'up
                                              "Ctrl-P" #'up
                                              "Down" #'down
