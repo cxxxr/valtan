@@ -23,6 +23,57 @@ TODO
         (setq start (1+ pos))))
     (nreverse lines)))
 
+(defun complete-input-p (input)
+  (handler-case (values (read-from-string input) t)
+    (error () 
+      (values nil nil))))
+
+(defun set-editor-value (code-mirror text)
+  ((ffi:ref code-mirror :set-value) (ffi:cl->js text)))
+
+(defun get-editor-value (code-mirror)
+  (ffi:js->cl ((ffi:ref code-mirror :get-value))))
+
+(defun input-newline (code-mirror)
+  ((ffi:ref code-mirror :replace-selection) #j(string #\newline) #j"end"))
+
+(defun on-eval (printer form)
+  (let ((values
+          (multiple-value-list
+           (handler-bind ((error (lambda (e)
+                                   (funcall printer (princ-to-string e))
+                                   (dolist (line
+                                            (split-lines
+                                             (with-output-to-string (out)
+                                               (cl::print-backtrace :stream out))))
+                                     (funcall printer line))
+                                   (return-from on-eval))))
+             (eval form)))))
+    (dolist (value values)
+      (dolist (line (split-lines (format nil "~S" value)))
+        (funcall printer line)))
+    #+(or)
+    (setq * (first values)
+          * **
+          ** ***
+          / values
+          // /
+          /// //
+          - form)))
+
+(defun on-enter (code-mirror repl-package set-repl-package printer)
+  (let ((*package* repl-package)
+        (input (get-editor-value code-mirror)))
+    (multiple-value-bind (form ok) (complete-input-p input)
+      (cond ((not ok)
+             (input-newline code-mirror))
+            (t
+             (funcall printer (list (package-name *package*) input))
+             (on-eval printer form)
+             (unless (eq repl-package *package*)
+               (funcall set-repl-package *package*))
+             (set-editor-value code-mirror ""))))))
+
 (defun send-eval (code-mirror input repl-package set-repl-package)
   (let ((*package* repl-package))
     (declare (special *package*))
@@ -99,16 +150,11 @@ TODO
                                 :key-map "emacs"
                                 :extra-keys (ffi:object
                                              "Enter" (lambda (code-mirror)
-                                                       (send-eval code-mirror
-                                                                  (lambda (package-name text output)
-                                                                    (set-lines (append lines
-                                                                                       (cons (list package-name text)
-                                                                                             (split-lines output))))
-                                                                    (let ((history (append history (list text))))
-                                                                      (set-history history)
-                                                                      (set-history-index (length history))))
-                                                                  repl-package
-                                                                  #'set-repl-package))
+                                                       (on-enter code-mirror
+                                                                 repl-package
+                                                                 #'set-repl-package
+                                                                 (lambda (line)
+                                                                   (set-lines (append lines (list line))))))
                                              "Up" #'up
                                              "Ctrl-P" #'up
                                              "Down" #'down
