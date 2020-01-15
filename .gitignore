@@ -4,4 +4,4 @@ node_modules/
 dist/
 example/test.lisp
 example/example.js
-
+*.nogit
