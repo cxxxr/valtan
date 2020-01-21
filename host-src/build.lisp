@@ -1,7 +1,7 @@
 (defpackage :valtan-host.build
   (:use :cl)
   (:export :build-system
-           :run-build-application
+           :build-application
            :run-node
            :run-build-server))
 (in-package :valtan-host.build)
@@ -183,14 +183,24 @@
               "require('~A');~%"
               (input-file-to-output-file (valtan-host.system:system-pathname system))))))
 
+(defun prepare-valtan-path (base-directory)
+  (with-open-file (out (make-pathname :name ".valtan-path"
+                                      :directory base-directory)
+                       :direction :output
+                       :if-exists :supersede
+                       :if-does-not-exist :create)
+    (princ (asdf:system-relative-pathname :valtan "./kernel/") out)))
+
 (defun build-system-using-system (system &key force)
-  (let ((*cache-directory* (append (pathname-directory
-                                    (valtan-host.system:system-pathname system))
-                                   (list ".valtan-cache")))
-        (*discard-cache* (if force t nil))
-        (*features* *features*))
+  (let* ((base-directory (pathname-directory
+                          (valtan-host.system:system-pathname system)))
+         (*cache-directory* (append base-directory
+                                    (list ".valtan-cache")))
+         (*discard-cache* (if force t nil))
+         (*features* *features*))
     (when (eql :node (valtan-host.system:system-target system))
       (push :node *features*))
+    (prepare-valtan-path base-directory)
     (dolist (system (valtan-host.system:compute-system-precedence-list system))
       (when (check-discarting-cache-system-file system)
         (setq *discard-cache* t))
