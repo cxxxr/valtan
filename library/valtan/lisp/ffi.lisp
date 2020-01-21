@@ -87,7 +87,8 @@
              (*:array-to-js-string "string"))
          (*:js-string-to-array value))
         ((ffi:instanceof value (ffi:ref "Array"))
-         (*:js-array-to-list value))
+         ;; FIXME: 高速化
+         (mapcar #'ffi:js->cl (*:js-array-to-list value)))
         ;; ((eq value (ffi:ref "true"))
         ;;  t)
         ;; ((eq value (ffi:ref "false"))
