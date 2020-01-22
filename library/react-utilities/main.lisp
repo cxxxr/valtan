@@ -37,3 +37,15 @@
                             (ffi:object . ,option)
                             ,@(mapcar (lambda (c) `(ffi:cl->js ,c))
                                       children)))
+
+(defmacro jsx (form)
+  (if (atom form)
+      form
+      (destructuring-bind (tag-name options &body body) form
+        (cond ((keywordp tag-name)
+               `(tag ,tag-name ,options
+                     ,@(mapcar (lambda (form)
+                                 `(jsx ,form))
+                               body)))
+              (t
+               form)))))
