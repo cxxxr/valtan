@@ -27,8 +27,14 @@
                       setters)
          ,@body))))
 
+(eval-when (:compile-toplevel)
+  (defun js-symbol-p (symbol)
+    (and (symbolp symbol)
+         (eq (find-package :js)
+             (symbol-package symbol)))))
+
 (defmacro tag (tag option &body children)
-  `(js:react.create-element ,(cond ((and (symbolp tag) (eq (find-package :js) (symbol-package tag)))
+  `(js:react.create-element ,(cond ((js-symbol-p tag)
                                     `(ffi:cl->js ,tag))
                                    ((or (stringp tag) (symbolp tag))
                                     `(ffi:cl->js ,(string-downcase tag)))
@@ -42,7 +48,8 @@
   (if (atom form)
       form
       (destructuring-bind (tag-name options &body body) form
-        (cond ((keywordp tag-name)
+        (cond ((or (keywordp tag-name)
+                   (js-symbol-p tag-name))
                `(tag ,tag-name ,options
                      ,@(mapcar (lambda (form)
                                  `(jsx ,form))
