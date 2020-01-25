@@ -3,6 +3,9 @@
 (ffi:require js:-code-mirror "react-codemirror2")
 (ffi:require "codemirror/keymap/emacs")
 (ffi:require "codemirror/mode/commonlisp/commonlisp")
+(defpackage :browser-repl
+  (:use :cl :valtan.react-utilities))
+(in-package :browser-repl)
 
 #|
 TODO

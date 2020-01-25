@@ -1,5 +1,8 @@
 (ffi:require js:react "react")
 (ffi:require js:react-dom "react-dom")
+(defpackage :react-counter
+  (:use :cl :valtan.react-utilities))
+(in-package :react-counter)
 
 (define-react-component js:-number (children)
   (tag :h1 () children))
