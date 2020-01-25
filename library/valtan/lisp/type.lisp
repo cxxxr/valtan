@@ -126,7 +126,7 @@
            ((keywordp object) 'keyword)
            (t 'symbol)))
     (array
-     `(,array (array-element-type object)))
+     `(array (array-element-type object)))
     (otherwise
      (cond ((*:structure-p object)
             (*:%structure-name object))
