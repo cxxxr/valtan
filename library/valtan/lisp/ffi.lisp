@@ -35,7 +35,7 @@
                                   (ffi:cl->js (compiler::kebab-to-lower-camel-case (string key))))
                                  (t
                                   key)))
-                 (ffi:cl->js value))))
+                 value)))
     object))
 
 (defmacro ffi:object (&rest plist)
@@ -87,8 +87,7 @@
              (*:array-to-js-string "string"))
          (*:js-string-to-array value))
         ((ffi:instanceof value (ffi:ref "Array"))
-         ;; FIXME: 高速化
-         (mapcar #'ffi:js->cl (*:js-array-to-list value)))
+         (*:js-array-to-array value))
         ;; ((eq value (ffi:ref "true"))
         ;;  t)
         ;; ((eq value (ffi:ref "false"))
