@@ -87,20 +87,20 @@ TODO
 (define-react-component js:-prompt (package-name)
   ;; (tag js:-prompt (:package-name ...))で受け取ったときにはstringがcl->jsされているので一旦元に戻さないといけない
   (setq package-name (ffi:js->cl package-name))
-  (tag :span (:class-name "prompt") (format nil "~A>" package-name)))
+  (tag :span (:class-name #j"prompt") (format nil "~A>" package-name)))
 
 (define-react-component js:-backlog (lines)
-  (tag :ul (:class-name "back-log")
+  (tag :ul (:class-name #j"back-log")
        (let ((i 0))
          (map 'vector
               (lambda (line)
                 (tag :li (:key (incf i))
                      (if (consp line)
                          (destructuring-bind (package-name . code) line
-                           (tag :div (:class-name "line")
+                           (tag :div (:class-name #j"line")
                                 (tag js:-prompt (:package-name package-name))
-                                (tag :span (:class-name "code") code)))
-                         (tag :span (:class-name "code")
+                                (tag :span (:class-name #j"code") code)))
+                         (tag :span (:class-name #j"code")
                               line))))
               lines))))
 
@@ -127,13 +127,13 @@ TODO
                       (set-history-index (1+ last)))))))
       (tag :div ()
            (tag js:-backlog (:lines lines))
-           (tag :div (:class-name "repl-input")
+           (tag :div (:class-name #j"repl-input")
                 (tag js:-prompt (:package-name (package-name repl-package)))
                 (tag (ffi:ref js:-code-mirror :-un-controlled)
-                     (:value ""
+                     (:value #j""
                       :options (ffi:object
-                                :mode "commonlisp"
-                                :key-map "emacs"
+                                :mode #j"commonlisp"
+                                :key-map #j"emacs"
                                 :extra-keys (ffi:object
                                              "Enter" (lambda (code-mirror)
                                                        (let ((new-lines
