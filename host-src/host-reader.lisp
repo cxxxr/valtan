@@ -106,7 +106,7 @@
       (set-macro-character #\} (get-macro-character #\)) nil)
       (read in t nil t))))
 
-(defun read-in-valtan (&rest args)
+(defun read-in-valtan (&optional (stream *standard-input*) (eof-error-p t) eof-value)
   (let ((*readtable* *js-readtable*))
     (handler-bind ((sb-int:simple-reader-package-error
                      (lambda (condition)
@@ -114,4 +114,4 @@
                              (package (slot-value condition 'package)))
                          (export (intern name package) package)
                          (continue condition)))))
-      (apply #'read args))))
+      (read stream eof-error-p eof-value))))
