@@ -979,7 +979,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
   (let ((name (hir-arg1 hir))
         (forms (hir-arg2 hir))
         (export-modules (hir-arg3 hir)))
-    (format *p2-emit-stream* "(function() { // *** module: ~A ***~%" name)
+    (declare (ignore name))
     (p2-forms forms)
     (dolist (export-module export-modules)
       (destructuring-bind (name . as) export-module
@@ -990,8 +990,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                     (p2-convert-var as))
             (format *p2-emit-stream*
                     "module.exports = ~A~%"
-                    (p2-convert-var name)))))
-    (write-line "})();" *p2-emit-stream*)))
+                    (p2-convert-var name)))))))
 
 (defun p2-toplevel-1 (hir)
   (p2 hir (if (hir-return-value-p hir) :expr :stmt)))
