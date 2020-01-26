@@ -12,7 +12,9 @@
         (gargs (gensym)))
     `(ffi:define-function ,name (,garg &rest ,gargs)
        (let ,(mapcar (lambda (key)
-                       `(,key (ffi:aget ,garg (ffi:cl->js ,(compiler::kebab-to-lower-camel-case (string key))))))
+                       `(,key (ffi:aget ,garg
+                                        (ffi:cl->js ,(compiler::kebab-to-lower-camel-case
+                                                      (string key))))))
                      keys)
          ,@body))))
 
