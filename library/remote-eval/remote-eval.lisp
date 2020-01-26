@@ -1,7 +1,7 @@
-(defpackage :valtan.remote-js
+(defpackage :valtan.remote-eval
   (:use :cl)
   (:export :connect))
-(in-package :valtan.remote-js)
+(in-package :valtan.remote-eval)
 
 (defun connect ()
   (labels ((connect-1 (&rest args)

@@ -2,4 +2,4 @@
 
 (:members ("main")
  :depends-on ("react-utilities"
-              "remote-js"))
+              "remote-eval"))

@@ -1,7 +1,7 @@
 (ffi:require js:react "react")
 (ffi:require js:react-dom "react-dom")
 
-(valtan.remote-js:connect)
+(valtan.remote-eval:connect)
 
 (defpackage :tic-tac-toe
   (:use :cl :valtan.react-utilities))
