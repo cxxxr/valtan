@@ -1,5 +1,6 @@
 (ffi:require js:react "react")
 (ffi:require js:react-dom "react-dom")
+
 (defpackage :tic-tac-toe
   (:use :cl :valtan.react-utilities))
 (in-package :tic-tac-toe)
@@ -32,13 +33,13 @@
         (line-test 0 4 8)
         (line-test 2 4 6))))
 
-(define-react-component js:-square (on-click value)
+(define-react-component <square> (on-click value)
   (tag :button (:class-name #j"square" :on-click on-click)
        value))
 
-(define-react-component js:-board (squares on-click)
+(define-react-component <board> (squares on-click)
   (flet ((render-square (i)
-           (tag js:-square (:value (or (aref squares i) #j:null)
+           (tag <square> (:value (or (aref squares i) #j:null)
                             :on-click (lambda (args)
                                         (declare (ignore args))
                                         (funcall on-click i))))))
@@ -56,7 +57,7 @@
               (render-square 7)
               (render-square 8)))))
 
-(define-react-component js:-game ()
+(define-react-component <game> ()
   (with-state ((history set-history (list (make-moment :squares (make-array 9 :initial-element nil))))
                (step-number set-step-number 0)
                (x-turn-p set-x-turn-p t))
@@ -91,7 +92,7 @@
                          (format nil "Next player: ~A" (if x-turn-p "X" "O")))))
         (tag :div (:class-name #j"game")
              (tag :div (:class-name #j"game-board")
-                  (tag js:-board
+                  (tag <board>
                        (:squares (moment-squares current)
                         :on-click (lambda (i)
                                     (handle-click i)))))
@@ -99,6 +100,4 @@
                   (tag :div () status)
                   (tag :ol () moves)))))))
 
-(js:react-dom.render
- (tag js:-game ())
- (js:document.get-element-by-id #j"root"))
+(setup #'<game> "root")

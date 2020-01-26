@@ -1,16 +1,19 @@
 (ffi:require js:react "react")
+(ffi:require js:react-dom "react-dom")
+
 (defpackage :valtan.react-utilities
   (:use :cl)
   (:export :define-react-component
            :with-state
            :tag
-           :jsx))
+           :jsx
+           :setup))
 (in-package :valtan.react-utilities)
 
 (defmacro define-react-component (name (&rest keys) &body body)
   (let ((garg (gensym))
         (gargs (gensym)))
-    `(ffi:define-function ,name (,garg &rest ,gargs)
+    `(defun ,name (,garg &rest ,gargs)
        (let ,(mapcar (lambda (key)
                        `(,key (ffi:aget ,garg
                                         (ffi:cl->js ,(compiler::kebab-to-lower-camel-case
@@ -45,8 +48,10 @@
 (defmacro tag (tag option &body children)
   `(js:react.create-element ,(cond ((js-symbol-p tag)
                                     `(ffi:cl->js ,tag))
-                                   ((or (stringp tag) (symbolp tag))
+                                   ((or (stringp tag) (keywordp tag))
                                     `(ffi:cl->js ,(string-downcase tag)))
+                                   ((symbolp tag)
+                                    `(function ,tag))
                                    (t
                                     `(ffi:cl->js ,tag)))
                             (ffi:object . ,option)
@@ -65,3 +70,12 @@
                                body)))
               (t
                form)))))
+
+(defun setup (app id)
+  (js:react-dom.render
+   (js:react.create-element app)
+   (js:document.get-element-by-id (ffi:cl->js id))))
+
+(ffi:set js:window.lisp js:lisp)
+(ffi:set js:window.react js:react)
+(ffi:set js:window.react-dom js:react-dom)

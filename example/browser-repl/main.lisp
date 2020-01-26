@@ -3,6 +3,7 @@
 (ffi:require js:-code-mirror "react-codemirror2")
 (ffi:require "codemirror/keymap/emacs")
 (ffi:require "codemirror/mode/commonlisp/commonlisp")
+
 (defpackage :browser-repl
   (:use :cl :valtan.react-utilities))
 (in-package :browser-repl)
@@ -87,12 +88,12 @@ TODO
                (set-editor-value code-mirror "")
                (nreverse lines)))))))
 
-(define-react-component js:-prompt (package-name)
-  ;; (tag js:-prompt (:package-name ...))で受け取ったときにはstringがcl->jsされているので一旦元に戻さないといけない
+(define-react-component <prompt> (package-name)
+  ;; (tag <prompt> (:package-name ...))で受け取ったときにはstringがcl->jsされているので一旦元に戻さないといけない
   (setq package-name (ffi:js->cl package-name))
   (tag :span (:class-name #j"prompt") (format nil "~A>" package-name)))
 
-(define-react-component js:-backlog (lines)
+(define-react-component <backlog> (lines)
   (tag :ul (:class-name #j"back-log")
        (let ((i 0))
          (map 'vector
@@ -101,13 +102,13 @@ TODO
                      (if (consp line)
                          (destructuring-bind (package-name . code) line
                            (tag :div (:class-name #j"line")
-                                (tag js:-prompt (:package-name package-name))
+                                (tag <prompt> (:package-name package-name))
                                 (tag :span (:class-name #j"code") code)))
                          (tag :span (:class-name #j"code")
                               line))))
               lines))))
 
-(define-react-component js:-repl ()
+(define-react-component <repl> ()
   (with-state ((lines set-lines nil)
                (repl-package set-repl-package (find-package :cl-user))
                (history-index set-history-index 0)
@@ -129,9 +130,9 @@ TODO
                        #j"")
                       (set-history-index (1+ last)))))))
       (tag :div ()
-           (tag js:-backlog (:lines lines))
+           (tag <backlog> (:lines lines))
            (tag :div (:class-name #j"repl-input")
-                (tag js:-prompt (:package-name (package-name repl-package)))
+                (tag <prompt> (:package-name (package-name repl-package)))
                 (tag (ffi:ref js:-code-mirror :-un-controlled)
                      (:value #j""
                       :options (ffi:object
@@ -153,6 +154,4 @@ TODO
                                           (declare (ignore args))
                                           ((ffi:ref editor :focus))))))))))
 
-(js:react-dom.render
- (js:react.create-element js:-repl)
- (js:document.get-element-by-id #j"root"))
+(setup #'<repl> "root")

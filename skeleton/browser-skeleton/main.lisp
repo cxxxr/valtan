@@ -1,5 +1,6 @@
 (ffi:require js:react "react")
 (ffi:require js:react-dom "react-dom")
+
 (defpackage :<% @var name %>
   (:use :cl :valtan.react-utilities))
 (in-package :<% @var name %>)
