@@ -983,15 +983,14 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
     (p2-forms forms)
     (dolist (export-module export-modules)
       (destructuring-bind (name . as) export-module
-        ;; asの条件が逆?
         (if as
-            (format *p2-emit-stream*
-                    "module.exports = ~A~%"
-                    (p2-convert-var name))
             (format *p2-emit-stream*
                     "module.exports.~A = ~A~%"
                     (p2-convert-var name)
-                    (p2-convert-var as)))))
+                    (p2-convert-var as))
+            (format *p2-emit-stream*
+                    "module.exports = ~A~%"
+                    (p2-convert-var name)))))
     (write-line "})();" *p2-emit-stream*)))
 
 (defun p2-toplevel-1 (hir)
