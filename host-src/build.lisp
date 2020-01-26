@@ -229,9 +229,9 @@
                     :error-output t
                     :ignore-error-status t))
 
-(defun build-application (pathname)
+(defun build-application (pathname &key force)
   (let ((directory (make-pathname :directory (pathname-directory pathname))))
-    (build-system pathname)
+    (build-system pathname :force force)
     (webpack directory)))
 
 (defun run-node (pathname)
