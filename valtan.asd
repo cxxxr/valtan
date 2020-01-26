@@ -1,5 +1,7 @@
 (defsystem "valtan"
-  :depends-on ("cl-ppcre" #+linux "inotify")
+  :depends-on ("cl-ppcre"
+               #+linux "inotify"
+               "remote-js")
   :components ((:module "target"
                 :serial t
                 :pathname "library/valtan/compiler"
@@ -23,4 +25,5 @@
                              (:file "host-reader")
                              (:file "system")
                              (:file "build")
+                             (:file "remote-eval")
                              (:file "valtan-host")))))
