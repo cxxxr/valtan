@@ -3,13 +3,15 @@
   (:export :connect))
 (in-package :valtan.remote-eval)
 
-(defun connect ()
+(defun connect (&optional eval-hook)
   (labels ((connect-1 (&rest args)
              (declare (ignore args))
              (let ((ws (ffi:new #j:WebSocket #j"ws://0.0.0.0:40000/")))
                (ffi:set (ffi:ref ws :onmessage)
                         (lambda (e)
-                          (#j:eval:call #j:window (ffi:ref e :data))))
+                          (#j:eval:call #j:window (ffi:ref e :data))
+                          (when eval-hook
+                            (funcall eval-hook))))
                (ffi:set (ffi:ref ws :onopen)
                         (lambda (&rest args)
                           (declare (ignore args))
