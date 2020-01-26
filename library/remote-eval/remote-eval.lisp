@@ -19,5 +19,5 @@
                (ffi:set (ffi:ref ws :onclose)
                         (lambda (&rest args)
                           (declare (ignore args))
-                          (#j:setTimeout connect-1 1))))))
+                          (#j:setTimeout #'connect-1 1))))))
     (connect-1)))
