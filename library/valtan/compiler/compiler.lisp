@@ -6,10 +6,10 @@
         (hir-optimize hir)
         hir)))
 
-(defun compile-toplevel (x)
-  (let ((ir (pass1-toplevel x t)))
+(defun compile-toplevel (x &optional (return-value-p t))
+  (let ((ir (pass1-toplevel x return-value-p)))
     (with-output-to-string (*standard-output*)
-      (p2-toplevel ir))))
+      (p2-toplevel ir *standard-output* return-value-p))))
 
 (defun !macroexpand-1 (form &optional environment)
   (declare (ignore environment))
