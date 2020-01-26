@@ -1,5 +1,4 @@
 ;; -*- mode:lisp -*-
 
 (:members ("main")
- :depends-on ("react-utilities"
-              "remote-eval"))
+ :depends-on ("react-utilities"))
