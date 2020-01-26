@@ -1,3 +1,5 @@
+;; -*- mode:valtan -*-
+
 (ffi:require js:react "react")
 (ffi:require js:react-dom "react-dom")
 
