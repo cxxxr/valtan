@@ -1,7 +1,8 @@
 (defpackage :valtan-host.remote-eval
   (:use :cl)
   (:export :start
-           :js-eval))
+           :js-eval
+           :repl))
 (in-package :valtan-host.remote-eval)
 
 (defvar *context*)
