@@ -40,6 +40,12 @@
          ,@body))))
 
 (eval-when (:compile-toplevel)
+  (defun react-component-p (x)
+    (and (symbolp x)
+         (let ((name (symbol-name x)))
+           (and (< 2 (length name))
+                (char= #\< (aref name 0))
+                (char= #\> (aref name (1- (length name))))))))
   (defun js-symbol-p (symbol)
     (and (symbolp symbol)
          (eq (find-package :js)
@@ -63,7 +69,8 @@
       form
       (destructuring-bind (tag-name options &body body) form
         (cond ((or (keywordp tag-name)
-                   (js-symbol-p tag-name))
+                   (js-symbol-p tag-name)
+                   (react-component-p tag-name))
                `(tag ,tag-name ,options
                      ,@(mapcar (lambda (form)
                                  `(jsx ,form))
