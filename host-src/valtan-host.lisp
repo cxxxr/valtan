@@ -6,7 +6,12 @@
            :with-js-beautify
            :build-system
            :build-application
-           :run-build-server))
+           :run-build-server
+           :start))
 (in-package :valtan-host)
 
 (defpackage :valtan-user (:use :cl))
+
+(defun start (system)
+  (valtan-host:build-application system :force t)
+  (valtan-host.remote-eval:start))
