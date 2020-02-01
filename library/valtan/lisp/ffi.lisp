@@ -57,9 +57,6 @@
 (defun ffi:array (&rest args)
   (apply (ffi:ref "Array") args))
 
-(defmacro ffi:console.log (&rest args)
-  `((ffi:ref "console" "log") ,@args))
-
 (defun ffi:js-eval (x)
   (let* ((code (format nil "(function(lisp) { 'use strict'; ~A; });" x))
          (fn (js:eval (ffi:cl->js code))))
