@@ -79,7 +79,7 @@
 (defun load-system (pathname)
   (let ((*package* (ensure-system-package-exist))
         (*defined-system*)
-        (*features* (cons :valtan-system *features*)))
+        (*features* (adjoin :valtan *features*)))
     (load pathname)
     *defined-system*))
 
