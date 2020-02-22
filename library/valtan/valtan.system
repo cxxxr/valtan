@@ -2,7 +2,8 @@
 
 (defsystem "valtan"
   :serial t
-  :components ((:file "lisp/control")
+  :components ((:file "lisp/valtan-package")
+               (:file "lisp/control")
                (:file "lisp/destructuring-bind")
                (:file "lisp/setf")
                (:file "lisp/ffi")

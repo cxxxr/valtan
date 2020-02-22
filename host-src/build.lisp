@@ -198,6 +198,7 @@
                                     (list ".valtan-cache")))
          (*discard-cache* (if force t nil))
          (*features* *features*))
+    (push :valtan *features*)
     (when (eql :node (valtan-host.system:system-target system))
       (push :node *features*))
     (prepare-valtan-path base-directory)
