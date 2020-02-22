@@ -41,22 +41,22 @@
 
 (defun intern (name &optional (package *package*))
   (*:intern (*:array-to-js-string name)
-                  (find-package package)))
+            (find-package package)))
 
 (defun find-symbol (name &optional (package *package*))
   (*:find-symbol (*:array-to-js-string name)
-                       (find-package package)))
+                 (find-package package)))
 
 (defun make-package (package-name &key nicknames use)
   (*:make-package (*:array-to-js-string (string package-name))
-                        (*:list-to-js-array
-                         (mapcar (lambda (nickname)
-                                   (*:array-to-js-string (string nickname)))
-                                 nicknames))
-                        (*:list-to-js-array
-                         (mapcar (lambda (nickname)
-                                   (*:array-to-js-string (string nickname)))
-                                 use))))
+                  (*:list-to-js-array
+                   (mapcar (lambda (nickname)
+                             (*:array-to-js-string (string nickname)))
+                           nicknames))
+                  (*:list-to-js-array
+                   (mapcar (lambda (nickname)
+                             (*:array-to-js-string (string nickname)))
+                           use))))
 
 (defmacro defpackage (package &body options)
   (when compiler::*in-host-runtime*
