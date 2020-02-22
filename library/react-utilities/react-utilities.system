@@ -1,3 +1,5 @@
 ;; -*- mode:lisp -*-
 
-(:members ("react-utilities"))
+(defsystem "react-utilities"
+  :serial t
+  :components ((:file "react-utilities")))

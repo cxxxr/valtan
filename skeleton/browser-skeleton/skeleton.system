@@ -1,4 +1,6 @@
 ;; -*- mode:lisp -*-
 
-(:members ("main")
- :depends-on ("react-utilities"))
+(defsystem "<% @var name %>"
+  :serial t
+  :components ((:file "main"))
+  :depends-on ("react-utilities"))

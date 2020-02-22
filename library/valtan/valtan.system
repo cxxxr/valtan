@@ -1,36 +1,38 @@
 ;; -*- mode:lisp -*-
 
-(:members ("lisp/control"
-           "lisp/destructuring-bind"
-           "lisp/setf"
-           "lisp/ffi"
-           "lisp/cons"
-           "lisp/condition"
-           "lisp/struct"
-           "lisp/symbol"
-           "lisp/type"
-           "lisp/number"
-           "lisp/array"
-           "lisp/character"
-           "lisp/string"
-           "lisp/function"
-           "lisp/sequence"
-           "lisp/hashtable"
-           "lisp/package"
-           "lisp/stream"
-           "lisp/print"
-           "lisp/read"
-           "lisp/file"
-           "lisp/pkg"
-           "lisp/clos"
-           "lisp/restart"
-           "lisp/catch-throw"
-           "compiler/packages"
-           "compiler/variables"
-           "compiler/util"
-           "compiler/error"
-           "compiler/hir"
-           "compiler/pass1"
-           "compiler/pass2"
-           "compiler/compiler"
-           "lisp/compilation"))
+(defsystem "valtan"
+  :serial t
+  :components ((:file "lisp/control")
+               (:file "lisp/destructuring-bind")
+               (:file "lisp/setf")
+               (:file "lisp/ffi")
+               (:file "lisp/cons")
+               (:file "lisp/condition")
+               (:file "lisp/struct")
+               (:file "lisp/symbol")
+               (:file "lisp/type")
+               (:file "lisp/number")
+               (:file "lisp/array")
+               (:file "lisp/character")
+               (:file "lisp/string")
+               (:file "lisp/function")
+               (:file "lisp/sequence")
+               (:file "lisp/hashtable")
+               (:file "lisp/package")
+               (:file "lisp/stream")
+               (:file "lisp/print")
+               (:file "lisp/read")
+               (:file "lisp/file")
+               (:file "lisp/pkg")
+               (:file "lisp/clos")
+               (:file "lisp/restart")
+               (:file "lisp/catch-throw")
+               (:file "compiler/packages")
+               (:file "compiler/variables")
+               (:file "compiler/util")
+               (:file "compiler/error")
+               (:file "compiler/hir")
+               (:file "compiler/pass1")
+               (:file "compiler/pass2")
+               (:file "compiler/compiler")
+               (:file "lisp/compilation")))

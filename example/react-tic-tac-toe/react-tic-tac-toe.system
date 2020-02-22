@@ -1,4 +1,6 @@
 ;; -*- mode:lisp -*-
 
-(:members ("main")
- :depends-on ("react-utilities"))
+(defsystem "react-tic-tac-toe"
+  :serial t
+  :components ((:file "main"))
+  :depends-on ("react-utilities"))

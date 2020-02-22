@@ -166,7 +166,7 @@
     (invoke-compile-file-with-cache
      input-file
      (lambda ()
-     (compile-system-file system)))))
+       (compile-system-file system)))))
 
 (defun check-discarting-cache-system-file (system)
   (let* ((input-file (valtan-host.system:system-pathname system))

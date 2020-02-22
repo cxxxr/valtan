@@ -1,3 +1,5 @@
 ;; -*- mode:lisp -*-
 
-(:members ("remote-eval"))
+(defsystem "remote-eval"
+  :serial t
+  :components ((:file "remote-eval")))

@@ -11,6 +11,8 @@
            :compute-system-precedence-list))
 (in-package :valtan-host.system)
 
+(defpackage :valtan-host.system-user (:use :cl))
+
 (defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
 
 (defstruct system
@@ -22,36 +24,44 @@
   (target nil :type (member :node :browser nil)))
 
 (defun ensure-system-package-exist ()
-  (or (find-package :valtan-system)
-      (make-package :valtan-system :use ())))
+  (find-package :valtan-host.system-user))
+
+(defvar *defined-system*)
+
+(defun parse-components (components system-name directory)
+  (loop :for c :in components
+        :collect (destructuring-bind (&key ((:file name))) c
+                   (unless name
+                     (error "Illegal component: ~S" c))
+                   (let ((file
+                           (probe-file
+                            (make-pathname :name name
+                                           :type "lisp"
+                                           :directory directory))))
+                     (unless file
+                       (error "~S not found for system ~S" name system-name))
+                     file))))
+
+(defmacro valtan-host.system-user::defsystem (name &key serial depends-on components target)
+  (check-type target (member :node :browser nil))
+  (assert (eq serial t))
+  `(setq *defined-system*
+         (make-system :name ,(string name)
+                      :pathname *load-pathname*
+                      :depends-on ',(if (string= (string-downcase name) "valtan")
+                                        depends-on
+                                        (cons "valtan" depends-on))
+                      :pathnames ',(parse-components components
+                                                     name
+                                                     (pathname-directory
+                                                      *load-pathname*))
+                      :target ,target)))
 
 (defun load-system (pathname)
-  (with-open-file (in pathname)
-    (let ((plist (let ((*package* (ensure-system-package-exist)))
-                   (read in)))
-          (directory (pathname-directory pathname))
-          (system-name (pathname-name pathname)))
-      (destructuring-bind (&key members enable-profile depends-on target) plist
-        (check-type target (member :node :browser nil))
-        (make-system :name system-name
-                     :pathname pathname
-                     :pathnames (mapcar (lambda (name)
-                                          (let ((file
-                                                  (probe-file
-                                                   (make-pathname :name name
-                                                                  :type "lisp"
-                                                                  :directory directory))))
-                                            (unless file
-                                              (error "~S not found for system ~S"
-                                                     name
-                                                     system-name))
-                                            file))
-                                        members)
-                     :enable-profile enable-profile
-                     :depends-on (if (string= system-name "valtan")
-                                     depends-on
-                                     (cons "valtan" depends-on))
-                     :target target)))))
+  (let ((*package* (ensure-system-package-exist))
+        (*defined-system*))
+    (load pathname)
+    *defined-system*))
 
 (defun find-system (system-name &optional (errorp t))
   (labels ((ok (pathname)

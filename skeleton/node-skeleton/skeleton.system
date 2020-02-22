@@ -1,4 +1,6 @@
 ;; -*- mode:lisp -*-
 
-(:members ("main")
- :target :node)
+(defsystem "<% @var name %>"
+  :serial t
+  :components ((:file "main"))
+  :target :node)

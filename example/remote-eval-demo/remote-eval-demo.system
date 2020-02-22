@@ -1,5 +1,7 @@
 ;; -*- mode:lisp -*-
 
-(:members ("main")
- :depends-on ("react-utilities"
-              "remote-eval"))
+(defsystem "remote-eval-demo"
+  :serial t
+  :components ((:file "main"))
+  :depends-on ("react-utilities"
+               "remote-eval"))
