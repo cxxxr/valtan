@@ -28,19 +28,38 @@
 
 (defvar *defined-system*)
 
+(defun featurep (expr)
+  (cond ((keywordp expr)
+         (member expr *features*))
+        ((not (consp expr))
+         (error "invalid feature: ~S" expr))
+        ((ecase (first expr)
+           (:and
+            (every #'featurep (rest expr)))
+           (:or
+            (some #'featurep (rest expr)))
+           (:not
+            (not (featurep (second expr)))))
+         t)))
+
 (defun parse-components (components system-name directory)
   (loop :for c :in components
-        :collect (destructuring-bind (&key ((:file name))) c
-                   (unless name
-                     (error "Illegal component: ~S" c))
-                   (let ((file
-                           (probe-file
-                            (make-pathname :name name
-                                           :type "lisp"
-                                           :directory directory))))
-                     (unless file
-                       (error "~S not found for system ~S" name system-name))
-                     file))))
+        :for file :=
+           (destructuring-bind (&key ((:file name)) (if-feature nil if-feature-p)) c
+             (unless name
+               (error "Illegal component: ~S" c))
+             (let ((file
+                     (probe-file
+                      (make-pathname :name name
+                                     :type "lisp"
+                                     :directory directory))))
+               (unless file
+                 (error "~S not found for system ~S" name system-name))
+               (when (or (not if-feature-p)
+                         (featurep if-feature))
+                 file)))
+        :when file
+        :collect file))
 
 (defmacro valtan-host.system-user::defsystem (name &key serial depends-on components target)
   (check-type target (member :node :browser nil))
@@ -59,7 +78,8 @@
 
 (defun load-system (pathname)
   (let ((*package* (ensure-system-package-exist))
-        (*defined-system*))
+        (*defined-system*)
+        (*features* (cons :valtan-system *features*)))
     (load pathname)
     *defined-system*))
 
