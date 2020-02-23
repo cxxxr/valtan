@@ -516,14 +516,13 @@
         ((dolist (a arglists nil)
            (if (null a) (return t))))
       (setq acc
-            ;; TODO: appendではなくnconcにする
-            (append acc
-                    (apply function
-                           (with-accumulate ()
-                             (do ((l arglists (cdr l)))
-                                 ((null l))
-                               (collect (caar l))
-                               (setf (car l) (cdar l))))))))
+            (nconc acc
+                   (apply function
+                          (with-accumulate ()
+                            (do ((l arglists (cdr l)))
+                                ((null l))
+                              (collect (caar l))
+                              (setf (car l) (cdar l))))))))
     acc))
 
 (defun mapl (function list &rest lists)
