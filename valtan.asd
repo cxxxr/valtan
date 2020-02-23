@@ -4,7 +4,7 @@
                "remote-js")
   :components ((:module "target"
                 :serial t
-                :pathname "library/valtan/compiler"
+                :pathname "library/valtan-core/compiler"
                 :components ((:file "packages")
                              (:file "variables")
                              (:file "util")

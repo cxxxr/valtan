@@ -13,7 +13,10 @@
 
 (defpackage :valtan-host.system-user (:use :cl))
 
+(defparameter +valtan-core-system+ "valtan-core")
 (defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
+
+(defvar *defined-system*)
 
 (defstruct system
   name
@@ -25,8 +28,6 @@
 
 (defun ensure-system-package-exist ()
   (find-package :valtan-host.system-user))
-
-(defvar *defined-system*)
 
 (defun featurep (expr)
   (cond ((keywordp expr)
@@ -67,9 +68,9 @@
   `(setq *defined-system*
          (make-system :name ,(string name)
                       :pathname *load-pathname*
-                      :depends-on ',(if (string= (string-downcase name) "valtan")
+                      :depends-on ',(if (string= (string-downcase name) +valtan-core-system+)
                                         depends-on
-                                        (cons "valtan" depends-on))
+                                        (cons +valtan-core-system+ depends-on))
                       :pathnames ',(parse-components components
                                                      name
                                                      (pathname-directory

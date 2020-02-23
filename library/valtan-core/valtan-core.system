@@ -1,6 +1,6 @@
 ;; -*- mode:lisp -*-
 
-(defsystem "valtan"
+(defsystem "valtan-core"
   :serial t
   :components ((:file "lisp/valtan-package")
                (:file "lisp/control")
