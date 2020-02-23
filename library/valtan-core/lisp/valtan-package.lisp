@@ -1,4 +1,4 @@
 #-valtan
-(defpackage :valtan (:use :cl))
+(defpackage :valtan (:use))
 #+valtan
 (*:%defpackage :valtan)
