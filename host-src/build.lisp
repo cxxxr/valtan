@@ -214,7 +214,7 @@
   (let ((probed-pathname (probe-file pathname)))
     (unless probed-pathname
       (error "~A does not exist" pathname))
-    (unless (equal (pathname-type pathname) "system")
+    (unless (valtan-host.system:system-file-p pathname)
       (error "~A is not a system file" pathname))
     probed-pathname))
 

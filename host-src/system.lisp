@@ -6,6 +6,7 @@
            :system-enable-profile
            :system-depends-on
            :system-target
+           :system-file-p
            :load-system
            :find-system
            :compute-system-precedence-list))
@@ -84,9 +85,13 @@
     (load pathname)
     *defined-system*))
 
+(defun system-file-p (pathname)
+  (or (equal (pathname-type pathname) "system")
+      (equal (pathname-type pathname) "asd")))
+
 (defun find-system (system-name &optional (errorp t))
   (labels ((ok (pathname)
-             (when (and (equal (pathname-type pathname) "system")
+             (when (and (system-file-p pathname)
                         (equal (pathname-name pathname) system-name))
                pathname))
            (f (directory)
