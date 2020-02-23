@@ -1,126 +1,103 @@
-(in-package :common-lisp)
+#-valtan(cl:in-package :valtan-core)
+#+valtan(cl:in-package :common-lisp)
 
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (defun !get-setf-expansion (place &optional environment)
-    (flet ((gensyms (list)
-             (mapcar (lambda (x)
-                       (declare (ignore x))
-                       (gensym))
-                     list)))
-      (let ((setf-expander nil))
-        (cond ((symbolp place)
-               (let ((store (gensym)))
-                 (values nil nil (list store) `(setq ,place ,store) place)))
-              ((and (consp place)
-                    (setq setf-expander (get (first place) 'setf-expander)))
-               (cond
-                 ((symbolp setf-expander)
-                  (let ((vars (gensyms (rest place)))
-                        (store (gensym "STORE")))
-                    (values vars
-                            (rest place)
-                            (list store)
-                            `(,setf-expander ,@vars ,store)
-                            `(,(first place) ,@vars))))
-                 ((consp setf-expander)
-                  (let ((vars (gensyms (rest place)))
-                        (store (gensym "STORE"))
-                        (fn (eval `(lambda ,(first setf-expander)
-                                     (lambda ,@(rest setf-expander))))))
-                    (values vars
-                            (rest place)
-                            (list store)
-                            (funcall (apply fn vars) store)
-                            `(,(first place) ,@vars))))
-                 ((functionp setf-expander)
-                  (funcall setf-expander (rest place)))))
-              ;; TODO: マクロはホスト側で管理しているので
-              ;; コンパイラ内の情報を参照する必要があるはず
-              ;; ((and (consp place) (symbolp (first place)) (macro-function (first place)))
-              ;;  (get-setf-expansion (macroexpand place)))
-              (t
-               (multiple-value-bind (expansion expanded-p)
-                   (macroexpand-1 place environment)
-                 (if expanded-p
-                     (!get-setf-expansion expansion environment)
-                     (let ((newvar (gensym))
-                           (vars (gensyms (cdr expansion)))
-                           (vals (cdr expansion)))
-                       (values vars
-                               vals
-                               (list newvar)
-                               `(funcall (fdefinition '(setf ,(car expansion))) ,newvar ,@vars)
-                               `(,(car expansion) ,@vars)))))))))))
+(cl:eval-when (:compile-toplevel :load-toplevel :execute)
+  (cl:defun !get-setf-expansion (place cl:&optional environment)
+    (cl:flet ((gensyms (cl:list)
+                (cl:mapcar (cl:lambda (x) (cl:declare (cl:ignore x)) (cl:gensym)) cl:list)))
+      (cl:let ((setf-expander cl:nil))
+        (cl:cond
+          ((cl:symbolp place)
+           (cl:let ((store (cl:gensym)))
+             (cl:values cl:nil cl:nil (cl:list store) `(cl:setq ,place ,store) place)))
+          ((cl:and (cl:consp place) (cl:setq setf-expander (cl:get (cl:first place) 'setf-expander)))
+           (cl:cond
+             ((cl:symbolp setf-expander)
+              (cl:let ((vars (gensyms (cl:rest place))) (store (cl:gensym "STORE")))
+                (cl:values vars (cl:rest place) (cl:list store) `(,setf-expander ,@vars ,store)
+                           `(,(cl:first place) ,@vars))))
+             ((cl:consp setf-expander)
+              (cl:let ((vars (gensyms (cl:rest place)))
+                       (store (cl:gensym "STORE"))
+                       (fn
+                         (cl:eval `(cl:lambda ,(cl:first setf-expander) (cl:lambda ,@(cl:rest setf-expander))))))
+                (cl:values vars (cl:rest place) (cl:list store)
+                           (cl:funcall (cl:apply fn vars) store) `(,(cl:first place) ,@vars))))
+             ((cl:functionp setf-expander) (cl:funcall setf-expander (cl:rest place)))))
+          ;; TODO: マクロはホスト側で管理しているので
+          ;; コンパイラ内の情報を参照する必要があるはず
+          ;; ((and (consp place) (symbolp (first place)) (macro-function (first place)))
+          ;;  (get-setf-expansion (macroexpand place)))
+          (cl:t
+           (cl:multiple-value-bind (expansion expanded-p)
+               (cl:macroexpand-1 place environment)
+             (cl:if expanded-p
+                    (!get-setf-expansion expansion environment)
+                    (cl:let ((newvar (cl:gensym))
+                             (vars (gensyms (cl:cdr expansion)))
+                             (vals (cl:cdr expansion)))
+                      (cl:values vars vals (cl:list newvar)
+                                 `(cl:funcall (cl:fdefinition '(cl:setf ,(cl:car expansion))) ,newvar ,@vars)
+                                 `(,(cl:car expansion) ,@vars)))))))))))
 
-(defmacro setf (&rest pairs)
-  (labels ((setf-expand-1 (place value)
-             (multiple-value-bind (vars forms store set access)
-                 (!get-setf-expansion place)
-               (declare (ignore access))
-               `(let* (,@(mapcar #'list
-                                 (append vars store)
-                                 (append forms (list value))))
-                  ,set)))
-           (setf-expand (pairs)
-             (cond ((endp pairs) nil)
-                   ((endp (cdr pairs)) (error "Odd number of args to SETF."))
-                   (t (cons (setf-expand-1 (first pairs) (second pairs))
-                            (setf-expand (cddr pairs)))))))
-    `(progn ,@(setf-expand pairs))))
+(cl:defmacro setf (cl:&rest pairs)
+  (cl:labels ((setf-expand-1 (place value)
+                (cl:multiple-value-bind (vars forms store cl:set access)
+                    (!get-setf-expansion place)
+                  (cl:declare (cl:ignore access))
+                  `(cl:let* (,@(cl:mapcar #'cl:list (cl:append vars store)
+                                          (cl:append forms (cl:list value))))
+                     ,cl:set)))
+              (setf-expand (pairs)
+                (cl:cond ((cl:endp pairs) cl:nil)
+                         ((cl:endp (cl:cdr pairs)) (cl:error "Odd number of args to SETF."))
+                         (cl:t
+                          (cl:cons (setf-expand-1 (cl:first pairs) (cl:second pairs))
+                                   (setf-expand (cl:cddr pairs)))))))
+    `(cl:progn ,@(setf-expand pairs))))
 
-(defmacro defsetf (access-fn &rest rest)
+(cl:defmacro defsetf (access-fn cl:&rest cl:rest)
   ;; TODO: documentation文字列
   ;; TODO: restが単一のシンボルか関数ではないときの処理
-  (check-type access-fn symbol)
-  (cond ((and (first rest)
-              (or (symbolp (first rest)) (functionp (first rest))))
-         (setf (get access-fn 'setf-expander) (first rest))
-         `(progn
-            (*:%put ',access-fn 'setf-expander ',(first rest))
-            ',access-fn))
-        (t
-         (setf (get access-fn 'setf-expander) rest)
-         `(progn
-            (*:%put ',access-fn 'setf-expander ',rest)
-            ',access-fn))))
+  (cl:check-type access-fn cl:symbol)
+  (cl:cond
+    ((cl:and (cl:first cl:rest) (cl:or (cl:symbolp (cl:first cl:rest)) (cl:functionp (cl:first cl:rest))))
+     (cl:setf (cl:get access-fn 'setf-expander) (cl:first cl:rest))
+     `(cl:progn (system:%put ',access-fn 'setf-expander ',(cl:first cl:rest)) ',access-fn))
+    (cl:t (cl:setf (cl:get access-fn 'setf-expander) cl:rest)
+          `(cl:progn (system:%put ',access-fn 'setf-expander ',cl:rest) ',access-fn))))
 
-(defmacro define-setf-expander (access-fn lambda-list &body body)
-  (unless (symbolp access-fn)
-    (error "DEFINE-SETF-EXPANDER access-function name ~S is not a symbol." access-fn))
-  (let ((g-rest (gensym)))
-    (setf (get access-fn 'setf-expander)
-          (eval `(lambda (,g-rest)
-                   (destructuring-bind ,lambda-list ,g-rest ,@body))))
-    `(progn
-       (*:%put ',access-fn
-               'setf-expander
-               (lambda (,g-rest)
-                 (destructuring-bind ,lambda-list ,g-rest ,@body)))
+(cl:defmacro define-setf-expander (access-fn lambda-list cl:&body body)
+  (cl:unless (cl:symbolp access-fn) (cl:error "DEFINE-SETF-EXPANDER access-function name ~S is not a symbol." access-fn))
+  (cl:let ((g-rest (cl:gensym)))
+    (cl:setf (cl:get access-fn 'setf-expander)
+             (cl:eval `(cl:lambda (,g-rest) (cl:destructuring-bind ,lambda-list ,g-rest ,@body))))
+    `(cl:progn
+       (system:%put ',access-fn 'setf-expander
+                    (cl:lambda (,g-rest) (cl:destructuring-bind ,lambda-list ,g-rest ,@body)))
        ',access-fn)))
 
-(defmacro define-modify-macro (name lambda-list function &optional (documentation nil documentation-p))
-  (let ((update-form
-          (do ((rest lambda-list (cdr rest))
-               (vars '()))
-              ((null rest)
-               `(list ',function access-form ,@(nreverse vars)))
-            (cond ((eq '&optional (car rest)))
-                  ((eq '&rest (car rest))
-                   (return `(list* ',function access-form ,@(nreverse vars) (cadr rest))))
-                  ((symbolp (car rest))
-                   (push (car rest) vars))
-                  (t
-                   (push (caar rest) vars))))))
-    (let ((reference (gensym "REFERENCE")))
-      `(defmacro ,name (,reference ,@lambda-list)
-         ,(when documentation-p `(,documentation))
-         (multiple-value-bind (vars values stores set-form access-form)
+(cl:defmacro define-modify-macro
+    (name lambda-list cl:function cl:&optional (documentation cl:nil documentation-p))
+  (cl:let ((update-form
+             (cl:do ((cl:rest lambda-list (cl:cdr cl:rest))
+                     (vars 'cl:nil))
+                 ((cl:null cl:rest) `(cl:list ',cl:function access-form ,@(cl:nreverse vars)))
+               (cl:cond ((cl:eq 'cl:&optional (cl:car cl:rest)))
+                        ((cl:eq 'cl:&rest (cl:car cl:rest))
+                         (cl:return
+                           `(cl:list* ',cl:function access-form ,@(cl:nreverse vars) (cl:cadr cl:rest))))
+                        ((cl:symbolp (cl:car cl:rest)) (cl:push (cl:car cl:rest) vars))
+                        (cl:t (cl:push (cl:caar cl:rest) vars))))))
+    (cl:let ((reference (cl:gensym "REFERENCE")))
+      `(cl:defmacro ,name (,reference ,@lambda-list)
+         ,(cl:when documentation-p `(,documentation))
+         (cl:multiple-value-bind (vars cl:values stores set-form access-form)
              (!get-setf-expansion ,reference)
-           (list 'let*
-                 (mapcar #'list
-                         (append vars stores)
-                         (append values (list ,update-form)))
-                 set-form))))))
+           (cl:list 'cl:let*
+                    (cl:mapcar #'cl:list (cl:append vars stores)
+                               (cl:append cl:values (cl:list ,update-form)))
+                    set-form))))))
 
-(define-modify-macro incf (&optional (n 1)) +)
-(define-modify-macro decf (&optional (n 1)) -)
+(cl:define-modify-macro incf (cl:&optional (n 1)) cl:+)
+(cl:define-modify-macro decf (cl:&optional (n 1)) cl:-)
