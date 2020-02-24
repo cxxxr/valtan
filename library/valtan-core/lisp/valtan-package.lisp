@@ -69,4 +69,20 @@
 
 (cl:eval-when (:compile-toplevel)
   (cl:defpackage :valtan-core
-    (:use)))
+    (:use)
+    #-valtan
+    (:import-from
+     :common-lisp
+     :&body
+     :&rest
+     :&optional
+     . #.(with-open-file (in (asdf:system-relative-pathname :valtan "library/valtan-core/compiler/pass1.lisp"))
+           (loop :with eof := '#:eof
+                 :for form := (read in nil eof)
+                 :until (eq form eof)
+                 :when (and (consp form)
+                            (member (first form)
+                                    '(def-pass1-form def-transform)
+                                    :test #'string-equal)
+                            (string= :common-lisp (package-name (symbol-package (second form)))))
+                 :collect (string (second form)))))))
