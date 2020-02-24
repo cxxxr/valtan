@@ -1,10 +1,16 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
+
+(declaim (ftype function atom))
 
 (defun %db-length (list)
   (do ((l list (cdr l))
        (count 0 (+ count 1)))
       ((atom l) count)))
 
+valtan-core.host-room::
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defvar *db-bindings*)
   (defvar *tmp-db-vars*)
@@ -177,4 +183,4 @@
            ,@body)))))
 
 (*:defmacro* destructuring-bind (lambda-list expression &rest body)
-  (expand-destructuring-bind lambda-list expression body))
+  (valtan-core.host-room::expand-destructuring-bind lambda-list expression body))

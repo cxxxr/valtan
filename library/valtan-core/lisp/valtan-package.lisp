@@ -60,15 +60,17 @@
              :named-lambda
              :unquote
              :unquote-splicing
-             :quasiquote)))
+             :quasiquote))
+  (defpackage :valtan-core.host-room
+    (:use :cl)))
 
 #+valtan
 (*:%defpackage :valtan-core)
 #+valtan
 (*:%defpackage "COMPILER")
 
-(cl:eval-when (:compile-toplevel #-valtan :load-toplevel)
-  (cl:defpackage :valtan-core
+(eval-when (:compile-toplevel #-valtan :load-toplevel)
+  (defpackage :valtan-core
     (:use)
     (:import-from
      :common-lisp
