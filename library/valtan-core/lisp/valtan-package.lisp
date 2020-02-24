@@ -73,6 +73,8 @@
     #-valtan
     (:import-from
      :common-lisp
+     :t
+     :nil
      :&body
      :&rest
      :&optional
