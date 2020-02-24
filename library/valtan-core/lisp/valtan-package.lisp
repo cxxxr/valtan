@@ -67,7 +67,7 @@
 #+valtan
 (*:%defpackage "COMPILER")
 
-(cl:eval-when (:compile-toplevel)
+(cl:eval-when (:compile-toplevel #-valtan :load-toplevel)
   (cl:defpackage :valtan-core
     (:use)
     (:import-from
