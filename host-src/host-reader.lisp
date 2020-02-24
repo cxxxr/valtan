@@ -106,12 +106,12 @@
       (set-macro-character #\} (get-macro-character #\)) nil)
       (read in t nil t))))
 
-(defun read-in-valtan (&optional (stream *standard-input*) (eof-error-p t) eof-value)
-  (let ((*readtable* *js-readtable*))
-    (handler-bind ((sb-int:simple-reader-package-error
-                     (lambda (condition)
-                       (let ((name (first (simple-condition-format-arguments condition)))
-                             (package (slot-value condition 'package)))
-                         (export (intern name package) package)
-                         (continue condition)))))
-      (read stream eof-error-p eof-value))))
+(defun read-in-valtan (&optional (stream *standard-input*) (eof-error-p t) eof-value
+                                 (*readtable* *js-readtable*))
+  (handler-bind ((sb-int:simple-reader-package-error
+                   (lambda (condition)
+                     (let ((name (first (simple-condition-format-arguments condition)))
+                           (package (slot-value condition 'package)))
+                       (export (intern name package) package)
+                       (continue condition)))))
+    (read stream eof-error-p eof-value)))
