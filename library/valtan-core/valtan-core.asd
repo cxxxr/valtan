@@ -4,7 +4,7 @@
   :serial t
   :components ((:file "lisp/valtan-package")
                (:file "lisp/host-system-compat" :if-feature (:not :valtan))
-               (:file "lisp/control" :if-feature :valtan)
+               (:file "lisp/control")
                (:file "lisp/destructuring-bind" :if-feature :valtan)
                (:file "lisp/setf" :if-feature :valtan)
                (:file "lisp/ffi" :if-feature :valtan)

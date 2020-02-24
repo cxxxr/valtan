@@ -90,4 +90,8 @@
                                   (string= :common-lisp (package-name (symbol-package (second form)))))
                        :collect (intern (string (second form)) :keyword)))))
      :defun :defmacro :define-symbol-macro :lambda :defvar :defparameter :quote :setq :if :progn :function :let :let* :flet :labels :macrolet
-     :symbol-macrolet :unwind-protect :block :return-from :tagbody :go :locally :declaim :eval-when :in-package)))
+     :symbol-macrolet :unwind-protect :block :return-from :tagbody :go :locally :declaim :eval-when :in-package
+
+     :declare :declaim :ignore :ftype :function
+
+     :characterp :eq)))
