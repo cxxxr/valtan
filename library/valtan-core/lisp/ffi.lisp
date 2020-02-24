@@ -24,7 +24,7 @@
      (ffi:cl->js ,value))))
 
 (cl:defun ffi::%object (cl:&rest plist)
-  (cl:let ((object (js:-object)))
+  (cl:let ((object (js::-object)))
     (cl:do ((cl:rest plist (cl:cddr cl:rest)))
         ((cl:null cl:rest))
       (cl:let ((key (cl:car cl:rest)) (value (cl:cadr cl:rest)))
@@ -56,7 +56,7 @@
 
 (cl:defun ffi:js-eval (x)
   (cl:let* ((code (cl:format cl:nil "(function(lisp) { 'use strict'; ~A; });" x))
-            (fn (js:eval (ffi:cl->js code))))
+            (fn (js::eval (ffi:cl->js code))))
     (cl:funcall fn (ffi:ref "lisp"))))
 
 (cl:defun ffi:cl->js (value)

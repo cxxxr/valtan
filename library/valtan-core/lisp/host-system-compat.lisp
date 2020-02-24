@@ -22,10 +22,10 @@
 (cl:defmacro system:defmacro* (name lambda-list cl:&body body)
   `(cl:defmacro ,name ,lambda-list ,@body))
 
-(cl:defun js:-object ()
+(cl:defun js::-object ()
   )
 
-(cl:defun js:eval (x)
+(cl:defun js::eval (x)
   (cl:declare (cl:ignore x)))
 
 (cl:defun ffi:set (var value)
