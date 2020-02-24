@@ -70,7 +70,6 @@
 (cl:eval-when (:compile-toplevel)
   (cl:defpackage :valtan-core
     (:use)
-    #-valtan
     (:import-from
      :common-lisp
      :t
@@ -78,13 +77,17 @@
      :&body
      :&rest
      :&optional
-     . #.(with-open-file (in (asdf:system-relative-pathname :valtan "library/valtan-core/compiler/pass1.lisp"))
-           (loop :with eof := '#:eof
-                 :for form := (read in nil eof)
-                 :until (eq form eof)
-                 :when (and (consp form)
-                            (member (first form)
-                                    '(def-pass1-form def-transform)
-                                    :test #'string-equal)
-                            (string= :common-lisp (package-name (symbol-package (second form)))))
-                 :collect (string (second form)))))))
+     #+(or)
+     (let ((*print-case* :downcase))
+       (pprint (with-open-file (in (asdf:system-relative-pathname :valtan-core "./compiler/pass1.lisp"))
+                 (loop :with eof := '#:eof
+                       :for form := (read in nil eof)
+                       :until (eq form eof)
+                       :when (and (consp form)
+                                  (member (first form)
+                                          '(def-pass1-form def-transform)
+                                          :test #'string-equal)
+                                  (string= :common-lisp (package-name (symbol-package (second form)))))
+                       :collect (intern (string (second form)) :keyword)))))
+     :defun :defmacro :define-symbol-macro :lambda :defvar :defparameter :quote :setq :if :progn :function :let :let* :flet :labels :macrolet
+     :symbol-macrolet :unwind-protect :block :return-from :tagbody :go :locally :declaim :eval-when :in-package)))
