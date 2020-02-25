@@ -3,9 +3,6 @@
 #-valtan
 (in-package :valtan-core)
 
-(defparameter lambda-list-keywords
-  '(&ALLOW-OTHER-KEYS &AUX &BODY &ENVIRONMENT &KEY &OPTIONAL &REST &WHOLE))
-
 (*:defmacro* return (&optional value)
   `(return-from nil ,value))
 
