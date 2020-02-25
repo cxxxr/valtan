@@ -6,7 +6,7 @@
                (:file "lisp/host-system-compat" :if-feature (:not :valtan))
                (:file "lisp/constants")
                (:file "lisp/control")
-               (:file "lisp/destructuring-bind" :if-feature :valtan)
+               (:file "lisp/destructuring-bind")
                (:file "lisp/setf" :if-feature :valtan)
                (:file "lisp/ffi" :if-feature :valtan)
                (:file "lisp/cons" :if-feature :valtan)

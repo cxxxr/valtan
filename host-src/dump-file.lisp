@@ -8,7 +8,7 @@
           :for form := (let ((*package* (find-package :cl)))
                          (valtan-host.reader:read-in-valtan in nil eof *readtable*))
           :until (eq form eof)
-          :do (let ((*package* (find-package :cl))
+          :do (let ((*package* (find-package :valtan-core))
                     (*print-case* :downcase)
                     (*print-right-margin* 100))
                 (pprint form)
