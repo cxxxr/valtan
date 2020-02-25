@@ -247,7 +247,7 @@
          (eql x y))))
 
 (declaim (ftype function
-                char-equal numberp string-equal arrayp hash-table-p))
+                char-equal numberp string-equal arrayp hash-table-p error))
 
 (defun equalp (x y)
   (cond ((and (characterp x)

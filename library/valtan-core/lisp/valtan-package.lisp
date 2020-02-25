@@ -96,4 +96,4 @@
 
      :declare :declaim :ignore :ftype :function
 
-     :characterp :eq)))
+     :characterp :eq :functionp :symbolp :symbol-function)))
