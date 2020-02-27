@@ -196,6 +196,15 @@
                             ,@body)
        ,value-form)))
 
+(declaim (ftype function type-error))
+(defun ensure-function (value)
+  (cond ((cl:functionp value)
+         value)
+        ((cl:symbolp value)
+         (cl:symbol-function value))
+        (t
+         (type-error value 'function))))
+
 (*:defmacro* multiple-value-call (function arg &rest args)
   (if (cl:null args)
       `(*:multiple-value-call (ensure-function ,function)

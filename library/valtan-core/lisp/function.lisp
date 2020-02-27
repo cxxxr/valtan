@@ -1,13 +1,5 @@
 (in-package :common-lisp)
 
-(defun ensure-function (value)
-  (cond ((functionp value)
-         value)
-        ((symbolp value)
-         (symbol-function value))
-        (t
-         (type-error value 'function))))
-
 (defun funcall (function &rest args)
   (let ((function (ensure-function function)))
     (*:apply function (*:list-to-js-array args))))
