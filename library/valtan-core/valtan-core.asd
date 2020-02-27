@@ -9,7 +9,7 @@
                (:file "lisp/destructuring-bind")
                (:file "lisp/setf")
                (:file "lisp/ffi")
-               (:file "lisp/cons" :if-feature :valtan)
+               (:file "lisp/cons")
                (:file "lisp/condition" :if-feature :valtan)
                (:file "lisp/struct" :if-feature :valtan)
                (:file "lisp/symbol" :if-feature :valtan)

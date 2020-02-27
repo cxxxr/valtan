@@ -22,6 +22,21 @@
 (cl:defmacro system:defmacro* (name lambda-list cl:&body body)
   `(cl:defmacro ,name ,lambda-list ,@body))
 
+(cl:defun system:%car (x)
+  (cl:car x))
+
+(cl:defun system:%cdr (x)
+  (cl:cdr x))
+
+(cl:defun system:%rplaca (cons x)
+  (cl:rplaca cons x))
+
+(cl:defun system:%rplacd (cons x)
+  (cl:rplacd cons x))
+
+(cl:defun system:%put (symbol key value)
+  (cl:setf (cl:get symbol key) value))
+
 (cl:defun js::-object ()
   )
 

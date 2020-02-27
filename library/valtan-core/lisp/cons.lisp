@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defun atom (x)
   (not (consp x)))
@@ -8,6 +11,8 @@
 
 (defun listp (x)
   (or (null x) (consp x)))
+
+(declaim (ftype function type-error))
 
 (defun car (x)
   (unless (listp x)
@@ -29,8 +34,8 @@
     (type-error cons 'cons))
   (*:%rplacd cons x))
 
-(defun (setf car) (value cons) (rplaca cons value) value)
-(defun (setf cdr) (value cons) (rplacd cons value) value)
+(defun (cl:setf car) (value cons) (rplaca cons value) value)
+(defun (cl:setf cdr) (value cons) (rplacd cons value) value)
 
 (defun caar (x) (car (car x)))
 (defun cadr (x) (car (cdr x)))
@@ -60,34 +65,34 @@
 (defun cddadr (x) (cdr (cdr (car (cdr x)))))
 (defun cdddar (x) (cdr (cdr (cdr (car x)))))
 (defun cddddr (x) (cdr (cdr (cdr (cdr x)))))
-(defun (setf caar) (value x) (rplaca (car x) value) value)
-(defun (setf cadr) (value x) (rplaca (cdr x) value) value)
-(defun (setf cdar) (value x) (rplacd (car x) value) value)
-(defun (setf cddr) (value x) (rplacd (cdr x) value) value)
-(defun (setf caaar) (value x) (rplaca (car (car x)) value) value)
-(defun (setf caadr) (value x) (rplaca (car (cdr x)) value) value)
-(defun (setf cadar) (value x) (rplaca (cdr (car x)) value) value)
-(defun (setf caddr) (value x) (rplaca (cdr (cdr x)) value) value)
-(defun (setf cdaar) (value x) (rplacd (car (car x)) value) value)
-(defun (setf cdadr) (value x) (rplacd (car (cdr x)) value) value)
-(defun (setf cddar) (value x) (rplacd (cdr (car x)) value) value)
-(defun (setf cdddr) (value x) (rplacd (cdr (cdr x)) value) value)
-(defun (setf caaaar) (value x) (rplaca (car (car (car x))) value) value)
-(defun (setf caaadr) (value x) (rplaca (car (car (cdr x))) value) value)
-(defun (setf caadar) (value x) (rplaca (car (cdr (car x))) value) value)
-(defun (setf caaddr) (value x) (rplaca (car (cdr (cdr x))) value) value)
-(defun (setf cadaar) (value x) (rplaca (cdr (car (car x))) value) value)
-(defun (setf cadadr) (value x) (rplaca (cdr (car (cdr x))) value) value)
-(defun (setf caddar) (value x) (rplaca (cdr (cdr (car x))) value) value)
-(defun (setf cadddr) (value x) (rplaca (cdr (cdr (cdr x))) value) value)
-(defun (setf cdaaar) (value x) (rplacd (car (car (car x))) value) value)
-(defun (setf cdaadr) (value x) (rplacd (car (car (cdr x))) value) value)
-(defun (setf cdadar) (value x) (rplacd (car (cdr (car x))) value) value)
-(defun (setf cdaddr) (value x) (rplacd (car (cdr (cdr x))) value) value)
-(defun (setf cddaar) (value x) (rplacd (cdr (car (car x))) value) value)
-(defun (setf cddadr) (value x) (rplacd (cdr (car (cdr x))) value) value)
-(defun (setf cdddar) (value x) (rplacd (cdr (cdr (car x))) value) value)
-(defun (setf cddddr) (value x) (rplacd (cdr (cdr (cdr x))) value) value)
+(defun (cl:setf caar) (value x) (rplaca (car x) value) value)
+(defun (cl:setf cadr) (value x) (rplaca (cdr x) value) value)
+(defun (cl:setf cdar) (value x) (rplacd (car x) value) value)
+(defun (cl:setf cddr) (value x) (rplacd (cdr x) value) value)
+(defun (cl:setf caaar) (value x) (rplaca (car (car x)) value) value)
+(defun (cl:setf caadr) (value x) (rplaca (car (cdr x)) value) value)
+(defun (cl:setf cadar) (value x) (rplaca (cdr (car x)) value) value)
+(defun (cl:setf caddr) (value x) (rplaca (cdr (cdr x)) value) value)
+(defun (cl:setf cdaar) (value x) (rplacd (car (car x)) value) value)
+(defun (cl:setf cdadr) (value x) (rplacd (car (cdr x)) value) value)
+(defun (cl:setf cddar) (value x) (rplacd (cdr (car x)) value) value)
+(defun (cl:setf cdddr) (value x) (rplacd (cdr (cdr x)) value) value)
+(defun (cl:setf caaaar) (value x) (rplaca (car (car (car x))) value) value)
+(defun (cl:setf caaadr) (value x) (rplaca (car (car (cdr x))) value) value)
+(defun (cl:setf caadar) (value x) (rplaca (car (cdr (car x))) value) value)
+(defun (cl:setf caaddr) (value x) (rplaca (car (cdr (cdr x))) value) value)
+(defun (cl:setf cadaar) (value x) (rplaca (cdr (car (car x))) value) value)
+(defun (cl:setf cadadr) (value x) (rplaca (cdr (car (cdr x))) value) value)
+(defun (cl:setf caddar) (value x) (rplaca (cdr (cdr (car x))) value) value)
+(defun (cl:setf cadddr) (value x) (rplaca (cdr (cdr (cdr x))) value) value)
+(defun (cl:setf cdaaar) (value x) (rplacd (car (car (car x))) value) value)
+(defun (cl:setf cdaadr) (value x) (rplacd (car (car (cdr x))) value) value)
+(defun (cl:setf cdadar) (value x) (rplacd (car (cdr (car x))) value) value)
+(defun (cl:setf cdaddr) (value x) (rplacd (car (cdr (cdr x))) value) value)
+(defun (cl:setf cddaar) (value x) (rplacd (cdr (car (car x))) value) value)
+(defun (cl:setf cddadr) (value x) (rplacd (cdr (car (cdr x))) value) value)
+(defun (cl:setf cdddar) (value x) (rplacd (cdr (cdr (car x))) value) value)
+(defun (cl:setf cddddr) (value x) (rplacd (cdr (cdr (cdr x))) value) value)
 
 (defun copy-tree (tree)
   (if (atom tree)
@@ -95,6 +100,7 @@
       (cons (copy-tree (car tree))
             (copy-tree (cdr tree)))))
 
+(declaim (ftype function funcall))
 (defun apply-key (key value)
   (if (null key)
       value
@@ -205,7 +211,7 @@
 (defun nsubst-if-not (new predicate tree &key key)
   (nsubst-if new (complement predicate) tree :key key))
 
-(defun tree-equal (tree-1 tree-2 &key (test #'eql testp) (test-not nil test-not-p))
+(defun tree-equal (tree-1 tree-2 &key (test #'eql) (test-not nil test-not-p))
   (labels ((test (x y)
              (if test-not-p
                  (not (funcall test-not x y))
@@ -239,6 +245,7 @@
         arg
         (cons arg (f args)))))
 
+(declaim (ftype function >))
 (defun list-length (list)
   (let ((x (do ((n 0 (+ n 2))
                 (y list (cddr y))
@@ -248,6 +255,8 @@
              (when (endp (cdr y)) (return (+ n 1)))
              (when (and (eq y z) (> n 0)) (return nil)))))
     x))
+
+(declaim (ftype function 1- <= integerp nreverse zerop))
 
 (defun make-list (size &key initial-element)
   (unless (and (integerp size) (<= 0 size))
@@ -261,18 +270,18 @@
 (defmacro push (obj place)
   (multiple-value-bind (vars vals stores store-form access-form)
       (!get-setf-expansion place)
-    `(let* ,(mapcar #'list
-                    (append vars stores)
-                    (append vals (list (list 'cons obj access-form))))
+    `(let* ,(cl:mapcar #'cl:list
+                       (cl:append vars stores)
+                       (cl:append vals (cl:list (cl:list 'cons obj access-form))))
        ,store-form)))
 
 (defmacro pop (place)
   (multiple-value-bind (vars vals stores store-form access-form)
       (!get-setf-expansion place)
-    `(let* ,(mapcar #'list
-                    (append vars stores)
-                    (append vals (list (list 'cdr access-form))))
-       (prog1 (car ,access-form)
+    `(let* ,(cl:mapcar #'cl:list
+                       (cl:append vars stores)
+                       (cl:append vals (cl:list (cl:list 'cdr access-form))))
+       (prog1 (cl:car ,access-form)
          ,store-form))))
 
 (defun first (list) (car list))
@@ -353,6 +362,7 @@
                       (setf tail (cdr tail))))))))
     head))
 
+(declaim (ftype function reverse))
 (defun revappend (list tail)
   (nconc (reverse list) tail))
 
@@ -397,6 +407,7 @@
           ((atom next) l))
       list))
 
+(declaim (ftype function 1+))
 (defun last (list &optional (n 1))
   (if (= n 1)
       (last1 list)
@@ -439,6 +450,7 @@
 
 (defun process-list (item list key key-p test test-p test-not test-not-p
                      get-element return)
+  (declare (ignore key-p))
   (let ((cmp (cond (test-p
                     test)
                    (test-not-p
@@ -463,8 +475,8 @@
   (member-if (complement predicate) list :key key))
 
 (defmacro with-accumulate (() &body body)
-  (let ((g-head (gensym))
-        (g-tail (gensym)))
+  (let ((g-head (cl:gensym))
+        (g-tail (cl:gensym)))
     `(let ((,g-head nil)
            (,g-tail nil))
        (labels ((collect (x)
@@ -503,8 +515,8 @@
                             (setf (car l) (cdar l))))))))))
 
 (defun *::%mapcar (function list)
-  (declare (type function function)
-           (type list list))
+  (declare (cl:type function function)
+           (cl:type cl:list list))
   (with-accumulate ()
     (dolist (x list)
       (collect (funcall function x)))))
@@ -633,9 +645,9 @@
 
 (defun get-properties (plist indicator-list)
   (do ((plist plist (cddr plist)))
-      ((endp plist) (values nil nil nil))
+      ((endp plist) (cl:values nil nil nil))
     (when (member (car plist) indicator-list)
-      (return (values (car plist) (cadr plist) plist)))))
+      (return (cl:values (car plist) (cadr plist) plist)))))
 
 (defun getf (place indicator &optional default)
   (do ((list place (cddr list)))
@@ -653,32 +665,32 @@
 (define-setf-expander getf (place indicator &optional default)
   (multiple-value-bind (vars vals stores store-form access-form)
       (!get-setf-expansion place)
-    (let ((newval (gensym))
-          (store (gensym)))
-      (values `(,@vars ,newval)
-              `(,@vals ,indicator)
-              (list store)
-              `(let ((,(car stores) (%putf ,access-form ,store ,newval)))
-                 ,store-form
-                 ,store)
-              `(getf ,access-form ,newval ,default)))))
+    (let ((newval (cl:gensym))
+          (store (cl:gensym)))
+      (cl:values `(,@vars ,newval)
+                 `(,@vals ,indicator)
+                 (list store)
+                 `(let ((,(car stores) (%putf ,access-form ,store ,newval)))
+                    ,store-form
+                    ,store)
+                 `(getf ,access-form ,newval ,default)))))
 
 (defun %remf (plist indicator)
   (do ((prev nil plist*)
        (plist* plist (cddr plist*)))
-      ((endp plist*) (values plist nil))
+      ((endp plist*) (cl:values plist nil))
     (when (eq indicator (car plist*))
-      (return (values (if (null prev)
-                          (cddr plist)
-                          (progn
-                            (setf (cddr prev) (cddr plist*))
-                            plist))
-                      t)))))
+      (return (cl:values (if (null prev)
+                             (cddr plist)
+                             (progn
+                               (setf (cddr prev) (cddr plist*))
+                               plist))
+                         t)))))
 
 (defmacro remf (place indicator)
   (multiple-value-bind (vars vals stores store-form access-form)
       (!get-setf-expansion place)
-    (let ((ok (gensym)))
+    (let ((ok (cl:gensym)))
       `(let* (,@(mapcar #'list vars vals))
          (multiple-value-bind (,(car stores) ,ok)
              (%remf ,access-form ,indicator)
@@ -720,7 +732,7 @@
               (setq list-1 #3#)
               (rplacd #1# #4#)
               (setq result #5#)
-              (values #2#))
+              (cl:values #2#))
             (setq list-1 (cdr list-1))))
       result)))
 
@@ -768,7 +780,7 @@
             (setq list-1 #3#)
             (rplacd #1# #4#)
             (setq result #5#)
-            (values #2#))))
+            (cl:values #2#))))
     result))
 
 (defun set-exclusive-or (list-1 list-2 &rest args &key key test test-not)
