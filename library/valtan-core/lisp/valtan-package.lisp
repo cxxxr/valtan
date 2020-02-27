@@ -78,6 +78,7 @@
      :nil
      :&body
      :&rest
+     :&key
      :&optional
      #+(or)
      (let ((*print-case* :downcase))
@@ -96,4 +97,5 @@
 
      :declare :declaim :ignore :ftype :function
 
-     :characterp :eq :functionp :symbolp :symbol-function)))
+     :characterp :eq :functionp :symbolp :symbol-function
+     :cons)))
