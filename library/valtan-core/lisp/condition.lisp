@@ -7,7 +7,7 @@
 
 (declaim (ftype function make-condition class-of find-class subclassp))
 (defun coerce-to-condition (datum arguments default-condition)
-  (cond ((or (stringp datum) (functionp datum))
+  (cond ((or (cl:stringp datum) (functionp datum))
          (make-condition default-condition
                          :format-control datum
                          :format-arguments arguments))

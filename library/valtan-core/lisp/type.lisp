@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun parse-deftype-lambda-list (lambda-list)
@@ -30,9 +33,10 @@
 (defun deftype-expander (symbol)
   (get symbol 'deftype-expander))
 
-(defun (setf deftype-expander) (expander symbol)
-  (setf (get symbol 'deftype-expander) expander))
+(defun (cl:setf deftype-expander) (expander symbol)
+  (cl:setf (cl:get symbol 'deftype-expander) expander))
 
+(declaim (ftype function apply))
 (defun expand-deftype (type)
   (do ()
       (nil)
@@ -40,7 +44,7 @@
           (args (if (consp type) (cdr type) nil)))
       (let ((expander (deftype-expander name)))
         (if expander
-            (setq type (apply expand args))
+            (setq type (apply expander args))
             (return type))))))
 
 (defun canonicalize-type (type)
@@ -58,6 +62,7 @@
       (otherwise
        type))))
 
+(declaim (ftype function vectorp))
 (defun typep (object type &optional environment)
   (declare (ignore environment))
   (case type
@@ -65,7 +70,7 @@
     (list (listp object))
     (cons (consp object))
     (symbol (symbolp object))
-    (string (stringp object))
+    (string (cl:stringp object))
     ;; (hash-table (hash-table-p object))
     (vector (vectorp object))
     ;; (array (arrayp object))
@@ -92,17 +97,17 @@
          (values nil nil))))
 
 (defmacro typecase (keyform &body cases)
-  (let ((gvalue (gensym)))
+  (let ((gvalue (cl:gensym)))
     `(let ((,gvalue ,keyform))
-       (cond ,@(mapcar (lambda (c)
-                         (destructuring-bind (type . body) c
-                           (if (eq type 'otherwise)
-                               `(t ,@body)
-                               `((typep ,gvalue ',type) ,@body))))
-                       cases)))))
+       (cond ,@(cl:mapcar (lambda (c)
+                            (cl:destructuring-bind (type . body) c
+                              (if (eq type 'otherwise)
+                                  `(t ,@body)
+                                  `((typep ,gvalue ',type) ,@body))))
+                          cases)))))
 
 (defmacro etypecase (keyform &body cases)
-  (let ((gvalue (gensym))
+  (let ((gvalue (cl:gensym))
         (expected-type
           `(or ,@(mapcar #'first cases))))
     `(let ((,gvalue ,keyform))

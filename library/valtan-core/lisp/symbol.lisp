@@ -20,9 +20,11 @@
        (eq (symbol-package x)
            (find-package :keyword))))
 
-(declaim (ftype function symbol-plist))
 (defun get (symbol indicator &optional default)
   (getf (symbol-plist symbol) indicator default))
+
+(defun symbol-plist (symbol)
+  (*:symbol-plist symbol))
 
 (defun (cl:setf symbol-plist) (plist symbol)
   (*:put-symbol-plist symbol plist))
@@ -62,7 +64,7 @@
 (defun gensym (&optional (prefix "G"))
   (make-symbol (cond ((and (integerp prefix) (<= 0 prefix))
                       (format nil "G~D" prefix))
-                     ((not (stringp prefix))
+                     ((not (cl:stringp prefix))
                       (type-error prefix '(or string (integer 0 *))))
                      (t
                       (prog1 (*:string-append prefix (princ-to-string *gensym-counter*))

@@ -256,7 +256,7 @@
              (when (and (eq y z) (> n 0)) (return nil)))))
     x))
 
-(declaim (ftype function 1- <= integerp nreverse zerop))
+(declaim (ftype function 1- <= nreverse zerop))
 
 (defun make-list (size &key initial-element)
   (unless (and (integerp size) (<= 0 size))

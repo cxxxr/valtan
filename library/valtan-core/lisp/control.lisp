@@ -235,7 +235,7 @@
          (eq x y))))
 
 (declaim (ftype function
-                consp car cdr stringp string=
+                car cdr string=
                 simple-bit-vector-p length = aref + >=))
 
 (defun equal (x y)
@@ -243,8 +243,8 @@
               (consp y))
          (and (equal (car x) (car y))
               (equal (cdr x) (cdr y))))
-        ((and (stringp x)
-              (stringp y))
+        ((and (cl:stringp x)
+              (cl:stringp y))
          (string= x y))
         ((and (simple-bit-vector-p x)
               (simple-bit-vector-p y))
@@ -257,7 +257,7 @@
          (eql x y))))
 
 (declaim (ftype function
-                char-equal numberp string-equal arrayp hash-table-p error))
+                char-equal string-equal arrayp hash-table-p error))
 
 (defun equalp (x y)
   (cond ((and (characterp x)
@@ -270,8 +270,8 @@
               (consp y))
          (and (equalp (car x) (car y))
               (equalp (cdr x) (cdr y))))
-        ((and (stringp x)
-              (stringp y))
+        ((and (cl:stringp x)
+              (cl:stringp y))
          (string-equal x y))
         ((and (arrayp x)
               (arrayp y))

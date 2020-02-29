@@ -13,7 +13,7 @@
                (:file "lisp/condition")
                (:file "lisp/struct")
                (:file "lisp/symbol")
-               (:file "lisp/type" :if-feature :valtan)
+               (:file "lisp/type")
                (:file "lisp/number" :if-feature :valtan)
                (:file "lisp/array" :if-feature :valtan)
                (:file "lisp/character" :if-feature :valtan)

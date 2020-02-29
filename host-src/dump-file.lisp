@@ -2,6 +2,25 @@
   (:use :cl))
 (in-package :valtan-host.dump-file)
 
+(defun collect-builtin-functions ()
+  (with-open-file (in (asdf:system-relative-pathname :valtan "./kernel/lisp.js"))
+    (loop :with eof := '#:eof
+          :and cl-symbols := '()
+          :and system-symbols := '()
+          :for line := (read-line in nil eof)
+          :until (eq line eof)
+          :do (ppcre:register-groups-bind (package-name function-name)
+                  ("^registerFunction\\((\\w+),\\s*'([^']+)'" line)
+                (when (and package-name function-name)
+                  (cond ((equal "cl_package" package-name)
+                         (push function-name cl-symbols))
+                        ((equal "system_package" package-name)
+                         (push function-name system-symbols))
+                        ((equal "ffi_package" package-name))
+                        (t
+                         (error "unexpected name: ~A" package-name)))))
+          :finally (return (list :common-lisp cl-symbols :system system-symbols)))))
+
 (defun dump-file (file)
   (with-open-file (in file)
     (loop :with eof := '#:eof

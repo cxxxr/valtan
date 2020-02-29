@@ -12,6 +12,9 @@
 (cl:defun system:symbol-function (symbol)
   (cl:symbol-function symbol))
 
+(cl:defun system:symbol-plist (symbol)
+  (cl:symbol-plist symbol))
+
 (cl:defun system:fset (symbol function)
   (cl:setf (cl:symbol-function symbol) function))
 

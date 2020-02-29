@@ -9,6 +9,7 @@
              :%symbol-name
              :symbol-value
              :symbol-function
+             :symbol-plist
              :symbol-package-name
              :fset
              :map-package-symbols
@@ -99,5 +100,5 @@
 
      :declare :declaim :ignore :ftype :function
 
-     :characterp :eq :functionp :symbolp
-     :cons :boundp :fboundp :set)))
+     "CHARACTERP" "EQ" "VALUES" "CONS" "CONSP" "FUNCTIONP" "INTEGERP" "NUMBERP" "LIST-ALL-PACKAGES" "PACKAGEP" "FMAKUNBOUND" "MAKUNBOUND" "SET"
+     "FBOUNDP" "BOUNDP" "SYMBOLP")))
