@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defun make-symbol (string)
   (*:%make-symbol (*:array-to-js-string string)))
@@ -6,6 +9,7 @@
 (defun symbol-name (symbol)
   (*:js-string-to-array (*:%symbol-name symbol)))
 
+(declaim (ftype function find-package))
 (defun symbol-package (symbol)
   (if (eq (*:symbol-package-name symbol) (ffi:ref "null"))
       nil
@@ -16,10 +20,11 @@
        (eq (symbol-package x)
            (find-package :keyword))))
 
+(declaim (ftype function symbol-plist))
 (defun get (symbol indicator &optional default)
   (getf (symbol-plist symbol) indicator default))
 
-(defun (setf symbol-plist) (plist symbol)
+(defun (cl:setf symbol-plist) (plist symbol)
   (*:put-symbol-plist symbol plist))
 
 (defsetf get (symbol indicator &optional default)
@@ -40,10 +45,16 @@
           (setf (symbol-plist symbol) (cddr plist)))
       (return plist))))
 
-(defun (setf symbol-value) (value symbol)
+(defun symbol-value (symbol)
+  (*:symbol-value symbol))
+
+(defun symbol-function (symbol)
+  (*:symbol-function symbol))
+
+(defun (cl:setf symbol-value) (value symbol)
   (set symbol value))
 
-(defun (setf symbol-function) (function symbol)
+(defun (cl:setf symbol-function) (function symbol)
   (*:fset symbol function))
 
 (defvar *gensym-counter* 0)
@@ -58,6 +69,8 @@
                         (incf *gensym-counter*))))))
 
 (defvar *gentemp-counter* 0)
+#-valtan(defvar *package*)
+(declaim (ftype function find-symbol intern))
 
 (defun gentemp (&optional (prefix "T") (package *package*))
   (do ()
@@ -67,6 +80,7 @@
       (unless (find-symbol name package)
         (return (intern name package))))))
 
+(declaim (ftype function string))
 (defun copy-symbol (symbol &optional copy-props)
   (unless (symbolp symbol) (type-error symbol 'symbol))
   (cond (copy-props

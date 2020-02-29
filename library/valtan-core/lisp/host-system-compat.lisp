@@ -1,5 +1,29 @@
 (cl:in-package :valtan-core)
 
+(cl:defun system:%make-symbol (name)
+  (cl:make-symbol name))
+
+(cl:defun system:%symbol-name (symbol)
+  (cl:symbol-name symbol))
+
+(cl:defun system:symbol-value (symbol)
+  (cl:symbol-value symbol))
+
+(cl:defun system:symbol-function (symbol)
+  (cl:symbol-function symbol))
+
+(cl:defun system:fset (symbol function)
+  (cl:setf (cl:symbol-function symbol) function))
+
+(cl:defun system:symbol-package-name (symbol)
+  (cl:package-name (cl:symbol-package symbol)))
+
+(cl:defun system:put-symbol-plist (symbol plist)
+  (cl:setf (cl:symbol-plist symbol) plist))
+
+(cl:defun system:string-append (&rest strings)
+  (cl:apply #'cl:concatenate 'cl:string strings))
+
 (cl:defmacro system:multiple-value-call (function cl:&rest args)
   `(cl:multiple-value-call ,function ,@args))
 
@@ -17,6 +41,10 @@
 
 (cl:defun system:%structure-ref (structure index)
   (cl:declare (cl:ignore structure index))
+  cl:nil)
+
+(cl:defun system:%copy-structure (structure)
+  (cl:declare (cl:ignore structure))
   cl:nil)
 
 (cl:defmacro system:defmacro* (name lambda-list cl:&body body)

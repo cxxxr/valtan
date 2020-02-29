@@ -7,6 +7,8 @@
     (:export :%make-symbol
              :put-symbol-plist
              :%symbol-name
+             :symbol-value
+             :symbol-function
              :symbol-package-name
              :fset
              :map-package-symbols
@@ -97,5 +99,5 @@
 
      :declare :declaim :ignore :ftype :function
 
-     :characterp :eq :functionp :symbolp :symbol-function
-     :cons :fboundp)))
+     :characterp :eq :functionp :symbolp
+     :cons :boundp :fboundp :set)))
