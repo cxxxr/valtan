@@ -27,6 +27,45 @@
 (cl:defun system:string-append (&rest strings)
   (cl:apply #'cl:concatenate 'cl:string strings))
 
+(cl:defun system:%add (x y)
+  (cl:+ x y))
+
+(cl:defun system:%sub (x y)
+  (cl:- x y))
+
+(cl:defun system:%mul (x y)
+  (cl:* x y))
+
+(cl:defun system:%negate (x)
+  (cl:- x))
+
+(cl:defun system:%floor (x y)
+  (values (cl:floor x y)))
+
+(cl:defun system:%rem (x y)
+  (values (cl:rem x y)))
+
+(cl:defun system:%logand (x y)
+  (cl:logand x y))
+
+(cl:defun system:%= (x y)
+  (cl:= x y))
+
+(cl:defun system:%/= (x y)
+  (cl:/= x y))
+
+(cl:defun system:%> (x y)
+  (cl:> x y))
+
+(cl:defun system:%< (x y)
+  (cl:< x y))
+
+(cl:defun system:%>= (x y)
+  (cl:>= x y))
+
+(cl:defun system:%<= (x y)
+  (cl:<= x y))
+
 (cl:defmacro system:multiple-value-call (function cl:&rest args)
   `(cl:multiple-value-call ,function ,@args))
 

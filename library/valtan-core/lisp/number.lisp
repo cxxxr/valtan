@@ -1,4 +1,9 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
+
+(declaim (ftype function type-error))
 
 (macrolet ((def (name op initial-value)
              `(defun ,name (&rest numbers)

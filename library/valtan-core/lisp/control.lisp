@@ -159,7 +159,7 @@
                  (tagbody ,@body))
                (go ,g-start))))
          (let ((,var nil))
-           (declare (ignore ,var))
+           (declare (ignorable ,var))
            ,result)))))
 
 (*:defmacro* case (keyform &rest cases)
