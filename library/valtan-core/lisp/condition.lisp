@@ -1,7 +1,11 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defvar *handler-clusters* '())
 
+(declaim (ftype function make-condition class-of find-class subclassp))
 (defun coerce-to-condition (datum arguments default-condition)
   (cond ((or (stringp datum) (functionp datum))
          (make-condition default-condition
@@ -31,11 +35,13 @@
   (let ((condition (coerce-to-condition datum arguments 'simple-condition)))
     (signal-1 condition)))
 
+(declaim (ftype function princ-to-string))
 (defun invoke-debugger (condition)
   (*:error (ffi:cl->js (princ-to-string condition))))
 
 (defvar *in-error* nil)
 
+(declaim (ftype function format))
 (defun error (datum &rest arguments)
   (if (not (fboundp 'make-instance))
       (*:error (ffi:cl->js (apply #'format nil (princ-to-string datum) arguments)))
@@ -87,42 +93,39 @@
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun gen-handler-case-1 (error-clauses form)
-    (let ((g-form-name (gensym "FORM-"))
-          (fun-names (mapcar (lambda (arg)
-                               (gensym (format nil "FUN-~A-" (car arg))))
-                             error-clauses))
-          (tag-names (mapcar (lambda (arg)
-                               (gensym (format nil "TAG-~A-" (car arg))))
-                             error-clauses))
-          (g-block-name (gensym "BLOCK-"))
-          (g-temp (gensym "TEMP-")))
-      `(flet ((,g-form-name () ,form)
-              ,@(mapcar (lambda (c fun-name)
-                          `(,fun-name ,@(cdr c)))
-                  error-clauses
-                  fun-names))
+    (let ((g-form-name (cl:gensym "FORM-"))
+          (fun-names
+            (cl:mapcar (lambda (arg) (cl:gensym (cl:format nil "FUN-~A-" (cl:car arg))))
+                       error-clauses))
+          (tag-names
+            (cl:mapcar (lambda (arg) (cl:gensym (cl:format nil "TAG-~A-" (cl:car arg))))
+                       error-clauses))
+          (g-block-name (cl:gensym "BLOCK-"))
+          (g-temp (cl:gensym "TEMP-")))
+      `(flet ((,g-form-name ()
+                ,form)
+              ,@(cl:mapcar (lambda (c fun-name) `(,fun-name ,@(cl:cdr c))) error-clauses fun-names))
          (let ((,g-temp))
            (block ,g-block-name
              (tagbody
-               (handler-bind
-                   ,(mapcar (lambda (c tag-name)
-                              (let ((arg (gensym)))
-                                `(,(car c)
-                                  (lambda (,arg)
-                                    (setq ,g-temp ,arg)
-                                    (go ,tag-name)))))
-                            error-clauses
-                            tag-names)
+               (cl:handler-bind ,(cl:mapcar
+                                  (lambda (c tag-name)
+                                    (let ((arg (cl:gensym)))
+                                      `(,(cl:car c)
+                                        (lambda (,arg) (setq ,g-temp ,arg) (go ,tag-name)))))
+                                  error-clauses tag-names)
                  (return-from ,g-block-name (,g-form-name)))
-               ,@(mapcan (lambda (tag-name fun-name error-clause)
-                           `(,tag-name
-                             (return-from ,g-block-name
-                               (,fun-name ,@(if (null (cadr error-clause))
-                                                nil
-                                                `(,g-temp))))))
-                  tag-names
-                  fun-names
-                  error-clauses))))))))
+               ,@(cl:mapcan
+                   (lambda (tag-name fun-name error-clause)
+                     `(,tag-name
+                       (return-from ,g-block-name
+                         (,fun-name
+                          ,@(if (cl:null (cl:cadr error-clause))
+                                nil
+                                `(,g-temp))))))
+                  tag-names fun-names error-clauses))))))))
+
+(declaim (ftype function remove-if find-if))
 
 (defmacro handler-case (form &rest cases)
   (let ((error-clauses
@@ -130,8 +133,8 @@
         (no-error-clause
           (find-if (lambda (c) (eq (car c) :no-error)) cases)))
     (if no-error-clause
-        (let ((g-error-return (gensym "ERROR-RETURN-"))
-              (g-normal-return (gensym "NORMAL-RETURN-")))
+        (let ((g-error-return (cl:gensym "ERROR-RETURN-"))
+              (g-normal-return (cl:gensym "NORMAL-RETURN-")))
           `(block ,g-error-return
              (multiple-value-call (lambda ,@(cdr no-error-clause))
                (block ,g-normal-return
@@ -144,5 +147,6 @@
   `(handler-case (progn ,@forms)
      (error (condition) (values nil condition))))
 
+#+valtan
 (defun print-backtrace (&key (stream *standard-output*))
   (write-string (ffi:js->cl ((ffi:ref "lisp" "getBacktrace"))) stream))

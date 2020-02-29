@@ -10,7 +10,7 @@
                (:file "lisp/setf")
                (:file "lisp/ffi")
                (:file "lisp/cons")
-               (:file "lisp/condition" :if-feature :valtan)
+               (:file "lisp/condition")
                (:file "lisp/struct" :if-feature :valtan)
                (:file "lisp/symbol" :if-feature :valtan)
                (:file "lisp/type" :if-feature :valtan)

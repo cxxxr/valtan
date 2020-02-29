@@ -62,6 +62,7 @@ TODO
                                    (dolist (line
                                             (split-lines
                                              (with-output-to-string (out)
+                                               ;; TODO: パッケージをclではなくvaltan固有のものに変更する
                                                (cl::print-backtrace :stream out))))
                                      (funcall printer line))
                                    (return-from on-eval))))

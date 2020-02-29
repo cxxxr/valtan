@@ -37,6 +37,9 @@
 (cl:defun system:%put (symbol key value)
   (cl:setf (cl:get symbol key) value))
 
+(cl:defun system:error (value)
+  (cl:error value))
+
 (cl:defun js::-object ()
   )
 

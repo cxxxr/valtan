@@ -98,4 +98,4 @@
      :declare :declaim :ignore :ftype :function
 
      :characterp :eq :functionp :symbolp :symbol-function
-     :cons)))
+     :cons :fboundp)))
