@@ -57,7 +57,7 @@
     `(progn
        ,@(cl:unless (cl:null copier-name) `((defun ,copier-name (x) (cl:copy-structure x))))
        ,@(cl:unless (cl:null predicate-name)
-           `((defun ,predicate-name (x) (cl:typep x ',structure-name))))
+           `((defun ,predicate-name (x) (typep x ',structure-name))))
        (defun ,constructor-name
            ,(if (cl:and constructor-option (cl:rest constructor-option))
                 (cl:second constructor-option)
@@ -95,12 +95,12 @@
                   `(progn
                      (defun ,accessor (cl:structure)
                        (cl:unless (*:structure-p cl:structure)
-                         (cl:type-error cl:structure 'cl:structure-object))
+                         (type-error cl:structure 'cl:structure-object))
                        (*:%structure-ref cl:structure ,i))
                      ,@(cl:unless read-only
                          `((defun (cl:setf ,accessor) (value cl:structure)
                              (cl:unless (*:structure-p cl:structure)
-                               (cl:type-error cl:structure 'cl:structure-object))
+                               (type-error cl:structure 'cl:structure-object))
                              (*:%structure-set cl:structure ,i value))))))))
             slot-descriptions))
        (cl:setf (cl:get ',structure-name 'structure-printer)

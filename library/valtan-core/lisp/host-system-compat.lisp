@@ -73,6 +73,10 @@
   (cl:declare (cl:ignore structure))
   cl:nil)
 
+(cl:defun system:make-structure (name &rest args)
+  (cl:declare (cl:ignore name args))
+  cl:nil)
+
 (cl:defun system:%structure-name (structure)
   (cl:declare (cl:ignore structure))
   cl:nil)
@@ -87,6 +91,10 @@
 
 (cl:defun system:%copy-structure (structure)
   (cl:declare (cl:ignore structure))
+  cl:nil)
+
+(cl:defun system:%structure-set (structure index value)
+  (cl:declare (cl:ignore structure index value))
   cl:nil)
 
 (cl:defmacro system:defmacro* (name lambda-list cl:&body body)
