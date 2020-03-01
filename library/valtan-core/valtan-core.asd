@@ -3,7 +3,7 @@
 (defsystem "valtan-core"
   :serial t
   :components ((:file "lisp/valtan-package")
-               (:file "lisp/host-system-compat" :if-feature (:not :valtan))
+               (:file "lisp/host-system-defs" :if-feature (:not :valtan))
                (:file "lisp/constants")
                (:file "lisp/control")
                (:file "lisp/destructuring-bind")

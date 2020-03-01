@@ -118,6 +118,9 @@
 (cl:defun system:error (value)
   (cl:error value))
 
+(cl:defun system:make-raw-string ()
+  )
+
 (cl:defun system:array-to-js-string (array)
   (cl:declare (cl:ignore array)))
 
