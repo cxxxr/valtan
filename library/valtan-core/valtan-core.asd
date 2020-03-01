@@ -4,6 +4,7 @@
   :serial t
   :components ((:file "lisp/valtan-package")
                (:file "lisp/host-system-defs" :if-feature (:not :valtan))
+               (:file "lisp/target-system-defs" :if-feature :valtan)
                (:file "lisp/constants")
                (:file "lisp/control")
                (:file "lisp/destructuring-bind")

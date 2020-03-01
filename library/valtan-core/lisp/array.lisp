@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defstruct (array (:constructor %make-array)
                   (:copier nil)
@@ -36,7 +39,7 @@
 
 (defun make-array-contents-with-initial-contents (size element-type initial-contents)
   (cond ((eq element-type 'character)
-         (let ((js-string (ffi:new (ffi:ref "String"))))
+         (let ((js-string (system:make-raw-string)))
            (map nil
                 (lambda (content)
                   (setq js-string

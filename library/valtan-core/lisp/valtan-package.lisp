@@ -50,6 +50,7 @@
              :error
              :%code-char
              :%char-code
+             :make-raw-string
              :js-array-to-array
              :js-string-to-array
              :array-to-js-string
