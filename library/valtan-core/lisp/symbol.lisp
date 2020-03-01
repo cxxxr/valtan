@@ -33,8 +33,8 @@
     (value)
   (let ((g-value (gensym)))
     `(let ((,g-value ,value))
-       (*:%put ,symbol ,indicator
-                     (progn ,default ,g-value))
+       (*:put ,symbol ,indicator
+              (progn ,default ,g-value))
        ,g-value)))
 
 (defun remprop (symbol indicator)

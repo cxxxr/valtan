@@ -66,7 +66,7 @@
           (list "lisp.CL_setSymbolFunction" (list 2)))
     (setf (gethash (read-from-string "SYSTEM::MAP-PACKAGE-SYMBOLS") table)
           (list "lisp.CL_mapPackageSymbols" (list 2)))
-    (setf (gethash (read-from-string "SYSTEM::%PUT") table) (list "lisp.CL_put" (list 3)))
+    (setf (gethash (read-from-string "SYSTEM::PUT") table) (list "lisp.CL_put" (list 3)))
     (setf (gethash (read-from-string "CL:PACKAGEP") table) (list "lisp.CL_packagep" (list 1)))
     (setf (gethash (read-from-string "SYSTEM::%PACKAGE-NAME") table)
           (list "lisp.CL_packageName" (list 1)))

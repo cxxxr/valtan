@@ -262,7 +262,7 @@
                           (list ,g-store)
                           (list* ,g-setter ,g-store ,gensyms)
                           (list* ,g-getter ,gensyms))))
-              (*:%put ',(second name) '*:fdefinition-setf #',setf-fn)
+              (*:put ',(second name) '*:fdefinition-setf #',setf-fn)
               ',name)))
         ((variable-symbol-p name)
          (if (toplevel-p)
@@ -303,7 +303,7 @@
      (declaim (special ,var))
      ,(when value-p
         `(if (boundp ',var) nil (set ',var ,value)))
-     (*:%put ',var 'special t)
+     (*:put ',var 'special t)
      ',var))
 
 (def-transform defparameter (var value &optional doc)
@@ -311,7 +311,7 @@
   `(progn
      (declaim (special ,var))
      (set ',var ,value)
-     (*:%put ',var 'special t)
+     (*:put ',var 'special t)
      ',var))
 
 (defun expand-quasiquote (x)
@@ -1053,6 +1053,6 @@
   (mapcar (lambda (name)
             (pass1-toplevel
              (if (get-symbol-macro name)
-                 `(*:%put ',name 'symbol-macro ,(get-symbol-macro name))
-                 `(*:%put ',name 'macro ,(get-macro name)))))
+                 `(*:put ',name 'symbol-macro ,(get-symbol-macro name))
+                 `(*:put ',name 'macro ,(get-macro name)))))
           macro-definitions))

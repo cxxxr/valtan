@@ -12,7 +12,7 @@
            :symbol-package-name
            :fset
            :map-package-symbols
-           :%put
+           :put
            :%package-name
            :%package-nicknames
            :intern

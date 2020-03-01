@@ -112,7 +112,7 @@
 (cl:defun system:%rplacd (cons x)
   (cl:rplacd cons x))
 
-(cl:defun system:%put (symbol key value)
+(cl:defun system:put (symbol key value)
   (cl:setf (cl:get symbol key) value))
 
 (cl:defun system:error (value)

@@ -63,9 +63,9 @@
   (cl:cond
    ((cl:and (cl:first cl:rest) (cl:or (symbolp (cl:first cl:rest)) (functionp (cl:first cl:rest))))
     (cl:setf (cl:get access-fn 'setf-expander) (cl:first cl:rest))
-    `(progn (*:%put ',access-fn 'setf-expander ',(cl:first cl:rest)) ',access-fn))
+    `(progn (*:put ',access-fn 'setf-expander ',(cl:first cl:rest)) ',access-fn))
    (t (cl:setf (cl:get access-fn 'setf-expander) cl:rest)
-    `(progn (*:%put ',access-fn 'setf-expander ',cl:rest) ',access-fn))))
+    `(progn (*:put ',access-fn 'setf-expander ',cl:rest) ',access-fn))))
 
 (defmacro define-setf-expander (access-fn lambda-list &body body)
   (cl:unless (symbolp access-fn)
@@ -74,7 +74,7 @@
     (cl:setf (cl:get access-fn 'setf-expander)
                (cl:eval `(lambda (,g-rest) (cl:destructuring-bind ,lambda-list ,g-rest ,@body))))
     `(progn
-      (*:%put ',access-fn 'setf-expander
+      (*:put ',access-fn 'setf-expander
        (lambda (,g-rest) (cl:destructuring-bind ,lambda-list ,g-rest ,@body)))
       ',access-fn)))
 

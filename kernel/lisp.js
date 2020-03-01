@@ -199,7 +199,7 @@ registerFunction(system_package, 'SYMBOL-NAME', CL_symbolName, 1);
 registerFunction(system_package, 'SYMBOL-PACKAGE-NAME', CL_symbolPackage, 1);
 registerFunction(system_package, 'FSET', CL_setSymbolFunction, 2);
 registerFunction(system_package, 'MAP-PACKAGE-SYMBOLS', CL_mapPackageSymbols, 2);
-registerFunction(system_package, '%PUT', CL_put, 3);
+registerFunction(system_package, 'PUT', CL_put, 3);
 
 // package.js
 registerFunction(cl_package, 'PACKAGEP', CL_packagep, 1);
