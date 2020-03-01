@@ -35,6 +35,7 @@
                (:file "lisp/catch-throw" :if-feature :valtan)
                (:file "compiler/packages" :if-feature :valtan)
                (:file "compiler/variables" :if-feature :valtan)
+               (:file "compiler/parse-body" :if-feature :valtan)
                (:file "compiler/util" :if-feature :valtan)
                (:file "compiler/error" :if-feature :valtan)
                (:file "compiler/hir" :if-feature :valtan)
