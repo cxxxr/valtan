@@ -37,7 +37,7 @@
 
 (defun package-nicknames (package)
   (mapcar #'*:js-string-to-array
-          (*:js-array-to-list (*:%package-nicknames (ensure-package package)))))
+          (*:js-array-to-list (*:package-nicknames (ensure-package package)))))
 
 (defun intern (name &optional (package *package*))
   (*:intern (*:array-to-js-string name)

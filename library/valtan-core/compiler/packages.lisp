@@ -14,7 +14,7 @@
            :map-package-symbols
            :put
            :package-name
-           :%package-nicknames
+           :package-nicknames
            :intern
            :find-symbol
            :make-package

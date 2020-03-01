@@ -70,7 +70,7 @@
     (setf (gethash (read-from-string "CL:PACKAGEP") table) (list "lisp.CL_packagep" (list 1)))
     (setf (gethash (read-from-string "SYSTEM::PACKAGE-NAME") table)
           (list "lisp.CL_packageName" (list 1)))
-    (setf (gethash (read-from-string "SYSTEM::%PACKAGE-NICKNAMES") table)
+    (setf (gethash (read-from-string "SYSTEM::PACKAGE-NICKNAMES") table)
           (list "lisp.CL_packageNicknames" (list 1)))
     (setf (gethash (read-from-string "CL:LIST-ALL-PACKAGES") table)
           (list "lisp.CL_listAllPackages" (list 0)))
