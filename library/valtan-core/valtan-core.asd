@@ -2,7 +2,9 @@
 
 (defsystem "valtan-core"
   :serial t
-  :components ((:file "lisp/valtan-package")
+  :components ((:file "lisp/defpackage" :if-feature :valtan)
+               (:file "lisp/valtan-package")
+               (:file "lisp/compiler-utils" :if-feature (:not :valtan))
                (:file "lisp/host-system-defs" :if-feature (:not :valtan))
                (:file "lisp/target-system-defs" :if-feature :valtan)
                (:file "lisp/constants")

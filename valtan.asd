@@ -1,7 +1,8 @@
 (defsystem "valtan"
   :depends-on ("cl-ppcre"
                #+linux "inotify"
-               "remote-js")
+               "remote-js"
+               "valtan-core")
   :components ((:module "target"
                 :serial t
                 :pathname "library/valtan-core/compiler"

@@ -201,6 +201,7 @@ export const system_package = makePackage('SYSTEM');
 export const ffi_package = makePackage('FFI');
 export const keyword_package = makePackage('KEYWORD');
 export const cl_user_package = makePackage('COMMON-LISP-USER', ['CL-USER', 'VALTAN-USER'], ['COMMON-LISP']);
+makePackage('COMPILER');
 current_package = intern('*PACKAGE*', cl_package);
 current_package.plist = S_nil;
 setSymbolValue(current_package, cl_user_package);
