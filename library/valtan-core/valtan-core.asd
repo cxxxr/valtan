@@ -33,7 +33,6 @@
                (:file "lisp/clos" :if-feature :valtan)
                (:file "lisp/restart" :if-feature :valtan)
                (:file "lisp/catch-throw" :if-feature :valtan)
-               (:file "compiler/packages")
                (:file "compiler/variables")
                (:file "compiler/parse-body")
                (:file "compiler/util")
