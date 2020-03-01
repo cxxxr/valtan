@@ -8,7 +8,7 @@
   (:use)
   (:export :make-symbol
            :put-symbol-plist
-           :%symbol-name
+           :symbol-name
            :symbol-package-name
            :fset
            :map-package-symbols

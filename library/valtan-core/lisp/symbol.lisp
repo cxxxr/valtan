@@ -7,7 +7,7 @@
   (*:make-symbol (*:array-to-js-string string)))
 
 (defun symbol-name (symbol)
-  (*:js-string-to-array (*:%symbol-name symbol)))
+  (*:js-string-to-array (*:symbol-name symbol)))
 
 (declaim (ftype function find-package))
 (defun symbol-package (symbol)

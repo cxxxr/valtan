@@ -6,7 +6,7 @@
     (:use)
     (:export :make-symbol
              :put-symbol-plist
-             :%symbol-name
+             :symbol-name
              :symbol-value
              :symbol-function
              :symbol-plist

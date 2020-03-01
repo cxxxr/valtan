@@ -3,7 +3,7 @@
 (cl:defun system:make-symbol (name)
   (cl:make-symbol name))
 
-(cl:defun system:%symbol-name (symbol)
+(cl:defun system:symbol-name (symbol)
   (cl:symbol-name symbol))
 
 (cl:defun system:symbol-value (symbol)
