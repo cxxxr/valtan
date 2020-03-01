@@ -33,7 +33,7 @@
         package)))
 
 (defun package-name (package)
-  (*:js-string-to-array (*:%package-name (ensure-package package))))
+  (*:js-string-to-array (*:package-name (ensure-package package))))
 
 (defun package-nicknames (package)
   (mapcar #'*:js-string-to-array

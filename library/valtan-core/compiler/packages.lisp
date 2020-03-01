@@ -13,7 +13,7 @@
            :fset
            :map-package-symbols
            :put
-           :%package-name
+           :package-name
            :%package-nicknames
            :intern
            :find-symbol
