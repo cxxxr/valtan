@@ -4,7 +4,7 @@
   (defpackage :system
     (:nicknames :*)
     (:use)
-    (:export :%make-symbol
+    (:export :make-symbol
              :put-symbol-plist
              :%symbol-name
              :symbol-value

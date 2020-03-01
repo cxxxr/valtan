@@ -43,7 +43,7 @@
 (defparameter *builtin-function-table*
   (let ((table (make-hash-table)))
     (setf (gethash (read-from-string "CL:SYMBOLP") table) (list "lisp.CL_symbolp" (list 1)))
-    (setf (gethash (read-from-string "SYSTEM::%MAKE-SYMBOL") table)
+    (setf (gethash (read-from-string "SYSTEM::MAKE-SYMBOL") table)
           (list "lisp.CL_makeSymbol" (list 1)))
     (setf (gethash (read-from-string "CL:SYMBOL-PLIST") table)
           (list "lisp.CL_symbolPlist" (list 1)))

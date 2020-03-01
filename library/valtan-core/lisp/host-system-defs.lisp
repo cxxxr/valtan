@@ -1,6 +1,6 @@
 (cl:in-package :valtan-core)
 
-(cl:defun system:%make-symbol (name)
+(cl:defun system:make-symbol (name)
   (cl:make-symbol name))
 
 (cl:defun system:%symbol-name (symbol)

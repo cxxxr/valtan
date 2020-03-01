@@ -4,7 +4,7 @@
 (in-package :valtan-core)
 
 (defun make-symbol (string)
-  (*:%make-symbol (*:array-to-js-string string)))
+  (*:make-symbol (*:array-to-js-string string)))
 
 (defun symbol-name (symbol)
   (*:js-string-to-array (*:%symbol-name symbol)))

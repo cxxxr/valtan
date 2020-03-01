@@ -185,7 +185,7 @@ function registerFunction(pkg, name, fn, min = 0, max = min) {
 
 // symbol.js
 registerFunction(cl_package, 'SYMBOLP', CL_symbolp, 1);
-registerFunction(system_package, '%MAKE-SYMBOL', CL_makeSymbol, 1);
+registerFunction(system_package, 'MAKE-SYMBOL', CL_makeSymbol, 1);
 registerFunction(system_package, 'SYMBOL-PLIST', CL_symbolPlist, 1);
 registerFunction(system_package, 'PUT-SYMBOL-PLIST', CL_setSymbolPlist, 2);
 registerFunction(cl_package, 'BOUNDP', CL_boundp, 1);
