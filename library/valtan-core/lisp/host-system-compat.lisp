@@ -118,6 +118,18 @@
 (cl:defun system:error (value)
   (cl:error value))
 
+(cl:defun system:array-to-js-string (array)
+  (cl:declare (cl:ignore array)))
+
+(cl:defun system:js-string-to-array (js-string)
+  (cl:declare (cl:ignore js-string)))
+
+(cl:defun system:js-array-to-array (js-array)
+  (cl:declare (cl:ignore js-array)))
+
+(cl:defun array-contents (x)
+  (cl:declare (cl:ignore x)))
+
 (cl:defun js::-object ()
   )
 
@@ -138,15 +150,3 @@
 
 (cl:defun ffi:instanceof (value instance)
   (cl:declare (cl:ignore value instance)))
-
-(cl:defun *:array-to-js-string (array)
-  (cl:declare (cl:ignore array)))
-
-(cl:defun *:js-string-to-array (js-string)
-  (cl:declare (cl:ignore js-string)))
-
-(cl:defun *:js-array-to-array (js-array)
-  (cl:declare (cl:ignore js-array)))
-
-(cl:defun array-contents (x)
-  (cl:declare (cl:ignore x)))
