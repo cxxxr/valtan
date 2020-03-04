@@ -121,6 +121,30 @@
 (cl:defun system:make-raw-string ()
   )
 
+(cl:defun system:expand-raw-string (raw-string n)
+  (cl:declare (cl:ignore raw-string n)))
+
+(cl:defun system:code-to-raw-string (code)
+  (cl:declare (cl:ignore code)))
+
+(cl:defun system:sub-raw-string/2 (raw-string start)
+  (cl:declare (cl:ignore raw-string start)))
+
+(cl:defun system:sub-raw-string/3 (raw-string start end)
+  (cl:declare (cl:ignore raw-string start end)))
+
+(cl:defun system:concat-raw-string/3 (raw-string-1 raw-string-2)
+  (cl:declare (cl:ignore raw-string-1 raw-string-2)))
+
+(cl:defun system:concat-raw-string/3 (raw-string-1 raw-string-2 raw-string-3)
+  (cl:declare (cl:ignore raw-string-1 raw-string-2 raw-string-3)))
+
+(cl:defun system:make-raw-array (size)
+  (cl:declare (cl:ignore size)))
+
+(cl:defun system:fill-raw-array (raw-array element)
+  (cl:declare (cl:ignore raw-array element)))
+
 (cl:defun system:array-to-js-string (array)
   (cl:declare (cl:ignore array)))
 

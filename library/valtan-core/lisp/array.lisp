@@ -37,36 +37,41 @@
              initial-contents-length
              dimensions))))
 
+(declaim (ftype function map elt))
+
 (defun make-array-contents-with-initial-contents (size element-type initial-contents)
   (cond ((eq element-type 'character)
-         (let ((js-string (system:make-raw-string)))
-           (map nil
-                (lambda (content)
-                  (setq js-string
-                        ((ffi:ref js-string "concat")
-                         (*:array-to-js-string (string content)))))
-                initial-contents)
-           js-string))
+         (let* ((len (length initial-contents))
+                (raw-string (system:make-raw-string)))
+           (do ((i 0 (1+ i)))
+               ((>= i len))
+             (setq raw-string
+                   (system:concat-raw-string/2 raw-string
+                                               (system:array-to-js-string
+                                                (string (elt initial-contents i))))))
+           raw-string))
         (t
-         (let ((js-array (ffi:new (ffi:ref "Array") size))
+         (let ((raw-array (system:make-raw-array size))
                (i 0))
            (map nil
                 (lambda (content)
-                  (ffi:set (ffi:aget js-array i) content)
+                  (ffi:set (ffi:aget raw-array i) content)
                   (incf i))
                 initial-contents)
-           js-array))))
+           raw-array))))
+
+(declaim (ftype function char-code))
 
 (defun make-array-contents-with-initial-element (size element-type initial-element initial-element-p)
   (cond ((eq element-type 'character)
-         ((ffi:ref ((ffi:ref "String" "fromCharCode")
-                    (if initial-element-p
-                        (char-code initial-element)
-                        0))
-                   "repeat")
-          size))
+         (system:expand-raw-string (system:code-to-raw-string
+                                    (if initial-element-p
+                                        (char-code initial-element)
+                                        0))
+                                   size))
         (t
-         ((ffi:ref (ffi:new (ffi:ref "Array") size) "fill") initial-element))))
+         (system:fill-raw-array (system:make-raw-array size)
+                                initial-element))))
 
 (defun make-array (dimensions &key (element-type t)
                                    (initial-element nil initial-element-p)
@@ -75,6 +80,7 @@
                                    fill-pointer
                                    displaced-to
                                    displaced-index-offset)
+  (declare (ignore adjustable displaced-to displaced-index-offset))
   (when (and (consp dimensions) (cdr dimensions))
     (error "error"))
   (when (listp dimensions)
@@ -119,18 +125,18 @@
                :length (ffi:ref js-array "length")
                :element-type t))
 
-(defun *:js-string-to-array (js-string)
-  (simple-make-string js-string))
-
 (defun simple-make-string (js-string)
   (%make-array :contents js-string
                :rank 1
                :length (ffi:ref js-string "length")
                :element-type 'character))
 
+(defun *:js-string-to-array (js-string)
+  (simple-make-string js-string))
+
 (defun *:array-to-js-string (array)
   (if (array-fill-pointer array)
-      ((ffi:ref (array-contents array) "substring") 0 (array-fill-pointer array))
+      (system:sub-raw-string/3 (array-contents array) 0 (array-fill-pointer array))
       (array-contents array)))
 
 (defun vector (&rest args)
@@ -140,7 +146,7 @@
 (defun fill-pointer (array)
   (array-fill-pointer array))
 
-(defun (setf fill-pointer) (fill-pointer array)
+(defun (cl:setf fill-pointer) (fill-pointer array)
   (setf (array-fill-pointer array) fill-pointer))
 
 (defun array-dimension (array axis-number)
@@ -154,7 +160,7 @@
     (error "index error"))
   (ffi:aget (array-contents array) sub))
 
-(defun (setf aref) (value array sub)
+(defun (cl:setf aref) (value array sub)
   (unless (arrayp array)
     (type-error array 'array))
   (when (or (< sub 0) (<= (array-length array) sub))
@@ -163,10 +169,9 @@
          (unless (characterp value)
            (type-error value 'character))
          (setf (array-contents array)
-               ((ffi:ref ((ffi:ref (array-contents array) "substring") 0 sub)
-                         "concat")
-                value
-                ((ffi:ref (array-contents array) "substring") (1+ sub))))
+               (system:concat-raw-string/3 (system:sub-raw-string/3 (array-contents array) 0 sub)
+                                           value
+                                           (system:sub-raw-string/2 (array-contents array) (1+ sub))))
          value)
         (t
          (ffi:set (ffi:aget (array-contents array) sub) value))))
@@ -174,7 +179,7 @@
 (defun svref (vector index)
   (aref vector index))
 
-(defun (setf svref) (value vector index)
+(defun (cl:setf svref) (value vector index)
   (setf (aref vector index) value))
 
 (defun vectorp (x)

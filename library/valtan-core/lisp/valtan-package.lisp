@@ -75,6 +75,14 @@
            :%code-char
            :%char-code
            :make-raw-string
+           :expand-raw-string
+           :code-to-raw-string
+           :sub-raw-string/2
+           :sub-raw-string/3
+           :concat-raw-string/2
+           :concat-raw-string/3
+           :make-raw-array
+           :fill-raw-array
            :js-array-to-array
            :js-string-to-array
            :array-to-js-string
