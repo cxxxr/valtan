@@ -64,11 +64,17 @@
 
 (defun make-array-contents-with-initial-element (size element-type initial-element initial-element-p)
   (cond ((eq element-type 'character)
-         (system:expand-raw-string (system:code-to-raw-string
-                                    (if initial-element-p
-                                        (char-code initial-element)
-                                        0))
-                                   size))
+         (let ((initial-raw-string
+                 (system:code-to-raw-string
+                  (if initial-element-p
+                      (char-code initial-element)
+                      0)))
+               (raw-string (system:make-raw-string)))
+           (do ((i 0 (1+ i)))
+               ((>= i size))
+             (setq raw-string
+                   (system:concat-raw-string/2 raw-string initial-raw-string)))
+           raw-string))
         (t
          (system:fill-raw-array (system:make-raw-array size)
                                 initial-element))))
