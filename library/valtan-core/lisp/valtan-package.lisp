@@ -2,6 +2,9 @@
   (:use :cl)
   (:export :compile-toplevel))
 
+;; TODO:
+(cl:defvar compiler::*in-host-runtime* nil)
+
 (cl:defpackage :ffi
   (:use)
   (:export #:instanceof

@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defun find-all-symbols (name)
   (let ((symbols '()))
@@ -61,7 +64,7 @@
 (defmacro defpackage (package &body options)
   (when compiler::*in-host-runtime*
     ;; ホスト側のsbclで定義しないとin-packageもエラーになる
-    (eval `(defpackage ,package ,@options)))
+    (cl:eval `(defpackage ,package ,@options)))
   (let ((export (cdr (assoc :export options)))
         (use (cdr (assoc :use options)))
         (nicknames (cdr (assoc :nicknames options))))

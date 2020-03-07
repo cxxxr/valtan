@@ -24,7 +24,7 @@
                (:file "lisp/function")
                (:file "lisp/sequence")
                (:file "lisp/hashtable")
-               (:file "lisp/package" :if-feature :valtan)
+               (:file "lisp/package")
                (:file "lisp/stream" :if-feature :valtan)
                (:file "lisp/print" :if-feature :valtan)
                (:file "lisp/read" :if-feature :valtan)
