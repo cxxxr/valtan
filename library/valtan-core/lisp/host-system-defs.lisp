@@ -148,7 +148,6 @@
   (cl:char-code char))
 
 
-;;;
 (cl:defmacro system:defmacro* (name lambda-list cl:&body body)
   `(cl:defmacro ,name ,lambda-list ,@body))
 
@@ -209,15 +208,21 @@
 (cl:defun system:js-array-to-array (js-array)
   (cl:declare (cl:ignore js-array)))
 
+
 (cl:defun array-contents (x)
   (cl:declare (cl:ignore x)))
 
+
 (cl:defun js::-object ()
   )
 
 (cl:defun js::eval (x)
   (cl:declare (cl:ignore x)))
 
+(cl:defun js::console.log (raw-string)
+  (cl:declare (cl:ignore raw-string)))
+
+
 (cl:defun ffi:set (var value)
   (cl:declare (cl:ignore var value)))
 
