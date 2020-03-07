@@ -81,6 +81,8 @@
            :sub-raw-string/3
            :concat-raw-string/2
            :concat-raw-string/3
+           :raw-string-upcase
+           :raw-string-downcase
            :make-raw-array
            :fill-raw-array
            :js-array-to-array

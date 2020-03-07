@@ -20,7 +20,7 @@
                (:file "lisp/number")
                (:file "lisp/array")
                (:file "lisp/character")
-               (:file "lisp/string" :if-feature :valtan)
+               (:file "lisp/string")
                (:file "lisp/function" :if-feature :valtan)
                (:file "lisp/sequence" :if-feature :valtan)
                (:file "lisp/hashtable" :if-feature :valtan)

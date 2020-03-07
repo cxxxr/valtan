@@ -21,6 +21,12 @@
 (cl:defun system:concat-raw-string/3 (raw-string-1 raw-string-2 raw-string-3)
   ((ffi:ref raw-string-1 "concat") raw-string-2 raw-string-3))
 
+(cl:defun system:raw-string-upcase (raw-string)
+  ((ffi:ref raw-string "toUpperCase") raw-string))
+
+(cl:defun system:raw-string-downcase (raw-string)
+  ((ffi:ref raw-string "toLowerCase") raw-string))
+
 (cl:defun system:make-raw-array (size)
   (ffi:new (ffi:ref "Array") size))
 

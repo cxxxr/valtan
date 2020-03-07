@@ -145,6 +145,12 @@
 (cl:defun system:concat-raw-string/3 (raw-string-1 raw-string-2 raw-string-3)
   (cl:declare (cl:ignore raw-string-1 raw-string-2 raw-string-3)))
 
+(cl:defun system:raw-string-upcase (raw-string)
+  (cl:declare (cl:ignore raw-string)))
+
+(cl:defun system:raw-string-downcase (raw-string)
+  (cl:declare (cl:ignore raw-string)))
+
 (cl:defun system:make-raw-array (size)
   (cl:declare (cl:ignore size)))
 

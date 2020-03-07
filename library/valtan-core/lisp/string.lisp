@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defun stringp (x)
   (and (arrayp x)
@@ -13,7 +16,7 @@
   (cond ((stringp x)
          x)
         ((characterp x)
-         (*:js-string-to-array ((ffi:ref "String" "fromCharCode") (char-code x))))
+         (*:js-string-to-array (*:code-to-raw-string (char-code x))))
         ((symbolp x)
          (symbol-name x))
         (t
@@ -25,35 +28,35 @@
   (unless (stringp y)
     (type-error y 'string))
   (*:js-string-to-array
-   ((ffi:ref (*:array-to-js-string x) "concat")
-    (*:array-to-js-string y))))
+   (*:concat-raw-string/2 (*:array-to-js-string x)
+                          (*:array-to-js-string y))))
 
 (defun *:string-append* (string &rest strings)
   (dolist (s strings)
     (setq string (*:string-append string s)))
   string)
 
+(declaim (ftype function subseq))
+
 (defun string-upcase (string &key (start 0) end)
   (setq string (string string))
   (unless end (setq end (length string)))
   (if (and (= start 0) (= end (length string)))
-      (*:js-string-to-array ((ffi:ref (*:array-to-js-string string) "toUpperCase")))
+      (*:js-string-to-array (*:raw-string-upcase (*:array-to-js-string string)))
       (*:string-append* (subseq string 0 start)
-                              (*:js-string-to-array
-                               ((ffi:ref (*:array-to-js-string (subseq string start end))
-                                         "toUpperCase")))
-                              (subseq string end))))
+                        (*:js-string-to-array
+                         (*:raw-string-upcase (*:array-to-js-string (subseq string start end))))
+                        (subseq string end))))
 
 (defun string-downcase (string &key (start 0) end)
   (setq string (string string))
   (unless end (setq end (length string)))
   (if (and (= start 0) (= end (length string)))
-      (*:js-string-to-array ((ffi:ref (*:array-to-js-string string) "toLowerCase")))
+      (*:js-string-to-array (*:raw-string-downcase (*:array-to-js-string string)))
       (*:string-append* (subseq string 0 start)
-                              (*:js-string-to-array
-                               ((ffi:ref (*:array-to-js-string (subseq string start end))
-                                         "toLowerCase")))
-                              (subseq string end))))
+                        (*:js-string-to-array
+                         (*:raw-string-downcase (*:array-to-js-string (subseq string start end))))
+                        (subseq string end))))
 
 (defun string-capitalize (string &key (start 0) end)
   (setq string (string string))
@@ -102,6 +105,8 @@
               (first
                (setq first nil)))))
     string))
+
+(declaim (ftype function find))
 
 (defun start-position-with-bag (character-bag string)
   (let ((length (length string)))
@@ -211,7 +216,7 @@
 (defun char (string index)
   (aref string index))
 
-(defun (setf char) (char string index)
+(defun (cl:setf char) (char string index)
   (unless (characterp char)
     (type-error char 'character))
   (setf (aref string index) char))
@@ -219,7 +224,7 @@
 (defun schar (string index)
   (aref string index))
 
-(defun (setf schar) (char string index)
+(defun (cl:setf schar) (char string index)
   (unless (characterp char)
     (type-error char 'character))
   (setf (aref string index) char))
