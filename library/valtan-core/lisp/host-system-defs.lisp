@@ -209,10 +209,6 @@
   (cl:declare (cl:ignore js-array)))
 
 
-(cl:defun array-contents (x)
-  (cl:declare (cl:ignore x)))
-
-
 (cl:defun js::-object ()
   )
 
