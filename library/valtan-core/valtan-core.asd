@@ -22,7 +22,7 @@
                (:file "lisp/character")
                (:file "lisp/string")
                (:file "lisp/function")
-               (:file "lisp/sequence" :if-feature :valtan)
+               (:file "lisp/sequence")
                (:file "lisp/hashtable" :if-feature :valtan)
                (:file "lisp/package" :if-feature :valtan)
                (:file "lisp/stream" :if-feature :valtan)

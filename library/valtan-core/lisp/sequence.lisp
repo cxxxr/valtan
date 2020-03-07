@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defun check-both-bounds (start end length)
   (when (or (< length start) (and end (< length end)))
@@ -54,7 +57,7 @@
         (t
          (type-error sequence 'sequence))))
 
-(defun (setf elt) (value sequence index)
+(defun (cl:setf elt) (value sequence index)
   (cond ((consp sequence)
          (let ((result (nthcdr index sequence)))
            (rplaca result value)))
@@ -147,7 +150,7 @@
         (t
          (type-error sequence 'sequence))))
 
-(defun (setf subseq) (new-subsequence sequence start &optional end)
+(defun (cl:setf subseq) (new-subsequence sequence start &optional end)
   (replace sequence new-subsequence :start1 start :end1 end)
   new-subsequence)
 
@@ -726,10 +729,10 @@
           (args (if (consp result-type) (cdr result-type) nil)))
       (case name
         (null
-         (if (null merged-list)
-             merged-list
+         (if (null list)
+             list
              (error 'type-error
-                    :datum merged-list
+                    :datum list
                     :expected-type 'null)))
         ((list cons)
          list)
