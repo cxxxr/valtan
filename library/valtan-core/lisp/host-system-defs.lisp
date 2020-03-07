@@ -160,6 +160,21 @@
 (cl:defun system:fill-raw-array (raw-array element)
   (cl:declare (cl:ignore raw-array element)))
 
+(cl:defun system:make-map ()
+  )
+
+(cl:defun system:map-get (map key)
+  (cl:declare (cl:ignore map key)))
+
+(cl:defun system:map-set (map key value)
+  (cl:declare (cl:ignore map key value)))
+
+(cl:defun system:map-length (map)
+  (cl:declare (cl:ignore map)))
+
+(cl:defun system:map-clear (map)
+  (cl:declare (cl:ignore map)))
+
 (cl:defun system:array-to-js-string (array)
   (cl:declare (cl:ignore array)))
 

@@ -85,6 +85,11 @@
            :raw-string-downcase
            :make-raw-array
            :fill-raw-array
+           :make-map
+           :map-get
+           :map-set
+           :map-length
+           :map-clear
            :js-array-to-array
            :js-string-to-array
            :array-to-js-string

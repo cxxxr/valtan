@@ -1,20 +1,7 @@
+#+valtan
 (in-package :common-lisp)
-
-#+(or)
-(export '(hash-table
-          hash-table-p
-          hash-table-test
-          hash-table-size
-          hash-table-rehash-size
-          hash-table-rehash-threshold
-          make-hash-table
-          hash-table-count
-          gethash
-          remhash
-          maphash
-          with-hash-table-iterator
-          clrhash
-          sxhash))
+#-valtan
+(in-package :valtan-core)
 
 ;;; XXX: jsのMapを使っているのでhash-tableのtestがequal, equalpの場合に機能しない
 
@@ -30,7 +17,7 @@
 
 (defun make-hash-table (&key test size rehash-size rehash-threshold)
   (declare (ignore size))
-  (%make-hash-table :object (ffi:new (ffi:ref "Map"))
+  (%make-hash-table :object (system:make-map)
                     :test test
                     ;; :size size
                     :rehash-size rehash-size
@@ -40,16 +27,17 @@
   (hash-table-count hash-table))
 
 (defun hash-table-count (hash-table)
-  (ffi:ref (hash-table-object hash-table) "size"))
+  (system:map-length (hash-table-object hash-table)))
 
 (defun gethash (key hash-table &optional default)
-  (let ((value ((ffi:ref (hash-table-object hash-table) "get") key)))
-    (if (eq value (ffi:ref "undefined"))
-        (values default nil)
-        (values value t))))
+  (multiple-value-bind (value found)
+      (system:map-get (hash-table-object hash-table) key)
+    (values (if found value default)
+            found)))
 
-(defun (setf gethash) (value key hash-table &optional default)
-  ((ffi:ref (hash-table-object hash-table) "set") key value)
+(defun (cl:setf gethash) (value key hash-table &optional default)
+  (declare (ignore default))
+  (system:map-set (hash-table-object hash-table) key value)
   (push key (hash-table-keys hash-table))
   value)
 
@@ -64,8 +52,9 @@
   (let* ((object (hash-table-object hash-table))
          (keys (hash-table-keys hash-table)))
     (dolist (key keys)
-      (let ((value ((ffi:ref object "get") key)))
-        (unless (eq value (ffi:ref "undefined"))
+      (multiple-value-bind (value found)
+          (system:map-get object key)
+        (when found
           (funcall function key value)))))
   nil)
 
@@ -74,5 +63,5 @@
   )
 
 (defun clrhash (hash-table)
-  ((ffi:ref (hash-table-object hash-table) "clear"))
+  (system:map-clear (hash-table-object hash-table))
   hash-table)

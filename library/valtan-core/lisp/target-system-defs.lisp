@@ -32,3 +32,22 @@
 
 (cl:defun system:fill-raw-array (raw-array element)
   ((ffi:ref raw-array "fill") element))
+
+(cl:defun system:make-map ()
+  (ffi:new (ffi:ref "Map")))
+
+(cl:defun system:map-get (map key)
+  (let ((value ((ffi:ref map "get") key)))
+    (values value
+            (if (eq value (ffi:ref "undefined"))
+                nil
+                t))))
+
+(cl:defun system:map-set (map key value)
+  ((ffi:ref map "set") key value))
+
+(cl:defun system:map-length (map)
+  (ffi:ref map "size"))
+
+(cl:defun system:map-clear (map)
+  ((ffi:ref map "clear")))
