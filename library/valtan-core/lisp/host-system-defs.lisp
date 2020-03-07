@@ -24,9 +24,6 @@
 (cl:defun system:put-symbol-plist (symbol plist)
   (cl:setf (cl:symbol-plist symbol) plist))
 
-(cl:defun system:string-append (&rest strings)
-  (cl:apply #'cl:concatenate 'cl:string strings))
-
 (cl:defun system:%add (x y)
   (cl:+ x y))
 
