@@ -8,7 +8,7 @@
 (defstruct (hash-table (:copier nil)
                        (:predicate hash-table-p)
                        (:constructor %make-hash-table))
-  object
+  map
   (keys nil)
   (test nil :read-only t)
   ;; (size nil :read-only t)
@@ -17,7 +17,7 @@
 
 (defun make-hash-table (&key test size rehash-size rehash-threshold)
   (declare (ignore size))
-  (%make-hash-table :object (system:make-map)
+  (%make-hash-table :map (system:make-map)
                     :test test
                     ;; :size size
                     :rehash-size rehash-size
@@ -27,17 +27,17 @@
   (hash-table-count hash-table))
 
 (defun hash-table-count (hash-table)
-  (system:map-length (hash-table-object hash-table)))
+  (system:map-length (hash-table-map hash-table)))
 
 (defun gethash (key hash-table &optional default)
   (multiple-value-bind (value found)
-      (system:map-get (hash-table-object hash-table) key)
+      (system:map-get (hash-table-map hash-table) key)
     (values (if found value default)
             found)))
 
 (defun (cl:setf gethash) (value key hash-table &optional default)
   (declare (ignore default))
-  (system:map-set (hash-table-object hash-table) key value)
+  (system:map-set (hash-table-map hash-table) key value)
   (push key (hash-table-keys hash-table))
   value)
 
@@ -49,11 +49,11 @@
     found))
 
 (defun maphash (function hash-table)
-  (let* ((object (hash-table-object hash-table))
+  (let* ((map (hash-table-map hash-table))
          (keys (hash-table-keys hash-table)))
     (dolist (key keys)
       (multiple-value-bind (value found)
-          (system:map-get object key)
+          (system:map-get map key)
         (when found
           (funcall function key value)))))
   nil)
@@ -63,5 +63,5 @@
   )
 
 (defun clrhash (hash-table)
-  (system:map-clear (hash-table-object hash-table))
+  (system:map-clear (hash-table-map hash-table))
   hash-table)
