@@ -115,11 +115,17 @@
 (cl:defun system:%rplacd (cons x)
   (cl:rplacd cons x))
 
+(cl:defun system:list-to-js-array (list)
+  (cl:declare (cl:ignore list)))
+
 (cl:defun system:put (symbol key value)
   (cl:setf (cl:get symbol key) value))
 
 (cl:defun system:error (value)
   (cl:error value))
+
+(cl:defun system:apply (function args)
+  (cl:apply function args))
 
 (cl:defun system:make-raw-string ()
   )

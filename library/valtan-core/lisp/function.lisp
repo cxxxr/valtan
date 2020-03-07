@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defun funcall (function &rest args)
   (let ((function (ensure-function function)))
@@ -31,11 +34,12 @@
              (symbol-function x)))
       (error "The function ~S is undefined." x)))
 
-(defun (setf fdefinition) (function x)
+(defun (cl:setf fdefinition) (function x)
   (or (cond ((consp x)
              (when (eq 'setf (car x))
-               (setf (get (cadr x) '*:fdefinition-setf)
-                     function)))
+               ;; TODO: clプリフィクスを外しても動くようにする
+               (cl:setf (cl:get (cadr x) '*:fdefinition-setf)
+                        function)))
             ((symbolp x)
              (setf (symbol-function x) function)))
       (error "Invalid function name: ~S" x)))
