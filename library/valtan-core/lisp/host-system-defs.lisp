@@ -1,10 +1,15 @@
 (cl:in-package :valtan-core)
 
+
+;;; lisp.jsに対応
 (cl:defun system:make-symbol (name)
   (cl:make-symbol name))
 
-(cl:defun system:symbol-name (symbol)
-  (cl:symbol-name symbol))
+(cl:defun system:symbol-plist (symbol)
+  (cl:symbol-plist symbol))
+
+(cl:defun system:put-symbol-plist (symbol plist)
+  (cl:setf (cl:symbol-plist symbol) plist))
 
 (cl:defun system:symbol-value (symbol)
   (cl:symbol-value symbol))
@@ -12,17 +17,35 @@
 (cl:defun system:symbol-function (symbol)
   (cl:symbol-function symbol))
 
-(cl:defun system:symbol-plist (symbol)
-  (cl:symbol-plist symbol))
-
-(cl:defun system:fset (symbol function)
-  (cl:setf (cl:symbol-function symbol) function))
+(cl:defun system:symbol-name (symbol)
+  (cl:symbol-name symbol))
 
 (cl:defun system:symbol-package-name (symbol)
   (cl:package-name (cl:symbol-package symbol)))
 
-(cl:defun system:put-symbol-plist (symbol plist)
-  (cl:setf (cl:symbol-plist symbol) plist))
+(cl:defun system:fset (symbol function)
+  (cl:setf (cl:symbol-function symbol) function))
+
+(cl:defun system:map-package-symbols (package function)
+  (cl:declare (cl:ignore package function)))
+
+(cl:defun system:put (symbol key value)
+  (cl:setf (cl:get symbol key) value))
+
+(cl:defun system:package-name (package)
+  (cl:package-name package))
+
+(cl:defun system:package-nicknames (package)
+  (cl:package-nicknames package))
+
+(cl:defun system:intern (name package)
+  (cl:declare (cl:ignore name package)))
+
+(cl:defun system:find-symbol (name package)
+  (cl:declare (cl:ignore name package)))
+
+(cl:defun system:make-package (name nicknames use-packager-names)
+  (cl:declare (cl:ignore name nicknames use-packager-names)))
 
 (cl:defun system:%add (x y)
   (cl:+ x y))
@@ -30,17 +53,17 @@
 (cl:defun system:%sub (x y)
   (cl:- x y))
 
-(cl:defun system:%mul (x y)
-  (cl:* x y))
-
 (cl:defun system:%negate (x)
   (cl:- x))
 
-(cl:defun system:%floor (x y)
-  (values (cl:floor x y)))
+(cl:defun system:%mul (x y)
+  (cl:* x y))
 
 (cl:defun system:%rem (x y)
   (values (cl:rem x y)))
+
+(cl:defun system:%floor (x y)
+  (values (cl:floor x y)))
 
 (cl:defun system:%logand (x y)
   (cl:logand x y))
@@ -63,11 +86,26 @@
 (cl:defun system:%<= (x y)
   (cl:<= x y))
 
-(cl:defun system:%code-char (code)
-  (cl:code-char code))
+(cl:defun system:apply (function args)
+  (cl:apply function args))
 
-(cl:defun system:%char-code (char)
-  (cl:char-code char))
+(cl:defun system:%car (x)
+  (cl:car x))
+
+(cl:defun system:%cdr (x)
+  (cl:cdr x))
+
+(cl:defun system:%rplaca (cons x)
+  (cl:rplaca cons x))
+
+(cl:defun system:%rplacd (cons x)
+  (cl:rplacd cons x))
+
+(cl:defun system:js-array-to-list (js-array)
+  (cl:declare (cl:ignore js-array)))
+
+(cl:defun system:list-to-js-array (list)
+  (cl:declare (cl:ignore list)))
 
 (cl:defmacro system:multiple-value-call (function cl:&rest args)
   `(cl:multiple-value-call ,function ,@args))
@@ -100,32 +138,19 @@
   (cl:declare (cl:ignore structure index value))
   cl:nil)
 
-(cl:defmacro system:defmacro* (name lambda-list cl:&body body)
-  `(cl:defmacro ,name ,lambda-list ,@body))
-
-(cl:defun system:%car (x)
-  (cl:car x))
-
-(cl:defun system:%cdr (x)
-  (cl:cdr x))
-
-(cl:defun system:%rplaca (cons x)
-  (cl:rplaca cons x))
-
-(cl:defun system:%rplacd (cons x)
-  (cl:rplacd cons x))
-
-(cl:defun system:list-to-js-array (list)
-  (cl:declare (cl:ignore list)))
-
-(cl:defun system:put (symbol key value)
-  (cl:setf (cl:get symbol key) value))
-
 (cl:defun system:error (value)
   (cl:error value))
 
-(cl:defun system:apply (function args)
-  (cl:apply function args))
+(cl:defun system:%code-char (code)
+  (cl:code-char code))
+
+(cl:defun system:%char-code (char)
+  (cl:char-code char))
+
+
+;;;
+(cl:defmacro system:defmacro* (name lambda-list cl:&body body)
+  `(cl:defmacro ,name ,lambda-list ,@body))
 
 (cl:defun system:make-raw-string ()
   )
