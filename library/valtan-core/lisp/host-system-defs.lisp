@@ -66,6 +66,12 @@
 (cl:defun system:%<= (x y)
   (cl:<= x y))
 
+(cl:defun system:%code-char (code)
+  (cl:code-char code))
+
+(cl:defun system:%char-code (char)
+  (cl:char-code char))
+
 (cl:defmacro system:multiple-value-call (function cl:&rest args)
   `(cl:multiple-value-call ,function ,@args))
 
@@ -133,7 +139,7 @@
 (cl:defun system:sub-raw-string/3 (raw-string start end)
   (cl:declare (cl:ignore raw-string start end)))
 
-(cl:defun system:concat-raw-string/3 (raw-string-1 raw-string-2)
+(cl:defun system:concat-raw-string/2 (raw-string-1 raw-string-2)
   (cl:declare (cl:ignore raw-string-1 raw-string-2)))
 
 (cl:defun system:concat-raw-string/3 (raw-string-1 raw-string-2 raw-string-3)

@@ -1,4 +1,9 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
+
+(declaim (ftype function char stringp))
 
 (defparameter char-code-limit 1114112)
 
