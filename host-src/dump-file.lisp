@@ -19,7 +19,7 @@
                         ((equal "ffi_package" package-name))
                         (t
                          (error "unexpected name: ~A" package-name)))))
-          :finally (return (list :common-lisp cl-symbols :system system-symbols)))))
+          :finally (return (list :common-lisp (nreverse cl-symbols) :system (nreverse system-symbols))))))
 
 (defun dump-file (file)
   (with-open-file (in file)
