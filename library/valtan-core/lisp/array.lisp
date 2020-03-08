@@ -131,14 +131,14 @@
                :length (ffi:ref js-array "length")
                :element-type t))
 
-(defun simple-make-string (js-string)
-  (%make-array :contents js-string
+(defun simple-make-string (raw-string)
+  (%make-array :contents raw-string
                :rank 1
-               :length (ffi:ref js-string "length")
+               :length (ffi:ref raw-string "length")
                :element-type 'character))
 
-(defun *:js-string-to-array (js-string)
-  (simple-make-string js-string))
+(defun *:js-string-to-array (raw-string)
+  (simple-make-string raw-string))
 
 (defun *:array-to-js-string (array)
   (if (array-fill-pointer array)
