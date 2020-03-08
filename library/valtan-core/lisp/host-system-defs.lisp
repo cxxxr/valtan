@@ -110,33 +110,33 @@
 (cl:defmacro system:multiple-value-call (function cl:&rest args)
   `(cl:multiple-value-call ,function ,@args))
 
+(cl:defclass structure ()
+  ((name :initarg :name :reader structure-name)
+   (values :initarg :values :reader structure-values)))
+
 (cl:defun system:structure-p (structure)
-  (cl:declare (cl:ignore structure))
-  cl:nil)
+  (cl:typep structure 'structure))
 
 (cl:defun system:make-structure (name &rest args)
-  (cl:declare (cl:ignore name args))
-  cl:nil)
+  (cl:make-instance 'structure :name name :values args))
 
 (cl:defun system:%structure-name (structure)
-  (cl:declare (cl:ignore structure))
-  cl:nil)
+  (structure-name structure))
 
 (cl:defun system:%structure-slot-count (structure)
-  (cl:declare (cl:ignore structure))
-  cl:nil)
+  (cl:length (structure-values structure)))
 
 (cl:defun system:%structure-ref (structure index)
-  (cl:declare (cl:ignore structure index))
-  cl:nil)
+  (cl:elt (structure-values structure) index))
 
 (cl:defun system:%copy-structure (structure)
-  (cl:declare (cl:ignore structure))
-  cl:nil)
+  (cl:make-instance 'structure
+                    :name (structure-name structure)
+                    :values (structure-values structure)))
 
 (cl:defun system:%structure-set (structure index value)
-  (cl:declare (cl:ignore structure index value))
-  cl:nil)
+  (cl:setf (cl:elt (structure-values structure) index)
+           value))
 
 (cl:defun system:error (value)
   (cl:error value))
@@ -179,7 +179,7 @@
   (cl:declare (cl:ignore raw-string)))
 
 (cl:defun system:number-to-raw-string (number)
-  (cl:declare (cl:ignore number)))
+  (cl:princ-to-string number))
 
 (cl:defun system:make-raw-array (size)
   (cl:declare (cl:ignore size)))
