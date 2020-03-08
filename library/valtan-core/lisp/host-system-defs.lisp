@@ -178,6 +178,9 @@
 (cl:defun system:raw-string-downcase (raw-string)
   (cl:declare (cl:ignore raw-string)))
 
+(cl:defun system:number-to-raw-string (number)
+  (cl:declare (cl:ignore number)))
+
 (cl:defun system:make-raw-array (size)
   (cl:declare (cl:ignore size)))
 
@@ -198,6 +201,12 @@
 
 (cl:defun system:map-clear (map)
   (cl:declare (cl:ignore map)))
+
+(cl:defun system:function-name (function)
+  (cl:declare (cl:ignore function)))
+
+(cl:defun system:unknown-object-to-string (object)
+  (cl:declare (cl:ignore object)))
 
 (cl:defun system:array-to-js-string (array)
   (cl:declare (cl:ignore array)))

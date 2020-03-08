@@ -27,6 +27,9 @@
 (cl:defun system:raw-string-downcase (raw-string)
   ((ffi:ref raw-string "toLowerCase") raw-string))
 
+(cl:defun system:number-to-raw-string (number)
+  ((ffi:ref "String") number))
+
 (cl:defun system:make-raw-array (size)
   (ffi:new (ffi:ref "Array") size))
 
@@ -51,3 +54,13 @@
 
 (cl:defun system:map-clear (map)
   ((ffi:ref map "clear")))
+
+(cl:defun system:function-name (function)
+  (let ((name (ffi:ref function "lisp_name")))
+    (when (eq (ffi:typeof name) #j"string")
+      (ffi:js->cl name))))
+
+(cl:defun system:unknown-object-to-string (object)
+  (let ((object (ffi:js->cl object)))
+    (cl:print-unreadable-object (nil stream)
+      (write-string (ffi:js->cl ((ffi:ref "String") object)) stream))))

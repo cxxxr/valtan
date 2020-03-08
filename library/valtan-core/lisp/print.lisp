@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defvar *print-escape* t)
 
@@ -26,6 +29,7 @@
              (write-string (package-name (symbol-package symbol)) stream)
              (multiple-value-bind (_symbol status)
                  (find-symbol (symbol-name symbol) (symbol-package symbol))
+               (declare (ignore _symbol))
                (if (eq :external status)
                    (write-string ":" stream)
                    (write-string "::" stream)))
@@ -41,7 +45,7 @@
          (write-string string stream))))
 
 (defun print-number (number stream)
-  (write-string (*:js-string-to-array ((ffi:ref "String") number)) stream))
+  (write-string (system:js-string-to-array (system:number-to-raw-string number)) stream))
 
 (defun print-character (char stream)
   (cond (*print-escape*
@@ -75,15 +79,15 @@
   (write-string ")" stream))
 
 (defun print-function (function stream)
-  (print-unreadable-object (function stream)
-    (let ((name (ffi:ref function "lisp_name")))
-      (write-string "Function" stream)
-      (when (eq (ffi:typeof name) #j"string")
+  (cl:print-unreadable-object (function stream)
+    (write-string "Function" stream)
+    (let ((name (system:function-name function)))
+      (when name
         (write-char #\space stream)
-        (write-string (ffi:js->cl name) stream)))))
+        (write-string name stream)))))
 
 (defun print-package (package stream)
-  (print-unreadable-object (package stream)
+  (cl:print-unreadable-object (package stream)
     (write-string "PACKAGE " stream)
     (write-char #\" stream)
     (write-string (package-name package) stream)
@@ -108,6 +112,8 @@
                           readably
                           right-margin
                           (stream *standard-output*))
+  (declare (ignore array base case circle gensym length level lines miser-width pprint-dispatch
+                   pretty radix readably right-margin))
   (cond ((symbolp object)
          (print-symbol object stream))
         ((stringp object)
@@ -127,9 +133,9 @@
         ((*:structure-p object)
          (print-structure object stream))
         (t
-         (setq object (ffi:js->cl object))
-         (print-unreadable-object (nil stream)
-           (write-string (ffi:js->cl ((ffi:ref "String") object)) stream)))))
+         (cl:print-unreadable-object (nil stream)
+           (write-string (system:unknown-object-to-string object)
+                         stream)))))
 
 (defun princ (object &optional (stream *standard-output*))
   (write object :escape nil :stream stream)
@@ -190,4 +196,5 @@
 (defun %format (string &rest args)
   (ffi:cl->js (apply #'format nil (ffi:js->cl string) args)))
 
+#+valtan
 ((ffi:ref "lisp" "setLispFormatFunction") #'%format)

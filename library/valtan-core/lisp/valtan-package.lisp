@@ -87,6 +87,7 @@
            :concat-raw-string/3
            :raw-string-upcase
            :raw-string-downcase
+           :number-to-raw-string
            :make-raw-array
            :fill-raw-array
            :make-map
@@ -94,6 +95,8 @@
            :map-set
            :map-length
            :map-clear
+           :function-name
+           :unknown-object-to-string
            :js-array-to-array
            :js-string-to-array
            :array-to-js-string
