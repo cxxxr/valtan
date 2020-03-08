@@ -62,5 +62,4 @@
 
 (cl:defun system:unknown-object-to-string (object)
   (let ((object (ffi:js->cl object)))
-    (cl:print-unreadable-object (nil stream)
-      (write-string (ffi:js->cl ((ffi:ref "String") object)) stream))))
+    (ffi:js->cl ((ffi:ref "String") object))))
