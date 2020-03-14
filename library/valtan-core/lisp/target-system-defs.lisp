@@ -1,4 +1,4 @@
-(cl:in-package :valtan-core)
+(cl:in-package :common-lisp)
 
 (cl:defun system:make-raw-string ()
   (ffi:new (ffi:ref "String")))
@@ -57,8 +57,8 @@
 
 (cl:defun system:function-name (function)
   (let ((name (ffi:ref function "lisp_name")))
-    (when (eq (ffi:typeof name) #j"string")
-      (ffi:js->cl name))))
+    (if (eq (ffi:typeof name) #j"string")
+        (ffi:js->cl name))))
 
 (cl:defun system:unknown-object-to-string (object)
   (let ((object (ffi:js->cl object)))
