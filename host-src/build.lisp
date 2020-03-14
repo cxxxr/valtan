@@ -181,6 +181,7 @@
                                     :directory (pathname-directory
                                                 (valtan-host.system:system-pathname system)))))
     (with-write-file (out output-file)
+      (write-line "import * as lisp from 'lisp';" out)
       (format out
               "require('~A');~%"
               (input-file-to-output-file (valtan-host.system:system-to-pathname system)))
