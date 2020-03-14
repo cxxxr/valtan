@@ -1,13 +1,17 @@
 ;; -*- mode:lisp -*-
 
-(defsystem "valtan-core"
+(defsystem "valtan-core/system"
   :serial t
   :components ((:file "lisp/defpackage" :if-feature :valtan)
                (:file "lisp/valtan-package")
                (:file "lisp/compiler-utils" :if-feature (:not :valtan))
                (:file "lisp/host-system-defs" :if-feature (:not :valtan))
-               (:file "lisp/target-system-defs" :if-feature :valtan)
-               (:file "lisp/constants")
+               (:file "lisp/target-system-defs" :if-feature :valtan)))
+
+(defsystem "valtan-core/common-lisp"
+  :depends-on ("valtan-core/system")
+  :serial t
+  :components ((:file "lisp/constants")
                (:file "lisp/control")
                (:file "lisp/destructuring-bind")
                (:file "lisp/setf")
@@ -32,8 +36,12 @@
                (:file "lisp/pkg" :if-feature :valtan)
                (:file "lisp/clos" :if-feature :valtan)
                (:file "lisp/restart" :if-feature :valtan)
-               (:file "lisp/catch-throw" :if-feature :valtan)
-               (:file "compiler/variables")
+               (:file "lisp/catch-throw" :if-feature :valtan)))
+
+(defsystem "valtan-core/compiler"
+  :depends-on ("valtan-core/common-lisp")
+  :serial t
+  :components ((:file "compiler/variables")
                (:file "compiler/parse-body")
                (:file "compiler/util")
                (:file "compiler/error")
@@ -45,3 +53,8 @@
                (:file "compiler/pass2")
                (:file "compiler/compiler")
                (:file "lisp/compilation" :if-feature :valtan)))
+
+(defsystem "valtan-core"
+  :depends-on ("valtan-core/system"
+               "valtan-core/common-lisp"
+               "valtan-core/compiler"))

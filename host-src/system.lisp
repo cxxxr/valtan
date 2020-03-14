@@ -9,7 +9,9 @@
            :system-file-p
            :load-system
            :find-system
-           :compute-system-precedence-list))
+           :load-system-file
+           :compute-system-precedence-list
+           :system-to-pathname))
 (in-package :valtan-host.system)
 
 (defpackage :valtan-host.system-user (:use :cl))
@@ -17,7 +19,7 @@
 (defparameter +valtan-core-system+ "valtan-core")
 (defparameter *system-directories* (list (asdf:system-relative-pathname :valtan "./library/")))
 
-(defvar *defined-system*)
+(defvar *system-map* (make-hash-table :test 'equal))
 
 (defstruct system
   name
@@ -63,10 +65,10 @@
         :when file
         :collect file))
 
-(defmacro valtan-host.system-user::defsystem (name &key serial depends-on components target)
+(defmacro valtan-host.system-user::defsystem (name &key (serial nil serial-p) depends-on components target)
   (check-type target (member :node :browser nil))
-  (assert (eq serial t))
-  `(setq *defined-system*
+  (assert (or (not serial-p) (eq serial t)))
+  `(setf (gethash ,(string name) *system-map*)
          (make-system :name ,(string name)
                       :pathname *load-pathname*
                       :depends-on ',(if (string= (string-downcase name) +valtan-core-system+)
@@ -78,30 +80,56 @@
                                                       *load-pathname*))
                       :target ,target)))
 
+(defmacro with-system-env (() &body body)
+  `(let ((*package* (ensure-system-package-exist))
+         (*features* (adjoin :valtan *features*)))
+     ,@body))
+
 (defun load-system (pathname)
-  (let ((*package* (ensure-system-package-exist))
-        (*defined-system*)
-        (*features* (adjoin :valtan *features*)))
-    (load pathname)
-    *defined-system*))
+  (with-system-env ()
+    (load pathname)))
 
 (defun system-file-p (pathname)
   (or (equal (pathname-type pathname) "system")
       (equal (pathname-type pathname) "asd")))
 
-(defun find-system (system-name &optional (errorp t))
+(defun defsystem-form-p (form)
+  (and (consp form)
+       (symbolp (first form))
+       (string-equal (first form) "defsystem")
+       (<= 2 (length form))))
+
+(defun lookup (system-file system-name)
+  (with-open-file (in system-file)
+    (with-system-env ()
+      (loop :with eof := '#:eof
+            :for form := (read in nil eof)
+            :until (eq form eof)
+            :do (when (and (defsystem-form-p form)
+                           (string-equal (second form) system-name))
+                  (return t))))))
+
+(defun find-system-file (system-name)
   (labels ((ok (pathname)
              (when (and (system-file-p pathname)
-                        (equal (pathname-name pathname) system-name))
+                        (lookup pathname system-name))
                pathname))
            (f (directory)
              (or (some #'ok (uiop:directory-files directory))
                  (some #'f (uiop:subdirectories directory)))))
-    (let ((system-pathname (some #'f *system-directories*)))
-      (cond (system-pathname
-             (load-system system-pathname))
-            (errorp
-             (error "System ~S is not found" system-name))))))
+    (some #'f *system-directories*)))
+
+(defun find-system (system-name &optional (errorp t))
+  (let ((system-pathname (find-system-file system-name)))
+    (cond (system-pathname
+           (load-system system-pathname)
+           (gethash (string-downcase system-name) *system-map*))
+          (errorp
+           (error "System ~S is not found" system-name)))))
+
+(defun load-system-file (pathname)
+  (load-system pathname)
+  (gethash (pathname-name pathname) *system-map*))
 
 (defun compute-system-precedence-list (system)
   (let ((seen (make-hash-table :test 'equal))
@@ -114,3 +142,8 @@
                  (push system systems))))
       (f system)
       (nreverse systems))))
+
+(defun system-to-pathname (system)
+  (make-pathname :directory (pathname-directory (system-pathname system))
+                 :name (ppcre:regex-replace-all "/" (system-name system) "-slash-")
+                 :type (pathname-type (system-pathname system))))

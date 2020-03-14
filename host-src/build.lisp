@@ -23,14 +23,14 @@
   (eql (cache-date cache)
        (file-write-date file)))
 
-(defun invoke-compile-file-with-cache (input-file compile-fn)
+(defun invoke-compile-file-with-cache (input-file compile-fn &key (cache-key input-file))
   (flet ((main ()
            (let ((output-file (funcall compile-fn)))
-             (setf (gethash input-file *cache*)
+             (setf (gethash cache-key *cache*)
                    (make-cache (file-write-date input-file)
                                output-file))
              output-file)))
-    (let ((cache (gethash input-file *cache*)))
+    (let ((cache (gethash cache-key *cache*)))
       (cond ((or (null cache) *discard-cache*)
              (main))
             ((not (latest-cache-p cache input-file))
@@ -144,33 +144,35 @@
 
 (defun compile-system-file (system)
   (%with-compilation-unit ()
-    (let ((output-file (input-file-to-output-file (valtan-host.system:system-pathname system))))
+    (let ((output-file (input-file-to-output-file (valtan-host.system:system-to-pathname system))))
+      (ensure-directories-exist output-file)
       (with-write-file (out output-file)
         (write-line "import * as lisp from 'lisp';" out)
         (dolist (system-name (valtan-host.system:system-depends-on system))
           (let* ((dependent-system (valtan-host.system:find-system system-name)) ;!!!
-                 (path (resolve-path (valtan-host.system:system-pathname system)
-                                     (valtan-host.system:system-pathname dependent-system))))
+                 (path (resolve-path (valtan-host.system:system-to-pathname system)
+                                     (valtan-host.system:system-to-pathname dependent-system))))
             (format out "require('~A.js');~%" path)))
         (dolist (pathname (valtan-host.system:system-pathnames system))
-          (let ((path (resolve-path (valtan-host.system:system-pathname system)
+          (let ((path (resolve-path (valtan-host.system:system-to-pathname system)
                                     pathname)))
-            (format out "require('~A.js');~%" path)))
-        (compiler::p2-toplevel-forms
-         (list (compiler::pass1-toplevel '(cl:finish-output) out))
-         out))
+            (format out "require('~A.js');~%" path))))
       output-file)))
+
+(defun cache-system-key (system)
+  (valtan-host.system:system-name system))
 
 (defun compile-system-file-with-cache (system)
   (let ((input-file (valtan-host.system:system-pathname system)))
     (invoke-compile-file-with-cache
      input-file
      (lambda ()
-       (compile-system-file system)))))
+       (compile-system-file system))
+     :cache-key (cache-system-key system))))
 
 (defun check-discarting-cache-system-file (system)
   (let* ((input-file (valtan-host.system:system-pathname system))
-         (cache (gethash input-file *cache*)))
+         (cache (gethash (cache-system-key system) *cache*)))
     (and cache (not (latest-cache-p cache input-file)))))
 
 (defun create-entry-file (system)
@@ -181,7 +183,10 @@
     (with-write-file (out output-file)
       (format out
               "require('~A');~%"
-              (input-file-to-output-file (valtan-host.system:system-pathname system))))))
+              (input-file-to-output-file (valtan-host.system:system-to-pathname system)))
+      (compiler::p2-toplevel-forms
+       (list (compiler::pass1-toplevel '(cl:finish-output) out))
+       out))))
 
 (defun prepare-valtan-path (base-directory)
   (with-open-file (out (make-pathname :name ".valtan-path"
@@ -220,7 +225,7 @@
 
 (defun build-system (pathname &key force)
   (let* ((pathname (ensure-system-file pathname))
-         (system (valtan-host.system:load-system pathname)))
+         (system (valtan-host.system:load-system-file pathname)))
     (build-system-using-system system :force force)))
 
 (defun webpack (directory)
