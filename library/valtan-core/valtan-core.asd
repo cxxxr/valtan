@@ -6,9 +6,16 @@
                (:file "lisp/valtan-package")
                (:file "lisp/compiler-utils" :if-feature (:not :valtan))
                (:file "lisp/host-system-defs" :if-feature (:not :valtan))
-               (:file "lisp/target-system-defs" :if-feature :valtan)))
+               (:file "lisp/target-system-defs" :if-feature :valtan)
+               (:file "lisp/host-string-literal" :if-feature (:not :valtan))))
 
 (defsystem "valtan-core/common-lisp"
+  #|:around-compile (lambda (thunk)
+                      (let ((*readtable*
+                              (symbol-value
+                               (find-symbol "*VALTAN-READTABLE*"
+                                            (find-package :valtan-core)))))
+                        (funcall thunk)))|#
   :depends-on ("valtan-core/system")
   :serial t
   :components ((:file "lisp/constants")

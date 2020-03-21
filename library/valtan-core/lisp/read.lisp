@@ -1,4 +1,11 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
+
+;;; TODO:
+;;; gensymの実装がsbclで動かないからcl:gensymを使っている
+;;; なのでgensymをsbclでも動くようにしてcl:プリフィクスを外す
 
 (defvar *inner-list-p* nil)
 (defvar *dot-marker* (cl:gensym "DOT"))
