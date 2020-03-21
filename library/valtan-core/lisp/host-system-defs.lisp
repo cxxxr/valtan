@@ -105,7 +105,7 @@
   (cl:declare (cl:ignore js-array)))
 
 (cl:defun system:list-to-js-array (list)
-  (cl:declare (cl:ignore list)))
+  list)
 
 (cl:defmacro system:multiple-value-call (function cl:&rest args)
   `(cl:multiple-value-call ,function ,@args))
@@ -188,19 +188,19 @@
   (cl:declare (cl:ignore raw-array element)))
 
 (cl:defun system:make-map ()
-  )
+  (cl:make-hash-table :test 'cl:equal))
 
 (cl:defun system:map-get (map key)
-  (cl:declare (cl:ignore map key)))
+  (cl:gethash key map))
 
 (cl:defun system:map-set (map key value)
-  (cl:declare (cl:ignore map key value)))
+  (setf (cl:gethash key map) value))
 
 (cl:defun system:map-length (map)
-  (cl:declare (cl:ignore map)))
+  (cl:hash-table-count map))
 
 (cl:defun system:map-clear (map)
-  (cl:declare (cl:ignore map)))
+  (cl:clrhash map))
 
 (cl:defun system:function-name (function)
   (cl:declare (cl:ignore function)))
