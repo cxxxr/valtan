@@ -35,7 +35,6 @@
   (let ((condition (coerce-to-condition datum arguments 'simple-condition)))
     (signal-1 condition)))
 
-(declaim (ftype function princ-to-string))
 (defun invoke-debugger (condition)
   (*:error (ffi:cl->js (princ-to-string condition))))
 
@@ -124,8 +123,6 @@
                                 nil
                                 `(,g-temp))))))
                   tag-names fun-names error-clauses))))))))
-
-(declaim (ftype function remove-if find-if))
 
 (defmacro handler-case (form &rest cases)
   (let ((error-clauses

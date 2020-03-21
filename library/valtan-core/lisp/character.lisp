@@ -3,8 +3,6 @@
 #-valtan
 (in-package :valtan-core)
 
-(declaim (ftype function char stringp))
-
 (defparameter char-code-limit 1114112)
 
 (defparameter *char-name-table*

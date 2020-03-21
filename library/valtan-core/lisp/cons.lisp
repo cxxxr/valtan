@@ -100,7 +100,6 @@
       (cons (copy-tree (car tree))
             (copy-tree (cdr tree)))))
 
-(declaim (ftype function funcall))
 (defun apply-key (key value)
   (if (null key)
       value

@@ -37,8 +37,6 @@
              initial-contents-length
              dimensions))))
 
-(declaim (ftype function map elt))
-
 (defun make-array-contents-with-initial-contents (size element-type initial-contents)
   (cond ((eq element-type 'character)
          (let* ((len (length initial-contents))
@@ -59,8 +57,6 @@
                   (incf i))
                 initial-contents)
            raw-array))))
-
-(declaim (ftype function char-code))
 
 (defun make-array-contents-with-initial-element (size element-type initial-element initial-element-p)
   (cond ((eq element-type 'character)
