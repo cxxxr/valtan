@@ -15,12 +15,12 @@
          ((cl:and (cl:consp place) (setq setf-expander (cl:get (cl:first place) 'setf-expander)))
           (cl:cond
            ((symbolp setf-expander)
-            (let ((vars (gensyms (cl:rest place))) (store (cl:gensym "STORE")))
+            (let ((vars (gensyms (cl:rest place))) (store (cl:gensym)))
               (cl:values vars (cl:rest place) (cl:list store) `(,setf-expander ,@vars ,store)
                          `(,(cl:first place) ,@vars))))
            ((cl:consp setf-expander)
             (let ((vars (gensyms (cl:rest place)))
-                  (store (cl:gensym "STORE"))
+                  (store (cl:gensym))
                   (fn
                    (cl:eval
                     `(lambda ,(cl:first setf-expander) (lambda ,@(cl:rest setf-expander))))))
@@ -90,7 +90,7 @@
                         `(cl:list* ',function access-form ,@(cl:nreverse vars) (cl:cadr cl:rest))))
                      ((symbolp (cl:car cl:rest)) (cl:push (cl:car cl:rest) vars))
                      (t (cl:push (cl:caar cl:rest) vars))))))
-    (let ((reference (cl:gensym "REFERENCE")))
+    (let ((reference (cl:gensym)))
       `(defmacro ,name (,reference ,@lambda-list)
          ,(cl:when documentation-p `(,cl:documentation))
          (cl:multiple-value-bind (vars cl:values stores set-form access-form)
