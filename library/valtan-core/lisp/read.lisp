@@ -1,9 +1,9 @@
 (in-package :common-lisp)
 
 (defvar *inner-list-p* nil)
-(defvar *dot-marker* (gensym "DOT"))
+(defvar *dot-marker* (cl:gensym "DOT"))
 (defvar *read-label-table*)
-(defvar *read-skip-marker* (gensym "SKIP"))
+(defvar *read-skip-marker* (cl:gensym "SKIP"))
 
 (defparameter *whitespaces* '(#\space #\tab #\newline #\linefeed #\page #\return))
 
@@ -12,6 +12,7 @@
 
 (defun peek-char (&optional peek-type (stream *standard-input*) (eof-error-p t) eof-value
                             recursive-p)
+  (declare (ignore recursive-p))
   (cond ((null peek-type)
          (let ((c (stream-peek-char stream)))
            (if (eq c :eof)
@@ -34,7 +35,7 @@
                    (t
                     (stream-read-char stream))))))))
 
-(defparameter +sharp-equal-marker+ (gensym))
+(defparameter +sharp-equal-marker+ (cl:gensym))
 
 (defstruct sharp-equal
   label
@@ -314,6 +315,7 @@
                (t
                 (multiple-value-bind (symbol status)
                     (find-symbol symbol-name package-name)
+                  (declare (ignore symbol))
                   (if (eq status :external)
                       (intern symbol-name package-name)
                       (error "Symbol ~S not found in the ~A package."
@@ -421,6 +423,7 @@
                (read-char stream)
                (multiple-value-bind (function non-terminating-p)
                    (get-macro-character c)
+                 (declare (ignore non-terminating-p))
                  (cond
                    (function
                     (let ((values (multiple-value-list (funcall function stream c))))
@@ -577,7 +580,7 @@
            (otherwise
             (error "unknown operator in feature expression: ~S." test))))
         ((symbolp test)
-         (not (null (member test *features* :test #'string=))))
+         (not (null (member test cl:*features* :test #'string=))))
         (t
          (error "invalid feature expression: ~S" test))))
 
@@ -614,6 +617,7 @@
       (f tree))))
 
 (defun read-sharp-equal (stream sub-char label)
+  (declare (ignore sub-char))
   (unless label
     (error "Reader dispatch macro character #\= requires an argument."))
   (when (gethash label *read-label-table*)
@@ -628,6 +632,7 @@
     (subst-sharp-equal form)))
 
 (defun read-sharp-sharp (stream sub-char label)
+  (declare (ignore stream sub-char))
   (unless label
     (error "Reader dispatch macro character #\# requires an argument."))
   (let ((sharp-equal (gethash label *read-label-table*)))
@@ -670,6 +675,7 @@
         c)))
 
 (defun unread-char (character &optional (stream *standard-input*))
+  (declare (ignore character))
   (stream-unread-char stream))
 
 (defun read-line (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)
@@ -683,6 +689,7 @@
         (values string (not next-line-p)))))
 
 (defun read-delimited-list (char &optional (stream *standard-input*) recursive-p)
+  (declare (ignore char))
   (let ((head nil)
         (tail nil))
     (do () (nil)
