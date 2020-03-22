@@ -10,12 +10,12 @@
                (:file "lisp/host-literal" :if-feature (:not :valtan))))
 
 (defsystem "valtan-core/common-lisp"
-  #|:around-compile (lambda (thunk)
-                      (let ((*readtable*
-                              (symbol-value
-                               (find-symbol "*VALTAN-READTABLE*"
-                                            (find-package :valtan-core)))))
-                        (funcall thunk)))|#
+  :around-compile (lambda (thunk)
+                    (let ((*readtable*
+                            (symbol-value
+                             (find-symbol "*VALTAN-READTABLE*"
+                                          (find-package :valtan-core)))))
+                      (funcall thunk)))
   :depends-on ("valtan-core/system")
   :serial t
   :components ((:file "lisp/constants")
