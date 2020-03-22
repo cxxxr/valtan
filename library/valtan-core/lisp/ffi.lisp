@@ -3,13 +3,17 @@
 #-valtan
 (in-package :valtan-core)
 
+(defun js-symbol-p (symbol)
+  (cl:and (symbolp symbol)
+          (cl:string= (cl:package-name (cl:symbol-package symbol))
+                      (cl:load-time-value (cl:coerce '(#\J #\S) 'cl:string)))))
+
 (defmacro ffi:define-function (name arguments &body body)
   `(progn
     (ffi:var ,name)
     (ffi:set
      ,(cl:cond ((cl:stringp name) name)
-               ((cl:and (symbolp name)
-                        (cl:string= "JS" (cl:package-name (cl:symbol-package name))))
+               ((js-symbol-p name)
                 name)
                (t (cl:string name)))
      (lambda ,arguments ,@body))))
@@ -19,8 +23,7 @@
     (ffi:var ,var)
     (ffi:set
      ,(cl:cond ((cl:stringp var) var)
-               ((cl:and (symbolp var) (cl:string= "JS" (cl:package-name (cl:symbol-package var))))
-                var)
+               ((js-symbol-p var) var)
                (t (cl:string var)))
      (ffi:cl->js ,value))))
 
