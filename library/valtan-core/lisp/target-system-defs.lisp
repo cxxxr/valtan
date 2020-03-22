@@ -33,6 +33,15 @@
 (cl:defun system:make-raw-array (size)
   (ffi:new (ffi:ref "Array") size))
 
+(cl:defun system:raw-array-length (raw-array)
+  (ffi:ref raw-array "length"))
+
+(cl:defun system:raw-array-ref (raw-array index)
+  (ffi:aget raw-array index))
+
+(cl:defun system:raw-array-set (raw-array index value)
+  (ffi:set (ffi:aget raw-array index) value))
+
 (cl:defun system:fill-raw-array (raw-array element)
   ((ffi:ref raw-array "fill") element))
 

@@ -53,7 +53,7 @@
                (i 0))
            (map nil
                 (lambda (content)
-                  (ffi:set (ffi:aget raw-array i) content)
+                  (system:raw-array-set raw-array i content)
                   (incf i))
                 initial-contents)
            raw-array))))
@@ -160,7 +160,7 @@
     (type-error array 'array))
   (when (or (< sub 0) (<= (array-length array) sub))
     (error "index error"))
-  (ffi:aget (array-contents array) sub))
+  (system:raw-array-ref (array-contents array) sub))
 
 (defun (cl:setf aref) (value array sub)
   (unless (arrayp array)
@@ -176,7 +176,7 @@
                                            (system:sub-raw-string/2 (array-contents array) (1+ sub))))
          value)
         (t
-         (ffi:set (ffi:aget (array-contents array) sub) value))))
+         (system:raw-array-set (array-contents array) sub value))))
 
 (defun svref (vector index)
   (aref vector index))
@@ -210,7 +210,7 @@
             (>= 0 (array-fill-pointer vector)))
     (error "error"))
   (decf (array-fill-pointer vector))
-  (ffi:aget (array-contents vector) (array-fill-pointer vector)))
+  (system:raw-array-ref (array-contents vector) (array-fill-pointer vector)))
 
 (defun vector-push (new-element vector)
   (when (or (null (array-fill-pointer vector))

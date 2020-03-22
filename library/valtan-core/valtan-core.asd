@@ -38,7 +38,7 @@
                (:file "lisp/package")
                (:file "lisp/stream")
                (:file "lisp/print")
-               (:file "lisp/read" :if-feature :valtan)
+               (:file "lisp/read")
                (:file "lisp/file" :if-feature :valtan)
                (:file "lisp/pkg" :if-feature :valtan)
                (:file "lisp/clos" :if-feature :valtan)

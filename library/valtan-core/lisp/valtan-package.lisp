@@ -89,6 +89,9 @@
            :raw-string-downcase
            :number-to-raw-string
            :make-raw-array
+           :raw-array-length
+           :raw-array-ref
+           :raw-array-set
            :fill-raw-array
            :make-map
            :map-get

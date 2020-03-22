@@ -189,7 +189,16 @@
   (cl:princ-to-string number))
 
 (cl:defun system:make-raw-array (size)
-  (cl:declare (cl:ignore size)))
+  (make-array size))
+
+(cl:defun system:raw-array-length (raw-array)
+  (cl:length raw-array))
+
+(cl:defun system:raw-array-ref (raw-array index)
+  (cl:aref raw-array index))
+
+(cl:defun system:raw-array-set (raw-array index value)
+  (cl:setf (cl:aref raw-array index) value))
 
 (cl:defun system:fill-raw-array (raw-array element)
   (cl:declare (cl:ignore raw-array element)))
@@ -239,7 +248,7 @@
   (cl:declare (cl:ignore var value)))
 
 (cl:defun ffi:aget (array index)
-  (cl:declare (cl:ignore array index)))
+  (cl:aref array index))
 
 (cl:defun ffi:ref (cl:&rest args)
   (cl:declare (cl:ignore args)))
