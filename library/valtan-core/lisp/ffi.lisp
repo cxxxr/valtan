@@ -55,12 +55,19 @@
         (cl:push value new-plist)))
     `(ffi::%object ,@(cl:nreverse new-plist))))
 
-(defun ffi:array (&rest args) (cl:apply (ffi:ref "Array") args))
+(defun ffi:array (&rest args)
+  #+valtan
+  (cl:apply (ffi:ref "Array") args)
+  #-valtan
+  (cl:error "unimplemented"))
 
 (defun ffi:js-eval (x)
-  (let* ((code (cl:format nil "(function(lisp) { 'use strict'; ~A; });" x))
+  #+valtan
+  (let* ((code (*:string-append "(function(lisp) { 'use strict'; ~A; });" x))
          (fn (js::eval (ffi:cl->js code))))
-    (cl:funcall fn (ffi:ref "lisp"))))
+    (cl:funcall fn (ffi:ref "lisp")))
+  #-valtan
+  (cl:error "unimplemented"))
 
 (defun ffi:cl->js (value)
   (cl:cond ((cl:stringp value) (array-contents value))
