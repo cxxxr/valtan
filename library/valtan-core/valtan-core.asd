@@ -7,7 +7,7 @@
                (:file "lisp/compiler-utils" :if-feature (:not :valtan))
                (:file "lisp/host-system-defs" :if-feature (:not :valtan))
                (:file "lisp/target-system-defs" :if-feature :valtan)
-               (:file "lisp/host-string-literal" :if-feature (:not :valtan))))
+               (:file "lisp/host-literal" :if-feature (:not :valtan))))
 
 (defsystem "valtan-core/common-lisp"
   #|:around-compile (lambda (thunk)

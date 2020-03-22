@@ -19,3 +19,17 @@
                                                        'character)))
                         nil
                         *valtan-readtable*)
+
+(cl:set-dispatch-macro-character #\# #\(
+                                 (cl:lambda (s c n)
+                                   (cl:declare (cl:ignore c n))
+                                   (cl:unread-char #\( s)
+                                   (cl:let* ((cl:*readtable* (cl:copy-readtable cl:nil))
+                                             (raw-array (cl:read s cl:t cl:nil cl:t)))
+                                     (system:make-structure 'array
+                                                            raw-array
+                                                            nil
+                                                            1
+                                                            (cl:length raw-array)
+                                                            't)))
+                                 *valtan-readtable*)
