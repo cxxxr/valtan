@@ -164,7 +164,7 @@
   `(cl:defmacro ,name ,lambda-list ,@body))
 
 (cl:defun system:make-raw-string ()
-  )
+  (cl:error "unimplemented"))
 
 (cl:defun system:expand-raw-string (raw-string n)
   (cl:declare (cl:ignore raw-string n))
@@ -253,7 +253,7 @@
 
 
 (cl:defun js::-object ()
-  )
+  (cl:error "unimplemented"))
 
 (cl:defun js::eval (x)
   (cl:declare (cl:ignore x))
