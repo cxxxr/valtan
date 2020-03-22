@@ -27,7 +27,8 @@
   (cl:setf (cl:symbol-function symbol) function))
 
 (cl:defun system:map-package-symbols (package function)
-  (cl:declare (cl:ignore package function)))
+  (cl:declare (cl:ignore package function))
+  (cl:error "unimplemented"))
 
 (cl:defun system:put (symbol key value)
   (cl:setf (cl:get symbol key) value))
@@ -39,13 +40,16 @@
   (cl:package-nicknames package))
 
 (cl:defun system:intern (name package)
-  (cl:declare (cl:ignore name package)))
+  (cl:declare (cl:ignore name package))
+  (cl:error "unimplemented"))
 
 (cl:defun system:find-symbol (name package)
-  (cl:declare (cl:ignore name package)))
+  (cl:declare (cl:ignore name package))
+  (cl:error "unimplemented"))
 
 (cl:defun system:make-package (name nicknames use-packager-names)
-  (cl:declare (cl:ignore name nicknames use-packager-names)))
+  (cl:declare (cl:ignore name nicknames use-packager-names))
+  (cl:error "unimplemented"))
 
 (cl:defun system:%add (x y)
   (cl:+ x y))
@@ -102,7 +106,8 @@
   (cl:rplacd cons x))
 
 (cl:defun system:js-array-to-list (js-array)
-  (cl:declare (cl:ignore js-array)))
+  (cl:declare (cl:ignore js-array))
+  (cl:error "unimplemented"))
 
 (cl:defun system:list-to-js-array (list)
   list)
@@ -162,28 +167,36 @@
   )
 
 (cl:defun system:expand-raw-string (raw-string n)
-  (cl:declare (cl:ignore raw-string n)))
+  (cl:declare (cl:ignore raw-string n))
+  (cl:error "unimplemented"))
 
 (cl:defun system:code-to-raw-string (code)
-  (cl:declare (cl:ignore code)))
+  (cl:declare (cl:ignore code))
+  (cl:error "unimplemented"))
 
 (cl:defun system:sub-raw-string/2 (raw-string start)
-  (cl:declare (cl:ignore raw-string start)))
+  (cl:declare (cl:ignore raw-string start))
+  (cl:error "unimplemented"))
 
 (cl:defun system:sub-raw-string/3 (raw-string start end)
-  (cl:declare (cl:ignore raw-string start end)))
+  (cl:declare (cl:ignore raw-string start end))
+  (cl:error "unimplemented"))
 
 (cl:defun system:concat-raw-string/2 (raw-string-1 raw-string-2)
-  (cl:declare (cl:ignore raw-string-1 raw-string-2)))
+  (cl:declare (cl:ignore raw-string-1 raw-string-2))
+  (cl:error "unimplemented"))
 
 (cl:defun system:concat-raw-string/3 (raw-string-1 raw-string-2 raw-string-3)
-  (cl:declare (cl:ignore raw-string-1 raw-string-2 raw-string-3)))
+  (cl:declare (cl:ignore raw-string-1 raw-string-2 raw-string-3))
+  (cl:error "unimplemented"))
 
 (cl:defun system:raw-string-upcase (raw-string)
-  (cl:declare (cl:ignore raw-string)))
+  (cl:declare (cl:ignore raw-string))
+  (cl:error "unimplemented"))
 
 (cl:defun system:raw-string-downcase (raw-string)
-  (cl:declare (cl:ignore raw-string)))
+  (cl:declare (cl:ignore raw-string))
+  (cl:error "unimplemented"))
 
 (cl:defun system:number-to-raw-string (number)
   (cl:princ-to-string number))
@@ -210,7 +223,7 @@
   (cl:gethash key map))
 
 (cl:defun system:map-set (map key value)
-  (setf (cl:gethash key map) value))
+  (cl:setf (cl:gethash key map) value))
 
 (cl:defun system:map-length (map)
   (cl:hash-table-count map))
@@ -219,42 +232,53 @@
   (cl:clrhash map))
 
 (cl:defun system:function-name (function)
-  (cl:declare (cl:ignore function)))
+  (cl:declare (cl:ignore function))
+  (cl:error "unimplemented"))
 
 (cl:defun system:unknown-object-to-string (object)
-  (cl:declare (cl:ignore object)))
+  (cl:declare (cl:ignore object))
+  (cl:error "unimplemented"))
 
 (cl:defun system:array-to-js-string (array)
-  (cl:declare (cl:ignore array)))
+  (cl:declare (cl:ignore array))
+  (cl:error "unimplemented"))
 
 (cl:defun system:js-string-to-array (js-string)
-  (cl:declare (cl:ignore js-string)))
+  (cl:declare (cl:ignore js-string))
+  (cl:error "unimplemented"))
 
 (cl:defun system:js-array-to-array (js-array)
-  (cl:declare (cl:ignore js-array)))
+  (cl:declare (cl:ignore js-array))
+  (cl:error "unimplemented"))
 
 
 (cl:defun js::-object ()
   )
 
 (cl:defun js::eval (x)
-  (cl:declare (cl:ignore x)))
+  (cl:declare (cl:ignore x))
+  (cl:error "unimplemented"))
 
 (cl:defun js::console.log (raw-string)
-  (cl:declare (cl:ignore raw-string)))
+  (cl:declare (cl:ignore raw-string))
+  (cl:error "unimplemented"))
 
 
 (cl:defun ffi:set (var value)
-  (cl:declare (cl:ignore var value)))
+  (cl:declare (cl:ignore var value))
+  (cl:error "unimplemented"))
 
 (cl:defun ffi:aget (array index)
   (cl:aref array index))
 
 (cl:defun ffi:ref (cl:&rest args)
-  (cl:declare (cl:ignore args)))
+  (cl:declare (cl:ignore args))
+  (cl:error "unimplemented"))
 
 (cl:defun ffi:typeof (x)
-  (cl:declare (cl:ignore x)))
+  (cl:declare (cl:ignore x))
+  (cl:error "unimplemented"))
 
 (cl:defun ffi:instanceof (value instance)
-  (cl:declare (cl:ignore value instance)))
+  (cl:declare (cl:ignore value instance))
+  (cl:error "unimplemented"))
