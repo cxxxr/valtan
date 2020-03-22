@@ -189,7 +189,7 @@
   (cl:princ-to-string number))
 
 (cl:defun system:make-raw-array (size)
-  (make-array size))
+  (cl:make-array size))
 
 (cl:defun system:raw-array-length (raw-array)
   (cl:length raw-array))
@@ -201,7 +201,7 @@
   (cl:setf (cl:aref raw-array index) value))
 
 (cl:defun system:fill-raw-array (raw-array element)
-  (cl:declare (cl:ignore raw-array element)))
+  (cl:fill raw-array element))
 
 (cl:defun system:make-map ()
   (cl:make-hash-table :test 'cl:equal))
