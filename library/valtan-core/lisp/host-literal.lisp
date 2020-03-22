@@ -27,7 +27,7 @@
                                    (cl:let* ((cl:*readtable* (cl:copy-readtable cl:nil))
                                              (raw-array (cl:read s cl:t cl:nil cl:t)))
                                      (system:make-structure 'array
-                                                            raw-array
+                                                            (cl:coerce raw-array 'cl:vector)
                                                             nil
                                                             1
                                                             (cl:length raw-array)
