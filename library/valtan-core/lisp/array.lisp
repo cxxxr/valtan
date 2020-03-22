@@ -124,13 +124,13 @@
 (defun *:js-array-to-array (js-array)
   (%make-array :contents js-array
                :rank 1
-               :length (ffi:ref js-array "length")
+               :length (system:raw-array-length js-array)
                :element-type t))
 
 (defun simple-make-string (raw-string)
   (%make-array :contents raw-string
                :rank 1
-               :length (ffi:ref raw-string "length")
+               :length (system:raw-array-length raw-string)
                :element-type 'character))
 
 (defun *:js-string-to-array (raw-string)
