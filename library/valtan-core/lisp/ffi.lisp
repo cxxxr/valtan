@@ -56,12 +56,14 @@
     `(ffi::%object ,@(cl:nreverse new-plist))))
 
 (defun ffi:array (&rest args)
+  (declare (ignorable args))
   #+valtan
   (cl:apply (ffi:ref "Array") args)
   #-valtan
   (cl:error "unimplemented"))
 
 (defun ffi:js-eval (x)
+  (declare (ignorable x))
   #+valtan
   (let* ((code (*:string-append "(function(lisp) { 'use strict'; ~A; });" x))
          (fn (js::eval (ffi:cl->js code))))
