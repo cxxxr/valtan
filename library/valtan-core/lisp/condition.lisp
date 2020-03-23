@@ -92,15 +92,15 @@
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun gen-handler-case-1 (error-clauses form)
-    (let ((g-form-name (cl:gensym "FORM-"))
+    (let ((g-form-name (cl:gensym))
           (fun-names
-            (cl:mapcar (lambda (arg) (cl:gensym (cl:format nil "FUN-~A-" (cl:car arg))))
+            (cl:mapcar (lambda (arg) (declare (ignore arg)) (cl:gensym))
                        error-clauses))
           (tag-names
-            (cl:mapcar (lambda (arg) (cl:gensym (cl:format nil "TAG-~A-" (cl:car arg))))
+            (cl:mapcar (lambda (arg) (declare (ignore arg)) (cl:gensym))
                        error-clauses))
-          (g-block-name (cl:gensym "BLOCK-"))
-          (g-temp (cl:gensym "TEMP-")))
+          (g-block-name (cl:gensym))
+          (g-temp (cl:gensym)))
       `(flet ((,g-form-name ()
                 ,form)
               ,@(cl:mapcar (lambda (c fun-name) `(,fun-name ,@(cl:cdr c))) error-clauses fun-names))
@@ -130,8 +130,8 @@
         (no-error-clause
           (find-if (lambda (c) (eq (car c) :no-error)) cases)))
     (if no-error-clause
-        (let ((g-error-return (cl:gensym "ERROR-RETURN-"))
-              (g-normal-return (cl:gensym "NORMAL-RETURN-")))
+        (let ((g-error-return (cl:gensym))
+              (g-normal-return (cl:gensym)))
           `(block ,g-error-return
              (multiple-value-call (lambda ,@(cdr no-error-clause))
                (block ,g-normal-return
