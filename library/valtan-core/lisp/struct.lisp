@@ -9,47 +9,43 @@
   (*:%copy-structure x))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
-  (let ((|~A-| (cl:load-time-value (cl:coerce '(#\~ #\A #\-) 'cl:string)))
-        (|MAKE-~A| (cl:load-time-value (cl:coerce '(#\M #\A #\K #\E #\- #\~ #\A) 'cl:string)))
-        (|COPY-~A| (cl:load-time-value (cl:coerce '(#\C #\O #\P #\Y #\- #\~ #\A) 'cl:string)))
-        (|~A-P| (cl:load-time-value (cl:coerce '(#\~ #\A #\- #\P) 'cl:string))))
-    (defun parse-structure-name-and-options (name-and-options)
-      (cl:multiple-value-bind (structure-name options)
-          (if (cl:consp name-and-options)
-              (cl:values (cl:first name-and-options) (cl:rest name-and-options))
-              (cl:values name-and-options nil))
-        (let* ((conc-name (cl:format nil |~A-| structure-name))
-               constructor-option
-               included-option
-               type-option
-               named-option
-               (constructor-name
-                 (cl:intern (cl:format nil |MAKE-~A| structure-name)
-                            (cl:symbol-package structure-name)))
-               (copier-name
-                 (cl:intern (cl:format nil |COPY-~A| structure-name)
-                            (cl:symbol-package structure-name)))
-               (predicate-name
-                 (cl:intern (cl:format nil |~A-P| structure-name) (cl:symbol-package structure-name)))
-               print-function)
-          (cl:dolist (option options)
-            (cl:unless (cl:consp option) (setq option (cl:list option)))
-            (cl:ecase (cl:first option)
-              (:conc-name (setq conc-name (cl:second option)))
-              (:constructor
-               (setq constructor-name (cl:second option)
-                     constructor-option (cl:rest option)))
-              (:copier (cl:unless (cl:null (cl:rest option)) (setq copier-name (cl:second option))))
-              (:predicate
-               (cl:unless (cl:null (cl:rest option)) (setq predicate-name (cl:second option))))
-              (:include (setq included-option (cons (cl:second option) (cl:cddr option))))
-              ((:print-object :print-function) (setq print-function (cl:second option)))
-              (:type (setq type-option (cl:second option)))
-              (:named (setq named-option t))))
-          (cl:list :structure-name structure-name :conc-name conc-name :constructor-option
-                   constructor-option :included-option included-option :type-option type-option
-                   :named-option named-option :constructor-name constructor-name :copier-name
-                   copier-name :predicate-name predicate-name :print-function print-function))))))
+  (defun parse-structure-name-and-options (name-and-options)
+    (cl:multiple-value-bind (structure-name options)
+        (if (cl:consp name-and-options)
+            (cl:values (cl:first name-and-options) (cl:rest name-and-options))
+            (cl:values name-and-options nil))
+      (let* ((conc-name (cl:format nil "~A-" structure-name))
+             constructor-option
+             included-option
+             type-option
+             named-option
+             (constructor-name
+              (cl:intern (cl:format nil "MAKE-~A" structure-name)
+                         (cl:symbol-package structure-name)))
+             (copier-name
+              (cl:intern (cl:format nil "COPY-~A" structure-name)
+                         (cl:symbol-package structure-name)))
+             (predicate-name
+              (cl:intern (cl:format nil "~A-P" structure-name) (cl:symbol-package structure-name)))
+             print-function)
+        (cl:dolist (option options)
+          (cl:unless (cl:consp option) (setq option (cl:list option)))
+          (cl:ecase (cl:first option)
+            (:conc-name (setq conc-name (cl:second option)))
+            (:constructor
+             (setq constructor-name (cl:second option)
+                   constructor-option (cl:rest option)))
+            (:copier (cl:unless (cl:null (cl:rest option)) (setq copier-name (cl:second option))))
+            (:predicate
+             (cl:unless (cl:null (cl:rest option)) (setq predicate-name (cl:second option))))
+            (:include (setq included-option (cons (cl:second option) (cl:cddr option))))
+            ((:print-object :print-function) (setq print-function (cl:second option)))
+            (:type (setq type-option (cl:second option)))
+            (:named (setq named-option t))))
+        (cl:list :structure-name structure-name :conc-name conc-name :constructor-option
+                 constructor-option :included-option included-option :type-option type-option
+                 :named-option named-option :constructor-name constructor-name :copier-name
+                 copier-name :predicate-name predicate-name :print-function print-function)))))
 
 (defmacro defstruct (name-and-options &rest slot-descriptions)
   (cl:destructuring-bind
@@ -88,11 +84,7 @@
                        (if (cl:consp slot-desc)
                            (cl:first slot-desc)
                            slot-desc))
-                     (accessor (cl:intern
-                                (cl:format nil
-                                           (cl:load-time-value
-                                            (cl:coerce '(#\~ #\A #\~ #\A) 'cl:string))
-                                           conc-name slot-name))))
+                     (accessor (cl:intern (cl:format nil "~A~A" conc-name slot-name))))
                 (cl:incf i)
                 (cl:destructuring-bind
                       (&key cl:type read-only)
@@ -117,16 +109,14 @@
                        `(lambda (,cl:structure ,cl:stream)
                           (,print-function ,cl:structure ,cl:stream 0)))
                      `(lambda (cl:structure cl:stream)
-                        (cl:write-string (cl:load-time-value
-                                          (cl:coerce '(#\# #\S #\() 'cl:string))
-                                         cl:stream)
+                        (cl:write-string "#S(" cl:stream)
                         (cl:write-string ,(cl:string structure-name) cl:stream)
-                        (cl:write-char #\space cl:stream)
+                        (cl:write-string " " cl:stream)
                         ,@(let ((i -1))
                             (cl:mapcar
                              (lambda (slot-desc)
                                `(progn
-                                  ,(cl:unless (cl:= i -1) '(cl:write-char #\space cl:stream))
+                                  ,(cl:unless (cl:= i -1) '(cl:write-string " " cl:stream))
                                   (cl:prin1
                                    ,(cl:intern
                                      (cl:string
@@ -135,11 +125,11 @@
                                           slot-desc))
                                      :keyword)
                                    cl:stream)
-                                  (cl:write-char #\space cl:stream)
+                                  (cl:write-string " " cl:stream)
                                   (cl:prin1 (*:%structure-ref cl:structure ,(cl:incf i))
                                             cl:stream)))
                              slot-descriptions))
-                        (cl:write-char #\) cl:stream))))
+                        (cl:write-string ")" cl:stream))))
        ',structure-name)))
 
 (declaim (ftype function get))
