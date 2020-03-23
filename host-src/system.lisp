@@ -65,7 +65,8 @@
         :when file
         :collect file))
 
-(defmacro valtan-host.system-user::defsystem (name &key (serial nil serial-p) depends-on components target)
+(defmacro valtan-host.system-user::defsystem
+    (name &key (serial nil serial-p) depends-on components target &allow-other-keys)
   (check-type target (member :node :browser nil))
   (assert (or (not serial-p) (eq serial t)))
   `(setf (gethash ,(string name) *system-map*)
