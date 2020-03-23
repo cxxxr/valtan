@@ -5,8 +5,8 @@
 
 (defun js-symbol-p (symbol)
   (cl:and (symbolp symbol)
-          (cl:string= (cl:package-name (cl:symbol-package symbol))
-                      (cl:load-time-value (cl:coerce '(#\J #\S) 'cl:string)))))
+          (cl:eq (cl:symbol-package symbol)
+                 (cl:load-time-value (cl:find-package (cl:coerce '(#\J #\S) 'cl:string))))))
 
 (defmacro ffi:define-function (name arguments &body body)
   `(progn
