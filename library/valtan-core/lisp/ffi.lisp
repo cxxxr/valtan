@@ -63,7 +63,7 @@
 (defun ffi:js-eval (x)
   (declare (ignorable x))
   #+valtan
-  (let* ((code (*:string-append "(function(lisp) { 'use strict'; ~A; });" x))
+  (let* ((code (*:string-append* "(function(lisp) { 'use strict'; " x "; });"))
          (fn (js::eval (ffi:cl->js code))))
     (cl:funcall fn (ffi:ref "lisp")))
   #-valtan
