@@ -1,6 +1,7 @@
 (in-package :valtan-core)
 
 (cl:defvar *valtan-readtable* (cl:copy-readtable cl:nil))
+(cl:defvar *plain-readtable* (cl:copy-readtable cl:nil))
 
 (cl:defmethod cl:make-load-form ((object structure) cl:&optional environment)
   (cl:declare (cl:ignore environment))
@@ -9,7 +10,7 @@
 (cl:set-macro-character #\" (cl:lambda (s c)
                               (cl:declare (cl:ignore c))
                               (cl:unread-char #\" s)
-                              (cl:let* ((cl:*readtable* (cl:copy-readtable cl:nil))
+                              (cl:let* ((cl:*readtable* *plain-readtable*)
                                         (raw-string (cl:read s cl:t cl:nil cl:t)))
                                 (system:make-structure 'array
                                                        raw-string
@@ -24,7 +25,7 @@
                                  (cl:lambda (s c n)
                                    (cl:declare (cl:ignore c n))
                                    (cl:unread-char #\( s)
-                                   (cl:let* ((cl:*readtable* (cl:copy-readtable cl:nil))
+                                   (cl:let* ((cl:*readtable* *plain-readtable*)
                                              (raw-array (cl:read s cl:t cl:nil cl:t)))
                                      (system:make-structure 'array
                                                             (cl:coerce raw-array 'cl:vector)
@@ -32,4 +33,12 @@
                                                             1
                                                             (cl:length raw-array)
                                                             't)))
+                                 *valtan-readtable*)
+
+(cl:set-dispatch-macro-character #\# #\"
+                                 (cl:lambda (s c n)
+                                   (cl:declare (cl:ignore c n))
+                                   (cl:unread-char #\" s)
+                                   (let ((cl:*readtable* *plain-readtable*))
+                                     (cl:read s cl:t cl:nil cl:t)))
                                  *valtan-readtable*)

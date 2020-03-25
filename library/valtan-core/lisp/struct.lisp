@@ -14,19 +14,19 @@
         (if (cl:consp name-and-options)
             (cl:values (cl:first name-and-options) (cl:rest name-and-options))
             (cl:values name-and-options nil))
-      (let* ((conc-name (cl:format nil "~A-" structure-name))
+      (let* ((conc-name (cl:format nil #"~A-" structure-name))
              constructor-option
              included-option
              type-option
              named-option
              (constructor-name
-              (cl:intern (cl:format nil "MAKE-~A" structure-name)
+              (cl:intern (cl:format nil #"MAKE-~A" structure-name)
                          (cl:symbol-package structure-name)))
              (copier-name
-              (cl:intern (cl:format nil "COPY-~A" structure-name)
+              (cl:intern (cl:format nil #"COPY-~A" structure-name)
                          (cl:symbol-package structure-name)))
              (predicate-name
-              (cl:intern (cl:format nil "~A-P" structure-name) (cl:symbol-package structure-name)))
+              (cl:intern (cl:format nil #"~A-P" structure-name) (cl:symbol-package structure-name)))
              print-function)
         (cl:dolist (option options)
           (cl:unless (cl:consp option) (setq option (cl:list option)))
@@ -84,7 +84,7 @@
                        (if (cl:consp slot-desc)
                            (cl:first slot-desc)
                            slot-desc))
-                     (accessor (cl:intern (cl:format nil "~A~A" conc-name slot-name))))
+                     (accessor (cl:intern (cl:format nil #"~A~A" conc-name slot-name))))
                 (cl:incf i)
                 (cl:destructuring-bind
                       (&key cl:type read-only)
@@ -109,14 +109,14 @@
                        `(lambda (,cl:structure ,cl:stream)
                           (,print-function ,cl:structure ,cl:stream 0)))
                      `(lambda (cl:structure cl:stream)
-                        (cl:write-string "#S(" cl:stream)
+                        (cl:write-string #"#S(" cl:stream)
                         (cl:write-string ,(cl:string structure-name) cl:stream)
-                        (cl:write-string " " cl:stream)
+                        (cl:write-string #" " cl:stream)
                         ,@(let ((i -1))
                             (cl:mapcar
                              (lambda (slot-desc)
                                `(progn
-                                  ,(cl:unless (cl:= i -1) '(cl:write-string " " cl:stream))
+                                  ,(cl:unless (cl:= i -1) '(cl:write-string #" " cl:stream))
                                   (cl:prin1
                                    ,(cl:intern
                                      (cl:string
@@ -125,11 +125,11 @@
                                           slot-desc))
                                      :keyword)
                                    cl:stream)
-                                  (cl:write-string " " cl:stream)
+                                  (cl:write-string #" " cl:stream)
                                   (cl:prin1 (*:%structure-ref cl:structure ,(cl:incf i))
                                             cl:stream)))
                              slot-descriptions))
-                        (cl:write-string ")" cl:stream))))
+                        (cl:write-string #")" cl:stream))))
        ',structure-name)))
 
 (declaim (ftype function get))

@@ -74,6 +74,7 @@
   (set-dispatch-macro-character #\# #\= 'read-sharp-equal)
   (set-dispatch-macro-character #\# #\# 'read-sharp-sharp)
   (set-dispatch-macro-character #\# #\* 'read-sharp-star)
+  (set-dispatch-macro-character #\# #\" 'read-sharp-string nil readtable)
   readtable)
 
 (defun set-readtable (to-readtable from-readtable)
@@ -667,6 +668,10 @@
         (read-char stream t nil t)))
     (setq bits (nreverse bits))
     (make-array (length bits) :element-type 'bit :initial-contents bits)))
+
+(defun read-sharp-string (stream sub-char arg)
+  (declare (ignore sub-char arg))
+  (read-string stream #\"))
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)

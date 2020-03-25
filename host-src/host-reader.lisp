@@ -39,6 +39,12 @@
          (otherwise
           (let ((form (read s t nil t)))
             `(ffi:cl->js ,form))))))
+    (let ((fn (get-macro-character #\" *readtable*)))
+      (set-dispatch-macro-character
+       #\# #\"
+       (lambda (s c n)
+         (declare (ignore n))
+         (funcall fn s c))))
     *readtable*))
 
 (defmacro *:quasiquote (x)
