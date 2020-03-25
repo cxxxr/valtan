@@ -20,7 +20,9 @@
         (list (subseq string start)))))
 
 (defun js-symbol-p (symbol)
-  (valtan-core::js-symbol-p symbol))
+  (and (symbolp symbol)
+       (eq (find-package (symbol-package symbol))
+           (find-package "JS"))))
 
 (defun capitalize (string first out)
   (when (< 0 (length string))

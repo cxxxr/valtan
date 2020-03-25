@@ -4,9 +4,7 @@
 (in-package :valtan-core)
 
 (defun js-symbol-p (symbol)
-  (cl:and (symbolp symbol)
-          (cl:eq (cl:symbol-package symbol)
-                 (cl:load-time-value (cl:find-package (cl:coerce '(#\J #\S) 'cl:string))))))
+  (cl:and (symbolp var) (cl:string= "JS" (cl:package-name (cl:symbol-package var)))))
 
 (defmacro ffi:define-function (name arguments &body body)
   `(progn
