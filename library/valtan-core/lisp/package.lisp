@@ -70,6 +70,22 @@
         (nicknames (cdr (assoc :nicknames options))))
     `(*:%defpackage ,package :export ,export :use ,use :nicknames ,nicknames)))
 
+(defun export (symbols &optional (package *package*))
+  (unless (or (listp symbols) (symbolp symbols))
+    (type-error symbols '(or cons symbol)))
+  (let ((symbols
+          (cond ((null symbols))
+                ((symbolp symbols)
+                 (list symbols))
+                (t symbols))))
+    (dolist (symbol symbols)
+      (unless (symbolp symbol)
+        (type-error symbol 'symbol)))
+    ;; (unless (packagep package)
+    ;;   (type-error symbol 'symbol))
+    (system:export symbols package)
+    t))
+
 #|
 (defvar *packages* '())
 

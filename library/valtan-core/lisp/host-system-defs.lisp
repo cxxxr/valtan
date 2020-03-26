@@ -54,6 +54,9 @@
 (cl:defun system:make-package (name nicknames use-package-names)
   (cl:make-package name :nicknames nicknames :use use-package-names))
 
+(cl:defun system:export (symbols package)
+  (cl:export symbols package))
+
 (cl:defun system:%add (x y)
   (cl:+ x y))
 

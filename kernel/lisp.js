@@ -57,7 +57,8 @@ import {
     CL_intern,
     CL_findSymbol,
     CL_makePackage,
-    CL_mapPackageSymbols
+    CL_mapPackageSymbols,
+    CL_export,
 } from './package';
 export * from './package';
 
@@ -209,6 +210,7 @@ registerFunction(cl_package, 'LIST-ALL-PACKAGES', CL_listAllPackages, 0);
 registerFunction(system_package, 'INTERN', CL_intern, 2);
 registerFunction(system_package, 'FIND-SYMBOL', CL_findSymbol, 2);
 registerFunction(system_package, 'MAKE-PACKAGE', CL_makePackage, 3);
+registerFunction(system_package, 'EXPORT', CL_export, 1, 2);
 
 // number.js
 registerFunction(cl_package, 'NUMBERP', CL_numberp, 1);

@@ -269,6 +269,13 @@ export function CL_makePackage(name, nicknames, usePackageNames) {
     return values1(makePackage(name, nicknames, usePackageNames));
 }
 
+export function CL_export(exportNames, pkg) {
+    for (let name of exportNames) {
+        pkg.exportSymbol(name);
+    }
+    return values1(S_t);
+}
+
 export function CL_mapPackageSymbols(pkg, fn) {
     checkPackage(pkg);
     pkg.mapSymbols(fn);

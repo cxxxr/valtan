@@ -48,6 +48,7 @@
            :intern
            :find-symbol
            :make-package
+           :export
            :%add
            :%sub
            :%negate
