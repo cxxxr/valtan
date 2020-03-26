@@ -72,7 +72,6 @@
 
 (defvar *gentemp-counter* 0)
 #-valtan(defvar *package* (cl:find-package :cl-user))
-(declaim (ftype function find-symbol intern))
 
 (defun gentemp (&optional (prefix "T") (package *package*))
   (do ()
