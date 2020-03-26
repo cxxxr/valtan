@@ -142,7 +142,7 @@
    :defun :defmacro :define-symbol-macro :lambda :defvar :defparameter :quote :setq :if :progn :function :let :let* :flet :labels :macrolet
    :symbol-macrolet :unwind-protect :block :return-from :tagbody :go :locally :declaim :eval-when :in-package
 
-   :declare :declaim :ignore :ignorable :ftype :function
+   :declare :declaim :special :ignore :ignorable :ftype :function
 
    "CHARACTERP" "EQ" "VALUES" "CONS" "CONSP" "FUNCTIONP" "INTEGERP" "NUMBERP" "LIST-ALL-PACKAGES" "PACKAGEP" "FMAKUNBOUND" "MAKUNBOUND" "SET"
    "FBOUNDP" "BOUNDP" "SYMBOLP"))
