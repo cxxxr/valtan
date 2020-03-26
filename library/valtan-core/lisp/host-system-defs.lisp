@@ -89,6 +89,16 @@
 (cl:defun system:make-package (name nicknames use-package-names)
   (cl:make-package name :nicknames nicknames :use use-package-names))
 
+(cl:defun system:%defpackage (package &key export use nicknames)
+  (flet ((ref-string (structure)
+           (system:%structure-ref structure 0)))
+    (setq package (ref-string package)
+          export (mapcar #'ref-string export)
+          use (mapcar #'ref-string use)
+          nicknames (mapcar #'ref-string nicknames))
+    (let ((package (cl:make-package package :use use :nicknames nicknames)))
+      (cl:export export package))))
+
 (cl:defun system:export (symbols package)
   (cl:export symbols package))
 
