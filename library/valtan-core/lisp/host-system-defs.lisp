@@ -20,8 +20,8 @@
   (cl:symbol-function symbol))
 
 (cl:defun system:symbol-name (symbol)
-  (or (cl:symbol-name symbol)
-      system:+null+))
+  (cl:or (cl:symbol-name symbol)
+         system:+null+))
 
 (cl:defun system:symbol-package-name (symbol)
   (cl:let ((package (cl:symbol-package symbol)))
