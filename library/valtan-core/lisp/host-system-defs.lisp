@@ -97,7 +97,8 @@
           use (mapcar #'ref-string use)
           nicknames (mapcar #'ref-string nicknames))
     (let ((package (cl:make-package package :use use :nicknames nicknames)))
-      (cl:export export package))))
+      (cl:export export package)
+      package)))
 
 (cl:defun system:export (symbols package)
   (cl:export symbols package))
