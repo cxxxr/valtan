@@ -31,7 +31,8 @@
 (cl:defpackage :system
   (:nicknames :*)
   (:use)
-  (:export :*get-stdin-line-function*
+  (:export :+null+
+           :*get-stdin-line-function*
            :make-symbol
            :put-symbol-plist
            :symbol-name

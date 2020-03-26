@@ -1,5 +1,7 @@
 (cl:in-package :common-lisp)
 
+(cl:defparameter system:+null+ (ffi:ref "null"))
+
 (cl:defun system:make-raw-string ()
   (ffi:new (ffi:ref "String")))
 

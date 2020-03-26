@@ -1,5 +1,7 @@
 (cl:in-package :valtan-core)
 
+(cl:defparameter system:+null+ '#:null)
+
 
 ;;; lisp.jsに対応
 (cl:defun system:make-symbol (name)
@@ -18,17 +20,21 @@
   (cl:symbol-function symbol))
 
 (cl:defun system:symbol-name (symbol)
-  (cl:symbol-name symbol))
+  (or (cl:symbol-name symbol)
+      system:+null+))
 
 (cl:defun system:symbol-package-name (symbol)
-  (cl:package-name (cl:symbol-package symbol)))
+  (cl:let ((package (cl:symbol-package symbol)))
+    (if package
+        (cl:package-name package)
+        system:+null+)))
 
 (cl:defun system:fset (symbol function)
   (cl:setf (cl:symbol-function symbol) function))
 
 (cl:defun system:map-package-symbols (package function)
-  (cl:declare (cl:ignore package function))
-  (cl:error "unimplemented"))
+  (cl:do-symbols (s package nil)
+    (cl:funcall function s)))
 
 (cl:defun system:put (symbol key value)
   (cl:setf (cl:get symbol key) value))
@@ -40,16 +46,13 @@
   (cl:package-nicknames package))
 
 (cl:defun system:intern (name package)
-  (cl:declare (cl:ignore name package))
-  (cl:error "unimplemented"))
+  (cl:intern name package))
 
 (cl:defun system:find-symbol (name package)
-  (cl:declare (cl:ignore name package))
-  (cl:error "unimplemented"))
+  (cl:find-symbol name package))
 
-(cl:defun system:make-package (name nicknames use-packager-names)
-  (cl:declare (cl:ignore name nicknames use-packager-names))
-  (cl:error "unimplemented"))
+(cl:defun system:make-package (name nicknames use-package-names)
+  (cl:make-package name :nicknames nicknames :use use-package-names))
 
 (cl:defun system:%add (x y)
   (cl:+ x y))
@@ -106,8 +109,7 @@
   (cl:rplacd cons x))
 
 (cl:defun system:js-array-to-list (js-array)
-  (cl:declare (cl:ignore js-array))
-  (cl:error "unimplemented"))
+  js-array)
 
 (cl:defun system:list-to-js-array (list)
   list)
@@ -164,39 +166,41 @@
   `(cl:defmacro ,name ,lambda-list ,@body))
 
 (cl:defun system:make-raw-string ()
-  (cl:error "unimplemented"))
+  (cl:make-string 0))
 
 (cl:defun system:expand-raw-string (raw-string n)
-  (cl:declare (cl:ignore raw-string n))
-  (cl:error "unimplemented"))
+  (let ((new-string (cl:make-string n :initial-element #.(cl:code-char 0))))
+    (cl:replace new-string raw-string)
+    new-string))
 
 (cl:defun system:code-to-raw-string (code)
-  (cl:declare (cl:ignore code))
-  (cl:error "unimplemented"))
+  (cl:string (cl:code-char code)))
 
 (cl:defun system:sub-raw-string/2 (raw-string start)
-  (cl:declare (cl:ignore raw-string start))
-  (cl:error "unimplemented"))
+  (cl:subseq raw-string start))
 
 (cl:defun system:sub-raw-string/3 (raw-string start end)
-  (cl:declare (cl:ignore raw-string start end))
-  (cl:error "unimplemented"))
+  (cl:subseq raw-string start end))
 
-(cl:defun system:concat-raw-string/2 (raw-string-1 raw-string-2)
-  (cl:declare (cl:ignore raw-string-1 raw-string-2))
-  (cl:error "unimplemented"))
+(flet ((concat (&rest raw-strings)
+         (cl:apply #'cl:concatenate
+                   'cl:string
+                   (cl:mapcar (cl:lambda (raw-string)
+                                (if (cl:characterp raw-string)
+                                    (cl:string raw-string)
+                                    raw-string))
+                              raw-strings))))
+  (cl:defun system:concat-raw-string/2 (raw-string-1 raw-string-2)
+    (concat raw-string-1 raw-string-2))
 
-(cl:defun system:concat-raw-string/3 (raw-string-1 raw-string-2 raw-string-3)
-  (cl:declare (cl:ignore raw-string-1 raw-string-2 raw-string-3))
-  (cl:error "unimplemented"))
+  (cl:defun system:concat-raw-string/3 (raw-string-1 raw-string-2 raw-string-3)
+    (concat raw-string-1 raw-string-2 raw-string-3)))
 
 (cl:defun system:raw-string-upcase (raw-string)
-  (cl:declare (cl:ignore raw-string))
-  (cl:error "unimplemented"))
+  (cl:string-upcase raw-string))
 
 (cl:defun system:raw-string-downcase (raw-string)
-  (cl:declare (cl:ignore raw-string))
-  (cl:error "unimplemented"))
+  (cl:string-downcase raw-string))
 
 (cl:defun system:number-to-raw-string (number)
   (cl:princ-to-string number))

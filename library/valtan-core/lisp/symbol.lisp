@@ -11,7 +11,7 @@
 
 (declaim (ftype function find-package))
 (defun symbol-package (symbol)
-  (if (eq (*:symbol-package-name symbol) (ffi:ref "null"))
+  (if (eq (*:symbol-package-name symbol) system:+null+)
       nil
       (find-package (*:js-string-to-array (*:symbol-package-name symbol)))))
 
@@ -64,14 +64,14 @@
 (defun gensym (&optional (prefix "G"))
   (make-symbol (cond ((and (integerp prefix) (<= 0 prefix))
                       (format nil "G~D" prefix))
-                     ((not (cl:stringp prefix))
+                     ((not (stringp prefix))
                       (type-error prefix '(or string (integer 0 *))))
                      (t
                       (prog1 (*:string-append prefix (princ-to-string *gensym-counter*))
                         (incf *gensym-counter*))))))
 
 (defvar *gentemp-counter* 0)
-#-valtan(defvar *package*)
+#-valtan(defvar *package* (cl:find-package :cl-user))
 (declaim (ftype function find-symbol intern))
 
 (defun gentemp (&optional (prefix "T") (package *package*))
