@@ -2,6 +2,41 @@
 
 (cl:defparameter system:+null+ '#:null)
 
+(cl:defclass structure ()
+  ((name :initarg :name :reader structure-name)
+   (values :initarg :values :reader structure-values)))
+
+(cl:defmethod cl:print-object ((object structure) stream)
+  (if (cl:and (cl:eq (structure-name object) 'array)
+              (cl:stringp (cl:first (structure-values object))))
+      (cl:prin1 (cl:first (structure-values object)) stream)
+      (cl:print-unreadable-object (object stream)
+        (cl:princ (structure-name object) stream))))
+
+(cl:defun system:structure-p (structure)
+  (cl:typep structure 'structure))
+
+(cl:defun system:make-structure (name &rest args)
+  (cl:make-instance 'structure :name name :values args))
+
+(cl:defun system:%structure-name (structure)
+  (structure-name structure))
+
+(cl:defun system:%structure-slot-count (structure)
+  (cl:length (structure-values structure)))
+
+(cl:defun system:%structure-ref (structure index)
+  (cl:elt (structure-values structure) index))
+
+(cl:defun system:%copy-structure (structure)
+  (cl:make-instance 'structure
+                    :name (structure-name structure)
+                    :values (structure-values structure)))
+
+(cl:defun system:%structure-set (structure index value)
+  (cl:setf (cl:elt (structure-values structure) index)
+           value))
+
 
 ;;; lisp.jsに対応
 (cl:defun system:make-symbol (name)
@@ -119,41 +154,6 @@
 
 (cl:defmacro system:multiple-value-call (function cl:&rest args)
   `(cl:multiple-value-call ,function ,@args))
-
-(cl:defclass structure ()
-  ((name :initarg :name :reader structure-name)
-   (values :initarg :values :reader structure-values)))
-
-(cl:defmethod cl:print-object ((object structure) stream)
-  (if (cl:and (cl:eq (structure-name object) 'array)
-              (cl:stringp (cl:first (structure-values object))))
-      (cl:prin1 (cl:first (structure-values object)) stream)
-      (cl:print-unreadable-object (object stream)
-        (cl:princ (structure-name object) stream))))
-
-(cl:defun system:structure-p (structure)
-  (cl:typep structure 'structure))
-
-(cl:defun system:make-structure (name &rest args)
-  (cl:make-instance 'structure :name name :values args))
-
-(cl:defun system:%structure-name (structure)
-  (structure-name structure))
-
-(cl:defun system:%structure-slot-count (structure)
-  (cl:length (structure-values structure)))
-
-(cl:defun system:%structure-ref (structure index)
-  (cl:elt (structure-values structure) index))
-
-(cl:defun system:%copy-structure (structure)
-  (cl:make-instance 'structure
-                    :name (structure-name structure)
-                    :values (structure-values structure)))
-
-(cl:defun system:%structure-set (structure index value)
-  (cl:setf (cl:elt (structure-values structure) index)
-           value))
 
 (cl:defun system:error (value)
   (cl:error value))
