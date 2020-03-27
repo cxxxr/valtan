@@ -67,8 +67,8 @@
            :%cdr
            :%rplaca
            :%rplacd
-           :js-array-to-list
-           :list-to-js-array
+           :raw-array-to-list
+           :list-to-raw-array
            :multiple-value-call
            :make-structure
            :%copy-structure
@@ -102,9 +102,9 @@
            :map-clear
            :function-name
            :unknown-object-to-string
-           :js-array-to-array
-           :js-string-to-array
-           :array-to-js-string
+           :raw-array-to-array
+           :raw-string-to-array
+           :array-to-raw-string
            :string-append
            :string-append*
            :%defun

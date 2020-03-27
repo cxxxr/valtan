@@ -45,7 +45,7 @@
                ((>= i len))
              (setq raw-string
                    (system:concat-raw-string/2 raw-string
-                                               (system:array-to-js-string
+                                               (system:array-to-raw-string
                                                 (string (elt initial-contents i))))))
            raw-string))
         (t
@@ -121,7 +121,7 @@
                  :length (dimensions-to-total-size dimensions)
                  :element-type element-type)))
 
-(defun *:js-array-to-array (js-array)
+(defun *:raw-array-to-array (js-array)
   (%make-array :contents js-array
                :rank 1
                :length (system:raw-array-length js-array)
@@ -133,10 +133,10 @@
                :length (system:raw-array-length raw-string)
                :element-type 'character))
 
-(defun *:js-string-to-array (raw-string)
+(defun *:raw-string-to-array (raw-string)
   (simple-make-string raw-string))
 
-(defun *:array-to-js-string (array)
+(defun *:array-to-raw-string (array)
   (if (array-fill-pointer array)
       (system:sub-raw-string/3 (array-contents array) 0 (array-fill-pointer array))
       (array-contents array)))

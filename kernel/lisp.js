@@ -240,8 +240,8 @@ registerFunction(system_package, '%CAR', CL_car, 1);
 registerFunction(system_package, '%CDR', CL_cdr, 1);
 registerFunction(system_package, '%RPLACA', CL_rplaca, 2);
 registerFunction(system_package, '%RPLACD', CL_rplacd, 2);
-registerFunction(system_package, 'JS-ARRAY-TO-LIST', CL_jsArrayToList, 1);
-registerFunction(system_package, 'LIST-TO-JS-ARRAY', CL_listToJsArray, 1);
+registerFunction(system_package, 'RAW-ARRAY-TO-LIST', CL_jsArrayToList, 1);
+registerFunction(system_package, 'LIST-TO-RAW-ARRAY', CL_listToJsArray, 1);
 
 // values.js
 registerFunction(cl_package, 'VALUES', CL_values, 0, null);

@@ -289,7 +289,7 @@
          (p2-symbol-to-js-value x))
         ((stringp x)
          (format nil "~A(lisp.codeArrayToString(~A))"
-                 (p2-symbol-to-call-value '*:js-string-to-array)
+                 (p2-symbol-to-call-value '*:raw-string-to-array)
                  (p2-encode-string x)))
         ((numberp x)
          (princ-to-string x))

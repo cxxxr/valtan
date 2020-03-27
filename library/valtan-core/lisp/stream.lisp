@@ -41,7 +41,7 @@
 (defun flush (stream)
   (let ((x (standard-output-stream-buffer stream)))
     (when (< 0 (length x))
-      (js::console.log (*:array-to-js-string x))
+      (js::console.log (*:array-to-raw-string x))
       (setf (standard-output-stream-buffer stream) ""))))
 
 (defun stream-write-char (stream char)

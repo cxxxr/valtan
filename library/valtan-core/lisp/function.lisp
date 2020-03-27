@@ -5,14 +5,14 @@
 
 (defun funcall (function &rest args)
   (let ((function (ensure-function function)))
-    (*:apply function (*:list-to-js-array args))))
+    (*:apply function (*:list-to-raw-array args))))
 
 (defun apply (function arg &rest args)
   (let ((function (ensure-function function)))
     (cond ((null args)
            (unless (listp arg)
              (type-error arg 'list))
-           (*:apply function (*:list-to-js-array arg)))
+           (*:apply function (*:list-to-raw-array arg)))
           (t
            (let* ((head (list arg))
                   (tail head))
@@ -24,7 +24,7 @@
                (let ((a (car rest)))
                  (setf (cdr tail) (list a))
                  (setq tail (cdr tail))))
-             (*:apply function (*:list-to-js-array head)))))))
+             (*:apply function (*:list-to-raw-array head)))))))
 
 (defun fdefinition (x)
   (or (cond ((consp x)

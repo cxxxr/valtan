@@ -45,7 +45,7 @@
          (write-string string stream))))
 
 (defun print-number (number stream)
-  (write-string (system:js-string-to-array (system:number-to-raw-string number)) stream))
+  (write-string (system:raw-string-to-array (system:number-to-raw-string number)) stream))
 
 (defun print-character (char stream)
   (cond (*print-escape*

@@ -157,10 +157,10 @@
 (cl:defun system:%rplacd (cons x)
   (cl:rplacd cons x))
 
-(cl:defun system:js-array-to-list (js-array)
-  js-array)
+(cl:defun system:raw-array-to-list (raw-array)
+  raw-array)
 
-(cl:defun system:list-to-js-array (list)
+(cl:defun system:list-to-raw-array (list)
   list)
 
 (cl:defmacro system:multiple-value-call (function cl:&rest args)
@@ -257,16 +257,16 @@
   (cl:declare (cl:ignore object))
   (cl:error "unimplemented"))
 
-(cl:defun system:array-to-js-string (array)
+(cl:defun system:array-to-raw-string (array)
   (cl:declare (cl:ignore array))
   (cl:error "unimplemented"))
 
-(cl:defun system:js-string-to-array (js-string)
-  (cl:declare (cl:ignore js-string))
+(cl:defun system:raw-string-to-array (raw-string)
+  (cl:declare (cl:ignore raw-string))
   (cl:error "unimplemented"))
 
-(cl:defun system:js-array-to-array (js-array)
-  (cl:declare (cl:ignore js-array))
+(cl:defun system:raw-array-to-array (raw-array)
+  (cl:declare (cl:ignore raw-array))
   (cl:error "unimplemented"))
 
 

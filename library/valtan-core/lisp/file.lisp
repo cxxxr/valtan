@@ -9,10 +9,10 @@
      (make-file-input-stream
       :string-stream
       (make-string-input-stream
-       (*:js-string-to-array
+       (*:raw-string-to-array
         ((ffi:ref "fs" "readFileSync")
-         (*:array-to-js-string filename)
-         (*:array-to-js-string "utf-8"))))))
+         (*:array-to-raw-string filename)
+         (*:array-to-raw-string "utf-8"))))))
     ;(:output)
     ))
 

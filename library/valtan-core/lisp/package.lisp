@@ -36,29 +36,29 @@
         package)))
 
 (defun package-name (package)
-  (*:js-string-to-array (*:package-name (ensure-package package))))
+  (*:raw-string-to-array (*:package-name (ensure-package package))))
 
 (defun package-nicknames (package)
-  (mapcar #'*:js-string-to-array
-          (*:js-array-to-list (*:package-nicknames (ensure-package package)))))
+  (mapcar #'*:raw-string-to-array
+          (*:raw-array-to-list (*:package-nicknames (ensure-package package)))))
 
 (defun intern (name &optional (package *package*))
-  (*:intern (*:array-to-js-string name)
+  (*:intern (*:array-to-raw-string name)
             (find-package package)))
 
 (defun find-symbol (name &optional (package *package*))
-  (*:find-symbol (*:array-to-js-string name)
+  (*:find-symbol (*:array-to-raw-string name)
                  (find-package package)))
 
 (defun make-package (package-name &key nicknames use)
-  (*:make-package (*:array-to-js-string (string package-name))
-                  (*:list-to-js-array
+  (*:make-package (*:array-to-raw-string (string package-name))
+                  (*:list-to-raw-array
                    (mapcar (lambda (nickname)
-                             (*:array-to-js-string (string nickname)))
+                             (*:array-to-raw-string (string nickname)))
                            nicknames))
-                  (*:list-to-js-array
+                  (*:list-to-raw-array
                    (mapcar (lambda (nickname)
-                             (*:array-to-js-string (string nickname)))
+                             (*:array-to-raw-string (string nickname)))
                            use))))
 
 (defmacro defpackage (package &body options)

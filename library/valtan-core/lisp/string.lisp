@@ -16,7 +16,7 @@
   (cond ((stringp x)
          x)
         ((characterp x)
-         (*:js-string-to-array (*:code-to-raw-string (char-code x))))
+         (*:raw-string-to-array (*:code-to-raw-string (char-code x))))
         ((symbolp x)
          (symbol-name x))
         (t
@@ -27,9 +27,9 @@
     (type-error x 'string))
   (unless (stringp y)
     (type-error y 'string))
-  (*:js-string-to-array
-   (*:concat-raw-string/2 (*:array-to-js-string x)
-                          (*:array-to-js-string y))))
+  (*:raw-string-to-array
+   (*:concat-raw-string/2 (*:array-to-raw-string x)
+                          (*:array-to-raw-string y))))
 
 (defun *:string-append* (string &rest strings)
   (dolist (s strings)
@@ -42,20 +42,20 @@
   (setq string (string string))
   (unless end (setq end (length string)))
   (if (and (= start 0) (= end (length string)))
-      (*:js-string-to-array (*:raw-string-upcase (*:array-to-js-string string)))
+      (*:raw-string-to-array (*:raw-string-upcase (*:array-to-raw-string string)))
       (*:string-append* (subseq string 0 start)
-                        (*:js-string-to-array
-                         (*:raw-string-upcase (*:array-to-js-string (subseq string start end))))
+                        (*:raw-string-to-array
+                         (*:raw-string-upcase (*:array-to-raw-string (subseq string start end))))
                         (subseq string end))))
 
 (defun string-downcase (string &key (start 0) end)
   (setq string (string string))
   (unless end (setq end (length string)))
   (if (and (= start 0) (= end (length string)))
-      (*:js-string-to-array (*:raw-string-downcase (*:array-to-js-string string)))
+      (*:raw-string-to-array (*:raw-string-downcase (*:array-to-raw-string string)))
       (*:string-append* (subseq string 0 start)
-                        (*:js-string-to-array
-                         (*:raw-string-downcase (*:array-to-js-string (subseq string start end))))
+                        (*:raw-string-to-array
+                         (*:raw-string-downcase (*:array-to-raw-string (subseq string start end))))
                         (subseq string end))))
 
 (defun string-capitalize (string &key (start 0) end)

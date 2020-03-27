@@ -29,6 +29,8 @@
                 (test-form form)))))
 
 (defun main ()
-  (run-test (test-pathname "must-cons"))
-  (run-test (test-pathname "must-character"))
-  (run-test (test-pathname "must-symbol")))
+  ;; (run-test (test-pathname "must-cons"))
+  ;; (run-test (test-pathname "must-character"))
+  ;; (run-test (test-pathname "must-symbol"))
+  ;; (run-test (test-pathname "must-string"))
+  (run-test (test-pathname "must-sequence")))

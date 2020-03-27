@@ -4,16 +4,16 @@
 (in-package :valtan-core)
 
 (defun make-symbol (string)
-  (*:make-symbol (*:array-to-js-string string)))
+  (*:make-symbol (*:array-to-raw-string string)))
 
 (defun symbol-name (symbol)
-  (*:js-string-to-array (*:symbol-name symbol)))
+  (*:raw-string-to-array (*:symbol-name symbol)))
 
 (declaim (ftype function find-package))
 (defun symbol-package (symbol)
   (if (eq (*:symbol-package-name symbol) system:+null+)
       nil
-      (find-package (*:js-string-to-array (*:symbol-package-name symbol)))))
+      (find-package (*:raw-string-to-array (*:symbol-package-name symbol)))))
 
 (defun keywordp (x)
   (and (symbolp x)
