@@ -1,6 +1,6 @@
-(cl:defpackage :valtan-core/tests
+(cl:defpackage :valtan-core-tests
   (:use :cl))
-(cl:in-package :valtan-core/tests)
+(cl:in-package :valtan-core-tests)
 
 (defvar *valtan-package* (find-package :valtan-core))
 
