@@ -96,7 +96,8 @@
           export (mapcar #'ref-string export)
           use (mapcar #'ref-string use)
           nicknames (mapcar #'ref-string nicknames))
-    (let ((package (cl:make-package package :use use :nicknames nicknames)))
+    (let ((package (or (cl:find-package package)
+                       (cl:make-package package :use use :nicknames nicknames))))
       (cl:export export package)
       package)))
 
