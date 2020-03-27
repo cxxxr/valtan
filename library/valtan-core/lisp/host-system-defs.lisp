@@ -7,11 +7,7 @@
    (values :initarg :values :reader structure-values)))
 
 (cl:defmethod cl:print-object ((object structure) stream)
-  (if (cl:and (cl:eq (structure-name object) 'array)
-              (cl:stringp (cl:first (structure-values object))))
-      (cl:prin1 (cl:first (structure-values object)) stream)
-      (cl:print-unreadable-object (object stream)
-        (cl:princ (structure-name object) stream))))
+  (cl:prin1 (cl:first (structure-values object)) stream))
 
 (cl:defun system:structure-p (structure)
   (cl:typep structure 'structure))
