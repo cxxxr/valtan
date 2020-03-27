@@ -35,6 +35,26 @@
                                                             't)))
                                  *valtan-readtable*)
 
+(cl:set-dispatch-macro-character #\# #\*
+                                 (cl:lambda (s c n)
+                                   (cl:declare (cl:ignore c n))
+                                   (cl:let* ((cl:*readtable* *plain-readtable*)
+                                             (bits (cl:coerce
+                                                    (cl:loop
+                                                      :while (cl:member (cl:peek-char cl:nil s cl:t cl:nil cl:t)
+                                                                        '(#\0 #\1))
+                                                      :collect (cl:ecase (cl:read-char s cl:t cl:nil cl:t)
+                                                                 (#\0 0)
+                                                                 (#\1 1)))
+                                                    'cl:vector)))
+                                     (system:make-structure 'array
+                                                            bits
+                                                            nil
+                                                            1
+                                                            (cl:length bits)
+                                                            't)))
+                                 *valtan-readtable*)
+
 (cl:set-dispatch-macro-character #\# #\"
                                  (cl:lambda (s c n)
                                    (cl:declare (cl:ignore c n))
