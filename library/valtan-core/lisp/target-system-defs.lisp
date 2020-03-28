@@ -1,5 +1,7 @@
 (cl:in-package :common-lisp)
 
+#+node (ffi:require js:fs "fs")
+
 (cl:define-symbol-macro system:+null+ (ffi:ref "null"))
 
 (cl:defun system:make-raw-string ()
@@ -74,3 +76,8 @@
 (cl:defun system:unknown-object-to-string (object)
   (let ((object (ffi:js->cl object)))
     (ffi:js->cl ((ffi:ref "String") object))))
+
+(cl:defun system:read-whole-file (filename)
+  ((ffi:ref "fs" "readFileSync")
+   (*:array-to-raw-string filename)
+   (*:array-to-raw-string "utf-8")))

@@ -266,6 +266,12 @@
   (cl:declare (cl:ignore raw-array))
   (cl:error "unimplemented"))
 
+(cl:defun system:read-whole-file (filename)
+  (cl:with-open-file (in filename)
+    (let ((string (cl:make-array (cl:file-length in) :element-type 'cl:character)))
+      (cl:read-sequence string in)
+      string)))
+
 
 (cl:defun js::-object ()
   (cl:error "unimplemented"))

@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 #+node (ffi:require js:fs "fs")
 
@@ -10,9 +13,7 @@
       :string-stream
       (make-string-input-stream
        (*:raw-string-to-array
-        ((ffi:ref "fs" "readFileSync")
-         (*:array-to-raw-string filename)
-         (*:array-to-raw-string "utf-8"))))))
+        (system:read-whole-file filename)))))
     ;(:output)
     ))
 

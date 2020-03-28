@@ -33,6 +33,7 @@
   (:use)
   (:export :+null+
            :*get-stdin-line-function*
+           :read-whole-file
            :make-symbol
            :put-symbol-plist
            :symbol-name
