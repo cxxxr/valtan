@@ -8,9 +8,9 @@
 ;;; なのでgensymをsbclでも動くようにしてcl:プリフィクスを外す
 
 (defvar *inner-list-p* nil)
-(defvar *dot-marker* (cl:gensym "DOT"))
+(defvar *dot-marker* (gensym "DOT"))
 (defvar *read-label-table*)
-(defvar *read-skip-marker* (cl:gensym "SKIP"))
+(defvar *read-skip-marker* (gensym "SKIP"))
 
 (defparameter *whitespaces* '(#\space #\tab #\newline #\linefeed #\page #\return))
 
@@ -42,7 +42,7 @@
                    (t
                     (stream-read-char stream))))))))
 
-(defparameter +sharp-equal-marker+ (cl:gensym))
+(defparameter +sharp-equal-marker+ (gensym))
 
 (defstruct sharp-equal
   label
