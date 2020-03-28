@@ -3,8 +3,6 @@
 #-valtan
 (in-package :valtan-core)
 
-#+node (ffi:require js:fs "fs")
-
 (defun open (filename &key (direction :input) element-type if-exists if-does-not-exist)
   (declare (ignore element-type if-exists if-does-not-exist))
   (ecase direction
