@@ -70,7 +70,12 @@
   (set-dispatch-macro-character #\# #\= 'sharp-equal-reader readtable)
   (set-dispatch-macro-character #\# #\# 'sharp-sharp-reader readtable)
   (set-dispatch-macro-character #\# #\* 'bit-vector-reader readtable)
+  (set-dispatch-macro-character #\# #\| 'block-comment-reader readtable)
+
+  ;; valtan dependency
   (set-dispatch-macro-character #\# #\" 'cl-string-reader readtable)
+  (set-dispatch-macro-character #\# #\j 'cl-to-js-reader readtable)
+
   readtable)
 
 (defun set-readtable (to-readtable from-readtable)
@@ -665,9 +670,59 @@
     (setq bits (nreverse bits))
     (make-array (length bits) :element-type 'bit :initial-contents bits)))
 
+(defun block-comment-reader (stream sub-char arg)
+  (declare (ignore sub-char arg))
+  (read-char stream t nil t)
+  (do ((c (read-char stream t nil t) (read-char stream t nil t))
+       (depth 1))
+      (nil)
+    (cond ((and (char= c #\|)
+                (char= #\# (peek-char nil stream t nil t)))
+           (when (zerop (decf depth))
+             (read-char stream t nil t)
+             (return)))
+          ((and (char= c #\#)
+                (char= #\| (peek-char nil stream t nil t)))
+           (incf depth))))
+  (values))
+
 (defun cl-string-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
   (string-reader stream #\"))
+
+(defun cl-to-js-reader (stream sub-char arg)
+  (declare (ignore sub-char arg))
+  (labels ((read-js-ident-1 ()
+             (with-output-to-string (out)
+               (do ((c (peek-char nil stream nil nil)
+                       (peek-char nil stream nil nil)))
+                   ((null c))
+                 (cond ((or (alphanumericp c) (char= c #\_))
+                        (write-char c out)
+                        (read-char stream))
+                       ((delimiter-p c)
+                        (return))
+                       (t
+                        (error "invalid character: ~S" c))))))
+           (read-js-ident ()
+             (let ((tokens '()))
+               (do ((token (read-js-ident-1) (read-js-ident-1)))
+                   (nil)
+                 (unless (string= token "")
+                   (push token tokens))
+                 (case (peek-char nil stream nil nil)
+                   (#\: (read-char stream))
+                   (otherwise (return (nreverse tokens))))))))
+    (case (peek-char nil stream)
+      (#\:
+       (read-char stream)
+       (cons 'ffi:ref (read-js-ident)))
+      (#\[
+       (error "unimplemented #j[...]"))
+      (#\{
+       (error "unimplemented #j{...}"))
+      (otherwise
+       (list 'ffi:cl->js (read stream t nil t))))))
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)
