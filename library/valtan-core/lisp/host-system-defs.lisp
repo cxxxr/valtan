@@ -7,7 +7,14 @@
    (values :initarg :values :reader structure-values)))
 
 (cl:defmethod cl:print-object ((object structure) stream)
-  (cl:prin1 (cl:first (structure-values object)) stream))
+  (cl:case (structure-name object)
+    ((string array)
+     (cl:prin1 (cl:first (structure-values object)) stream))
+    (cl:otherwise
+     (cl:print-unreadable-object (object stream)
+       (cl:format stream "STRUCTUER ~A ~S"
+                  (structure-name object)
+                  (structure-values object))))))
 
 (cl:defun system:structure-p (structure)
   (cl:typep structure 'structure))
