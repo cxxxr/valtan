@@ -53,24 +53,24 @@
 (defvar *readtable* (make-readtable))
 
 (defun init-readtable (readtable)
-  (set-macro-character #\( 'read-list nil readtable)
+  (set-macro-character #\( 'cons-reader nil readtable)
   (set-macro-character #\) 'read-right-paren nil readtable)
-  (set-macro-character #\' 'read-quote nil readtable)
-  (set-macro-character #\` 'read-quasiquote nil readtable)
-  (set-macro-character #\, 'read-unquote nil readtable)
-  (set-macro-character #\; 'read-line-comment nil readtable)
-  (set-macro-character #\" 'read-string nil readtable)
+  (set-macro-character #\' 'quote-reader nil readtable)
+  (set-macro-character #\` 'quasiquote-reader nil readtable)
+  (set-macro-character #\, 'unquote-reader nil readtable)
+  (set-macro-character #\; 'line-comment-reader nil readtable)
+  (set-macro-character #\" 'string-reader nil readtable)
   (make-dispatch-macro-character #\# t readtable)
-  (set-dispatch-macro-character #\# #\\ 'read-sharp-backslash readtable)
-  (set-dispatch-macro-character #\# #\' 'read-sharp-quote readtable)
-  (set-dispatch-macro-character #\# #\( 'read-sharp-left-paren readtable)
-  (set-dispatch-macro-character #\# #\: 'read-sharp-colon readtable)
-  (set-dispatch-macro-character #\# #\+ 'read-sharp-plus-minus readtable)
-  (set-dispatch-macro-character #\# #\- 'read-sharp-plus-minus readtable)
-  (set-dispatch-macro-character #\# #\= 'read-sharp-equal readtable)
-  (set-dispatch-macro-character #\# #\# 'read-sharp-sharp readtable)
-  (set-dispatch-macro-character #\# #\* 'read-sharp-star readtable)
-  (set-dispatch-macro-character #\# #\" 'read-sharp-string readtable)
+  (set-dispatch-macro-character #\# #\\ 'character-reader readtable)
+  (set-dispatch-macro-character #\# #\' 'function-reader readtable)
+  (set-dispatch-macro-character #\# #\( 'array-reader readtable)
+  (set-dispatch-macro-character #\# #\: 'unintern-symbol-reader readtable)
+  (set-dispatch-macro-character #\# #\+ 'sharp-plus-minus-reader readtable)
+  (set-dispatch-macro-character #\# #\- 'sharp-plus-minus-reader readtable)
+  (set-dispatch-macro-character #\# #\= 'sharp-equal-reader readtable)
+  (set-dispatch-macro-character #\# #\# 'sharp-sharp-reader readtable)
+  (set-dispatch-macro-character #\# #\* 'bit-vector-reader readtable)
+  (set-dispatch-macro-character #\# #\" 'cl-string-reader readtable)
   readtable)
 
 (defun set-readtable (to-readtable from-readtable)
@@ -440,7 +440,7 @@
                    (t
                     (return (read-token stream c)))))))))))
 
-(defun read-list (stream c)
+(defun cons-reader (stream c)
   (declare (ignore c))
   (let ((head nil)
         (tail nil)
@@ -471,15 +471,15 @@
   (declare (ignore stream c))
   (error "unmatched close parenthesis"))
 
-(defun read-quote (stream c)
+(defun quote-reader (stream c)
   (declare (ignore c))
   (list 'quote (read stream t nil t)))
 
-(defun read-quasiquote (stream c)
+(defun quasiquote-reader (stream c)
   (declare (ignore c))
   (list '*:quasiquote (read stream t nil t)))
 
-(defun read-unquote (stream c)
+(defun unquote-reader (stream c)
   (declare (ignore c))
   (cond ((char= #\@ (peek-char nil stream t nil t))
          (read-char stream t nil t)
@@ -487,12 +487,12 @@
         (t
          (list '*:unquote (read stream t nil t)))))
 
-(defun read-line-comment (stream c)
+(defun line-comment-reader (stream c)
   (declare (ignore c))
   (peek-char #\newline stream t nil t)
   (values))
 
-(defun read-string (stream c)
+(defun string-reader (stream c)
   (declare (ignore c))
   (with-output-to-string (out)
     (do ()
@@ -524,7 +524,7 @@
         (error "no dispatch function defined for ~S" sub-char))
       (funcall fn stream sub-char arg))))
 
-(defun read-sharp-backslash (stream sub-char arg)
+(defun character-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
   (let ((char (read-char stream t nil t))
         (next-char (peek-char nil stream nil nil t)))
@@ -550,15 +550,15 @@
                 (t
                  (error "unrecognized character name: ~S" name)))))))
 
-(defun read-sharp-quote (stream sub-char arg)
+(defun function-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
   (list 'function (read stream t nil t)))
 
-(defun read-sharp-left-paren (stream sub-char arg)
+(defun array-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
   (apply #'vector (read-delimited-list #\) stream t)))
 
-(defun read-sharp-colon (stream sub-char arg)
+(defun unintern-symbol-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
   (let ((token (read-token-1 stream
                              (read-char stream t nil t)
@@ -588,7 +588,7 @@
         (t
          (error "invalid feature expression: ~S" test))))
 
-(defun read-sharp-plus-minus (stream sub-char arg)
+(defun sharp-plus-minus-reader (stream sub-char arg)
   (declare (ignore arg))
   ;; TODO: testがnilの場合は*read-suppress*をnilにしてreadする必要がある
   (let ((test (let ((*package* (find-package :keyword)))
@@ -620,7 +620,7 @@
                       tree))))
       (f tree))))
 
-(defun read-sharp-equal (stream sub-char label)
+(defun sharp-equal-reader (stream sub-char label)
   (declare (ignore sub-char))
   (unless label
     (error "Reader dispatch macro character #\= requires an argument."))
@@ -635,7 +635,7 @@
     (setf (sharp-equal-value sharp-equal) form)
     (subst-sharp-equal form)))
 
-(defun read-sharp-sharp (stream sub-char label)
+(defun sharp-sharp-reader (stream sub-char label)
   (declare (ignore stream sub-char))
   (unless label
     (error "Reader dispatch macro character #\# requires an argument."))
@@ -647,7 +647,7 @@
           (t
            (sharp-equal-value sharp-equal)))))
 
-(defun read-sharp-star (stream sub-char arg)
+(defun bit-vector-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
   (let ((bits '()))
     (do () (nil)
@@ -665,9 +665,9 @@
     (setq bits (nreverse bits))
     (make-array (length bits) :element-type 'bit :initial-contents bits)))
 
-(defun read-sharp-string (stream sub-char arg)
+(defun cl-string-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
-  (read-string stream #\"))
+  (string-reader stream #\"))
 
 (defun read-from-string (string &optional eof-error-p eof-value)
   (with-input-from-string (in string)
