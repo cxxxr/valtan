@@ -719,8 +719,7 @@
 (cl:defpackage :valtan-core.reader
   (:use)
   (:import-from :valtan-core
-                . #1=(
-                      :cons-reader
+                . #1=(:cons-reader
                       :quote-reader
                       :quasiquote-reader
                       :unquote-reader
