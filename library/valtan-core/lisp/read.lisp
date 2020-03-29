@@ -715,3 +715,20 @@
     head))
 
 (copy-readtable nil *readtable*)
+
+(cl:defpackage :valtan-core.reader
+  (:use)
+  (:import-from :valtan-core
+                . #1=(
+                      :cons-reader
+                      :quote-reader
+                      :quasiquote-reader
+                      :unquote-reader
+                      :line-comment-reader
+                      :string-reader
+                      :character-reader
+                      :function-reader
+                      :array-reader
+                      :unintern-symbol-reader
+                      :bit-vector-reader))
+  (:export . #1#))
