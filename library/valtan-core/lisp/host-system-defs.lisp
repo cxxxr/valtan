@@ -275,9 +275,13 @@
 
 (cl:defun system:read-whole-file (filename)
   (cl:with-open-file (in filename)
-    (let ((string (cl:make-array (cl:file-length in) :element-type 'cl:character)))
-      (cl:read-sequence string in)
-      string)))
+    (cl:with-output-to-string (out)
+      (cl:let* ((buffer-size 4096)
+                (buffer (cl:make-array buffer-size :element-type 'cl:character)))
+        (cl:loop
+          :for bytes-read := (cl:read-sequence buffer in)
+          :do (cl:write-sequence buffer out :start 0 :end bytes-read)
+          :while (cl:= bytes-read buffer-size))))))
 
 
 (cl:defun js::-object ()
