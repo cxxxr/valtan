@@ -6,7 +6,7 @@
   (ffi:js-eval (compiler:compile-toplevel x)))
 
 (defun macroexpand-1 (form &optional environment)
-  (compiler:!macroexpand-1 form environment))
+  (compiler::!macroexpand-1 form environment))
 
 (defun macroexpand (form &optional environment)
   (declare (ignore environment))
