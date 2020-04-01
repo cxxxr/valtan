@@ -8,8 +8,8 @@
 
 (cl:defmethod cl:print-object ((object structure) stream)
   (cl:case (structure-name object)
-    ((string array)
-     (cl:prin1 (cl:first (structure-values object)) stream))
+    ;; ((string array)
+    ;;  (cl:prin1 (cl:first (structure-values object)) stream))
     (cl:otherwise
      (cl:print-unreadable-object (object stream)
        (cl:format stream "STRUCTUER ~A ~S"

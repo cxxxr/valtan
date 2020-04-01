@@ -1,10 +1,13 @@
 (defpackage :valtan-host.reader
   (:use :cl)
-  (:export :read-in-valtan))
+  (:export :read-in-valtan
+           :map-file-forms))
 (in-package :valtan-host.reader)
 
+#+(or)
 (defparameter *whitespaces* '(#\space #\tab #\newline #\linefeed #\page #\return))
 
+#+(or)
 (defvar *js-readtable*
   (let ((*readtable* (copy-readtable)))
     (set-macro-character
@@ -50,14 +53,17 @@
 (defmacro *:quasiquote (x)
   (compiler::expand-quasiquote x))
 
+#+(or)
 (defun non-terminate-macro-character-p (c)
   (multiple-value-bind (function non-terminating-p)
       (get-macro-character c)
     (and function (not non-terminating-p))))
 
+#+(or)
 (defun whitespacep (c)
   (find c *whitespaces*))
 
+#+(or)
 (defun delimiter-p (c)
   (or (null c)
       (whitespacep c)
@@ -66,6 +72,7 @@
       (char= c #\|)
       (char= c #\:)))
 
+#+(or)
 (defun read-js-ident-1 (in)
   (with-output-to-string (out)
     (loop :for c := (peek-char nil in nil nil)
@@ -78,6 +85,7 @@
                     (t
                      (error "invalid character: ~S" c))))))
 
+#+(or)
 (defun read-js-ident (in)
   (loop :for token := (read-js-ident-1 in)
         :if (string/= token "") :collect token :into tokens
@@ -85,6 +93,7 @@
               (#\: (read-char in))
               (otherwise (return tokens)))))
 
+#+(or)
 (defun read-js-array (in)
   (flet ((read-js-array (s c)
            (declare (ignore c))
@@ -94,6 +103,7 @@
       (set-macro-character #\] (get-macro-character #\)) nil)
       (read in t nil t))))
 
+#+(or)
 (defun read-js-object (in)
   (labels ((read-js-object-1 (s c)
              (declare (ignore c))
@@ -112,6 +122,7 @@
       (set-macro-character #\} (get-macro-character #\)) nil)
       (read in t nil t))))
 
+#+(or)
 (defun read-in-valtan (&optional (stream *standard-input*) (eof-error-p t) eof-value
                                  (*readtable* *js-readtable*))
   (handler-bind ((sb-int:simple-reader-package-error
@@ -121,3 +132,37 @@
                        (export (intern name package) package)
                        (continue condition)))))
     (read stream eof-error-p eof-value)))
+
+(defun call-with-valtan-reader (package function)
+  (let ((string-reader (fdefinition 'valtan-core.reader:string-reader))
+        (array-reader (fdefinition 'valtan-core.reader:array-reader)))
+    (setf (fdefinition 'valtan-core.reader:string-reader)
+          (lambda (&rest args)
+            (let ((valtan-string (apply string-reader args)))
+              (first (valtan-core::structure-values valtan-string)))))
+    (setf (fdefinition 'valtan-core.reader:array-reader)
+          (lambda (&rest args)
+            (let ((valtan-array (apply array-reader args)))
+              (first (valtan-core::structure-values valtan-array)))))
+    (unwind-protect
+         (let ((valtan-core::*package* package)
+               (*package* package))
+           (funcall function))
+      (setf (fdefinition 'valtan-core.reader:string-reader) string-reader)
+      (setf (fdefinition 'valtan-core.reader:array-reader) array-reader))))
+
+(defun read-in-valtan ()
+  (call-with-valtan-reader
+   *package*
+   (lambda ()
+     (valtan-core::read))))
+
+(defun map-file-forms (function file)
+  (call-with-valtan-reader
+   (find-package :valtan-user)
+   (lambda ()
+     (valtan-core::with-open-file (stream file)
+       (loop :with eof-value := '#:eof
+             :for form := (valtan-core::read stream nil eof-value)
+             :until (eq form eof-value)
+             :do (funcall function form))))))

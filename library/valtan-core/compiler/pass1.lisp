@@ -923,6 +923,7 @@
 
 (def-pass1-form in-package ((name) return-value-p multiple-values-p)
   (setq *package* (find-package name))
+  (setq valtan-core::*package* (find-package name)) ;TODO
   (let ((name (string name)))
     (make-hir '*:%in-package
              return-value-p

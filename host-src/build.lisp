@@ -59,21 +59,8 @@
                                 :if-does-not-exist :create)
          ,@body))))
 
-(defmacro do-forms ((var stream) &body body)
-  (let ((g-eof-value (gensym))
-        (g-stream (gensym)))
-    `(let ((*package* (find-package :valtan-user)))
-       (loop :with ,g-eof-value := '#:eof-value
-             :and ,g-stream := ,stream
-             :for ,var := (valtan-host.reader:read-in-valtan ,g-stream nil ,g-eof-value)
-             :until (eq ,var ,g-eof-value)
-             :do (progn ,@body)))))
-
 (defmacro do-file-form ((var file) &body body)
-  (let ((in (gensym)))
-    `(with-open-file (,in ,file)
-       (do-forms (,var ,in)
-         ,@body))))
+  `(valtan-host.reader:map-file-forms (lambda (,var) ,@body) ,file))
 
 (defun in-pass2 (hir-forms &optional (stream *standard-output*))
   (write-line "import * as lisp from 'lisp';" stream)
