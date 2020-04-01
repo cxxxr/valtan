@@ -700,7 +700,8 @@
                  (cond ((or (alphanumericp c) (char= c #\_))
                         (write-char c out)
                         (read-char stream))
-                       ((delimiter-p c)
+                       ((or (delimiter-p c)
+                            (char= c #\:))
                         (return))
                        (t
                         (error "invalid character: ~S" c))))))
@@ -784,5 +785,6 @@
                       :function-reader
                       :array-reader
                       :unintern-symbol-reader
-                      :bit-vector-reader))
+                      :bit-vector-reader
+                      :cl-to-js-reader))
   (:export . #1#))
