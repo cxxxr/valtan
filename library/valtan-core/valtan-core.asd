@@ -52,6 +52,7 @@
                (:file "compiler/parse-body")
                (:file "compiler/util")
                (:file "compiler/error")
+               (:file "compiler/source-info")
                (:file "compiler/hir")
                (:file "compiler/pass1")
                (:file "compiler/hir-walker" :if-feature (:not :valtan))
