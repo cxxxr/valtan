@@ -81,7 +81,7 @@
                  :name (pathname-name input-file)
                  :type (format nil "~A.js" (pathname-type input-file))))
 
-(defun !compile-file (input-file)
+(defun !compile-file (input-file &optional (output-file (input-file-to-output-file input-file)))
   (%with-compilation-unit ()
     (let ((hir-forms
             (let ((hir-forms '())
@@ -97,11 +97,10 @@
                                              (nreverse hir-forms)
                                              compiler::*export-modules*)
                      (compiler::pass1-dump-macros compiler::*macro-definitions*)))))
-      (let ((output-file (input-file-to-output-file input-file)))
-        (ensure-directories-exist output-file)
-        (with-write-file (out output-file)
-          (in-pass2 hir-forms out))
-        output-file))))
+      (ensure-directories-exist output-file)
+      (with-write-file (out output-file)
+        (in-pass2 hir-forms out))
+      output-file)))
 
 (defun compile-file-with-cache (input-file)
   (invoke-compile-file-with-cache
