@@ -241,3 +241,17 @@
       (string-input-stream-p x)
       (file-input-stream-p x)
       (standard-input-stream-p x)))
+
+(defun file-position (stream)
+  (cond ((string-input-stream-p stream)
+         (string-input-stream-position stream))
+        ((file-input-stream-p stream)
+         (string-input-stream-position (file-input-stream-string-stream stream)))
+        ((standard-input-stream-p stream)
+         (standard-input-stream-position stream))
+        ((string-output-stream-p stream)
+         nil)
+        ((standard-output-stream-p stream)
+         nil)
+        (t
+         (type-error stream 'stream))))
