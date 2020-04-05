@@ -1,7 +1,10 @@
+#+linux
+(pushnew :valtan.remote-eval *features*)
+
 (defsystem "valtan"
   :depends-on ("cl-ppcre"
-               #+linux "inotify"
-               "remote-js"
+               #+valtan.remote-eval "inotify"
+               #+valtan.remote-eval "remote-js"
                "valtan-core")
   :pathname "host-src"
   :serial t
@@ -9,5 +12,5 @@
                (:file "host-reader")
                (:file "system")
                (:file "build")
-               (:file "remote-eval")
+               #+valtan.remote-eval (:file "remote-eval")
                (:file "valtan-host")))
