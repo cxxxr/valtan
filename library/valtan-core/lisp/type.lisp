@@ -36,7 +36,6 @@
 (defun (cl:setf deftype-expander) (expander symbol)
   (cl:setf (cl:get symbol 'deftype-expander) expander))
 
-(declaim (ftype function apply))
 (defun expand-deftype (type)
   (do ()
       (nil)
@@ -62,7 +61,6 @@
       (otherwise
        type))))
 
-(declaim (ftype function vectorp))
 (defun typep (object type &optional environment)
   (declare (ignore environment))
   (case type

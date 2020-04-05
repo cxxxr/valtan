@@ -132,6 +132,5 @@
                         (cl:write-string #")" cl:stream))))
        ',structure-name)))
 
-(declaim (ftype function get))
 (defun structure-printer (structure)
   (get (*:%structure-name structure) 'structure-printer))

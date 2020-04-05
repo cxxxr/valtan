@@ -3,8 +3,6 @@
 #-valtan
 (in-package :valtan-core)
 
-(declaim (ftype function atom))
-
 (defun %db-length (list)
   (do ((l list (cdr l))
        (count 0 (+ count 1)))

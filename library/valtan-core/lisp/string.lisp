@@ -36,8 +36,6 @@
     (setq string (*:string-append string s)))
   string)
 
-(declaim (ftype function subseq))
-
 (defun string-upcase (string &key (start 0) end)
   (setq string (string string))
   (unless end (setq end (length string)))
@@ -105,8 +103,6 @@
               (first
                (setq first nil)))))
     string))
-
-(declaim (ftype function find))
 
 (defun start-position-with-bag (character-bag string)
   (let ((length (length string)))

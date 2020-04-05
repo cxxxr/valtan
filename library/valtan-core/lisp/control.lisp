@@ -196,7 +196,6 @@
                             ,@body)
        ,value-form)))
 
-(declaim (ftype function type-error))
 (defun ensure-function (value)
   (cond ((cl:functionp value)
          value)
@@ -226,17 +225,11 @@
        ,@forms
        (apply #'values ,g-values))))
 
-(declaim (ftype function char=))
-
 (defun eql (x y)
   (cond ((and (characterp x) (characterp y))
          (char= x y))
         (t
          (eq x y))))
-
-(declaim (ftype function
-                car cdr string=
-                simple-bit-vector-p length = aref + >=))
 
 (defun equal (x y)
   (cond ((and (consp x)
@@ -255,9 +248,6 @@
                   (return nil)))))
         (t
          (eql x y))))
-
-(declaim (ftype function
-                char-equal string-equal arrayp hash-table-p error))
 
 (defun equalp (x y)
   (cond ((and (characterp x)
@@ -301,8 +291,6 @@
        ,tmp)))
 
 (defun identity (x) x)
-
-(declaim (ftype function apply))
 
 (defun complement (function)
   (lambda (&rest args)

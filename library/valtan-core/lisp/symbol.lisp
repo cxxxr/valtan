@@ -9,7 +9,6 @@
 (defun symbol-name (symbol)
   (*:raw-string-to-array (*:symbol-name symbol)))
 
-(declaim (ftype function find-package))
 (defun symbol-package (symbol)
   (if (eq (*:symbol-package-name symbol) system:+null+)
       nil
@@ -81,7 +80,6 @@
       (unless (find-symbol name package)
         (return (intern name package))))))
 
-(declaim (ftype function string))
 (defun copy-symbol (symbol &optional copy-props)
   (unless (symbolp symbol) (type-error symbol 'symbol))
   (cond (copy-props

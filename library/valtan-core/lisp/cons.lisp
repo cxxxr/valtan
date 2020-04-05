@@ -12,8 +12,6 @@
 (defun listp (x)
   (or (null x) (consp x)))
 
-(declaim (ftype function type-error))
-
 (defun car (x)
   (unless (listp x)
     (type-error x 'list))
@@ -244,7 +242,6 @@
         arg
         (cons arg (f args)))))
 
-(declaim (ftype function >))
 (defun list-length (list)
   (let ((x (do ((n 0 (+ n 2))
                 (y list (cddr y))
@@ -254,8 +251,6 @@
              (when (endp (cdr y)) (return (+ n 1)))
              (when (and (eq y z) (> n 0)) (return nil)))))
     x))
-
-(declaim (ftype function 1- <= nreverse zerop))
 
 (defun make-list (size &key initial-element)
   (unless (and (integerp size) (<= 0 size))
@@ -361,7 +356,6 @@
                       (setf tail (cdr tail))))))))
     head))
 
-(declaim (ftype function reverse))
 (defun revappend (list tail)
   (nconc (reverse list) tail))
 
@@ -406,7 +400,6 @@
           ((atom next) l))
       list))
 
-(declaim (ftype function 1+))
 (defun last (list &optional (n 1))
   (if (= n 1)
       (last1 list)
