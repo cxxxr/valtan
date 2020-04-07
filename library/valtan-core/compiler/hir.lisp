@@ -5,6 +5,7 @@
   return-value-p
   multiple-values-p
   (result-type t)
+  position
   args)
 
 (defun hir-arg1 (hir) (first (hir-args hir)))
@@ -20,6 +21,15 @@
              :return-value-p return-value-p
              :multiple-values-p multiple-values-p
              :args args))
+
+(defmacro set-hir-position (form hir)
+  #-valtan
+  (let ((g-hir (gensym)))
+    `(let ((,g-hir ,hir))
+       (setf (hir-position ,g-hir) (get-form-position ,form))
+       ,g-hir))
+  #+valtan
+  hir)
 
 (defun remake-hir (op hir &rest args)
   (apply #'make-hir op (hir-return-value-p hir) (hir-multiple-values-p hir) args))

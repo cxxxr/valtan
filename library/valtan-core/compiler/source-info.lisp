@@ -1,6 +1,14 @@
 (in-package :compiler)
 
-(defstruct (source-info-object (:constructor make-si-object (position value))
-			       (:conc-name si-object))
-  position
-  value)
+(defvar *source-info*)
+
+(defun make-source-info ()
+  (make-hash-table :test 'eq))
+
+(defun add-source-info (form position)
+  (setf (gethash form *source-info*) position)
+  form)
+
+(defun get-form-position (form)
+  (and (boundp '*source-info*)
+       (gethash form *source-info*)))

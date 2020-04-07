@@ -87,6 +87,7 @@
             (let ((hir-forms '())
                   (compiler::*export-modules* '())
                   (compiler::*macro-definitions* '())
+                  (compiler::*source-info* (compiler::make-source-info))
                   (*package* (find-package :valtan-user)))
               (do-file-form (form input-file)
                 (push (handler-bind ((warning #'muffle-warning))
