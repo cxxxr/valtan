@@ -1,9 +1,6 @@
 (in-package :compiler)
 
-(defvar *source-info*)
-
-(defun make-source-info ()
-  (make-hash-table :test 'equal))
-
-(defun source-info-add (source-info form position)
-  (setf (gethash form source-info) position))
+(defstruct (source-info-object (:constructor make-si-object (position value))
+			       (:conc-name si-object))
+  position
+  value)
