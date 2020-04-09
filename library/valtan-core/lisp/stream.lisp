@@ -122,7 +122,9 @@
       (string-input-stream-end stream)))
 
 (defstruct file-input-stream
-  string-stream)
+  string-stream
+  (line 1)
+  (column 0))
 
 (defstruct (standard-input-stream (:copier nil))
   (string "")
@@ -174,7 +176,14 @@
            (setf (standard-input-stream-position stream)
                  (length (standard-input-stream-string stream)))))
         ((file-input-stream-p stream)
-         (stream-read-line (file-input-stream-string-stream stream)))
+         (multiple-value-bind (string missing-newline-p)
+             (stream-read-line (file-input-stream-string-stream stream))
+           (cond (missing-new-line-p
+                  (incf (file-input-stream-line stream))
+                  (setf (file-input-stream-column stream) 0))
+                 (t
+                  (setf (file-input-stream-column stream) (length string))))
+           (values string missing-newline-p)))
         (t
          (type-error stream 'input-stream))))
 
@@ -191,7 +200,14 @@
                       (standard-input-stream-position stream))
            (incf (standard-input-stream-position stream))))
         ((file-input-stream-p stream)
-         (stream-read-char (file-input-stream-string-stream stream)))
+         (let ((char (stream-read-char (file-input-stream-string-stream stream))))
+           (cond ((eq char :eof))
+                 ((char= char #\newline)
+                  (incf (file-input-stream-line stream))
+                  (setf (file-input-stream-column stream) 0))
+                 (t
+                  (incf (file-input-stream-column stream))))
+           char))
         (t
          (type-error stream 'input-stream))))
 
