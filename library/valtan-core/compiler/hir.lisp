@@ -32,6 +32,11 @@
   hir)
 
 (defun remake-hir (op hir &rest args)
+  #-valtan
+  (let ((new-hir (apply #'make-hir op (hir-return-value-p hir) (hir-multiple-values-p hir) args)))
+    (setf (hir-position new-hir) (hir-position hir))
+    new-hir)
+  #+valtan
   (apply #'make-hir op (hir-return-value-p hir) (hir-multiple-values-p hir) args))
 
 (defun lambda-hir-name (hir)
