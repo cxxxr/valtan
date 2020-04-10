@@ -178,7 +178,7 @@
         ((file-input-stream-p stream)
          (multiple-value-bind (string missing-newline-p)
              (stream-read-line (file-input-stream-string-stream stream))
-           (cond (missing-new-line-p
+           (cond (missing-newline-p
                   (incf (file-input-stream-line stream))
                   (setf (file-input-stream-column stream) 0))
                  (t
