@@ -161,7 +161,7 @@
   (assert (typep base-stream 'emitter-stream))
   (assert (typep forked-stream 'emitter-stream))
   (let ((offset (emitter-stream-line base-stream))
-        (base-generator (emitter-stream-source-map-generator forked-stream))
+        (base-generator (emitter-stream-source-map-generator base-stream))
         (forked-generator (emitter-stream-source-map-generator forked-stream)))
     (merge-source-map base-generator forked-generator offset)
     (write-string (get-output-stream-string (emitter-stream-stream forked-stream)) base-stream)))
