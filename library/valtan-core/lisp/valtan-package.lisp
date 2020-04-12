@@ -1,6 +1,10 @@
 (cl:defpackage :compiler
   (:use :cl)
-  (:export :compile-toplevel))
+  (:export :def-implementation
+           :compile-toplevel
+           :call-emitter
+           :make-emitter-stream
+           :join-emitter-stream))
 
 ;; TODO:
 (cl:defvar compiler::*in-host-runtime* nil)
