@@ -4,6 +4,7 @@
 (defsystem "valtan"
   :depends-on ("cl-ppcre"
                "trivial-gray-streams"
+               "cl-source-map"
                #+valtan.remote-eval "inotify"
                #+valtan.remote-eval "remote-js"
                "valtan-core")
