@@ -1026,8 +1026,8 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 (def-interface make-emitter-stream ()
   (make-string-output-stream))
 
-(def-interface join-emitter-stream (base-stream temporary-stream)
-  (write-string (get-output-stream-string temporary-stream) base-stream))
+(def-interface join-emitter-stream (base-stream forked-stream)
+  (write-string (get-output-stream-string forked-stream) base-stream))
 
 (defun p2-toplevel (hir &optional (stream *standard-output*) (return-value-p t))
   (let ((*p2-literal-symbols* (make-hash-table))
