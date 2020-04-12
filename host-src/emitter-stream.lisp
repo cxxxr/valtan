@@ -6,7 +6,7 @@
            :emitter-stream-source
            :emitter-stream-line
            :emitter-stream-column
-           :emitter-stream-map-generator))
+           :emitter-stream-source-map-generator))
 (in-package :valtan-host.emitter-stream)
 
 (defclass emitter-stream (fundamental-output-stream)
@@ -23,10 +23,10 @@
    (column
     :initform 0
     :reader emitter-stream-column)
-   (map-generator
+   (source-map-generator
     :initarg :map-generator
     :initform (make-instance 'source-map-generator)
-    :reader emitter-stream-map-generator)))
+    :reader emitter-stream-source-map-generator)))
 
 (defun next (stream character)
   (with-slots (line column) stream
