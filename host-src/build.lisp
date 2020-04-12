@@ -100,15 +100,21 @@
   (with-write-file (stream file)
     (to-json generator stream)))
 
+(defun make-emitter-stream (stream input-file output-file)
+  (let* ((generator
+           (make-instance 'source-map-generator
+                          :file (namestring output-file)))
+         (stream
+           (make-instance 'emitter-stream
+                          :source input-file
+                          :stream stream
+                          :source-map-generator generator)))
+    (values stream generator)))
+
 (defun call-with-source-map (input-file output-file function)
   (with-write-file (out output-file)
-    (let* ((generator
-             (make-instance 'source-map-generator))
-           (stream
-             (make-instance 'emitter-stream
-                            :stream out
-                            :source input-file
-                            :source-map-generator generator)))
+    (multiple-value-bind (stream generator)
+        (make-emitter-stream out input-file output-file)
       (funcall function stream)
       (write-to-source-map-file (to-source-map-pathname output-file)
                                 generator))))
@@ -154,12 +160,14 @@
             :generated-column generated-column
             :original-line original-line
             :original-column original-column
-            :source source))))
+            :source (namestring source)))))
       (funcall fn hir))))
 
-(compiler:def-implementation compiler:make-emitter-stream ()
-  (make-instance 'emitter-stream
-                 :stream (make-string-output-stream)))
+(compiler:def-implementation compiler:make-emitter-stream (base-stream)
+  (make-emitter-stream (make-string-output-stream)
+                       (emitter-stream-source base-stream)
+                       (cl-source-map/source-map-generator::.file
+                        (emitter-stream-source-map-generator base-stream))))
 
 (defun merge-source-map (generator-1 generator-2 offset-line)
   (dolist (mapping
