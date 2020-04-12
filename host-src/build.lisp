@@ -1,5 +1,8 @@
 (defpackage :valtan-host.build
-  (:use :cl)
+  (:use :cl
+        :cl-source-map/source-map-generator
+        :cl-source-map/mapping
+        :valtan-host.emitter-stream)
   (:export :build-system
            :build-application
            :run-node
@@ -81,6 +84,31 @@
                  :name (pathname-name input-file)
                  :type (format nil "~A.js" (pathname-type input-file))))
 
+(defun to-source-map-pathname (pathname)
+  (make-pathname :name (format nil "~A.~A" (pathname-name pathname) (pathname-type pathname))
+                 :type "map"
+                 :defaults pathname))
+
+(defun write-to-source-map-file (file generator)
+  (with-write-file (stream file)
+    (to-json generator stream)))
+
+(defun call-with-source-map (input-file output-file function)
+  (with-write-file (out output-file)
+    (let* ((generator
+             (make-instance 'source-map-generator))
+           (stream
+             (make-instance 'emitter-stream
+                            :stream out
+                            :source input-file
+                            :source-map-generator generator)))
+      (funcall function stream)
+      (write-to-source-map-file (to-source-map-pathname output-file)
+                                generator))))
+
+(defmacro with-source-map ((stream input-file output-file) &body body)
+  `(call-with-source-map ,input-file ,output-file (lambda (,stream) ,@body)))
+
 (defun !compile-file (input-file &optional (output-file (input-file-to-output-file input-file)))
   (%with-compilation-unit ()
     (let ((hir-forms
@@ -99,9 +127,44 @@
                                              compiler::*export-modules*)
                      (compiler::pass1-dump-macros compiler::*macro-definitions*)))))
       (ensure-directories-exist output-file)
-      (with-write-file (out output-file)
-        (in-pass2 hir-forms out))
+      (with-source-map (stream input-file output-file)
+        (in-pass2 hir-forms stream))
       output-file)))
+
+(compiler:def-implementation compiler:call-emitter (fn hir)
+  (let ((stream compiler::*p2-emit-stream*))
+    (check-type stream emitter-stream)
+    (let ((generated-line (emitter-stream-line stream))
+          (generated-column (emitter-stream-column stream))
+          (source (emitter-stream-source stream)))
+      (when (compiler::hir-position hir)
+        (destructuring-bind (original-line . original-column)
+            (compiler::hir-position hir)
+          (add-mapping
+           (emitter-stream-source-map-generator stream)
+           (mapping
+            :generated-line generated-line
+            :generated-column generated-column
+            :original-line original-line
+            :original-column original-column
+            :source source))))
+      (funcall fn hir))))
+
+(compiler:def-implementation compiler:make-emitter-stream ()
+  (make-instance 'emitter-stream
+                 :stream (make-string-output-stream)))
+
+(defun merge-source-map (generator-1 generator-2 offset-line)
+  (declare (ignore generator-1 generator-2 offset-line)))
+
+(compiler:def-implementation compiler:join-emitter-stream (base-stream forked-stream)
+  (assert (typep base-stream 'emitter-stream))
+  (assert (typep forked-stream 'emitter-stream))
+  (let ((offset (emitter-stream-line base-stream))
+        (base-generator (emitter-stream-source-map-generator forked-stream))
+        (forked-generator (emitter-stream-source-map-generator forked-stream)))
+    (merge-source-map base-generator forked-generator offset)
+    (write-string (get-output-stream-string (emitter-stream-stream forked-stream)) base-stream)))
 
 (defun compile-file-with-cache (input-file)
   (invoke-compile-file-with-cache
@@ -166,14 +229,17 @@
                                     :name (valtan-host.system:system-name system)
                                     :directory (pathname-directory
                                                 (valtan-host.system:system-pathname system)))))
-    (with-write-file (out output-file)
-      (write-line "import * as lisp from 'lisp';" out)
-      (format out
+    (with-source-map (stream
+                      (valtan-host.system:system-pathname system)
+                      output-file)
+      (write-line "import * as lisp from 'lisp';" stream)
+      (format stream
               "require('~A');~%"
-              (input-file-to-output-file (valtan-host.system:system-to-pathname system)))
+              (input-file-to-output-file
+               (valtan-host.system:system-to-pathname system)))
       (compiler::p2-toplevel-forms
-       (list (compiler::pass1-toplevel '(cl:finish-output) out))
-       out))))
+       (list (compiler::pass1-toplevel '(cl:finish-output) stream))
+       stream))))
 
 (defun prepare-valtan-path (base-directory)
   (with-open-file (out (make-pathname :name ".valtan-path"
