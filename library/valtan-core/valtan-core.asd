@@ -53,6 +53,7 @@
                (:file "compiler/util")
                (:file "compiler/error")
                (:file "compiler/source-info")
+               (:file "compiler/interface")
                (:file "compiler/hir")
                (:file "compiler/pass1")
                (:file "compiler/hir-walker" :if-feature (:not :valtan))
