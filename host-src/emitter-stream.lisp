@@ -3,6 +3,7 @@
   (:import-from :cl-source-map/source-map-generator
                 :source-map-generator)
   (:export :emitter-stream
+           :emitter-stream-stream
            :emitter-stream-source
            :emitter-stream-line
            :emitter-stream-column
@@ -24,7 +25,7 @@
     :initform 0
     :reader emitter-stream-column)
    (source-map-generator
-    :initarg :map-generator
+    :initarg :source-map-generator
     :initform (make-instance 'source-map-generator)
     :reader emitter-stream-source-map-generator)))
 
