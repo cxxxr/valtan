@@ -1,20 +1,32 @@
 (defpackage :valtan-host.emitter-stream
   (:use :cl :trivial-gray-streams)
+  (:import-from :cl-source-map/source-map-generator
+                :source-map-generator)
   (:export :emitter-stream
+           :emitter-stream-source
            :emitter-stream-line
-           :emitter-stream-column))
+           :emitter-stream-column
+           :emitter-stream-map-generator))
 (in-package :valtan-host.emitter-stream)
 
 (defclass emitter-stream (fundamental-output-stream)
   ((stream
     :initarg :stream
     :reader emitter-stream-stream)
+   (source
+    :initform nil
+    :initarg :source
+    :reader emitter-stream-source)
    (line
     :initform 1
     :reader emitter-stream-line)
    (column
     :initform 0
-    :reader emitter-stream-column)))
+    :reader emitter-stream-column)
+   (map-generator
+    :initarg :map-generator
+    :initform (make-instance 'source-map-generator)
+    :reader emitter-stream-map-generator)))
 
 (defun next (stream character)
   (with-slots (line column) stream
