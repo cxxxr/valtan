@@ -3,6 +3,13 @@
         :cl-source-map/source-map-generator
         :cl-source-map/mapping
         :valtan-host.emitter-stream)
+  (:import-from :cl-source-map/mapping
+                :mapping-generated-line
+                :mapping-generated-column
+                :mapping-original-line
+                :mapping-original-column
+                :mapping-source
+                :mapping-name)
   (:export :build-system
            :build-application
            :run-node
@@ -155,7 +162,16 @@
                  :stream (make-string-output-stream)))
 
 (defun merge-source-map (generator-1 generator-2 offset-line)
-  (declare (ignore generator-1 generator-2 offset-line)))
+  (dolist (mapping
+           (cl-source-map/mapping-list:to-list
+            (cl-source-map/source-map-generator::.mappings generator-2)))
+    (add-mapping generator-1
+                 (mapping :generated-line (+ (mapping-generated-line mapping) offset-line)
+                          :generated-column (mapping-generated-column mapping)
+                          :original-line (mapping-original-line mapping)
+                          :original-column (mapping-original-column mapping)
+                          :source (mapping-source mapping)
+                          :name (mapping-name mapping)))))
 
 (compiler:def-implementation compiler:join-emitter-stream (base-stream forked-stream)
   (assert (typep base-stream 'emitter-stream))
