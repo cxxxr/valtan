@@ -154,6 +154,16 @@
 (defvar *p2-defun-names*)
 (defvar *p2-temporary-variables*)
 
+(def-interface call-emitter (fn hir)
+  (funcall fn hir))
+
+(def-interface make-emitter-stream (base-stream)
+  (declare (ignore base-stream))
+  (make-string-output-stream))
+
+(def-interface join-emitter-stream (base-stream forked-stream)
+  (write-string (get-output-stream-string forked-stream) base-stream))
+
 (defmacro p2-emit-try-finally (try finally)
   `(progn
      (write-line "try{" *p2-emit-stream*)
@@ -214,9 +224,6 @@
          ,@body)
        (setf (get ',op 'p2-emit)
              ',name))))
-
-(def-interface call-emitter (fn hir)
-  (funcall fn hir))
 
 (defun p2 (hir context)
   (assert (member context '(:expr :stmt)))
@@ -1022,13 +1029,6 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 (defun p2-finish-output (stream)
   (let ((fn (p2-symbol-to-call-value 'cl:finish-output)))
     (format stream "~A();~%" fn)))
-
-(def-interface make-emitter-stream (base-stream)
-  (declare (ignore base-stream))
-  (make-string-output-stream))
-
-(def-interface join-emitter-stream (base-stream forked-stream)
-  (write-string (get-output-stream-string forked-stream) base-stream))
 
 (defun p2-toplevel (hir &optional (stream *standard-output*) (return-value-p t))
   (let ((*p2-literal-symbols* (make-hash-table))
