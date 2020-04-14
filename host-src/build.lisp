@@ -72,7 +72,7 @@
 (defmacro do-file-form ((var file) &body body)
   `(valtan-host.reader:map-file-forms (lambda (,var) ,@body) ,file))
 
-(defun in-pass2 (hir-forms &optional (stream *standard-output*))
+(defun in-pass2 (hir-forms stream)
   (write-line "import * as lisp from 'lisp';" stream)
   (loop :for (var . module) :in compiler::*require-modules*
         :do (if var
