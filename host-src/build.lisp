@@ -184,7 +184,7 @@
 (compiler:def-implementation compiler:join-emitter-stream (base-stream forked-stream)
   (assert (typep base-stream 'emitter-stream))
   (assert (typep forked-stream 'emitter-stream))
-  (let ((offset (emitter-stream-line base-stream))
+  (let ((offset (1- (emitter-stream-line base-stream)))
         (base-generator (emitter-stream-source-map-generator base-stream))
         (forked-generator (emitter-stream-source-map-generator forked-stream)))
     (merge-source-map base-generator forked-generator offset)
