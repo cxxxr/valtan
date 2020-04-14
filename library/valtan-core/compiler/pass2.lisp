@@ -562,17 +562,18 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
     (write-line "(function(){" *p2-emit-stream*)
     (p2-emit-check-arguments name parsed-lambda-list)
     (let ((*p2-temporary-variables* '()))
-      (let ((code
-              (with-output-to-string (*p2-emit-stream*)
-                (let ((finally-code
-                        (with-output-to-string (finally-stream)
-                          (p2-emit-lambda-list parsed-lambda-list finally-stream))))
-                  (p2-with-unwind-special-vars
-                   (let ((result (p2-form body)))
-                     (format *p2-emit-stream* "return ~A;~%" result))
-                   finally-code)))))
-        (p2-emit-declare-temporary-variables)
-        (write-string code *p2-emit-stream*)))
+      ;; !!!
+      (let* ((base-stream *p2-emit-stream*)
+             (emitter-stream (make-emitter-stream base-stream)))
+        (let ((*p2-emit-stream* emitter-stream))
+          (let ((finally-code
+                  (with-output-to-string (finally-stream)
+                    (p2-emit-lambda-list parsed-lambda-list finally-stream))))
+            (p2-with-unwind-special-vars
+             (let ((result (p2-form body)))
+               (format *p2-emit-stream* "return ~A;~%" result))
+             finally-code)))
+        (join-emitter-stream base-stream emitter-stream)))
     (write-line "});" *p2-emit-stream*)
     (or lambda-result
         (values))))
@@ -830,14 +831,14 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
         (function (hir-arg2 hir)))
     (let ((var (p2-symbol-to-js-function-name name)))
       (pushnew var *p2-defun-names* :test #'equal)
+      ;; !!!
       (let ((*p2-temporary-variables* '()))
-        (let ((code (with-output-to-string (*p2-emit-stream*)
-                      (format *p2-emit-stream* "~A=~A;~%" var (p2-form function)))))
-          (format *p2-toplevel-defun-stream*
-                  "~A~A"
-                  (with-output-to-string (*p2-emit-stream*)
-                    (p2-emit-declare-temporary-variables))
-                  code)))
+        (let ((emitter-stream (make-emitter-stream *p2-emit-stream*)))
+          (let ((*p2-emit-stream* emitter-stream))
+            (format *p2-emit-stream* "~A=~A;~%" var (p2-form function)))
+          (let ((*p2-emit-stream* *p2-toplevel-defun-stream*))
+            (p2-emit-declare-temporary-variables))
+          (join-emitter-stream *p2-toplevel-defun-stream* emitter-stream)))
       (let ((name-var (p2-symbol-to-js-value name)))
         (format *p2-emit-stream* "~A.lisp_name = '~A'~%" var name)
         (format *p2-emit-stream* "lisp.setSymbolFunction(~A, ~A);~%" name-var var)
