@@ -144,24 +144,23 @@
         (in-pass2 hir-forms stream))
       output-file)))
 
-(compiler:def-implementation compiler:call-emitter (fn hir)
-  (prog1 (funcall fn hir)
-    (let ((stream compiler::*p2-emit-stream*))
-      (check-type stream emitter-stream)
-      (let ((generated-line (1- (emitter-stream-line stream)))
-            (generated-column (emitter-stream-column stream))
-            (source (emitter-stream-source stream)))
-        (when (compiler::hir-position hir)
-          (destructuring-bind (original-line . original-column)
-              (compiler::hir-position hir)
-            (add-mapping
-             (emitter-stream-source-map-generator stream)
-             (mapping
-              :generated-line generated-line
-              :generated-column generated-column
-              :original-line original-line
-              :original-column original-column
-              :source (namestring source)))))))))
+(compiler:def-implementation compiler:set-source-map (hir)
+  (let ((stream compiler::*p2-emit-stream*))
+    (check-type stream emitter-stream)
+    (let ((generated-line (emitter-stream-line stream))
+          (generated-column (emitter-stream-column stream))
+          (source (emitter-stream-source stream)))
+      (when (compiler::hir-position hir)
+        (destructuring-bind (original-line . original-column)
+            (compiler::hir-position hir)
+          (add-mapping
+           (emitter-stream-source-map-generator stream)
+           (mapping
+            :generated-line generated-line
+            :generated-column generated-column
+            :original-line original-line
+            :original-column original-column
+            :source (namestring source))))))))
 
 (compiler:def-implementation compiler:make-emitter-stream (base-stream)
   (make-emitter-stream (make-string-output-stream)

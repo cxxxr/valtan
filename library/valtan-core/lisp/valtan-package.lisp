@@ -2,9 +2,9 @@
   (:use :cl)
   (:export :def-implementation
            :compile-toplevel
-           :call-emitter
            :make-emitter-stream
-           :join-emitter-stream))
+           :join-emitter-stream
+           :set-source-map))
 
 ;; TODO:
 (cl:defvar compiler::*in-host-runtime* nil)
