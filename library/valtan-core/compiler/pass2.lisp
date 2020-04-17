@@ -585,6 +585,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
              (let ((result (p2-form body)))
                (format *p2-emit-stream* "return ~A;~%" result))
              finally-code)))
+        (p2-emit-declare-temporary-variables)
         (join-emitter-stream base-stream emitter-stream)))
     (write-line "});" *p2-emit-stream*)
     (or lambda-result
