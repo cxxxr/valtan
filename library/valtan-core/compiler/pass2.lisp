@@ -164,11 +164,11 @@
 (def-interface set-source-map (hir)
   (declare (ignore hir)))
 
-(defun embed-source-map (hir)
+(defmacro embed-source-map (hir)
   #+valtan
   nil
   #-valtan
-  (set-source-map hir))
+  `(set-source-map ,hir))
 
 (defmacro p2-emit-try-finally (try finally)
   `(progn
