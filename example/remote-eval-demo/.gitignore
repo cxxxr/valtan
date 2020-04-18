@@ -4,3 +4,4 @@ package-lock.json
 remote-eval-demo.js
 .valtan-path
 .valtan-cache
+*.map
