@@ -165,8 +165,10 @@
   (declare (ignore hir)))
 
 (defun embed-source-map (hir)
-  (declare (ignore hir))
-  nil)
+  #+valtan
+  nil
+  #-valtan
+  (set-source-map hir))
 
 (defmacro p2-emit-try-finally (try finally)
   `(progn

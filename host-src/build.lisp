@@ -115,9 +115,11 @@
   (with-write-file (out output-file)
     (multiple-value-bind (stream generator)
         (make-emitter-stream out input-file output-file)
-      (funcall function stream)
-      (write-to-source-map-file (to-source-map-pathname output-file)
-                                generator))))
+      (let ((source-map-file (to-source-map-pathname output-file)))
+        (format stream "//# sourceMappingURL=file://~A~%" source-map-file)
+        (funcall function stream)
+        (write-to-source-map-file source-map-file
+                                  generator)))))
 
 (defmacro with-source-map ((stream input-file output-file) &body body)
   `(call-with-source-map ,input-file ,output-file (lambda (,stream) ,@body)))
