@@ -20,6 +20,8 @@
 (defvar *cache* (make-hash-table :test 'equal))
 (defvar *discard-cache* nil)
 
+(defvar *enable-source-map* nil)
+
 (defun cache-date (cache)
   (car cache))
 
@@ -115,11 +117,13 @@
   (with-write-file (out output-file)
     (multiple-value-bind (stream generator)
         (make-emitter-stream out input-file output-file)
-      (let ((source-map-file (to-source-map-pathname output-file)))
-        (format stream "//# sourceMappingURL=~A~%" source-map-file)
-        (funcall function stream)
-        (write-to-source-map-file source-map-file
-                                  generator)))))
+      (if *enable-source-map*
+          (let ((source-map-file (to-source-map-pathname output-file)))
+            (format stream "//# sourceMappingURL=~A~%" source-map-file)
+            (funcall function stream)
+            (write-to-source-map-file source-map-file
+                                      generator))
+          (funcall function stream)))))
 
 (defmacro with-source-map ((stream input-file output-file) &body body)
   `(call-with-source-map ,input-file ,output-file (lambda (,stream) ,@body)))
@@ -147,28 +151,31 @@
       output-file)))
 
 (compiler:def-implementation compiler:set-source-map (hir)
-  (let ((stream compiler::*p2-emit-stream*))
-    (check-type stream emitter-stream)
-    (let ((generated-line (emitter-stream-line stream))
-          (generated-column (emitter-stream-column stream))
-          (source (emitter-stream-source stream)))
-      (when (compiler::hir-position hir)
-        (destructuring-bind (original-line . original-column)
-            (compiler::hir-position hir)
-          (add-mapping
-           (emitter-stream-source-map-generator stream)
-           (mapping
-            :generated-line (1- generated-line)
-            :generated-column generated-column
-            :original-line original-line
-            :original-column original-column
-            :source (namestring source))))))))
+  (when *enable-source-map*
+    (let ((stream compiler::*p2-emit-stream*))
+      (check-type stream emitter-stream)
+      (let ((generated-line (emitter-stream-line stream))
+            (generated-column (emitter-stream-column stream))
+            (source (emitter-stream-source stream)))
+        (when (compiler::hir-position hir)
+          (destructuring-bind (original-line . original-column)
+              (compiler::hir-position hir)
+            (add-mapping
+             (emitter-stream-source-map-generator stream)
+             (mapping
+              :generated-line (1- generated-line)
+              :generated-column generated-column
+              :original-line original-line
+              :original-column original-column
+              :source (namestring source)))))))))
 
 (compiler:def-implementation compiler:make-emitter-stream (base-stream)
-  (make-emitter-stream (make-string-output-stream)
-                       (emitter-stream-source base-stream)
-                       (cl-source-map/source-map-generator::.file
-                        (emitter-stream-source-map-generator base-stream))))
+  (if *enable-source-map*
+      (make-emitter-stream (make-string-output-stream)
+                           (emitter-stream-source base-stream)
+                           (cl-source-map/source-map-generator::.file
+                            (emitter-stream-source-map-generator base-stream)))
+      (make-string-output-stream)))
 
 (defun merge-source-map (generator-1 generator-2 offset-line)
   (dolist (mapping
@@ -183,13 +190,17 @@
                           :name (mapping-name mapping)))))
 
 (compiler:def-implementation compiler:join-emitter-stream (base-stream forked-stream)
-  (assert (typep base-stream 'emitter-stream))
-  (assert (typep forked-stream 'emitter-stream))
-  (let ((offset (1- (emitter-stream-line base-stream)))
-        (base-generator (emitter-stream-source-map-generator base-stream))
-        (forked-generator (emitter-stream-source-map-generator forked-stream)))
-    (merge-source-map base-generator forked-generator offset)
-    (write-string (get-output-stream-string (emitter-stream-stream forked-stream)) base-stream)))
+  (cond
+    (*enable-source-map*
+     (assert (typep base-stream 'emitter-stream))
+     (assert (typep forked-stream 'emitter-stream))
+     (let ((offset (1- (emitter-stream-line base-stream)))
+           (base-generator (emitter-stream-source-map-generator base-stream))
+           (forked-generator (emitter-stream-source-map-generator forked-stream)))
+       (merge-source-map base-generator forked-generator offset)
+       (write-string (get-output-stream-string (emitter-stream-stream forked-stream)) base-stream)))
+    (t
+     (write-string (get-output-stream-string forked-stream) base-stream))))
 
 (defun compile-file-with-cache (input-file)
   (invoke-compile-file-with-cache
