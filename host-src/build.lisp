@@ -116,7 +116,7 @@
     (multiple-value-bind (stream generator)
         (make-emitter-stream out input-file output-file)
       (let ((source-map-file (to-source-map-pathname output-file)))
-        (format stream "//# sourceMappingURL=file://~A~%" source-map-file)
+        (format stream "//# sourceMappingURL=~A~%" source-map-file)
         (funcall function stream)
         (write-to-source-map-file source-map-file
                                   generator)))))
