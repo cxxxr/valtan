@@ -12,7 +12,7 @@
   :serial t
   :components ((:file "emitter-stream")
                (:file "util")
-               (:file "host-reader")
+               (:file "reader")
                (:file "system")
                (:file "build")
                #+valtan.remote-eval (:file "remote-eval")
