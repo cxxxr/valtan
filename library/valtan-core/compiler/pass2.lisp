@@ -701,6 +701,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
            (p2-call-builtin-using-list-spec hir builtin))
           ((or (symbolp builtin)
                (functionp builtin))
+           (embed-source-map hir)
            (funcall builtin hir))
           (t
            (error "internal error")))))
