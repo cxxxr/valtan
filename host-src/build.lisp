@@ -158,7 +158,7 @@
           (add-mapping
            (emitter-stream-source-map-generator stream)
            (mapping
-            :generated-line generated-line
+            :generated-line (1- generated-line)
             :generated-column generated-column
             :original-line original-line
             :original-column original-column
