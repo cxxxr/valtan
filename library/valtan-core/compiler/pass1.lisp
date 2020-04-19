@@ -499,9 +499,12 @@
                      (values expansion t)
                      (values form nil))))))
         ((and (consp form) (symbolp (first form)))
-         (let ((function (%macro-function (first form))))
+         (let ((position (get-form-position form))
+               (function (%macro-function (first form))))
            (if function
-               (values (apply function (rest form)) t)
+               (let ((expanded-form (apply function (rest form))))
+                 (add-source-info* expanded-form position)
+                 (values expanded-form t))
                (values form nil))))
         (t
          (values form nil))))
