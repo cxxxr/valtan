@@ -2,5 +2,6 @@
 
 (defsystem "react-tic-tac-toe"
   :serial t
+  :source-map t
   :components ((:file "main"))
   :depends-on ("react-utilities"))
