@@ -1,0 +1,3 @@
+[submodule "submodules/cl-source-map"]
+	path = submodules/cl-source-map
+	url = git@github.com:cxxxr/cl-source-map.git
