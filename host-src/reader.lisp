@@ -1,6 +1,7 @@
 (defpackage :valtan-host.reader
   (:use :cl)
   (:export :read-in-valtan
+           :read-from-string-in-valtan
            :map-file-forms))
 (in-package :valtan-host.reader)
 
@@ -56,6 +57,18 @@
       (setf (fdefinition 'valtan-core.reader:array-reader) array-reader)
       (setf (fdefinition 'valtan-core.reader:cl-to-js-reader) cl-to-js-reader)
       (setf (fdefinition 'valtan-core.reader:cons-reader) cons-reader))))
+
+(defun read-from-string-in-valtan (string)
+  (call-with-valtan-reader
+   *package*
+   (lambda ()
+     (valtan-core::read-from-string
+      (system:make-structure 'valtan-core::array
+                             string
+                             nil
+                             1
+                             (length string)
+                             'valtan-core::character)))))
 
 (defun read-in-valtan ()
   (call-with-valtan-reader

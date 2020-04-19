@@ -20,13 +20,9 @@
           (buffer-value (current-buffer) "package"))))
       (find-package :valtan-user)))
 
-(defun read-in-valtan-from-string (string)
-  (with-input-from-string (stream string)
-    (valtan-host.reader:read-in-valtan stream)))
-
 (defun eval-string (string)
   (let ((*package* (current-valtan-package)))
-    (js-eval (read-in-valtan-from-string string))))
+    (js-eval (valtan-host.reader::read-from-string-in-valtan string))))
 
 (define-command valtan-eval-last-expression () ()
   (with-point ((start (current-point))
