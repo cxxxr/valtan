@@ -4,6 +4,7 @@ const fs = require('fs');
 module.exports = {
   mode: 'none',
   entry: './react-tic-tac-toe.js',
+  devtool: 'inline-source-map',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')
@@ -12,6 +13,15 @@ module.exports = {
     modules: [
       'node_modules',
       fs.readFileSync('.valtan-path', 'utf-8')
+    ]
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: ["source-map-loader"],
+        enforce: "pre"
+      }
     ]
   }
 };

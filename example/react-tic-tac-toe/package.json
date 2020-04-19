@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react-dom": "^16.10.2",
+    "source-map-loader": "^0.2.4"
   }
 }

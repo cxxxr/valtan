@@ -1,5 +1,15 @@
 (defpackage :valtan-host.build
-  (:use :cl)
+  (:use :cl
+        :cl-source-map/source-map-generator
+        :cl-source-map/mapping
+        :valtan-host.emitter-stream)
+  (:import-from :cl-source-map/mapping
+                :mapping-generated-line
+                :mapping-generated-column
+                :mapping-original-line
+                :mapping-original-column
+                :mapping-source
+                :mapping-name)
   (:export :build-system
            :build-application
            :run-node
@@ -9,6 +19,8 @@
 (defvar *cache-directory*)
 (defvar *cache* (make-hash-table :test 'equal))
 (defvar *discard-cache* nil)
+
+(defvar *enable-source-map* nil)
 
 (defun cache-date (cache)
   (car cache))
@@ -62,7 +74,7 @@
 (defmacro do-file-form ((var file) &body body)
   `(valtan-host.reader:map-file-forms (lambda (,var) ,@body) ,file))
 
-(defun in-pass2 (hir-forms &optional (stream *standard-output*))
+(defun in-pass2 (hir-forms stream)
   (write-line "import * as lisp from 'lisp';" stream)
   (loop :for (var . module) :in compiler::*require-modules*
         :do (if var
@@ -81,12 +93,48 @@
                  :name (pathname-name input-file)
                  :type (format nil "~A.js" (pathname-type input-file))))
 
+(defun to-source-map-pathname (pathname)
+  (make-pathname :name (format nil "~A.~A" (pathname-name pathname) (pathname-type pathname))
+                 :type "map"
+                 :defaults pathname))
+
+(defun write-to-source-map-file (file generator)
+  (with-write-file (stream file)
+    (to-json generator stream)))
+
+(defun make-emitter-stream (stream input-file output-file)
+  (let* ((generator
+           (make-instance 'source-map-generator
+                          :file (namestring output-file)))
+         (stream
+           (make-instance 'emitter-stream
+                          :source input-file
+                          :stream stream
+                          :source-map-generator generator)))
+    (values stream generator)))
+
+(defun call-with-source-map (input-file output-file function)
+  (with-write-file (out output-file)
+    (multiple-value-bind (stream generator)
+        (make-emitter-stream out input-file output-file)
+      (if *enable-source-map*
+          (let ((source-map-file (to-source-map-pathname output-file)))
+            (format stream "//# sourceMappingURL=~A~%" source-map-file)
+            (funcall function stream)
+            (write-to-source-map-file source-map-file
+                                      generator))
+          (funcall function stream)))))
+
+(defmacro with-source-map ((stream input-file output-file) &body body)
+  `(call-with-source-map ,input-file ,output-file (lambda (,stream) ,@body)))
+
 (defun !compile-file (input-file &optional (output-file (input-file-to-output-file input-file)))
   (%with-compilation-unit ()
     (let ((hir-forms
             (let ((hir-forms '())
                   (compiler::*export-modules* '())
                   (compiler::*macro-definitions* '())
+                  (compiler::*source-info* (compiler::make-source-info))
                   (*package* (find-package :valtan-user)))
               (do-file-form (form input-file)
                 (push (handler-bind ((warning #'muffle-warning))
@@ -98,9 +146,61 @@
                                              compiler::*export-modules*)
                      (compiler::pass1-dump-macros compiler::*macro-definitions*)))))
       (ensure-directories-exist output-file)
-      (with-write-file (out output-file)
-        (in-pass2 hir-forms out))
+      (with-source-map (stream input-file output-file)
+        (in-pass2 hir-forms stream))
       output-file)))
+
+(compiler:def-implementation compiler:set-source-map (hir)
+  (when *enable-source-map*
+    (let ((stream compiler::*p2-emit-stream*))
+      (check-type stream emitter-stream)
+      (let ((generated-line (emitter-stream-line stream))
+            (generated-column (emitter-stream-column stream))
+            (source (emitter-stream-source stream)))
+        (when (compiler::hir-position hir)
+          (destructuring-bind (original-line . original-column)
+              (compiler::hir-position hir)
+            (add-mapping
+             (emitter-stream-source-map-generator stream)
+             (mapping
+              :generated-line (1- generated-line)
+              :generated-column generated-column
+              :original-line original-line
+              :original-column original-column
+              :source (namestring source)))))))))
+
+(compiler:def-implementation compiler:make-emitter-stream (base-stream)
+  (if *enable-source-map*
+      (make-emitter-stream (make-string-output-stream)
+                           (emitter-stream-source base-stream)
+                           (cl-source-map/source-map-generator::.file
+                            (emitter-stream-source-map-generator base-stream)))
+      (make-string-output-stream)))
+
+(defun merge-source-map (generator-1 generator-2 offset-line)
+  (dolist (mapping
+           (cl-source-map/mapping-list:to-list
+            (cl-source-map/source-map-generator::.mappings generator-2)))
+    (add-mapping generator-1
+                 (mapping :generated-line (+ (mapping-generated-line mapping) offset-line)
+                          :generated-column (mapping-generated-column mapping)
+                          :original-line (mapping-original-line mapping)
+                          :original-column (mapping-original-column mapping)
+                          :source (mapping-source mapping)
+                          :name (mapping-name mapping)))))
+
+(compiler:def-implementation compiler:join-emitter-stream (base-stream forked-stream)
+  (cond
+    (*enable-source-map*
+     (assert (typep base-stream 'emitter-stream))
+     (assert (typep forked-stream 'emitter-stream))
+     (let ((offset (1- (emitter-stream-line base-stream)))
+           (base-generator (emitter-stream-source-map-generator base-stream))
+           (forked-generator (emitter-stream-source-map-generator forked-stream)))
+       (merge-source-map base-generator forked-generator offset)
+       (write-string (get-output-stream-string (emitter-stream-stream forked-stream)) base-stream)))
+    (t
+     (write-string (get-output-stream-string forked-stream) base-stream))))
 
 (defun compile-file-with-cache (input-file)
   (invoke-compile-file-with-cache
@@ -165,14 +265,17 @@
                                     :name (valtan-host.system:system-name system)
                                     :directory (pathname-directory
                                                 (valtan-host.system:system-pathname system)))))
-    (with-write-file (out output-file)
-      (write-line "import * as lisp from 'lisp';" out)
-      (format out
+    (with-source-map (stream
+                      (valtan-host.system:system-pathname system)
+                      output-file)
+      (write-line "import * as lisp from 'lisp';" stream)
+      (format stream
               "require('~A');~%"
-              (input-file-to-output-file (valtan-host.system:system-to-pathname system)))
+              (input-file-to-output-file
+               (valtan-host.system:system-to-pathname system)))
       (compiler::p2-toplevel-forms
-       (list (compiler::pass1-toplevel '(cl:finish-output) out))
-       out))))
+       (list (compiler::pass1-toplevel '(cl:finish-output) stream))
+       stream))))
 
 (defun prepare-valtan-path (base-directory)
   (with-open-file (out (make-pathname :name ".valtan-path"
@@ -185,6 +288,7 @@
 (defun build-system-using-system (system &key force)
   (let* ((base-directory (pathname-directory
                           (valtan-host.system:system-pathname system)))
+         (*enable-source-map* (valtan-host.system:system-enable-source-map system))
          (*cache-directory* (append base-directory
                                     (list ".valtan-cache")))
          (*discard-cache* (if force t nil))

@@ -4,6 +4,7 @@
            :system-pathname
            :system-pathnames
            :system-enable-profile
+           :system-enable-source-map
            :system-depends-on
            :system-target
            :system-file-p
@@ -26,6 +27,7 @@
   pathname
   (pathnames '())
   (enable-profile nil)
+  (enable-source-map nil)
   (depends-on '())
   (target nil :type (member :node :browser nil)))
 
@@ -66,7 +68,7 @@
         :collect file))
 
 (defmacro valtan-host.system-user::defsystem
-    (name &key (serial nil serial-p) depends-on components target &allow-other-keys)
+    (name &key (serial nil serial-p) depends-on components target source-map &allow-other-keys)
   (check-type target (member :node :browser nil))
   (assert (or (not serial-p) (eq serial t)))
   `(setf (gethash ,(string name) *system-map*)
@@ -79,7 +81,8 @@
                                                      name
                                                      (pathname-directory
                                                       *load-pathname*))
-                      :target ,target)))
+                      :target ,target
+                      :enable-source-map ,source-map)))
 
 (defmacro with-system-env (() &body body)
   `(let ((*package* (ensure-system-package-exist))
