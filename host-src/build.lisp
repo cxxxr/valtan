@@ -288,6 +288,7 @@
 (defun build-system-using-system (system &key force)
   (let* ((base-directory (pathname-directory
                           (valtan-host.system:system-pathname system)))
+         (*enable-source-map* (valtan-host.system:system-enable-source-map system))
          (*cache-directory* (append base-directory
                                     (list ".valtan-cache")))
          (*discard-cache* (if force t nil))
