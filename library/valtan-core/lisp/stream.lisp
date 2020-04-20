@@ -100,7 +100,12 @@
   string)
 
 (defun finish-output (&optional (stream *standard-output*))
-  (flush stream))
+  (flush stream)
+  nil)
+
+(defun force-output (&optional (stream *standard-output*))
+  (flush stream)
+  nil)
 
 (defun terpri (&optional (stream *standard-output*))
   (write-char #\newline stream))
