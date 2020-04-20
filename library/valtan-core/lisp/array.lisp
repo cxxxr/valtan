@@ -86,7 +86,10 @@
   (when (and (consp dimensions) (cdr dimensions))
     (error "error"))
   (when (listp dimensions)
-    (setq dimensions (car dimensions)))
+    (setq dimensions
+          (if (null dimensions)
+              0
+              (car dimensions))))
   (unless (integerp dimensions)
     (error "error"))
   (when (and (listp dimensions)

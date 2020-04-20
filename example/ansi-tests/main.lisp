@@ -18,7 +18,9 @@
        ,form
        (format t "~&time: ~A~%" (- (js:-date.now) ,start)))))
 
-;#|
+(test "sacla-tests/must-array.lisp")
+
+#|
 (time (progn
 ;; (test "sacla-tests/desirable-printer.lisp")
 ;; (test "sacla-tests/must-array.lisp")
