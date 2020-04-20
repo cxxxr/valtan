@@ -83,4 +83,7 @@
    (*:array-to-raw-string "utf-8")))
 
 (cl:defun system:write-raw-string-to-stdout (raw-string)
-  ((ffi:ref "process" "stdin" "write") raw-string))
+  #+node
+  ((ffi:ref "process" "stdin" "write") raw-string)
+  #-node
+  (js:console.log raw-string))
