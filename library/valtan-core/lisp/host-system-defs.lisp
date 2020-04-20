@@ -283,6 +283,9 @@
           :do (cl:write-sequence buffer out :start 0 :end bytes-read)
           :while (cl:= bytes-read buffer-size))))))
 
+(cl:defun system:write-raw-string-to-stdout (raw-string)
+  (cl:write-string raw-string))
+
 
 (cl:defun js::-object ()
   (cl:error "unimplemented"))

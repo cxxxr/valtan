@@ -187,11 +187,13 @@
                         (t
                          (write-char c buffer))))))))
       (cond ((eq destination t)
-             (write-string string *standard-output*))
+             (write-string string *standard-output*)
+             (finish-output *standard-output*))
             ((eq destination nil)
              string)
             (t
-             (write-string string destination))))))
+             (write-string string destination)
+             (finish-output destination))))))
 
 (defun %format (string &rest args)
   (ffi:cl->js (apply #'format nil (ffi:js->cl string) args)))

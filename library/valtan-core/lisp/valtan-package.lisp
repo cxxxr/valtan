@@ -37,6 +37,7 @@
   (:use)
   (:export :+null+
            :*get-stdin-line-function*
+           :write-raw-string-to-stdout
            :read-whole-file
            :make-symbol
            :put-symbol-plist

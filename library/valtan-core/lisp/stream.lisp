@@ -39,10 +39,11 @@
          (type-error stream 'output-stream))))
 
 (defun flush (stream)
-  (let ((x (standard-output-stream-buffer stream)))
-    (when (< 0 (length x))
-      (js::console.log (*:array-to-raw-string x))
-      (setf (standard-output-stream-buffer stream) ""))))
+  (when (standard-output-stream-p stream)
+    (let ((x (standard-output-stream-buffer stream)))
+      (when (< 0 (length x))
+        (system:write-raw-string-to-stdout (*:array-to-raw-string x))
+        (setf (standard-output-stream-buffer stream) "")))))
 
 (defun stream-write-char (stream char)
   (unless (characterp char)
@@ -53,11 +54,12 @@
                                       (string char)))
          char)
         ((standard-output-stream-p stream)
-         (if (char= char #\newline)
-             (flush stream) ; console.logが改行もしてしまうのでchar自体は出力しない
-             (setf (standard-output-stream-buffer stream)
-                   (*:string-append (standard-output-stream-buffer stream)
-                                          (string char)))))
+         (setf (standard-output-stream-buffer stream)
+               (*:string-append (standard-output-stream-buffer stream)
+                                (string char)))
+
+         (when (char= char #\newline)
+           (flush stream)))
         (t
          (type-error stream 'output-stream)))
   char)
