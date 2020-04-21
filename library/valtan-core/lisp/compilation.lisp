@@ -19,3 +19,9 @@
 (defun macro-function (symbol &optional environment)
   (declare (ignore environment))
   (compiler::get-macro symbol))
+
+(defun special-operator-p (symbol)
+  (not (null (member symbol
+                     '(block catch eval-when flet function go if labels let let* load-time-value
+                       locally macrolet multiple-value-call multiple-value-prog1 progn progv quote
+                       return-from setq symbol-macrolet tagbody the throw unwind-protect)))))
