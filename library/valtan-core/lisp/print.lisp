@@ -149,19 +149,27 @@
   (write object :escape nil :stream stream)
   object)
 
+(defun princ-to-string (object)
+  (with-output-to-string (stream)
+    (princ object stream)))
+
 (defun prin1 (object &optional (stream *standard-output*))
   (write object :escape t :stream stream)
   object)
 
-(defun princ-to-string (object)
+(defun prin1-to-string (obejct)
   (with-output-to-string (stream)
-    (princ object stream)))
+    (prin1 object stream)))
 
 (defun print (object &optional (stream *standard-output*))
   (terpri stream)
   (prin1 object stream)
   (write-char #\space stream)
   object)
+
+(defun princ-to-string (object)
+  (with-output-to-string (stream)
+    (princ object stream)))
 
 (defun format (destination control-string &rest format-arguments)
   (flet ((take ()
