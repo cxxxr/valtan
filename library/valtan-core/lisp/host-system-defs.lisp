@@ -40,6 +40,16 @@
   (cl:setf (cl:elt (structure-values structure) index)
            value))
 
+(cl:defun system::make-structure-array! (contents &optional (element-type t element-type-p))
+  (system:make-structure 'array
+                         contents
+                         nil
+                         1
+                         (cl:length contents)
+                         (cl:cond (element-type-p element-type)
+                                  ((cl:stringp contents) 'character)
+                                  (t 't))))
+
 
 ;;; lisp.jsに対応
 (cl:defun system:make-symbol (name)

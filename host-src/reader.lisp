@@ -63,12 +63,7 @@
    *package*
    (lambda ()
      (valtan-core::read-from-string
-      (system:make-structure 'valtan-core::array
-                             string
-                             nil
-                             1
-                             (length string)
-                             'valtan-core::character)))))
+      (system::make-structure-array! string)))))
 
 (defun read-in-valtan ()
   (call-with-valtan-reader

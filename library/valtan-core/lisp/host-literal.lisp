@@ -14,12 +14,7 @@
    (cl:unread-char #\" s)
    (cl:let* ((cl:*readtable* *plain-readtable*)
              (raw-string (cl:read s cl:t cl:nil cl:t)))
-     (system:make-structure 'array
-                            raw-string
-                            nil
-                            1
-                            (cl:length raw-string)
-                            'character)))
+     (system::make-structure-array! raw-string)))
  nil
  *valtan-readtable*)
 
@@ -30,12 +25,7 @@
    (cl:unread-char #\( s)
    (cl:let* ((cl:*readtable* *plain-readtable*)
              (raw-array (cl:read s cl:t cl:nil cl:t)))
-     (system:make-structure 'array
-                            (cl:coerce raw-array 'cl:vector)
-                            nil
-                            1
-                            (cl:length raw-array)
-                            't)))
+     (system::make-structure-array! (cl:coerce raw-array 'cl:vector) t)))
  *valtan-readtable*)
 
 (cl:set-dispatch-macro-character
@@ -51,12 +41,7 @@
                                  (#\0 0)
                                  (#\1 1)))
                     'cl:vector)))
-     (system:make-structure 'array
-                            bits
-                            nil
-                            1
-                            (cl:length bits)
-                            't)))
+     (system::make-structure-array! bits 't)))
  *valtan-readtable*)
 
 (cl:set-dispatch-macro-character
