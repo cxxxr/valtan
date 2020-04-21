@@ -137,6 +137,14 @@
            (write-string (system:unknown-object-to-string object)
                          stream)))))
 
+(defun write-to-string (object &rest args
+                               &key array base case circle escape gensym length level
+                                    lines miser-width pprint-dispatch pretty radix readably right-margin)
+  (declare (ignore array base case circle escape gensym length level
+                   lines miser-width pprint-dispatch pretty radix readably right-margin))
+  (with-output-to-string (stream)
+    (apply #'write object :stream stream args)))
+
 (defun princ (object &optional (stream *standard-output*))
   (write object :escape nil :stream stream)
   object)
