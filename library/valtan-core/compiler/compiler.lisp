@@ -7,7 +7,7 @@
         hir)))
 
 (defun compile-toplevel (x &optional (return-value-p t))
-  (let ((ir (pass1-toplevel x return-value-p)))
+  (let ((ir (pass1-toplevel x return-value-p return-value-p)))
     (with-output-to-string (*standard-output*)
       (p2-toplevel ir *standard-output* return-value-p))))
 
