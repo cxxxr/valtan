@@ -3,6 +3,10 @@
 #-valtan
 (in-package :valtan-core)
 
+#+valtan
+(*:defmacro* lambda (lambda-list &rest body)
+  `(function (lambda ,lambda-list ,@body)))
+
 (*:defmacro* return (&optional value)
   `(return-from nil ,value))
 

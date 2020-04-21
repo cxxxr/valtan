@@ -15,3 +15,7 @@
     (if expanded-p
         (macroexpand-1 form)
         form)))
+
+(defun macro-function (symbol &optional environment)
+  (declare (ignore environment))
+  (compiler::get-macro symbol))
