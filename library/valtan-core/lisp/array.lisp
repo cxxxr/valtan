@@ -7,6 +7,7 @@
                   (:copier nil)
                   (:predicate arrayp))
   contents
+  dimensions
   fill-pointer
   rank
   length
@@ -22,58 +23,82 @@
         (t t)))
 
 (defun dimensions-to-total-size (dimensions)
-  (if (integerp dimensions)
-      dimensions
+  (if (consp dimensions)
       (let ((total-size (first dimensions)))
         (dolist (d (rest dimensions))
           (setq total-size (* total-size d)))
-        total-size)))
+        total-size)
+      dimensions))
 
-(defun check-dimensions-and-initial-contents (dimensions initial-contents)
-  (let ((initial-contents-length (length initial-contents)))
-    (unless (= dimensions
-               initial-contents-length)
-      (error "There are ~D elements in the :INITIAL-CONTENTS, but the vector length is ~D."
-             initial-contents-length
-             dimensions))))
+(defun check-dimensions-and-initial-contents (dimensions rank initial-contents)
+  (case rank
+    (0)
+    (1 (unless (= dimensions
+                  (length initial-contents))
+         (error "There are ~D elements in the :INITIAL-CONTENTS, but the vector length is ~D."
+                (length initial-contents)
+                dimensions)))
+    (otherwise
+     (labels ((f (dimensions initial-contents)
+                (cond ((null dimensions))
+                      ((/= (first dimensions) (length initial-contents))
+                       (error "There are ~D elements in the :INITIAL-CONTENTS, but the vector length is ~D."
+                              (length initial-contents)
+                              (first dimensions)))
+                      (t
+                       (dolist (content initial-contents)
+                         (f (cdr dimensions) content))))))
+       (f dimensions initial-contents)))))
 
-(defun make-array-contents-with-initial-contents (size element-type initial-contents)
-  (cond ((eq element-type 'character)
-         (let* ((len (length initial-contents))
-                (raw-string (system:make-raw-string)))
-           (do ((i 0 (1+ i)))
-               ((>= i len))
-             (setq raw-string
-                   (system:concat-raw-string/2 raw-string
-                                               (system:array-to-raw-string
-                                                (string (elt initial-contents i))))))
-           raw-string))
-        (t
-         (let ((raw-array (system:make-raw-array size))
-               (i 0))
-           (map nil
-                (lambda (content)
-                  (system:raw-array-set raw-array i content)
-                  (incf i))
-                initial-contents)
-           raw-array))))
+(defun dimensions-total-size (dimensions)
+  (let ((size 1))
+    (dotimes (d dimensions size)
+      (setq size (* size d)))))
 
-(defun make-array-contents-with-initial-element (size element-type initial-element initial-element-p)
-  (cond ((eq element-type 'character)
-         (let ((initial-raw-string
-                 (system:code-to-raw-string
-                  (if initial-element-p
-                      (char-code initial-element)
-                      0)))
-               (raw-string (system:make-raw-string)))
-           (do ((i 0 (1+ i)))
-               ((>= i size))
-             (setq raw-string
-                   (system:concat-raw-string/2 raw-string initial-raw-string)))
-           raw-string))
-        (t
-         (system:fill-raw-array (system:make-raw-array size)
-                                initial-element))))
+(defun make-array-contents-with-initial-contents (dimensions rank element-type initial-contents)
+  (when (and (eq element-type 'character) (= rank 1))
+    (let* ((len (length initial-contents))
+           (raw-string (system:make-raw-string)))
+      (do ((i 0 (1+ i)))
+          ((>= i len))
+        (setq raw-string
+              (system:concat-raw-string/2 raw-string
+                                          (system:array-to-raw-string
+                                           (string (elt initial-contents i))))))
+      (return-from make-array-contents-with-initial-contents raw-string)))
+  (let ((i -1)
+        (raw-array (system:make-raw-array (dimensions-total-size dimensions))))
+    (labels ((f (dimensions initial-contents)
+               (cond ((null dimensions))
+                     ((null (cdr dimensions))
+                      (dolist (content initial-contents)
+                        (system:raw-array-set raw-array (incf i) content)))
+                     (t
+                      (dolist (content initial-contents)
+                        (f (cdr dimensions) content))))))
+      (f dimensions initial-contents)
+      raw-array)))
+
+(defun make-array-contents-with-initial-element (dimensions rank element-type initial-element initial-element-p)
+  (when (and (eq element-type 'character) (= rank 1))
+    (let ((initial-raw-string
+            (system:code-to-raw-string
+             (if initial-element-p
+                 (char-code initial-element)
+                 0)))
+          (raw-string (system:make-raw-string)))
+      (do ((i 0 (1+ i)))
+          ((>= i dimensions))
+        (setq raw-string
+              (system:concat-raw-string/2 raw-string initial-raw-string)))
+      (return-from make-array-contents-with-initial-element raw-string)))
+  (when (= rank 1)
+    (return-from make-array-contents-with-initial-element
+      (system:fill-raw-array (system:make-raw-array dimensions)
+                             initial-element)))
+  (let* ((total-size (dimensions-total-size dimensions))
+         (raw-array (system:make-raw-array total-size)))
+    (system:fill-raw-array raw-array initial-element)))
 
 (defun make-array (dimensions &key (element-type t)
                                    (initial-element nil initial-element-p)
@@ -83,46 +108,51 @@
                                    displaced-to
                                    displaced-index-offset)
   (declare (ignore adjustable displaced-to displaced-index-offset))
-  (when (and (consp dimensions) (cdr dimensions))
-    (error "error"))
-  (when (listp dimensions)
-    (setq dimensions
-          (if (null dimensions)
-              0
-              (car dimensions))))
-  (unless (integerp dimensions)
-    (error "error"))
-  (when (and (listp dimensions)
-             (cdr dimensions)
-             fill-pointer)
-    (error "Only vectors can have fill pointers."))
-  (unless (or (eq fill-pointer t) (eq fill-pointer nil)
-              (and (integerp fill-pointer)
-                   (<= 0 fill-pointer)))
-    (error "Bad fill-pointer: ~S" fill-pointer))
-  (when (eq fill-pointer t)
-    (assert (integerp dimensions))
-    (setq fill-pointer dimensions))
-  (cond ((and initial-contents-p initial-element-p)
-         (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
-        (initial-contents-p
-         (check-dimensions-and-initial-contents dimensions initial-contents)))
-  (setq element-type (upgraded-array-element-type element-type))
-  (let ((contents (if initial-contents-p
-                      (make-array-contents-with-initial-contents dimensions
-                                                                 element-type
-                                                                 initial-contents)
-                      (make-array-contents-with-initial-element dimensions
-                                                                element-type
-                                                                initial-element
-                                                                initial-element-p))))
-    (%make-array :contents contents
-                 :fill-pointer fill-pointer
-                 :rank (if (listp dimensions)
-                           (length dimensions)
-                           1)
-                 :length (dimensions-to-total-size dimensions)
-                 :element-type element-type)))
+  (let (rank)
+    (cond ((null dimensions)
+           (setq rank 0
+                 dimensions 0))
+          ((atom dimensions)
+           (setq rank 1))
+          ((null (cdr dimensions))
+           (setq rank 1
+                 dimensions (car dimensions)))
+          (t
+           (setq rank (length dimensions))))
+    ;; この時点でdimensionsは整数か長さ2以上のリスト
+    (when (and (listp dimensions) fill-pointer)
+      (error "Only vectors can have fill pointers."))
+    (unless (or (eq fill-pointer t) (eq fill-pointer nil)
+                (and (integerp fill-pointer)
+                     (<= 0 fill-pointer)))
+      (error "Bad fill-pointer: ~S" fill-pointer))
+    (when (eq fill-pointer t)
+      (assert (integerp dimensions))
+      (setq fill-pointer dimensions))
+    (cond ((and initial-contents-p initial-element-p)
+           (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
+          (initial-contents-p
+           (check-dimensions-and-initial-contents dimensions rank initial-contents)))
+    (setq element-type (upgraded-array-element-type element-type))
+    (let ((contents (if initial-contents-p
+                        (make-array-contents-with-initial-contents dimensions
+                                                                   rank
+                                                                   element-type
+                                                                   initial-contents)
+                        (make-array-contents-with-initial-element dimensions
+                                                                  rank
+                                                                  element-type
+                                                                  initial-element
+                                                                  initial-element-p))))
+      (%make-array :contents contents
+                   :dimensions (case rank
+                                 (0 nil)
+                                 (1 (list dimensions))
+                                 (otherwise dimensions))
+                   :fill-pointer fill-pointer
+                   :rank rank
+                   :length (dimensions-to-total-size dimensions)
+                   :element-type element-type))))
 
 (defun *:raw-array-to-array (js-array)
   (%make-array :contents js-array

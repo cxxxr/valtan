@@ -43,6 +43,7 @@
 (cl:defun system::make-structure-array! (contents &optional (element-type t element-type-p))
   (system:make-structure 'array
                          contents
+                         (cl:list (cl:length contents))
                          nil
                          1
                          (cl:length contents)
