@@ -157,7 +157,7 @@
   (write object :escape t :stream stream)
   object)
 
-(defun prin1-to-string (obejct)
+(defun prin1-to-string (object)
   (with-output-to-string (stream)
     (prin1 object stream)))
 
