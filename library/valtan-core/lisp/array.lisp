@@ -8,9 +8,9 @@
                   (:predicate arrayp))
   contents
   dimensions
+  (total-size 0 :read-only t)
   fill-pointer
   rank
-  length
   element-type)
 
 (defun upgraded-array-element-type (typespec)
@@ -33,11 +33,11 @@
 (defun check-dimensions-and-initial-contents (dimensions rank initial-contents)
   (case rank
     (0)
-    (1 (unless (= dimensions
+    (1 (unless (= (car dimensions)
                   (length initial-contents))
          (error "There are ~D elements in the :INITIAL-CONTENTS, but the vector length is ~D."
                 (length initial-contents)
-                dimensions)))
+                (car dimensions))))
     (otherwise
      (labels ((f (dimensions initial-contents)
                 (cond ((null dimensions))
@@ -52,7 +52,7 @@
 
 (defun dimensions-total-size (dimensions)
   (let ((size 1))
-    (dotimes (d dimensions size)
+    (dolist (d dimensions size)
       (setq size (* size d)))))
 
 (defun make-array-contents-with-initial-contents (dimensions rank element-type initial-contents)
@@ -86,9 +86,10 @@
              (if initial-element-p
                  (char-code initial-element)
                  0)))
-          (raw-string (system:make-raw-string)))
+          (raw-string (system:make-raw-string))
+          (length (car dimensions)))
       (do ((i 0 (1+ i)))
-          ((>= i dimensions))
+          ((>= i length))
         (setq raw-string
               (system:concat-raw-string/2 raw-string initial-raw-string)))
       (return-from make-array-contents-with-initial-element raw-string)))
@@ -110,61 +111,63 @@
   (declare (ignore adjustable displaced-to displaced-index-offset))
   (let (rank)
     (cond ((null dimensions)
-           (setq rank 0
-                 dimensions 0))
+           (setq rank 0))
           ((atom dimensions)
-           (setq rank 1))
-          ((null (cdr dimensions))
            (setq rank 1
-                 dimensions (car dimensions)))
+                 dimensions (list dimensions)))
+          ((null (cdr dimensions))
+           (setq rank 1))
           (t
            (setq rank (length dimensions))))
-    ;; この時点でdimensionsは整数か長さ2以上のリスト
-    (when (and (listp dimensions) fill-pointer)
+    (when (and (/= rank 1) fill-pointer)
       (error "Only vectors can have fill pointers."))
     (unless (or (eq fill-pointer t) (eq fill-pointer nil)
                 (and (integerp fill-pointer)
                      (<= 0 fill-pointer)))
       (error "Bad fill-pointer: ~S" fill-pointer))
     (when (eq fill-pointer t)
-      (assert (integerp dimensions))
-      (setq fill-pointer dimensions))
+      (assert (= rank 1))
+      (setq fill-pointer (car dimensions)))
     (cond ((and initial-contents-p initial-element-p)
            (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
           (initial-contents-p
            (check-dimensions-and-initial-contents dimensions rank initial-contents)))
     (setq element-type (upgraded-array-element-type element-type))
-    (let ((contents (if initial-contents-p
-                        (make-array-contents-with-initial-contents dimensions
+    (let* ((total-size (dimensions-total-size dimensions))
+           (contents (if initial-contents-p
+                         (make-array-contents-with-initial-contents dimensions
+                                                                    rank
+                                                                    element-type
+                                                                    initial-contents)
+                         (make-array-contents-with-initial-element dimensions
                                                                    rank
                                                                    element-type
-                                                                   initial-contents)
-                        (make-array-contents-with-initial-element dimensions
-                                                                  rank
-                                                                  element-type
-                                                                  initial-element
-                                                                  initial-element-p))))
+                                                                   initial-element
+                                                                   initial-element-p))))
       (%make-array :contents contents
                    :dimensions (case rank
                                  (0 nil)
-                                 (1 (list dimensions))
                                  (otherwise dimensions))
+                   :total-size total-size
                    :fill-pointer fill-pointer
                    :rank rank
-                   :length (dimensions-to-total-size dimensions)
                    :element-type element-type))))
 
 (defun *:raw-array-to-array (js-array)
-  (%make-array :contents js-array
-               :rank 1
-               :length (system:raw-array-length js-array)
-               :element-type t))
+  (let ((length (system:raw-array-length js-array)))
+    (%make-array :contents js-array
+                 :dimensions (list length)
+                 :total-size length
+                 :rank 1
+                 :element-type t)))
 
 (defun simple-make-string (raw-string)
-  (%make-array :contents raw-string
-               :rank 1
-               :length (system:raw-array-length raw-string)
-               :element-type 'character))
+  (let ((length (system:raw-array-length raw-string)))
+    (%make-array :contents raw-string
+                 :dimensions (list length)
+                 :total-size length
+                 :rank 1
+                 :element-type 'character)))
 
 (defun *:raw-string-to-array (raw-string)
   (simple-make-string raw-string))
@@ -185,37 +188,61 @@
   (setf (array-fill-pointer array) fill-pointer))
 
 (defun array-dimension (array axis-number)
-  (assert (zerop axis-number))
-  (array-length array))
+  (nth axis-number (array-dimensions array)))
 
-(defun aref (array sub)
+(defun subscripts-error (n-subscripts rank)
+  (error "Wrong number of subscripts, ~D, for array of rank ~D." n-subscripts rank))
+
+(defun array-row-major-index (array subscripts)
+  (assert (listp subscripts))
   (unless (arrayp array)
     (type-error array 'array))
-  (when (or (< sub 0) (<= (array-length array) sub))
-    (error "index error"))
-  (system:raw-array-ref (array-contents array) sub))
+  (let ((rank (array-rank array))
+        (dimensions (array-dimensions array)))
+    (unless (= rank (length subscripts))
+      (subscripts-error (length subscripts) (array-rank array)))
+    (do ((axis (1- rank) (1- axis))
+         (chunk-size 1)
+         (result 0))
+        ((minusp axis) result)
+      (let ((index (nth axis subscripts))
+            (dim (nth axis dimensions)))
+        (when (or (< index 0) (<= dim index))
+          (error "Invalid index ~D for axis ~D of ~S, should be a non-negative integer below ~D."
+                 index axis array index))
+        (incf result (* chunk-size index))
+        (setq chunk-size (* chunk-size dim))))))
 
-(defun (cl:setf aref) (value array sub)
+(defun aref (array &rest subscripts)
+  (system:raw-array-ref (array-contents array) (array-row-major-index array subscripts)))
+
+(defun (cl:setf aref) (value array &rest subscripts)
   (unless (arrayp array)
     (type-error array 'array))
-  (when (or (< sub 0) (<= (array-length array) sub))
-    (error "index error"))
   (cond ((eq (array-element-type array) 'character)
          (unless (characterp value)
            (type-error value 'character))
-         (setf (array-contents array)
-               (system:concat-raw-string/3 (system:sub-raw-string/3 (array-contents array) 0 sub)
-                                           value
-                                           (system:sub-raw-string/2 (array-contents array) (1+ sub))))
+         (unless (and subscripts (null (cdr subscripts)))
+           (subscripts-error (length subscripts) 1))
+         (let ((i (car subscripts)))
+           (when (or (< i 0) (<= (array-total-size array) i))
+             (error "Invalid index ~D for ~S, should be a non-negative integer below ~D."
+                    i array i))
+           (setf (array-contents array)
+                 (system:concat-raw-string/3 (system:sub-raw-string/3 (array-contents array) 0 i)
+                                             value
+                                             (system:sub-raw-string/2 (array-contents array) (1+ i)))))
          value)
         (t
-         (system:raw-array-set (array-contents array) sub value))))
+         (system:raw-array-set (array-contents array)
+                               (array-row-major-index array subscripts)
+                               value))))
 
 (defun svref (vector index)
-  (aref vector index))
+  (system:raw-array-ref (array-contents vector) index))
 
 (defun (cl:setf svref) (value vector index)
-  (setf (aref vector index) value))
+  (system:raw-array-set (array-contents vector) index value))
 
 (defun vectorp (x)
   (and (arrayp x) (= 1 (array-rank x))))
@@ -233,10 +260,7 @@
 
 (defun array-length-with-fill-pointer (array)
   (or (array-fill-pointer array)
-      (array-length array)))
-
-(defun array-total-size (array)
-  (ffi:ref (array-contents array) "length"))
+      (array-total-size array)))
 
 (defun vector-pop (vector)
   (when (or (null (array-fill-pointer vector))

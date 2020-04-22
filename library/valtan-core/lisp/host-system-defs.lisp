@@ -44,9 +44,9 @@
   (system:make-structure 'array
                          contents
                          (cl:list (cl:length contents))
+                         (cl:length contents)
                          nil
                          1
-                         (cl:length contents)
                          (cl:cond (element-type-p element-type)
                                   ((cl:stringp contents) 'character)
                                   (t 't))))
