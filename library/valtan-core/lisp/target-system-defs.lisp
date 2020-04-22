@@ -84,6 +84,6 @@
 
 (cl:defun system:write-raw-string-to-stdout (raw-string)
   #+node
-  ((ffi:ref "process" "stdin" "write") raw-string)
+  ((ffi:ref "process" "stdout" "write") raw-string)
   #-node
   (js:console.log raw-string))
