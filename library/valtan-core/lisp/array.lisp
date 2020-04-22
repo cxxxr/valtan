@@ -30,26 +30,6 @@
         total-size)
       dimensions))
 
-(defun check-dimensions-and-initial-contents (dimensions rank initial-contents)
-  (case rank
-    (0)
-    (1 (unless (= (car dimensions)
-                  (length initial-contents))
-         (error "There are ~D elements in the :INITIAL-CONTENTS, but the vector length is ~D."
-                (length initial-contents)
-                (car dimensions))))
-    (otherwise
-     (labels ((f (dimensions initial-contents)
-                (cond ((null dimensions))
-                      ((/= (first dimensions) (length initial-contents))
-                       (error "There are ~D elements in the :INITIAL-CONTENTS, but the vector length is ~D."
-                              (length initial-contents)
-                              (first dimensions)))
-                      (t
-                       (dolist (content initial-contents)
-                         (f (cdr dimensions) content))))))
-       (f dimensions initial-contents)))))
-
 (defun dimensions-total-size (dimensions)
   (let ((size 1))
     (dolist (d dimensions size)
@@ -59,6 +39,10 @@
   (cond ((and (eq element-type 'character) (= rank 1))
          (let* ((len (length initial-contents))
                 (raw-string (system:make-raw-string)))
+           (unless (= (car dimensions) len)
+             (error "There are ~D elements in the :INITIAL-CONTENTS, but the vector length is ~D."
+                    (length initial-contents)
+                    (car dimensions)))
            (do ((i 0 (1+ i)))
                ((>= i len))
              (setq raw-string
@@ -75,12 +59,20 @@
                (raw-array (system:make-raw-array (dimensions-total-size dimensions))))
            (labels ((f (dimensions initial-contents)
                       (cond ((null dimensions))
-                            ((null (cdr dimensions))
-                             (dolist (content initial-contents)
-                               (system:raw-array-set raw-array (incf i) content)))
                             (t
-                             (dolist (content initial-contents)
-                               (f (cdr dimensions) content))))))
+                             (when (/= (first dimensions) (length initial-contents))
+                               (error "There are ~D elements in the :INITIAL-CONTENTS, but the vector length is ~D."
+                                      (length initial-contents)
+                                      (first dimensions)))
+                             (if (null (cdr dimensions))
+                                 (map nil
+                                      (lambda (content)
+                                        (system:raw-array-set raw-array (incf i) content))
+                                      initial-contents)
+                                 (map nil
+                                      (lambda (content)
+                                        (f (cdr dimensions) content))
+                                      initial-contents))))))
              (f dimensions initial-contents)
              raw-array)))))
 
@@ -137,10 +129,8 @@
     (when (eq fill-pointer t)
       (assert (= rank 1))
       (setq fill-pointer (car dimensions)))
-    (cond ((and initial-contents-p initial-element-p)
-           (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
-          (initial-contents-p
-           (check-dimensions-and-initial-contents dimensions rank initial-contents)))
+    (when (and initial-contents-p initial-element-p)
+      (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
     (setq element-type (upgraded-array-element-type element-type))
     (let* ((total-size (dimensions-total-size dimensions))
            (contents (if initial-contents-p
