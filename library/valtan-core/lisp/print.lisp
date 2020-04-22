@@ -167,10 +167,6 @@
   (write-char #\space stream)
   object)
 
-(defun princ-to-string (object)
-  (with-output-to-string (stream)
-    (princ object stream)))
-
 (defun format (destination control-string &rest format-arguments)
   (flet ((take ()
            (unless format-arguments
