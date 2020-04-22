@@ -56,50 +56,59 @@
       (setq size (* size d)))))
 
 (defun make-array-contents-with-initial-contents (dimensions rank element-type initial-contents)
-  (when (and (eq element-type 'character) (= rank 1))
-    (let* ((len (length initial-contents))
-           (raw-string (system:make-raw-string)))
-      (do ((i 0 (1+ i)))
-          ((>= i len))
-        (setq raw-string
-              (system:concat-raw-string/2 raw-string
-                                          (system:array-to-raw-string
-                                           (string (elt initial-contents i))))))
-      (return-from make-array-contents-with-initial-contents raw-string)))
-  (let ((i -1)
-        (raw-array (system:make-raw-array (dimensions-total-size dimensions))))
-    (labels ((f (dimensions initial-contents)
-               (cond ((null dimensions))
-                     ((null (cdr dimensions))
-                      (dolist (content initial-contents)
-                        (system:raw-array-set raw-array (incf i) content)))
-                     (t
-                      (dolist (content initial-contents)
-                        (f (cdr dimensions) content))))))
-      (f dimensions initial-contents)
-      raw-array)))
+  (cond ((and (eq element-type 'character) (= rank 1))
+         (let* ((len (length initial-contents))
+                (raw-string (system:make-raw-string)))
+           (do ((i 0 (1+ i)))
+               ((>= i len))
+             (setq raw-string
+                   (system:concat-raw-string/2 raw-string
+                                               (system:array-to-raw-string
+                                                (string (elt initial-contents i))))))
+           raw-string))
+        ((= rank 0)
+         (let ((raw-array (system:make-raw-array 1)))
+           (system:raw-array-set raw-array 0 initial-contents)
+           raw-array))
+        (t
+         (let ((i -1)
+               (raw-array (system:make-raw-array (dimensions-total-size dimensions))))
+           (labels ((f (dimensions initial-contents)
+                      (cond ((null dimensions))
+                            ((null (cdr dimensions))
+                             (dolist (content initial-contents)
+                               (system:raw-array-set raw-array (incf i) content)))
+                            (t
+                             (dolist (content initial-contents)
+                               (f (cdr dimensions) content))))))
+             (f dimensions initial-contents)
+             raw-array)))))
 
 (defun make-array-contents-with-initial-element (dimensions rank element-type initial-element initial-element-p)
-  (when (and (eq element-type 'character) (= rank 1))
-    (let ((initial-raw-string
-            (system:code-to-raw-string
-             (if initial-element-p
-                 (char-code initial-element)
-                 0)))
-          (raw-string (system:make-raw-string))
-          (length (car dimensions)))
-      (do ((i 0 (1+ i)))
-          ((>= i length))
-        (setq raw-string
-              (system:concat-raw-string/2 raw-string initial-raw-string)))
-      (return-from make-array-contents-with-initial-element raw-string)))
-  (when (= rank 1)
-    (return-from make-array-contents-with-initial-element
-      (system:fill-raw-array (system:make-raw-array dimensions)
-                             initial-element)))
-  (let* ((total-size (dimensions-total-size dimensions))
-         (raw-array (system:make-raw-array total-size)))
-    (system:fill-raw-array raw-array initial-element)))
+  (cond ((and (eq element-type 'character) (= rank 1))
+         (let ((initial-raw-string
+                 (system:code-to-raw-string
+                  (if initial-element-p
+                      (char-code initial-element)
+                      0)))
+               (raw-string (system:make-raw-string))
+               (length (car dimensions)))
+           (do ((i 0 (1+ i)))
+               ((>= i length))
+             (setq raw-string
+                   (system:concat-raw-string/2 raw-string initial-raw-string)))
+           raw-string))
+        ((= rank 1)
+         (system:fill-raw-array (system:make-raw-array dimensions)
+                                initial-element))
+        ((= rank 0)
+         (let ((raw-array (system:make-raw-array 1)))
+           (system:raw-array-set raw-array 0 initial-element)
+           raw-array))
+        (t
+         (let* ((total-size (dimensions-total-size dimensions))
+                (raw-array (system:make-raw-array total-size)))
+           (system:fill-raw-array raw-array initial-element)))))
 
 (defun make-array (dimensions &key (element-type t)
                                    (initial-element nil initial-element-p)
@@ -145,9 +154,7 @@
                                                                    initial-element
                                                                    initial-element-p))))
       (%make-array :contents contents
-                   :dimensions (case rank
-                                 (0 nil)
-                                 (otherwise dimensions))
+                   :dimensions dimensions
                    :total-size total-size
                    :fill-pointer fill-pointer
                    :rank rank
@@ -216,27 +223,48 @@
 (defun aref (array &rest subscripts)
   (system:raw-array-ref (array-contents array) (array-row-major-index array subscripts)))
 
+(defun %string-set (array index value)
+  (unless (characterp value)
+    (type-error value 'character))
+  (when (or (< index 0) (<= (array-total-size array) index))
+    (error "Invalid index ~D for ~S, should be a non-negative integer below ~D."
+           index array index))
+  (setf (array-contents array)
+        (system:concat-raw-string/3 (system:sub-raw-string/3 (array-contents array) 0 index)
+                                    value
+                                    (system:sub-raw-string/2 (array-contents array) (1+ index))))
+  value)
+
 (defun (cl:setf aref) (value array &rest subscripts)
   (unless (arrayp array)
     (type-error array 'array))
   (cond ((eq (array-element-type array) 'character)
-         (unless (characterp value)
-           (type-error value 'character))
          (unless (and subscripts (null (cdr subscripts)))
            (subscripts-error (length subscripts) 1))
-         (let ((i (car subscripts)))
-           (when (or (< i 0) (<= (array-total-size array) i))
-             (error "Invalid index ~D for ~S, should be a non-negative integer below ~D."
-                    i array i))
-           (setf (array-contents array)
-                 (system:concat-raw-string/3 (system:sub-raw-string/3 (array-contents array) 0 i)
-                                             value
-                                             (system:sub-raw-string/2 (array-contents array) (1+ i)))))
-         value)
+         (%string-set array (car subscripts) value))
         (t
          (system:raw-array-set (array-contents array)
                                (array-row-major-index array subscripts)
                                value))))
+
+(defun row-major-aref (array index)
+  (unless (arrayp array)
+    (type-error array 'array))
+  (when (or (< index 0) (<= (array-total-size array) index))
+    (error "Invalid index ~D for ~S, should be a non-negative integer below ~D."
+           index array (array-total-size array)))
+  (system:raw-array-ref (array-contents array) index))
+
+(defun (cl:setf row-major-aref) (value array index)
+  (unless (arrayp array)
+    (type-error array 'array))
+  (cond ((eq (array-element-type array) 'character)
+         (%string-set array index value))
+        (t
+         (when (or (< index 0) (<= (array-total-size array) index))
+           (error "Invalid index ~D for ~S, should be a non-negative integer below ~D."
+                  index array (array-total-size array)))
+         (system:raw-array-set (array-contents array) index value))))
 
 (defun svref (vector index)
   (system:raw-array-ref (array-contents vector) index))
