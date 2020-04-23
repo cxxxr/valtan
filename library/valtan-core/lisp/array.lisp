@@ -22,14 +22,6 @@
             t)))
         (t t)))
 
-(defun dimensions-to-total-size (dimensions)
-  (if (consp dimensions)
-      (let ((total-size (first dimensions)))
-        (dolist (d (rest dimensions))
-          (setq total-size (* total-size d)))
-        total-size)
-      dimensions))
-
 (defun dimensions-total-size (dimensions)
   (let ((size 1))
     (dolist (d dimensions size)
