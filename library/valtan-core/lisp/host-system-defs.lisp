@@ -46,6 +46,8 @@
                          (cl:list (cl:length contents))
                          (cl:length contents)
                          nil
+                         nil
+                         nil
                          1
                          (cl:cond (element-type-p element-type)
                                   ((cl:stringp contents) 'character)

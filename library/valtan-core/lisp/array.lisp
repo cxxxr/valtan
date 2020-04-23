@@ -9,6 +9,8 @@
   contents
   dimensions
   (total-size 0 :read-only t)
+  displaced-to
+  displaced-index-offset
   fill-pointer
   rank
   element-type)
@@ -88,21 +90,6 @@
          (let ((raw-array (system:make-raw-array total-size)))
            (system:fill-raw-array raw-array initial-element)))))
 
-(defun make-array-contents (dimensions total-size rank element-type
-                            initial-contents initial-contents-p initial-element initial-element-p)
-  (if initial-contents-p
-      (make-array-contents-with-initial-contents dimensions
-                                                 total-size
-                                                 rank
-                                                 element-type
-                                                 initial-contents)
-      (make-array-contents-with-initial-element dimensions
-                                                total-size
-                                                rank
-                                                element-type
-                                                initial-element
-                                                initial-element-p)))
-
 (defun make-array (dimensions &key (element-type t)
                                    (initial-element nil initial-element-p)
                                    (initial-contents nil initial-contents-p)
@@ -110,7 +97,7 @@
                                    fill-pointer
                                    displaced-to
                                    displaced-index-offset)
-  (declare (ignore adjustable displaced-to displaced-index-offset))
+  (declare (ignore adjustable))
   (let (rank)
     (cond ((null dimensions)
            (setq rank 0))
@@ -121,25 +108,42 @@
            (setq rank 1))
           (t
            (setq rank (length dimensions))))
-    (when (and (/= rank 1) fill-pointer)
-      (error "Only vectors can have fill pointers."))
-    (unless (or (eq fill-pointer t) (eq fill-pointer nil)
-                (and (integerp fill-pointer)
-                     (<= 0 fill-pointer)))
-      (error "Bad fill-pointer: ~S" fill-pointer))
-    (when (eq fill-pointer t)
-      (assert (= rank 1))
-      (setq fill-pointer (car dimensions)))
-    (when (and initial-contents-p initial-element-p)
-      (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
-    (setq element-type (upgraded-array-element-type element-type))
-    (let* ((total-size (apply #'* dimensions))
-           (contents (make-array-contents dimensions total-size rank element-type
-                                          initial-contents initial-contents-p
-                                          initial-element initial-element-p)))
+    (when fill-pointer
+      (when (/= rank 1)
+        (error "Only vectors can have fill pointers."))
+      (cond ((eq fill-pointer t)
+             (setq fill-pointer (car dimensions)))
+            ((not (and (integerp fill-pointer)
+                       (<= 0 fill-pointer)))
+             (error "Bad fill-pointer: ~S" fill-pointer))))
+    (let* ((element-type (upgraded-array-element-type element-type))
+           (total-size (apply #'* dimensions))
+           (contents (cond (displaced-to
+                            (when (or initial-contents-p initial-element-p)
+                              (error ":INITIAL-ELEMENT may not be specified with the :DISPLACED-TO option"))
+                            (unless displaced-index-offset
+                              (setq displaced-index-offset 0))
+                            (array-contents displaced-to))
+                           (t
+                            (when (and initial-contents-p initial-element-p)
+                              (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
+                            (if initial-contents-p
+                                (make-array-contents-with-initial-contents dimensions
+                                                                           total-size
+                                                                           rank
+                                                                           element-type
+                                                                           initial-contents)
+                                (make-array-contents-with-initial-element dimensions
+                                                                          total-size
+                                                                          rank
+                                                                          element-type
+                                                                          initial-element
+                                                                          initial-element-p))))))
       (%make-array :contents contents
                    :dimensions dimensions
                    :total-size total-size
+                   :displaced-to displaced-to
+                   :displaced-index-offset displaced-index-offset
                    :fill-pointer fill-pointer
                    :rank rank
                    :element-type element-type))))
@@ -180,6 +184,12 @@
 
 (defun array-dimension (array axis-number)
   (nth axis-number (array-dimensions array)))
+
+(defun array-displacement (array)
+  (if (array-displaced-to array)
+      (values (array-displaced-to array)
+              (array-displaced-index-offset array))
+      (values nil 0)))
 
 (defun subscripts-error (n-subscripts rank)
   (error "Wrong number of subscripts, ~D, for array of rank ~D." n-subscripts rank))
