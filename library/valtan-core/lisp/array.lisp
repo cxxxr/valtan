@@ -22,10 +22,7 @@
             t)))
         (t t)))
 
-(defun dimensions-total-size (dimensions)
-  (apply #'* dimensions))
-
-(defun make-array-contents-with-initial-contents (dimensions rank element-type initial-contents)
+(defun make-array-contents-with-initial-contents (dimensions total-size rank element-type initial-contents)
   (cond ((and (eq element-type 'character) (= rank 1))
          (let* ((len (length initial-contents))
                 (raw-string (system:make-raw-string)))
@@ -46,7 +43,7 @@
            raw-array))
         (t
          (let ((i -1)
-               (raw-array (system:make-raw-array (dimensions-total-size dimensions))))
+               (raw-array (system:make-raw-array total-size)))
            (labels ((f (dimensions initial-contents)
                       (cond ((null dimensions))
                             (t
@@ -66,7 +63,7 @@
              (f dimensions initial-contents)
              raw-array)))))
 
-(defun make-array-contents-with-initial-element (dimensions rank element-type initial-element initial-element-p)
+(defun make-array-contents-with-initial-element (dimensions total-size rank element-type initial-element initial-element-p)
   (cond ((and (eq element-type 'character) (= rank 1))
          (let ((initial-raw-string
                  (system:code-to-raw-string
@@ -88,8 +85,7 @@
            (system:raw-array-set raw-array 0 initial-element)
            raw-array))
         (t
-         (let* ((total-size (dimensions-total-size dimensions))
-                (raw-array (system:make-raw-array total-size)))
+         (let ((raw-array (system:make-raw-array total-size)))
            (system:fill-raw-array raw-array initial-element)))))
 
 (defun make-array (dimensions &key (element-type t)
@@ -122,13 +118,15 @@
     (when (and initial-contents-p initial-element-p)
       (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
     (setq element-type (upgraded-array-element-type element-type))
-    (let* ((total-size (dimensions-total-size dimensions))
+    (let* ((total-size (apply #'* dimensions))
            (contents (if initial-contents-p
                          (make-array-contents-with-initial-contents dimensions
+                                                                    total-size
                                                                     rank
                                                                     element-type
                                                                     initial-contents)
                          (make-array-contents-with-initial-element dimensions
+                                                                   total-size
                                                                    rank
                                                                    element-type
                                                                    initial-element
