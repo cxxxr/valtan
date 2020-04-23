@@ -194,28 +194,41 @@
 (defun subscripts-error (n-subscripts rank)
   (error "Wrong number of subscripts, ~D, for array of rank ~D." n-subscripts rank))
 
-(defun array-row-major-index (array subscripts)
+(defun %array-row-major-index (array subscripts out-of-bounds-error-p)
   (assert (listp subscripts))
   (unless (arrayp array)
     (type-error array 'array))
   (let ((rank (array-rank array))
         (dimensions (array-dimensions array)))
     (unless (= rank (length subscripts))
-      (subscripts-error (length subscripts) (array-rank array)))
+      (subscripts-error (length subscripts) rank))
     (do ((axis (1- rank) (1- axis))
          (chunk-size 1)
          (result 0))
-        ((minusp axis) result)
+        ((minusp axis)
+         (if (array-displaced-to array)
+             (+ result (array-displaced-index-offset array))
+             result))
       (let ((index (nth axis subscripts))
             (dim (nth axis dimensions)))
         (when (or (< index 0) (<= dim index))
-          (error "Invalid index ~D for axis ~D of ~S, should be a non-negative integer below ~D."
-                 index axis array index))
+          (if out-of-bounds-error-p
+              (error "Invalid index ~D for axis ~D of ~S, should be a non-negative integer below ~D."
+                     index axis array index)
+              (return nil)))
         (incf result (* chunk-size index))
         (setq chunk-size (* chunk-size dim))))))
 
+(defun array-row-major-index (array &rest subscripts)
+  (%array-row-major-index array subscripts t))
+
+(defun array-in-bounds-p (array &rest subscripts)
+  (if (%array-row-major-index array subscripts nil)
+      t
+      nil))
+
 (defun aref (array &rest subscripts)
-  (system:raw-array-ref (array-contents array) (array-row-major-index array subscripts)))
+  (system:raw-array-ref (array-contents array) (%array-row-major-index array subscripts t)))
 
 (defun %string-set (array index value)
   (unless (characterp value)
@@ -238,7 +251,7 @@
          (%string-set array (car subscripts) value))
         (t
          (system:raw-array-set (array-contents array)
-                               (array-row-major-index array subscripts)
+                               (%array-row-major-index array subscripts t)
                                value))))
 
 (defun row-major-aref (array index)
