@@ -23,9 +23,7 @@
         (t t)))
 
 (defun dimensions-total-size (dimensions)
-  (let ((size 1))
-    (dolist (d dimensions size)
-      (setq size (* size d)))))
+  (apply #'* dimensions))
 
 (defun make-array-contents-with-initial-contents (dimensions rank element-type initial-contents)
   (cond ((and (eq element-type 'character) (= rank 1))
