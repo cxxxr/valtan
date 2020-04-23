@@ -88,6 +88,21 @@
          (let ((raw-array (system:make-raw-array total-size)))
            (system:fill-raw-array raw-array initial-element)))))
 
+(defun make-array-contents (dimensions total-size rank element-type
+                            initial-contents initial-contents-p initial-element initial-element-p)
+  (if initial-contents-p
+      (make-array-contents-with-initial-contents dimensions
+                                                 total-size
+                                                 rank
+                                                 element-type
+                                                 initial-contents)
+      (make-array-contents-with-initial-element dimensions
+                                                total-size
+                                                rank
+                                                element-type
+                                                initial-element
+                                                initial-element-p)))
+
 (defun make-array (dimensions &key (element-type t)
                                    (initial-element nil initial-element-p)
                                    (initial-contents nil initial-contents-p)
@@ -119,18 +134,9 @@
       (error "Can't specify both :INITIAL-ELEMENT and :INITIAL-CONTENTS"))
     (setq element-type (upgraded-array-element-type element-type))
     (let* ((total-size (apply #'* dimensions))
-           (contents (if initial-contents-p
-                         (make-array-contents-with-initial-contents dimensions
-                                                                    total-size
-                                                                    rank
-                                                                    element-type
-                                                                    initial-contents)
-                         (make-array-contents-with-initial-element dimensions
-                                                                   total-size
-                                                                   rank
-                                                                   element-type
-                                                                   initial-element
-                                                                   initial-element-p))))
+           (contents (make-array-contents dimensions total-size rank element-type
+                                          initial-contents initial-contents-p
+                                          initial-element initial-element-p)))
       (%make-array :contents contents
                    :dimensions dimensions
                    :total-size total-size
