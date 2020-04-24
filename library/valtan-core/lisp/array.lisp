@@ -80,7 +80,7 @@
                    (system:concat-raw-string/2 raw-string initial-raw-string)))
            raw-string))
         ((= rank 1)
-         (system:fill-raw-array (system:make-raw-array dimensions)
+         (system:fill-raw-array (system:make-raw-array (car dimensions))
                                 initial-element))
         ((= rank 0)
          (let ((raw-array (system:make-raw-array 1)))
