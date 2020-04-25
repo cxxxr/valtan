@@ -290,7 +290,8 @@
   (cond ((listp sequence)
          (list-length sequence))
         ((vectorp sequence)
-         (array-length-with-fill-pointer sequence))
+         (or (array-fill-pointer sequence)
+             (array-total-size sequence)))
         (t
          (type-error sequence 'sequence))))
 

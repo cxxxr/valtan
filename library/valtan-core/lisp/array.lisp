@@ -225,6 +225,20 @@
 (defun (cl:setf fill-pointer) (fill-pointer array)
   (setf (array-fill-pointer array) fill-pointer))
 
+(defun vectorp (x)
+  (and (arrayp x) (= 1 (array-rank x))))
+
+(defun simple-vector-p (x)
+  (and (arrayp x)
+       (= 1 (array-rank x))
+       (not (array-has-fill-pointer-p x))))
+
+(defun simple-bit-vector-p (x)
+  (simple-vector-p x))
+
+(defun array-has-fill-pointer-p (array)
+  (not (null (array-fill-pointer array))))
+
 (defun array-dimension (array axis-number)
   (nth axis-number (array-dimensions array)))
 
@@ -319,42 +333,6 @@
                   index array (array-total-size array)))
          (system:raw-array-set (array-contents array) index value))))
 
-(defun svref (vector index)
-  (system:raw-array-ref (array-contents vector) index))
-
-(defun (cl:setf svref) (value vector index)
-  (system:raw-array-set (array-contents vector) index value))
-
-(defun bit (bit-array &rest subscripts)
-  (system:raw-array-ref (array-contents bit-array) (%array-row-major-index bit-array subscripts t)))
-
-(defun (cl:setf bit) (bit bit-array &rest subscripts)
-  (system:raw-array-set (array-contents bit-array) (%array-row-major-index bit-array subscripts t) bit))
-
-(defun sbit (bit-array &rest subscripts)
-  (system:raw-array-ref (array-contents bit-array) (%array-row-major-index bit-array subscripts t)))
-
-(defun (cl:setf sbit) (bit bit-array &rest subscripts)
-  (system:raw-array-set (array-contents bit-array) (%array-row-major-index bit-array subscripts t) bit))
-
-(defun vectorp (x)
-  (and (arrayp x) (= 1 (array-rank x))))
-
-(defun simple-vector-p (x)
-  (and (arrayp x)
-       (= 1 (array-rank x))
-       (not (array-has-fill-pointer-p x))))
-
-(defun simple-bit-vector-p (x)
-  (simple-vector-p x))
-
-(defun array-has-fill-pointer-p (array)
-  (not (null (array-fill-pointer array))))
-
-(defun array-length-with-fill-pointer (array)
-  (or (array-fill-pointer array)
-      (array-total-size array)))
-
 (defun vector-pop (vector)
   (when (or (null (array-fill-pointer vector))
             (>= 0 (array-fill-pointer vector)))
@@ -379,3 +357,21 @@
     (setf (aref vector fp) new-element)
     (incf (array-fill-pointer vector))
     fp))
+
+(defun svref (vector index)
+  (system:raw-array-ref (array-contents vector) index))
+
+(defun (cl:setf svref) (value vector index)
+  (system:raw-array-set (array-contents vector) index value))
+
+(defun bit (bit-array &rest subscripts)
+  (system:raw-array-ref (array-contents bit-array) (%array-row-major-index bit-array subscripts t)))
+
+(defun (cl:setf bit) (bit bit-array &rest subscripts)
+  (system:raw-array-set (array-contents bit-array) (%array-row-major-index bit-array subscripts t) bit))
+
+(defun sbit (bit-array &rest subscripts)
+  (system:raw-array-ref (array-contents bit-array) (%array-row-major-index bit-array subscripts t)))
+
+(defun (cl:setf sbit) (bit bit-array &rest subscripts)
+  (system:raw-array-set (array-contents bit-array) (%array-row-major-index bit-array subscripts t) bit))

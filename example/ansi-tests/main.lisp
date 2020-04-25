@@ -19,7 +19,7 @@
        (format t "~&time: ~A~%" (- (js:-date.now) ,start)))))
 
 
-;(test "sacla-tests/must-array.lisp")
+(test "sacla-tests/must-array.lisp")
 
 #|
 (time (progn
