@@ -325,6 +325,18 @@
 (defun (cl:setf svref) (value vector index)
   (system:raw-array-set (array-contents vector) index value))
 
+(defun bit (bit-array &rest subscripts)
+  (system:raw-array-ref (array-contents bit-array) (%array-row-major-index bit-array subscripts t)))
+
+(defun (cl:setf bit) (bit bit-array &rest subscripts)
+  (system:raw-array-set (array-contents bit-array) (%array-row-major-index bit-array subscripts t) bit))
+
+(defun sbit (bit-array &rest subscripts)
+  (system:raw-array-ref (array-contents bit-array) (%array-row-major-index bit-array subscripts t)))
+
+(defun (cl:setf sbit) (bit bit-array &rest subscripts)
+  (system:raw-array-set (array-contents bit-array) (%array-row-major-index bit-array subscripts t) bit))
+
 (defun vectorp (x)
   (and (arrayp x) (= 1 (array-rank x))))
 
