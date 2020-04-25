@@ -176,6 +176,9 @@
   (make-array (length args)
               :initial-contents args))
 
+(defun adjustable-array-p (array)
+  (if (array-fill-pointer array) t nil))
+
 (defun fill-pointer (array)
   (array-fill-pointer array))
 
