@@ -177,7 +177,8 @@
              (setf (array-dimensions array) dimensions
                    (array-total-size array) total-size
                    (array-displaced-index-offset array) displaced-index-offset
-                   (array-rank array) rank))
+                   (array-rank array) rank)
+             new-array)
             (t
              new-array)))))
 
@@ -362,7 +363,7 @@
   (let ((size (array-total-size vector))
         (fp (array-fill-pointer vector)))
     (when (>= fp size)
-      (adjust-array vector (* size 2)))
+      (adjust-array vector (* (1+ size) 2)))
     (setf (aref vector fp) new-element)
     (incf (array-fill-pointer vector))
     fp))
