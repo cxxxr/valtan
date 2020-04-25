@@ -90,24 +90,22 @@
          (let ((raw-array (system:make-raw-array total-size)))
            (system:fill-raw-array raw-array initial-element)))))
 
-(defun make-array (dimensions &key (element-type t)
-                                   (initial-element nil initial-element-p)
-                                   (initial-contents nil initial-contents-p)
-                                   adjustable
-                                   fill-pointer
-                                   displaced-to
-                                   displaced-index-offset)
-  (declare (ignore adjustable))
-  (let (rank)
-    (cond ((null dimensions)
-           (setq rank 0))
-          ((atom dimensions)
-           (setq rank 1
-                 dimensions (list dimensions)))
-          ((null (cdr dimensions))
-           (setq rank 1))
-          (t
-           (setq rank (length dimensions))))
+(defun make-or-adjust-array (array dimensions &key (element-type (if array
+                                                                     (array-element-type array)
+                                                                     t))
+                                                   (initial-element nil initial-element-p)
+                                                   (initial-contents nil initial-contents-p)
+                                                   adjustable
+                                                   fill-pointer
+                                                   displaced-to
+                                                   displaced-index-offset)
+  (declare (ignore array adjustable))
+  (let* ((dimensions (cond ((null dimensions) nil)
+                           ((consp dimensions)
+                            dimensions)
+                           (t
+                            (list dimensions))))
+         (rank (length dimensions)))
     (when fill-pointer
       (when (/= rank 1)
         (error "Only vectors can have fill pointers."))
@@ -138,15 +136,20 @@
                                                                           rank
                                                                           element-type
                                                                           initial-element
-                                                                          initial-element-p))))))
-      (%make-array :contents contents
-                   :dimensions dimensions
-                   :total-size total-size
-                   :displaced-to displaced-to
-                   :displaced-index-offset displaced-index-offset
-                   :fill-pointer fill-pointer
-                   :rank rank
-                   :element-type element-type))))
+                                                                          initial-element-p)))))
+           (new-array
+             (%make-array :contents contents
+                          :dimensions dimensions
+                          :total-size total-size
+                          :displaced-to displaced-to
+                          :displaced-index-offset displaced-index-offset
+                          :fill-pointer fill-pointer
+                          :rank rank
+                          :element-type element-type)))
+      new-array)))
+
+(defun make-array (dimensions &rest args)
+  (apply #'make-or-adjust-array nil dimensions args))
 
 (defun *:raw-array-to-array (js-array)
   (let ((length (system:raw-array-length js-array)))
