@@ -230,6 +230,9 @@
 (defun aref (array &rest subscripts)
   (system:raw-array-ref (array-contents array) (%array-row-major-index array subscripts t)))
 
+(defun *::%vector-ref (vector index)
+  (system:raw-array-ref (array-contents vector) index))
+
 (defun %string-set (array index value)
   (unless (characterp value)
     (type-error value 'character))

@@ -186,6 +186,11 @@
       (remake-hir 'call hir '*::%mapcar args)
       nil))
 
+(define-call-hir-optimizer aref (hir args)
+  (if (length=n args 2)
+      (remake-hir 'call hir '*::%vector-ref args)
+      nil))
+
 ;; (define-call-hir-optimizer + (hir args)
 ;;   (if (every (lambda (arg)
 ;;                (subtypep (type-infer arg) 'number))
