@@ -8,7 +8,7 @@
                   (:predicate arrayp))
   contents
   dimensions
-  (total-size 0 :read-only t)
+  total-size
   displaced-to
   displaced-index-offset
   fill-pointer
@@ -169,12 +169,17 @@
                           :fill-pointer fill-pointer
                           :rank rank
                           :element-type element-type)))
-      (when array
-        (copy-array-contents (array-dimensions array) array
-                             dimensions new-array
-                             initial-element
-                             initial-element-p))
-      new-array)))
+      (cond (array
+             (copy-array-contents (array-dimensions array) array
+                                  dimensions new-array
+                                  initial-element
+                                  initial-element-p)
+             (setf (array-dimensions array) dimensions
+                   (array-total-size array) total-size
+                   (array-displaced-index-offset array) displaced-index-offset
+                   (array-rank array) rank))
+            (t
+             new-array)))))
 
 (defun make-array (dimensions &rest args)
   (apply #'make-or-adjust-array nil dimensions args))
@@ -345,10 +350,19 @@
   (system:raw-array-ref (array-contents vector) (array-fill-pointer vector)))
 
 (defun vector-push (new-element vector)
-  (let ((i (array-fill-pointer vector)))
+  (let ((fp (array-fill-pointer vector)))
     (when (and (array-fill-pointer vector)
                (<= 0 (array-fill-pointer vector)))
-      (when (< i (array-total-size vector))
+      (when (< fp (array-total-size vector))
         (incf (array-fill-pointer vector))
-        (setf (aref vector i) new-element)
-        i))))
+        (setf (aref vector fp) new-element)
+        fp))))
+
+(defun vector-push-extend (new-element vector)
+  (let ((size (array-total-size vector))
+        (fp (array-fill-pointer vector)))
+    (when (>= fp size)
+      (adjust-array vector (* size 2)))
+    (setf (aref vector fp) new-element)
+    (incf (array-fill-pointer vector))
+    fp))
