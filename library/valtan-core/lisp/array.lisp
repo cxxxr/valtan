@@ -90,6 +90,29 @@
          (let ((raw-array (system:make-raw-array total-size)))
            (system:fill-raw-array raw-array initial-element)))))
 
+(defun copy-array-contents (old-dimensions old new-dimensions new
+                            initial-element initial-element-p)
+  (let ((n 0) (o 0))
+    (macrolet ((post-incf (x)
+                 `(let ((old ,x)) (setq ,x (1+ old)) old)))
+      (labels ((copy (new-dims old-dims)
+                 (let ((old-key (car old-dims)))
+                   (dotimes (i (car new-dims)
+                               (when (and old-key (< i old-key))
+                                 (incf o (apply #'* (- old-key i) (rest old-dims)))))
+                     (unless (and old-key (< i old-key))
+                       (setf old-dims nil))
+                     (cond ((cdr new-dims)
+                            (copy (cdr new-dims) (cdr old-dims)))
+                           ((or old-dims initial-element-p)
+                            (setf (row-major-aref new (post-incf n))
+                                  (if old-dims
+                                      (row-major-aref old (post-incf o))
+                                      initial-element)))
+                           (t (incf n)))))))
+        (copy new-dimensions old-dimensions)
+        new))))
+
 (defun make-or-adjust-array (array dimensions &key (element-type (if array
                                                                      (array-element-type array)
                                                                      t))
@@ -99,7 +122,7 @@
                                                    fill-pointer
                                                    displaced-to
                                                    displaced-index-offset)
-  (declare (ignore array adjustable))
+  (declare (ignore adjustable))
   (let* ((dimensions (cond ((null dimensions) nil)
                            ((consp dimensions)
                             dimensions)
@@ -146,10 +169,18 @@
                           :fill-pointer fill-pointer
                           :rank rank
                           :element-type element-type)))
+      (when array
+        (copy-array-contents (array-dimensions array) array
+                             dimensions new-array
+                             initial-element
+                             initial-element-p))
       new-array)))
 
 (defun make-array (dimensions &rest args)
   (apply #'make-or-adjust-array nil dimensions args))
+
+(defun adjust-array (array dimensions &rest args)
+  (apply #'make-or-adjust-array array dimensions args))
 
 (defun *:raw-array-to-array (js-array)
   (let ((length (system:raw-array-length js-array)))
