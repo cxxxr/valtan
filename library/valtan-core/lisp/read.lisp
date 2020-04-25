@@ -71,6 +71,7 @@
   (set-dispatch-macro-character #\# #\# 'sharp-sharp-reader readtable)
   (set-dispatch-macro-character #\# #\* 'bit-vector-reader readtable)
   (set-dispatch-macro-character #\# #\| 'block-comment-reader readtable)
+  (set-dispatch-macro-character #\# #\B 'bit-number-reader readtable)
 
   ;; valtan dependency
   (set-dispatch-macro-character #\# #\" 'cl-string-reader readtable)
@@ -663,12 +664,37 @@
           (#\1
            (push 1 bits))
           (otherwise
-           (when (or (non-terminate-macro-character-p c)
+           (when (or (null c)
+                     (non-terminate-macro-character-p c)
                      (whitespacep c))
              (return))))
         (read-char stream t nil t)))
     (setq bits (nreverse bits))
     (make-array (length bits) :element-type 'bit :initial-contents bits)))
+
+(defun bit-number-reader (stream sub-char arg)
+  (declare (ignore sub-char arg))
+  (let ((bits '()))
+    (do () (nil)
+      (let ((c (peek-char nil stream nil nil t)))
+        (case c
+          (#\0
+           (push 0 bits))
+          (#\1
+           (push 1 bits))
+          (otherwise
+           (when (or (null c)
+                     (non-terminate-macro-character-p c)
+                     (whitespacep c))
+             (return))))
+        (read-char stream t nil t)))
+    (let ((n 0)
+          (digit 1))
+      (dolist (b bits)
+        (when (= b 1)
+          (incf n digit))
+        (setq digit (* digit 2)))
+      n)))
 
 (defun block-comment-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
