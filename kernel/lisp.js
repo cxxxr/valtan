@@ -93,7 +93,6 @@ import {
     CL_greaterEqual,
     CL_lessEqual,
     CL_floor,
-    CL_logand,
 } from './number';
 export * from './number';
 
@@ -227,7 +226,6 @@ registerFunction(system_package, '%<', CL_lessThan, 2);
 registerFunction(system_package, '%>=', CL_greaterEqual, 2);
 registerFunction(system_package, '%<=', CL_lessEqual, 2);
 registerFunction(system_package, '%FLOOR', CL_floor, 2);
-registerFunction(system_package, '%LOGAND', CL_logand, 2);
 
 // function.js
 registerFunction(system_package, 'APPLY', CL_apply, 2, null);

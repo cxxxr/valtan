@@ -93,7 +93,6 @@
     (setf (gethash (read-from-string "SYSTEM::%>=") table) (list "lisp.CL_greaterEqual" (list 2)))
     (setf (gethash (read-from-string "SYSTEM::%<=") table) (list "lisp.CL_lessEqual" (list 2)))
     (setf (gethash (read-from-string "SYSTEM::%FLOOR") table) (list "lisp.CL_floor" (list 2)))
-    (setf (gethash (read-from-string "SYSTEM::%LOGAND") table) (list "lisp.CL_logand" (list 2)))
     (setf (gethash (read-from-string "SYSTEM::APPLY") table) (list "lisp.CL_apply" (list 2 nil)))
     (setf (gethash (read-from-string "CL:FUNCTIONP") table) (list "lisp.CL_functionp" (list 1)))
     (setf (gethash (read-from-string "CL:CONSP") table) (list "lisp.CL_consp" (list 1)))
@@ -132,6 +131,8 @@
           (list "lisp.CL_charCode" (list 1)))
     (setf (gethash (read-from-string "FFI::INSTANCEOF") table)
           (list "lisp.CL_instanceof" (list nil)))
+
+    (setf (gethash (read-from-string "SYSTEM::%LOGAND") table) 'p2-logand)
 
     ;; REVIEW
     (setf (gethash (read-from-string "FFI:CL->JS") table)
@@ -701,7 +702,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
            (p2-call-builtin-using-list-spec hir builtin))
           ((or (symbolp builtin)
                (functionp builtin))
-           (embed-source-map hir)
+           ;; (embed-source-map hir)
            (funcall builtin hir))
           (t
            (error "internal error")))))
@@ -1044,6 +1045,15 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                     "module.exports = ~A~%"
                     (p2-convert-var name)))))))
 
+
+;;; builtin function emitter
+(defun p2-logand (hir)
+  (let ((args (p2-prepare-args (hir-arg2 hir))))
+    (embed-source-map hir)
+    (destructuring-bind (lhs rhs) args
+      (format nil "(~A & ~A)" lhs rhs))))
+
+
 (defun p2-toplevel-1 (hir)
   (p2 hir (if (hir-return-value-p hir) :expr :stmt)))
 

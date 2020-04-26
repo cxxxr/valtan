@@ -65,7 +65,3 @@ export function CL_greaterEqual(x, y) {
 export function CL_lessEqual(x, y) {
     return values1(toLispBoolean(x <= y));
 }
-
-export function CL_logand(x, y) {
-    return values1(x & y);
-}
