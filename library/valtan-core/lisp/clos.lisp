@@ -92,11 +92,16 @@
 (defun (setf class-direct-subclasses) (direct-subclasses class)
   (setf (%slot-value class 'direct-subclasses) direct-subclasses))
 
-(defun class-direct-methods (class)
-  (%slot-value class 'direct-methods))
+;;; XXX:
+;;; class-direct-methodsは今のところ使っていない、
+;;; eql-specializerはdirect-methodsを持たないのでエラーが出る
+;;; という理由でとりあえずコメントアウト
 
-(defun (setf class-direct-methods) (direct-methods class)
-  (setf (%slot-value class 'direct-methods) direct-methods))
+;; (defun class-direct-methods (class)
+;;   (%slot-value class 'direct-methods))
+
+;; (defun (setf class-direct-methods) (direct-methods class)
+;;   (setf (%slot-value class 'direct-methods) direct-methods))
 
 (defun class-direct-default-initargs (class)
   (%slot-value class 'direct-default-initargs))
@@ -309,7 +314,7 @@
   (let ((class (make-standard-instance :class +standard-class+)))
     (setf (class-name class) name)
     (setf (class-direct-subclasses class) '())
-    (setf (class-direct-methods class) '())
+    ;; (setf (class-direct-methods class) '())
     (setf (class-direct-default-initargs class) direct-default-initargs)
     (std-after-initialization-for-classes
      class
@@ -650,9 +655,17 @@
 
 (defun %compute-applicable-methods (gf args required-classes)
   (stable-sort (remove-if-not (lambda (method)
-                                (every #'subclassp
-                                       required-classes
-                                       (method-specializers method)))
+                                (do ((required-classes required-classes (cdr required-classes))
+                                     (specializers (method-specializers method) (cdr specializers))
+                                     (args args (cdr args)))
+                                    ((null specializers) t)
+                                  (let ((required-class (car required-classes))
+                                        (specializer (car specializers))
+                                        (arg (car args)))
+                                    (unless (if (typep specializer 'eql-specializer)
+                                                (eql arg (eql-specializer-object specializer))
+                                                (subclassp required-class specializer))
+                                      (return nil)))))
                               (generic-function-methods gf))
                (if (eq (class-of gf) +standard-generic-function+)
                    (lambda (m1 m2)
@@ -885,6 +898,14 @@
          specializer)
         ((symbolp specializer)
          (find-class specializer))
+        ((and (consp specializer)
+              (eq (car specializer) 'eql))
+         (let ((object (cadr specializer)))
+           (intern-eql-specializer
+            (if (and (consp object)
+                     (eq 'quote (car object)))
+                (cadr object)
+                object))))
         (t
          (error "Unknown specializer: ~S" specializer))))
 
@@ -909,8 +930,8 @@
       (remove-method gf old-method))
     (setf (method-generic-function method) gf)
     (push method (generic-function-methods gf))
-    (dolist (specializer (method-specializers method))
-      (pushnew method (class-direct-methods specializer)))
+    ;; (dolist (specializer (method-specializers method))
+    ;;   (pushnew method (class-direct-methods specializer)))
     (finalize-generic-function gf)
     method))
 
@@ -918,9 +939,9 @@
   (setf (generic-function-methods gf)
         (delete method (generic-function-methods gf)))
   (setf (method-generic-function method) nil)
-  (dolist (class (method-specializers method))
-    (setf (class-direct-methods class)
-          (remove method (class-direct-methods class))))
+  ;; (dolist (class (method-specializers method))
+  ;;   (setf (class-direct-methods class)
+  ;;         (remove method (class-direct-methods class))))
   (finalize-generic-function gf)
   method)
 
@@ -964,7 +985,7 @@
         (setf (class-name standard-class) 'standard-class)
         (setf (class-direct-subclasses standard-class) ())
         (setf (class-direct-superclasses standard-class) ())
-        (setf (class-direct-methods standard-class) ())
+        ;; (setf (class-direct-methods standard-class) ())
         (setf (class-direct-slots standard-class) ())
         (setf (class-precedence-list standard-class) (list standard-class))
         (setf (class-slots standard-class) ())
@@ -978,7 +999,7 @@
         (setf (class-name class) 't)
         (setf (class-direct-subclasses class) ())
         (setf (class-direct-superclasses class) ())
-        (setf (class-direct-methods class) ())
+        ;; (setf (class-direct-methods class) ())
         (setf (class-direct-slots class) ())
         (setf (class-precedence-list class) (list class))
         (setf (class-slots class) ())
@@ -1193,3 +1214,12 @@
               (not (subclassp class (find-class 'base-condition))))
       (type-error type 'condition)))
   (apply #'make-instance type initargs))
+
+(defclass eql-specializer ()
+  ((object :initarg :object :reader eql-specializer-object)))
+
+(let ((eql-specializer-table (make-hash-table)))
+  (defun intern-eql-specializer (object)
+    (or (gethash object eql-specializer-table)
+        (setf (gethash object eql-specializer-table)
+              (make-instance 'eql-specializer :object object)))))
