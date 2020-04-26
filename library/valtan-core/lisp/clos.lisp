@@ -649,7 +649,6 @@
   (%compute-applicable-methods gf args (required-classes gf args)))
 
 (defun %compute-applicable-methods (gf args required-classes)
-  ;; XXX: sortが定義されてないので代わりにstable-sortを使っている
   (stable-sort (remove-if-not (lambda (method)
                                 (every #'subclassp
                                        required-classes
