@@ -375,3 +375,21 @@
 
 (defun (cl:setf sbit) (bit bit-array &rest subscripts)
   (system:raw-array-set (array-contents bit-array) (%array-row-major-index bit-array subscripts t) bit))
+
+(defun bit-and (bit-array-1 bit-array-2 &optional opt-arg)
+  (unless (equal (array-dimensions bit-array-1)
+                 (array-dimensions bit-array-2))
+    (error "~S and ~S don't have the same dimensions." bit-array-1 bit-array-2))
+  (let ((dst-bit-array
+          (case opt-arg
+            ((t)
+             bit-array-1)
+            ((nil)
+             (make-array (array-dimensions bit-array-1) :element-type 'bit))
+            (otherwise
+             opt-arg))))
+    (dotimes (i (array-total-size bit-array-1))
+      (setf (row-major-aref dst-bit-array i)
+            (*:%logand (system:raw-array-ref bit-array-1 i)
+                       (system:raw-array-ref bit-array-2 i))))
+    dst-bit-array))
