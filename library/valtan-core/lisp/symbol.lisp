@@ -53,6 +53,8 @@
   (*:symbol-function symbol))
 
 (defun set (symbol value)
+  (when (get symbol 'compiler::constant)
+    (error "Constant modification: attempt to set SYMBOL-VALUE of ~A." symbol))
   (*:%set symbol value))
 
 (defun (cl:setf symbol-value) (value symbol)

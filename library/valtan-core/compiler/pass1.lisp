@@ -79,6 +79,12 @@
 (defun (setf special-p) (value symbol)
   (setf (get symbol 'special) value))
 
+(defun constant-p (symbol)
+  (get symbol 'constant))
+
+(defun (setf constant-p) (value symbol)
+  (setf (get symbol 'constant) value))
+
 (defun lookup (symbol types &optional (bindings *lexenv*))
   (dolist (binding bindings)
     (when (and (if (consp types)
@@ -320,6 +326,15 @@
      (*:put ',var 'special t)
      ',var))
 
+(def-transform defconstant (name value &optional (doc nil docp))
+  (setf (constant-p name) (make-variable-binding name :init-value (eval value)))
+  `(progn
+     (*:%set ',name ,value)
+     ,(when docp
+        `(setf (documentation ',name 'variable) ,doc))
+     (*:put ',name 'constant t)
+     ',name))
+
 (defun expand-quasiquote (x)
   (cond ((atom x)
          (list 'quote x))
@@ -348,14 +363,17 @@
     (make-hir 'ffi:ref return-value-p nil names)))
 
 (defun pass1-refvar (symbol return-value-p)
-  (cond ((js-symbol-p symbol)
-         (js-symbol-to-ref-form symbol return-value-p))
-        (t
-         (let ((binding (lookup symbol '(:variable :special))))
-           (count-if-used binding)
-           (if (and binding (eq (binding-kind binding) :variable))
-               (make-hir 'lref return-value-p nil binding)
-               (make-hir 'gref return-value-p nil symbol))))))
+  (let (binding)
+    (cond ((js-symbol-p symbol)
+           (js-symbol-to-ref-form symbol return-value-p))
+          ((setq binding (constant-p symbol))
+           (pass1-const (binding-init-value binding) return-value-p))
+          (t
+           (let ((binding (lookup symbol '(:variable :special))))
+             (count-if-used binding)
+             (if (and binding (eq (binding-kind binding) :variable))
+                 (make-hir 'lref return-value-p nil binding)
+                 (make-hir 'gref return-value-p nil symbol)))))))
 
 (defun pass1-forms (forms return-value-p multiple-values-p)
   (if (null forms)
@@ -608,6 +626,8 @@
       (let ((forms '()))
         (do ((args args (rest (rest args))))
             ((null args))
+          (when (constant-p (first args))
+            (compile-error "~S is a constant" (first args)))
           (unless (variable-symbol-p (first args))
             (compile-error "~S is not a variable" (first args)))
           (let* ((symbol (first args))
@@ -682,6 +702,8 @@
                           (symbolp b))
                 (compile-error "Malformed LET binding: ~S" b))
               (let ((var (first b)))
+                (when (constant-p var)
+                  (compile-error "~S is a constant" var))
                 (unless (variable-symbol-p var)
                   (compile-error "~S is not a variable" var)))
               b))
