@@ -301,20 +301,22 @@
 (def-transform *:named-lambda (name args &rest body)
   `(function (*:named-lambda ,name ,args ,@body)))
 
-(def-transform defvar (var &optional (value nil value-p) doc)
-  (declare (ignore doc))
+(def-transform defvar (var &optional (value nil value-p) (doc nil docp))
   `(progn
      (declaim (special ,var))
      ,(when value-p
         `(if (boundp ',var) nil (set ',var ,value)))
+     ,(when docp
+        `(setf (documentation ',var 'variable) ,doc))
      (*:put ',var 'special t)
      ',var))
 
-(def-transform defparameter (var value &optional doc)
-  (declare (ignore doc))
+(def-transform defparameter (var value &optional (doc nil docp))
   `(progn
      (declaim (special ,var))
      (set ',var ,value)
+     ,(when docp
+        `(setf (documentation ',var 'variable) ,doc))
      (*:put ',var 'special t)
      ',var))
 

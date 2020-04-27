@@ -43,7 +43,8 @@
                (:file "lisp/pkg" :if-feature :valtan)
                (:file "lisp/clos" :if-feature :valtan)
                (:file "lisp/restart" :if-feature :valtan)
-               (:file "lisp/catch-throw" :if-feature :valtan)))
+               (:file "lisp/catch-throw" :if-feature :valtan)
+               (:file "lisp/documentation" :if-feature :valtan)))
 
 (defsystem "valtan-core/compiler"
   :depends-on ("valtan-core/common-lisp")
