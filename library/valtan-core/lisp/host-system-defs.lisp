@@ -70,6 +70,9 @@
 (cl:defun system:symbol-function (symbol)
   (cl:symbol-function symbol))
 
+(cl:defun system:%set (symbol value)
+  (cl:set symbol value))
+
 (cl:defun system:symbol-name (symbol)
   (cl:or (cl:symbol-name symbol)
          system:+null+))

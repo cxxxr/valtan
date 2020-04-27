@@ -305,7 +305,7 @@
   `(progn
      (declaim (special ,var))
      ,(when value-p
-        `(if (boundp ',var) nil (set ',var ,value)))
+        `(if (boundp ',var) nil (*:%set ',var ,value)))
      ,(when docp
         `(setf (documentation ',var 'variable) ,doc))
      (*:put ',var 'special t)
@@ -314,7 +314,7 @@
 (def-transform defparameter (var value &optional (doc nil docp))
   `(progn
      (declaim (special ,var))
-     (set ',var ,value)
+     (*:%set ',var ,value)
      ,(when docp
         `(setf (documentation ',var 'variable) ,doc))
      (*:put ',var 'special t)

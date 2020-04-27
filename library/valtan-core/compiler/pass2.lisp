@@ -55,7 +55,7 @@
           (list "lisp.CL_symbolValue" (list 1)))
     (setf (gethash (read-from-string "CL:SYMBOL-FUNCTION") table)
           (list "lisp.CL_symbolFunction" (list 1)))
-    (setf (gethash (read-from-string "CL:SET") table) (list "lisp.CL_set" (list 2)))
+    (setf (gethash (read-from-string "SYSTEM:%SET") table) (list "lisp.CL_set" (list 2)))
     (setf (gethash (read-from-string "CL:MAKUNBOUND") table) (list "lisp.CL_makunbound" (list 1)))
     (setf (gethash (read-from-string "CL:FMAKUNBOUND") table) (list "lisp.CL_fmakunbound" (list 1)))
     (setf (gethash (read-from-string "SYSTEM::SYMBOL-NAME") table)

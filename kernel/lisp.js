@@ -192,7 +192,7 @@ registerFunction(cl_package, 'BOUNDP', CL_boundp, 1);
 registerFunction(cl_package, 'FBOUNDP', CL_fboundp, 1);
 registerFunction(system_package, 'SYMBOL-VALUE', CL_symbolValue, 1);
 registerFunction(system_package, 'SYMBOL-FUNCTION', CL_symbolFunction, 1);
-registerFunction(cl_package, 'SET', CL_set, 2);
+registerFunction(system_package, '%SET', CL_set, 2);
 registerFunction(cl_package, 'MAKUNBOUND', CL_makunbound, 1);
 registerFunction(cl_package, 'FMAKUNBOUND', CL_fmakunbound, 1);
 registerFunction(system_package, 'SYMBOL-NAME', CL_symbolName, 1);

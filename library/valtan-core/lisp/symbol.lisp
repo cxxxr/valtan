@@ -52,6 +52,9 @@
 (defun symbol-function (symbol)
   (*:symbol-function symbol))
 
+(defun set (symbol value)
+  (*:%set symbol value))
+
 (defun (cl:setf symbol-value) (value symbol)
   (set symbol value))
 

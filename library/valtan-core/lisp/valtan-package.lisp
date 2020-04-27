@@ -47,6 +47,7 @@
            :symbol-plist
            :symbol-package-name
            :fset
+           :%set
            :map-package-symbols
            :put
            :package-name
@@ -150,5 +151,5 @@
 
    :declare :declaim :special :ignore :ignorable :ftype :function
 
-   "CHARACTERP" "EQ" "VALUES" "CONS" "CONSP" "FUNCTIONP" "INTEGERP" "NUMBERP" "LIST-ALL-PACKAGES" "PACKAGEP" "FMAKUNBOUND" "MAKUNBOUND" "SET"
+   "CHARACTERP" "EQ" "VALUES" "CONS" "CONSP" "FUNCTIONP" "INTEGERP" "NUMBERP" "LIST-ALL-PACKAGES" "PACKAGEP" "FMAKUNBOUND" "MAKUNBOUND"
    "FBOUNDP" "BOUNDP" "SYMBOLP"))
