@@ -339,12 +339,9 @@
                         (let* ((var (genvar "LITERAL"))
                                (seen (acons x var seen)))
                           (write-line "(function () {" out)
-                          (format out "let ~A;~%" var)
-                          (format out
-                                  "~A = lisp.makeCons(~A, ~A);"
-                                  var
-                                  (p2-literal-1 (car x) circle seen)
-                                  (p2-literal-1 (cdr x) circle seen))
+                          (format out "const ~A = lisp.makeCons(null,null);~%" var)
+                          (format out "~A.car = ~A~%" var (p2-literal-1 (car x) circle seen))
+                          (format out "~A.cdr = ~A~%" var (p2-literal-1 (cdr x) circle seen))
                           (format out "return ~A;~%" var)
                           (write-line "})()" out))))))
                (t
