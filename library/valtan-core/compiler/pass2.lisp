@@ -299,7 +299,25 @@
           (write-string ", " s))))
     (write-char #\] s)))
 
-(defun p2-literal (x)
+(defun make-circle-table (x)
+  (let ((visited (make-hash-table))
+        (circle (make-hash-table)))
+    (labels ((f (x)
+               (if (gethash x visited)
+                   (progn
+                     (setf (gethash x circle) t)
+                     x)
+                   (progn
+                     (cond ((consp x)
+                            (setf (gethash x visited) t)
+                            (f (car x))
+                            (f (cdr x)))
+                           (t
+                            x))))))
+      (f x)
+      circle)))
+
+(defun p2-literal-1 (x circle seen)
   (cond ((null x)
          "lisp.S_nil")
         ((symbolp x)
@@ -313,9 +331,26 @@
         ((characterp x)
          (format nil "lisp.makeCharacter(~D)" (char-code x)))
         ((consp x)
-         (format nil "lisp.makeCons(~A, ~A)"
-                 (p2-literal (car x))
-                 (p2-literal (cdr x))))
+         (cond ((gethash x circle)
+                (let ((elt (assoc x seen)))
+                  (if elt
+                      (cdr elt)
+                      (with-output-to-string (out)
+                        (let* ((var (genvar "LITERAL"))
+                               (seen (acons x var seen)))
+                          (write-line "(function () {" out)
+                          (format out "let ~A;~%" var)
+                          (format out
+                                  "~A = lisp.makeCons(~A, ~A);"
+                                  var
+                                  (p2-literal-1 (car x) circle seen)
+                                  (p2-literal-1 (cdr x) circle seen))
+                          (format out "return ~A;~%" var)
+                          (write-line "})()" out))))))
+               (t
+                (format nil "lisp.makeCons(~A, ~A)"
+                        (p2-literal-1 (car x) circle seen)
+                        (p2-literal-1 (cdr x) circle seen)))))
         ((vectorp x)
          (with-output-to-string (out)
            (write-string (p2-symbol-to-call-value 'cl:vector) out)
@@ -325,10 +360,13 @@
                  (if (zerop i)
                      (write-string "(" out)
                      (write-string "," out))
-                 (write-string (p2-literal (aref x i)) out)))
+                 (write-string (p2-literal-1 (aref x i) circle seen) out)))
            (write-string ")" out)))
         (t
          (error "unexpected literal: ~S" x))))
+
+(defun p2-literal (x)
+  (p2-literal-1 x (make-circle-table x) nil))
 
 (defun %p2-form (form)
   (p2 form (if (hir-return-value-p form) :expr :stmt)))
