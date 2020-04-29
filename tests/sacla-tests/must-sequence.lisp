@@ -1133,10 +1133,9 @@
 
 (char= (find #\d "edcba" :test #'char>) #\c)
 (eql (find-if #'oddp '(1 2 3 4 5) :end 3 :from-end t) 3)
-;; TODO: readを#Cに対応させる
-;; (null (find-if-not #'complexp
-;; 		   '#(3.5 2 #C(1.0 0.0) #C(0.0 1.0))
-;; 		   :start 2))
+(null (find-if-not #'complexp                                    
+		   '#(3.5 2 #C(1.0 0.0) #C(0.0 1.0))
+		   :start 2))
 
 
 (eq (find 'a '(a b c)) 'a)
@@ -1747,8 +1746,7 @@
 (eql (position #\a "baobab" :from-end t) 4)
 (eql (position-if #'oddp '((1) (2) (3) (4)) :start 1 :key #'car) 2)
 (null (position 595 '()))
-;(eql (position-if-not #'integerp '(1 2 3 4 5.0)) 4) jsでは整数と浮動小数が判別できないので代わりに下の式を使う
-(eql (position-if-not #'integerp '(1 2 3 4 a)) 4)
+(eql (position-if-not #'integerp '(1 2 3 4 5.0)) 4)
 
 (eql (position 'a '(a b c)) 0)
 (eql (position 'b '(a b c)) 1)

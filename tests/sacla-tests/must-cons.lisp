@@ -73,7 +73,7 @@
 
 (listp (cons 'a 'b))
 
-;(listp '#1=(1 2 . #1#))
+(listp '#1=(1 2 . #1#))
 
 (not (listp 1))
 
@@ -119,7 +119,7 @@
 (let ((a (cons 1 2)))
   (eq (car (list a)) a))
 
-;(eq (car '#1=(a . #1#)) 'a)
+(eq (car '#1=(a . #1#)) 'a)
 
 (eq (cdr '(a . b)) 'b)
 (eq (rest '(a . b)) 'b)
@@ -132,10 +132,10 @@
 (let ((a (cons 1 2)))
   (eq (rest (cons 1 a)) a))
 
-;; (let ((x '#1=(a . #1#)))
-;;   (eq (cdr x) x))
-;; (let ((x '#1=(a . #1#)))
-;;   (eq (rest x) x))
+(let ((x '#1=(a . #1#)))
+  (eq (cdr x) x))
+(let ((x '#1=(a . #1#)))
+  (eq (rest x) x))
 
 (eq (caar '((a) b c)) 'a)
 
@@ -759,7 +759,7 @@
 
 (eql (list-length '(1 2)) 2)
 
-;(null (list-length '#1=(1 2 3 4 . #1#)))
+(null (list-length '#1=(1 2 3 4 . #1#)))
 
 
 (equal (make-list 5) '(nil nil nil nil nil))
@@ -814,7 +814,7 @@
 (let ((a (cons 1 2)))
   (eq (first (list a)) a))
 
-;(eq (first '#1=(a . #1#)) 'a)
+(eq (first '#1=(a . #1#)) 'a)
 
 (eql (first   '(1 2 3)) '1)
 (eql (second  '(1 2 3)) '2)
@@ -1806,13 +1806,13 @@
 
 (let ((list1 (list 1 1 2 3 4 'a 'b 'c "A" "B" "C" "d"))
       (list2 (list 1 4 5 'b 'c 'd "a" "B" "c" "D")))
-  (and (null (set-exclusive-or (intersection list1 list2) '(C B 4 1 1)))
-       (null (set-exclusive-or (intersection list1 list2 :test 'equal)
-                               '("B" C B 4 1 1)
-                               :test 'equal))
-       (null (set-exclusive-or (intersection list1 list2 :test #'equalp)
-                               '("d" "C" "B" "A" C B 4 1 1)
-                               :test #'equalp))))
+  (null (set-exclusive-or (intersection list1 list2) '(C B 4 1 1)))
+  (null (set-exclusive-or (intersection list1 list2 :test 'equal)
+			  '("B" C B 4 1 1)
+			  :test 'equal))
+  (null (set-exclusive-or (intersection list1 list2 :test #'equalp)
+			  '("d" "C" "B" "A" C B 4 1 1)
+			  :test #'equalp)))
 
 (null (intersection '(0 1 2) '()))
 (null (intersection '() '()))
@@ -1860,13 +1860,13 @@
 
 (let ((list1 (list 1 1 2 3 4 'a 'b 'c "A" "B" "C" "d"))
       (list2 (list 1 4 5 'b 'c 'd "a" "B" "c" "D")))
-  (and (null (set-exclusive-or (nintersection (copy-list list1) list2) '(C B 4 1 1)))
-       (null (set-exclusive-or (nintersection (copy-list list1) list2 :test 'equal)
-                               '("B" C B 4 1 1)
-                               :test 'equal))
-       (null (set-exclusive-or (nintersection (copy-list list1) list2 :test #'equalp)
-                               '("d" "C" "B" "A" C B 4 1 1)
-                               :test #'equalp))))
+  (null (set-exclusive-or (nintersection (copy-list list1) list2) '(C B 4 1 1)))
+  (null (set-exclusive-or (nintersection (copy-list list1) list2 :test 'equal)
+			  '("B" C B 4 1 1)
+			  :test 'equal))
+  (null (set-exclusive-or (nintersection (copy-list list1) list2 :test #'equalp)
+			  '("d" "C" "B" "A" C B 4 1 1)
+			  :test #'equalp)))
 
 (null (nintersection (list 0 1 2) '()))
 (null (nintersection '() '()))
@@ -2307,10 +2307,3 @@
 		      '("ALPHA" "BRAVO" "CHARLIE" "DELTA" "ECHO")
 		      :test-not (complement #'string-equal)))
 
-
-(let ((plist '()))
-  (setf (getf plist :foo) 1)
-  (setf (getf plist :bar) 2)
-  (and (= 4 (length plist))
-       (eql 1 (getf plist :foo))
-       (eql 2 (getf plist :bar))))

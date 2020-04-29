@@ -1,6 +1,0 @@
-;; -*- mode:lisp -*-
-
-(defsystem "ansi-tests"
-  :serial t
-  :components ((:file "main"))
-  :target :node)

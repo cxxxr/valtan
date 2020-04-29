@@ -1,0 +1,7 @@
+;; -*- mode:lisp -*-
+
+(defsystem "tests"
+  :serial t
+  :components ((:file "sacla-tests")
+               (:file "main"))
+  :target :node)
