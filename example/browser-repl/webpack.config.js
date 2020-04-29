@@ -3,7 +3,7 @@ const fs = require('fs');
 
 module.exports = {
   mode: 'none',
-  entry: './browser-repl.js',
+  entry: './.valtan-cache/browser-repl.js',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')

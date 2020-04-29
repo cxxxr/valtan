@@ -3,7 +3,7 @@ const fs = require('fs');
 
 module.exports = {
   mode: 'none',
-  entry: './remote-eval-demo.js',
+  entry: './.valtan-cache/remote-eval-demo.js',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')

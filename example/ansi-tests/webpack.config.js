@@ -4,7 +4,7 @@ const fs = require('fs');
 module.exports = {
   mode: 'none',
   target: 'node',
-  entry: './ansi-tests.js',
+  entry: './.valtan-cache/ansi-tests.js',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')

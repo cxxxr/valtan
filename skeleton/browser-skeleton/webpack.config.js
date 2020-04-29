@@ -3,7 +3,7 @@ const fs = require('fs');
 
 module.exports = {
   mode: 'none',
-  entry: './<% @var name %>.js',
+  entry: './.valtan-cache/<% @var name %>.js',
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')

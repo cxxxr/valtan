@@ -263,8 +263,7 @@
 (defun create-entry-file (system)
   (let ((output-file (make-pathname :type "js"
                                     :name (valtan-host.system:system-name system)
-                                    :directory (pathname-directory
-                                                (valtan-host.system:system-pathname system)))))
+                                    :directory *cache-directory*)))
     (with-source-map (stream
                       (valtan-host.system:system-pathname system)
                       output-file)
