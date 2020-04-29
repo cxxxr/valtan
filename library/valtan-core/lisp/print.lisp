@@ -4,6 +4,26 @@
 (in-package :valtan-core)
 
 (defvar *print-escape* t)
+(defvar *print-circle* t)
+
+(defvar *print-circle-table* nil)
+(defvar *print-circle-seen* nil)
+
+(defun make-circle-table (object)
+  (let ((visited '())
+        (circle '())
+        (label 0))
+    (labels ((f (object)
+               (cond ((assoc object visited)
+                      (push (cons object (incf label)) circle))
+                     ((consp object)
+                      (push (cons object t) visited)
+                      (f (car object))
+                      (f (cdr object)))
+                     (t
+                      object))))
+      (f object)
+      circle)))
 
 (defmacro print-unreadable-object ((object stream &key type identity) &body body)
   (declare (ignore object type identity))
@@ -54,26 +74,55 @@
         (t
          (write-char char stream))))
 
-(defun print-cons (cons stream)
+(defun print-label (object stream)
+  (let ((label (cdr (assoc object *print-circle-table*))))
+    (when label
+      (write-char #\# stream)
+      (print-number label stream)
+      (write-char #\# stream))))
+
+(defun print-cons-1 (cons stream)
   (labels ((f (x)
              (when (consp x)
-               (write (car x) :stream stream)
-               (unless (listp (cdr x))
-                 (write-string " . " stream)
-                 (write (cdr x) :stream stream))
-               (when (consp (cdr x))
-                 (write-char #\space stream)
-                 (f (cdr x))))))
+               (write-1 (car x) :stream stream)
+               (cond ((consp (cdr x))
+                      (write-char #\space stream)
+                      (let ((object (cdr x)))
+                        (if (member object *print-circle-seen*)
+                            (progn
+                              (write-string " . " stream)
+                              (print-label object stream))
+                            (f object))))
+                     ((not (null (cdr x)))
+                      (write-string " . " stream)
+                      (write-1 (cdr x) :stream stream))))))
     (write-char #\( stream)
     (f cons)
     (write-char #\) stream)))
+
+(defun print-cons (cons stream)
+  (let (label)
+    (cond ((or (null *print-circle*)
+               (null (setq label (cdr (assoc cons *print-circle-table*)))))
+           (print-cons-1 cons stream))
+          ((member cons *print-circle-seen*)
+           (write-char #\# stream)
+           (print-number label stream)
+           (write-char #\# stream))
+          (t
+           (push cons *print-circle-seen*)
+           (write-char #\# stream)
+           (print-number label stream)
+           (write-char #\= stream)
+           (force-output stream)
+           (print-cons-1 cons stream)))))
 
 (defun print-vector (vector stream)
   (write-string "#(" stream)
   (let ((len (length vector)))
     (do ((i 0 (1+ i)))
         ((= i len))
-      (write (aref vector i) :stream stream)
+      (write-1 (aref vector i) :stream stream)
       (when (< i (1- len))
         (write-char #\space stream))))
   (write-string ")" stream))
@@ -96,23 +145,23 @@
 (defun print-structure (structure stream)
   (funcall (structure-printer structure) structure stream))
 
-(defun write (object &key array
-                          base
-                          case
-                          circle
-                          ((:escape *print-escape*) *print-escape*)
-                          gensym
-                          length
-                          level
-                          lines
-                          miser-width
-                          pprint-dispatch
-                          pretty
-                          radix
-                          readably
-                          right-margin
-                          (stream *standard-output*))
-  (declare (ignore array base case circle gensym length level lines miser-width pprint-dispatch
+(defun write-1 (object &key array
+                            base
+                            case
+                            ((:circle *print-circle*) *print-circle*)
+                            ((:escape *print-escape*) *print-escape*)
+                            gensym
+                            length
+                            level
+                            lines
+                            miser-width
+                            pprint-dispatch
+                            pretty
+                            radix
+                            readably
+                            right-margin
+                            (stream *standard-output*))
+  (declare (ignore array base case gensym length level lines miser-width pprint-dispatch
                    pretty radix readably right-margin))
   (cond ((symbolp object)
          (print-symbol object stream))
@@ -136,6 +185,13 @@
          (cl:print-unreadable-object (nil stream)
            (write-string (system:unknown-object-to-string object)
                          stream)))))
+
+(defun write (object &rest args)
+  (let ((*print-circle-table*
+          (when *print-circle*
+            (make-circle-table object)))
+        (*print-circle-seen* nil))
+    (apply #'write-1 object args)))
 
 (defun write-to-string (object &rest args
                                &key array base case circle escape gensym length level
