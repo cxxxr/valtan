@@ -138,7 +138,7 @@
                   (*package* (find-package :valtan-user)))
               (do-file-form (form input-file)
                 (push (handler-bind ((warning #'muffle-warning))
-                        (compiler::pass1-toplevel-usign-optimize form))
+                        (compiler::pass1-toplevel-using-optimize form))
                       hir-forms))
               (list* (compiler::pass1-toplevel '(in-package "CL-USER"))
                      (compiler::pass1-module input-file

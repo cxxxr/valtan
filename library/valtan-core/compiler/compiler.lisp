@@ -1,6 +1,6 @@
 (in-package :compiler)
 
-(defun pass1-toplevel-usign-optimize (form)
+(defun pass1-toplevel-using-optimize (form)
   (let ((hir (pass1-toplevel form)))
     (if *hir-optimize*
         (hir-optimize hir)
