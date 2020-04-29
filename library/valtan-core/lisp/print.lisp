@@ -86,13 +86,14 @@
              (when (consp x)
                (write-1 (car x) :stream stream)
                (cond ((consp (cdr x))
-                      (write-char #\space stream)
                       (let ((object (cdr x)))
                         (if (member object *print-circle-seen*)
                             (progn
                               (write-string " . " stream)
                               (print-label object stream))
-                            (f object))))
+                            (progn
+                              (write-char #\space stream)
+                              (f object)))))
                      ((not (null (cdr x)))
                       (write-string " . " stream)
                       (write-1 (cdr x) :stream stream))))))
