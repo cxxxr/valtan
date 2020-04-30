@@ -31,6 +31,10 @@
   (depends-on '())
   (target nil :type (member :node :browser nil)))
 
+(defstruct component
+  pathname
+  depends-on)
+
 (defun ensure-system-package-exist ()
   (find-package :valtan-host.system-user))
 
@@ -48,12 +52,14 @@
             (not (featurep (second expr)))))
          t)))
 
-(defun parse-components (components system-name directory)
-  (loop :for c :in components
+(defun parse-components (&key components system-name directory serial)
+  (declare (ignore serial))
+  (loop :for component :in components
         :for file :=
-           (destructuring-bind (&key ((:file name)) (if-feature nil if-feature-p)) c
+           (destructuring-bind (&key ((:file name)) (if-feature nil if-feature-p) depends-on)
+               component
              (unless name
-               (error "Illegal component: ~S" c))
+               (error "Illegal component: ~S" component))
              (let ((file
                      (probe-file
                       (make-pathname :name name
@@ -63,26 +69,30 @@
                  (error "~S not found for system ~S" name system-name))
                (when (or (not if-feature-p)
                          (featurep if-feature))
-                 file)))
+                 (make-component :pathname file :depends-on depends-on))))
         :when file
-        :collect file))
+        :collect it))
+
+(defun compute-components-pathnames (components)
+  (mapcar #'component-pathname components))
 
 (defmacro valtan-host.system-user::defsystem
     (name &key (serial nil serial-p) depends-on components target source-map &allow-other-keys)
   (check-type target (member :node :browser nil))
   (assert (or (not serial-p) (eq serial t)))
-  `(setf (gethash ,(string name) *system-map*)
-         (make-system :name ,(string name)
-                      :pathname *load-pathname*
-                      :depends-on ',(if (string= (string-downcase name) +valtan-core-system+)
-                                        depends-on
-                                        (cons +valtan-core-system+ depends-on))
-                      :pathnames ',(parse-components components
-                                                     name
-                                                     (pathname-directory
-                                                      *load-pathname*))
-                      :target ,target
-                      :enable-source-map ,source-map)))
+  (let ((components (parse-components :components components
+                                      :system-name name
+                                      :directory (pathname-directory *load-pathname*)
+                                      :serial serial)))
+    `(setf (gethash ,(string name) *system-map*)
+           (make-system :name ,(string name)
+                        :pathname *load-pathname*
+                        :depends-on ',(if (string= (string-downcase name) +valtan-core-system+)
+                                          depends-on
+                                          (cons +valtan-core-system+ depends-on))
+                        :pathnames ',(compute-components-pathnames components)
+                        :target ,target
+                        :enable-source-map ,source-map))))
 
 (defmacro with-system-env (() &body body)
   `(let ((*package* (ensure-system-package-exist))
