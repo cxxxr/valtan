@@ -55,22 +55,23 @@
 (defun parse-components (&key components system-name directory serial)
   (declare (ignore serial))
   (loop :for component :in components
-        :for file :=
-           (destructuring-bind (&key ((:file name)) (if-feature nil if-feature-p) depends-on)
-               component
-             (unless name
-               (error "Illegal component: ~S" component))
-             (let ((file
-                     (probe-file
-                      (make-pathname :name name
-                                     :type "lisp"
-                                     :directory directory))))
-               (unless file
-                 (error "~S not found for system ~S" name system-name))
-               (when (or (not if-feature-p)
-                         (featurep if-feature))
-                 (make-component :pathname file :depends-on depends-on))))
-        :when file
+        :when (and (getf component :file)
+                   (destructuring-bind (&key ((:file name))
+                                             (if-feature nil if-feature-p)
+                                             depends-on)
+                       component
+                     (unless name
+                       (error "Illegal component: ~S" component))
+                     (let ((file
+                             (probe-file
+                              (make-pathname :name name
+                                             :type "lisp"
+                                             :directory directory))))
+                       (unless file
+                         (error "~S not found for system ~S" name system-name))
+                       (when (or (not if-feature-p)
+                                 (featurep if-feature))
+                         (make-component :pathname file :depends-on depends-on)))))
         :collect it))
 
 (defun compute-components-pathnames (components)
