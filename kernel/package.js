@@ -5,6 +5,7 @@ import {
 import {
     S_package,
     S_nil,
+    S_current_package,
     isString,
     toLispBoolean,
 } from './header';
@@ -113,7 +114,6 @@ class Package {
 }
 
 const packages = [];
-let current_package;
 
 export function findPackage(name) {
     for (let p of packages) {
@@ -187,13 +187,13 @@ export function ensurePackage(pkg) {
     typeError(pkg, S_package);
 }
 
-export function intern(name, pkg = symbolValue(current_package)) {
+export function intern(name, pkg = symbolValue(S_current_package)) {
     const [symbol, status] = ensurePackage(pkg).intern(name);
     return symbol;
 }
 
 export function changeCurrentPackage(pkg) {
-    return setSymbolValue(current_package, ensurePackage(pkg));
+    return setSymbolValue(S_current_package, ensurePackage(pkg));
 }
 
 export const cl_package = makePackage('COMMON-LISP', ['CL']);
@@ -202,9 +202,6 @@ export const ffi_package = makePackage('FFI');
 export const keyword_package = makePackage('KEYWORD');
 export const cl_user_package = makePackage('COMMON-LISP-USER', ['CL-USER', 'VALTAN-USER'], ['COMMON-LISP']);
 makePackage('COMPILER');
-current_package = intern('*PACKAGE*', cl_package);
-current_package.plist = S_nil;
-setSymbolValue(current_package, cl_user_package);
 
 function toKeyword(name) {
     const [symbol, status] = keyword_package.intern(name);

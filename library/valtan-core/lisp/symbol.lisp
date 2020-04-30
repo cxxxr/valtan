@@ -75,7 +75,7 @@
                         (incf *gensym-counter*))))))
 
 (defvar *gentemp-counter* 0)
-#-valtan(defvar *package* (cl:find-package :cl-user))
+(defvar *package* (cl:find-package :cl-user))
 
 (defun gentemp (&optional (prefix "T") (package *package*))
   (do ()

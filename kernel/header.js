@@ -12,6 +12,8 @@ export let S_undefined_function;
 export let S_unbound_variable;
 export let S_program_error;
 
+export let S_current_package;
+
 export function initSymbols({
     t,
     nil,
@@ -34,6 +36,9 @@ export function initSymbols({
     S_undefined_function = symbols["UNDEFINED-FUNCTION"];
     S_unbound_variable = symbols["UNBOUND-VARIABLE"];
     S_program_error = symbols["PROGRAM-ERROR"];
+
+    S_current_package = symbols["*PACKAGE*"];
+    S_current_package.plist = nil;
 }
 
 export function toLispBoolean(x) {

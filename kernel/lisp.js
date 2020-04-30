@@ -6,6 +6,7 @@ export * from './values';
 
 import {
     initSymbols,
+    S_current_package,
 } from './header';
 
 import {
@@ -27,6 +28,7 @@ export {
 from './callstack';
 
 import {
+    setSymbolValue,
     CL_symbolp,
     CL_makeSymbol,
     CL_symbolPlist,
@@ -47,6 +49,7 @@ export * from './symbol';
 
 import {
     cl_package,
+    cl_user_package,
     system_package,
     ffi_package,
     intern,
@@ -144,6 +147,7 @@ function symbols() {
         "UNDEFINED-FUNCTION",
         "UNBOUND-VARIABLE",
         "PROGRAM-ERROR",
+        "*PACKAGE*",
     ];
     for (let name of names) {
         obj[name] = intern(name, cl_package);
@@ -155,6 +159,8 @@ initSymbols(Object.assign({
     t: intern('T', cl_package),
     nil: intern('NIL', cl_package),
 }, symbols()));
+
+setSymbolValue(S_current_package, cl_user_package);
 
 function registerFunction(pkg, name, fn, min = 0, max = min) {
     if (min === null || (min === 0 && max === null)) {
