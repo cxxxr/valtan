@@ -205,7 +205,7 @@
 (defun read-evaluated-form ()
   ;; TODO: *query-io*
   (write-line "Enter a form to be evaluated' " #+(or)*query-io* *standard-output*)
-  (list (eval (read #+(or)*query-io* *standard-input*))))
+  (list (cl:eval (read #+(or)*query-io* *standard-input*))))
 
 (defun check-type-error (type-spec place)
   (let ((condition

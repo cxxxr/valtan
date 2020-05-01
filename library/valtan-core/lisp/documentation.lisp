@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defgeneric documentation (x doc-type))
 
@@ -59,7 +62,9 @@
   )
 
 (defmethod documentatin ((x symbol) (doc-type (eql 'variable)))
+  (declare (ignore doc-type))
   (getf (get x 'doc-plist) 'variable))
 
 (defmethod (setf documentation) (new-value (x symbol) (doc-type (eql 'variable)))
+  (declare (ignore doc-type))
   (setf (getf (get x 'doc-plist) 'variable) new-value))
