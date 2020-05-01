@@ -134,6 +134,7 @@
    :&rest
    :&key
    :&optional
+   :&allow-other-keys
    #+(or)
    (let ((*print-case* :downcase))
      (pprint (with-open-file (in (asdf:system-relative-pathname :valtan-core "./compiler/pass1.lisp"))

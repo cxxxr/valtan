@@ -41,7 +41,7 @@
                (:file "lisp/read")
                (:file "lisp/file")
                (:file "lisp/pkg" :if-feature :valtan)
-               (:file "lisp/clos" :if-feature :valtan)
+               (:file "lisp/clos")
                (:file "lisp/restart" :if-feature :valtan)
                (:file "lisp/catch-throw" :if-feature :valtan)
                (:file "lisp/documentation" :if-feature :valtan)))

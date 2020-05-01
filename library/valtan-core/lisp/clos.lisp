@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defun list-remove-duplicates (list)
   (let ((new-list '()))
@@ -49,7 +52,7 @@
              slot-name class))
     (cdr elt)))
 
-(defun (setf %slot-value) (value class slot-name)
+(defun (cl:setf %slot-value) (value class slot-name)
   (let ((elt (assoc slot-name (standard-instance-slots class))))
     (if elt
         (setf (cdr elt) value)
@@ -59,37 +62,37 @@
 (defun slot-value (object slot-name)
   (%slot-value object slot-name))
 
-(defun (setf slot-value) (value object slot-name)
+(defun (cl:setf slot-value) (value object slot-name)
   (setf (%slot-value object slot-name) value))
 
 (defun class-name (class)
   (%slot-value class 'name))
 
-(defun (setf class-name) (name class)
+(defun (cl:setf class-name) (name class)
   (setf (%slot-value class 'name) name))
 
 (defun class-precedence-list (class)
   (%slot-value class 'precedence-list))
 
-(defun (setf class-precedence-list) (precedence-list class)
+(defun (cl:setf class-precedence-list) (precedence-list class)
   (setf (%slot-value class 'precedence-list) precedence-list))
 
 (defun class-direct-superclasses (class)
   (%slot-value class 'direct-superclasses))
 
-(defun (setf class-direct-superclasses) (direct-superclasses class)
+(defun (cl:setf class-direct-superclasses) (direct-superclasses class)
   (setf (%slot-value class 'direct-superclasses) direct-superclasses))
 
 (defun class-direct-slots (class)
   (%slot-value class 'direct-slots))
 
-(defun (setf class-direct-slots) (direct-slots class)
+(defun (cl:setf class-direct-slots) (direct-slots class)
   (setf (%slot-value class 'direct-slots) direct-slots))
 
 (defun class-direct-subclasses (class)
   (%slot-value class 'direct-subclasses))
 
-(defun (setf class-direct-subclasses) (direct-subclasses class)
+(defun (cl:setf class-direct-subclasses) (direct-subclasses class)
   (setf (%slot-value class 'direct-subclasses) direct-subclasses))
 
 ;;; XXX:
@@ -100,25 +103,25 @@
 ;; (defun class-direct-methods (class)
 ;;   (%slot-value class 'direct-methods))
 
-;; (defun (setf class-direct-methods) (direct-methods class)
+;; (defun (cl:setf class-direct-methods) (direct-methods class)
 ;;   (setf (%slot-value class 'direct-methods) direct-methods))
 
 (defun class-direct-default-initargs (class)
   (%slot-value class 'direct-default-initargs))
 
-(defun (setf class-direct-default-initargs) (direct-default-initargs class)
+(defun (cl:setf class-direct-default-initargs) (direct-default-initargs class)
   (setf (%slot-value class 'direct-default-initargs) direct-default-initargs))
 
 (defun class-slots (class)
   (%slot-value class 'slots))
 
-(defun (setf class-slots) (slots class)
+(defun (cl:setf class-slots) (slots class)
   (setf (%slot-value class 'slots) slots))
 
 (defun class-default-initargs (class)
   (%slot-value class 'default-initargs))
 
-(defun (setf class-default-initargs) (default-initargs class)
+(defun (cl:setf class-default-initargs) (default-initargs class)
   (setf (%slot-value class 'default-initargs) default-initargs))
 
 (defun class-of (x)
@@ -165,7 +168,7 @@
         (error "There is no class named ~S." symbol))
       class))
 
-  (defun (setf find-class) (class symbol &optional errorp environment)
+  (defun (cl:setf find-class) (class symbol &optional errorp environment)
     (declare (ignore errorp environment))
     (setf (gethash symbol class-table) class)))
 
@@ -285,6 +288,7 @@
                                                  direct-superclasses #|name|#
                                                  (metaclass 'standard-class)
                                             &allow-other-keys)
+  (declare (ignore args))
   (check-duplicate-direct-slots direct-slots)
   (check-duplicate-direct-default-initargs direct-default-initargs name)
   (setq direct-superclasses (mapcar #'find-class direct-superclasses))
@@ -448,6 +452,7 @@
               all-names))))
 
 (defun std-compute-effective-slot-definition (class direct-slots)
+  (declare (ignore class))
   (let ((initer (find-if (lambda (slot) (slot-definition-initform slot))
                          direct-slots)))
     (make-effective-slot-definition
@@ -477,37 +482,37 @@
 (defun generic-function-name (gf)
   (%slot-value gf 'name))
 
-(defun (setf generic-function-name) (name gf)
+(defun (cl:setf generic-function-name) (name gf)
   (setf (%slot-value gf 'name) name))
 
 (defun generic-function-methods (gf)
   (%slot-value gf 'methods))
 
-(defun (setf generic-function-methods) (methods gf)
+(defun (cl:setf generic-function-methods) (methods gf)
   (setf (%slot-value gf 'methods) methods))
 
 (defun generic-function-lambda-list (gf)
   (%slot-value gf 'lambda-list))
 
-(defun (setf generic-function-lambda-list) (lambda-list gf)
+(defun (cl:setf generic-function-lambda-list) (lambda-list gf)
   (setf (%slot-value gf 'lambda-list) lambda-list))
 
 (defun generic-function-method-class (gf)
   (%slot-value gf 'method-class))
 
-(defun (setf generic-function-method-class) (method-class gf)
+(defun (cl:setf generic-function-method-class) (method-class gf)
   (setf (%slot-value gf 'method-class) method-class))
 
 (defun classes-to-emf-table (gf)
   (%slot-value gf 'classes-to-emf-table))
 
-(defun (setf classes-to-emf-table) (classes-to-emf-table gf)
+(defun (cl:setf classes-to-emf-table) (classes-to-emf-table gf)
   (setf (%slot-value gf 'classes-to-emf-table) classes-to-emf-table))
 
 (defun generic-function-min-argc (gf)
   (%slot-value gf 'min-argc))
 
-(defun (setf generic-function-min-argc) (min-argc gf)
+(defun (cl:setf generic-function-min-argc) (min-argc gf)
   (setf (%slot-value gf 'min-argc) min-argc))
 
 (defun set-funcallable-instance-function (gf function)
@@ -518,31 +523,31 @@
 (defun method-function (method)
   (%slot-value method 'function))
 
-(defun (setf method-function) (function method)
+(defun (cl:setf method-function) (function method)
   (setf (%slot-value method 'function) function))
 
 (defun method-generic-function (method)
   (%slot-value method 'generic-function))
 
-(defun (setf method-generic-function) (generic-function method)
+(defun (cl:setf method-generic-function) (generic-function method)
   (setf (%slot-value method 'generic-function) generic-function))
 
 (defun method-lambda-list (method)
   (%slot-value method 'lambda-list))
 
-(defun (setf method-lambda-list) (lambda-list method)
+(defun (cl:setf method-lambda-list) (lambda-list method)
   (setf (%slot-value method 'lambda-list) lambda-list))
 
 (defun method-specializers (method)
   (%slot-value method 'specializers))
 
-(defun (setf method-specializers) (specializers method)
+(defun (cl:setf method-specializers) (specializers method)
   (setf (%slot-value method 'specializers) specializers))
 
 (defun method-qualifiers (method)
   (%slot-value method 'qualifiers))
 
-(defun (setf method-qualifiers) (qualifiers method)
+(defun (cl:setf method-qualifiers) (qualifiers method)
   (setf (%slot-value method 'qualifiers) qualifiers))
 
 (defmacro defgeneric (function-name lambda-list &body options)
@@ -568,7 +573,7 @@
 (let ((generic-function-table (make-hash-table)))
   (defun find-generic-function (function-name)
     (gethash function-name generic-function-table))
-  (defun (setf find-generic-function) (gf function-name)
+  (defun (cl:setf find-generic-function) (gf function-name)
     (setf (gethash function-name generic-function-table) gf)))
 
 (defun ensure-generic-function (function-name
@@ -577,6 +582,7 @@
                                      (generic-function-class +standard-generic-function+)
                                      (method-class +standard-method+)
                                 &allow-other-keys)
+  (declare (ignore lambda-list generic-function-class method-class))
   (apply #'ensure-generic-function-using-class
          (find-generic-function function-name)
          function-name
@@ -589,6 +595,7 @@
           (generic-function-class +standard-generic-function+)
           (method-class +standard-method+)
      &allow-other-keys)
+  (declare (ignore lambda-list))
   (or generic-function-or-null
       (let ((gf (apply (if (eq generic-function-class +standard-generic-function+)
                            #'make-instance-standard-generic-function
@@ -676,6 +683,7 @@
                    (error "method-more-specific-p trap"))))
 
 (defun std-method-more-specific-p (gf m1 m2 required-classes)
+  (declare (ignore gf))
   (mapc (lambda (spec1 spec2 required-class)
           (unless (eq spec1 spec2)
             (return-from std-method-more-specific-p
@@ -710,9 +718,11 @@
     (when (null primaries)
       (error "No primary methods for the generic function ~S." gf))
     (if around
-        (let ((next-fmfun
+        (let ((next-emfun
                 (if (eq (class-of gf) +standard-generic-function+)
                     (std-compute-effective-method-function gf (remove around methods))
+                    (error "compute-effective-method-function trap")
+                    #+(or)
                     (compute-effective-method-function gf (remove around methods)))))
           (lambda (args)
             (funcall (method-function around) args next-emfun)))
@@ -827,17 +837,19 @@
                 (setq method-qualifiers (nreverse method-qualifiers))
                 (return)))))
       (setq specialized-lambda-list (pop args))
-      (let ((body args))
+      (multiple-value-bind (body declares docstring)
+          (compiler::parse-body args t)
         (let ((analyzed-lambda-list (analyze-lambda-list specialized-lambda-list)))
           (values function-name
                   method-qualifiers
                   (extract-lambda-list analyzed-lambda-list)
                   (extract-specializers analyzed-lambda-list)
-                  (list* 'block
-                         (if (consp function-name)
-                             (cadr function-name)
-                             function-name)
-                         body)))))))
+                  `(,@(when docstring `(,docstring))
+                    ,@(when declares `((declare ,@declares)))
+                    (block ,(if (consp function-name)
+                                (cadr function-name)
+                                function-name)
+                      ,@body))))))))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun kludge-arglist (lambda-list)
@@ -860,7 +872,7 @@
                     (funcall ,g-next-emfun (or ,g-call-next-method-args ,g-args))))
               (next-method-p ()
                 (not (null ,g-next-emfun))))
-         (apply (lambda ,lambda-list ,body)
+         (apply (lambda ,lambda-list ,@body)
                 ,g-args)))))
 
 (defmacro defmethod (&rest args)
@@ -911,7 +923,7 @@
 
 (defun make-instance-standard-method (method-class &key lambda-list qualifiers
                                                         specializers body function)
-  (declare (ignore method-class))
+  (declare (ignore method-class body))
   (let ((method (make-standard-instance :class +standard-method+)))
     (setf (method-lambda-list method) lambda-list)
     (setf (method-qualifiers method) qualifiers)
@@ -1064,6 +1076,7 @@
 (defgeneric allocate-instance (class &key))
 
 (defmethod allocate-instance ((class standard-class) &rest initargs)
+  (declare (ignore initargs))
   (make-standard-instance :class class))
 
 (defgeneric shared-initialize (instance slot-names &key))
@@ -1078,7 +1091,7 @@
             (setf (slot-value instance slot-name) value)
             (when (and (not (slot-boundp instance slot-name))
                        (or (eq slot-names t)
-                           (member name slot-names))
+                           (member slot-name slot-names))
                        (slot-definition-initfunction slot))
               (setf (slot-value instance slot-name)
                     (funcall (slot-definition-initfunction slot))))))))
