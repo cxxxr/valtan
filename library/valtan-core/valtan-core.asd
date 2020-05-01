@@ -44,7 +44,8 @@
                (:file "lisp/clos")
                (:file "lisp/restart")
                (:file "lisp/catch-throw")
-               (:file "lisp/documentation")))
+               (:file "lisp/documentation")
+               (:file "lisp/loop")))
 
 (defsystem "valtan-core/compiler"
   :depends-on ("valtan-core/common-lisp")
