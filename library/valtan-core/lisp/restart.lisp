@@ -1,4 +1,7 @@
+#+valtan
 (in-package :common-lisp)
+#-valtan
+(in-package :valtan-core)
 
 (defvar *restart-clustors* '())
 
@@ -156,7 +159,7 @@
            (pop (restart-associated-conditions ,restart)))))))
 
 (defun cerror (continue-format-control datum &rest arguments)
-  (with-simple-restart (continue "~A" (apply #'format nil continue-format-string arguments))
+  (with-simple-restart (continue "~A" (apply #'format nil continue-format-control arguments))
     (let ((condition (coerce-to-condition datum arguments 'simple-error)))
       (with-condition-restarts condition (list (find-restart 'continue))
         (signal-1 condition)
