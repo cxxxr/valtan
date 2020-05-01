@@ -32,6 +32,7 @@
   (target nil :type (member :node :browser nil)))
 
 (defstruct component
+  name
   pathname
   depends-on)
 
@@ -54,28 +55,42 @@
 
 (defun parse-components (&key components system-name directory serial)
   (declare (ignore serial))
-  (loop :for component :in components
-        :when (and (getf component :file)
-                   (destructuring-bind (&key ((:file name))
-                                             (if-feature nil if-feature-p)
-                                             depends-on)
-                       component
-                     (unless name
-                       (error "Illegal component: ~S" component))
-                     (let ((file
-                             (probe-file
-                              (make-pathname :name name
-                                             :type "lisp"
-                                             :directory directory))))
-                       (unless file
-                         (error "~S not found for system ~S" name system-name))
-                       (when (or (not if-feature-p)
-                                 (featurep if-feature))
-                         (make-component :pathname file :depends-on depends-on)))))
-        :collect it))
+  (let ((components
+          (loop :for component :in components
+                :when (and (getf component :file)
+                           (destructuring-bind (&key ((:file name))
+                                                     (if-feature nil if-feature-p)
+                                                     depends-on)
+                               component
+                             (unless name
+                               (error "Illegal component: ~S" component))
+                             (when (or (not if-feature-p) (featurep if-feature))
+                               (let ((file
+                                       (probe-file
+                                        (make-pathname :name name
+                                                       :type "lisp"
+                                                       :directory directory))))
+                                 (unless file
+                                   (error "~S not found for system ~S" name system-name))
+                                 (make-component :name name
+                                                 :pathname file
+                                                 :depends-on depends-on)))))
+                :collect it)))
+    (flet ((find-component (name)
+             (find name components :key #'component-name :test #'equal)))
+      (dolist (component components)
+        (when (component-depends-on component)
+          (setf (component-depends-on component)
+                (mapcar #'find-component (component-depends-on component)))))
+      components)))
 
 (defun compute-components-pathnames (components)
-  (mapcar #'component-pathname components))
+  (let ((computed-components '()))
+    (labels ((resolve-dependencies (component)
+               (mapc #'resolve-dependencies (component-depends-on component))
+               (pushnew component computed-components)))
+      (mapc #'resolve-dependencies components)
+      (mapcar #'component-pathname (nreverse computed-components)))))
 
 (defmacro valtan-host.system-user::defsystem
     (name &key (serial nil serial-p) depends-on components target source-map &allow-other-keys)
