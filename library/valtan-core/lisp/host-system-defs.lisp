@@ -189,7 +189,7 @@
   `(cl:multiple-value-call ,function ,@args))
 
 (cl:defun system:error (value)
-  (cl:error value))
+  (cl:error "~A" (system:%structure-ref value 0)))
 
 (cl:defun system:%code-char (code)
   (cl:code-char code))
