@@ -871,7 +871,7 @@
                     (error "No next method")
                     (funcall ,g-next-emfun (or ,g-call-next-method-args ,g-args))))
               (next-method-p ()
-                #+sbcl(declare (sb-ext:muffle-conditions sb-ext:compiler-note))
+                #+(and (not valtan) sbcl)(declare (sb-ext:muffle-conditions sb-ext:compiler-note))
                 (not (null ,g-next-emfun))))
          (apply (lambda ,lambda-list ,@body)
                 ,g-args)))))
