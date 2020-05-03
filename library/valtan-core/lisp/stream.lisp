@@ -90,11 +90,13 @@
   (stream-write-char stream char))
 
 (defun write-string (string &optional (stream *standard-output*) &key start end)
-  (declare (ignore start end))
+  (declare (ignore start end)
+           #+sbcl(sb-ext:muffle-conditions cl:warning))
   (stream-write-string stream string))
 
 (defun write-line (string &optional (stream *standard-output*) &key start end)
-  (declare (ignore start end))
+  (declare (ignore start end)
+           #+sbcl(sb-ext:muffle-conditions cl:warning))
   (stream-write-string stream string)
   (stream-write-char stream #\newline)
   string)
