@@ -298,7 +298,7 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
 
 (defun parse-doing-clause ()
   (let ((forms (parse-compound-forms)))
-    (push `(progn ,@forms) *loop-body*)))
+    `(progn ,@forms)))
 
 (defun parse-form-or-it ()
   (let ((exp (next-exp)))
@@ -307,18 +307,16 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
         exp)))
 
 (defun parse-return-clause ()
-  (push `(return ,(parse-form-or-it)) *loop-body*))
+  `(return ,(parse-form-or-it)))
 
 (defun parse-unconditional-clause (exp)
   (case exp
     ((:do :doing)
      (next-exp)
-     (parse-doing-clause)
-     t)
+     (parse-doing-clause))
     ((:return)
      (next-exp)
-     (parse-return-clause)
-     t)
+     (parse-return-clause))
     (otherwise nil)))
 
 (defun parse-into-clause ()
@@ -352,12 +350,11 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
             (select-accumulator (kind into)
               (make-list-collector :head (gensym "LIST-HEAD")
                                    :tail (gensym "LIST-TAIL")))))
-      (push `(collecting ,(list-collector-head list-collector)
-                         ,(list-collector-tail list-collector)
-                         ,form-or-it
-                         ,into
-                         ,kind)
-            *loop-body*))))
+      `(collecting ,(list-collector-head list-collector)
+                   ,(list-collector-tail list-collector)
+                   ,form-or-it
+                   ,into
+                   ,kind))))
 
 (defun parse-count-clause (kind)
   (let ((form-or-it (parse-form-or-it))
@@ -365,10 +362,9 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
     (let ((sum-counter
             (select-accumulator (kind into)
               (make-sum-counter :var (or into (gensym "SUM-COUNTER"))))))
-      (push `(sum-count ,(sum-counter-var sum-counter)
-                        ,form-or-it
-                        ,kind)
-            *loop-body*))))
+      `(sum-count ,(sum-counter-var sum-counter)
+                  ,form-or-it
+                  ,kind))))
 
 (defun parse-maxmin-clause (kind)
   (let ((form-or-it (parse-form-or-it))
@@ -376,10 +372,9 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
     (let ((maxmin-collector
             (select-accumulator (kind into)
               (make-maxmin-collector :var (or into (gensym "MAXMIN-COLLECTOR"))))))
-      (push `(collect-maxmin ,(maxmin-collector-var maxmin-collector)
-                             ,form-or-it
-                             ,kind)
-            *loop-body*))))
+      `(collect-maxmin ,(maxmin-collector-var maxmin-collector)
+                       ,form-or-it
+                       ,kind))))
 
 (defun parse-accumulation-clause (exp)
   (case exp
@@ -415,12 +410,14 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
 
 (defun parse-main-clause ()
   (let ((exp (ensure-keyword (lookahead))))
-    (or (parse-unconditional-clause exp)
-        (parse-accumulation-clause exp)
-        (parse-conditional-clause exp)
-        (parse-termination-test-clause exp)
-        (parse-initial-final-clause exp)
-        (loop-error "unexpected form: ~S" exp))))
+    (let ((form
+            (or (parse-unconditional-clause exp)
+                (parse-accumulation-clause exp)
+                (parse-conditional-clause exp)
+                (parse-termination-test-clause exp)
+                (parse-initial-final-clause exp)
+                (loop-error "unexpected form: ~S" exp))))
+      (push form *loop-body*))))
 
 (defun parse-name-clause ()
   (when (eq (ensure-keyword (lookahead)) :named)
