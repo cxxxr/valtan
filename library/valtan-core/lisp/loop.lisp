@@ -1,5 +1,3 @@
-cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
-
 (cl:defpackage :valtan-core/loop
   (:use :cl)
   (:shadowing-import-from :valtan-core :gensym))
@@ -74,7 +72,7 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
      ,@(unless var `(,maxmin-var))))
 
 (defmacro collect-maxmin (maxmin-var value kind)
-  (let ((g-value (gensym "VALUE")))
+  (let ((g-value (cl:gensym #"VALUE")))
     `(let ((,g-value ,value))
        (when (or (null ,maxmin-var)
                  (,(ecase kind
@@ -127,7 +125,7 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
      (next-exp))))
 
 (defun it ()
-  (gensym "IT"))
+  (cl:gensym #"IT"))
 
 (defun parse-compound-forms ()
   (do ((forms nil))
@@ -231,9 +229,9 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
 
 (defun parse-for-as-across (var)
   (let ((vector-form (next-exp))
-        (vector-var (gensym "VECTOR"))
-        (index-var (gensym "INDEX"))
-        (length-var (gensym "LENGTH")))
+        (vector-var (cl:gensym #"VECTOR"))
+        (index-var (cl:gensym #"INDEX"))
+        (length-var (cl:gensym #"LENGTH")))
     (push (list vector-var vector-form) *temporary-variables*)
     (push (list length-var `(length ,vector-var)) *temporary-variables*)
     (setf *for-clauses*
@@ -330,9 +328,9 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
       var)))
 
 (defmacro select-accumulator ((kind into) &body body)
-  (let ((g-kind/accumulator (gensym "KIND/ACCUMULATOR"))
-        (g-kind (gensym "KIND"))
-        (g-into (gensym "INTO")))
+  (let ((g-kind/accumulator (cl:gensym #"KIND/ACCUMULATOR"))
+        (g-kind (cl:gensym #"KIND"))
+        (g-into (cl:gensym #"INTO")))
     `(let ((,g-kind/accumulator (gethash into *accumulators*))
            (,g-kind ,kind)
            (,g-into ,into))
@@ -351,8 +349,8 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
         (into (parse-into-clause)))
     (let ((list-collector
             (select-accumulator (kind into)
-              (make-list-collector :head (gensym "LIST-HEAD")
-                                   :tail (gensym "LIST-TAIL")))))
+              (make-list-collector :head (cl:gensym #"LIST-HEAD")
+                                   :tail (cl:gensym #"LIST-TAIL")))))
       `(collecting ,(list-collector-head list-collector)
                    ,(list-collector-tail list-collector)
                    ,form-or-it
@@ -364,7 +362,7 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
         (into (parse-into-clause)))
     (let ((sum-counter
             (select-accumulator (kind into)
-              (make-sum-counter :var (or into (gensym "SUM-COUNTER"))))))
+              (make-sum-counter :var (or into (cl:gensym #"SUM-COUNTER"))))))
       `(sum-count ,(sum-counter-var sum-counter)
                   ,form-or-it
                   ,kind))))
@@ -374,7 +372,7 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
         (into (parse-into-clause)))
     (let ((maxmin-collector
             (select-accumulator (kind into)
-              (make-maxmin-collector :var (or into (gensym "MAXMIN-COLLECTOR"))))))
+              (make-maxmin-collector :var (or into (cl:gensym #"MAXMIN-COLLECTOR"))))))
       `(collect-maxmin ,(maxmin-collector-var maxmin-collector)
                        ,form-or-it
                        ,kind))))
@@ -464,7 +462,7 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
         (return nil)))
     ((:thereis)
      (next-exp)
-     (let ((it (gensym "THERE")))
+     (let ((it (cl:gensym #"THERE")))
        `(let ((,it ,(next-exp)))
           (when ,it (return ,it)))))))
 
@@ -517,8 +515,8 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
         (*accumulators* (make-hash-table))
         (*result-forms* '())
         (*loop-body* '())
-        (*loop-end-tag* (gensym "LOOP-END"))
-        (loop-start (gensym "LOOP-START")))
+        (*loop-end-tag* (cl:gensym #"LOOP-END"))
+        (loop-start (cl:gensym #"LOOP-START")))
     (parse-loop forms)
     (let ((tagbody-loop-form
             `(tagbody
@@ -580,7 +578,7 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
 (defun expand-loop (forms)
   (if (and forms (symbolp (car forms)))
       (expand-complex-loop forms)
-      (let ((tag (gensym "LOOP-START")))
+      (let ((tag (cl:gensym #"LOOP-START")))
         `(block nil
            (tagbody
              ,tag

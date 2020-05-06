@@ -191,7 +191,14 @@
                                       `((eql ,var ',(cl:car c))
                                         ,@(cl:cdr c)))))
                           cases)
-             (t (error "ecase error"))))))
+             (t (error "~S fell through ECASE expression. Wanted one of ~S."
+                       ,var
+                       ',(cl:mapcan (cl:lambda (c)
+                                      (cl:copy-list
+                                       (if (cl:listp (cl:car c))
+                                           (cl:car c)
+                                           (cl:list (cl:car c)))))
+                                    cases)))))))
 
 (*:defmacro* multiple-value-bind (vars value-form &rest body)
   (let ((rest (cl:gensym)))
