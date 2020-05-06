@@ -230,12 +230,14 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
 
 (defun parse-for-as-across (var)
   (let ((vector-form (next-exp))
-        (vector-var (gensym))
-        (index-var (gensym))
-        (length-var (gensym)))
+        (vector-var (gensym "VECTOR"))
+        (index-var (gensym "INDEX"))
+        (length-var (gensym "LENGTH")))
     (push (list vector-var vector-form) *temporary-variables*)
     (push (list length-var `(length ,vector-var)) *temporary-variables*)
-    (push `(unless (< ,index-var ,length-var) ,*loop-end-tag*) *loop-body*)
+    (setf *for-clauses*
+          (nconc *for-clauses*
+                 (list (make-for-clause :endp-form `(>= ,index-var ,length-var)))))
     (setf *for-clauses*
           (nconc *for-clauses*
                  (list
