@@ -23,7 +23,7 @@
   init-form
   before-update-form
   after-update-form
-  endp-form)
+  while-form)
 
 (defstruct list-collector
   head
@@ -116,6 +116,9 @@
                (not (null var)))
     (loop-error "~S is not variable" var)))
 
+(defun add-temporary-variable (var form)
+  (push (list var form) *temporary-variables*))
+
 (defun type-spec ()
   (case (lookahead)
     ((cl:fixnum cl:float cl:t cl:nil)
@@ -165,17 +168,17 @@
          step-op
          while-op)
     (when form2-gsym
-      (push (list form2-gsym form2) *temporary-variables*))
+      (add-temporary-variable form2-gsym form2))
     (when by-form-gsym
-      (push (list by-form-gsym by-form) *temporary-variables*))
+      (add-temporary-variable by-form-gsym by-form))
     (cond ((and (member first-op '(:from :upfrom))
                 (member second-op '(:to :upto :below)))
            (setf step-op '+
-                 while-op (if (eq second-op :below) '>= '>)))
+                 while-op (if (eq second-op :below) '< '<=)))
           ((and (member first-op '(:from :downfrom))
                 (member second-op '(:to :downto :above)))
            (setf step-op '-
-                 while-op (if (eq second-op :above) '<= '<)))
+                 while-op (if (eq second-op :above) '> '>=)))
           (t
            (loop-error "The combination of ~S and ~S is invalid" first-op second-op)))
     (setf *for-clauses*
@@ -186,7 +189,7 @@
                                                                       ,(or by-form-gsym
                                                                            by-form
                                                                            1))
-                                        :endp-form `(,while-op ,var
+                                        :while-form `(,while-op ,var
                                                                 ,(or form2-gsym
                                                                      form2))))))))
 
@@ -213,7 +216,7 @@
                  (list (make-for-clause :var temporary-var
                                         :init-form list-form
                                         :after-update-form `(cdr ,temporary-var)
-                                        :endp-form `(null ,temporary-var)))
+                                        :while-form temporary-var))
                  (list (make-for-clause :var var
                                         :init-form nil
                                         :before-update-form `(car ,temporary-var)))))))
@@ -225,18 +228,18 @@
                  (list (make-for-clause :var var
                                         :init-form list-form
                                         :after-update-form `(cdr ,var)
-                                        :endp-form `(null ,var)))))))
+                                        :while-form var))))))
 
 (defun parse-for-as-across (var)
   (let ((vector-form (next-exp))
         (vector-var (cl:gensym #"VECTOR"))
         (index-var (cl:gensym #"INDEX"))
         (length-var (cl:gensym #"LENGTH")))
-    (push (list vector-var vector-form) *temporary-variables*)
-    (push (list length-var `(length ,vector-var)) *temporary-variables*)
+    (add-temporary-variable vector-var vector-form)
+    (add-temporary-variable length-var `(length ,vector-var))
     (setf *for-clauses*
           (nconc *for-clauses*
-                 (list (make-for-clause :endp-form `(>= ,index-var ,length-var)))))
+                 (list (make-for-clause :while-form `(< ,index-var ,length-var)))))
     (setf *for-clauses*
           (nconc *for-clauses*
                  (list
@@ -449,7 +452,7 @@
      (next-exp)
      `(when ,(next-exp)
         (go ,*loop-end-tag*)))
-    ((:repeat))
+    #+(or)((:repeat)) ;TODO
     ((:always)
      (next-exp)
      (push `(return t) *result-forms*)
@@ -523,9 +526,9 @@
                ,@*initially-forms*
                ,loop-start
                ,@(mapcan (lambda (for-clause)
-                           (let ((endp-form (for-clause-endp-form for-clause)))
-                             (when endp-form
-                               (list `(when ,endp-form
+                           (let ((while-form (for-clause-while-form for-clause)))
+                             (when while-form
+                               (list `(unless ,while-form
                                         (go ,*loop-end-tag*))))))
                   *for-clauses*)
                ,@(mapcan (lambda (for-clause)
