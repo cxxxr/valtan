@@ -24,13 +24,19 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
   init-form
   before-update-form
   after-update-form
-  while-form)
+  endp-form)
 
-(defstruct collector
+(defstruct list-collector
   head
   tail)
 
-(defmacro with-collector ((head tail var) &body body)
+(defstruct sum-counter
+  var)
+
+(defstruct maxmin-collector
+  var)
+
+(defmacro with-list-collector ((head tail var) &body body)
   `(let* ((,head (list nil))
           (,tail ,head)
           ,@(when var `(,var)))
@@ -38,16 +44,44 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
      ,@(unless var `((cdr ,head)))))
 
 (defmacro collecting (head tail value var kind)
-  (let ((g-value (gensym)))
+  `(progn
+     (setf (cdr ,tail)
+           ,(ecase kind
+              (:collect `(list ,value))
+              (:append `(copy-list ,value))
+              (:nconc value)))
+     (setf ,tail (cdr ,tail))
+     ,@(when var
+         `((setf ,var (cdr ,head))))))
+
+(defmacro with-sum-counter ((counter-var var) &body body)
+  `(let ((,counter-var 0))
+     ,@body
+     ,@(unless var `(,counter-var))))
+
+(defmacro sum-count (counter-var value kind)
+  (ecase kind
+    (:count
+     `(when ,value
+        (setq ,counter-var (+ ,counter-var 1))))
+    (:sum
+     `(setq ,counter-var (+ ,counter-var ,value)))))
+
+(defmacro with-maxmin-collector ((maxmin-var var) &body body)
+  `(let ((,maxmin-var nil))
+     ,@body
+     ,@(unless var `(,maxmin-var))))
+
+(defmacro collect-maxmin (maxmin-var value kind)
+  (let ((g-value (gensym "VALUE")))
     `(let ((,g-value ,value))
-       (setf (cdr ,tail)
-             ,(ecase kind
-                (:collect `(list ,g-value))
-                (:append `(copy-list ,g-value))
-                (:nconc g-value)))
-       (setf ,tail (cdr ,tail))
-       ,@(when var
-           `((setf ,var (cdr ,head)))))))
+       (when (or (null ,maxmin-var)
+                 (,(ecase kind
+                     (:max '<)
+                     (:min '>))
+                  ,maxmin-var
+                  ,g-value))
+         (setq ,maxmin-var ,g-value)))))
 
 (defun loop-error (msg &rest args)
   (apply #'error msg args))
@@ -138,11 +172,11 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
     (cond ((and (member first-op '(:from :upfrom))
                 (member second-op '(:to :upto :below)))
            (setf step-op '+
-                 while-op (if (eq second-op :below) '< '<=)))
+                 while-op (if (eq second-op :below) '>= '>)))
           ((and (member first-op '(:from :downfrom))
                 (member second-op '(:to :downto :above)))
            (setf step-op '-
-                 while-op (if (eq second-op :above) '> '>=)))
+                 while-op (if (eq second-op :above) '<= '<)))
           (t
            (loop-error "The combination of ~S and ~S is invalid" first-op second-op)))
     (setf *for-clauses*
@@ -153,7 +187,7 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
                                                                       ,(or by-form-gsym
                                                                            by-form
                                                                            1))
-                                        :while-form `(,while-op ,var
+                                        :endp-form `(,while-op ,var
                                                                 ,(or form2-gsym
                                                                      form2))))))))
 
@@ -180,7 +214,7 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
                  (list (make-for-clause :var temporary-var
                                         :init-form list-form
                                         :after-update-form `(cdr ,temporary-var)
-                                        :while-form `(null ,temporary-var)))
+                                        :endp-form `(null ,temporary-var)))
                  (list (make-for-clause :var var
                                         :init-form nil
                                         :before-update-form `(car ,temporary-var)))))))
@@ -192,7 +226,7 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
                  (list (make-for-clause :var var
                                         :init-form list-form
                                         :after-update-form `(cdr ,var)
-                                        :while-form `(null ,var)))))))
+                                        :endp-form `(null ,var)))))))
 
 (defun parse-for-as-across (var)
   (let ((vector-form (next-exp))
@@ -292,26 +326,57 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
       (check-variable var)
       var)))
 
+(defmacro select-accumulator ((kind into) &body body)
+  (let ((g-kind/accumulator (gensym "KIND/ACCUMULATOR"))
+        (g-kind (gensym "KIND"))
+        (g-into (gensym "INTO")))
+    `(let ((,g-kind/accumulator (gethash into *accumulators*))
+           (,g-kind ,kind)
+           (,g-into ,into))
+       (cond (,g-kind/accumulator
+              ;; TODO: loop-error
+              (assert (eq (car ,g-kind/accumulator) ,g-kind))
+              (cdr ,g-kind/accumulator))
+             (t
+              (let ((accumulator (progn ,@body)))
+                (setf (gethash ,g-into *accumulators*)
+                      (cons ,g-kind accumulator))
+                accumulator))))))
+
 (defun parse-collect-clause (kind)
   (let ((form-or-it (parse-form-or-it))
         (into (parse-into-clause)))
-    (let* ((kind/accumulator (gethash into *accumulators*))
-           (collector
-             (cond (kind/accumulator
-                    ;; TODO: loop-error
-                    (assert (eq (car kind/accumulator) kind))
-                    (cdr kind/accumulator))
-                   (t
-                    (let ((collector (make-collector :head (gensym "LIST-HEAD")
-                                                     :tail (gensym "LIST-TAIL"))))
-                      (setf (gethash into *accumulators*)
-                            (cons kind collector))
-                      collector)))))
-      (push `(collecting ,(collector-head collector)
-                         ,(collector-tail collector)
+    (let ((list-collector
+            (select-accumulator (kind into)
+              (make-list-collector :head (gensym "LIST-HEAD")
+                                   :tail (gensym "LIST-TAIL")))))
+      (push `(collecting ,(list-collector-head list-collector)
+                         ,(list-collector-tail list-collector)
                          ,form-or-it
                          ,into
                          ,kind)
+            *loop-body*))))
+
+(defun parse-count-clause (kind)
+  (let ((form-or-it (parse-form-or-it))
+        (into (parse-into-clause)))
+    (let ((sum-counter
+            (select-accumulator (kind into)
+              (make-sum-counter :var (or into (gensym "SUM-COUNTER"))))))
+      (push `(sum-count ,(sum-counter-var sum-counter)
+                        ,form-or-it
+                        ,kind)
+            *loop-body*))))
+
+(defun parse-maxmin-clause (kind)
+  (let ((form-or-it (parse-form-or-it))
+        (into (parse-into-clause)))
+    (let ((maxmin-collector
+            (select-accumulator (kind into)
+              (make-maxmin-collector :var (or into (gensym "MAXMIN-COLLECTOR"))))))
+      (push `(collect-maxmin ,(maxmin-collector-var maxmin-collector)
+                             ,form-or-it
+                             ,kind)
             *loop-body*))))
 
 (defun parse-accumulation-clause (exp)
@@ -325,10 +390,18 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
     ((:nconc :nconcing)
      (next-exp)
      (parse-collect-clause :nconc))
-    ((:count :counting))
-    ((:sum :summing))
-    ((:maximize :maximizing))
-    ((:minimize :minimizing))))
+    ((:count :counting)
+     (next-exp)
+     (parse-count-clause :count))
+    ((:sum :summing)
+     (next-exp)
+     (parse-count-clause :sum))
+    ((:maximize :maximizing)
+     (next-exp)
+     (parse-maxmin-clause :max))
+    ((:minimize :minimizing)
+     (next-exp)
+     (parse-maxmin-clause :min))))
 
 (defun parse-conditional-clause (exp)
   (declare (ignore exp))
@@ -391,9 +464,9 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
                ,@*initially-forms*
                ,loop-start
                ,@(mapcan (lambda (for-clause)
-                           (let ((while-form (for-clause-while-form for-clause)))
-                             (when while-form
-                               (list `(unless ,while-form
+                           (let ((endp-form (for-clause-endp-form for-clause)))
+                             (when endp-form
+                               (list `(when ,endp-form
                                         (go ,*loop-end-tag*))))))
                   *for-clauses*)
                ,@(mapcan (lambda (for-clause)
@@ -415,11 +488,21 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
       (maphash (lambda (name kind/accumulator)
                  (let ((accumulator (cdr kind/accumulator)))
                    (typecase accumulator
-                     (collector
+                     (list-collector
                       (setq tagbody-loop-form
-                            `(with-collector (,(collector-head accumulator)
-                                              ,(collector-tail accumulator)
-                                              ,name)
+                            `(with-list-collector (,(list-collector-head accumulator)
+                                                   ,(list-collector-tail accumulator)
+                                                   ,name)
+                               ,tagbody-loop-form)))
+                     (sum-counter
+                      (setq tagbody-loop-form
+                            `(with-sum-counter (,(sum-counter-var accumulator)
+                                                ,name)
+                               ,tagbody-loop-form)))
+                     (maxmin-collector
+                      (setq tagbody-loop-form
+                            `(with-maxmin-collector (,(maxmin-collector-var accumulator)
+                                                     ,name)
                                ,tagbody-loop-form))))))
                *accumulators*)
       `(block ,*named*
