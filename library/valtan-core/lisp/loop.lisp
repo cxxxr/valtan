@@ -156,42 +156,84 @@
           (next-exp)
           (return)))))
 
-(defun parse-for-as-arithmetic (var first-op)
-  (let* ((form1 (next-exp))
-         (second-op (to-keyword (next-exp)))
-         (form2 (next-exp))
-         (by-form (when (eq (ensure-keyword (lookahead)) :by)
-                    (next-exp)
-                    (next-exp)))
-         (form2-gsym (when (consp form2) (gensym)))
-         (by-form-gsym (when (consp by-form) (gensym)))
-         step-op
-         while-op)
-    (when form2-gsym
-      (add-temporary-variable form2-gsym form2))
-    (when by-form-gsym
-      (add-temporary-variable by-form-gsym by-form))
-    (cond ((and (member first-op '(:from :upfrom))
-                (member second-op '(:to :upto :below)))
-           (setf step-op '+
-                 while-op (if (eq second-op :below) '< '<=)))
-          ((and (member first-op '(:from :downfrom))
-                (member second-op '(:to :downto :above)))
-           (setf step-op '-
-                 while-op (if (eq second-op :above) '> '>=)))
-          (t
-           (loop-error "The combination of ~S and ~S is invalid" first-op second-op)))
-    (setf *for-clauses*
-          (nconc *for-clauses*
-                 (list (make-for-clause :var var
-                                        :init-form form1
-                                        :after-update-form `(,step-op ,var
-                                                                      ,(or by-form-gsym
-                                                                           by-form
-                                                                           1))
-                                        :while-form `(,while-op ,var
-                                                                ,(or form2-gsym
-                                                                     form2))))))))
+(defun parse-for-as-arithmetic-keywords ()
+  (let ((params nil))
+    (do ((op (lookahead) (next-exp)))
+        (nil)
+      (case (ensure-keyword op)
+        ((:from :downfrom :upfrom :to :upto :downto :below :above :by)
+         (next-exp)
+         (setf (getf params op) (next-exp)))
+        (otherwise
+         (return nil))))
+    params))
+
+(defun parse-for-as-arithmetic (var)
+  (flet ((value (form)
+           (if (consp form)
+               (let ((var (gensym)))
+                 (add-temporary-variable var form))
+               form))
+         (combination-error (key1 key2)
+           (loop-error "The combination of ~S and ~S is invalid" key1 key2)))
+    (destructuring-bind (&key
+                         (from nil from-p)
+                         (downfrom nil downfrom-p)
+                         (upfrom nil upfrom-p)
+                         (to nil to-p)
+                         (upto nil upto-p)
+                         (downto nil downto-p)
+                         (below nil below-p)
+                         (above nil above-p)
+                         (by 1 by-p))
+        (parse-for-as-arithmetic-keywords)
+      (let ((for-clause
+              (cond ((and (or from-p downfrom-p)
+                          (or downto-p above-p))
+                     (when (and from-p downfrom-p)
+                       (combination-error :from :downfrom))
+                     (when (and downto-p above-p)
+                       (combination-error :downto :above))
+                     (make-for-clause :var var
+                                      :init-form (or from downfrom 0)
+                                      :while-form (cond (downto-p
+                                                         `(>= ,var ,(value downto)))
+                                                        (above-p
+                                                         `(> ,var ,(value above))))
+                                      :after-update-form `(- ,var ,(value by))))
+                    ((or from-p
+                         upfrom-p
+                         to-p
+                         upto-p
+                         below-p
+                         by-p)
+                     (when (and from-p upfrom-p)
+                       (combination-error :from :upfrom))
+                     (when to-p
+                       (when below-p
+                         (combination-error :to :below))
+                       (when upto-p
+                         (combination-error :to :upto)))
+                     (when (and below-p upto-p)
+                       (combination-error :below :upto))
+                     (let ((form2 (or to upto below)))
+                       (make-for-clause :var var
+                                        :init-form (or from upfrom 0)
+                                        :while-form (cond (to-p
+                                                           `(<= ,var ,(value form2)))
+                                                          (below-p
+                                                           `(< ,var ,(value form2))))
+                                        :after-update-form `(+ ,var ,(value by)))))
+                    (downfrom-p
+                     (make-for-clause :var var
+                                      :init-form downfrom
+                                      :while-form nil
+                                      :after-update-form `(- ,var ,(value by))))
+                    (t
+                     (loop-error "invalid for-as-arithmetic clause")))))
+        (setf *for-clauses*
+              (nconc *for-clauses*
+                     (list for-clause)))))))
 
 (defun parse-for-as-equals-then (var)
   (let* ((init-form (next-exp))
@@ -258,20 +300,24 @@
   (let ((var (next-exp)))
     (check-variable var)
     (type-spec)
-    (let ((name (to-keyword (next-exp))))
-      (ecase name
-        ((:from :upfrom :downfrom)
-         (parse-for-as-arithmetic var name))
-        ((:=)
-         (parse-for-as-equals-then var))
-        ((:in)
-         (parse-for-as-in-list var))
-        ((:on)
-         (parse-for-as-on-list var))
-        ((:across)
-         (parse-for-as-across var))
-        ((:being)
-         (parse-for-as-hash-or-package var))))))
+    (case (to-keyword (lookahead))
+      ((:=)
+       (next-exp)
+       (parse-for-as-equals-then var))
+      ((:in)
+       (next-exp)
+       (parse-for-as-in-list var))
+      ((:on)
+       (next-exp)
+       (parse-for-as-on-list var))
+      ((:across)
+       (next-exp)
+       (parse-for-as-across var))
+      ((:being)
+       (next-exp)
+       (parse-for-as-hash-or-package var))
+      (otherwise
+       (parse-for-as-arithmetic var)))))
 
 (defun parse-initial-final-clause (exp)
   (case exp
