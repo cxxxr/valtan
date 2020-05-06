@@ -37,10 +37,14 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
      ,@body
      ,@(unless var `((cdr ,head)))))
 
-(defmacro collecting (head tail value var)
+(defmacro collecting (head tail value var kind)
   (let ((g-value (gensym)))
     `(let ((,g-value ,value))
-       (setf (cdr ,tail) (list ,g-value))
+       (setf (cdr ,tail)
+             ,(ecase kind
+                (:collect `(list ,g-value))
+                (:append `(copy-list ,g-value))
+                (:nconc g-value)))
        (setf ,tail (cdr ,tail))
        ,@(when var
            `((setf ,var (cdr ,head)))))))
@@ -288,34 +292,39 @@ cl::(declaim (optimize (speed 0) (safety 3) (debug 3)))
       (check-variable var)
       var)))
 
-(defun parse-collect-clause ()
+(defun parse-collect-clause (kind)
   (let ((form-or-it (parse-form-or-it))
         (into (parse-into-clause)))
     (let* ((kind/accumulator (gethash into *accumulators*))
            (collector
              (cond (kind/accumulator
                     ;; TODO: loop-error
-                    (assert (eq (car kind/accumulator) :collect))
+                    (assert (eq (car kind/accumulator) kind))
                     (cdr kind/accumulator))
                    (t
                     (let ((collector (make-collector :head (gensym "LIST-HEAD")
                                                      :tail (gensym "LIST-TAIL"))))
                       (setf (gethash into *accumulators*)
-                            (cons :collect collector))
+                            (cons kind collector))
                       collector)))))
       (push `(collecting ,(collector-head collector)
                          ,(collector-tail collector)
                          ,form-or-it
-                         ,into)
+                         ,into
+                         ,kind)
             *loop-body*))))
 
 (defun parse-accumulation-clause (exp)
   (case exp
     ((:collect :collecting)
      (next-exp)
-     (parse-collect-clause))
-    ((:append :appending))
-    ((:nconc :nconcing))
+     (parse-collect-clause :collect))
+    ((:append :appending)
+     (next-exp)
+     (parse-collect-clause :append))
+    ((:nconc :nconcing)
+     (next-exp)
+     (parse-collect-clause :nconc))
     ((:count :counting))
     ((:sum :summing))
     ((:maximize :maximizing))
