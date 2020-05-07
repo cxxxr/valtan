@@ -76,7 +76,7 @@
                           (%push (cl:list supplied-value `(cl:getf ,path ,key ,default))
                            *db-bindings*)
                           (cl:when (cl:= len 3)
-                            (%push (cl:list (cl:third x) `(eq ,supplied-value ,default))
+                            (%push (cl:list (cl:third x) `(not (eq ,supplied-value ,default)))
                              *db-bindings*))
                           (%push
                            (cl:list (cl:first x)
