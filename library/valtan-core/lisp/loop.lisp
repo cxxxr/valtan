@@ -158,9 +158,9 @@
 
 (defun parse-for-as-arithmetic-keywords ()
   (let ((params nil))
-    (do ((op (lookahead) (next-exp)))
+    (do ((op (lookahead) (lookahead)))
         (nil)
-      (case (ensure-keyword op)
+      (case (setq op (ensure-keyword op))
         ((:from :downfrom :upfrom :to :upto :downto :below :above :by)
          (next-exp)
          (setf (getf params op) (next-exp)))
