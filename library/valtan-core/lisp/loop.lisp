@@ -189,15 +189,18 @@
         (parse-for-as-arithmetic-keywords)
       (let ((for-clause
               (cond ((and (or from-p downfrom-p)
-                          (or downto-p above-p))
+                          (or to-p downto-p above-p))
                      (when (and from-p downfrom-p)
                        (combination-error :from :downfrom))
                      (when (and downto-p above-p)
                        (combination-error :downto :above))
                      (make-for-clause :var var
                                       :init-form (or from downfrom 0)
-                                      :while-form (cond (downto-p
-                                                         `(>= ,var ,(value downto)))
+                                      :while-form (cond ((or downto-p to-p)
+                                                         `(>= ,var
+                                                              ,(if downto-p
+                                                                   (value downto)
+                                                                   (value to))))
                                                         (above-p
                                                          `(> ,var ,(value above))))
                                       :after-update-form `(- ,var ,(value by))))
