@@ -188,7 +188,8 @@
                          (by 1 by-p))
         (parse-for-as-arithmetic-keywords)
       (let ((for-clause
-              (cond ((and (or from-p downfrom-p)
+              (cond ((and (not (and from-p to-p))
+                          (or from-p downfrom-p)
                           (or to-p downto-p above-p))
                      (when (and from-p downfrom-p)
                        (combination-error :from :downfrom))
