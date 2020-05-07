@@ -219,7 +219,7 @@
                      (let ((form2 (or to upto below)))
                        (make-for-clause :var var
                                         :init-form (or from upfrom 0)
-                                        :while-form (cond (to-p
+                                        :while-form (cond ((or to-p upto-p)
                                                            `(<= ,var ,(value form2)))
                                                           (below-p
                                                            `(< ,var ,(value form2))))
