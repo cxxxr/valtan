@@ -1,6 +1,5 @@
 (cl:defpackage :valtan-core/loop
-  (:use :cl)
-  (:shadowing-import-from :valtan-core :gensym))
+  (:use :cl))
 (cl:in-package :valtan-core/loop)
 
 (defvar *loop-exps*)
@@ -72,7 +71,7 @@
      ,@(unless var `(,maxmin-var))))
 
 (defmacro collect-maxmin (maxmin-var value kind)
-  (let ((g-value (cl:gensym #"VALUE")))
+  (let ((g-value (gensym #"VALUE")))
     `(let ((,g-value ,value))
        (when (or (null ,maxmin-var)
                  (,(ecase kind
@@ -119,6 +118,9 @@
 (defun add-temporary-variable (var form)
   (push (list var form) *temporary-variables*))
 
+(defun add-for-clause (for-clause)
+  (push for-clause *for-clauses*))
+
 (defun type-spec ()
   (case (lookahead)
     ((cl:fixnum cl:float cl:t cl:nil)
@@ -128,7 +130,7 @@
      (next-exp))))
 
 (defun it ()
-  (cl:gensym #"IT"))
+  (gensym #"IT"))
 
 (defun parse-compound-forms ()
   (do ((forms nil))
@@ -169,75 +171,83 @@
     params))
 
 (defun parse-for-as-arithmetic (var)
-  (flet ((value (form)
-           (if (consp form)
-               (let ((var (gensym)))
-                 (add-temporary-variable var form))
-               form))
-         (combination-error (key1 key2)
-           (loop-error "The combination of ~S and ~S is invalid" key1 key2)))
-    (destructuring-bind (&key
-                         (from nil from-p)
-                         (downfrom nil downfrom-p)
-                         (upfrom nil upfrom-p)
-                         (to nil to-p)
-                         (upto nil upto-p)
-                         (downto nil downto-p)
-                         (below nil below-p)
-                         (above nil above-p)
-                         (by 1 by-p))
-        (parse-for-as-arithmetic-keywords)
-      (let ((for-clause
-              (cond ((and (not (and from-p to-p))
-                          (or from-p downfrom-p)
-                          (or to-p downto-p above-p))
-                     (when (and from-p downfrom-p)
-                       (combination-error :from :downfrom))
-                     (when (and downto-p above-p)
-                       (combination-error :downto :above))
-                     (make-for-clause :var var
-                                      :init-form (or from downfrom 0)
-                                      :while-form (cond ((or downto-p to-p)
-                                                         `(>= ,var
-                                                              ,(if downto-p
-                                                                   (value downto)
-                                                                   (value to))))
-                                                        (above-p
-                                                         `(> ,var ,(value above))))
-                                      :after-update-form `(- ,var ,(value by))))
-                    ((or from-p
-                         upfrom-p
-                         to-p
-                         upto-p
-                         below-p
-                         by-p)
-                     (when (and from-p upfrom-p)
-                       (combination-error :from :upfrom))
-                     (when to-p
-                       (when below-p
-                         (combination-error :to :below))
-                       (when upto-p
-                         (combination-error :to :upto)))
-                     (when (and below-p upto-p)
-                       (combination-error :below :upto))
-                     (let ((form2 (or to upto below)))
-                       (make-for-clause :var var
-                                        :init-form (or from upfrom 0)
-                                        :while-form (cond ((or to-p upto-p)
-                                                           `(<= ,var ,(value form2)))
-                                                          (below-p
-                                                           `(< ,var ,(value form2))))
-                                        :after-update-form `(+ ,var ,(value by)))))
-                    (downfrom-p
-                     (make-for-clause :var var
-                                      :init-form downfrom
-                                      :while-form nil
-                                      :after-update-form `(- ,var ,(value by))))
-                    (t
-                     (loop-error "invalid for-as-arithmetic clause")))))
-        (setf *for-clauses*
-              (nconc *for-clauses*
-                     (list for-clause)))))))
+  (let ((init-keyword nil)
+        (end-keyword nil)
+        (init-value 0)
+        (end-value nil)
+        (dir nil)
+        (dir-keyword nil)
+        (then-or-equal nil)
+        (by-value nil))
+    (labels ((value (form name)
+               (if (consp form)
+                   (let ((var (gensym (string name))))
+                     (add-temporary-variable var form)
+                     var)
+                   form))
+             (combination-error (key1 key2)
+               (loop-error "The combination of ~S and ~S is invalid" key1 key2))
+             (check-init-form (keyword)
+               (when init-keyword
+                 (combination-error init-keyword keyword)))
+             (check-end-form (keyword)
+               (when end-keyword
+                 (combination-error end-keyword keyword)))
+             (check-by-form ()
+               (when by-value
+                 (combination-error :by :by)))
+             (check-dir (dir1 keyword)
+               (when (and dir1 dir (not (eq dir1 dir)))
+                 (combination-error keyword dir-keyword))))
+      (do ()
+          (nil)
+        (let ((keyword (ensure-keyword (lookahead))))
+          (case keyword
+            ((:from :upfrom :downfrom)
+             (next-exp)
+             (check-init-form keyword)
+             (let ((dir1 (case keyword
+                           (:from nil)
+                           (:upfrom :up)
+                           (:downfrom :down))))
+               (check-dir dir1 keyword)
+               (setf init-keyword keyword
+                     init-value (value (next-exp) keyword)
+                     dir (or dir1 dir)
+                     dir-keyword keyword)))
+            ((:to :upto :downto :below :above)
+             (next-exp)
+             (check-end-form keyword)
+             (let ((dir1 (case keyword
+                           (:to nil)
+                           ((:upto :below) :up)
+                           ((:downto :above) :down))))
+               (check-dir dir1 keyword)
+               (setf end-keyword keyword
+                     end-value (value (next-exp) keyword)
+                     then-or-equal (case keyword
+                                     ((:to :upto :downto) t)
+                                     (otherwise nil))
+                     dir (or dir1 dir)
+                     dir-keyword keyword)))
+            (:by
+             (next-exp)
+             (check-by-form)
+             (setf by-value (value (next-exp) keyword)))
+            (otherwise
+             (return)))))
+      (add-for-clause
+       (make-for-clause :var var
+                        :init-form init-value
+                        :while-form (if end-value
+                                        `(,(if (eq dir :down)
+                                               (if then-or-equal '>= '>)
+                                               (if then-or-equal '<= '<))
+                                          ,var
+                                          ,end-value))
+                        :after-update-form `(,(if (eq dir :down) '- '+)
+                                             ,var
+                                             ,(or by-value 1)))))))
 
 (defun parse-for-as-equals-then (var)
   (let* ((init-form (next-exp))
@@ -248,53 +258,42 @@
                  (next-exp)
                  (next-exp))
                init-form)))
-    (setf *for-clauses*
-          (nconc *for-clauses*
-                 (list (make-for-clause :var var
-                                        :init-form init-form
-                                        :after-update-form update-form))))))
+    (add-for-clause (make-for-clause :var var
+                                     :init-form init-form
+                                     :after-update-form update-form))))
 
 (defun parse-for-as-in-list (var)
   (let ((list-form (next-exp))
         (temporary-var (gensym)))
-    (setf *for-clauses*
-          (nconc *for-clauses*
-                 (list (make-for-clause :var temporary-var
-                                        :init-form list-form
-                                        :after-update-form `(cdr ,temporary-var)
-                                        :while-form temporary-var))
-                 (list (make-for-clause :var var
-                                        :init-form nil
-                                        :before-update-form `(car ,temporary-var)))))))
+    (add-for-clause (make-for-clause :var temporary-var
+                                     :init-form list-form
+                                     :after-update-form `(cdr ,temporary-var)
+                                     :while-form temporary-var))
+    (add-for-clause (make-for-clause :var var
+                                     :init-form nil
+                                     :before-update-form `(car ,temporary-var)))))
 
 (defun parse-for-as-on-list (var)
   (let ((list-form (next-exp)))
-    (setf *for-clauses*
-          (nconc *for-clauses*
-                 (list (make-for-clause :var var
-                                        :init-form list-form
-                                        :after-update-form `(cdr ,var)
-                                        :while-form var))))))
+    (add-for-clause (make-for-clause :var var
+                                     :init-form list-form
+                                     :after-update-form `(cdr ,var)
+                                     :while-form var))))
 
 (defun parse-for-as-across (var)
   (let ((vector-form (next-exp))
-        (vector-var (cl:gensym #"VECTOR"))
-        (index-var (cl:gensym #"INDEX"))
-        (length-var (cl:gensym #"LENGTH")))
+        (vector-var (gensym #"VECTOR"))
+        (index-var (gensym #"INDEX"))
+        (length-var (gensym #"LENGTH")))
     (add-temporary-variable vector-var vector-form)
     (add-temporary-variable length-var `(length ,vector-var))
-    (setf *for-clauses*
-          (nconc *for-clauses*
-                 (list (make-for-clause :while-form `(< ,index-var ,length-var)))))
-    (setf *for-clauses*
-          (nconc *for-clauses*
-                 (list
-                  (make-for-clause :var var
-                                   :init-form nil
-                                   :before-update-form `(aref ,vector-var ,index-var))
-                  (make-for-clause :var index-var
-                                   :init-form 0
-                                   :before-update-form `(+ ,index-var 1)))))))
+    (add-for-clause (make-for-clause :while-form `(< ,index-var ,length-var)))
+    (add-for-clause (make-for-clause :var var
+                                     :init-form nil
+                                     :before-update-form `(aref ,vector-var ,index-var)))
+    (add-for-clause (make-for-clause :var index-var
+                                     :init-form 0
+                                     :before-update-form `(+ ,index-var 1)))))
 
 (defun parse-for-as-hash-or-package (var)
   (declare (ignore var))
@@ -381,9 +380,9 @@
       var)))
 
 (defmacro select-accumulator ((kind into) &body body)
-  (let ((g-kind/accumulator (cl:gensym #"KIND/ACCUMULATOR"))
-        (g-kind (cl:gensym #"KIND"))
-        (g-into (cl:gensym #"INTO")))
+  (let ((g-kind/accumulator (gensym #"KIND/ACCUMULATOR"))
+        (g-kind (gensym #"KIND"))
+        (g-into (gensym #"INTO")))
     `(let ((,g-kind/accumulator (gethash into *accumulators*))
            (,g-kind ,kind)
            (,g-into ,into))
@@ -402,8 +401,8 @@
         (into (parse-into-clause)))
     (let ((list-collector
             (select-accumulator (kind into)
-              (make-list-collector :head (cl:gensym #"LIST-HEAD")
-                                   :tail (cl:gensym #"LIST-TAIL")))))
+              (make-list-collector :head (gensym #"LIST-HEAD")
+                                   :tail (gensym #"LIST-TAIL")))))
       `(collecting ,(list-collector-head list-collector)
                    ,(list-collector-tail list-collector)
                    ,form-or-it
@@ -415,7 +414,7 @@
         (into (parse-into-clause)))
     (let ((sum-counter
             (select-accumulator (kind into)
-              (make-sum-counter :var (or into (cl:gensym #"SUM-COUNTER"))))))
+              (make-sum-counter :var (or into (gensym #"SUM-COUNTER"))))))
       `(sum-count ,(sum-counter-var sum-counter)
                   ,form-or-it
                   ,kind))))
@@ -425,7 +424,7 @@
         (into (parse-into-clause)))
     (let ((maxmin-collector
             (select-accumulator (kind into)
-              (make-maxmin-collector :var (or into (cl:gensym #"MAXMIN-COLLECTOR"))))))
+              (make-maxmin-collector :var (or into (gensym #"MAXMIN-COLLECTOR"))))))
       `(collect-maxmin ,(maxmin-collector-var maxmin-collector)
                        ,form-or-it
                        ,kind))))
@@ -515,7 +514,7 @@
         (return nil)))
     ((:thereis)
      (next-exp)
-     (let ((it (cl:gensym #"THERE")))
+     (let ((it (gensym #"THERE")))
        `(let ((,it ,(next-exp)))
           (when ,it (return ,it)))))))
 
@@ -568,9 +567,10 @@
         (*accumulators* (make-hash-table))
         (*result-forms* '())
         (*loop-body* '())
-        (*loop-end-tag* (cl:gensym #"LOOP-END"))
-        (loop-start (cl:gensym #"LOOP-START")))
+        (*loop-end-tag* (gensym #"LOOP-END"))
+        (loop-start (gensym #"LOOP-START")))
     (parse-loop forms)
+    (setf *for-clauses* (nreverse *for-clauses*))
     (let ((tagbody-loop-form
             `(tagbody
                ,@*initially-forms*
@@ -620,18 +620,18 @@
                *accumulators*)
       `(block ,*named*
          (let* (,@*with-clauses*
+                ,@(nreverse *temporary-variables*)
                 ,@(mapcar (lambda (for-clause)
                             (let ((var (for-clause-var for-clause))
                                   (init (for-clause-init-form for-clause)))
                               `(,var ,init)))
-                          *for-clauses*)
-                ,@(nreverse *temporary-variables*))
+                          *for-clauses*))
            ,tagbody-loop-form)))))
 
 (defun expand-loop (forms)
   (if (and forms (symbolp (car forms)))
       (expand-complex-loop forms)
-      (let ((tag (cl:gensym #"LOOP-START")))
+      (let ((tag (gensym #"LOOP-START")))
         `(block nil
            (tagbody
              ,tag
