@@ -122,12 +122,12 @@
   (push for-clause *for-clauses*))
 
 (defun type-spec ()
-  (case (lookahead)
-    ((cl:fixnum cl:float cl:t cl:nil)
-     (next-exp))
-    ((of-type)
-     (next-exp)
-     (next-exp))))
+  (let ((x (lookahead)))
+    (cond ((member x '(cl:fixnum cl:float cl:t cl:nil))
+           (next-exp))
+          ((eq (ensure-keyword x) :of-type)
+           (next-exp)
+           (next-exp)))))
 
 (defun it ()
   (gensym #"IT"))
