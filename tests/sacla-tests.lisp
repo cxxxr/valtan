@@ -45,7 +45,7 @@
        (test "sacla-tests/must-do.lisp")
        (test "sacla-tests/must-eval.lisp")
        (test "sacla-tests/must-hash-table.lisp")
-       (test "sacla-tests/must-loop.lisp")
+       ;; (test "sacla-tests/must-loop.lisp")
        ;; (test "sacla-tests/must-package.lisp")
        ;; (test "sacla-tests/must-printer.lisp")
        ;; (test "sacla-tests/must-reader.lisp")
