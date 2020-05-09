@@ -411,7 +411,9 @@
           (value (p2-form rhs)))
       (embed-source-map hir)
       (cond ((hir-return-value-p hir)
-             (format nil "(~A=~A)" result value))
+             (let ((tmp-var (p2-temporary-var)))
+               (format *p2-emit-stream* "~A=(~A=~A);~%" result tmp-var value)
+               tmp-var))
             (t
              (format *p2-emit-stream* "~A=~A;~%" result value)
              #+(or)(p2-no-return))))))
