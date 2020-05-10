@@ -9,19 +9,14 @@
 (defvar *temporary-variables*)
 (defvar *initially-forms*)
 (defvar *finally-forms*)
-(defvar *for-clauses*)
+(defvar *loop-test-forms*)
+(defvar *before-update-forms*)
+(defvar *after-update-forms*)
 (defvar *result-forms*)
 
 (defvar *accumulators*)
 
 (defvar *loop-body*)
-
-(defstruct for-clause
-  var
-  init-form
-  before-update-form
-  after-update-form
-  while-form)
 
 (defstruct list-collector
   head
@@ -117,8 +112,14 @@
 (defun add-temporary-variable (var form)
   (push (list var form) *temporary-variables*))
 
-(defun add-for-clause (for-clause)
-  (push for-clause *for-clauses*))
+(defun add-loop-test-form (form)
+  (push form *loop-test-forms*))
+
+(defun add-before-update-form (form)
+  (push form *before-update-forms*))
+
+(defun add-after-update-form (form)
+  (push form *after-update-forms*))
 
 (defun once-only-value (form &optional name)
   (if (consp form)
@@ -252,18 +253,17 @@
              (setf by-value (once-only-value (next-exp) keyword)))
             (otherwise
              (return)))))
-      (add-for-clause
-       (make-for-clause :var var
-                        :init-form init-value
-                        :while-form (if end-value
-                                        `(,(if (eq dir :down)
-                                               (if then-or-equal '>= '>)
-                                               (if then-or-equal '<= '<))
-                                          ,var
-                                          ,end-value))
-                        :after-update-form `(,(if (eq dir :down) '- '+)
-                                             ,var
-                                             ,(or by-value 1)))))))
+      (add-temporary-variable var init-value)
+      (when end-value
+        (add-loop-test-form `(,(if (eq dir :down)
+                                   (if then-or-equal '>= '>)
+                                   (if then-or-equal '<= '<))
+                              ,var
+                              ,end-value)))
+      (add-after-update-form `(setq ,var
+                                    (,(if (eq dir :down) '- '+)
+                                     ,var
+                                     ,(or by-value 1)))))))
 
 (defun parse-for-as-equals-then (var)
   (let* ((init-form (next-exp))
@@ -274,9 +274,8 @@
                  (next-exp)
                  (next-exp))
                init-form)))
-    (add-for-clause (make-for-clause :var var
-                                     :init-form init-form
-                                     :after-update-form update-form))))
+    (add-temporary-variable var init-form)
+    (add-after-update-form `(setq ,var ,update-form))))
 
 (defun parse-for-as-by-clause ()
   (when (eq (ensure-keyword (lookahead)) :by)
@@ -301,21 +300,18 @@
   (let ((list-form (next-exp))
         (by-form (parse-for-as-by-clause))
         (temporary-var (gensym)))
-    (add-for-clause (make-for-clause :var temporary-var
-                                     :init-form list-form
-                                     :after-update-form (by-form by-form temporary-var)
-                                     :while-form temporary-var))
-    (add-for-clause (make-for-clause :var var
-                                     :init-form nil
-                                     :before-update-form `(car ,temporary-var)))))
+    (add-temporary-variable temporary-var list-form)
+    (add-after-update-form `(setq ,temporary-var ,(by-form by-form temporary-var)))
+    (add-loop-test-form temporary-var)
+    (add-temporary-variable var nil)
+    (add-before-update-form `(setq ,var (car ,temporary-var)))))
 
 (defun parse-for-as-on-list (var)
   (let ((list-form (next-exp))
         (by-form (parse-for-as-by-clause)))
-    (add-for-clause (make-for-clause :var var
-                                     :init-form list-form
-                                     :after-update-form (by-form by-form var)
-                                     :while-form `(consp ,var)))))
+    (add-temporary-variable var list-form)
+    (add-after-update-form `(setq ,var ,(by-form by-form var)))
+    (add-loop-test-form `(consp ,var))))
 
 (defun parse-for-as-across (var)
   (let ((vector-form (next-exp))
@@ -324,13 +320,11 @@
         (length-var (gensym #"LENGTH")))
     (add-temporary-variable vector-var vector-form)
     (add-temporary-variable length-var `(length ,vector-var))
-    (add-for-clause (make-for-clause :var var
-                                     :init-form nil
-                                     :before-update-form `(aref ,vector-var ,index-var)))
-    (add-for-clause (make-for-clause :var index-var
-                                     :init-form 0
-                                     :while-form `(< ,index-var ,length-var)
-                                     :before-update-form `(+ ,index-var 1)))))
+    (add-temporary-variable var nil)
+    (add-before-update-form `(setq ,var (aref ,vector-var ,index-var)))
+    (add-temporary-variable index-var 0)
+    (add-loop-test-form `(< ,index-var ,length-var))
+    (add-before-update-form `(setq ,index-var (+ ,index-var 1)))))
 
 (defun parse-for-as-hash-or-package (var)
   (declare (ignore var))
@@ -596,37 +590,26 @@
         (*initially-forms* '())
         (*finally-forms* '())
         (*temporary-variables* '())
-        (*for-clauses* '())
         (*accumulators* (make-hash-table))
         (*result-forms* '())
+        (*loop-test-forms* '())
+        (*before-update-forms* '())
+        (*after-update-forms* '())
         (*loop-body* '())
         (*loop-end-tag* (gensym #"LOOP-END"))
         (loop-start (gensym #"LOOP-START")))
     (parse-loop forms)
-    (setf *for-clauses* (nreverse *for-clauses*))
     (let ((tagbody-loop-form
             `(tagbody
                ,@(nreverse *initially-forms*)
                ,loop-start
-               ,@(mapcan (lambda (for-clause)
-                           (let ((while-form (for-clause-while-form for-clause)))
-                             (when while-form
-                               (list `(unless ,while-form
-                                        (go ,*loop-end-tag*))))))
-                  *for-clauses*)
-               ,@(mapcan (lambda (for-clause)
-                           (let ((var (for-clause-var for-clause))
-                                 (update (for-clause-before-update-form for-clause)))
-                             (when update
-                               (list `(setq ,var ,update)))))
-                  *for-clauses*)
+               ,@(mapcar (lambda (form)
+                           `(unless ,form
+                              (go ,*loop-end-tag*)))
+                   (nreverse *loop-test-forms*))
+               ,@(nreverse *before-update-forms*)
                ,@(nreverse *loop-body*)
-               ,@(mapcan (lambda (for-clause)
-                           (let ((var (for-clause-var for-clause))
-                                 (update (for-clause-after-update-form for-clause)))
-                             (when update
-                               (list `(setq ,var ,update)))))
-                  *for-clauses*)
+               ,@(nreverse *after-update-forms*)
                (go ,loop-start)
                ,*loop-end-tag*
                ,@(nreverse *finally-forms*)
@@ -653,12 +636,7 @@
                *accumulators*)
       (let ((temporary-variables (nreverse *temporary-variables*)))
         `(block ,*named*
-           (let* (,@temporary-variables
-                  ,@(mapcar (lambda (for-clause)
-                              (let ((var (for-clause-var for-clause))
-                                    (init (for-clause-init-form for-clause)))
-                                `(,var ,init)))
-                            *for-clauses*))
+           (let* (,@temporary-variables)
              (declare (ignorable ,@(mapcar #'car temporary-variables)))
              ,tagbody-loop-form))))))
 
