@@ -309,12 +309,12 @@
         (length-var (gensym #"LENGTH")))
     (add-temporary-variable vector-var vector-form)
     (add-temporary-variable length-var `(length ,vector-var))
-    (add-for-clause (make-for-clause :while-form `(< ,index-var ,length-var)))
     (add-for-clause (make-for-clause :var var
                                      :init-form nil
                                      :before-update-form `(aref ,vector-var ,index-var)))
     (add-for-clause (make-for-clause :var index-var
                                      :init-form 0
+                                     :while-form `(< ,index-var ,length-var)
                                      :before-update-form `(+ ,index-var 1)))))
 
 (defun parse-for-as-hash-or-package (var)
@@ -476,7 +476,7 @@
      (parse-maxmin-clause :min))))
 
 (defun parse-selectable-clause ()
-  (let ((exp (ensure-keyword (next-exp))))
+  (let ((exp (ensure-keyword (lookahead))))
     (or (parse-unconditional-clause exp)
         (parse-accumulation-clause exp)
         (parse-conditional-clause exp)
