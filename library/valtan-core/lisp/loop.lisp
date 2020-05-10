@@ -344,13 +344,11 @@
   (case exp
     ((:initially)
      (next-exp)
-     (setf *initially-forms*
-           (nconc *initially-forms* (parse-compound-forms)))
+     (push (parse-compound-forms) *initially-forms*)
      t)
     ((:finally)
      (next-exp)
-     (setf *finally-forms*
-           (nconc *finally-forms* (parse-compound-forms)))
+     (push (parse-compound-forms) *finally-forms*)
      t)))
 
 (defun parse-variable-clause ()
@@ -590,7 +588,7 @@
     (setf *for-clauses* (nreverse *for-clauses*))
     (let ((tagbody-loop-form
             `(tagbody
-               ,@*initially-forms*
+               ,@(nreverse *initially-forms*)
                ,loop-start
                ,@(mapcan (lambda (for-clause)
                            (let ((while-form (for-clause-while-form for-clause)))
@@ -613,7 +611,7 @@
                   *for-clauses*)
                (go ,loop-start)
                ,*loop-end-tag*
-               ,@*finally-forms*
+               ,@(nreverse *finally-forms*)
                ,@(nreverse *result-forms*))))
       (maphash (lambda (name kind/accumulator)
                  (let ((accumulator (cdr kind/accumulator)))
