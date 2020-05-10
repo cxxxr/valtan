@@ -192,6 +192,7 @@
     params))
 
 (defun parse-for-as-arithmetic (var)
+  (check-simple-var var)
   (let ((init-keyword nil)
         (end-keyword nil)
         (init-value 0)
@@ -337,7 +338,6 @@
 
 (defun parse-for-as-clause ()
   (let ((var (next-exp)))
-    (check-variable var)
     (type-spec)
     (case (to-keyword (lookahead))
       ((:=)
