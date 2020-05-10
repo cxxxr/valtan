@@ -145,18 +145,36 @@
        (nreverse forms))
     (push (next-exp) forms)))
 
+(defun gen-d-bind (d-var form)
+  (labels ((f (d-var value)
+             (cond ((null d-var))
+                   ((consp d-var)
+                    (let ((car-var (gensym #"CAR"))
+                          (cdr-var (gensym #"CDR")))
+                      (add-temporary-variable car-var `(car ,value))
+                      (add-temporary-variable cdr-var `(cdr ,value))
+                      (f (car d-var) car-var)
+                      (f (cdr d-var) cdr-var)))
+                   (t
+                    (unless (and (symbolp d-var)
+                                 (not (keywordp d-var)))
+                      (loop-error "~S is not variable" d-var))
+                    (add-temporary-variable d-var value)))))
+    (let ((var (gensym #"DESTRUCTURING-VAR")))
+      (add-temporary-variable var form)
+      (f d-var var))))
+
 (defun parse-with-clause ()
   (do ()
       (nil)
     (let ((var (next-exp)))
       (type-spec)
-      (let ((initial-form
-              (if (eq (to-keyword (lookahead)) :=)
-                  (progn
-                    (next-exp)
-                    (next-exp))
-                  nil)))
-        (add-temporary-variable var initial-form))
+      (gen-d-bind var
+                  (if (eq (to-keyword (lookahead)) :=)
+                      (progn
+                        (next-exp)
+                        (next-exp))
+                      nil))
       (if (eq (to-keyword (lookahead)) :and)
           (next-exp)
           (return)))))
@@ -633,14 +651,16 @@
                                                      ,name)
                                ,tagbody-loop-form))))))
                *accumulators*)
-      `(block ,*named*
-         (let* (,@(nreverse *temporary-variables*)
-                ,@(mapcar (lambda (for-clause)
-                            (let ((var (for-clause-var for-clause))
-                                  (init (for-clause-init-form for-clause)))
-                              `(,var ,init)))
-                          *for-clauses*))
-           ,tagbody-loop-form)))))
+      (let ((temporary-variables (nreverse *temporary-variables*)))
+        `(block ,*named*
+           (let* (,@temporary-variables
+                  ,@(mapcar (lambda (for-clause)
+                              (let ((var (for-clause-var for-clause))
+                                    (init (for-clause-init-form for-clause)))
+                                `(,var ,init)))
+                            *for-clauses*))
+             (declare (ignorable ,@(mapcar #'car temporary-variables)))
+             ,tagbody-loop-form))))))
 
 (defun expand-loop (forms)
   (if (and forms (symbolp (car forms)))
