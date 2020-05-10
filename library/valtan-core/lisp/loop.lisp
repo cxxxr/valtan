@@ -300,7 +300,7 @@
     (add-for-clause (make-for-clause :var var
                                      :init-form list-form
                                      :after-update-form (by-form by-form var)
-                                     :while-form var))))
+                                     :while-form `(consp ,var)))))
 
 (defun parse-for-as-across (var)
   (let ((vector-form (next-exp))
