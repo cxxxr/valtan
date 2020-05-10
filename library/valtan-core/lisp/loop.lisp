@@ -9,7 +9,6 @@
 (defvar *temporary-variables*)
 (defvar *initially-forms*)
 (defvar *finally-forms*)
-(defvar *with-clauses*)
 (defvar *for-clauses*)
 (defvar *result-forms*)
 
@@ -109,11 +108,11 @@
 (defun end-of-loop-p ()
   (null *loop-exps*))
 
-(defun check-variable (var)
-  (unless (and (symbolp var)
-               (not (keywordp var))
-               (not (null var)))
-    (loop-error "~S is not variable" var)))
+(defun check-simple-var (x)
+  (unless (and (symbolp x)
+               (not (keywordp x))
+               (not (null x)))
+    (loop-error "~S is not variable" x)))
 
 (defun add-temporary-variable (var form)
   (push (list var form) *temporary-variables*))
@@ -150,7 +149,6 @@
   (do ()
       (nil)
     (let ((var (next-exp)))
-      (check-variable var)
       (type-spec)
       (let ((initial-form
               (if (eq (to-keyword (lookahead)) :=)
@@ -158,7 +156,7 @@
                     (next-exp)
                     (next-exp))
                   nil)))
-        (push (list var initial-form) *with-clauses*))
+        (add-temporary-variable var initial-form))
       (if (eq (to-keyword (lookahead)) :and)
           (next-exp)
           (return)))))
@@ -396,7 +394,7 @@
   (when (eq (ensure-keyword (lookahead)) :into)
     (next-exp)
     (let ((var (next-exp)))
-      (check-variable var)
+      (check-simple-var var)
       var)))
 
 (defmacro select-accumulator ((kind into) &body body)
@@ -581,7 +579,6 @@
   (let ((*named* nil)
         (*initially-forms* '())
         (*finally-forms* '())
-        (*with-clauses* '())
         (*temporary-variables* '())
         (*for-clauses* '())
         (*accumulators* (make-hash-table))
@@ -639,8 +636,7 @@
                                ,tagbody-loop-form))))))
                *accumulators*)
       `(block ,*named*
-         (let* (,@(nreverse *with-clauses*)
-                ,@(nreverse *temporary-variables*)
+         (let* (,@(nreverse *temporary-variables*)
                 ,@(mapcar (lambda (for-clause)
                             (let ((var (for-clause-var for-clause))
                                   (init (for-clause-init-form for-clause)))
