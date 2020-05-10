@@ -158,9 +158,7 @@
                     (next-exp)
                     (next-exp))
                   nil)))
-        (setf *with-clauses*
-              (nconc *with-clauses*
-                     (list (list var initial-form)))))
+        (push (list var initial-form) *with-clauses*))
       (if (eq (to-keyword (lookahead)) :and)
           (next-exp)
           (return)))))
@@ -641,7 +639,7 @@
                                ,tagbody-loop-form))))))
                *accumulators*)
       `(block ,*named*
-         (let* (,@*with-clauses*
+         (let* (,@(nreverse *with-clauses*)
                 ,@(nreverse *temporary-variables*)
                 ,@(mapcar (lambda (for-clause)
                             (let ((var (for-clause-var for-clause))
