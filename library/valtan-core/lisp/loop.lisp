@@ -121,6 +121,13 @@
 (defun add-for-clause (for-clause)
   (push for-clause *for-clauses*))
 
+(defun once-only-value (form &optional name)
+  (if (consp form)
+      (let ((var (if name (gensym (string name)) (gensym))))
+        (add-temporary-variable var form)
+        var)
+      form))
+
 (defun type-spec ()
   (let ((x (lookahead)))
     (cond ((member x '(cl:fixnum cl:float cl:t cl:nil))
@@ -179,13 +186,7 @@
         (dir-keyword nil)
         (then-or-equal nil)
         (by-value nil))
-    (labels ((value (form name)
-               (if (consp form)
-                   (let ((var (gensym (string name))))
-                     (add-temporary-variable var form)
-                     var)
-                   form))
-             (combination-error (key1 key2)
+    (labels ((combination-error (key1 key2)
                (loop-error "The combination of ~S and ~S is invalid" key1 key2))
              (check-init-form (keyword)
                (when init-keyword
@@ -212,7 +213,7 @@
                            (:downfrom :down))))
                (check-dir dir1 keyword)
                (setf init-keyword keyword
-                     init-value (value (next-exp) keyword)
+                     init-value (once-only-value (next-exp) keyword)
                      dir (or dir1 dir)
                      dir-keyword keyword)))
             ((:to :upto :downto :below :above)
@@ -224,7 +225,7 @@
                            ((:downto :above) :down))))
                (check-dir dir1 keyword)
                (setf end-keyword keyword
-                     end-value (value (next-exp) keyword)
+                     end-value (once-only-value (next-exp) keyword)
                      then-or-equal (case keyword
                                      ((:to :upto :downto) t)
                                      (otherwise nil))
@@ -233,7 +234,7 @@
             (:by
              (next-exp)
              (check-by-form)
-             (setf by-value (value (next-exp) keyword)))
+             (setf by-value (once-only-value (next-exp) keyword)))
             (otherwise
              (return)))))
       (add-for-clause
@@ -262,22 +263,43 @@
                                      :init-form init-form
                                      :after-update-form update-form))))
 
+(defun parse-for-as-by-clause ()
+  (when (eq (ensure-keyword (lookahead)) :by)
+    (next-exp)
+    (next-exp)))
+
+(defun function-form-p (form)
+  (when (and (consp form)
+             (eq 'function (car form)))
+    (cadr form)))
+
+(defun by-form (by-form var)
+  (if by-form
+      (let ((function-name (function-form-p by-form)))
+        (if function-name
+            `(,function-name ,var)
+            `(funcall ,(once-only-value by-form)
+                      ,var)))
+      `(cdr ,var)))
+
 (defun parse-for-as-in-list (var)
   (let ((list-form (next-exp))
+        (by-form (parse-for-as-by-clause))
         (temporary-var (gensym)))
     (add-for-clause (make-for-clause :var temporary-var
                                      :init-form list-form
-                                     :after-update-form `(cdr ,temporary-var)
+                                     :after-update-form (by-form by-form temporary-var)
                                      :while-form temporary-var))
     (add-for-clause (make-for-clause :var var
                                      :init-form nil
                                      :before-update-form `(car ,temporary-var)))))
 
 (defun parse-for-as-on-list (var)
-  (let ((list-form (next-exp)))
+  (let ((list-form (next-exp))
+        (by-form (parse-for-as-by-clause)))
     (add-for-clause (make-for-clause :var var
                                      :init-form list-form
-                                     :after-update-form `(cdr ,var)
+                                     :after-update-form (by-form by-form var)
                                      :while-form var))))
 
 (defun parse-for-as-across (var)
