@@ -1,7 +1,7 @@
 (in-package :compiler)
 
-(defun pass1-toplevel-using-optimize (form)
-  (let ((hir (pass1-toplevel form)))
+(defun pass1-toplevel-using-optimize (form &optional return-value-p)
+  (let ((hir (pass1-toplevel form return-value-p)))
     (if *hir-optimize*
         (hir-optimize hir)
         hir)))
