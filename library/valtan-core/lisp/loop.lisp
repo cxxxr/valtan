@@ -366,8 +366,9 @@
   (next-exp)
   (ecase (ensure-keyword (next-exp))
     ((:in :of)))
-  (let ((hash-table (next-exp))
-        (hash-second-var nil))
+  (let* ((null '#:null)
+         (hash-table (next-exp))
+         (hash-second-var null))
     (when (eq :using (ensure-keyword (lookahead)))
       (next-exp)
       (let ((form (next-exp)))
@@ -378,25 +379,48 @@
                              :hash-key)
                          (ensure-keyword (car form)))))
         (setq hash-second-var (cadr form))))
-    (let ((hash-second-var (or hash-second-var
-                               (gensym (if hash-key-p #"HASH-VALUE" #"HASH-KEY"))))
-          (hash-table-var (gensym #"HASH-TABLE"))
-          (hash-more-var (gensym #"HASH-MORE"))
-          (hash-table-next (gensym #"HASH-NEXT")))
-      (add-loop-variable hash-first-var nil)
+    (let* ((hash-second-var (if (eq hash-second-var null)
+                                (gensym (if hash-key-p #"HASH-VALUE" #"HASH-KEY"))
+                                hash-second-var))
+           (hash-table-var (gensym #"HASH-TABLE"))
+           (hash-more-var (gensym #"HASH-MORE"))
+           (hash-table-next (gensym #"HASH-NEXT"))
+           (hash-first-temp (if (listp hash-first-var)
+                                (gensym (if hash-key-p #"HASH-KEY-TEMP" #"HASH-VALUE-TEMP"))
+                                nil))
+           (hash-second-temp (if (listp hash-second-var)
+                                 (gensym (if hash-key-p #"HASH-KEY-TEMP" #"HASH-VALUE-TEMP"))
+                                 nil))
+           (hash-key-var (if hash-key-p
+                             (or hash-first-temp hash-first-var)
+                             (or hash-second-temp hash-second-var)))
+           (hash-value-var (if hash-key-p
+                               (or hash-second-temp hash-second-var)
+                               (or hash-first-temp hash-first-var))))
+      (cond (hash-first-temp
+             (gen-d-bind hash-first-var nil)
+             (add-loop-variable hash-first-temp nil))
+            (t
+             (add-loop-variable hash-first-var nil)))
+      (cond (hash-second-temp
+             (gen-d-bind hash-second-var nil)
+             (add-loop-variable hash-second-temp nil))
+            (t
+             (add-loop-variable hash-second-var nil)))
       (add-loop-variable hash-table-var hash-table)
-      (add-loop-variable hash-second-var nil)
       (add-loop-variable hash-more-var nil)
       (push (cons hash-table-next hash-table-var) *hash-table-iterators*)
       (push `(unless ,(if hash-key-p
                           `(multiple-value-setq
-                               (,hash-more-var ,hash-first-var ,hash-second-var)
+                               (,hash-more-var ,hash-key-var ,hash-value-var)
                              (,hash-table-next))
                           `(multiple-value-setq
-                               (,hash-more-var ,hash-second-var ,hash-first-var)
+                               (,hash-more-var ,hash-key-var ,hash-value-var)
                              (,hash-table-next)))
                (go ,*loop-end-tag*))
-            *loop-body*))))
+            *loop-body*)
+      (when hash-first-temp
+        (push `(d-setq ,hash-first-var ,hash-first-temp) *loop-body*)))))
 
 (defun parse-for-as-hash-or-package (var)
   (ecase (ensure-keyword (lookahead))
