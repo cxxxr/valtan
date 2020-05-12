@@ -58,9 +58,19 @@
           (funcall function key value)))))
   nil)
 
-#+(or)
 (defmacro with-hash-table-iterator ((name hash-table) &body body)
-  )
+  (let ((g-keys (gensym "KEYS"))
+        (g-hash-table (gensym "HASH-TABLE"))
+        (g-map (gensym "MAP")))
+    `(let* ((,g-hash-table ,hash-table)
+            (,g-keys (hash-table-keys ,g-hash-table))
+            (,g-map (hash-table-map ,g-hash-table)))
+       (flet ((,name ()
+                (when ,g-keys
+                  (let* ((%key (pop ,g-keys))
+                         (%value (system:map-get ,g-map %key)))
+                    (values t %key %value)))))
+         ,@body))))
 
 (defun clrhash (hash-table)
   (system:map-clear (hash-table-map hash-table))
