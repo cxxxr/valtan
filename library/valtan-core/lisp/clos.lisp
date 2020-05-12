@@ -1159,9 +1159,7 @@
        ,(cond ((null report))
               ((stringp report)
                `(defmethod print-object ((,g-condition ,name) ,g-stream)
-                  (if *print-escape*
-                      (call-next-method)
-                      (write-string ,report ,g-stream))))
+                  (write-string ,report ,g-stream)))
               (t
                `(defmethod print-object ((,g-condition ,name) ,g-stream)
                   (if *print-escape*
