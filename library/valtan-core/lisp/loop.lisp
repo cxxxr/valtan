@@ -389,7 +389,7 @@
                                 (gensym (if hash-key-p #"HASH-KEY-TEMP" #"HASH-VALUE-TEMP"))
                                 nil))
            (hash-second-temp (if (listp hash-second-var)
-                                 (gensym (if hash-key-p #"HASH-KEY-TEMP" #"HASH-VALUE-TEMP"))
+                                 (gensym (if hash-key-p #"HASH-VALUE-TEMP" #"HASH-KEY-TEMP"))
                                  nil))
            (hash-key-var (if hash-key-p
                              (or hash-first-temp hash-first-var)
@@ -410,17 +410,15 @@
       (add-loop-variable hash-table-var hash-table)
       (add-loop-variable hash-more-var nil)
       (push (cons hash-table-next hash-table-var) *hash-table-iterators*)
-      (push `(unless ,(if hash-key-p
-                          `(multiple-value-setq
-                               (,hash-more-var ,hash-key-var ,hash-value-var)
-                             (,hash-table-next))
-                          `(multiple-value-setq
-                               (,hash-more-var ,hash-key-var ,hash-value-var)
-                             (,hash-table-next)))
+      (push `(unless (multiple-value-setq
+                         (,hash-more-var ,hash-key-var ,hash-value-var)
+                       (,hash-table-next))
                (go ,*loop-end-tag*))
             *loop-body*)
       (when hash-first-temp
-        (push `(d-setq ,hash-first-var ,hash-first-temp) *loop-body*)))))
+        (push `(d-setq ,hash-first-var ,hash-first-temp) *loop-body*))
+      (when hash-second-temp
+        (push `(d-setq ,hash-second-var ,hash-second-temp) *loop-body*)))))
 
 (defun parse-for-as-hash-or-package (var)
   (ecase (ensure-keyword (lookahead))
