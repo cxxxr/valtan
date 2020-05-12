@@ -236,6 +236,20 @@
        ,@forms
        (apply #'values ,g-values))))
 
+(*:defmacro* multiple-value-setq (vars form)
+  (if (null vars)
+      `(values ,form)
+      (let ((gsyms
+              (mapcar (lambda (var)
+                        (declare (ignore var))
+                        (gensym))
+                      vars)))
+        `(multiple-value-bind ,gsyms ,form
+           (setq ,@(mapcan #'list
+                           vars
+                           gsyms))
+           ,(first gsyms)))))
+
 (defun eql (x y)
   (cond ((and (characterp x) (characterp y))
          (char= x y))
