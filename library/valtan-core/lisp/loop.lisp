@@ -453,7 +453,10 @@
        (next-exp)
        (parse-for-as-hash-or-package var))
       (otherwise
-       (parse-for-as-arithmetic var)))))
+       (parse-for-as-arithmetic var))))
+  (when (eq (ensure-keyword (lookahead)) :and)
+    (next-exp)
+    (parse-for-as-clause)))
 
 (defun parse-initial-final-clause (exp)
   (case exp
