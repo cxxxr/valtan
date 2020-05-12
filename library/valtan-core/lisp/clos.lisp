@@ -1161,7 +1161,7 @@
                `(defmethod print-object ((,g-condition ,name) ,g-stream)
                   (if *print-escape*
                       (call-next-method)
-                      (write-string ,report ,g-stream) ,g-condition)))
+                      (write-string ,report ,g-stream))))
               (t
                `(defmethod print-object ((,g-condition ,name) ,g-stream)
                   (if *print-escape*
