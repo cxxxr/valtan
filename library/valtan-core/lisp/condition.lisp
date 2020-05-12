@@ -52,8 +52,9 @@
 (defmacro assert (test-form &optional place (datum nil datum-p) &rest arguments)
   (declare (ignore place))
   `(unless ,test-form
-     (error ,(if datum-p datum "assertion error: ~S")
-            ,@(if datum-p arguments))))
+     ,(if datum-p
+          `(error ,datum ,@arguments)
+          `(error "The assertion ~S failed." ',test-form))))
 
 (defun simple-error (string &rest arguments)
   (apply #'error string arguments))
