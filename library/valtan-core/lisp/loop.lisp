@@ -15,6 +15,7 @@
 (defvar *result-forms*)
 
 (defvar *accumulators*)
+(defvar *hash-table-iterators*)
 
 (defvar *loop-body*)
 
@@ -361,9 +362,54 @@
     (add-loop-test-form `(< ,index-var ,length-var))
     (add-before-update-form `(setq ,index-var (+ ,index-var 1)))))
 
+(defun parse-for-as-hash (hash-first-var hash-key-p)
+  (next-exp)
+  (ecase (ensure-keyword (next-exp))
+    ((:in :of)))
+  (let ((hash-table (next-exp))
+        (hash-second-var nil))
+    (when (eq :using (ensure-keyword (lookahead)))
+      (next-exp)
+      (let ((form (next-exp)))
+        (assert (and (consp form)
+                     (= 2 (length form))
+                     (eq (if hash-key-p
+                             :hash-value
+                             :hash-key)
+                         (ensure-keyword (car form)))))
+        (setq hash-second-var (cadr form))))
+    (let ((hash-second-var (or hash-second-var
+                               (gensym (if hash-key-p #"HASH-VALUE" #"HASH-KEY"))))
+          (hash-table-var (gensym #"HASH-TABLE"))
+          (hash-more-var (gensym #"HASH-MORE"))
+          (hash-table-next (gensym #"HASH-NEXT")))
+      (add-loop-variable hash-first-var nil)
+      (add-loop-variable hash-table-var hash-table)
+      (add-loop-variable hash-second-var nil)
+      (add-loop-variable hash-more-var nil)
+      (push (cons hash-table-next hash-table-var) *hash-table-iterators*)
+      (push `(unless ,(if hash-key-p
+                          `(multiple-value-setq
+                               (,hash-more-var ,hash-first-var ,hash-second-var)
+                             (,hash-table-next))
+                          `(multiple-value-setq
+                               (,hash-more-var ,hash-second-var ,hash-first-var)
+                             (,hash-table-next)))
+               (go ,*loop-end-tag*))
+            *loop-body*))))
+
 (defun parse-for-as-hash-or-package (var)
-  (declare (ignore var))
-  (error "unimplemnted"))
+  (ecase (ensure-keyword (lookahead))
+    ((:each :the)
+     (next-exp)))
+  (ecase (ensure-keyword (lookahead))
+    ((:hash-key :hash-keys)
+     (parse-for-as-hash var t))
+    ((:hash-values :hash-value)
+     (parse-for-as-hash var nil))
+    #+(or)
+    ((:symbol :symbols :present-symbol :present-symbols :external-symbol :external-symbols)
+     )))
 
 (defun parse-for-as-clause ()
   (let ((var (next-exp)))
@@ -626,6 +672,7 @@
         (*finally-forms* '())
         (*loop-variables* '())
         (*accumulators* (make-hash-table))
+        (*hash-table-iterators* '())
         (*result-forms* '())
         (*loop-test-forms* '())
         (*before-update-forms* '())
@@ -669,6 +716,10 @@
                                                      ,name)
                                ,tagbody-loop-form))))))
                *accumulators*)
+      (dolist (iterator *hash-table-iterators*)
+        (setq tagbody-loop-form
+              `(with-hash-table-iterator (,(car iterator) ,(cdr iterator))
+                 ,tagbody-loop-form)))
       (let ((loop-variables (nreverse *loop-variables*)))
         `(block ,*named*
            (let* (,@loop-variables)
