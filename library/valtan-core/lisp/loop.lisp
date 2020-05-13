@@ -122,11 +122,11 @@
 (defun add-loop-test-form (form)
   (push form *loop-test-forms*))
 
-(defun add-before-update-form (form)
-  (push form *before-update-forms*))
+(defun add-before-update-form (op var form)
+  (push (list op var form) *before-update-forms*))
 
-(defun add-after-update-form (form)
-  (push form *after-update-forms*))
+(defun add-after-update-form (op var form)
+  (push (list op var form) *after-update-forms*))
 
 (defun add-initially-form (form)
   (push form *initially-forms*))
@@ -259,10 +259,11 @@
                                    (if then-or-equal '<= '<))
                               ,var
                               ,end-value)))
-      (add-after-update-form `(setq ,var
-                                    (,(if (eq dir :down) '- '+)
-                                     ,var
-                                     ,(or by-value 1)))))))
+      (add-after-update-form 'setq
+                             var
+                             `(,(if (eq dir :down) '- '+)
+                               ,var
+                               ,(or by-value 1))))))
 
 (defmacro d-setq (d-var form)
   (let ((binds '()))
@@ -295,7 +296,7 @@
                init-form)))
     (gen-d-bind d-var nil)
     (add-initially-form `(d-setq ,d-var ,init-form))
-    (add-after-update-form `(d-setq ,d-var ,update-form))))
+    (add-after-update-form 'd-setq d-var update-form)))
 
 (defun parse-for-as-by-clause ()
   (when (eq (ensure-keyword (lookahead)) :by)
@@ -321,20 +322,20 @@
         (by-form (parse-for-as-by-clause))
         (temporary-var (gensym)))
     (add-loop-variable temporary-var list-form)
-    (add-after-update-form `(setq ,temporary-var ,(by-form by-form temporary-var)))
+    (add-after-update-form 'setq temporary-var (by-form by-form temporary-var))
     (add-loop-test-form temporary-var)
     (gen-d-bind d-var nil)
-    (add-before-update-form `(d-setq ,d-var (car ,temporary-var)))))
+    (add-before-update-form 'd-setq d-var `(car ,temporary-var))))
 
 (defun parse-for-as-on-list (d-var)
   (let ((list-form (next-exp))
         (by-form (parse-for-as-by-clause))
         (temporary-var (gensym)))
     (add-loop-variable temporary-var list-form)
-    (add-after-update-form `(setq ,temporary-var ,(by-form by-form temporary-var)))
+    (add-after-update-form 'setq temporary-var (by-form by-form temporary-var))
     (add-loop-test-form `(consp ,temporary-var))
     (gen-d-bind d-var nil)
-    (add-before-update-form `(d-setq ,d-var ,temporary-var))))
+    (add-before-update-form 'd-setq d-var temporary-var)))
 
 (defun parse-for-as-across (var)
   (check-simple-var var)
@@ -345,10 +346,10 @@
     (add-loop-variable vector-var vector-form)
     (add-loop-variable length-var `(length ,vector-var))
     (add-loop-variable var nil)
-    (add-before-update-form `(setq ,var (aref ,vector-var ,index-var)))
+    (add-before-update-form 'setq var `(aref ,vector-var ,index-var))
     (add-loop-variable index-var 0)
     (add-loop-test-form `(< ,index-var ,length-var))
-    (add-before-update-form `(setq ,index-var (+ ,index-var 1)))))
+    (add-before-update-form 'setq index-var `(+ ,index-var 1))))
 
 (defun parse-for-as-hash (hash-first-var hash-key-p)
   (next-exp)
@@ -422,29 +423,31 @@
      )))
 
 (defun parse-for-as-clause ()
-  (let ((var (next-exp)))
-    (type-spec)
-    (case (to-keyword (lookahead))
-      ((:=)
-       (next-exp)
-       (parse-for-as-equals-then var))
-      ((:in)
-       (next-exp)
-       (parse-for-as-in-list var))
-      ((:on)
-       (next-exp)
-       (parse-for-as-on-list var))
-      ((:across)
-       (next-exp)
-       (parse-for-as-across var))
-      ((:being)
-       (next-exp)
-       (parse-for-as-hash-or-package var))
-      (otherwise
-       (parse-for-as-arithmetic var))))
-  (when (eq (ensure-keyword (lookahead)) :and)
-    (next-exp)
-    (parse-for-as-clause)))
+  (tagbody
+   start
+    (let ((var (next-exp)))
+      (type-spec)
+      (case (to-keyword (lookahead))
+        ((:=)
+         (next-exp)
+         (parse-for-as-equals-then var))
+        ((:in)
+         (next-exp)
+         (parse-for-as-in-list var))
+        ((:on)
+         (next-exp)
+         (parse-for-as-on-list var))
+        ((:across)
+         (next-exp)
+         (parse-for-as-across var))
+        ((:being)
+         (next-exp)
+         (parse-for-as-hash-or-package var))
+        (otherwise
+         (parse-for-as-arithmetic var))))
+    (when (eq (ensure-keyword (lookahead)) :and)
+      (next-exp)
+      (go start))))
 
 (defun parse-initial-final-clause (exp)
   (case exp
