@@ -286,17 +286,18 @@
            ,@body)))))
 
 (defun parse-for-as-equals-then (d-var)
-  (let* ((init-form (next-exp))
-         (update-form
-           (if (and (symbolp (lookahead))
-                    (string= (lookahead) :then))
-               (progn
-                 (next-exp)
-                 (next-exp))
-               init-form)))
+  (let* ((equals-form (next-exp))
+         (then-form
+           (when (and (symbolp (lookahead))
+                      (string= (lookahead) :then))
+             (next-exp)
+             (next-exp))))
     (gen-d-bind d-var nil)
-    (add-initially-form `(d-setq ,d-var ,init-form))
-    (add-after-update-form 'd-setq d-var update-form)))
+    (cond (then-form
+           (add-initially-form `(d-setq ,d-var ,equals-form))
+           (add-after-update-form 'd-setq d-var then-form))
+          (t
+           (add-before-update-form 'd-setq d-var equals-form)))))
 
 (defun parse-for-as-by-clause ()
   (when (eq (ensure-keyword (lookahead)) :by)
