@@ -441,8 +441,8 @@
 (defun parse-for-as-clause-1 ()
   (let ((*before-update-forms* '())
         (*after-update-forms* '()))
-    (tagbody
-     start
+    (do ()
+        (nil)
       (let ((var (next-exp)))
         (type-spec)
         (case (to-keyword (lookahead))
@@ -463,9 +463,9 @@
            (parse-for-as-hash-or-package var))
           (otherwise
            (parse-for-as-arithmetic var))))
-      (when (eq (ensure-keyword (lookahead)) :and)
-        (next-exp)
-        (go start)))
+      (if (eq (ensure-keyword (lookahead)) :and)
+          (next-exp)
+          (return)))
     (flet ((construct-update-forms (update-forms)
              (if (null update-forms)
                  nil
