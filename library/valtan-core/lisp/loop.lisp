@@ -180,6 +180,17 @@
       (add-temporary-variable var form)
       (f d-var var))))
 
+(defun gen-d-vars (d-var)
+  (labels ((f (d-var)
+             (cond ((null d-var))
+                   ((consp d-var)
+                    (f (car d-var))
+                    (f (cdr d-var)))
+                   (t
+                    (check-simple-var d-var)
+                    (add-loop-variable d-var nil)))))
+    (f d-var)))
+
 (defun parse-with-clause ()
   (do ()
       (nil)
@@ -296,7 +307,7 @@
                       (string= (lookahead) :then))
              (next-exp)
              (next-exp))))
-    (gen-d-bind d-var nil)
+    (gen-d-vars d-var)
     (cond (then-form
            (add-initially-form `(d-setq ,d-var ,equals-form))
            (add-after-update-form 'd-setq d-var then-form))
@@ -329,7 +340,7 @@
     (add-loop-variable temporary-var list-form)
     (add-after-update-form 'setq temporary-var (by-form by-form temporary-var))
     (add-loop-test-form temporary-var)
-    (gen-d-bind d-var nil)
+    (gen-d-vars d-var)
     (add-before-update-form 'd-setq d-var `(car ,temporary-var))))
 
 (defun parse-for-as-on-list (d-var)
@@ -339,7 +350,7 @@
     (add-loop-variable temporary-var list-form)
     (add-after-update-form 'setq temporary-var (by-form by-form temporary-var))
     (add-loop-test-form `(consp ,temporary-var))
-    (gen-d-bind d-var nil)
+    (gen-d-vars d-var)
     (add-before-update-form 'd-setq d-var temporary-var)))
 
 (defun parse-for-as-across (var)
@@ -392,12 +403,12 @@
                                (or hash-second-temp hash-second-var)
                                (or hash-first-temp hash-first-var))))
       (cond (hash-first-temp
-             (gen-d-bind hash-first-var nil)
+             (gen-d-vars hash-first-var)
              (add-loop-variable hash-first-temp nil))
             (t
              (add-loop-variable hash-first-var nil)))
       (cond (hash-second-temp
-             (gen-d-bind hash-second-var nil)
+             (gen-d-vars hash-second-var)
              (add-loop-variable hash-second-temp nil))
             (t
              (add-loop-variable hash-second-var nil)))
