@@ -6,6 +6,7 @@
 (defvar *loop-end-tag*)
 
 (defvar *named*)
+(defvar *temporary-variables*)
 (defvar *loop-variables*)
 (defvar *initially-forms*)
 (defvar *finally-forms*)
@@ -116,6 +117,9 @@
                (not (null x)))
     (loop-error "~S is not variable" x)))
 
+(defun add-temporary-variable (var form)
+  (push (list var form) *temporary-variables*))
+
 (defun add-loop-variable (var form)
   (push (list var form) *loop-variables*))
 
@@ -137,7 +141,7 @@
 (defun once-only-value (form &optional name)
   (if (consp form)
       (let ((var (if name (gensym (string name)) (gensym))))
-        (add-loop-variable var form)
+        (add-temporary-variable var form)
         var)
       form))
 
@@ -165,15 +169,15 @@
                    ((consp d-var)
                     (let ((car-var (gensym #"CAR"))
                           (cdr-var (gensym #"CDR")))
-                      (add-loop-variable car-var `(car ,value))
-                      (add-loop-variable cdr-var `(cdr ,value))
+                      (add-temporary-variable car-var `(car ,value))
+                      (add-temporary-variable cdr-var `(cdr ,value))
                       (f (car d-var) car-var)
                       (f (cdr d-var) cdr-var)))
                    (t
                     (check-simple-var d-var)
                     (add-loop-variable d-var value)))))
     (let ((var (gensym #"DESTRUCTURING-VAR")))
-      (add-loop-variable var form)
+      (add-temporary-variable var form)
       (f d-var var))))
 
 (defun parse-with-clause ()
@@ -344,7 +348,7 @@
         (vector-var (gensym #"VECTOR"))
         (index-var (gensym #"INDEX"))
         (length-var (gensym #"LENGTH")))
-    (add-loop-variable vector-var vector-form)
+    (add-temporary-variable vector-var vector-form)
     (add-loop-variable length-var `(length ,vector-var))
     (add-loop-variable var nil)
     (add-before-update-form 'setq var `(aref ,vector-var ,index-var))
@@ -706,6 +710,7 @@
   (let ((*named* nil)
         (*initially-forms* '())
         (*finally-forms* '())
+        (*temporary-variables* '())
         (*loop-variables* '())
         (*accumulators* (make-hash-table))
         (*hash-table-iterators* '())
@@ -756,11 +761,14 @@
         (setq tagbody-loop-form
               `(with-hash-table-iterator (,(car iterator) ,(cdr iterator))
                  ,tagbody-loop-form)))
-      (let ((loop-variables (nreverse *loop-variables*)))
+      (let ((temporary-variables (nreverse *temporary-variables*))
+            (loop-variables (nreverse *loop-variables*)))
         `(block ,*named*
-           (let* (,@loop-variables)
-             (declare (ignorable ,@(mapcar #'car loop-variables)))
-             ,tagbody-loop-form))))))
+           (let* (,@temporary-variables)
+             (declare (ignorable ,@(mapcar #'car temporary-variables)))
+             (let (,@loop-variables)
+               (declare (ignorable ,@(mapcar #'car loop-variables)))
+               ,tagbody-loop-form)))))))
 
 (defun expand-loop (forms)
   (if (and forms (symbolp (car forms)))
