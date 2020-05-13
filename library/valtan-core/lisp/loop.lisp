@@ -191,18 +191,6 @@
           (next-exp)
           (return)))))
 
-(defun parse-for-as-arithmetic-keywords ()
-  (let ((params nil))
-    (do ((op (lookahead) (lookahead)))
-        (nil)
-      (case (setq op (ensure-keyword op))
-        ((:from :downfrom :upfrom :to :upto :downto :below :above :by)
-         (next-exp)
-         (setf (getf params op) (next-exp)))
-        (otherwise
-         (return nil))))
-    params))
-
 (defun parse-for-as-arithmetic (var)
   (check-simple-var var)
   (let ((init-keyword nil)
