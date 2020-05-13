@@ -422,32 +422,51 @@
     ((:symbol :symbols :present-symbol :present-symbols :external-symbol :external-symbols)
      )))
 
+(defun parse-for-as-clause-1 ()
+  (let ((*before-update-forms* '())
+        (*after-update-forms* '()))
+    (tagbody
+     start
+      (let ((var (next-exp)))
+        (type-spec)
+        (case (to-keyword (lookahead))
+          ((:=)
+           (next-exp)
+           (parse-for-as-equals-then var))
+          ((:in)
+           (next-exp)
+           (parse-for-as-in-list var))
+          ((:on)
+           (next-exp)
+           (parse-for-as-on-list var))
+          ((:across)
+           (next-exp)
+           (parse-for-as-across var))
+          ((:being)
+           (next-exp)
+           (parse-for-as-hash-or-package var))
+          (otherwise
+           (parse-for-as-arithmetic var))))
+      (when (eq (ensure-keyword (lookahead)) :and)
+        (next-exp)
+        (go start)))
+    (flet ((construct-update-forms (update-forms)
+             (if (null update-forms)
+                 nil
+                 (let ((last-form (car update-forms)))
+                   (dolist (update-form (cdr update-forms) last-form)
+                     (destructuring-bind (set var value) update-form
+                       (setq last-form `(,set ,var (prog1 ,value ,last-form)))))))))
+      (values (construct-update-forms *before-update-forms*)
+              (construct-update-forms *after-update-forms*)))))
+
 (defun parse-for-as-clause ()
-  (tagbody
-   start
-    (let ((var (next-exp)))
-      (type-spec)
-      (case (to-keyword (lookahead))
-        ((:=)
-         (next-exp)
-         (parse-for-as-equals-then var))
-        ((:in)
-         (next-exp)
-         (parse-for-as-in-list var))
-        ((:on)
-         (next-exp)
-         (parse-for-as-on-list var))
-        ((:across)
-         (next-exp)
-         (parse-for-as-across var))
-        ((:being)
-         (next-exp)
-         (parse-for-as-hash-or-package var))
-        (otherwise
-         (parse-for-as-arithmetic var))))
-    (when (eq (ensure-keyword (lookahead)) :and)
-      (next-exp)
-      (go start))))
+  (multiple-value-bind (before-update-form after-update-form)
+      (parse-for-as-clause-1)
+    (when before-update-form
+      (push before-update-form *before-update-forms*))
+    (when after-update-form
+      (push after-update-form *after-update-forms*))))
 
 (defun parse-initial-final-clause (exp)
   (case exp
