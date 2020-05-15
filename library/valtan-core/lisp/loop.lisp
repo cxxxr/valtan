@@ -19,6 +19,12 @@
 
 (defvar *loop-body*)
 
+(defstruct let-bindings
+  pairs)
+
+(defstruct destructuring-bindings
+  pair)
+
 (defstruct list-collector
   head
   tail)
@@ -162,44 +168,29 @@
       (f d-var))
     (nreverse bindings)))
 
-(defun gen-with-bindings (d-var form bindings)
-  (labels ((f (d-var value)
-             (cond ((null d-var) nil)
-                   ((consp d-var)
-                    (let ((car (gensym #"CAR"))
-                          (cdr (gensym #"CDR")))
-                      (push (list car `(car ,value)) bindings)
-                      (push (list cdr `(cdr ,value)) bindings)
-                      (f (car d-var) car)
-                      (f (cdr d-var) cdr)))
-                   (t
-                    (check-simple-var d-var)
-                    (push (list d-var value) bindings)))))
-    (if (consp d-var)
-        (let ((value (gensym #"DESTRUCTURING-VAR")))
-          (push (list value form) bindings)
-          (f d-var value))
-        (f d-var form)))
-  bindings)
-
 (defun parse-with-clause ()
-  (let ((bindings '()))
+  (let ((bindings '())
+        (d-binds '()))
     (do ()
         (nil)
-      (let ((var (next-exp)))
-        (type-spec)
-        (setq bindings
-              (gen-with-bindings var
-                                 (if (eq (to-keyword (lookahead)) :=)
-                                     (progn
-                                       (next-exp)
-                                       (next-exp))
-                                     nil)
-                                 bindings))
+      (let ((var (prog1 (next-exp) (type-spec)))
+            (form (if (eq (to-keyword (lookahead)) :=)
+                      (progn
+                        (next-exp)
+                        (next-exp))
+                      nil)))
+        (cond ((consp var)
+               (let ((tmp-var (gensym)))
+                 (push (list var tmp-var) d-binds)
+                 (push (list tmp-var form) bindings)))
+              (t
+               (push (list var form) bindings)))
         (if (eq (to-keyword (lookahead)) :and)
             (next-exp)
             (return))))
-    (push (nreverse bindings) *bindings*)))
+    (push (make-let-bindings :pairs (nreverse bindings)) *bindings*)
+    (dolist (d-bind (nreverse d-binds))
+      (push (make-destructuring-bindings :pair d-bind) *bindings*))))
 
 (defun parse-for-as-arithmetic (var)
   (check-simple-var var)
@@ -283,7 +274,7 @@
                              `(,(if (eq dir :down) '- '+)
                                ,var
                                ,(or by-value 1)))
-      (push (nreverse bindings) *bindings*))))
+      (push (make-let-bindings :pairs (nreverse bindings)) *bindings*))))
 
 (defmacro d-setq (d-var form)
   (let ((binds '()))
@@ -312,7 +303,7 @@
                       (string= (lookahead) :then))
              (next-exp)
              (next-exp))))
-    (push (gen-d-var-bindings d-var) *bindings*)
+    (push (make-let-bindings :pairs (gen-d-var-bindings d-var)) *bindings*)
     (cond (then-form
            (add-initially-form `(d-setq ,d-var ,equals-form))
            (add-after-update-form 'd-setq d-var then-form))
@@ -333,7 +324,7 @@
   (flet ((once-only-value (form)
            (if (consp form)
                (let ((var (gensym)))
-                 (push `((,var ,form)) *bindings*)
+                 (push (make-let-bindings :pairs `((,var ,form))) *bindings*)
                  var)
                form)))
     (if by-form
@@ -348,8 +339,8 @@
   (let ((list-form (next-exp))
         (by-form (parse-for-as-by-clause))
         (temporary-var (gensym)))
-    (push (cons (list temporary-var list-form)
-                (gen-d-var-bindings d-var))
+    (push (make-let-bindings :pairs (cons (list temporary-var list-form)
+                                          (gen-d-var-bindings d-var)))
           *bindings*)
     (add-after-update-form 'setq temporary-var (parse-by-form by-form temporary-var))
     (add-loop-test-form temporary-var)
@@ -359,8 +350,8 @@
   (let ((list-form (next-exp))
         (by-form (parse-for-as-by-clause))
         (temporary-var (gensym)))
-    (push (cons (list temporary-var list-form)
-                (gen-d-var-bindings d-var))
+    (push (make-let-bindings :pairs (cons (list temporary-var list-form)
+                                          (gen-d-var-bindings d-var)))
           *bindings*)
     (add-after-update-form 'setq temporary-var (parse-by-form by-form temporary-var))
     (add-loop-test-form `(consp ,temporary-var))
@@ -371,9 +362,9 @@
   (let ((vector-form (next-exp))
         (vector-var (gensym #"VECTOR"))
         (index-var (gensym #"INDEX")))
-    (push `((,var nil)
-            (,vector-var ,vector-form)
-            (,index-var 0))
+    (push (make-let-bindings :pairs `((,var nil)
+                                      (,vector-var ,vector-form)
+                                      (,index-var 0)))
           *bindings*)
     (add-before-update-form 'setq var `(aref ,vector-var ,index-var))
     (add-loop-test-form `(< ,index-var (length ,vector-var)))
@@ -427,7 +418,7 @@
                (push (list hash-second-var nil) bindings)))
         (push (list hash-table-var hash-table) bindings)
         (push (list hash-more-var nil) bindings)
-        (push bindings *bindings*))
+        (push (make-let-bindings :pairs bindings) *bindings*))
       (push (cons hash-table-next hash-table-var) *hash-table-iterators*)
       (push `(unless (multiple-value-setq
                          (,hash-more-var ,hash-key-var ,hash-value-var)
@@ -489,7 +480,8 @@
                      (destructuring-bind (set var value) update-form
                        (setq last-form `(,set ,var (prog1 ,value ,last-form))))))))
            (construct-bindings (bindings)
-             (list (mapcan #'identity (nreverse bindings)))))
+             (make-let-bindings
+              :pairs (mapcan #'let-bindings-pairs (nreverse bindings)))))
       (values (construct-update-forms *before-update-forms*)
               (construct-update-forms *after-update-forms*)
               (construct-bindings *bindings*)))))
@@ -502,7 +494,7 @@
     (when after-update-form
       (push after-update-form *after-update-forms*))
     (when bindings
-      (setq *bindings* (nconc bindings *bindings*)))))
+      (push bindings *bindings*))))
 
 (defun parse-initial-final-clause (exp)
   (case exp
@@ -737,6 +729,31 @@
     (parse-variable-clauses)
     (parse-main-clauses)))
 
+(defun expand-loop-destructuring-bind (d-var form)
+  (let ((bindings '()))
+    (labels ((f (d-var value)
+               (cond ((null d-var) nil)
+                     ((consp d-var)
+                      (let ((car (gensym #"CAR"))
+                            (cdr (gensym #"CDR")))
+                        (push (list car `(car ,value)) bindings)
+                        (push (list cdr `(cdr ,value)) bindings)
+                        (f (car d-var) car)
+                        (f (cdr d-var) cdr)))
+                     (t
+                      (check-simple-var d-var)
+                      (push (list d-var value) bindings)))))
+      (if (consp d-var)
+          (let ((value (gensym #"DESTRUCTURING-VAR")))
+            (push (list value form) bindings)
+            (f d-var value))
+          (f d-var form)))
+    (nreverse bindings)))
+
+(defmacro loop-destructuring-bind (d-var value &body body)
+  `(let* ,(expand-loop-destructuring-bind d-var value)
+     ,@body))
+
 (defun expand-complex-loop (forms)
   (let ((*named* nil)
         (*initially-forms* '())
@@ -793,8 +810,13 @@
                  ,body)))
       (dolist (bindings *bindings*)
         (setq body
-              `(let ,bindings
-                 ,body)))
+              (typecase bindings
+                (let-bindings
+                 `(let ,(let-bindings-pairs bindings)
+                    ,body))
+                (destructuring-bindings
+                 `(loop-destructuring-bind ,@(destructuring-bindings-pair bindings)
+                                           ,body)))))
       `(block ,*named*
          ,body))))
 
