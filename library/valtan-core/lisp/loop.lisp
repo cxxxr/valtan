@@ -137,13 +137,19 @@
 (defun add-finally-form (form)
   (push form *finally-forms*))
 
-(defun type-spec ()
+(defun parse-d-type-spec (d-type-spec)
+  (if (consp d-type-spec)
+      (cons (parse-d-type-spec (car d-type-spec))
+            (parse-d-type-spec (cdr d-type-spec)))
+      d-type-spec))
+
+(defun parse-type-spec ()
   (let ((x (lookahead)))
     (cond ((member x '(cl:fixnum cl:float cl:t cl:nil))
            (next-exp))
           ((eq (ensure-keyword x) :of-type)
            (next-exp)
-           (next-exp)))))
+           (parse-d-type-spec (next-exp))))))
 
 (defun it ()
   (gensym #"IT"))
@@ -168,23 +174,45 @@
       (f d-var))
     (nreverse bindings)))
 
+(defun map-d-var-d-type-spec (d-var d-type-spec)
+  (labels ((f (d-var d-type-spec)
+             (cond ((null d-var) '())
+                   ((consp d-var)
+                    (append (f (car d-var) (if (symbolp d-type-spec) d-type-spec (car d-type-spec)))
+                            (f (cdr d-var) (if (symbolp d-type-spec) d-type-spec (cdr d-type-spec)))))
+                   (t
+                    (list (list d-var
+                                (case d-type-spec
+                                  ((cl:fixnum cl:integer)
+                                   0)
+                                  ((cl:float)
+                                   0.0)
+                                  (otherwise
+                                   nil))))))))
+    (f d-var d-type-spec)))
+
 (defun parse-with-clause ()
   (let ((bindings '())
         (d-binds '()))
     (do ()
         (nil)
-      (let ((var (prog1 (next-exp) (type-spec)))
+      (let ((var (next-exp))
+            (type-spec (parse-type-spec))
             (form (if (eq (to-keyword (lookahead)) :=)
                       (progn
                         (next-exp)
                         (next-exp))
                       nil)))
         (cond ((consp var)
-               (let ((tmp-var (gensym)))
-                 (push (list var tmp-var) d-binds)
-                 (push (list tmp-var form) bindings)))
+               (if form
+                   (let ((tmp-var (gensym)))
+                     (push (list var tmp-var) d-binds)
+                     (push (list tmp-var form) bindings))
+                   (setq bindings (nconc (map-d-var-d-type-spec var type-spec) bindings))))
               (t
-               (push (list var form) bindings)))
+               (if form
+                   (push (list var form) bindings)
+                   (push (map-d-var-d-type-spec var type-spec) bindings))))
         (if (eq (to-keyword (lookahead)) :and)
             (next-exp)
             (return))))
@@ -450,7 +478,7 @@
     (do ()
         (nil)
       (let ((var (next-exp)))
-        (type-spec)
+        (parse-type-spec)
         (case (to-keyword (lookahead))
           ((:=)
            (next-exp)
