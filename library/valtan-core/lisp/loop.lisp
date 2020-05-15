@@ -6,14 +6,13 @@
 (defvar *loop-end-tag*)
 
 (defvar *named*)
-(defvar *temporary-variables*)
-(defvar *loop-variables*)
 (defvar *initially-forms*)
 (defvar *finally-forms*)
 (defvar *loop-test-forms*)
 (defvar *before-update-forms*)
 (defvar *after-update-forms*)
 (defvar *result-forms*)
+(defvar *bindings*)
 
 (defvar *accumulators*)
 (defvar *hash-table-iterators*)
@@ -117,12 +116,6 @@
                (not (null x)))
     (loop-error "~S is not variable" x)))
 
-(defun add-temporary-variable (var form)
-  (push (list var form) *temporary-variables*))
-
-(defun add-loop-variable (var form)
-  (push (list var form) *loop-variables*))
-
 (defun add-loop-test-form (form)
   (push form *loop-test-forms*))
 
@@ -137,13 +130,6 @@
 
 (defun add-finally-form (form)
   (push form *finally-forms*))
-
-(defun once-only-value (form &optional name)
-  (if (consp form)
-      (let ((var (if name (gensym (string name)) (gensym))))
-        (add-temporary-variable var form)
-        var)
-      form))
 
 (defun type-spec ()
   (let ((x (lookahead)))
@@ -163,59 +149,69 @@
        (nreverse forms))
     (push (next-exp) forms)))
 
-(defun gen-d-vars (d-var)
-  (labels ((f (d-var)
-             (cond ((null d-var))
-                   ((consp d-var)
-                    (f (car d-var))
-                    (f (cdr d-var)))
-                   (t
-                    (check-simple-var d-var)
-                    (add-loop-variable d-var nil)))))
-    (f d-var)))
+(defun gen-d-var-bindings (d-var)
+  (let ((bindings '()))
+    (labels ((f (d-var)
+               (cond ((null d-var) '())
+                     ((consp d-var)
+                      (f (car d-var))
+                      (f (cdr d-var)))
+                     (t
+                      (check-simple-var d-var)
+                      (push (list d-var nil) bindings)))))
+      (f d-var))
+    (nreverse bindings)))
 
-(defun gen-with-binds (d-var form)
+(defun gen-with-bindings (d-var form bindings)
   (labels ((f (d-var value)
-             (cond ((null d-var))
+             (cond ((null d-var) nil)
                    ((consp d-var)
-                    (let ((car-var (gensym #"CAR"))
-                          (cdr-var (gensym #"CDR")))
-                      (add-temporary-variable car-var `(car ,value))
-                      (add-temporary-variable cdr-var `(cdr ,value))
-                      (f (car d-var) car-var)
-                      (f (cdr d-var) cdr-var)))
+                    (let ((car (gensym #"CAR"))
+                          (cdr (gensym #"CDR")))
+                      (push (list car `(car ,value)) bindings)
+                      (push (list cdr `(cdr ,value)) bindings)
+                      (f (car d-var) car)
+                      (f (cdr d-var) cdr)))
                    (t
                     (check-simple-var d-var)
-                    (add-temporary-variable d-var value)))))
-    (let ((var (gensym #"DESTRUCTURING-VAR")))
-      (add-temporary-variable var form)
-      (f d-var var))))
+                    (push (list d-var value) bindings)))))
+    (if (consp d-var)
+        (let ((value (gensym #"DESTRUCTURING-VAR")))
+          (push (list value form) bindings)
+          (f d-var value))
+        (f d-var form)))
+  bindings)
 
 (defun parse-with-clause ()
-  (do ()
-      (nil)
-    (let ((var (next-exp)))
-      (type-spec)
-      (gen-with-binds var
-                      (if (eq (to-keyword (lookahead)) :=)
-                          (progn
-                            (next-exp)
-                            (next-exp))
-                          nil))
-      (if (eq (to-keyword (lookahead)) :and)
-          (next-exp)
-          (return)))))
+  (let ((bindings '()))
+    (do ()
+        (nil)
+      (let ((var (next-exp)))
+        (type-spec)
+        (setq bindings
+              (gen-with-bindings var
+                                 (if (eq (to-keyword (lookahead)) :=)
+                                     (progn
+                                       (next-exp)
+                                       (next-exp))
+                                     nil)
+                                 bindings))
+        (if (eq (to-keyword (lookahead)) :and)
+            (next-exp)
+            (return))))
+    (push (nreverse bindings) *bindings*)))
 
 (defun parse-for-as-arithmetic (var)
   (check-simple-var var)
   (let ((init-keyword nil)
         (end-keyword nil)
-        (init-value 0)
+        (init-value nil)
         (end-value nil)
         (dir nil)
         (dir-keyword nil)
         (then-or-equal nil)
-        (by-value nil))
+        (by-value nil)
+        (bindings '()))
     (labels ((combination-error (key1 key2)
                (loop-error "The combination of ~S and ~S is invalid" key1 key2))
              (check-init-form (keyword)
@@ -229,7 +225,13 @@
                  (combination-error :by :by)))
              (check-dir (dir1 keyword)
                (when (and dir1 dir (not (eq dir1 dir)))
-                 (combination-error keyword dir-keyword))))
+                 (combination-error keyword dir-keyword)))
+             (once-only-value (form name)
+               (if (consp form)
+                   (let ((var (gensym (string name))))
+                     (push (list var form) bindings)
+                     var)
+                   form)))
       (do ()
           (nil)
         (let ((keyword (ensure-keyword (lookahead))))
@@ -243,9 +245,10 @@
                            (:downfrom :down))))
                (check-dir dir1 keyword)
                (setf init-keyword keyword
-                     init-value (once-only-value (next-exp) keyword)
+                     init-value (next-exp)
                      dir (or dir1 dir)
-                     dir-keyword keyword)))
+                     dir-keyword keyword)
+               (push (list var init-value) bindings)))
             ((:to :upto :downto :below :above)
              (next-exp)
              (check-end-form keyword)
@@ -267,7 +270,8 @@
              (setf by-value (once-only-value (next-exp) keyword)))
             (otherwise
              (return)))))
-      (add-loop-variable var init-value)
+      (unless init-value
+        (push (list var 0) bindings))
       (when end-value
         (add-loop-test-form `(,(if (eq dir :down)
                                    (if then-or-equal '>= '>)
@@ -278,7 +282,8 @@
                              var
                              `(,(if (eq dir :down) '- '+)
                                ,var
-                               ,(or by-value 1))))))
+                               ,(or by-value 1)))
+      (push (nreverse bindings) *bindings*))))
 
 (defmacro d-setq (d-var form)
   (let ((binds '()))
@@ -307,7 +312,7 @@
                       (string= (lookahead) :then))
              (next-exp)
              (next-exp))))
-    (gen-d-vars d-var)
+    (push (gen-d-var-bindings d-var) *bindings*)
     (cond (then-form
            (add-initially-form `(d-setq ,d-var ,equals-form))
            (add-after-update-form 'd-setq d-var then-form))
@@ -324,47 +329,54 @@
              (eq 'function (car form)))
     (cadr form)))
 
-(defun by-form (by-form var)
-  (if by-form
-      (let ((function-name (function-form-p by-form)))
-        (if function-name
-            `(,function-name ,var)
-            `(funcall ,(once-only-value by-form)
-                      ,var)))
-      `(cdr ,var)))
+(defun parse-by-form (by-form var)
+  (flet ((once-only-value (form)
+           (if (consp form)
+               (let ((var (gensym)))
+                 (push `((,var ,form)) *bindings*)
+                 var)
+               form)))
+    (if by-form
+        (let ((function-name (function-form-p by-form)))
+          (if function-name
+              `(,function-name ,var)
+              `(funcall ,(once-only-value by-form)
+                        ,var)))
+        `(cdr ,var))))
 
 (defun parse-for-as-in-list (d-var)
   (let ((list-form (next-exp))
         (by-form (parse-for-as-by-clause))
         (temporary-var (gensym)))
-    (add-temporary-variable temporary-var list-form)
-    (add-after-update-form 'setq temporary-var (by-form by-form temporary-var))
+    (push (cons (list temporary-var list-form)
+                (gen-d-var-bindings d-var))
+          *bindings*)
+    (add-after-update-form 'setq temporary-var (parse-by-form by-form temporary-var))
     (add-loop-test-form temporary-var)
-    (gen-d-vars d-var)
     (add-before-update-form 'd-setq d-var `(car ,temporary-var))))
 
 (defun parse-for-as-on-list (d-var)
   (let ((list-form (next-exp))
         (by-form (parse-for-as-by-clause))
         (temporary-var (gensym)))
-    (add-temporary-variable temporary-var list-form)
-    (add-after-update-form 'setq temporary-var (by-form by-form temporary-var))
+    (push (cons (list temporary-var list-form)
+                (gen-d-var-bindings d-var))
+          *bindings*)
+    (add-after-update-form 'setq temporary-var (parse-by-form by-form temporary-var))
     (add-loop-test-form `(consp ,temporary-var))
-    (gen-d-vars d-var)
     (add-before-update-form 'd-setq d-var temporary-var)))
 
 (defun parse-for-as-across (var)
   (check-simple-var var)
   (let ((vector-form (next-exp))
         (vector-var (gensym #"VECTOR"))
-        (index-var (gensym #"INDEX"))
-        (length-var (gensym #"LENGTH")))
-    (add-temporary-variable vector-var vector-form)
-    (add-loop-variable length-var `(length ,vector-var))
-    (add-loop-variable var nil)
+        (index-var (gensym #"INDEX")))
+    (push `((,var nil)
+            (,vector-var ,vector-form)
+            (,index-var 0))
+          *bindings*)
     (add-before-update-form 'setq var `(aref ,vector-var ,index-var))
-    (add-loop-variable index-var 0)
-    (add-loop-test-form `(< ,index-var ,length-var))
+    (add-loop-test-form `(< ,index-var (length ,vector-var)))
     (add-before-update-form 'setq index-var `(+ ,index-var 1))))
 
 (defun parse-for-as-hash (hash-first-var hash-key-p)
@@ -402,18 +414,20 @@
            (hash-value-var (if hash-key-p
                                (or hash-second-temp hash-second-var)
                                (or hash-first-temp hash-first-var))))
-      (cond (hash-first-temp
-             (gen-d-vars hash-first-var)
-             (add-loop-variable hash-first-temp nil))
-            (t
-             (add-loop-variable hash-first-var nil)))
-      (cond (hash-second-temp
-             (gen-d-vars hash-second-var)
-             (add-loop-variable hash-second-temp nil))
-            (t
-             (add-loop-variable hash-second-var nil)))
-      (add-loop-variable hash-table-var hash-table)
-      (add-loop-variable hash-more-var nil)
+      (let ((bindings '()))
+        (cond (hash-first-temp
+               (setq bindings (nconc bindings (gen-d-var-bindings hash-first-var)))
+               (push (list hash-first-temp nil) bindings))
+              (t
+               (push (list hash-first-var nil) bindings)))
+        (cond (hash-second-temp
+               (setq bindings (nconc bindings (gen-d-var-bindings hash-second-var)))
+               (push (list hash-second-temp nil) bindings))
+              (t
+               (push (list hash-second-var nil) bindings)))
+        (push (list hash-table-var hash-table) bindings)
+        (push (list hash-more-var nil) bindings)
+        (push bindings *bindings*))
       (push (cons hash-table-next hash-table-var) *hash-table-iterators*)
       (push `(unless (multiple-value-setq
                          (,hash-more-var ,hash-key-var ,hash-value-var)
@@ -440,7 +454,8 @@
 
 (defun parse-for-as-clause-1 ()
   (let ((*before-update-forms* '())
-        (*after-update-forms* '()))
+        (*after-update-forms* '())
+        (*bindings* '()))
     (do ()
         (nil)
       (let ((var (next-exp)))
@@ -472,17 +487,22 @@
                  (let ((last-form (car update-forms)))
                    (dolist (update-form (cdr update-forms) last-form)
                      (destructuring-bind (set var value) update-form
-                       (setq last-form `(,set ,var (prog1 ,value ,last-form)))))))))
+                       (setq last-form `(,set ,var (prog1 ,value ,last-form))))))))
+           (construct-bindings (bindings)
+             (list (mapcan #'identity (nreverse bindings)))))
       (values (construct-update-forms *before-update-forms*)
-              (construct-update-forms *after-update-forms*)))))
+              (construct-update-forms *after-update-forms*)
+              (construct-bindings *bindings*)))))
 
 (defun parse-for-as-clause ()
-  (multiple-value-bind (before-update-form after-update-form)
+  (multiple-value-bind (before-update-form after-update-form bindings)
       (parse-for-as-clause-1)
     (when before-update-form
       (push before-update-form *before-update-forms*))
     (when after-update-form
-      (push after-update-form *after-update-forms*))))
+      (push after-update-form *after-update-forms*))
+    (when bindings
+      (setq *bindings* (nconc bindings *bindings*)))))
 
 (defun parse-initial-final-clause (exp)
   (case exp
@@ -721,8 +741,7 @@
   (let ((*named* nil)
         (*initially-forms* '())
         (*finally-forms* '())
-        (*temporary-variables* '())
-        (*loop-variables* '())
+        (*bindings* '())
         (*accumulators* (make-hash-table))
         (*hash-table-iterators* '())
         (*result-forms* '())
@@ -733,7 +752,7 @@
         (*loop-end-tag* (gensym #"LOOP-END"))
         (loop-start (gensym #"LOOP-START")))
     (parse-loop forms)
-    (let ((tagbody-loop-form
+    (let ((body
             `(tagbody
                ,@(nreverse *initially-forms*)
                ,loop-start
@@ -752,34 +771,32 @@
                  (let ((accumulator (cdr kind/accumulator)))
                    (typecase accumulator
                      (list-collector
-                      (setq tagbody-loop-form
+                      (setq body
                             `(with-list-collector (,(list-collector-head accumulator)
                                                    ,(list-collector-tail accumulator)
                                                    ,name)
-                               ,tagbody-loop-form)))
+                               ,body)))
                      (sum-counter
-                      (setq tagbody-loop-form
+                      (setq body
                             `(with-sum-counter (,(sum-counter-var accumulator)
                                                 ,name)
-                               ,tagbody-loop-form)))
+                               ,body)))
                      (maxmin-collector
-                      (setq tagbody-loop-form
+                      (setq body
                             `(with-maxmin-collector (,(maxmin-collector-var accumulator)
                                                      ,name)
-                               ,tagbody-loop-form))))))
+                               ,body))))))
                *accumulators*)
       (dolist (iterator *hash-table-iterators*)
-        (setq tagbody-loop-form
+        (setq body
               `(with-hash-table-iterator (,(car iterator) ,(cdr iterator))
-                 ,tagbody-loop-form)))
-      (let ((temporary-variables (nreverse *temporary-variables*))
-            (loop-variables (nreverse *loop-variables*)))
-        `(block ,*named*
-           (let* (,@temporary-variables)
-             (declare (ignorable ,@(mapcar #'car temporary-variables)))
-             (let (,@loop-variables)
-               (declare (ignorable ,@(mapcar #'car loop-variables)))
-               ,tagbody-loop-form)))))))
+                 ,body)))
+      (dolist (bindings *bindings*)
+        (setq body
+              `(let ,bindings
+                 ,body)))
+      `(block ,*named*
+         ,body))))
 
 (defun expand-loop (forms)
   (if (and forms (symbolp (car forms)))
