@@ -134,8 +134,14 @@
 (defun add-initially-form (form)
   (push form *initially-forms*))
 
+(defun add-initially-forms (forms)
+  (mapc #'add-initially-form forms))
+
 (defun add-finally-form (form)
   (push form *finally-forms*))
+
+(defun add-finally-forms (forms)
+  (mapc #'add-finally-form forms))
 
 (defun parse-d-type-spec (d-type-spec)
   (if (consp d-type-spec)
@@ -528,11 +534,11 @@
   (case exp
     ((:initially)
      (next-exp)
-     (add-initially-form (parse-compound-forms))
+     (add-initially-forms (parse-compound-forms))
      t)
     ((:finally)
      (next-exp)
-     (add-finally-form (parse-compound-forms))
+     (add-finally-forms (parse-compound-forms))
      t)))
 
 (defun parse-variable-clause ()
