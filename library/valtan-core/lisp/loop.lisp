@@ -597,7 +597,8 @@
            (,g-into ,into))
        (cond (,g-kind/accumulator
               ;; TODO: loop-error
-              (assert (eq (car ,g-kind/accumulator) ,g-kind))
+              ;; collectとappendを同時に使えるのでこのassertは間違えている
+              ;; (assert (eq (car ,g-kind/accumulator) ,g-kind))
               (cdr ,g-kind/accumulator))
              (t
               (let ((accumulator (progn ,@body)))
