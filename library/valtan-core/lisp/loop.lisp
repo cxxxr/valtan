@@ -761,7 +761,7 @@
   (when (eq (ensure-keyword (lookahead)) :named)
     (next-exp)
     (let ((name (next-exp)))
-      (unless name
+      (unless (symbolp name)
         (loop-error "Name clause must be a symbol (actual value: ~S)" name))
       (setq *named* name))))
 
