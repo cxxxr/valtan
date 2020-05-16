@@ -87,3 +87,8 @@
   ((ffi:ref "process" "stdout" "write") raw-string)
   #-node
   (js:console.log raw-string))
+
+(cl:defun system:random (n)
+  ((ffi:ref "Math" "floor")
+   (* ((ffi:ref "Math" "random"))
+      ((ffi:ref "Math" "floor") n))))

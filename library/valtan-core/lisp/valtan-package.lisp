@@ -122,7 +122,8 @@
            :named-lambda
            :unquote
            :unquote-splicing
-           :quasiquote))
+           :quasiquote
+           :random))
 
 (cl:defpackage :valtan-core
   (:use)

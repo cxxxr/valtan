@@ -116,3 +116,6 @@
     (dotimes (i power)
       (setq acc (* acc base)))
     acc))
+
+(defun random (n)
+  (system:random n))

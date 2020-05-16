@@ -304,6 +304,9 @@
 (cl:defun system:write-raw-string-to-stdout (raw-string)
   (cl:write-string raw-string))
 
+(cl:defun system:random (n)
+  (cl:random n))
+
 
 (cl:defun js::-object ()
   (cl:error "unimplemented"))
