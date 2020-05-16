@@ -728,9 +728,9 @@
         (return nil)))
     ((:thereis)
      (next-exp)
-     (let ((it (gensym #"THERE")))
-       `(let ((,it ,(next-exp)))
-          (when ,it (return ,it)))))))
+     (let ((thereis (gensym #"THEREIS")))
+       `(let ((,thereis ,(next-exp)))
+          (when ,thereis (return ,thereis)))))))
 
 (defun parse-main-clause ()
   (let ((exp (ensure-keyword (lookahead))))
