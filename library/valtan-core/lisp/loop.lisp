@@ -672,7 +672,10 @@
 (defun parse-conditional-then-else-clause ()
   (let ((forms (list (parse-selectable-clause))))
     (do ()
-        ((not (eq (ensure-keyword (lookahead)) :and)))
+        (nil)
+      (if (eq (ensure-keyword (lookahead)) :and)
+          (next-exp)
+          (return))
       (push (parse-selectable-clause) forms))
     `(progn ,@(nreverse forms))))
 
