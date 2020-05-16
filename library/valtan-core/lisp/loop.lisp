@@ -12,6 +12,8 @@
 (defvar *after-update-forms*)
 (defvar *result-forms*)
 (defvar *bindings*)
+(defvar *it*)
+(defvar *it-enable-context* nil)
 
 (defvar *accumulators*)
 (defvar *hash-table-iterators*)
@@ -157,7 +159,9 @@
            (parse-d-type-spec (next-exp))))))
 
 (defun it ()
-  (gensym #"IT"))
+  (if *it-enable-context*
+      (or *it* (setq *it* (gensym #"IT")))
+      nil))
 
 (defun parse-compound-forms ()
   (do ((forms nil))
@@ -561,7 +565,7 @@
 (defun parse-form-or-it ()
   (let ((exp (next-exp)))
     (if (eq :it (ensure-keyword exp))
-        (it)
+        (or (it) exp)
         exp)))
 
 (defun parse-return-clause ()
@@ -673,21 +677,26 @@
     `(progn ,@(nreverse forms))))
 
 (defun parse-conditional-clause-1 (test-name)
-  (let ((condition (next-exp))
-        (then (parse-conditional-then-else-clause))
-        (else
-          (when (eq (ensure-keyword (lookahead)) :else)
-            (next-exp)
-            (parse-conditional-then-else-clause))))
+  (let* ((condition (next-exp))
+         (then (let ((*it-enable-context* t))
+                 (parse-conditional-then-else-clause)))
+         (else
+           (when (eq (ensure-keyword (lookahead)) :else)
+             (next-exp)
+             (parse-conditional-then-else-clause))))
     (when (eq (ensure-keyword (lookahead)) :end)
       (next-exp))
     (ecase test-name
       ((:if :when)
-       `(if ,condition
+       `(if ,(if *it*
+                 `(setq ,*it* ,condition)
+                 condition)
             ,then
             ,else))
       ((:unless)
-       `(if (not ,condition)
+       `(if ,(if *it*
+                 `(setq ,*it* (not ,condition))
+                 `(not ,condition))
             ,then
             ,else)))))
 
@@ -807,6 +816,8 @@
         (*loop-test-forms* '())
         (*before-update-forms* '())
         (*after-update-forms* '())
+        (*it* nil)
+        (*it-enable-context* nil)
         (*loop-body* '())
         (loop-start (gensym #"LOOP-START")))
     (parse-loop forms)
@@ -858,6 +869,8 @@
                 (destructuring-bindings
                  `(loop-destructuring-bind ,@(destructuring-bindings-pair bindings)
                                            ,body)))))
+      (when *it*
+        (setq body `(let ((,*it* nil)) ,body)))
       `(block ,*named*
          ,body))))
 
