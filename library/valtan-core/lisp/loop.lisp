@@ -214,11 +214,11 @@
                    (let ((tmp-var (gensym)))
                      (push (list var tmp-var) d-binds)
                      (push (list tmp-var form) bindings))
-                   (setq bindings (nconc (map-d-var-d-type-spec var type-spec) bindings))))
+                   (setf bindings (nconc (map-d-var-d-type-spec var type-spec) bindings))))
               (t
                (if form
                    (push (list var form) bindings)
-                   (push (map-d-var-d-type-spec var type-spec) bindings))))
+                   (setf bindings (nconc (map-d-var-d-type-spec var type-spec) bindings)))))
         (if (eq (to-keyword (lookahead)) :and)
             (next-exp)
             (return))))
