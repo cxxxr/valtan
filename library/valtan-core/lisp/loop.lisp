@@ -678,6 +678,7 @@
         (then (parse-conditional-then-else-clause))
         (else
           (when (eq (ensure-keyword (lookahead)) :else)
+            (next-exp)
             (parse-conditional-then-else-clause))))
     (when (eq (ensure-keyword (lookahead)) :end)
       (next-exp))
