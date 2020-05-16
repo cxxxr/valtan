@@ -708,7 +708,15 @@
      (next-exp)
      `(when ,(next-exp)
         (go ,*loop-end-tag*)))
-    #+(or)((:repeat)) ;TODO
+    ((:repeat)
+     (next-exp)
+     ;; TODO: repeatの値をceilingする
+     (let ((repeat-var (gensym #"REPEAT"))
+           (repeat-value (next-exp)))
+       (push (make-let-bindings :pairs `((,repeat-var ,repeat-value))) *bindings*)
+       `(if (<= ,repeat-var 0)
+            (go ,*loop-end-tag*)
+            (decf ,repeat-var))))
     ((:always)
      (next-exp)
      (push `(return t) *result-forms*)
