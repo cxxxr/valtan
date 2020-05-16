@@ -3,7 +3,6 @@
 (cl:in-package :valtan-core/loop)
 
 (defvar *loop-exps*)
-(defvar *loop-end-tag*)
 
 (defvar *named*)
 (defvar *initially-forms*)
@@ -457,7 +456,7 @@
       (push `(unless (multiple-value-setq
                          (,hash-more-var ,hash-key-var ,hash-value-var)
                        (,hash-table-next))
-               (go ,*loop-end-tag*))
+               (go end-loop))
             *loop-body*)
       (when hash-first-temp
         (push `(d-setq ,hash-first-var ,hash-first-temp) *loop-body*))
@@ -703,11 +702,11 @@
     ((:while)
      (next-exp)
      `(unless ,(next-exp)
-        (go ,*loop-end-tag*)))
+        (go end-loop)))
     ((:until)
      (next-exp)
      `(when ,(next-exp)
-        (go ,*loop-end-tag*)))
+        (go end-loop)))
     ((:repeat)
      (next-exp)
      ;; TODO: repeatの値をceilingする
@@ -715,7 +714,7 @@
            (repeat-value (next-exp)))
        (push (make-let-bindings :pairs `((,repeat-var ,repeat-value))) *bindings*)
        `(if (<= ,repeat-var 0)
-            (go ,*loop-end-tag*)
+            (go end-loop)
             (decf ,repeat-var))))
     ((:always)
      (next-exp)
@@ -809,7 +808,6 @@
         (*before-update-forms* '())
         (*after-update-forms* '())
         (*loop-body* '())
-        (*loop-end-tag* (gensym #"LOOP-END"))
         (loop-start (gensym #"LOOP-START")))
     (parse-loop forms)
     (let ((body
@@ -818,13 +816,13 @@
                ,loop-start
                ,@(mapcar (lambda (form)
                            `(unless ,form
-                              (go ,*loop-end-tag*)))
+                              (go end-loop)))
                    (nreverse *loop-test-forms*))
                ,@(nreverse *before-update-forms*)
                ,@(nreverse *loop-body*)
                ,@(nreverse *after-update-forms*)
                (go ,loop-start)
-               ,*loop-end-tag*
+               END-LOOP
                ,@(nreverse *finally-forms*)
                ,@(nreverse *result-forms*))))
       (maphash (lambda (name kind/accumulator)
@@ -880,3 +878,6 @@
 
 (defmacro loop (&body forms)
   (valtan-core/loop::expand-loop forms))
+
+(defmacro loop-finish ()
+  '(go valtan-core/loop::end-loop))
