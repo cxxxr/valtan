@@ -56,7 +56,7 @@
   (set-macro-character #\( 'cons-reader nil readtable)
   (set-macro-character #\) 'read-right-paren nil readtable)
   (set-macro-character #\' 'quote-reader nil readtable)
-  (set-macro-character #\` 'quasiquote-reader nil readtable)
+  (set-macro-character #\` 'backquote-reader nil readtable)
   (set-macro-character #\, 'unquote-reader nil readtable)
   (set-macro-character #\; 'line-comment-reader nil readtable)
   (set-macro-character #\" 'string-reader nil readtable)
@@ -482,9 +482,9 @@
   (declare (ignore c))
   (list 'quote (read stream t nil t)))
 
-(defun quasiquote-reader (stream c)
+(defun backquote-reader (stream c)
   (declare (ignore c))
-  (list '*:quasiquote (read stream t nil t)))
+  (list '*:backquote (read stream t nil t)))
 
 (defun unquote-reader (stream c)
   (declare (ignore c))
@@ -809,7 +809,7 @@
   (:import-from :valtan-core
                 . #1=(:cons-reader
                       :quote-reader
-                      :quasiquote-reader
+                      :backquote-reader
                       :unquote-reader
                       :line-comment-reader
                       :string-reader

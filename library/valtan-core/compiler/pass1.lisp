@@ -335,8 +335,8 @@
      (*:put ',name 'constant t)
      ',name))
 
-(def-transform *:quasiquote (x)
-  (expand-quasiquote x))
+(def-transform *:backquote (x)
+  (expand-backquote x))
 
 (defun pass1-const (x return-value-p)
   (make-hir 'const return-value-p nil x))

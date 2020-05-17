@@ -5,8 +5,8 @@
            :map-file-forms))
 (in-package :valtan-host.reader)
 
-(defmacro *:quasiquote (x)
-  (compiler::expand-quasiquote x))
+(defmacro *:backquote (x)
+  (compiler::expand-backquote x))
 
 (defun ensure-raw-array (x)
   (if (typep x 'valtan-core::structure)
