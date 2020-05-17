@@ -72,6 +72,7 @@
   (set-dispatch-macro-character #\# #\* 'bit-vector-reader readtable)
   (set-dispatch-macro-character #\# #\| 'block-comment-reader readtable)
   (set-dispatch-macro-character #\# #\B 'bit-number-reader readtable)
+  (set-dispatch-macro-character #\# #\. 'sharp-dot-reader readtable)
 
   ;; valtan dependency
   (set-dispatch-macro-character #\# #\" 'cl-string-reader readtable)
@@ -711,6 +712,11 @@
                 (char= #\| (peek-char nil stream t nil t)))
            (incf depth))))
   (values))
+
+(defun sharp-dot-reader (stream sub-char arg)
+  (declare (ignore sub-char arg))
+  (let ((form (read stream t nil t)))
+    (cl:eval form)))
 
 (defun cl-string-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
