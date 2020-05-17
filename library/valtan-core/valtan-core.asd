@@ -57,6 +57,7 @@
                (:file "compiler/source-info")
                (:file "compiler/interface")
                (:file "compiler/hir")
+               (:file "compiler/backquote")
                (:file "compiler/pass1")
                (:file "compiler/hir-walker" :if-feature (:not :valtan))
                (:file "compiler/type-infer" :if-feature (:not :valtan))
