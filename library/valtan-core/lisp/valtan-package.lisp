@@ -122,6 +122,7 @@
            :named-lambda
            :unquote
            :unquote-splicing
+           :unquote-nsplicing
            :backquote
            :random))
 

@@ -488,11 +488,15 @@
 
 (defun unquote-reader (stream c)
   (declare (ignore c))
-  (cond ((char= #\@ (peek-char nil stream t nil t))
-         (read-char stream t nil t)
-         (list '*:unquote-splicing (read stream t nil t)))
-        (t
-         (list '*:unquote (read stream t nil t)))))
+  (let ((lookahead (peek-char nil stream t nil t)))
+    (cond ((char= #\@ lookahead)
+           (read-char stream t nil t)
+           (list '*:unquote-splicing (read stream t nil t)))
+          ((char= #\. lookahead)
+           (read-char stream t nil t)
+           (list '*:unquote-nsplicing (read stream t nil t)))
+          (t
+           (list '*:unquote (read stream t nil t))))))
 
 (defun line-comment-reader (stream c)
   (declare (ignore c))

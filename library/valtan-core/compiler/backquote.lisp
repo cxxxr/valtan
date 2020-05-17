@@ -2,7 +2,7 @@
 
 (defvar *comma* '*:unquote)
 (defvar *comma-atsign* '*:unquote-splicing)
-(defvar *comma-dot* '*::unquote-nsplicing) ;TODO
+(defvar *comma-dot* '*:unquote-nsplicing) ;TODO
 (defvar *bq-list* (make-symbol "BQ-LIST"))
 (defvar *bq-append* (make-symbol "BQ-APPEND"))
 (defvar *bq-list** (make-symbol "BQ-LIST*"))
