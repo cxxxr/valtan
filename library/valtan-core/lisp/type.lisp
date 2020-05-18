@@ -17,8 +17,9 @@
                        (setq state nil)
                        x)
                       ((member state '(:optional :key))
-                       (list (if (symbolp x) (car x) x)
-                             ''*))
+                       (if (symbolp x)
+                           (list x ''*)
+                           x))
                       (t
                        x)))
               lambda-list))))
