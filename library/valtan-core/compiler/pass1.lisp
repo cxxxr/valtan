@@ -151,7 +151,7 @@
                                            (lambda-list-error))
                                          (unless (= 2 (length arg1))
                                            (lambda-list-error))
-                                         (unless (keywordp (first arg1))
+                                         (unless (symbolp (first arg1))
                                            (lambda-list-error))
                                          (check-variable (second arg1))
                                          (values (second arg1)
