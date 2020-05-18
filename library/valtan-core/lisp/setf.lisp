@@ -92,7 +92,7 @@
                      (t (cl:push (cl:caar cl:rest) vars))))))
     (let ((reference (cl:gensym)))
       `(defmacro ,name (,reference ,@lambda-list)
-         ,(cl:when documentation-p `(,cl:documentation))
+         ,@(cl:when documentation-p `(,cl:documentation))
          (cl:multiple-value-bind (vars cl:values stores set-form access-form)
              (!get-setf-expansion ,reference)
            (cl:list 'let*
