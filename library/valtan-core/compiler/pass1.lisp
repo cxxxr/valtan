@@ -411,6 +411,7 @@
                      *lexenv*)))))
       ((optimize))
       ((inline))
+      ((dynamic-extent))
       (otherwise
        (multiple-value-bind (type vars)
            (if (eq 'type (first spec))
