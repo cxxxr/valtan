@@ -223,4 +223,4 @@
   (declare (ignore type-string))
   `(do ()
        ((typep ,place ',type-spec))
-     (setq ,place (check-type-error ',type-spec ',place))))
+     (setf ,place (check-type-error ',type-spec ',place))))
