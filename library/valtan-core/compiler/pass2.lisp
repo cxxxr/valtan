@@ -1070,7 +1070,8 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
         (forms (hir-arg2 hir))
         (export-modules (hir-arg3 hir)))
     (declare (ignore name))
-    (p2-forms forms)
+    (when forms
+      (p2-forms forms))
     (dolist (export-module export-modules)
       (destructuring-bind (name . as) export-module
         (if as
