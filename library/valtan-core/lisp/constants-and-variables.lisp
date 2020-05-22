@@ -5,3 +5,5 @@
 
 (defparameter lambda-list-keywords
   '(&ALLOW-OTHER-KEYS &AUX &BODY &ENVIRONMENT &KEY &OPTIONAL &REST &WHOLE))
+
+(defvar *features* '(:valtan))

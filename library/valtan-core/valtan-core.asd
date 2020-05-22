@@ -18,7 +18,7 @@
                       (funcall thunk)))
   :depends-on ("valtan-core/system")
   :serial t
-  :components ((:file "lisp/constants")
+  :components ((:file "lisp/constants-and-variables")
                (:file "lisp/control")
                (:file "lisp/destructuring-bind")
                (:file "lisp/setf")

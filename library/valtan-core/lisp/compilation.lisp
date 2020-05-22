@@ -1,7 +1,5 @@
 (in-package :common-lisp)
 
-(defvar *features* '(:valtan))
-
 (defun eval (x)
   (ffi:js-eval (compiler:compile-toplevel x)))
 
