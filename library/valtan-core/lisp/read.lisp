@@ -719,8 +719,12 @@
 
 (defun sharp-dot-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
-  (let ((form (read stream t nil t)))
-    (cl:eval form)))
+  #+valtan
+  (eval (read stream t nil t))
+  #-valtan
+  (cl:eval
+   (let ((*package* (cl:find-package :valtan-core)))
+     (read stream t nil t))))
 
 (defun cl-string-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
