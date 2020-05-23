@@ -10,6 +10,11 @@
 
 (defparameter *whitespaces* '(#\space #\tab #\newline #\linefeed #\page #\return))
 
+(defun read-error (format-control &rest format-arguments)
+  (error 'simple-reader-error
+         :format-control format-control
+         :format-arguments format-arguments))
+
 (defun whitespacep (c)
   (find c *whitespaces*))
 
@@ -117,13 +122,13 @@
 (defun get-dispatch-table (readtable disp-char)
   (let ((dispatch-table (gethash disp-char (readtable-dispatch-macro-table readtable))))
     (unless dispatch-table
-      (error "~S is not a dispatching macro character." disp-char))
+      (read-error "~S is not a dispatching macro character." disp-char))
     dispatch-table))
 
 (defun set-dispatch-macro-character (disp-char sub-char function &optional (readtable *readtable*))
   (let ((dispatch-table (get-dispatch-table readtable disp-char)))
     (when (digit-char-p sub-char)
-      (error "SUB-CHAR must not be a decimal digit: ~S" sub-char))
+      (read-error "SUB-CHAR must not be a decimal digit: ~S" sub-char))
     (setf (gethash (char-upcase sub-char) dispatch-table)
           function)
     t))
@@ -306,20 +311,20 @@
 (defun check-dot (token)
   (cond ((string= token ".")
          (unless *inner-list-p*
-           (error "dot error")))
+           (read-error "dot error")))
         ((not (dotimes (i (length token))
                 (unless (char= #\. (aref token i))
                   (return t))))
-         (error "dot error"))))
+         (read-error "dot error"))))
 
 (defun parse-symbol (token)
   (flet ((f (package-name symbol-name external-p)
            (let ((package (find-package package-name)))
              (cond
                ((null package)
-                (error "Package ~A does not exist." package-name))
+                (read-error "Package ~A does not exist." package-name))
                ((find #\: symbol-name)
-                (error "too many colons after ~S name" package-name))
+                (read-error "too many colons after ~S name" package-name))
                ((or (not external-p)
                     (string= package-name "JS"))
                 (intern symbol-name package-name))
@@ -329,8 +334,8 @@
                   (declare (ignore symbol))
                   (if (eq status :external)
                       (intern symbol-name package-name)
-                      (error "Symbol ~S not found in the ~A package."
-                             symbol-name package-name))))))))
+                      (read-error "Symbol ~S not found in the ~A package."
+                                  symbol-name package-name))))))))
     (let ((pos (position #\: token)))
       (cond ((null pos)
              (intern token))
@@ -461,10 +466,10 @@
                (let ((x (read stream t nil t)))
                  (cond ((eq x *read-skip-marker*))
                        ((eq x *dot-marker*)
-                        (unless head (error "dot error"))
+                        (unless head (read-error "dot error"))
                         (setf (cdr tail) (read stream t nil t))
                         (unless (char= (peek-char t stream t nil t) #\))
-                          (error "dot error"))
+                          (read-error "dot error"))
                         (read-char stream t nil t)
                         (return))
                        ((null tail)
@@ -476,7 +481,7 @@
 
 (defun read-right-paren (stream c)
   (declare (ignore stream c))
-  (error "unmatched close parenthesis"))
+  (read-error "unmatched close parenthesis"))
 
 (defun quote-reader (stream c)
   (declare (ignore c))
@@ -532,7 +537,7 @@
       (setq sub-char (read-char stream t nil t)))
     (let ((fn (get-dispatch-macro-character disp-char sub-char)))
       (unless fn
-        (error "no dispatch function defined for ~S" sub-char))
+        (read-error "no dispatch function defined for ~S" sub-char))
       (funcall fn stream sub-char arg))))
 
 (defun character-reader (stream sub-char arg)
@@ -559,7 +564,7 @@
                 ((string-equal name "linefeed")
                  #\linefeed)
                 (t
-                 (error "unrecognized character name: ~S" name)))))))
+                 (read-error "unrecognized character name: ~S" name)))))))
 
 (defun function-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
@@ -575,7 +580,7 @@
                              (read-char stream t nil t)
                              (readtable-case *readtable*))))
     (when (number-string-p token)
-      (error "The symbol following #: has numeric syntax: ~S" token))
+      (read-error "The symbol following #: has numeric syntax: ~S" token))
     (make-symbol token)))
 
 (defun featurep (test)
@@ -584,20 +589,20 @@
            ((:not not)
             (cond
               ((cddr test)
-               (error "too many subexpressions in feature expression: ~S" test))
+               (read-error "too many subexpressions in feature expression: ~S" test))
               ((null (cdr test))
-               (error "too few subexpressions in feature expression: ~S" test))
+               (read-error "too few subexpressions in feature expression: ~S" test))
               (t (not (featurep (cadr test))))))
            ((:and and)
             (every #'featurep (rest test)))
            ((:or or)
             (some #'featurep (rest test)))
            (otherwise
-            (error "unknown operator in feature expression: ~S." test))))
+            (read-error "unknown operator in feature expression: ~S." test))))
         ((symbolp test)
          (not (null (member test *features* :test #'string=))))
         (t
-         (error "invalid feature expression: ~S" test))))
+         (read-error "invalid feature expression: ~S" test))))
 
 (defun sharp-plus-minus-reader (stream sub-char arg)
   (declare (ignore arg))
@@ -627,32 +632,32 @@
                                (unless (eq cdr (cdr tree))
                                  (rplacd tree cdr))))
                             ((arrayp tree)
-                             (error "subst-sharp-equal trap")))
+                             (read-error "subst-sharp-equal trap")))
                       tree))))
       (f tree))))
 
 (defun sharp-equal-reader (stream sub-char label)
   (declare (ignore sub-char))
   (unless label
-    (error "Reader dispatch macro character #\= requires an argument."))
+    (read-error "Reader dispatch macro character #\= requires an argument."))
   (when (gethash label *read-label-table*)
-    (error "Multiply defined label: #~D=" label))
+    (read-error "Multiply defined label: #~D=" label))
   (let* ((sharp-equal (make-sharp-equal :label label))
          (form (progn
                  (setf (gethash label *read-label-table*) sharp-equal)
                  (read stream t nil t))))
     (when (eq sharp-equal form)
-      (error "Must label something more than just #~D#" label))
+      (read-error "Must label something more than just #~D#" label))
     (setf (sharp-equal-value sharp-equal) form)
     (subst-sharp-equal form)))
 
 (defun sharp-sharp-reader (stream sub-char label)
   (declare (ignore stream sub-char))
   (unless label
-    (error "Reader dispatch macro character #\# requires an argument."))
+    (read-error "Reader dispatch macro character #\# requires an argument."))
   (let ((sharp-equal (gethash label *read-label-table*)))
     (cond ((null sharp-equal)
-           (error "Reference to undefined label #~D#" label))
+           (read-error "Reference to undefined label #~D#" label))
           ((eq (sharp-equal-value sharp-equal) +sharp-equal-marker+)
            sharp-equal)
           (t
@@ -744,7 +749,7 @@
                             (char= c #\:))
                         (return))
                        (t
-                        (error "invalid character: ~S" c))))))
+                        (read-error "invalid character: ~S" c))))))
            (read-js-ident ()
              (let ((tokens '()))
                (do ((token (read-js-ident-1) (read-js-ident-1)))
@@ -759,9 +764,9 @@
        (read-char stream)
        (cons 'ffi:ref (read-js-ident)))
       (#\[
-       (error "unimplemented #j[...]"))
+       (read-error "unimplemented #j[...]"))
       (#\{
-       (error "unimplemented #j{...}"))
+       (read-error "unimplemented #j{...}"))
       (otherwise
        (list 'ffi:cl->js (read stream t nil t))))))
 

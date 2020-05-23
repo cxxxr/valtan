@@ -1220,6 +1220,15 @@
    (lambda (c stream)
      (format stream "The variable ~S is unbound" (cell-error-name c)))))
 
+(define-condition stream-error (error)
+  ())
+
+(define-condition reader-error (parse-error stream-error)
+  ())
+
+(define-condition simple-reader-error (reader-error simple-condition)
+  ())
+
 (defun make-condition (type &rest initargs)
   (let ((class (find-class type nil)))
     (when (or (null class)
