@@ -5,60 +5,46 @@
 
 (defgeneric documentation (x doc-type))
 
-#+(or)
 (defmethod documentation ((x function) (doc-type (eql t)))
   )
 
-#+(or)
 (defmethod documentation ((x function) (doc-type (eql 'functin)))
   )
 
-#+(or)
 (defmethod documentation ((x list) (doc-type (eql 'function)))
   )
 
-#+(or)
 (defmethod documentation ((x list) (doc-type (eql 'compiler-macro)))
   )
 
-#+(or)
 (defmethod documentation ((x symbol) (doc-type (eql 'function)))
   )
 
-#+(or)
 (defmethod documentation ((x symbol) (doc-type (eql 'compiler-macro)))
   )
 
-#+(or)
-(defmethod documentation ((x symbol) (doc-type (eql 'cl:setf)))
+(defmethod documentation ((x symbol) (doc-type (eql 'setf)))
   )
 
-#+(or)
-(defmethod (cl:setf documentation) (new-value (x function) (doc-type (eql 't)))
+(defmethod (setf documentation) (new-value (x function) (doc-type (eql 't)))
   )
 
-#+(or)
-(defmethod (cl:setf documentation) (new-value (x function) (doc-type (eql 'function)))
+(defmethod (setf documentation) (new-value (x function) (doc-type (eql 'function)))
   )
 
-#+(or)
-(defmethod (cl:setf documentation) (new-value (x list) (doc-type (eql 'function)))
+(defmethod (setf documentation) (new-value (x list) (doc-type (eql 'function)))
   )
 
-#+(or)
-(defmethod (cl:setf documentation) (new-value (x list) (doc-type (eql 'compiler-macro)))
+(defmethod (setf documentation) (new-value (x list) (doc-type (eql 'compiler-macro)))
   )
 
-#+(or)
-(defmethod (cl:setf documentation) (new-value (x symbol) (doc-type (eql 'function)))
+(defmethod (setf documentation) (new-value (x symbol) (doc-type (eql 'function)))
   )
 
-#+(or)
-(defmethod (cl:setf documentation) (new-value (x symbol) (doc-type (eql 'compiler-macro)))
+(defmethod (setf documentation) (new-value (x symbol) (doc-type (eql 'compiler-macro)))
   )
 
-#+(or)
-(defmethod (cl:setf documentation) (new-value (x symbol) (doc-type (eql 'cl:setf)))
+(defmethod (setf documentation) (new-value (x symbol) (doc-type (eql 'setf)))
   )
 
 (defmethod documentatin ((x symbol) (doc-type (eql 'variable)))
