@@ -570,11 +570,20 @@
   (defun canonicalize-defgeneric-options (options)
     (mappend #'canonicalize-defgeneric-option options)))
 
-(let ((generic-function-table (make-hash-table)))
+(let ((generic-function-table (make-hash-table))
+      (setf-generic-function-table (make-hash-table)))
+
   (defun find-generic-function (function-name)
-    (gethash function-name generic-function-table))
+    (if (consp function-name)
+        (gethash (cadr function-name) setf-generic-function-table)
+        (gethash function-name generic-function-table)))
+
   (defun (cl:setf find-generic-function) (gf function-name)
-    (setf (gethash function-name generic-function-table) gf)))
+    (if (consp function-name)
+        (setf (gethash (cadr function-name) setf-generic-function-table)
+              gf)
+        (setf (gethash function-name generic-function-table)
+              gf))))
 
 (defun ensure-generic-function (function-name
                                 &rest all-keys
