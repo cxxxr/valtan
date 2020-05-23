@@ -595,7 +595,7 @@
            (otherwise
             (error "unknown operator in feature expression: ~S." test))))
         ((symbolp test)
-         (not (null (member test cl:*features* :test #'string=))))
+         (not (null (member test *features* :test #'string=))))
         (t
          (error "invalid feature expression: ~S" test))))
 

@@ -291,10 +291,10 @@
          (*cache-directory* (append base-directory
                                     (list ".valtan-cache")))
          (*discard-cache* (if force t nil))
-         (*features* *features*))
-    (pushnew :valtan *features*)
+         (valtan-core::*features* valtan-core::*features*))
+    (pushnew :valtan valtan-core::*features*)
     (when (eql :node (valtan-host.system:system-target system))
-      (pushnew :node *features*))
+      (pushnew :node valtan-core::*features*))
     (prepare-valtan-path base-directory)
     (dolist (system (valtan-host.system:compute-system-precedence-list system))
       (when (check-discarting-cache-system-file system)
