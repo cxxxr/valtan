@@ -8,22 +8,44 @@
     (error "out of bounds")))
 
 (defun map-sequence (function sequence from-end start end key)
-  (when (or start end)
-    (setq sequence (subseq sequence (or start 0) end)))
-  (when from-end
-    (setq sequence (reverse sequence)))
+  (unless start
+    (setq start 0))
   (cond ((listp sequence)
-         (if key
-             (dolist (x sequence)
-               (funcall function (funcall key x)))
-             (dolist (x sequence)
-               (funcall function x))))
+         (let* ((length (length sequence))
+                (end (or end length)))
+           (if from-end
+               (let ((sequence (reverse-list sequence)))
+                 (do ((rest (nthcdr (- length end) sequence) (cdr rest))
+                      (i end (1- i)))
+                     ((= i start))
+                   (let ((x (car rest)))
+                     (if key
+                         (funcall function (funcall key x))
+                         (funcall function x)))))
+               (do ((rest (nthcdr start sequence) (cdr rest))
+                    (i start (1+ i)))
+                   ((= i end))
+                 (let ((x (car rest)))
+                   (if key
+                       (funcall function (funcall key x))
+                       (funcall function x)))))))
         ((vectorp sequence)
-         (if key
-             (dotimes (i (length sequence))
-               (funcall function (funcall key (aref sequence i))))
-             (dotimes (i (length sequence))
-               (funcall function (aref sequence i)))))
+         (let ((end (or end (length sequence))))
+           (if from-end
+               (if key
+                   (do ((i (1- end) (1- i)))
+                       ((< i start))
+                     (funcall function (funcall key (aref sequence i))))
+                   (do ((i (1- end) (1- i)))
+                       ((< i start))
+                     (funcall function (aref sequence i))))
+               (if key
+                   (do ((i start (1+ i)))
+                       ((= i end))
+                     (funcall function (funcall key (aref sequence i))))
+                   (do ((i start (1+ i)))
+                       ((= i end))
+                     (funcall function (aref sequence i)))))))
         (t
          (type-error sequence 'sequence))))
 
