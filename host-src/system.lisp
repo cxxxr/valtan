@@ -1,6 +1,7 @@
 (defpackage :valtan-host.system
   (:use :cl)
-  (:export :system-name
+  (:export :*system-directories*
+           :system-name
            :system-pathname
            :system-pathnames
            :system-enable-profile

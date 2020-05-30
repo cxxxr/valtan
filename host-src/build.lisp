@@ -314,7 +314,10 @@
 
 (defun build-system (pathname &key force)
   (let* ((pathname (ensure-system-file pathname))
-         (system (valtan-host.system:load-system-file pathname)))
+         (system (valtan-host.system:load-system-file pathname))
+         (valtan-host.system:*system-directories*
+           (cons (uiop:pathname-directory-pathname pathname)
+                 valtan-host.system::*system-directories*)))
     (build-system-using-system system :force force)))
 
 (defun webpack (directory)
