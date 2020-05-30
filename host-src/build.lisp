@@ -2,6 +2,7 @@
   (:use :cl
         :cl-source-map/source-map-generator
         :cl-source-map/mapping
+        :valtan-host.system
         :valtan-host.emitter-stream)
   (:import-from :cl-source-map/mapping
                 :mapping-generated-line
@@ -228,7 +229,7 @@
                    :type (pathname-type pathname2))))
 
 (defun compute-output-system-pathname (system)
-  (input-file-to-output-file (valtan-host.system:escape-system-pathname system)))
+  (input-file-to-output-file (escape-system-pathname system)))
 
 (defun compile-system-file (system)
   (%with-compilation-unit ()
@@ -236,22 +237,22 @@
       (ensure-directories-exist output-file)
       (with-write-file (out output-file)
         (write-line "import * as lisp from 'lisp';" out)
-        (dolist (system-name (valtan-host.system:system-depends-on system))
-          (let* ((dependent-system (valtan-host.system:find-system system-name)) ;!!!
-                 (path (resolve-path (valtan-host.system:escape-system-pathname system)
-                                     (valtan-host.system:escape-system-pathname dependent-system))))
+        (dolist (system-name (system-depends-on system))
+          (let* ((dependent-system (find-system system-name)) ;!!!
+                 (path (resolve-path (escape-system-pathname system)
+                                     (escape-system-pathname dependent-system))))
             (format out "require('~A.js');~%" path)))
-        (dolist (pathname (valtan-host.system:system-pathnames system))
-          (let ((path (resolve-path (valtan-host.system:escape-system-pathname system)
+        (dolist (pathname (system-pathnames system))
+          (let ((path (resolve-path (escape-system-pathname system)
                                     pathname)))
             (format out "require('~A.js');~%" path))))
       output-file)))
 
 (defun cache-system-key (system)
-  (valtan-host.system:system-name system))
+  (system-name system))
 
 (defun compile-system-file-with-cache (system)
-  (let ((input-file (valtan-host.system:system-pathname system)))
+  (let ((input-file (system-pathname system)))
     (invoke-compile-file-with-cache
      input-file
      (lambda ()
@@ -259,16 +260,16 @@
      :cache-key (cache-system-key system))))
 
 (defun check-discarting-cache-system-file (system)
-  (let* ((input-file (valtan-host.system:system-pathname system))
+  (let* ((input-file (system-pathname system))
          (cache (gethash (cache-system-key system) *cache*)))
     (and cache (not (latest-cache-p cache input-file)))))
 
 (defun create-entry-file (system)
   (let ((output-file (make-pathname :type "js"
-                                    :name (valtan-host.system:system-name system)
+                                    :name (system-name system)
                                     :directory *cache-directory*)))
     (with-source-map (stream
-                      (valtan-host.system:system-pathname system)
+                      (system-pathname system)
                       output-file)
       (write-line "import * as lisp from 'lisp';" stream)
       (format stream
@@ -288,20 +289,20 @@
 
 (defun build-system-using-system (system &key force)
   (let* ((base-directory (pathname-directory
-                          (valtan-host.system:system-pathname system)))
-         (*enable-source-map* (valtan-host.system:system-enable-source-map system))
+                          (system-pathname system)))
+         (*enable-source-map* (system-enable-source-map system))
          (*cache-directory* (append base-directory
                                     (list ".valtan-cache")))
          (*discard-cache* (if force t nil))
          (valtan-core::*features* valtan-core::*features*))
     (pushnew :valtan valtan-core::*features*)
-    (when (eql :node (valtan-host.system:system-target system))
+    (when (eql :node (system-target system))
       (pushnew :node valtan-core::*features*))
     (prepare-valtan-path base-directory)
-    (dolist (system (valtan-host.system:compute-system-precedence-list system))
+    (dolist (system (compute-system-precedence-list system))
       (when (check-discarting-cache-system-file system)
         (setq *discard-cache* t))
-      (dolist (pathname (valtan-host.system:system-pathnames system))
+      (dolist (pathname (system-pathnames system))
         (compile-file-with-cache pathname))
       (compile-system-file-with-cache system))
     (create-entry-file system)))
@@ -310,16 +311,16 @@
   (let ((probed-pathname (probe-file pathname)))
     (unless probed-pathname
       (error "~A does not exist" pathname))
-    (unless (valtan-host.system:system-file-p pathname)
+    (unless (system-file-p pathname)
       (error "~A is not a system file" pathname))
     probed-pathname))
 
 (defun build-system (pathname &key force)
   (let* ((pathname (ensure-system-file pathname))
-         (system (valtan-host.system:load-system-file pathname))
-         (valtan-host.system:*system-directories*
+         (system (load-system-file pathname))
+         (*system-directories*
            (cons (uiop:pathname-directory-pathname pathname)
-                 valtan-host.system:*system-directories*)))
+                 *system-directories*)))
     (build-system-using-system system :force force)))
 
 (defun webpack (directory)
@@ -347,10 +348,10 @@
   (values))
 
 (defun all-directories-to-notify (system)
-  (let ((systems (valtan-host.system:compute-system-precedence-list system))
+  (let ((systems (compute-system-precedence-list system))
         (directories '()))
     (dolist (system systems)
-      (dolist (pathname (valtan-host.system:system-pathnames system))
+      (dolist (pathname (system-pathnames system))
         (pushnew (make-pathname :directory (pathname-directory pathname))
                  directories
                  :test #'uiop:pathname-equal)))
@@ -360,7 +361,7 @@
 (defun run-build-server (pathname)
   (let* ((pathname (ensure-system-file pathname))
          (system-directory (make-pathname :directory (pathname-directory pathname)))
-         (system (valtan-host.system:load-system pathname)))
+         (system (load-system pathname)))
     (let* ((directories (all-directories-to-notify system))
            (paths-with-masks
              (loop :for directory :in directories
