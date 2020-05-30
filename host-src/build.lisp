@@ -75,8 +75,11 @@
 (defmacro do-file-form ((var file) &body body)
   `(valtan-host.reader:map-file-forms (lambda (,var) ,@body) ,file))
 
+(defun emit-import-lisp (stream)
+  (write-line "var lisp = require('lisp');" stream))
+
 (defun in-pass2 (hir-forms stream)
-  (write-line "import * as lisp from 'lisp';" stream)
+  (emit-import-lisp stream)
   (loop :for (var . module) :in compiler::*require-modules*
         :do (if var
                 (format stream
@@ -232,11 +235,13 @@
   (input-file-to-output-file (escape-system-pathname system)))
 
 (defun compile-system-file (system)
+  (when (system-entry-file system)
+    (create-entry-file system))
   (%with-compilation-unit ()
     (let ((output-file (compute-output-system-pathname system)))
       (ensure-directories-exist output-file)
       (with-write-file (out output-file)
-        (write-line "import * as lisp from 'lisp';" out)
+        (emit-import-lisp out)
         (dolist (system-name (system-depends-on system))
           (let* ((dependent-system (find-system system-name)) ;!!!
                  (path (resolve-path (escape-system-pathname system)
@@ -265,13 +270,17 @@
     (and cache (not (latest-cache-p cache input-file)))))
 
 (defun create-entry-file (system)
-  (let ((output-file (make-pathname :type "js"
-                                    :name (system-name system)
-                                    :directory *cache-directory*)))
+  (let ((output-file
+          (if (system-entry-file system)
+              (merge-pathnames (system-entry-file system)
+                               (uiop:pathname-directory-pathname (system-pathname system)))
+              (make-pathname :type "js"
+                             :name (system-name system)
+                             :directory *cache-directory*))))
     (with-source-map (stream
                       (system-pathname system)
                       output-file)
-      (write-line "import * as lisp from 'lisp';" stream)
+      (emit-import-lisp stream)
       (format stream
               "require('~A');~%"
               (compute-output-system-pathname system))

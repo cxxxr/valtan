@@ -8,6 +8,7 @@
            :system-enable-source-map
            :system-depends-on
            :system-target
+           :system-entry-file
            :system-file-p
            :load-system
            :find-system
@@ -30,7 +31,8 @@
   (enable-profile nil)
   (enable-source-map nil)
   (depends-on '())
-  (target nil :type (member :node :browser nil)))
+  (target nil :type (member :node :browser nil))
+  (entry-file nil))
 
 (defstruct component
   name
@@ -94,7 +96,7 @@
       (mapcar #'component-pathname (nreverse computed-components)))))
 
 (defmacro valtan-host.system-user::defsystem
-    (name &key (serial nil serial-p) depends-on components target source-map &allow-other-keys)
+    (name &key (serial nil serial-p) depends-on components target source-map entry-file &allow-other-keys)
   (check-type target (member :node :browser nil))
   (assert (or (not serial-p) (eq serial t)))
   (let ((components (parse-components :components components
@@ -109,7 +111,8 @@
                                           (cons +valtan-core-system+ depends-on))
                         :pathnames ',(compute-components-pathnames components)
                         :target ,target
-                        :enable-source-map ,source-map))))
+                        :enable-source-map ,source-map
+                        :entry-file ,entry-file))))
 
 (defmacro with-system-env (() &body body)
   `(let ((*package* (ensure-system-package-exist))
