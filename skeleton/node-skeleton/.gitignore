@@ -1,7 +1,6 @@
 node_modules/
 dist/
 package-lock.json
-<% @var name %>.js
 .valtan-path
 .valtan-cache
 *.map
