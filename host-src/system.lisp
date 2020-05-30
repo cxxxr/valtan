@@ -12,7 +12,7 @@
            :find-system
            :load-system-file
            :compute-system-precedence-list
-           :system-to-pathname))
+           :escape-system-pathname))
 (in-package :valtan-host.system)
 
 (defpackage :valtan-host.system-user (:use :cl))
@@ -173,7 +173,7 @@
       (f system)
       (nreverse systems))))
 
-(defun system-to-pathname (system)
+(defun escape-system-pathname (system)
   (make-pathname :directory (pathname-directory (system-pathname system))
                  :name (ppcre:regex-replace-all "/" (system-name system) "-slash-")
                  :type (pathname-type (system-pathname system))))

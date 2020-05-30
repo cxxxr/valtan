@@ -229,17 +229,17 @@
 
 (defun compile-system-file (system)
   (%with-compilation-unit ()
-    (let ((output-file (input-file-to-output-file (valtan-host.system:system-to-pathname system))))
+    (let ((output-file (input-file-to-output-file (valtan-host.system:escape-system-pathname system))))
       (ensure-directories-exist output-file)
       (with-write-file (out output-file)
         (write-line "import * as lisp from 'lisp';" out)
         (dolist (system-name (valtan-host.system:system-depends-on system))
           (let* ((dependent-system (valtan-host.system:find-system system-name)) ;!!!
-                 (path (resolve-path (valtan-host.system:system-to-pathname system)
-                                     (valtan-host.system:system-to-pathname dependent-system))))
+                 (path (resolve-path (valtan-host.system:escape-system-pathname system)
+                                     (valtan-host.system:escape-system-pathname dependent-system))))
             (format out "require('~A.js');~%" path)))
         (dolist (pathname (valtan-host.system:system-pathnames system))
-          (let ((path (resolve-path (valtan-host.system:system-to-pathname system)
+          (let ((path (resolve-path (valtan-host.system:escape-system-pathname system)
                                     pathname)))
             (format out "require('~A.js');~%" path))))
       output-file)))
@@ -271,7 +271,7 @@
       (format stream
               "require('~A');~%"
               (input-file-to-output-file
-               (valtan-host.system:system-to-pathname system)))
+               (valtan-host.system:escape-system-pathname system)))
       (compiler::p2-toplevel-forms
        (list (compiler::pass1-toplevel '(cl:finish-output) stream))
        stream))))
