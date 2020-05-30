@@ -227,9 +227,12 @@
                    :name (pathname-name pathname2)
                    :type (pathname-type pathname2))))
 
+(defun compute-output-system-pathname (system)
+  (input-file-to-output-file (valtan-host.system:escape-system-pathname system)))
+
 (defun compile-system-file (system)
   (%with-compilation-unit ()
-    (let ((output-file (input-file-to-output-file (valtan-host.system:escape-system-pathname system))))
+    (let ((output-file (compute-output-system-pathname system)))
       (ensure-directories-exist output-file)
       (with-write-file (out output-file)
         (write-line "import * as lisp from 'lisp';" out)
@@ -270,8 +273,7 @@
       (write-line "import * as lisp from 'lisp';" stream)
       (format stream
               "require('~A');~%"
-              (input-file-to-output-file
-               (valtan-host.system:escape-system-pathname system)))
+              (compute-output-system-pathname system))
       (compiler::p2-toplevel-forms
        (list (compiler::pass1-toplevel '(cl:finish-output) stream))
        stream))))
@@ -317,7 +319,7 @@
          (system (valtan-host.system:load-system-file pathname))
          (valtan-host.system:*system-directories*
            (cons (uiop:pathname-directory-pathname pathname)
-                 valtan-host.system::*system-directories*)))
+                 valtan-host.system:*system-directories*)))
     (build-system-using-system system :force force)))
 
 (defun webpack (directory)
