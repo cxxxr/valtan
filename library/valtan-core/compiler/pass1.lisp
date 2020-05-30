@@ -1095,15 +1095,24 @@
              (pass1 x t nil))))
 
 (def-pass1-form ffi:new ((&whole form constructor &rest args) return-value-p multiple-values-p)
-  (set-hir-position
-   form
-   (make-hir 'ffi:new
-             return-value-p
-             nil
-             (pass1 constructor t nil)
-             (mapcar (lambda (arg)
-                       (pass1 arg t nil))
-                     args))))
+  (flet ((simple-ref-form-p (form)
+           (or (js-symbol-p form)
+               (and (consp form)
+                    (eq 'ffi:ref (first form))
+                    (not (js-symbol-p (second form)))
+                    (or (stringp (second form))
+                        (symbolp (second form)))))))
+    (when (and args (not (simple-ref-form-p constructor)))
+      (compile-error "invalid new form: ~S" form))
+    (set-hir-position
+     form
+     (make-hir 'ffi:new
+               return-value-p
+               nil
+               (pass1 constructor t nil)
+               (mapcar (lambda (arg)
+                         (pass1 arg t nil))
+                       args)))))
 
 (def-pass1-form ffi:aget ((&whole form array index &rest other-indexes) return-value-p multiple-value-p)
   (set-hir-position

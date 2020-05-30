@@ -1035,8 +1035,12 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
       (when (hir-return-value-p hir)
         (setq result (p2-temporary-var))
         (format *p2-emit-stream* "~A=" result))
-      (format *p2-emit-stream* "new ~A(" fn)
-      (p2-emit-args args)
+      (format *p2-emit-stream* "new ~A" fn)
+      (cond (args
+             (write-string "(" *p2-emit-stream*)
+             (p2-emit-args args))
+            (t
+             (write-line ";" *p2-emit-stream*)))
       (or result (p2-no-return)))))
 
 (define-p2-emit ffi:aget (hir)
