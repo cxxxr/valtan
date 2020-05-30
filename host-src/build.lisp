@@ -88,8 +88,8 @@
   (compiler::p2-toplevel-forms hir-forms stream)
   (values))
 
-(defun input-file-to-output-file (input-file &optional (*cache-directory* *cache-directory*))
-  (make-pathname :directory (append *cache-directory* (rest (pathname-directory input-file)))
+(defun input-file-to-output-file (input-file &optional (cache-directory *cache-directory*))
+  (make-pathname :directory (append cache-directory (rest (pathname-directory input-file)))
                  :name (pathname-name input-file)
                  :type (format nil "~A.js" (pathname-type input-file))))
 
