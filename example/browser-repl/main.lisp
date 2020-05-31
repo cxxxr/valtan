@@ -80,7 +80,8 @@ TODO
         (input (get-editor-value code-mirror)))
     (multiple-value-bind (form ok) (complete-input-p input)
       (cond ((not ok)
-             (input-newline code-mirror))
+             (input-newline code-mirror)
+             nil)
             (t
              (let ((lines (list (cons (package-name *package*) input))))
                (on-eval form (lambda (line) (push line lines)))
