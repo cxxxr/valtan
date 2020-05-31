@@ -55,18 +55,23 @@ TODO
   ((ffi:ref code-mirror :replace-selection) #j(string #\newline) #j"end"))
 
 (defun on-eval (form printer)
-  (let ((values
-          (multiple-value-list
-           (handler-bind ((error (lambda (e)
-                                   (funcall printer (princ-to-string e))
-                                   (dolist (line
-                                            (split-lines
-                                             (with-output-to-string (out)
-                                               ;; TODO: パッケージをclではなくvaltan固有のものに変更する
-                                               (cl::print-backtrace :stream out))))
-                                     (funcall printer line))
-                                   (return-from on-eval))))
-             (eval form)))))
+  (let* ((output-stream (make-string-output-stream))
+         (values
+           (multiple-value-list
+            (handler-bind ((error (lambda (e)
+                                    (funcall printer (princ-to-string e))
+                                    (dolist (line
+                                             (split-lines
+                                              (with-output-to-string (out)
+                                                ;; TODO: パッケージをclではなくvaltan固有のものに変更する
+                                                (cl::print-backtrace :stream out))))
+                                      (funcall printer line))
+                                    (return-from on-eval))))
+              (let ((*standard-output* output-stream)
+                    (*error-output* output-stream))
+                (eval form))))))
+    (dolist (line (split-lines (get-output-stream-string output-stream)))
+      (funcall printer line))
     (dolist (value values)
       (dolist (line (split-lines (format nil "~S" value)))
         (funcall printer line)))
