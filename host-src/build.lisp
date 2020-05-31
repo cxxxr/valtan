@@ -277,6 +277,7 @@
               (make-pathname :type "js"
                              :name (system-name system)
                              :directory *cache-directory*))))
+    (ensure-directories-exist output-file)
     (with-source-map (stream
                       (system-pathname system)
                       output-file)
