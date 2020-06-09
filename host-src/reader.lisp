@@ -14,8 +14,9 @@
       x))
 
 (defun stream-position (stream)
-  (cons (valtan-core::file-input-stream-line stream)
-        (valtan-core::file-input-stream-column stream)))
+  (when (valtan-core::file-input-stream-p stream)
+    (cons (valtan-core::file-input-stream-line stream)
+          (valtan-core::file-input-stream-column stream))))
 
 (defun call-with-valtan-reader (package function)
   (let ((string-reader (fdefinition 'valtan-core.reader:string-reader))
