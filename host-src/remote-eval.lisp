@@ -17,9 +17,12 @@
 
 (defun repl ()
   (flet ((input ()
-           (format t "~&> ")
+           (format t "~&~A> " (system::%structure-ref
+                               (valtan-core::package-name valtan-core::*package*)
+                               0))
            (force-output)
-           (valtan-host.reader:read-in-valtan)))
+           (let ((valtan-core::*standard-input* (valtan-core::make-standard-input-stream)))
+             (valtan-host.reader:read-in-valtan))))
     (let ((*package* (find-package :valtan-user))
           (system:*get-stdin-line-function* (lambda ()
                                               (system::make-structure-array! (read-line)))))
