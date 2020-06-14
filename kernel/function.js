@@ -15,6 +15,14 @@ import {
     popCallStack
 } from './callstack';
 
+import {
+    isSymbol
+} from './symbol';
+
+import {
+    typeError
+} from './error';
+
 export function callFunction(symbol, ...args) {
     const func = symbol.getFunction();
     return func(...args);
@@ -85,11 +93,20 @@ export function callFunctionWithCallStack(symbol, ...args) {
 export function CL_apply(fn, args) {
     pushCallStack(jsArrayToList([fn, ...args]));
     try {
-      //console.log(fn);
         return fn(...args);
     } finally {
         popCallStack();
     }
+}
+
+export function CL_funcall(fn, ...args) {
+    if (isSymbol(fn)) {
+        fn = fn.getFunction();
+    } else if (typeof fn !== 'function') {
+        typeError(fn, S_function);
+    }
+
+    return fn(...args);
 }
 
 export function CL_functionp(x) {

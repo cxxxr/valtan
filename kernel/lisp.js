@@ -102,6 +102,7 @@ export * from './number';
 import {
     CL_apply,
     CL_functionp,
+    CL_funcall,
     startProfile,
     finishProfile,
 } from './function';
@@ -140,6 +141,7 @@ function symbols() {
         "PACKAGE",
         "SYMBOL",
         "STRING",
+        "FUNCTION",
         "TYPE-ERROR",
         "ARGUMENTS-ERROR",
         "SIMPLE-ERROR",

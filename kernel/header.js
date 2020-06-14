@@ -3,6 +3,7 @@ export let S_nil;
 export let S_package;
 export let S_symbol;
 export let S_string;
+export let S_function;
 export let S_type_error;
 
 export let S_arguments_error;
@@ -28,6 +29,7 @@ export function initSymbols({
     S_package = symbols["PACKAGE"];
     S_symbol = symbols["SYMBOL"];
     S_string = symbols["STRING"];
+    S_function = symbols["FUNCTION"];
     S_type_error = symbols["TYPE-ERROR"];
 
     S_arguments_error = symbols["ARGUMENTS-ERROR"];

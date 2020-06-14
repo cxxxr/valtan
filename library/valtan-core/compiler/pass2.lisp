@@ -133,6 +133,7 @@
     (setf (gethash (read-from-string "FFI::INSTANCEOF") table)
           (list "lisp.CL_instanceof" (list nil)))
 
+    (setf (gethash 'funcall table) 'p2-funcall)
     (setf (gethash (read-from-string "SYSTEM::%LOGAND") table) 'p2-logand)
 
     ;; REVIEW
@@ -1119,6 +1120,25 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
     (embed-source-map hir)
     (destructuring-bind (lhs rhs) args
       (format nil "(~A & ~A)" lhs rhs))))
+
+(defun p2-funcall (hir)
+  (let ((args (hir-arg2 hir)))
+    (cond ((<= 1 (length args))
+           (embed-source-map hir)
+           (destructuring-bind (fn . args) args
+             (let ((args (p2-prepare-args args))
+                   (fn (p2-form fn))
+                   result)
+               (when (hir-return-value-p hir)
+                 (setq result (p2-temporary-var))
+                 (format *p2-emit-stream* "~A=" result))
+               (format *p2-emit-stream* "lisp.CL_funcall(~A" fn)
+               (when args
+                 (write-char #\, *p2-emit-stream*))
+               (p2-emit-args args)
+               result)))
+          (t
+           (p2-call-default hir)))))
 
 
 (defun p2-toplevel-1 (hir)
