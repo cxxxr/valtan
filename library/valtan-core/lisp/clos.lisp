@@ -387,7 +387,7 @@
 (defun std-tie-breaker-rule (minimal-elements cpl-so-far)
   (dolist (cpl-constituent (reverse cpl-so-far))
     (dolist (element minimal-elements)
-      (when (find element (class-direct-superclasses cpl-constituent))
+      (when (member element (class-direct-superclasses cpl-constituent))
         (return-from std-tie-breaker-rule element)))))
 
 (defun local-precedence-ordering (class)
@@ -427,7 +427,7 @@
   (labels ((f (seen superclasses)
              (let ((class-to-process
                      (dolist (super superclasses nil)
-                       (unless (find super seen)
+                       (unless (member super seen)
                          (return super)))))
                (if (null class-to-process)
                    superclasses
@@ -704,11 +704,11 @@
   nil)
 
 (defun subclassp (c1 c2)
-  (not (null (find c2 (class-precedence-list c1)))))
+  (not (null (member c2 (class-precedence-list c1)))))
 
 (defun sub-specializer-p (c1 c2 arg)
   (let ((cpl (class-precedence-list arg)))
-    (not (null (find c2 (cdr (member c1 cpl)))))))
+    (not (null (member c2 (cdr (member c1 cpl)))))))
 
 (defun primary-method-p (method)
   (null (method-qualifiers method)))
