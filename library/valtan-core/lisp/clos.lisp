@@ -275,10 +275,11 @@
              class-name))))
 
 (defmacro defclass (name direct-superclasses direct-slot-specs &rest options)
-  `(ensure-class ',name
-                 :direct-superclasses ',direct-superclasses
-                 :direct-slots ,(canonicalize-direct-slot-specs direct-slot-specs)
-                 ,@(canonicalize-defclass-options options)))
+  `(ensure-class-using-class (find-class ',name nil)
+                             ',name
+                             :direct-superclasses ',direct-superclasses
+                             :direct-slots ,(canonicalize-direct-slot-specs direct-slot-specs)
+                             ,@(canonicalize-defclass-options options)))
 
 (defun ensure-class (name &rest args)
   (apply #'ensure-class-using-class (find-class name nil) name args))
