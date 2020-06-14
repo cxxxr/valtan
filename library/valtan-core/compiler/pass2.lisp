@@ -1087,6 +1087,28 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                     "module.exports = ~A~%"
                     (p2-convert-var name)))))))
 
+(defun escape (form)
+  (with-output-to-string (out)
+    (loop :for c :across (prin1-to-string form)
+          :do (princ (case c
+                       (#\newline "\\n")
+                       (#\' "\\'")
+                       (#\\ "\\\\")
+                       (t c))
+                     out))))
+
+(define-p2-emit system::form-time (hir)
+  (let ((hir2 (hir-arg1 hir))
+        (form (hir-arg2 hir)))
+    (write-line "(function () {" *p2-emit-stream*)
+    (write-line "const __start = Date.now();" *p2-emit-stream*)
+    (p2-form hir2)
+    (write-line "const __end = Date.now();" *p2-emit-stream*)
+    (format *p2-emit-stream*
+            "if (__end - __start > 1) console.log(__end - __start, '~A');~%"
+            (escape form))
+    (write-line "})();" *p2-emit-stream*)))
+
 
 ;;; builtin function emitter
 (defun p2-logand (hir)

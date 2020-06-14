@@ -1126,6 +1126,13 @@
                              (pass1 x t nil))
                            other-indexes)))))
 
+(def-pass1-form system::form-time ((form) return-value-p multiple-value-p)
+  (make-hir 'system::form-time
+            nil
+            nil
+            (pass1 form return-value-p multiple-value-p)
+            form))
+
 (defun pass1-toplevel (form &optional return-value-p multiple-values-p)
   (let ((*lexenv* '())
         (*compile-level* -1))
