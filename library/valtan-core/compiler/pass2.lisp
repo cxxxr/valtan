@@ -40,6 +40,7 @@
     (#\page . "PAGE")
     (#\tab . "TAB")))
 
+#-valtan
 (defparameter *builtin-function-table*
   (let ((table (make-hash-table)))
     (setf (gethash (read-from-string "CL:SYMBOLP") table) (list "lisp.CL_symbolp" (list 1)))
@@ -139,6 +140,8 @@
           'p2-cl->js)
 
     table))
+#+valtan
+(defparameter *builtin-function-table* (make-hash-table))
 
 (defun p2-cl->js (hir)
   (let ((args (hir-arg2 hir)))
