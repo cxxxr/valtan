@@ -265,6 +265,9 @@
 (cl:defun system:map-set (map key value)
   (cl:setf (cl:gethash key map) value))
 
+(cl:defun system:map-remove (map key)
+  (cl:remhash key map))
+
 (cl:defun system:map-length (map)
   (cl:hash-table-count map))
 

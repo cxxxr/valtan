@@ -105,6 +105,7 @@
            :make-map
            :map-get
            :map-set
+           :map-remove
            :map-length
            :map-clear
            :function-name

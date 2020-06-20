@@ -62,6 +62,9 @@
 (cl:defun system:map-set (map key value)
   ((ffi:ref map "set") key value))
 
+(cl:defun system:map-remove (map key)
+  ((ffi:ref map "delete") key))
+
 (cl:defun system:map-length (map)
   (ffi:ref map "size"))
 

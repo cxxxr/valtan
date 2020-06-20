@@ -45,7 +45,7 @@
   (multiple-value-bind (value found)
       (gethash key hash-table)
     (declare (ignore value))
-    (setf (gethash key hash-table) (ffi:ref "undefined"))
+    (system:map-remove (hash-table-map hash-table) key)
     found))
 
 (defun maphash (function hash-table)
