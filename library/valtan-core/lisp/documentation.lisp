@@ -5,8 +5,12 @@
 
 (defgeneric documentation (x doc-type))
 
+;; #+valtan(js:console.time #j"documentation")
+;; #+valtan((ffi:ref "lisp" "startProfile"))
 (defmethod documentation ((x function) (doc-type (eql t)))
   )
+;; #+valtan((ffi:ref "lisp" "finishProfile"))
+;; #+valtan(js:console.time-end #j"documentation")
 
 (defmethod documentation ((x function) (doc-type (eql 'functin)))
   )

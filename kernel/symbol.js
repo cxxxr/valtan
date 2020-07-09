@@ -41,6 +41,7 @@ class LispSymbol {
         if (this.func === null) {
             undefinedFunction(this);
         }
+        this.func.lisp_symbol = this;
         return this.func;
     }
 
@@ -84,6 +85,7 @@ export function setSymbolValue(symbol, value) {
 export function setSymbolFunction(symbol, func) {
     symbol.func = func;
     func.lisp_name = symbol.name;
+    symbol.func.lisp_symbol = symbol;
     return func;
 }
 

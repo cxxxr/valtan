@@ -124,6 +124,12 @@
 (defun (cl:setf class-default-initargs) (default-initargs class)
   (setf (%slot-value class 'default-initargs) default-initargs))
 
+(defun class-finalized-p (class)
+  (%slot-value class 'finalized-p))
+
+(defun set-class-finalized-p (finalized-p class)
+  (setf (%slot-value class 'finalized-p) finalized-p))
+
 (defun class-of (x)
   (cond ((standard-instance-p x)
          (standard-instance-class x))
@@ -361,6 +367,7 @@
         (add-reader-method class reader (slot-definition-name direct-slot)))
       (dolist (writer (slot-definition-writers direct-slot))
         (add-writer-method class writer (slot-definition-name direct-slot))))
+    #+(or) ;; finalize-inheritanceは重たい処理なので必要になるまで遅延させる
     (if (eq (class-of class) +standard-class+)
         (std-finalize-inheritance class)
         (error "finalize-inheritance trap"))))
@@ -380,6 +387,9 @@
   (apply #'make-slot-definition args))
 
 (defun std-finalize-inheritance (class)
+  (dolist (superclass (class-direct-superclasses class))
+    (unless (class-finalized-p superclass)
+      (std-finalize-inheritance superclass)))
   (setf (class-precedence-list class)
         (if (eq (class-of class) +standard-class+)
             (std-compute-class-precedence-list class)
@@ -391,9 +401,11 @@
   (setf (class-default-initargs class)
         (if (eq (class-of class) +standard-class+)
             (std-compute-default-initargs class)
-            (error "compute-default-initargs trap"))))
+            (error "compute-default-initargs trap")))
+  (set-class-finalized-p t class))
 
 (defun std-compute-class-precedence-list (class)
+  ;; ensure-class-using-classの中でこの関数が呼ばれていて時間がかかっている
   (let ((classes-to-order (collect-superclasses* class)))
     (topological-sort classes-to-order
                       (list-remove-duplicates
@@ -635,8 +647,9 @@
         gf)))
 
 (defun make-instance-standard-generic-function
-    (generic-function-class &key name lambda-list method-class &allow-other-keys)
-  (declare (ignore generic-function-class))
+    (class &key name lambda-list method-class &allow-other-keys)
+  (unless (class-finalized-p class)
+    (std-finalize-inheritance class))
   (let ((gf (make-standard-instance :class +standard-generic-function+)))
     (setf (generic-function-name gf) name)
     (setf (generic-function-lambda-list gf) lambda-list)
@@ -969,9 +982,11 @@
         (t
          (error "Unknown specializer: ~S" specializer))))
 
-(defun make-instance-standard-method (method-class &key lambda-list qualifiers
+(defun make-instance-standard-method (class &key lambda-list qualifiers
                                                         specializers body function)
-  (declare (ignore method-class body))
+  (declare (ignore body))
+  (unless (class-finalized-p class)
+    (std-finalize-inheritance class))
   (let ((method (make-standard-instance :class +standard-method+)))
     (setf (method-lambda-list method) lambda-list)
     (setf (method-qualifiers method) qualifiers)
@@ -1085,7 +1100,8 @@
          (lambda-list)
          (method-class)
          (emf-table)
-         (funcallable-instance))))
+         (funcallable-instance)
+         (finalized-p))))
 
 (setq +standard-method+
       (defclass standard-method ()
@@ -1093,7 +1109,8 @@
          (generic-function)
          (lambda-list)
          (specializers)
-         (qualifiers))))
+         (qualifiers)
+         (finalized-p))))
 
 ;;(defclass t (t) ())
 (defclass array (t) ())
@@ -1158,6 +1175,8 @@
 (defvar *standard-object-counter* 0)
 
 (defmethod make-instance ((class standard-class) &rest initargs)
+  (unless (class-finalized-p class)
+    (std-finalize-inheritance class))
   (let ((instance (apply #'allocate-instance class initargs)))
     (setf (class-name instance) (format nil "{~A}" (incf *standard-object-counter*)))
     (apply #'initialize-instance instance initargs)
