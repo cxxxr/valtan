@@ -161,12 +161,10 @@
          (find-class t))))
 
 (defvar *lazy-class-table* (make-hash-table))
-(defvar *lazy-method-table* (make-hash-table))
 
 (let ((class-table (make-hash-table)))
   (defun find-class (symbol &optional (errorp t) environment)
     (declare (ignore environment))
-    #+lazy-clos
     (let ((lazy-fn (gethash symbol *lazy-class-table*)))
       (when lazy-fn
         (remhash symbol *lazy-class-table*)
@@ -283,20 +281,13 @@
              class-name))))
 
 (defmacro defclass (name direct-superclasses direct-slot-specs &rest options)
-  #+lazy-clos
   `(setf (gethash ',name *lazy-class-table*)
          (lambda ()
            (ensure-class-using-class (find-class ',name nil)
                                      ',name
                                      :direct-superclasses ',direct-superclasses
                                      :direct-slots ,(canonicalize-direct-slot-specs direct-slot-specs)
-                                     ,@(canonicalize-defclass-options options))))
-  #-lazy-clos
-  `(ensure-class-using-class (find-class ',name nil)
-                             ',name
-                             :direct-superclasses ',direct-superclasses
-                             :direct-slots ,(canonicalize-direct-slot-specs direct-slot-specs)
-                             ,@(canonicalize-defclass-options options)))
+                                     ,@(canonicalize-defclass-options options)))))
 
 (defun ensure-class (name &rest args)
   (apply #'ensure-class-using-class (find-class name nil) name args))
@@ -903,11 +894,6 @@
          (apply (lambda ,lambda-list ,@body)
                 ,g-args)))))
 
-(defun force-ensure-methods (name)
-  (dolist (method (gethash name *lazy-method-table*))
-    (funcall method))
-  (setf (gethash name *lazy-method-table*) nil))
-
 (defmacro defmethod (&rest args)
   (multiple-value-bind (function-name
                         qualifiers
@@ -915,21 +901,6 @@
                         specializers
                         body)
       (parse-defmethod args)
-    #+lazy-clos
-    `(progn
-       (setf (fdefinition ',function-name)
-             (lambda (&rest args)
-               (force-ensure-methods ',function-name)
-               (apply ',function-name args)))
-       (push (lambda ()
-               (ensure-method ',function-name
-                              :lambda-list ',lambda-list
-                              :qualifiers ',qualifiers
-                              :specializers ',specializers
-                              :body ',body
-                              :function (%make-method-lambda ,(kludge-arglist lambda-list) ,body)))
-             (gethash ',function-name *lazy-method-table*)))
-    #-lazy-clos
     `(ensure-method ',function-name
                     :lambda-list ',lambda-list
                     :qualifiers ',qualifiers
