@@ -273,3 +273,8 @@ registerFunction(system_package, '%CHAR-CODE', CL_charCode, 1);
 
 // ffi.js
 registerFunction(ffi_package, 'INSTANCEOF', CL_instanceof, null);
+
+const startTime = Date.now();
+export function uptime() {
+    return Date.now() - startTime;
+}
