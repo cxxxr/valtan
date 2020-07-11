@@ -160,15 +160,9 @@
         (t
          (find-class t))))
 
-(defvar *lazy-class-table* (make-hash-table))
-
 (let ((class-table (make-hash-table)))
   (defun find-class (symbol &optional (errorp t) environment)
     (declare (ignore environment))
-    (let ((lazy-fn (gethash symbol *lazy-class-table*)))
-      (when lazy-fn
-        (remhash symbol *lazy-class-table*)
-        (funcall lazy-fn)))
     (let ((class (gethash symbol class-table)))
       (when (and (null class) errorp)
         (error "There is no class named ~S." symbol))
@@ -281,13 +275,11 @@
              class-name))))
 
 (defmacro defclass (name direct-superclasses direct-slot-specs &rest options)
-  `(setf (gethash ',name *lazy-class-table*)
-         (lambda ()
-           (ensure-class-using-class (find-class ',name nil)
-                                     ',name
-                                     :direct-superclasses ',direct-superclasses
-                                     :direct-slots ,(canonicalize-direct-slot-specs direct-slot-specs)
-                                     ,@(canonicalize-defclass-options options)))))
+  `(ensure-class-using-class (find-class ',name nil)
+                             ',name
+                             :direct-superclasses ',direct-superclasses
+                             :direct-slots ,(canonicalize-direct-slot-specs direct-slot-specs)
+                             ,@(canonicalize-defclass-options options)))
 
 (defun ensure-class (name &rest args)
   (apply #'ensure-class-using-class (find-class name nil) name args))
