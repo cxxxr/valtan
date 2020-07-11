@@ -65,22 +65,93 @@ export function finishProfile() {
     }
 }
 
+/*
+// 関数が再帰的に呼ばれる時、外側の関数だけの時間を計るプロファイラ
+// 関数fの中で関数gが呼ばれた場合、fの時間はgの時間を含めた結果が欲しい場合に使う
+
+const getTime = typeof process === 'undefined' ? (() => Date.now()) : (() => process.hrtime());
+const diffTime = typeof process === 'undefined' ? ((time) => Date.now() - time) : ((time) => process.hrtime(time)[1]);
+
+function profileEnter(symbol) {
+    if (symbol.__call_count === undefined) {
+        symbol.__call_count = 1;
+    } else {
+        symbol.__call_count++;
+    }
+    if (symbol.__enter_time === undefined) {
+        symbol.__enter_time = getTime();
+        if (symbol.__total_time === undefined) {
+            symbol.__total_time = 0;
+        }
+    }
+    if (symbol.__call_depth === undefined) {
+        symbol.__call_depth = 1;
+    } else {
+        symbol.__call_depth++;
+    }
+}
+
+function profileExit(symbol) {
+    symbol.__call_depth--;
+    if (symbol.__call_depth === 0) {
+        symbol.__total_time += diffTime(symbol.__enter_time);
+        symbol.__enter_time = undefined;
+        profileTable.set(symbol, {
+            count: symbol.__call_count,
+            totalTime: symbol.__total_time
+        });
+    }
+}
+/**/
+
+//*
+// 一般的なプロファイラ
+
+class profileStackEntry {
+    constructor(fnName, lastTime) {
+        this.fnName = fnName;
+        this.lastTime = lastTime;
+    }
+}
+
+const profileCallStack = [];
+
+function profileEnter(symbol) {
+    if (!profileTable.has(symbol)) {
+        profileTable.set(symbol, {
+            count: 1,
+            totalTime: 0,
+        });
+    } else {
+        const info = profileTable.get(symbol);
+        info.count++;
+    }
+    if (profileCallStack.length > 0) {
+        incProfileTime(profileCallStack[0], profileCallStack[0].fnName);
+    }
+    profileCallStack.push(new profileStackEntry(symbol, Date.now()));
+}
+
+function profileExit(symbol) {
+    incProfileTime(profileCallStack.pop(), symbol);
+    if (profileCallStack.length > 0) {
+        profileCallStack[0].lastTime = Date.now();
+    }
+}
+
+function incProfileTime(entry, symbol) {
+    const info = profileTable.get(symbol);
+    info.totalTime += Date.now() - entry.lastTime;
+}
+/**/
+
 export function callFunctionWithCallStack(symbol, ...args) {
     pushCallStack(jsArrayToList([symbol, ...args]));
     try {
         if (enableProfiling) {
-            const start = Date.now();
+            profileEnter(symbol);
             const result = callFunction(symbol, ...args);
-            const end = Date.now();
-            if (!profileTable.has(symbol)) {
-                profileTable.set(symbol, {
-                    count: 0,
-                    totalTime: 0
-                });
-            }
-            const info = profileTable.get(symbol);
-            info.count++;
-            info.totalTime += (end - start);
+            profileExit(symbol);
             return result;
         } else {
             return callFunction(symbol, ...args);
@@ -93,7 +164,14 @@ export function callFunctionWithCallStack(symbol, ...args) {
 export function CL_apply(fn, args) {
     pushCallStack(jsArrayToList([fn, ...args]));
     try {
-        return fn(...args);
+        if (enableProfiling && fn.lisp_symbol) {
+            profileEnter(fn.lisp_symbol);
+            const result = fn(...args);
+            profileExit(fn.lisp_symbol);
+            return result;
+        } else {
+            return fn(...args);
+        }
     } finally {
         popCallStack();
     }
@@ -106,7 +184,14 @@ export function CL_funcall(fn, ...args) {
         typeError(fn, S_function);
     }
 
-    return fn(...args);
+    if (enableProfiling && fn.lisp_symbol) {
+        profileEnter(fn.lisp_symbol);
+        const result = fn(...args);
+        profileExit(fn.lisp_symbol);
+        return result;
+    } else {
+        return fn(...args);
+    }
 }
 
 export function CL_functionp(x) {
