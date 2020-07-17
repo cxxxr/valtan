@@ -1,0 +1,6 @@
+;; -*- mode:lisp -*-
+
+(defsystem "hoge"
+  :serial t
+  :components ((:file "main"))
+  :depends-on ("react-utilities"))

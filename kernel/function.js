@@ -65,7 +65,7 @@ export function finishProfile() {
     }
 }
 
-/*
+///*
 // 関数が再帰的に呼ばれる時、外側の関数だけの時間を計るプロファイラ
 // 関数fの中で関数gが呼ばれた場合、fの時間はgの時間を含めた結果が欲しい場合に使う
 
@@ -104,7 +104,7 @@ function profileExit(symbol) {
 }
 /**/
 
-//*
+/*
 // 一般的なプロファイラ
 
 class profileStackEntry {

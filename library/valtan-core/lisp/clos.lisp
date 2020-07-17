@@ -170,7 +170,9 @@
 
   (defun (cl:setf find-class) (class symbol &optional errorp environment)
     (declare (ignore errorp environment))
-    (setf (gethash symbol class-table) class)))
+    (setf (gethash symbol class-table) class))
+
+  (defun class-table () class-table))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun canonicalize-direct-slot (direct-slot-spec)
@@ -1254,3 +1256,75 @@
     (or (gethash object eql-specializer-table)
         (setf (gethash object eql-specializer-table)
               (make-instance 'eql-specializer :object object)))))
+
+(defun dump-slot-definition (slot)
+  `(make-slot-definition
+    :name ',(slot-definition-name slot)
+    :initargs ',(slot-definition-initargs slot)
+    :initform ',(slot-definition-initform slot)
+    :initfunction (lambda () ,(slot-definition-initform slot))
+    :readers ',(slot-definition-readers slot)
+    :writers ',(slot-definition-writers slot)
+    :allocation ',(slot-definition-allocation slot)))
+
+(defun dump-class (class g-class class-gname-pairs)
+  (flet ((dump-class-1 (class)
+           (let ((bind (assoc (class-name class) class-gname-pairs)))
+             (second bind))))
+    `(let ((,g-class ,(second (assoc (class-name class) class-gname-pairs))))
+       (setf (find-class ',(class-name class))
+             ,g-class
+
+             (class-name ,g-class)
+             ',(class-name class)
+
+             (class-direct-subclasses ,g-class)
+             (list ,@(mapcar #'dump-class-1 (class-direct-subclasses class)))
+
+             (class-direct-superclasses ,g-class)
+             (list ,@(mapcar #'dump-class-1 (class-direct-superclasses class)))
+
+             (class-direct-slots ,g-class)
+             (list ,@(mapcar #'dump-slot-definition (class-direct-slots class)))
+
+             (class-slots ,g-class)
+             (list ,@(mapcar #'dump-slot-definition (class-slots class)))
+
+             (class-precedence-list ,g-class)
+             (list ,@(mapcar #'dump-class-1 (class-precedence-list class)))
+
+             (class-direct-default-initargs ,g-class)
+             (list ,@(mapcar #'class-direct-default-initargs (class-direct-default-initargs class))))
+       ,@(let ((forms '()))
+           (dolist (slot (class-direct-slots class))
+             (dolist (reader (slot-definition-readers slot))
+               (push `(add-reader-method ,g-class ',reader ',(slot-definition-name slot))
+                     forms))
+             (dolist (writer (slot-definition-writers slot))
+               (push `(add-writer-method ,g-class ',writer ',(slot-definition-name slot))
+                     forms)))
+           (nreverse forms)))))
+
+(defun gensym-class-names ()
+  (let ((class-gname-pairs '()))
+    (maphash (lambda (name class)
+               (declare (ignore class))
+               (push (list name (gensym (string name))) class-gname-pairs))
+             (class-table))
+    class-gname-pairs))
+
+(defun dump-all-classes ()
+  (let ((ignore-classes (list (find-class t) +standard-class+))
+        (g-class (gensym))
+        (class-gname-pairs (gensym-class-names))
+        (forms '()))
+    (maphash (lambda (name class)
+               (declare (ignore name))
+               (unless (member class ignore-classes)
+                 (push (dump-class class g-class class-gname-pairs) forms)))
+             (class-table))
+    `(let ,(mapcar (lambda (class-gname-pair)
+                     (list (second class-gname-pair)
+                           `(make-standard-instance ',(first class-gname-pair))))
+                   class-gname-pairs)
+       ,@forms)))
