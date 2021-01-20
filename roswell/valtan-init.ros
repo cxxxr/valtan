@@ -24,6 +24,9 @@ exec ros -Q -- $0 "$@"
   (cl-project:make-project path))
 
 (defun init (args &key (type "node"))
+  (unless (= 1 (length args))
+    (usage)
+    (uiop:quit 1))
   (destructuring-bind (name) args
     (make-project (merge-pathnames name (probe-file "."))
                   (alexandria:eswitch (type :test #'string=)
