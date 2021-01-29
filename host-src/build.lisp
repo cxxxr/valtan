@@ -373,7 +373,7 @@
 (defun run-build-server (pathname)
   (let* ((pathname (ensure-system-file pathname))
          (system-directory (make-pathname :directory (pathname-directory pathname)))
-         (system (load-system pathname)))
+         (system (load-system-file pathname)))
     (let* ((directories (all-directories-to-notify system))
            (paths-with-masks
              (loop :for directory :in directories
