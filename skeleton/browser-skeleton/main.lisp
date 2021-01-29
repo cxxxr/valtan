@@ -6,6 +6,6 @@
 (in-package :<% @var name %>)
 
 (define-react-component <app> ()
-  (tag :h1 () "hello world"))
+  (jsx (:h1 () "hello world")))
 
 (setup #'<app> "root")
