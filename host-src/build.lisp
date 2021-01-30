@@ -402,6 +402,7 @@
                          (mapcar (lambda (dir)
                                    (namestring dir))
                                  directories))))
+    (build-when-file-modified pathname)
     (loop
       (let ((process (async-process:create-process command)))
         (unwind-protect
