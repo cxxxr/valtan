@@ -5,15 +5,37 @@
            :repl))
 (in-package :valtan-host.remote-eval)
 
-(defvar *context*)
+(defvar *server*)
+
+(defmethod hunchentoot:acceptor-log-access
+    ((acceptor hunchensocket:websocket-acceptor)
+     &key &allow-other-keys)
+  nil)
+
+(defmethod hunchentoot:acceptor-log-message
+    ((acceptor hunchensocket:websocket-acceptor)
+     log-level format-string &rest format-arguments)
+  (declare (ignore format-arguments))
+  nil)
+
+(defun on-connect (*server*))
+
+(defun on-disconnect (*server*))
+
+(defun on-message (*server* message)
+  (declare (ignore message)))
 
 (defun start ()
-  (setq *context* (remote-js:make-context))
-  (remote-js:start *context*))
+  (setf *server*
+        (trivial-ws:make-server :on-connect 'on-connect
+                                :on-disconnect 'on-disconnect
+                                :on-message 'on-message))
+  (trivial-ws:start *server* 40000))
 
 (defun js-eval (form)
-  (remote-js:eval *context*
-                  (compiler:compile-toplevel form nil)))
+  (let ((js-string (compiler:compile-toplevel form nil)))
+    (dolist (client (trivial-ws:clients *server*))
+      (trivial-ws:send client js-string))))
 
 (defun repl ()
   (flet ((input ()
@@ -28,3 +50,17 @@
                                               (system::make-structure-array! (read-line)))))
       (loop :for form := (input)
             :do (js-eval form)))))
+
+#|
+;;; example
+
+(ql:quickload :valtan)
+(in-package :valtan-host.remote-eval)
+(valtan-host:build-system #p"example/remote-eval-demo/remote-eval-demo.system")
+(start)
+
+;; ここでindex.htmlをブラウザで開く
+
+(repl)
+COMMON-LISP-USER> (js:alert #j"Hello World")
+|#

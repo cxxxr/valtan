@@ -3,7 +3,7 @@
                "trivial-gray-streams"
                "cl-source-map"
                #+linux "inotify"
-               "remote-js"
+               "trivial-ws"
                "async-process"
                "valtan-core")
   :pathname "host-src"

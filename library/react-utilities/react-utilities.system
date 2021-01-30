@@ -1,5 +1,6 @@
 ;; -*- mode:lisp -*-
 
 (defsystem "react-utilities"
+  :depends-on ("remote-eval")
   :serial t
   :components ((:file "react-utilities")))

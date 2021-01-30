@@ -14,4 +14,5 @@
 
 (defun start (system)
   (valtan-host:build-application system :force t)
-  (valtan-host.remote-eval:start))
+  (valtan-host.remote-eval:start)
+  (valtan-host.remote-eval:repl))

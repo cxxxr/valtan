@@ -10,8 +10,4 @@
 (define-react-component <app> ()
   (jsx (:h1 () "Hello World")))
 
-(setup #'<app> "root")
-
-(valtan.remote-eval:connect
- (lambda ()
-   (setup #'<app> "root")))
+(setup #'<app> "root" :remote-eval t)

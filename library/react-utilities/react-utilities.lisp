@@ -77,10 +77,14 @@
               (t
                form)))))
 
-(defun setup (app id)
+(defun setup (app id &key remote-eval)
   (js:react-dom.render
    (js:react.create-element app)
-   (js:document.get-element-by-id (ffi:cl->js id))))
+   (js:document.get-element-by-id (ffi:cl->js id)))
+  (when remote-eval
+    (valtan.remote-eval:connect
+     (lambda ()
+       (setup app id)))))
 
 (ffi:set js:window.lisp js:lisp)
 (ffi:set js:window.react js:react)
