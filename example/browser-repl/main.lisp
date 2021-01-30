@@ -96,24 +96,24 @@ TODO
                (nreverse lines)))))))
 
 (define-react-component <prompt> (package-name)
-  ;; (tag <prompt> (:package-name ...))で受け取ったときにはstringがcl->jsされているので一旦元に戻さないといけない
+  ;; (jsx (<prompt> (:package-name ...)))で受け取ったときにはstringがcl->jsされているので一旦元に戻さないといけない
   (setq package-name (ffi:js->cl package-name))
-  (tag :span (:class-name #j"prompt") (format nil "~A>" package-name)))
+  (jsx (:span (:class-name #j"prompt") (format nil "~A>" package-name))))
 
 (define-react-component <backlog> (lines)
-  (tag :ul (:class-name #j"back-log")
-       (let ((i 0))
-         (map 'vector
-              (lambda (line)
-                (tag :li (:key (incf i))
-                     (if (consp line)
-                         (destructuring-bind (package-name . code) line
-                           (tag :div (:class-name #j"line")
-                                (tag <prompt> (:package-name package-name))
-                                (tag :span (:class-name #j"code") code)))
-                         (tag :span (:class-name #j"code")
-                              line))))
-              lines))))
+  (jsx (:ul (:class-name #j"back-log")
+        (let ((i 0))
+          (map 'vector
+               (lambda (line)
+                 (jsx (:li (:key (incf i))
+                       (if (consp line)
+                           (destructuring-bind (package-name . code) line
+                             (jsx (:div (:class-name #j"line")
+                                   (<prompt> (:package-name package-name))
+                                   (:span (:class-name #j"code") code))))
+                           (jsx (:span (:class-name #j"code")
+                                 line))))))
+               lines)))))
 
 (define-react-component <repl> ()
   (with-state ((lines set-lines nil)
@@ -136,29 +136,29 @@ TODO
                       ((ffi:ref code-mirror :set-value)
                        #j"")
                       (set-history-index (1+ last)))))))
-      (tag :div ()
-           (tag <backlog> (:lines lines))
-           (tag :div (:class-name #j"repl-input")
-                (tag <prompt> (:package-name (package-name repl-package)))
-                (tag (ffi:ref js:-code-mirror :-un-controlled)
-                     (:value #j""
-                      :options (ffi:object
-                                :mode #j"commonlisp"
-                                :key-map #j"emacs"
-                                :extra-keys (ffi:object
-                                             "Enter" (lambda (code-mirror)
-                                                       (let ((new-lines
-                                                               (on-enter code-mirror
-                                                                         repl-package
-                                                                         #'set-repl-package)))
-                                                         (set-lines (append lines new-lines))))
-                                             "Up" #'up
-                                             "Ctrl-P" #'up
-                                             "Down" #'down
-                                             "Ctrl-N" #'down)
-                                :autofocus js:true)
-                      :editor-did-mount (lambda (editor &rest args)
-                                          (declare (ignore args))
-                                          ((ffi:ref editor :focus))))))))))
+      (jsx (:div ()
+            (<backlog> (:lines lines))
+            (:div (:class-name #j"repl-input")
+             (<prompt> (:package-name (package-name repl-package)))
+             (js:-code-mirror.-un-controlled
+              (:value #j""
+               :options (ffi:object
+                         :mode #j"commonlisp"
+                         :key-map #j"emacs"
+                         :extra-keys (ffi:object
+                                      "Enter" (lambda (code-mirror)
+                                                (let ((new-lines
+                                                        (on-enter code-mirror
+                                                                  repl-package
+                                                                  #'set-repl-package)))
+                                                  (set-lines (append lines new-lines))))
+                                      "Up" #'up
+                                      "Ctrl-P" #'up
+                                      "Down" #'down
+                                      "Ctrl-N" #'down)
+                         :autofocus js:true)
+               :editor-did-mount (lambda (editor &rest args)
+                                   (declare (ignore args))
+                                   ((ffi:ref editor :focus)))))))))))
 
 (setup #'<repl> "root")
