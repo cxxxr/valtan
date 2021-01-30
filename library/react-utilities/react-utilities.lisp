@@ -5,7 +5,6 @@
   (:use :cl)
   (:export :define-react-component
            :with-state
-           :tag
            :jsx
            :setup))
 (in-package :valtan.react-utilities)
