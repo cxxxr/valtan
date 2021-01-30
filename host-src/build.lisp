@@ -391,3 +391,30 @@
           (inotify:with-inotify (inot paths-with-masks)
             (inotify:read-events inot)
             (build)))))))
+
+#+darwin
+(defun run-build-server (system-file)
+  (let* ((pathname (ensure-system-file system-file))
+         (system (load-system-file pathname))
+         (directories (all-directories-to-notify system))
+         (command (list* "fswatch"
+                         "-1"
+                         (mapcar (lambda (dir)
+                                   (namestring dir))
+                                 directories))))
+    (loop
+      (let ((process (async-process:create-process command)))
+        (unwind-protect
+             (progn
+               (async-process:process-receive-output process)
+               (build-when-file-modified pathname))
+          (async-process:delete-process process))))))
+
+#+darwin
+(defun build-when-file-modified (system-pathname)
+  (handler-bind ((error (lambda (condition)
+                          (format t "~&~%~A~%" condition)
+                          (uiop:print-backtrace :condition condition)
+                          (return-from build-when-file-modified))))
+    (build-system system-pathname))
+  (webpack (uiop:pathname-directory-pathname system-pathname)))

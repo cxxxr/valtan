@@ -4,6 +4,7 @@
                "cl-source-map"
                #+linux "inotify"
                "remote-js"
+               "async-process"
                "valtan-core")
   :pathname "host-src"
   :serial t
