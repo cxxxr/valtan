@@ -10,4 +10,4 @@
 (define-react-component <app> ()
   (jsx (:h1 () "Hello World")))
 
-(setup #'<app> "root" :remote-eval t)
+(setup '<app> "root" :remote-eval t)

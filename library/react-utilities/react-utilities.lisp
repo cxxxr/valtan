@@ -77,9 +77,17 @@
               (t
                form)))))
 
+(defun ensure-function (value)
+  (cond ((symbolp value)
+         (symbol-function value))
+        ((functionp value)
+         value)
+        (t
+         (error "~S is not a function" value))))
+
 (defun setup (app id &key remote-eval)
   (js:react-dom.render
-   (js:react.create-element app)
+   (js:react.create-element (ensure-function app))
    (js:document.get-element-by-id (ffi:cl->js id)))
   (when remote-eval
     (valtan.remote-eval:connect

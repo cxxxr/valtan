@@ -99,4 +99,4 @@
                (:div () status)
                (:ol () moves))))))))
 
-(setup #'<game> "root")
+(setup '<game> "root")

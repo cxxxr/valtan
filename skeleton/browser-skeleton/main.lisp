@@ -8,4 +8,4 @@
 (define-react-component <app> ()
   (jsx (:h1 () "hello world")))
 
-(setup #'<app> "root")
+(setup '<app> "root")

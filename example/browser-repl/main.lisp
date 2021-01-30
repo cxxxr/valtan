@@ -161,4 +161,4 @@ TODO
                                    (declare (ignore args))
                                    ((ffi:ref editor :focus)))))))))))
 
-(setup #'<repl> "root")
+(setup '<repl> "root")
