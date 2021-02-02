@@ -48,7 +48,11 @@
   (defun js-symbol-p (symbol)
     (and (symbolp symbol)
          (eq (find-package :js)
-             (symbol-package symbol)))))
+             (symbol-package symbol))))
+  (defun react-tag-symbol-p (x)
+    (or (keywordp x)
+        (js-symbol-p x)
+        (react-component-p x))))
 
 (defmacro tag (tag option &body children)
   `(js:react.create-element ,(cond ((js-symbol-p tag)
@@ -64,18 +68,16 @@
                                       children)))
 
 (defmacro jsx (form)
-  (if (atom form)
-      form
-      (destructuring-bind (tag-name options &body body) form
-        (cond ((or (keywordp tag-name)
-                   (js-symbol-p tag-name)
-                   (react-component-p tag-name))
-               `(tag ,tag-name ,options
-                     ,@(mapcar (lambda (form)
-                                 `(jsx ,form))
-                               body)))
-              (t
-               form)))))
+  (cond ((and (consp form)
+              (consp (rest form))
+              (react-tag-symbol-p (first form)))
+         (destructuring-bind (tag-name options &body body) form
+           `(tag ,tag-name ,options
+                 ,@(mapcar (lambda (form)
+                             `(jsx ,form))
+                           body))))
+        (t
+         form)))
 
 (defun ensure-function (value)
   (cond ((symbolp value)
