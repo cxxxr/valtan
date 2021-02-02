@@ -1,8 +1,8 @@
-(defpackage :lem-valtan
+(defpackage :lem-valtan.valtan-mode
   (:use :cl :lem)
-  (:import-from :valtan-host.remote-eval
+  (:import-from :lem-valtan/remote-eval
                 :js-eval))
-(in-package :lem-valtan)
+(in-package :lem-valtan.valtan-mode)
 
 (define-major-mode valtan-mode lem-lisp-mode:lisp-mode
     (:name "valtan"

@@ -1,0 +1,4 @@
+(:hoge x) => (ffi:ref x :hoge) にするのはどうか
+
+## valtan-host.remote-eval:repl
+- 返り値を表示させる

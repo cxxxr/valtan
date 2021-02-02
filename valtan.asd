@@ -3,7 +3,6 @@
                "trivial-gray-streams"
                "cl-source-map"
                #+linux "inotify"
-               "trivial-ws"
                "async-process"
                "st-json"
                "valtan-core")
@@ -14,5 +13,4 @@
                (:file "reader")
                (:file "system")
                (:file "build")
-               (:file "remote-eval")
                (:file "valtan-host")))

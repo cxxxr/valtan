@@ -1,10 +1,10 @@
-(defpackage :valtan-host.remote-eval
+(defpackage :lem-valtan/remote-eval
   (:use :cl)
   (:export :start
            :stop
            :js-eval
            :repl))
-(in-package :valtan-host.remote-eval)
+(in-package :lem-valtan/remote-eval)
 
 (defvar *server* nil)
 
