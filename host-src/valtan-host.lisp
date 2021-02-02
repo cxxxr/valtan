@@ -12,7 +12,8 @@
 
 (defpackage :valtan-user (:use :cl))
 
-(defun start (system)
-  (valtan-host:build-application system :force t)
+(defun start (system &key force)
+  (valtan-host:build-application system :force force)
   (valtan-host.remote-eval:start)
-  (valtan-host.remote-eval:repl))
+  (unwind-protect (valtan-host.remote-eval:repl)
+    (valtan-host.remote-eval:stop)))

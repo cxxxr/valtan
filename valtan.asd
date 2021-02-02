@@ -5,6 +5,7 @@
                #+linux "inotify"
                "trivial-ws"
                "async-process"
+               "st-json"
                "valtan-core")
   :pathname "host-src"
   :serial t

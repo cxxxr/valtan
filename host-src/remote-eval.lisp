@@ -1,11 +1,20 @@
 (defpackage :valtan-host.remote-eval
   (:use :cl)
   (:export :start
+           :stop
            :js-eval
            :repl))
 (in-package :valtan-host.remote-eval)
 
-(defvar *server*)
+(defvar *server* nil)
+
+(defclass server (trivial-ws:server)
+  ((event-queue
+    :initform (lem::make-event-queue)
+    :reader server-event-queue)
+   (handler
+    :initform nil
+    :accessor server-handler)))
 
 (defmethod hunchentoot:acceptor-log-access
     ((acceptor hunchensocket:websocket-acceptor)
@@ -23,19 +32,37 @@
 (defun on-disconnect (*server*))
 
 (defun on-message (*server* message)
-  (declare (ignore message)))
+  (let* ((json (st-json:read-json-from-string message))
+         (value (st-json:getjso "value" json)))
+    (lem:send-event value (server-event-queue *server*))))
 
 (defun start ()
+  (when *server*
+    (error "The server is already running"))
   (setf *server*
-        (trivial-ws:make-server :on-connect 'on-connect
-                                :on-disconnect 'on-disconnect
-                                :on-message 'on-message))
-  (trivial-ws:start *server* 40000))
+        (make-instance 'server
+                       :on-connect 'on-connect
+                       :on-disconnect 'on-disconnect
+                       :on-message 'on-message))
+  (setf (server-handler *server*)
+        (trivial-ws:start *server* 40000))
+  *server*)
 
-(defun js-eval (form)
-  (let ((js-string (compiler:compile-toplevel form nil)))
+(defun stop ()
+  (when *server*
+    (trivial-ws:stop (server-handler *server*))
+    (setf *server* nil)
+    t))
+
+(defun js-eval (form &key use-return-value)
+  (let* ((js-string (compiler:compile-toplevel form t))
+         (message (st-json:write-json-to-string
+                   (st-json:jso "code" js-string
+                                "return" (if use-return-value
+                                             :true
+                                             :false)))))
     (dolist (client (trivial-ws:clients *server*))
-      (trivial-ws:send client js-string))))
+      (trivial-ws:send client message))))
 
 (defun repl ()
   (flet ((input ()
@@ -48,16 +75,19 @@
     (let ((*package* (find-package :valtan-user))
           (system:*get-stdin-line-function* (lambda ()
                                               (system::make-structure-array! (read-line)))))
-      (loop :for form := (input)
-            :do (js-eval form)))))
+      (loop
+        (let ((form (input)))
+          (cond ((trivial-ws:clients *server*)
+                 (js-eval form)
+                 (write-line (lem::dequeue-event nil (server-event-queue *server*))))
+                (t
+                 (uiop:println "No connection" *error-output*))))))))
 
 #|
 ;;; example
 
 (ql:quickload :valtan)
-(in-package :valtan-host.remote-eval)
-(valtan-host:build-system #p"example/remote-eval-demo/remote-eval-demo.system")
-(start)
+(valtan-host:start #p"example/remote-eval-demo/remote-eval-demo.system")
 
 ;; ここでindex.htmlをブラウザで開く
 

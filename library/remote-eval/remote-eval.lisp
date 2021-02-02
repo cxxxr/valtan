@@ -9,13 +9,23 @@
              (let ((ws (ffi:new #j:WebSocket #j"ws://0.0.0.0:40000/")))
                (ffi:set (ffi:ref ws :onmessage)
                         (lambda (e)
-                          (#j:eval:call #j:window (ffi:ref e :data))
-                          (when eval-hook
-                            (funcall eval-hook))))
+                          (let* ((json (#j:JSON:parse (ffi:ref e :data)))
+                                 (unbound '#:error)
+                                 (value unbound))
+                            (unwind-protect
+                                 (progn
+                                   (setf value (ffi:js-eval (ffi:js->cl (ffi:ref json :code))))
+                                   (when eval-hook
+                                     (funcall eval-hook)))
+                              (when (ffi:ref json :return)
+                                ((ffi:ref ws :send)
+                                 (#j:JSON:stringify
+                                  (ffi:object :value
+                                              (ffi:cl->js
+                                               (prin1-to-string value))))))))))
                (ffi:set (ffi:ref ws :onopen)
                         (lambda (&rest args)
-                          (declare (ignore args))
-                          ((ffi:ref ws :send) #j"connected")))
+                          (declare (ignore args))))
                (ffi:set (ffi:ref ws :onclose)
                         (lambda (&rest args)
                           (declare (ignore args))
