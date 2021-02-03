@@ -77,7 +77,9 @@
                                               (system::make-structure-array! (read-line)))))
       (loop
         (let ((form (input)))
-          (cond ((trivial-ws:clients *server*)
+          (cond ((member form '(:q :quit))
+                 (return))
+                ((trivial-ws:clients *server*)
                  (js-eval form)
                  (write-line (lem::dequeue-event nil (server-event-queue *server*))))
                 (t
