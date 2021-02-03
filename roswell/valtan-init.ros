@@ -36,9 +36,10 @@ exec ros -Q -- $0 "$@"
                      (asdf:system-relative-pathname :valtan #p"skeleton/node-skeleton/"))))))
 
 (defun main (&rest argv)
-  (handle-command-line +option-spec+
-                       #'init
-                       :command-line argv
-                       :rest-arity t))
+  (handler-case (handle-command-line +option-spec+
+                                     #'init
+                                     :command-line argv
+                                     :rest-arity t)
+    (error () (usage))))
 
 ;;; vim: set ft=lisp lisp:
