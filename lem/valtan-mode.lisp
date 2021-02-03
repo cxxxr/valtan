@@ -22,7 +22,7 @@
 
 (defun eval-string (string)
   (let ((*package* (current-valtan-package)))
-    (js-eval (valtan-host.reader::read-from-string-in-valtan string))))
+    (js-eval (valtan-host.reader::read-from-string-in-valtan string) :use-return-value nil)))
 
 (define-command valtan-eval-last-expression () ()
   (with-point ((start (current-point))

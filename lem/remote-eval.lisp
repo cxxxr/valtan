@@ -80,7 +80,7 @@
           (cond ((member form '(:q :quit))
                  (return))
                 ((trivial-ws:clients *server*)
-                 (js-eval form)
+                 (js-eval form :use-return-value t)
                  (write-line (lem::dequeue-event nil (server-event-queue *server*))))
                 (t
                  (uiop:println "No connection" *error-output*))))))))

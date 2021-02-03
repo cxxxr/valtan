@@ -17,7 +17,7 @@
                                    (setf value (ffi:js-eval (ffi:js->cl (ffi:ref json :code))))
                                    (when eval-hook
                                      (funcall eval-hook)))
-                              (when (ffi:ref json :return)
+                              (when (eq #j:true (ffi:ref json :return))
                                 ((ffi:ref ws :send)
                                  (#j:JSON:stringify
                                   (ffi:object :value
