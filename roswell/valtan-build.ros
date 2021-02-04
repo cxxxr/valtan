@@ -22,5 +22,5 @@ exec ros -Q -- $0 "$@"
 (defun main (&rest argv)
   (declare (ignorable argv))
   (prepare-path-file)
-  (valtan-host:build-system (first argv)))
+  (valtan-host.build:build-system (first argv)))
 ;;; vim: set ft=lisp lisp:
