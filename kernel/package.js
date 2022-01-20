@@ -4,6 +4,7 @@ import {
 } from './values';
 import {
     S_package,
+    S_t,
     S_nil,
     S_current_package,
     isString,
@@ -22,6 +23,8 @@ import {
     setSymbolValue
 } from './symbol';
 import {
+    isCons,
+    listToJsArray,
     jsArrayToList
 } from './cons';
 
@@ -266,7 +269,13 @@ export function CL_makePackage(name, nicknames, usePackageNames) {
     return values1(makePackage(name, nicknames, usePackageNames));
 }
 
-export function CL_export(exportNames, pkg) {
+export function CL_export(exportSyms, pkg) {
+    let exportNames;
+    if(isCons(exportSyms)) {
+        exportNames = listToJsArray(exportSyms).map(symbolName);
+    } else {
+        exportNames = [symbolName(exportSyms)]
+    }
     for (let name of exportNames) {
         pkg.exportSymbol(name);
     }
