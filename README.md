@@ -4,7 +4,7 @@ Common Lisp to JavaScript compiler
 ## Installation
 
 ```
-$ ros install cxxxr/valtan
+$ ros follow-dependency=t install cxxxr/valtan
 ```
 
 ## Demo
