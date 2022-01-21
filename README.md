@@ -60,5 +60,12 @@ The followings are list of Ansi test and the "Success or failure".
 - [X] should-symbol.lisp
 - [ ] x-sequence.lisp
 
+### Run tests
+```
+$ cd valtan/tests
+$ npm i
+$ npm start
+```
+
 ## License
 MIT
