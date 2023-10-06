@@ -10,7 +10,7 @@
 
 (defclass server (trivial-ws:server)
   ((event-queue
-    :initform (lem::make-event-queue)
+    :initform (lem-core::make-event-queue)
     :reader server-event-queue)
    (handler
     :initform nil
@@ -81,7 +81,7 @@
                  (return))
                 ((trivial-ws:clients *server*)
                  (js-eval form :use-return-value t)
-                 (write-line (lem::dequeue-event nil (server-event-queue *server*))))
+                 (write-line (lem-core::dequeue-event nil (server-event-queue *server*))))
                 (t
                  (uiop:println "No connection" *error-output*))))))))
 
