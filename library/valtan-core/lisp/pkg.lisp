@@ -1,4 +1,5 @@
 (defpackage :common-lisp
+  (:nicknames :cl)
   (:use)
   (:export #:&allow-other-keys #:&aux #:&body #:&environment #:&key
            #:&optional #:&rest #:&whole #:* #:** #:*** #:*break-on-signals*
