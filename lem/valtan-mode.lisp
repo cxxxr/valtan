@@ -13,7 +13,7 @@
 (define-key *valtan-mode-keymap* "C-M-x" 'valtan-eval-defun)
 
 (defun current-valtan-package ()
-  (lem-lisp-mode::update-buffer-package)
+  (lem-lisp-mode/internal::update-buffer-package)
   (or (ignore-errors
         (find-package
          (read-from-string
@@ -28,7 +28,7 @@
   (with-point ((start (current-point))
                (end (current-point)))
     (form-offset start -1)
-    (lem-lisp-mode::highlight-evaluation-region start end)
+    (lem-lisp-mode/internal::highlight-evaluation-region start end)
     (eval-string (points-to-string start end))))
 
 (define-command valtan-eval-defun () ()
@@ -37,5 +37,5 @@
     (with-point ((start point)
                  (end point))
       (scan-lists end 1 0)
-      (lem-lisp-mode::highlight-evaluation-region start end)
+      (lem-lisp-mode/internal::highlight-evaluation-region start end)
       (eval-string (points-to-string start end)))))
