@@ -27,3 +27,10 @@
 (defmacro define-compiler-macro (name lambda-list &body body)
   (declare (ignore name lambda-list body))
   `',name)
+
+(defun load (file)
+  (with-open-file (in file)
+    (loop :with eof := '#:eof
+          :for form := (read in nil eof)
+          :until (eq form eof)
+          :do (eval form))))
