@@ -32,33 +32,32 @@ This project is still alpha quality.
 [sacla common lisp](https://minejima.jp/lisp/sacla/index-en.html) depends on Ansi test.
 The followings are list of Ansi test and the "Success or failure".
 
-- [ ] desirable-printer.lisp
-- [ ] must-array.lisp
-- [X] must-character.lisp
-- [X] must-condition.lisp
-- [X] must-cons.lisp
-- [ ] must-data-and-control.lisp
-- [X] must-do.lisp
-- [ ] must-eval.lisp
-- [ ] must-hash-table.lisp
-- [ ] must-loop.lisp
-- [ ] must-package.lisp
-- [ ] must-printer.lisp
-- [ ] must-reader.lisp
-- [X] must-sequence.lisp
-- [X] must-string.lisp
-- [X] must-symbol.lisp
-- [ ] should-array.lisp
-- [X] should-character.lisp
-- [X] should-cons.lisp
-- [ ] should-data-and-control.lisp
-- [ ] should-eval.lisp
-- [ ] should-hash-table.lisp
-- [ ] should-package.lisp
-- [ ] should-sequence.lisp
-- [X] should-string.lisp
-- [X] should-symbol.lisp
-- [ ] x-sequence.lisp
+|Test                                     |Success|Failure|
+|:----------------------------------------|:-----|:-----|
+|sacla-tests/desirable-printer.lisp       | 14   | 22   |
+|sacla-tests/must-array.lisp              | 162  | 171  |
+|sacla-tests/must-character.lisp          | 313  | 0    |
+|sacla-tests/must-condition.lisp          | 142  | 5    |
+|sacla-tests/must-cons.lisp               | 728  | 0    |
+|sacla-tests/must-data-and-control.lisp   | 170  | 144  |
+|sacla-tests/must-do.lisp                 | 75   | 0    |
+|sacla-tests/must-eval.lisp               | 9    | 0    |
+|sacla-tests/must-hash-table.lisp         | 67   | 29   |
+|sacla-tests/must-loop.lisp               | 778  | 72   |
+|sacla-tests/must-reader.lisp             | 891  | 696  |
+|sacla-tests/must-sequence.lisp           | 6    | 3853 |
+|sacla-tests/must-string.lisp             | 0    | 414  |
+|sacla-tests/must-symbol.lisp             | 5    | 191  |
+|sacla-tests/should-array.lisp            | 17   | 20   |
+|sacla-tests/should-character.lisp        | 46   | 3    |
+|sacla-tests/should-cons.lisp             | 141  | 0    |
+|sacla-tests/should-data-and-control.lisp | 1    | 3    |
+|sacla-tests/should-eval.lisp             | 0    | 2    |
+|sacla-tests/should-hash-table.lisp       | 3    | 0    |
+|sacla-tests/should-package.lisp          | 3    | 3    |
+|sacla-tests/should-sequence.lisp         | 48   | 33   |
+|sacla-tests/should-string.lisp           | 0    | 0    |
+|sacla-tests/should-symbol.lisp           | 44   | 0    |
 
 ### Run tests
 ```
