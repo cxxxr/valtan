@@ -1,11 +1,11 @@
 {
-  "name": "tests",
+  "name": "try-using-alexandria",
   "version": "1.0.0",
   "description": "",
   "main": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "valtan build tests.system",
+    "prebuild": "valtan-build try-using-alexandria.system",
     "build": "webpack",
     "start": "npm run build && node dist/main.js"
   },

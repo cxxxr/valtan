@@ -1,0 +1,7 @@
+;; -*- mode:lisp -*-
+
+(defsystem "try-using-alexandria"
+  :depends-on (:alexandria)
+  :serial t
+  :components ((:file "main"))
+  :target :node)

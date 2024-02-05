@@ -19,7 +19,7 @@ $ open index.html
 ## Create a project
 
 ```
-$ valtan-init project-name
+$ valtan init project-name
 $ cd project-name
 $ npm install
 

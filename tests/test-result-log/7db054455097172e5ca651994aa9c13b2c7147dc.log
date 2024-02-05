@@ -4,7 +4,7 @@
 
 
 > tests@1.0.0 prebuild /Users/cxxxr/common-lisp/valtan/tests
-> valtan-build tests.system
+> valtan build tests.system
 
 creating /Users/cxxxr/common-lisp/valtan/tests/.valtan-cache/Users/cxxxr/common-lisp/valtan/library/valtan-core/lisp/defpackage.lisp\.js
 creating /Users/cxxxr/common-lisp/valtan/tests/.valtan-cache/Users/cxxxr/common-lisp/valtan/library/valtan-core/lisp/valtan-package.lisp\.js
@@ -6984,4 +6984,4 @@ time: 783648
  ("sacla-tests/must-condition.lisp" 142 5)
  ("sacla-tests/must-character.lisp" 313 0)
  ("sacla-tests/must-array.lisp" 162 171)
- ("sacla-tests/desirable-printer.lisp" 14 22)) 
+ ("sacla-tests/desirable-printer.lisp" 14 22))

@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "valtan-build browser-repl.system",
+    "prebuild": "valtan build browser-repl.system",
     "build": "webpack"
   },
   "keywords": [],
