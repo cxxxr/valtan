@@ -95,7 +95,9 @@
 (defun input-file-to-output-file (input-file &optional (cache-directory *cache-directory*))
   (make-pathname :directory (append cache-directory (rest (pathname-directory input-file)))
                  :name (pathname-name input-file)
-                 :type (format nil "~A.js" (pathname-type input-file))))
+                 :type (if (equal (pathname-type input-file) "js")
+                           "js"
+                           (format nil "~A.js" (pathname-type input-file)))))
 
 (defun to-source-map-pathname (pathname)
   (make-pathname :name (format nil "~A.~A" (pathname-name pathname) (pathname-type pathname))
@@ -214,6 +216,15 @@
    (lambda ()
      (!compile-file input-file))))
 
+(defmethod compile-component ((component lisp-component))
+  (compile-file-with-cache (component-pathname component)))
+
+(defmethod compile-component ((component js-component))
+  (let ((dst-file (input-file-to-output-file (component-pathname component))))
+    (ensure-directories-exist dst-file)
+    (uiop:copy-file (component-pathname component)
+                    dst-file)))
+
 (defun common-directory (pathname1 pathname2)
   (loop :for dir1 := (pathname-directory pathname1) :then (rest dir1)
         :for dir2 := (pathname-directory pathname2) :then (rest dir2)
@@ -249,10 +260,14 @@
                  (path (resolve-path (escape-system-pathname system)
                                      (escape-system-pathname dependent-system))))
             (format out "require('~A.js');~%" path)))
-        (dolist (pathname (system-pathnames system))
+        (dolist (component (system-components system))
           (let ((path (resolve-path (escape-system-pathname system)
-                                    pathname)))
-            (format out "require('~A.js');~%" path))))
+                                    (component-pathname component))))
+            (etypecase component
+              (js-component
+               (format out "require('~A');~%" path))
+              (lisp-component
+               (format out "require('~A.js');~%" path))))))
       output-file)))
 
 (defun cache-system-key (system)
@@ -314,8 +329,8 @@
     (dolist (system (compute-system-precedence-list system))
       (when (check-discarting-cache-system-file system)
         (setq *discard-cache* t))
-      (dolist (pathname (system-pathnames system))
-        (compile-file-with-cache pathname))
+      (dolist (component (system-components system))
+        (compile-component component))
       (compile-system-file-with-cache system))
     (create-entry-file system)))
 
@@ -363,8 +378,8 @@
   (let ((systems (compute-system-precedence-list system))
         (directories '()))
     (dolist (system systems)
-      (dolist (pathname (system-pathnames system))
-        (pushnew (make-pathname :directory (pathname-directory pathname))
+      (dolist (component (system-components system))
+        (pushnew (make-pathname :directory (pathname-directory (component-pathname component)))
                  directories
                  :test #'uiop:pathname-equal)))
     directories))

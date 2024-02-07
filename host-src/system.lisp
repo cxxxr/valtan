@@ -1,9 +1,12 @@
 (defpackage :valtan-host.system
   (:use :cl)
   (:export :*system-directories*
+           :lisp-component
+           :js-component
+           :component-pathname
            :system-name
            :system-pathname
-           :system-pathnames
+           :system-components
            :system-enable-profile
            :system-enable-source-map
            :system-depends-on
@@ -27,7 +30,7 @@
 (defstruct system
   name
   pathname
-  (pathnames '())
+  (components '())
   (enable-profile nil)
   (enable-source-map nil)
   (depends-on '())
@@ -38,6 +41,9 @@
   name
   pathname
   depends-on)
+
+(defstruct (lisp-component (:include component)))
+(defstruct (js-component (:include component)))
 
 (defun ensure-system-package-exist ()
   (find-package :valtan-host.system-user))
@@ -60,24 +66,37 @@
   (declare (ignore serial))
   (let ((components
           (loop :for component :in components
-                :when (and (getf component :file)
-                           (destructuring-bind (&key ((:file name))
-                                                     (if-feature nil if-feature-p)
-                                                     depends-on)
-                               component
-                             (unless name
-                               (error "Illegal component: ~S" component))
-                             (when (or (not if-feature-p) (featurep if-feature))
+                :when (cond ((getf component :file)
+                             (destructuring-bind (&key ((:file name))
+                                                       (if-feature nil if-feature-p)
+                                                       depends-on)
+                                 component
+                               (unless name
+                                 (error "Illegal component: ~S" component))
+                               (when (or (not if-feature-p) (featurep if-feature))
+                                 (let ((file
+                                         (probe-file
+                                          (make-pathname :name name
+                                                         :type "lisp"
+                                                         :directory directory))))
+                                   (unless file
+                                     (error "~S not found for system ~S" name system-name))
+                                   (make-lisp-component :name name
+                                                        :pathname file
+                                                        :depends-on depends-on)))))
+                            ((getf component :js-source-file)
+                             (destructuring-bind (&key ((:js-source-file name))
+                                                       depends-on)
+                                 component
                                (let ((file
-                                       (probe-file
-                                        (make-pathname :name name
-                                                       :type "lisp"
-                                                       :directory directory))))
+                                       (probe-file (make-pathname :name name
+                                                                  :type "js"
+                                                                  :directory directory))))
                                  (unless file
                                    (error "~S not found for system ~S" name system-name))
-                                 (make-component :name name
-                                                 :pathname file
-                                                 :depends-on depends-on)))))
+                                 (make-js-component :name name
+                                                    :pathname file
+                                                    :depends-on depends-on)))))
                 :collect it)))
     (flet ((find-component (name)
              (find name components :key #'component-name :test #'equal)))
@@ -87,13 +106,13 @@
                 (mapcar #'find-component (component-depends-on component)))))
       components)))
 
-(defun compute-components-pathnames (components)
+(defun compute-components (components)
   (let ((computed-components '()))
     (labels ((resolve-dependencies (component)
                (mapc #'resolve-dependencies (component-depends-on component))
                (pushnew component computed-components)))
       (mapc #'resolve-dependencies components)
-      (mapcar #'component-pathname (nreverse computed-components)))))
+      (nreverse computed-components))))
 
 (defmacro valtan-host.system-user::defsystem
     (name &key (serial nil serial-p) depends-on components target source-map entry-file &allow-other-keys)
@@ -109,7 +128,7 @@
                         :depends-on ',(if (string= (string-downcase name) +valtan-core-system+)
                                           depends-on
                                           (cons +valtan-core-system+ depends-on))
-                        :pathnames ',(compute-components-pathnames components)
+                        :components ',(compute-components components)
                         :target ,target
                         :enable-source-map ,source-map
                         :entry-file ,entry-file))))
