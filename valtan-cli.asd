@@ -6,6 +6,7 @@
   :pathname "cli"
   :components ((:file "init-project")
                (:file "build-project")
+               (:file "build-server")
                (:file "main")))
 
 (defsystem "valtan-cli/executable"

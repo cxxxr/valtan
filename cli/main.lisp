@@ -7,7 +7,8 @@
   (write-line "usage: valtan <command> [<args>]")
   (write-line "<comman>:")
   (write-line "  init")
-  (write-line "  build"))
+  (write-line "  build")
+  (write-line "  build-server"))
 
 (defun usage-and-exit (exit-code)
   (usage)
@@ -22,4 +23,5 @@
   (alexandria:switch ((first args) :test #'string=)
     ("init" (valtan-cli.init-project:main (rest args)))
     ("build" (valtan-cli.build-project:main (rest args)))
+    ("build-server" (valtan-cli.build-server:main (rest args)))
     (otherwise (usage-and-exit 1))))
