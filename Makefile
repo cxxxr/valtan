@@ -9,12 +9,12 @@ PROGNAME=valtan
 deps:
 	git submodule update --init --recursive
 
-build:
+build: deps
 	$(LISP) --eval '(asdf:load-system (asdf:find-system :valtan-cli/executable))' \
 		--eval '(asdf:make :valtan-cli/executable)' \
 		--eval '(quit)'
 
-install: valtan
+install:
 	cp $(PROGNAME) $(INSTALLDIR)/$(PROGNAME)
 
 uninstall:
