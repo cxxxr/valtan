@@ -1,4 +1,4 @@
-(asdf:defsystem "valtan-cli"
+(defsystem "valtan-cli"
   :depends-on ("valtan"
                "command-line-arguments"
                "cl-project")
@@ -9,7 +9,7 @@
                (:file "build-server")
                (:file "main")))
 
-(asdf:defsystem "valtan-cli/executable"
+(defsystem "valtan-cli/executable"
   :build-operation program-op
   :build-pathname "valtan"
   :entry-point "valtan-cli:main"
