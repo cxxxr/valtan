@@ -5,7 +5,7 @@
 
 (defun usage ()
   (write-line "usage: valtan <command> [<args>]")
-  (write-line "<comman>:")
+  (write-line "<command>:")
   (write-line "  init")
   (write-line "  build")
   (write-line "  build-server"))
