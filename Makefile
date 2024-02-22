@@ -10,8 +10,7 @@ deps:
 	git submodule update --init --recursive
 
 build: deps
-	$(LISP) --eval '(asdf:load-system (asdf:find-system :valtan-cli/executable))' \
-		--eval '(asdf:make :valtan-cli/executable)' \
+	$(LISP) --eval '(asdf:make :valtan-cli/executable)' \
 		--eval '(quit)'
 
 install:
