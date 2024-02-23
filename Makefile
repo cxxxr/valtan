@@ -1,6 +1,8 @@
 LISP ?= sbcl
 PROGNAME=valtan
 
+all: build
+
 deps:
 	git submodule update --init --recursive
 
