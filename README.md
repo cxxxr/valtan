@@ -3,8 +3,19 @@ Common Lisp to JavaScript compiler
 
 ## Installation
 
+With Roswell:
+
 ```
 $ ros follow-dependency=t install cxxxr/valtan
+```
+
+From source:
+
+```
+$ git clone https://github.com/cxxxr/valtan ~/common-lisp/valtan
+$ cd ~/common-lisp/valtan
+$ make build
+$ sudo make install
 ```
 
 ## Demo
