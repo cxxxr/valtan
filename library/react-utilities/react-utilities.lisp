@@ -11,12 +11,21 @@
 
 (defmacro define-react-component (name (&rest keys) &body body)
   (let ((garg (gensym))
-        (gargs (gensym)))
+        (gargs (gensym))
+        (v (gensym)))
     `(defun ,name (,garg &rest ,gargs)
        (let ,(mapcar (lambda (key)
-                       `(,key (ffi:aget ,garg
-                                        (ffi:cl->js ,(compiler::kebab-to-lower-camel-case
-                                                      (string key))))))
+                       (if (consp key)
+                           (destructuring-bind (key default) key
+                             `(,key (let ((,v (ffi:aget ,garg
+                                                        (ffi:cl->js ,(compiler::kebab-to-lower-camel-case
+                                                                      (string key))))))
+                                      (if (eq ,v #j:undefined)
+                                          ,default
+                                          ,v))))
+                           `(,key (ffi:aget ,garg
+                                            (ffi:cl->js ,(compiler::kebab-to-lower-camel-case
+                                                          (string key)))))))
                      keys)
          ,@body))))
 
