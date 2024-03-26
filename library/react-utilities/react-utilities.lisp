@@ -63,6 +63,11 @@
         (js-symbol-p x)
         (react-component-p x))))
 
+(defun convert-child (child)
+  (if (null child)
+      #j:null
+      (ffi:cl->js child)))
+
 (defmacro tag (tag option &body children)
   `(js:react.create-element ,(cond ((js-symbol-p tag)
                                     `(ffi:cl->js ,tag))
@@ -73,7 +78,7 @@
                                    (t
                                     `(ffi:cl->js ,tag)))
                             (ffi:object . ,option)
-                            ,@(mapcar (lambda (c) `(ffi:cl->js ,c))
+                            ,@(mapcar (lambda (c) `(convert-child ,c))
                                       children)))
 
 (defmacro jsx (form)
@@ -85,6 +90,8 @@
                  ,@(mapcar (lambda (form)
                              `(jsx ,form))
                            body))))
+        ((null form)
+         #j:null)
         (t
          form)))
 
