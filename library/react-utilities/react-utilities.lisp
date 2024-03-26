@@ -27,7 +27,8 @@
                                             (ffi:cl->js ,(compiler::kebab-to-lower-camel-case
                                                           (string key)))))))
                      keys)
-         ,@body))))
+         (or (progn ,@body)
+             #j:null)))))
 
 (defmacro with-state (bindings &body body)
   (let ((setters '()))
@@ -64,9 +65,12 @@
         (react-component-p x))))
 
 (defun convert-child (child)
-  (if (null child)
-      #j:null
-      (ffi:cl->js child)))
+  (cond ((null child)
+         #j:null)
+        ((consp child)
+         (apply #'ffi:array (mapcar #'convert-child child)))
+        (t
+         (ffi:cl->js child))))
 
 (defmacro tag (tag option &body children)
   `(js:react.create-element ,(cond ((js-symbol-p tag)
