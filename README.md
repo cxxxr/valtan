@@ -38,10 +38,20 @@ $ npm start # run
 ```
 
 ## Status
-This project is still alpha quality.
 
-[sacla common lisp](https://minejima.jp/lisp/sacla/index-en.html) depends on Ansi test.
-The followings are list of Ansi test and the "Success or failure".
+Valtan is still in its alpha stage.
+
+Valtan [aims](https://github.com/cxxxr/valtan/issues/18) to achieve
+compatibility with [ANSI Common Lisp](https://www.cliki.net/CLHS). At present,
+the primary test suite being used is the
+[`ansi-test`](https://gitlab.common-lisp.net/ansi-test/ansi-test). However,
+valtan is not yet sufficiently developed to fully support this test suite.
+More details and discussions can be found in [Issue
+18](https://github.com/cxxxr/valtan/issues/18).
+
+As an alternative, valtan utilizes the [sacla common lisp test
+suite](https://minejima.jp/lisp/sacla/index-en.html). Below is a table showing
+the results of valtan when run against this suite:
 
 |Test                                     |Success|Failure|
 |:----------------------------------------|:-----|:-----|
