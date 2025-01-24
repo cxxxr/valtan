@@ -89,3 +89,22 @@ $ npm start
 
 ## License
 MIT
+
+## Q&A
+
+### Will it compile to minimized obfuscated javascript or to readable javascript?
+
+Fairly obfuscated. It also minimizes to a single js file after build via webpack. There are source-maps to aid debugging if that is the reason for your question.
+
+### Will it be possible to integrate with other javascript libraries while using valtan?
+
+Yes very easily. I've used it with PlayCanvas, a batteries-included engine built on top of webgl.
+
+https://github.com/jason-chandler/portal-plurality
+
+### In particular, will we be able to generate React components with macros using valtan?
+
+Yes, this is done in the repository under example/react-tic-tac-toe
+
+https://github.com/cxxxr/valtan/tree/036dbb33e53f0f0139058145913de5a79d88cc13/example/react-tic-tac-toe
+
