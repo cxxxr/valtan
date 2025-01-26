@@ -1,5 +1,13 @@
 # valtan
-Common Lisp to JavaScript compiler
+Common Lisp to JavaScript compiler.
+
+Features:
+- Code obfuscation
+- Code minification after building with webpack
+- Source-maps to aid debugging
+- Integrates with other javascript libraries
+- Can use Common Lisp features including macros
+  - Can generate React components with macros
 
 ## Installation
 
@@ -18,7 +26,11 @@ $ make build
 $ ./valtan
 ```
 
-## Demo
+## Demo and Examples
+
+### Tic Tac Toe React
+
+https://github.com/cxxxr/valtan/tree/master/example/react-tic-tac-toe
 
 ```
 $ cd example/react-tic-tac-toe
@@ -26,6 +38,10 @@ $ npm install
 $ npm run build
 $ open index.html
 ```
+
+### Example used with PlayCanvas, a batteries-included engine built on top of webgl.
+
+https://github.com/jason-chandler/portal-plurality
 
 ## Create a project
 
