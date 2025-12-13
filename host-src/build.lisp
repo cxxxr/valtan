@@ -76,18 +76,18 @@
   `(valtan-host.reader:map-file-forms (lambda (,var) ,@body) ,file))
 
 (defun emit-import-lisp (stream)
-  (write-line "var lisp = require('lisp');" stream))
+  (write-line "import * as lisp from 'lisp';" stream))
 
 (defun in-pass2 (hir-forms stream)
   (emit-import-lisp stream)
   (loop :for (var . module) :in compiler::*require-modules*
         :do (if var
                 (format stream
-                        "var ~A = require('~A');~%"
+                        "import * as ~A from '~A';~%"
                         (compiler::p2-convert-var var)
                         module)
                 (format stream
-                        "require('~A');~%"
+                        "import '~A';~%"
                         module)))
   (compiler::p2-toplevel-forms hir-forms stream)
   (values))
@@ -259,15 +259,15 @@
           (let* ((dependent-system (find-system system-name)) ;!!!
                  (path (resolve-path (escape-system-pathname system)
                                      (escape-system-pathname dependent-system))))
-            (format out "require('~A.js');~%" path)))
+            (format out "import '~A.js';~%" path)))
         (dolist (component (system-components system))
           (let ((path (resolve-path (escape-system-pathname system)
                                     (component-pathname component))))
             (etypecase component
               (js-component
-               (format out "require('~A');~%" path))
+               (format out "import '~A';~%" path))
               (lisp-component
-               (format out "require('~A.js');~%" path))))))
+               (format out "import '~A.js';~%" path))))))
       output-file)))
 
 (defun cache-system-key (system)
@@ -300,7 +300,7 @@
                       output-file)
       (emit-import-lisp stream)
       (format stream
-              "require('~A');~%"
+              "import '~A';~%"
               (compute-output-system-pathname system))
       (compiler::p2-toplevel-forms
        (list (compiler::pass1-toplevel '(cl:finish-output) stream))

@@ -2,21 +2,21 @@
   "name": "<% @var name %>",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "valtan build <% @var name %>.system",
-    "build": "webpack"
+    "dev": "valtan build <% @var name %>.system && vite",
+    "build": "valtan build <% @var name %>.system && vite build",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^5.101.3",
-    "webpack-cli": "^6.0.1"
+    "vite": "^5.4.0",
+    "@vitejs/plugin-react": "^4.3.0"
   },
   "dependencies": {
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
   }
 }

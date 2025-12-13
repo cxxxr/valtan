@@ -2,18 +2,15 @@
   "name": "try-using-alexandria",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/main.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "valtan-build try-using-alexandria.system",
-    "build": "webpack",
+    "build": "valtan build try-using-alexandria.system && vite build",
     "start": "npm run build && node dist/main.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.0"
+    "vite": "^5.4.0"
   }
 }
