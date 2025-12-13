@@ -5,3 +5,7 @@ dist/
 example/test.lisp
 example/example.js
 *.nogit
+
+# Build artifacts
+/valtan
+quicklisp.lisp
