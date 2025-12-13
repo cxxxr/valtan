@@ -1,10 +1,15 @@
 (ffi:require js:react "react")
 (ffi:require js:react-dom "react-dom")
+(ffi:require js:react-dom-client "react-dom/client")
 
 (defpackage :valtan.react-utilities
   (:use :cl)
   (:export :define-react-component
            :with-state
+           :with-effect
+           :with-memo
+           :with-callback
+           :with-ref
            :jsx
            :setup))
 (in-package :valtan.react-utilities)
@@ -47,6 +52,30 @@
                             `(,setter (,arg) (funcall ,set-fn ,arg)))))
                       setters)
          ,@body))))
+
+(defmacro with-effect ((&optional deps) &body body)
+  "Execute side effects. DEPS is a list of dependencies (nil = every render, () = mount only)."
+  (let ((deps-array (cond ((null deps)
+                           '#j:undefined)
+                          ((eq deps '())
+                           '(ffi:array))
+                          (t
+                           `(ffi:array ,@deps)))))
+    `(js:react.use-effect (lambda () ,@body) ,deps-array)))
+
+(defmacro with-memo ((&rest deps) &body body)
+  "Return memoized value, recomputed only when DEPS change."
+  `(js:react.use-memo (lambda () ,@body)
+                      (ffi:array ,@deps)))
+
+(defmacro with-callback ((&rest deps) &body body)
+  "Return memoized callback, updated only when DEPS change."
+  `(js:react.use-callback (lambda () ,@body)
+                          (ffi:array ,@deps)))
+
+(defmacro with-ref (initial-value)
+  "Create a mutable ref object with INITIAL-VALUE."
+  `(js:react.use-ref ,initial-value))
 
 (eval-when (:compile-toplevel)
   (defun react-component-p (x)
@@ -108,13 +137,14 @@
          (error "~S is not a function" value))))
 
 (defun setup (app id &key remote-eval)
-  (js:react-dom.render
-   (js:react.create-element (ensure-function app))
-   (js:document.get-element-by-id (ffi:cl->js id)))
-  (when remote-eval
-    (valtan.remote-eval:connect
-     (lambda ()
-       (setup app id)))))
+  (let ((root (js:react-dom-client.create-root
+               (js:document.get-element-by-id (ffi:cl->js id)))))
+    (funcall (ffi:ref root "render")
+             (js:react.create-element (ensure-function app)))
+    (when remote-eval
+      (valtan.remote-eval:connect
+       (lambda ()
+         (setup app id))))))
 
 (ffi:set js:window.lisp js:lisp)
 (ffi:set js:window.react js:react)

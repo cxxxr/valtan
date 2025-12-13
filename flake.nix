@@ -18,10 +18,17 @@
             pkgs.nodejs_20
             pkgs.nodePackages.npm
             pkgs.curl
+            # Required for iolib (inotify dependency on Linux)
+            pkgs.libfixposix
+            pkgs.gcc
+            pkgs.pkg-config
           ];
 
           shellHook = ''
             export CL_SOURCE_REGISTRY="$PWD//:$PWD/library/valtan-core//:$PWD/submodules/cl-source-map//"
+            export C_INCLUDE_PATH="${pkgs.libfixposix}/include:$C_INCLUDE_PATH"
+            export LIBRARY_PATH="${pkgs.libfixposix}/lib:$LIBRARY_PATH"
+            export LD_LIBRARY_PATH="${pkgs.libfixposix}/lib:$LD_LIBRARY_PATH"
 
             echo "========================================"
             echo "Valtan development shell"
