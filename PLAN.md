@@ -59,29 +59,29 @@
 
 ## フェーズ1: 基盤整備
 
-### TASK-2: React Hooks拡張
-- **状態**: 未着手
-- **対象ファイル**: `library/react-utilities/react-utilities.lisp`
-- **内容**:
-  - [ ] `with-effect` マクロ追加（useEffect対応）
-  - [ ] `with-callback` マクロ追加（useCallback対応）
-  - [ ] `with-memo` マクロ追加（useMemo対応）
-  - [ ] `with-ref` マクロ追加（useRef対応）
-- **エクスポート追加**: `:with-effect`, `:with-callback`, `:with-memo`, `:with-ref`
-- **期待効果**: 実用的なReactアプリケーション開発が可能に
-
 ### TASK-1: React 18対応
-- **状態**: 未着手
+- **状態**: 完了
 - **対象ファイル**:
-  - `library/react-utilities/react-utilities.lisp:110-117`
+  - `library/react-utilities/react-utilities.lisp`
   - `skeleton/browser-skeleton/package.json`
   - `example/*/package.json`
 - **内容**:
-  - [ ] `ReactDOM.render` → `ReactDOM.createRoot` API移行
-  - [ ] `setup` 関数の更新
-  - [ ] package.jsonのReactバージョン更新（18.x）
+  - [x] `ReactDOM.render` → `ReactDOM.createRoot` API移行
+  - [x] `setup` 関数の更新
+  - [x] package.jsonのReactバージョン更新（18.x）
 - **後方互換性**: 不要（完全移行）
 - **期待効果**: 最新のReact機能が利用可能に
+
+### TASK-2: React Hooks拡張
+- **状態**: 完了
+- **対象ファイル**: `library/react-utilities/react-utilities.lisp`
+- **内容**:
+  - [x] `with-effect` マクロ追加（useEffect対応）
+  - [x] `with-callback` マクロ追加（useCallback対応）
+  - [x] `with-memo` マクロ追加（useMemo対応）
+  - [x] `with-ref` マクロ追加（useRef対応）
+- **エクスポート追加**: `:with-effect`, `:with-callback`, `:with-memo`, `:with-ref`
+- **期待効果**: 実用的なReactアプリケーション開発が可能に
 
 ### TASK-3: webpack 5移行（node-skeleton）
 - **状態**: 未着手
@@ -93,12 +93,12 @@
 - **参考**: browser-skeletonは既にwebpack 5.101.3
 
 ### TASK-4: 開発者向けドキュメント整備
-- **状態**: 未着手
+- **状態**: 完了
 - **内容**:
-  - [ ] `docs/react-guide.md` 作成
-  - [ ] FFI完全リファレンス作成
-  - [ ] サンプルコード集の拡充
-- **依存**: TASK-1, TASK-2完了後
+  - [x] `docs/react-guide.md` 作成
+  - [x] `docs/ffi-reference.md` 作成
+  - [x] `docs/examples.md` 作成
+- **依存**: TASK-1, TASK-2完了後 ✅
 
 ### TASK-5: 例題プロジェクトの更新
 - **状態**: 未着手
@@ -221,11 +221,12 @@ TASK-8 (symbol) ─────┘
 ## 現在の作業順序
 
 1. ~~**TASK-0**: Vite + ES Modules移行~~ ✅ 完了
-2. **TASK-1**: React 18対応 (createRoot API) ← 次に着手
-3. **TASK-2**: React Hooks拡張
-4. **TASK-6**: シーケンス関数の修正
-5. **TASK-7**: 文字列関数の修正
-6. **TASK-8**: シンボル関数の修正
+2. ~~**TASK-1**: React 18対応 (createRoot API)~~ ✅ 完了
+3. ~~**TASK-2**: React Hooks拡張~~ ✅ 完了
+4. ~~**TASK-4**: 開発者向けドキュメント整備~~ ✅ 完了
+5. **TASK-6**: シーケンス関数の修正 ← 次に着手
+6. **TASK-7**: 文字列関数の修正
+7. **TASK-8**: シンボル関数の修正
 
 ---
 
@@ -236,3 +237,6 @@ TASK-8 (symbol) ─────┘
 | 2025-12-14 | ARCHITECTURE.md | 完了 | アーキテクチャドキュメント生成 |
 | 2025-12-14 | PLAN.md | 完了 | 開発計画策定 |
 | 2025-12-14 | TASK-0 | 完了 | Vite移行、ES modules対応完了 |
+| 2025-12-14 | TASK-1 | 完了 | React 18 createRoot API対応 |
+| 2025-12-14 | TASK-2 | 完了 | with-effect/memo/callback/ref追加 |
+| 2025-12-14 | TASK-4 | 完了 | react-guide.md, ffi-reference.md, examples.md作成 |
