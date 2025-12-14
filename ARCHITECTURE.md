@@ -1,186 +1,298 @@
 ---
 title: "ARCHITECTURE"
-repo: "valtan"
+repo: "cxxxr/valtan"
 version: "v1"
 generated_at: "2025-12-14T00:00:00Z"
-commit: "3c85f5dd51a20e4e6db0624369142d14cac61e11"
+commit: "d6f622c7e9c9d360527a1a95adf506b2c9b79de5"
 confidence: "High"
 ---
 
-# ARCHITECTURE
+# Valtan Architecture
 
 ## 1. Overview
 
-### 目的
-ValtanはCommon LispからJavaScriptへのコンパイラ。ブラウザやNode.js環境でCommon Lispコードを実行可能にする。
+### Purpose
+Valtan is a Common Lisp to JavaScript compiler that enables running Common Lisp code in web browsers and Node.js environments.
 
-### ユースケース
-- Common LispでReactコンポーネントを記述
-- Node.jsアプリケーションをCommon Lispで開発
-- 既存のCommon Lispコードをブラウザで実行
+### Use Cases
+- Compile Common Lisp source files to JavaScript modules
+- Build browser-based applications using Common Lisp
+- Build Node.js applications using Common Lisp
+- Integrate with modern JavaScript tooling (Vite, Webpack)
+- React application development using Common Lisp
 
-### 非目標
-- 完全なANSI Common Lisp準拠（アルファ段階）
-- ネイティブコンパイル
+### Non-Goals
+- Full ANSI Common Lisp compliance (subset implementation)
+- Native code compilation
+- Standalone binary generation for non-JS targets
 
 ## 2. System Architecture
 
 ```mermaid
 flowchart TB
-    subgraph Host["Host Environment (SBCL等)"]
-        CLI["valtan CLI"]
-        Reader["Valtan Reader"]
-        Compiler["Compiler (Pass1/Pass2)"]
-        BuildSystem["Build System"]
+    subgraph CLI["CLI Layer"]
+        main["valtan CLI<br/>cli/main.lisp"]
+        init["init-project"]
+        build["build-project"]
+        server["build-server"]
     end
 
-    subgraph Target["Target Environment (JS)"]
-        Kernel["JavaScript Kernel"]
-        Runtime["valtan-core Runtime"]
-        UserApp["User Application"]
+    subgraph Compiler["Compiler Pipeline"]
+        reader["Reader<br/>host-src/reader.lisp"]
+        pass1["Pass1: AST→HIR<br/>compiler/pass1.lisp"]
+        hir["HIR<br/>(High-level IR)"]
+        optimize["HIR Optimizer<br/>compiler/hir-optimize.lisp"]
+        pass2["Pass2: HIR→JS<br/>compiler/pass2.lisp"]
+        js_out["JavaScript Output"]
     end
 
-    subgraph External["External"]
-        Webpack["Webpack"]
-        NPM["npm packages"]
+    subgraph Runtime["JavaScript Runtime"]
+        kernel["Kernel<br/>kernel/*.js"]
+        lisp_js["lisp.js<br/>(Entry Point)"]
     end
 
-    CLI --> BuildSystem
-    BuildSystem --> Reader
-    Reader --> Compiler
-    Compiler --> |".lisp.js"| Webpack
-    Kernel --> Runtime
-    Runtime --> UserApp
-    Webpack --> |"bundle"| Target
-    NPM --> Webpack
+    subgraph System["Build System"]
+        system["System Definition<br/>host-src/system.lisp"]
+        build_sys["Build System<br/>host-src/build.lisp"]
+    end
+
+    subgraph Target["Target Environments"]
+        browser["Browser"]
+        node["Node.js"]
+    end
+
+    main --> init
+    main --> build
+    main --> server
+
+    build --> build_sys
+    build_sys --> system
+    build_sys --> reader
+    reader --> pass1
+    pass1 --> hir
+    hir --> optimize
+    optimize --> pass2
+    pass2 --> js_out
+
+    js_out --> kernel
+    kernel --> lisp_js
+    lisp_js --> browser
+    lisp_js --> node
 ```
 
 ## 3. Execution Flow
 
-### コンパイルフロー
+### Compilation Sequence
 
 ```mermaid
 sequenceDiagram
     participant User
     participant CLI as valtan CLI
-    participant Build as BuildSystem
-    participant Reader as Valtan Reader
-    participant Pass1 as Compiler Pass1
-    participant Pass2 as Compiler Pass2
+    participant Build as Build System
+    participant Reader
+    participant Pass1 as Pass1 (AST→HIR)
+    participant Optimizer as HIR Optimizer
+    participant Pass2 as Pass2 (HIR→JS)
     participant FS as File System
-    participant Webpack
 
-    User->>CLI: valtan build project.system
+    User->>CLI: valtan build <system-file>
     CLI->>Build: build-system(pathname)
-    Build->>Build: load-system-file
-    Build->>Build: compute-system-precedence-list
+    Build->>Build: load-system-file()
+    Build->>Build: compute-system-precedence-list()
 
-    loop For each component
-        Build->>Reader: map-file-forms(file)
-        Reader->>Reader: read forms with source-info
-        Reader-->>Build: Lisp forms
-        Build->>Pass1: pass1-toplevel(form)
-        Pass1->>Pass1: Generate HIR
-        Pass1-->>Build: HIR forms
-        Build->>Pass2: p2-toplevel-forms(hir)
+    loop For each source file
+        Build->>Reader: map-file-forms()
+        Reader->>Reader: Read Lisp forms
+        Reader->>Pass1: form
+        Pass1->>Pass1: Macro expansion
+        Pass1->>Pass1: Transform to HIR
+        Pass1->>Optimizer: HIR forms
+        Optimizer->>Optimizer: Constant folding
+        Optimizer->>Optimizer: Dead code elimination
+        Optimizer->>Pass2: Optimized HIR
         Pass2->>Pass2: Generate JavaScript
-        Pass2-->>Build: JavaScript code
-        Build->>FS: Write .lisp.js file
+        Pass2->>FS: Write .js file
     end
 
-    Build->>FS: Write entry file
-    Build->>Webpack: webpack(directory)
-    Webpack->>FS: Write dist/main.js
-    Webpack-->>User: Build complete
+    Build->>Build: Create entry file
+    Build->>User: Compilation complete
 ```
 
 ## 4. Modules & Dependencies
 
-### レイヤー構成
-
-| レイヤー | 説明 | 主要ファイル |
-|---------|------|-------------|
-| CLI | コマンドラインインターフェース | `cli/main.lisp:20-27` |
-| Build System | ビルド・キャッシュ管理 | `host-src/build.lisp` |
-| Compiler | コンパイラ本体 | `library/valtan-core/compiler/` |
-| Runtime | JS実行環境 | `kernel/`, `library/valtan-core/lisp/` |
-
-### 外部依存（valtan.asd）
-
-| パッケージ | 用途 |
-|-----------|------|
-| cl-ppcre | 正規表現 |
-| trivial-gray-streams | ストリーム抽象化 |
-| cl-source-map | ソースマップ生成 |
-| inotify (Linux) | ファイル監視 |
-| async-process | 非同期プロセス |
-| st-json | JSON処理 |
-
-- `valtan.asd:1-8`
-
-### 内部モジュール構成
+### Layer Architecture
 
 ```
-valtan-core/
-├── system        # パッケージ・基本定義
-├── common-lisp   # CL実装 (cons, array, string等)
-└── compiler      # コンパイラ (pass1, pass2, hir)
+┌─────────────────────────────────────────────────────┐
+│                    CLI Layer                         │
+│  valtan-cli.asd: init, build, build-server          │
+├─────────────────────────────────────────────────────┤
+│                  Host Layer                          │
+│  valtan.asd: build, system, reader, emitter-stream  │
+├─────────────────────────────────────────────────────┤
+│                Compiler Layer                        │
+│  valtan-core/compiler: pass1, pass2, hir-optimize   │
+├─────────────────────────────────────────────────────┤
+│              Common Lisp Layer                       │
+│  valtan-core/common-lisp: control, cons, sequence...│
+├─────────────────────────────────────────────────────┤
+│               JavaScript Runtime                     │
+│  kernel/*.js: symbol, cons, function, package...    │
+└─────────────────────────────────────────────────────┘
 ```
 
-- `library/valtan-core/valtan-core.asd:3-72`
+### Key Packages
 
-## 5. Data Model
+| Package | Purpose | Location |
+|---------|---------|----------|
+| `valtan-cli` | CLI entry point | `cli/main.lisp:1-28` |
+| `valtan-host.build` | Build orchestration | `host-src/build.lisp:1-437` |
+| `valtan-host.system` | System definition | `host-src/system.lisp:1-203` |
+| `compiler` | Compilation pipeline | `library/valtan-core/compiler/` |
+| `valtan-core` | Target runtime library | `library/valtan-core/lisp/` |
+
+### External Dependencies
+
+From `valtan.asd:2-8`:
+- `cl-ppcre` - Regular expressions
+- `trivial-gray-streams` - Stream abstractions
+- `cl-source-map` - JavaScript source map generation
+- `inotify` (Linux) - File watching for build-server
+- `async-process` - Process management
+- `st-json` - JSON handling
+
+### Internal Module Dependencies
+
+```
+valtan-cli
+    └── valtan
+            ├── cl-source-map
+            ├── async-process
+            └── valtan-core
+                    ├── valtan-core/compiler
+                    │       └── valtan-core/common-lisp
+                    │               └── valtan-core/system
+                    └── valtan-core/common-lisp
+```
+
+## 5. Compiler Components
 
 ### HIR (High-level Intermediate Representation)
 
-コンパイラ内部で使用される中間表現。
+Defined in `library/valtan-core/compiler/hir.lisp:3-9`:
 
 ```lisp
-(defstruct hir
-  op                   ; 操作種別
-  return-value-p       ; 戻り値使用フラグ
-  multiple-values-p    ; 多値フラグ
-  result-type          ; 結果型
-  position             ; ソース位置
-  args)                ; 引数リスト
+(defstruct (hir (:constructor %make-hir))
+  op
+  return-value-p
+  multiple-values-p
+  (result-type t)
+  position
+  args)
 ```
 
-- `library/valtan-core/compiler/hir.lisp:3-9`
+### HIR Operations
 
-### System定義
+| Operation | Description | Reference |
+|-----------|-------------|-----------|
+| `const` | Constant value | `pass1.lisp:352-353` |
+| `lref` | Local variable reference | `pass1.lisp:359-370` |
+| `gref` | Global variable reference | `pass1.lisp:359-370` |
+| `lset`/`gset` | Local/global assignment | `pass1.lisp:618-653` |
+| `if` | Conditional | `pass1.lisp:655-663` |
+| `progn` | Sequential execution | `pass1.lisp:665-671` |
+| `lambda` | Function definition | `pass1.lisp:462-486` |
+| `let` | Variable binding | `pass1.lisp:707-740` |
+| `call`/`lcall` | Function call | `pass1.lisp:527-585` |
+| `block`/`return-from` | Block control | `pass1.lisp:825-848` |
+| `tagbody`/`go` | Goto control | `pass1.lisp:861-922` |
 
-```lisp
-(defstruct system
-  name
-  pathname
-  components
-  enable-profile
-  enable-source-map
-  depends-on
-  target              ; :node | :browser | nil
-  entry-file)
+### Pass1: Lisp → HIR
+
+Key functions in `library/valtan-core/compiler/pass1.lisp`:
+- `pass1`: Main entry point for form compilation (line 587-613)
+- `pass1-toplevel`: Top-level form compilation (line 1136-1139)
+- `parse-lambda-list`: Lambda list parsing (line 115-237)
+- `%macroexpand-1`: Macro expansion (line 506-525)
+
+### Pass2: HIR → JavaScript
+
+Key functions in `library/valtan-core/compiler/pass2.lisp`:
+- `p2`: Main HIR to JavaScript emitter (line 239-244)
+- `p2-toplevel-forms`: Compile multiple HIR forms (line 1191-1212)
+- `p2-literal`: Lisp value to JavaScript literal (line 369-371)
+- `p2-emit-lambda-list`: Lambda list code generation (line 545-607)
+
+### Builtin Functions Table
+
+`library/valtan-core/compiler/pass2.lisp:44-145` defines optimized JavaScript implementations for common functions:
+- Symbol operations: `symbolp`, `boundp`, `fboundp`
+- Number operations: `%add`, `%sub`, `%mul`, etc.
+- Cons operations: `consp`, `cons`, `%car`, `%cdr`
+- Control: `eq`, `values`, `apply`
+
+## 6. JavaScript Runtime (Kernel)
+
+### Kernel Modules
+
+| File | Purpose | Reference |
+|------|---------|-----------|
+| `lisp.js` | Main entry, function registration | `kernel/lisp.js:1-275` |
+| `symbol.js` | Symbol implementation | `kernel/symbol.js` |
+| `package.js` | Package system | `kernel/package.js` |
+| `cons.js` | Cons cell implementation | `kernel/cons.js` |
+| `values.js` | Multiple values | `kernel/values.js` |
+| `function.js` | Function call machinery | `kernel/function.js` |
+| `number.js` | Numeric operations | `kernel/number.js` |
+| `structure.js` | Structure (defstruct) support | `kernel/structure.js` |
+| `character.js` | Character type | `kernel/character.js` |
+| `control.js` | Control flow primitives | `kernel/control.js` |
+| `error.js` | Error handling | `kernel/error.js` |
+| `callstack.js` | Call stack for debugging | `kernel/callstack.js` |
+| `ffi.js` | JavaScript interop | `kernel/ffi.js` |
+
+### Function Registration Pattern
+
+From `kernel/lisp.js:167-192`:
+```javascript
+function registerFunction(pkg, name, fn, min = 0, max = min) {
+    // Wraps functions with argument checking
+    intern(name, pkg).func = function() { ... }
+}
 ```
 
-- `host-src/system.lisp:30-38`
+## 7. FFI (Foreign Function Interface)
 
-## 6. External Integrations
+### FFI Special Forms
 
-### JavaScript FFI
+Defined in `library/valtan-core/lisp/ffi.lisp`:
 
-| 構文 | 説明 | 出力例 |
-|------|------|--------|
-| `js:foo-bar` | JS変数参照 (kebab→camelCase) | `fooBar` |
-| `#j"string"` | JS文字列リテラル | `"string"` |
-| `(ffi:ref x "prop")` | プロパティアクセス | `x.prop` |
-| `(ffi:object :key val)` | オブジェクト生成 | `{key: val}` |
-| `(ffi:require var "mod")` | モジュールインポート | `require("mod")` |
+| Form | Purpose | Reference |
+|------|---------|-----------|
+| `ffi:ref` | Access JavaScript properties | `pass1.lisp:1034-1038` |
+| `ffi:set` | Set JavaScript properties | `pass1.lisp:1040-1048` |
+| `ffi:var` | Declare JavaScript variables | `pass1.lisp:1057-1066` |
+| `ffi:new` | JavaScript constructor call | `pass1.lisp:1097-1115` |
+| `ffi:aget` | Array access | `pass1.lisp:1117-1127` |
+| `ffi:require` | ES6 module import | `pass1.lisp:1068-1080` |
+| `ffi:export` | ES6 module export | `pass1.lisp:1082-1087` |
+| `ffi:typeof` | JavaScript typeof | `pass1.lisp:1089-1095` |
+
+### JavaScript Interop Syntax
+
+| Syntax | Description | Output |
+|--------|-------------|--------|
+| `js:foo-bar` | JS variable reference (kebab→camelCase) | `fooBar` |
+| `#j"string"` | JS string literal | `"string"` |
+| `(ffi:ref x "prop")` | Property access | `x.prop` |
+| `(ffi:object :key val)` | Object creation | `{key: val}` |
+| `(ffi:require var "mod")` | Module import | `import ... from "mod"` |
 
 - `docs/js-interop.lisp:1-61`
-- `library/valtan-core/lisp/ffi.lisp:1-96`
 
-### React統合
+### React Integration
 
-`define-react-component`マクロでReactコンポーネントを定義可能。
+`define-react-component` macro for React components:
 
 ```lisp
 (define-react-component <square> (on-click value)
@@ -188,164 +300,190 @@ valtan-core/
         value)))
 ```
 
-- `library/react-utilities/react-utilities.lisp:12-31`
+- `library/react-utilities/react-utilities.lisp`
 
-### WebSocket (Remote Eval)
+## 8. Build System
 
-ブラウザ上で動的コード評価を実現。Lemエディタと連携可能。
+### System Definition Format
 
-- `library/remote-eval/remote-eval.lisp:6-33`
-- WebSocket接続先: `ws://0.0.0.0:40000/`
-
-## 7. Configuration
-
-### プロジェクト設定ファイル
-
-| ファイル | 用途 |
-|----------|------|
-| `*.system` / `*.asd` | システム定義 |
-| `package.json` | npm依存・ビルドスクリプト |
-| `webpack.config.js` | バンドル設定 |
-| `.valtan-path` | カーネルパス（自動生成） |
-| `.valtan-cache/` | コンパイルキャッシュ |
-
-### System定義オプション
-
-| オプション | 型 | 説明 |
-|-----------|-----|------|
-| `:target` | `:node` / `:browser` | ターゲット環境 |
-| `:source-map` | boolean | ソースマップ生成 |
-| `:entry-file` | string | エントリーポイント |
-| `:depends-on` | list | 依存システム |
-
-- `host-src/system.lisp:117-134`
-
-## 8. Build & Release
-
-### ビルドコマンド
-
-```bash
-# CLIビルド
-make build
-
-# プロジェクト初期化
-valtan init project-name [-t browser|node]
-
-# プロジェクトビルド
-valtan build project.system
-
-# ビルドサーバー（ファイル監視）
-valtan build-server project.system
+From `host-src/system.lisp:117-134`:
+```lisp
+(defsystem "name"
+  :serial t                    ; Sequential compilation
+  :source-map t                ; Generate source maps
+  :target :browser             ; or :node
+  :depends-on ("other-system")
+  :entry-file "entry.js"
+  :components ((:file "main")
+               (:js-source-file "util")))
 ```
 
-- `Makefile:1-14`
-- `cli/main.lisp:20-27`
+### Build Cache
 
-### npm統合
+From `host-src/build.lisp:20-55`:
+- Cache stored in `*cache*` hash table
+- Cache key: input file pathname
+- Cache invalidation: based on file modification time
+- Cache directory: `.valtan-cache/`
 
-```json
-{
-  "scripts": {
-    "prebuild": "valtan build project.system",
-    "build": "webpack",
-    "start": "npm run build && node dist/main.js"
-  }
-}
+### Build Process
+
+1. Load system file (`load-system-file`)
+2. Compute dependency order (`compute-system-precedence-list`)
+3. For each system:
+   - For each component: `compile-component`
+   - Generate system index file: `compile-system-file`
+4. Create entry file: `create-entry-file`
+5. (Optional) Run bundler: `webpack`
+
+## 9. Configuration
+
+### Project Configuration Files
+
+| File | Purpose |
+|------|---------|
+| `*.system` / `*.asd` | System definition |
+| `.valtan-path` | Path to kernel directory |
+| `.valtan-cache/` | Compilation cache |
+| `package.json` | JavaScript dependencies |
+| `vite.config.js` | Vite bundler config |
+
+### System Definition Options
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `:target` | `:node` / `:browser` | Target environment |
+| `:source-map` | boolean | Generate source maps |
+| `:entry-file` | string | Entry point file |
+| `:depends-on` | list | Dependent systems |
+
+### Environment Variables
+
+From `flake.nix:35-39`:
+- `CL_SOURCE_REGISTRY` - ASDF source registry paths
+- `C_INCLUDE_PATH` - C header paths (for inotify)
+- `LIBRARY_PATH` / `LD_LIBRARY_PATH` - Library paths
+
+### Nix Development Shell
+
+From `flake.nix:22-32`:
+- SBCL (Steel Bank Common Lisp)
+- Node.js 20
+- npm
+- libfixposix (for inotify)
+
+## 10. Build & Release
+
+### CLI Commands
+
+| Command | Description | Reference |
+|---------|-------------|-----------|
+| `valtan init` | Initialize new project | `cli/init-project.lisp` |
+| `valtan build <system>` | Build system | `cli/build-project.lisp:20-24` |
+| `valtan build-server <system>` | Watch mode | `cli/build-server.lisp` |
+
+### Build Executable
+
+From `valtan-cli.asd:12-16`:
+```lisp
+(defsystem "valtan-cli/executable"
+  :build-operation program-op
+  :build-pathname "valtan"
+  :entry-point "valtan-cli:main")
 ```
 
-- `skeleton/node-skeleton/package.json:6-10`
+### Test Infrastructure
 
-### テスト
+From `tests/test-runner.lisp`:
+- SACLA test suite support
+- Category-based test organization
+- Modular test runner with verbose/quiet modes
+- JSON output for CI integration
 
-Sacla Common Lisp Test Suiteを使用。
+Test categories:
+- `:cons`, `:array`, `:sequence`, `:string`
+- `:character`, `:symbol`, `:hash-table`
+- `:loop`, `:reader`, `:printer`
+- `:condition`, `:control`, `:do`, `:eval`, `:package`
 
-```bash
-cd tests
-npm install
-npm start
-```
+## 11. Risks & Improvements
 
-- `tests/main.lisp:1`
-- テスト結果: `README.md:72-97`
+### Risks
 
-## 9. Risks & Improvements
+1. **Incomplete CL Compliance**: Many ANSI CL functions are not implemented or have limited functionality
+   - Evidence: Subset of CL implemented in `library/valtan-core/lisp/`
 
-### リスク
+2. **JavaScript Runtime Size**: Full runtime is included even for small programs
+   - Evidence: `kernel/lisp.js` imports all modules regardless of usage
 
-1. **ANSI Common Lisp互換性が不完全**
-   - 多くのテストケースで失敗（例: must-sequence.lisp 6/3853）
-   - `README.md:85`
+3. **Limited Error Messages**: Compilation errors may lack source location context
+   - Evidence: `hir-position` optional in HIR structure (`hir.lisp:8`)
 
-2. **ドキュメント不足**
-   - FFI仕様が`docs/js-interop.lisp`のみ
-   - APIリファレンスなし
+4. **Cache Invalidation**: Macro changes may not properly invalidate dependent files
+   - Evidence: Cache key is only source file, not transitive dependencies (`build.lisp:39-55`)
 
-3. **エラーハンドリングの制限**
-   - コンパイルエラー時のスタックトレースが不明瞭
-   - `host-src/build.lisp:397-400`
+5. **Platform-Specific Watch Mode**: `build-server` uses inotify (Linux) or fswatch (macOS)
+   - Evidence: Conditional compilation in `build.lisp:387-436`
 
-4. **依存関係のバージョン固定なし**
-   - webpack 4.xを使用（古い）
-   - `skeleton/node-skeleton/package.json:16-17`
+### Improvements
 
-### 改善案
+1. **Tree-shaking**: Implement dead code elimination at JavaScript level to reduce bundle size
 
-1. **テストカバレッジ向上**
-   - ansi-testの完全サポートを目標に
-   - `README.md:60-66`
+2. **Incremental Compilation**: Add dependency tracking for proper incremental builds
 
-2. **ソースマップの改善**
-   - デバッグ体験向上
-   - `host-src/build.lisp:122-132`
+3. **Better Diagnostics**: Add source location tracking throughout compilation pipeline
 
-3. **インクリメンタルコンパイル強化**
-   - 現在のキャッシュ機構を拡張
-   - `host-src/build.lisp:39-55`
+4. **WebAssembly Target**: Consider WASM as alternative backend for performance-critical code
 
-4. **型推論の活用**
-   - `compiler/type-infer.lisp`が存在するが限定的使用
-   - `library/valtan-core/valtan-core.asd:63`
+5. **TypeScript Definitions**: Generate `.d.ts` files for better IDE integration
 
-5. **ES Modules対応**
-   - CommonJS形式からの移行
-   - モダンバンドラーとの互換性向上
+6. **Hot Module Replacement**: Integrate with Vite/Webpack HMR for development
 
-## 10. Open Questions
+## 12. Open Questions
 
-1. **CLOS実装の完全性**
-   - `clos.lisp`は48KB超だが、MOP対応範囲は未確認
+1. **Type Inference Scope**: How extensive is the type inference in `hir-optimize`?
+   - `type-infer.lisp` exists but unclear how types are used
 
-2. **マルチスレッド/Web Worker対応**
-   - 現状の対応状況不明
+2. **Self-Hosting Status**: Can Valtan compile itself?
+   - `#+valtan` conditionals suggest partial self-hosting capability
 
-3. **BigInt対応**
-   - 大きな整数の扱い方針
+3. **CLOS Support Level**: What subset of CLOS is implemented?
+   - `clos.lisp` exists but scope unclear
 
-4. **Tree Shaking**
-   - 未使用コード除去の仕組み
+4. **Memory Management**: How is garbage collection handled?
+   - Relies on JavaScript GC, but circular reference handling unclear
 
-5. **ホットリロード**
-   - `build-server`の詳細な動作仕様
+5. **Debugging Support**: Is there a debugger or just source maps?
+   - `callstack.js` provides backtrace but no interactive debugging
 
-## 11. References
+## 13. References
 
-### 主要ファイル
+### Core System Definitions
+- `valtan.asd:1-16`
+- `valtan-cli.asd:1-16`
+- `library/valtan-core/valtan-core.asd:1-73`
 
-| ファイル | 行 | 内容 |
-|----------|-----|------|
-| `valtan.asd` | 1-16 | メインシステム定義 |
-| `valtan-cli.asd` | 1-16 | CLI定義 |
-| `cli/main.lisp` | 20-27 | CLIエントリーポイント |
-| `host-src/build.lisp` | 137-159 | コンパイル処理 |
-| `host-src/build.lisp` | 345-351 | ビルドシステム |
-| `host-src/system.lisp` | 30-38 | System構造体 |
-| `host-src/system.lisp` | 117-134 | defsystemマクロ |
-| `library/valtan-core/valtan-core.asd` | 3-72 | コアシステム定義 |
-| `library/valtan-core/compiler/hir.lisp` | 3-9 | HIR構造体 |
-| `library/valtan-core/compiler/pass1.lisp` | 1-114 | Pass1処理 |
-| `library/valtan-core/compiler/pass2.lisp` | 1-100 | Pass2処理 |
-| `kernel/lisp.js` | 1-275 | JSカーネル |
-| `library/valtan-core/lisp/ffi.lisp` | 1-96 | FFI実装 |
-| `library/react-utilities/react-utilities.lisp` | 1-122 | React統合 |
-| `docs/js-interop.lisp` | 1-61 | FFIドキュメント |
-| `README.md` | 1-108 | プロジェクト概要 |
+### Compiler Pipeline
+- `library/valtan-core/compiler/pass1.lisp:1-1151`
+- `library/valtan-core/compiler/pass2.lisp:1-1213`
+- `library/valtan-core/compiler/hir.lisp:1-202`
+- `library/valtan-core/compiler/hir-optimize.lisp:1-100+`
+
+### Build System
+- `host-src/build.lisp:1-437`
+- `host-src/system.lisp:1-203`
+
+### JavaScript Runtime
+- `kernel/lisp.js:1-275`
+- `kernel/symbol.js`
+- `kernel/package.js`
+- `kernel/cons.js`
+
+### FFI
+- `library/valtan-core/lisp/ffi.lisp:1-96`
+- `kernel/ffi.js`
+- `docs/js-interop.lisp:1-61`
+
+### Tests
+- `tests/test-runner.lisp:1-245`
+- `tests/sacla-tests/` (external test suite)
