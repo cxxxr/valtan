@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "valtan build tests.system && vite build",
-    "start": "npm run build && node dist/main.js"
+    "start": "node dist/tests.js"
   },
   "keywords": [],
   "author": "",

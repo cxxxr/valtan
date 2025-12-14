@@ -2,6 +2,6 @@
 
 (defsystem "tests"
   :serial t
-  :components ((:file "sacla-tests")
+  :components ((:file "test-runner")
                (:file "main"))
   :target :node)
