@@ -12,11 +12,20 @@ function getValtanPath() {
 }
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      // Exclude valtan-generated files from React transform
+      exclude: /\.valtan-cache\//,
+    }),
+  ],
   resolve: {
     alias: {
       'lisp': path.resolve(getValtanPath(), 'lisp.js'),
     },
+  },
+  optimizeDeps: {
+    // Don't pre-bundle valtan files
+    exclude: ['.valtan-cache'],
   },
   build: {
     outDir: 'dist',

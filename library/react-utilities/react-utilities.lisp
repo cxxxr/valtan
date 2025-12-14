@@ -137,10 +137,12 @@
          (error "~S is not a function" value))))
 
 (defun setup (app id &key remote-eval)
-  (let ((root (js:react-dom-client.create-root
-               (js:document.get-element-by-id (ffi:cl->js id)))))
-    (funcall (ffi:ref root "render")
-             (js:react.create-element (ensure-function app)))
+  (let ((element (js:react.create-element (ensure-function app))))
+    ;; Store root in global to allow method call with correct 'this'
+    (ffi:set js:window._valtan-app-root
+             (js:react-dom-client.create-root
+              (js:document.get-element-by-id (ffi:cl->js id))))
+    (js:window._valtan-app-root.render element)
     (when remote-eval
       (valtan.remote-eval:connect
        (lambda ()
