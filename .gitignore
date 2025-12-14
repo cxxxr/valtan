@@ -9,3 +9,7 @@ example/example.js
 # Build artifacts
 /valtan
 quicklisp.lisp
+
+# Nix
+.direnv/
+result
