@@ -46,8 +46,9 @@ jobs:
         run: |
           nix develop --command bash -c '
             cd tests
-            npm ci
+            npm install
             ../valtan build tests.system
+            npx vite build
           '
 
       - name: Run SACLA tests
