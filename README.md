@@ -1,4 +1,7 @@
 # valtan
+
+[![SACLA Tests](https://github.com/cxxxr/valtan/actions/workflows/test.yml/badge.svg)](https://github.com/cxxxr/valtan/actions/workflows/test.yml)
+
 Common Lisp to JavaScript compiler.
 
 Features:
@@ -57,7 +60,7 @@ $ npm start # run
 
 Valtan is still in its alpha stage.
 
-**Overall Test Pass Rate: 88%** (3902/4411)
+**Overall Test Pass Rate: 88%** (3902/4411) - [View detailed results](https://github.com/cxxxr/valtan/actions/workflows/test.yml)
 
 Valtan [aims](https://github.com/cxxxr/valtan/issues/18) to achieve
 compatibility with [ANSI Common Lisp](https://www.cliki.net/CLHS). At present,
