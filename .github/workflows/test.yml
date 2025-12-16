@@ -66,37 +66,85 @@ jobs:
             echo "fail=$FAIL" >> $GITHUB_OUTPUT
             echo "rate=$RATE" >> $GITHUB_OUTPUT
 
-            # Summary header
-            echo "## Test Results" >> $GITHUB_STEP_SUMMARY
+            # Generate visual progress bar
+            make_bar() {
+              local rate=$1
+              local filled=$((rate / 10))
+              local empty=$((10 - filled))
+              local bar=""
+              for ((i=0; i<filled; i++)); do bar+="█"; done
+              for ((i=0; i<empty; i++)); do bar+="░"; done
+              echo "$bar"
+            }
+
+            # Parse results into categorized files
+            PERFECT=""
+            PERFECT_COUNT=0
+            NEEDS_WORK=""
+            CRITICAL=""
+
+            while IFS= read -r line; do
+              file=$(echo "$line" | sed "s/^--- //" | awk -F: "{print \$1}")
+              pass=$(echo "$line" | sed "s/.*Pass=\\([0-9]*\\).*/\\1/")
+              fail=$(echo "$line" | sed "s/.*Fail=\\([0-9]*\\).*/\\1/")
+              total=$((pass + fail))
+              if [ "$total" -gt 0 ]; then
+                rate=$((pass * 100 / total))
+              else
+                rate=0
+              fi
+
+              bar=$(make_bar $rate)
+              name=$(echo "$file" | sed "s/.lisp$//" | sed "s/^must-//" | sed "s/^should-/s:/")
+
+              if [ "$rate" -eq 100 ]; then
+                if [ -n "$PERFECT" ]; then PERFECT+=", "; fi
+                PERFECT+="$name"
+                PERFECT_COUNT=$((PERFECT_COUNT + 1))
+              elif [ "$rate" -ge 50 ]; then
+                NEEDS_WORK+="| $file | $bar | $rate% | $fail |\\n"
+              else
+                CRITICAL+="| $file | $bar | $rate% | $fail |\\n"
+              fi
+            done < <(grep -E "^--- (must-|should-|desirable-)" test-output.txt)
+
+            # Overall progress bar
+            OVERALL_BAR=$(make_bar $RATE)
+
+            # Write summary
+            echo "## 🧪 Test Results" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "**Overall: Pass=$PASS, Fail=$FAIL, Rate=$RATE%**" >> $GITHUB_STEP_SUMMARY
+            echo "**Overall: $RATE% ($PASS/$((PASS+FAIL)))** \`$OVERALL_BAR\`" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
 
-            # Per-file results table
-            echo "### must-* tests (core functionality)" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "| Test | Pass | Fail | Rate |" >> $GITHUB_STEP_SUMMARY
-            echo "|:-----|-----:|-----:|-----:|" >> $GITHUB_STEP_SUMMARY
-            grep -E "^--- must-|^--- desirable-" test-output.txt | sed "s/^--- //" | sed "s/ ---$//" | \
-              awk -F"[=,() ]+" "{
-                file=\$1; pass=\$3; fail=\$5;
-                total=pass+fail;
-                rate=(total>0)?int(pass*100/total):0;
-                printf \"| %s | %d | %d | %d%% |\\n\", file, pass, fail, rate
-              }" >> $GITHUB_STEP_SUMMARY
+            # Perfect tests (collapsed into one line)
+            if [ -n "$PERFECT" ]; then
+              echo "### ✅ Perfect ($PERFECT_COUNT tests)" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "$PERFECT" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
 
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### should-* tests (error handling)" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "| Test | Pass | Fail | Rate |" >> $GITHUB_STEP_SUMMARY
-            echo "|:-----|-----:|-----:|-----:|" >> $GITHUB_STEP_SUMMARY
-            grep -E "^--- should-" test-output.txt | sed "s/^--- //" | sed "s/ ---$//" | \
-              awk -F"[=,() ]+" "{
-                file=\$1; pass=\$3; fail=\$5;
-                total=pass+fail;
-                rate=(total>0)?int(pass*100/total):0;
-                printf \"| %s | %d | %d | %d%% |\\n\", file, pass, fail, rate
-              }" >> $GITHUB_STEP_SUMMARY
+            # Needs work tests (table)
+            if [ -n "$NEEDS_WORK" ]; then
+              NEEDS_COUNT=$(echo -e "$NEEDS_WORK" | grep -c "^|" || true)
+              echo "### ⚠️ Needs Work ($NEEDS_COUNT tests)" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "| Test | Progress | Rate | Fail |" >> $GITHUB_STEP_SUMMARY
+              echo "|:-----|:--------:|-----:|-----:|" >> $GITHUB_STEP_SUMMARY
+              echo -e "$NEEDS_WORK" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            # Critical tests (table)
+            if [ -n "$CRITICAL" ]; then
+              CRITICAL_COUNT=$(echo -e "$CRITICAL" | grep -c "^|" || true)
+              echo "### ❌ Critical ($CRITICAL_COUNT tests)" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "| Test | Progress | Rate | Fail |" >> $GITHUB_STEP_SUMMARY
+              echo "|:-----|:--------:|-----:|-----:|" >> $GITHUB_STEP_SUMMARY
+              echo -e "$CRITICAL" >> $GITHUB_STEP_SUMMARY
+            fi
           '
 
       - name: Check for regressions
