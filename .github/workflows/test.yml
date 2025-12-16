@@ -66,13 +66,37 @@ jobs:
             echo "fail=$FAIL" >> $GITHUB_OUTPUT
             echo "rate=$RATE" >> $GITHUB_OUTPUT
 
+            # Summary header
             echo "## Test Results" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
-            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
-            echo "| Pass | $PASS |" >> $GITHUB_STEP_SUMMARY
-            echo "| Fail | $FAIL |" >> $GITHUB_STEP_SUMMARY
-            echo "| Pass Rate | $RATE% |" >> $GITHUB_STEP_SUMMARY
+            echo "**Overall: Pass=$PASS, Fail=$FAIL, Rate=$RATE%**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            # Per-file results table
+            echo "### must-* tests (core functionality)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| Test | Pass | Fail | Rate |" >> $GITHUB_STEP_SUMMARY
+            echo "|:-----|-----:|-----:|-----:|" >> $GITHUB_STEP_SUMMARY
+            grep -E "^--- must-|^--- desirable-" test-output.txt | sed "s/^--- //" | sed "s/ ---$//" | \
+              awk -F"[=,() ]+" "{
+                file=\$1; pass=\$3; fail=\$5;
+                total=pass+fail;
+                rate=(total>0)?int(pass*100/total):0;
+                printf \"| %s | %d | %d | %d%% |\\n\", file, pass, fail, rate
+              }" >> $GITHUB_STEP_SUMMARY
+
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### should-* tests (error handling)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| Test | Pass | Fail | Rate |" >> $GITHUB_STEP_SUMMARY
+            echo "|:-----|-----:|-----:|-----:|" >> $GITHUB_STEP_SUMMARY
+            grep -E "^--- should-" test-output.txt | sed "s/^--- //" | sed "s/ ---$//" | \
+              awk -F"[=,() ]+" "{
+                file=\$1; pass=\$3; fail=\$5;
+                total=pass+fail;
+                rate=(total>0)?int(pass*100/total):0;
+                printf \"| %s | %d | %d | %d%% |\\n\", file, pass, fail, rate
+              }" >> $GITHUB_STEP_SUMMARY
           '
 
       - name: Check for regressions
