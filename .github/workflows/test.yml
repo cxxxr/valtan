@@ -1,0 +1,84 @@
+name: SACLA Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Setup Nix cache
+        uses: DeterminateSystems/magic-nix-cache-action@main
+
+      - name: Setup Quicklisp
+        run: |
+          nix develop --command bash -c '
+            curl -O https://beta.quicklisp.org/quicklisp.lisp
+            sbcl --non-interactive \
+              --load quicklisp.lisp \
+              --eval "(quicklisp-quickstart:install)" \
+              --eval "(quit)"
+          '
+
+      - name: Build valtan
+        run: |
+          nix develop --command bash -c '
+            sbcl --non-interactive \
+              --load ~/quicklisp/setup.lisp \
+              --eval "(ql:quickload :valtan-cli)" \
+              --eval "(asdf:make :valtan-cli/executable)" \
+              --eval "(quit)"
+          '
+
+      - name: Build tests
+        run: |
+          nix develop --command bash -c '
+            cd tests
+            npm ci
+            ../valtan build tests.system
+          '
+
+      - name: Run SACLA tests
+        id: run-tests
+        run: |
+          nix develop --command bash -c '
+            cd tests
+            node dist/tests.js --quiet 2>&1 | tee test-output.txt
+
+            PASS=$(grep "TOTAL:" test-output.txt | sed "s/.*Pass=\([0-9]*\).*/\1/")
+            FAIL=$(grep "TOTAL:" test-output.txt | sed "s/.*Fail=\([0-9]*\).*/\1/")
+            RATE=$(grep "Pass Rate:" test-output.txt | sed "s/.*: \([0-9]*\)%.*/\1/")
+
+            echo "pass=$PASS" >> $GITHUB_OUTPUT
+            echo "fail=$FAIL" >> $GITHUB_OUTPUT
+            echo "rate=$RATE" >> $GITHUB_OUTPUT
+
+            echo "## Test Results" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+            echo "| Pass | $PASS |" >> $GITHUB_STEP_SUMMARY
+            echo "| Fail | $FAIL |" >> $GITHUB_STEP_SUMMARY
+            echo "| Pass Rate | $RATE% |" >> $GITHUB_STEP_SUMMARY
+          '
+
+      - name: Check for regressions
+        run: |
+          RATE=${{ steps.run-tests.outputs.rate }}
+          if [ "$RATE" -lt 85 ]; then
+            echo "Test pass rate ($RATE%) is below threshold (85%)"
+            exit 1
+          fi
+          echo "Test pass rate: $RATE% (threshold: 85%)"

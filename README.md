@@ -57,6 +57,8 @@ $ npm start # run
 
 Valtan is still in its alpha stage.
 
+**Overall Test Pass Rate: 88%** (3902/4411)
+
 Valtan [aims](https://github.com/cxxxr/valtan/issues/18) to achieve
 compatibility with [ANSI Common Lisp](https://www.cliki.net/CLHS). At present,
 the primary test suite being used is the
@@ -69,38 +71,50 @@ As an alternative, valtan utilizes the [sacla common lisp test
 suite](https://minejima.jp/lisp/sacla/index-en.html). Below is a table showing
 the results of valtan when run against this suite:
 
-|Test                                     |Success|Failure|
-|:----------------------------------------|:-----|:-----|
-|sacla-tests/desirable-printer.lisp       | 14   | 22   |
-|sacla-tests/must-array.lisp              | 162  | 171  |
-|sacla-tests/must-character.lisp          | 313  | 0    |
-|sacla-tests/must-condition.lisp          | 142  | 5    |
-|sacla-tests/must-cons.lisp               | 728  | 0    |
-|sacla-tests/must-data-and-control.lisp   | 170  | 144  |
-|sacla-tests/must-do.lisp                 | 75   | 0    |
-|sacla-tests/must-eval.lisp               | 9    | 0    |
-|sacla-tests/must-hash-table.lisp         | 67   | 29   |
-|sacla-tests/must-loop.lisp               | 778  | 72   |
-|sacla-tests/must-reader.lisp             | 891  | 696  |
-|sacla-tests/must-sequence.lisp           | 6    | 3853 |
-|sacla-tests/must-string.lisp             | 0    | 414  |
-|sacla-tests/must-symbol.lisp             | 5    | 191  |
-|sacla-tests/should-array.lisp            | 17   | 20   |
-|sacla-tests/should-character.lisp        | 46   | 3    |
-|sacla-tests/should-cons.lisp             | 141  | 0    |
-|sacla-tests/should-data-and-control.lisp | 1    | 3    |
-|sacla-tests/should-eval.lisp             | 0    | 2    |
-|sacla-tests/should-hash-table.lisp       | 3    | 0    |
-|sacla-tests/should-package.lisp          | 3    | 3    |
-|sacla-tests/should-sequence.lisp         | 48   | 33   |
-|sacla-tests/should-string.lisp           | 0    | 0    |
-|sacla-tests/should-symbol.lisp           | 44   | 0    |
+### must-* tests (core functionality)
+
+| Test | Pass | Fail | Rate |
+|:-----|-----:|-----:|-----:|
+| must-cons.lisp | 728 | 0 | 100% |
+| must-character.lisp | 313 | 0 | 100% |
+| must-do.lisp | 75 | 0 | 100% |
+| must-eval.lisp | 9 | 0 | 100% |
+| must-sequence.lisp | 483 | 0 | 100% |
+| must-string.lisp | 414 | 0 | 100% |
+| must-symbol.lisp | 113 | 0 | 100% |
+| must-condition.lisp | 142 | 5 | 97% |
+| must-loop.lisp | 778 | 72 | 92% |
+| must-hash-table.lisp | 67 | 29 | 70% |
+| must-reader.lisp | 172 | 86 | 67% |
+| must-data-and-control.lisp | 162 | 120 | 57% |
+| must-array.lisp | 158 | 165 | 49% |
+| desirable-printer.lisp | 14 | 22 | 39% |
+
+### should-* tests (error handling)
+
+| Test | Pass | Fail | Rate |
+|:-----|-----:|-----:|-----:|
+| should-cons.lisp | 141 | 0 | 100% |
+| should-character.lisp | 49 | 0 | 100% |
+| should-hash-table.lisp | 3 | 0 | 100% |
+| should-sequence.lisp | 2 | 0 | 100% |
+| should-symbol.lisp | 44 | 0 | 100% |
+| should-array.lisp | 31 | 2 | 94% |
+| should-package.lisp | 3 | 3 | 50% |
+| should-data-and-control.lisp | 1 | 3 | 25% |
+| should-eval.lisp | 0 | 2 | 0% |
+| should-string.lisp | 0 | 0 | - |
+
+*Last updated: 2025-12-16*
 
 ### Run tests
-```
+```bash
 $ cd valtan/tests
-$ npm i
-$ npm start
+$ npm install
+$ npm start                           # Run all tests
+$ node dist/tests.js --category cons  # Run specific category
+$ node dist/tests.js --quick          # Quick smoke test
+$ node dist/tests.js --json           # Output JSON for CI
 ```
 
 ## License
