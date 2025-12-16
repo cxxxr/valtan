@@ -15,13 +15,20 @@
   rank
   element-type)
 
-(defun upgraded-array-element-type (typespec)
+(defun upgraded-array-element-type (typespec &optional environment)
+  (declare (ignore environment))
   (cond ((symbolp typespec)
          (case typespec
            ((character base-char standard-char extended-char)
             'character)
+           ((bit)
+            'bit)
            (otherwise
             t)))
+        ((and (consp typespec)
+              (eq (car typespec) 'unsigned-byte)
+              (eql (cadr typespec) 1))
+         'bit)
         (t t)))
 
 (defun make-array-contents-with-initial-contents (dimensions total-size rank element-type initial-contents)
@@ -231,10 +238,24 @@
 (defun simple-vector-p (x)
   (and (arrayp x)
        (= 1 (array-rank x))
-       (not (array-has-fill-pointer-p x))))
+       (eq (array-element-type x) t)
+       (not (array-has-fill-pointer-p x))
+       (not (array-displaced-to x))))
+
+(defun simple-array-p (x)
+  (and (arrayp x)
+       (not (array-has-fill-pointer-p x))
+       (not (array-displaced-to x))))
+
+(defun bit-vector-p (x)
+  (and (arrayp x)
+       (= 1 (array-rank x))
+       (eq (array-element-type x) 'bit)))
 
 (defun simple-bit-vector-p (x)
-  (simple-vector-p x))
+  (and (bit-vector-p x)
+       (not (array-has-fill-pointer-p x))
+       (not (array-displaced-to x))))
 
 (defun array-has-fill-pointer-p (array)
   (not (null (array-fill-pointer array))))
@@ -376,22 +397,59 @@
 (defun (cl:setf sbit) (bit bit-array &rest subscripts)
   (system:raw-array-set (array-contents bit-array) (%array-row-major-index bit-array subscripts t) bit))
 
-(defun bit-and (bit-array-1 bit-array-2 &optional opt-arg)
-  (unless (equal (array-dimensions bit-array-1)
-                 (array-dimensions bit-array-2))
-    (error "~S and ~S don't have the same dimensions." bit-array-1 bit-array-2))
+;; Helper macro for bit-vector operations
+(defmacro define-bit-operation (name op)
+  `(defun ,name (bit-array-1 bit-array-2 &optional opt-arg)
+     (unless (equal (array-dimensions bit-array-1)
+                    (array-dimensions bit-array-2))
+       (error "~S and ~S don't have the same dimensions." bit-array-1 bit-array-2))
+     (let ((dst-bit-array
+             (case opt-arg
+               ((t) bit-array-1)
+               ((nil) (make-array (array-dimensions bit-array-1) :element-type 'bit))
+               (otherwise opt-arg)))
+           (contents-1 (array-contents bit-array-1))
+           (contents-2 (array-contents bit-array-2)))
+       (dotimes (i (array-total-size bit-array-1))
+         (setf (row-major-aref dst-bit-array i)
+               (,op (system:raw-array-ref contents-1 i)
+                    (system:raw-array-ref contents-2 i))))
+       dst-bit-array)))
+
+;; Bit operation primitives (for single bits: 0 or 1)
+(defun %bit-and (a b) (if (and (= a 1) (= b 1)) 1 0))
+(defun %bit-ior (a b) (if (or (= a 1) (= b 1)) 1 0))
+(defun %bit-xor (a b) (if (/= a b) 1 0))
+(defun %bit-eqv (a b) (if (= a b) 1 0))
+(defun %bit-nand (a b) (if (and (= a 1) (= b 1)) 0 1))
+(defun %bit-nor (a b) (if (or (= a 1) (= b 1)) 0 1))
+(defun %bit-andc1 (a b) (if (and (= a 0) (= b 1)) 1 0))
+(defun %bit-andc2 (a b) (if (and (= a 1) (= b 0)) 1 0))
+(defun %bit-orc1 (a b) (if (or (= a 0) (= b 1)) 1 0))
+(defun %bit-orc2 (a b) (if (or (= a 1) (= b 0)) 1 0))
+
+;; Define all bit-vector operations
+(define-bit-operation bit-and %bit-and)
+(define-bit-operation bit-ior %bit-ior)
+(define-bit-operation bit-xor %bit-xor)
+(define-bit-operation bit-eqv %bit-eqv)
+(define-bit-operation bit-nand %bit-nand)
+(define-bit-operation bit-nor %bit-nor)
+(define-bit-operation bit-andc1 %bit-andc1)
+(define-bit-operation bit-andc2 %bit-andc2)
+(define-bit-operation bit-orc1 %bit-orc1)
+(define-bit-operation bit-orc2 %bit-orc2)
+
+(defun bit-not (bit-array &optional opt-arg)
   (let ((dst-bit-array
           (case opt-arg
-            ((t)
-             bit-array-1)
-            ((nil)
-             (make-array (array-dimensions bit-array-1) :element-type 'bit))
-            (otherwise
-             opt-arg))))
-    (dotimes (i (array-total-size bit-array-1))
+            ((t) bit-array)
+            ((nil) (make-array (array-dimensions bit-array) :element-type 'bit))
+            (otherwise opt-arg)))
+        (contents (array-contents bit-array)))
+    (dotimes (i (array-total-size bit-array))
       (setf (row-major-aref dst-bit-array i)
-            (*:%logand (system:raw-array-ref bit-array-1 i)
-                       (system:raw-array-ref bit-array-2 i))))
+            (if (= (system:raw-array-ref contents i) 0) 1 0)))
     dst-bit-array))
 
 (defun vector-length (vector)

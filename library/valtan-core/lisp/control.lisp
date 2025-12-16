@@ -170,7 +170,7 @@
   (let ((var (cl:gensym)))
     `(let ((,var ,keyform))
        (cond ,@(cl:mapcar (cl:lambda (c)
-                            (cl:cond ((cl:eq 'otherwise (cl:car c))
+                            (cl:cond ((cl:member (cl:car c) '(otherwise t))
                                       `(t ,@(cl:cdr c)))
                                      ((cl:listp (cl:car c))
                                       `((member ,var ',(cl:car c))
@@ -181,7 +181,13 @@
                           cases)))))
 
 (*:defmacro* ecase (keyform &rest cases)
-  (let ((var (cl:gensym)))
+  (let ((var (cl:gensym))
+        (expected-keys (cl:mapcan (cl:lambda (c)
+                                    (cl:copy-list
+                                     (if (cl:listp (cl:car c))
+                                         (cl:car c)
+                                         (cl:list (cl:car c)))))
+                                  cases)))
     `(let ((,var ,keyform))
        (cond ,@(cl:mapcar (cl:lambda (c)
                             (cl:cond ((cl:listp (cl:car c))
@@ -191,14 +197,30 @@
                                       `((eql ,var ',(cl:car c))
                                         ,@(cl:cdr c)))))
                           cases)
-             (t (error "~S fell through ECASE expression. Wanted one of ~S."
-                       ,var
-                       ',(cl:mapcan (cl:lambda (c)
-                                      (cl:copy-list
-                                       (if (cl:listp (cl:car c))
-                                           (cl:car c)
-                                           (cl:list (cl:car c)))))
-                                    cases)))))))
+             (t (error 'type-error
+                       :datum ,var
+                       :expected-type '(member ,@expected-keys)))))))
+
+(*:defmacro* ccase (keyplace &rest cases)
+  (let ((var (cl:gensym))
+        (expected-keys (cl:mapcan (cl:lambda (c)
+                                    (cl:copy-list
+                                     (if (cl:listp (cl:car c))
+                                         (cl:car c)
+                                         (cl:list (cl:car c)))))
+                                  cases)))
+    `(let ((,var ,keyplace))
+       (cond ,@(cl:mapcar (cl:lambda (c)
+                            (cl:cond ((cl:listp (cl:car c))
+                                      `((member ,var ',(cl:car c))
+                                        ,@(cl:cdr c)))
+                                     (t
+                                      `((eql ,var ',(cl:car c))
+                                        ,@(cl:cdr c)))))
+                          cases)
+             (t (error 'type-error
+                       :datum ,var
+                       :expected-type '(member ,@expected-keys)))))))
 
 (*:defmacro* multiple-value-bind (vars value-form &rest body)
   (let ((rest (cl:gensym)))
@@ -264,8 +286,11 @@
         ((and (cl:stringp x)
               (cl:stringp y))
          (string= x y))
-        ((and (simple-bit-vector-p x)
-              (simple-bit-vector-p y))
+        ;; Compare bit-vectors and simple-vectors element by element
+        ((and (vectorp x)
+              (vectorp y)
+              (not (cl:stringp x))
+              (not (cl:stringp y)))
          (and (= (length x) (length y))
               (dotimes (i (length x) t)
                 (unless (eql (aref x i)
@@ -310,6 +335,38 @@
     `(let ((,tmp ,result))
        ,@body
        ,tmp)))
+
+(*:defmacro* prog2 (first-form result &rest body)
+  (let ((tmp (cl:gensym)))
+    `(progn
+       ,first-form
+       (let ((,tmp ,result))
+         ,@body
+         ,tmp))))
+
+(*:defmacro* prog (varlist &body body)
+  (cl:multiple-value-bind (body declares)
+      (compiler::parse-body body nil)
+    `(block nil
+       (let ,(cl:mapcar (lambda (var-spec)
+                          (if (cl:symbolp var-spec)
+                              `(,var-spec nil)
+                              var-spec))
+                        varlist)
+         (declare ,@declares)
+         (tagbody ,@body)))))
+
+(*:defmacro* prog* (varlist &body body)
+  (cl:multiple-value-bind (body declares)
+      (compiler::parse-body body nil)
+    `(block nil
+       (let* ,(cl:mapcar (lambda (var-spec)
+                           (if (cl:symbolp var-spec)
+                               `(,var-spec nil)
+                               var-spec))
+                         varlist)
+         (declare ,@declares)
+         (tagbody ,@body)))))
 
 (defun identity (x) x)
 

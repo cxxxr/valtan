@@ -80,6 +80,12 @@
   (and (not (integerp x))
        (numberp x)))
 
+(defun realp (x)
+  (numberp x))
+
+(defun rationalp (x)
+  (integerp x))
+
 (defun plusp (x)
   (< 0 x))
 
