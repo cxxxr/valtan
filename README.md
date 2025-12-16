@@ -71,44 +71,7 @@ More details and discussions can be found in [Issue
 18](https://github.com/cxxxr/valtan/issues/18).
 
 As an alternative, valtan utilizes the [sacla common lisp test
-suite](https://minejima.jp/lisp/sacla/index-en.html). Below is a table showing
-the results of valtan when run against this suite:
-
-### must-* tests (core functionality)
-
-| Test | Pass | Fail | Rate |
-|:-----|-----:|-----:|-----:|
-| must-cons.lisp | 728 | 0 | 100% |
-| must-character.lisp | 313 | 0 | 100% |
-| must-do.lisp | 75 | 0 | 100% |
-| must-eval.lisp | 9 | 0 | 100% |
-| must-sequence.lisp | 483 | 0 | 100% |
-| must-string.lisp | 414 | 0 | 100% |
-| must-symbol.lisp | 113 | 0 | 100% |
-| must-condition.lisp | 142 | 5 | 97% |
-| must-loop.lisp | 778 | 72 | 92% |
-| must-hash-table.lisp | 67 | 29 | 70% |
-| must-reader.lisp | 172 | 86 | 67% |
-| must-data-and-control.lisp | 162 | 120 | 57% |
-| must-array.lisp | 158 | 165 | 49% |
-| desirable-printer.lisp | 14 | 22 | 39% |
-
-### should-* tests (error handling)
-
-| Test | Pass | Fail | Rate |
-|:-----|-----:|-----:|-----:|
-| should-cons.lisp | 141 | 0 | 100% |
-| should-character.lisp | 49 | 0 | 100% |
-| should-hash-table.lisp | 3 | 0 | 100% |
-| should-sequence.lisp | 2 | 0 | 100% |
-| should-symbol.lisp | 44 | 0 | 100% |
-| should-array.lisp | 31 | 2 | 94% |
-| should-package.lisp | 3 | 3 | 50% |
-| should-data-and-control.lisp | 1 | 3 | 25% |
-| should-eval.lisp | 0 | 2 | 0% |
-| should-string.lisp | 0 | 0 | - |
-
-*Last updated: 2025-12-16*
+suite](https://minejima.jp/lisp/sacla/index-en.html).
 
 ### Run tests
 ```bash
