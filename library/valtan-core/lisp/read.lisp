@@ -417,12 +417,16 @@ Integers without decimal use *read-base*."
       (let ((c (read-char stream)))
         (case c
           (#\| (return))
-          (#\\)
+          (#\\
+           ;; Backslash escapes the next character
+           (write-char (read-char stream) out))
           (otherwise
            (write-char c out)))))))
 
 (defun read-multiple-escape (stream)
-  (parse-token (read-multiple-escape-1 stream)))
+  ;; Multiple escape |...| creates a symbol directly from the characters.
+  ;; No interpretation of : as package marker or digits as numbers.
+  (intern (read-multiple-escape-1 stream)))
 
 (defun delimiter-p (c)
   (or (null c)
@@ -570,7 +574,15 @@ Integers without decimal use *read-base*."
           (#\"
            (return))
           (#\\
-           (write-char (read-char stream t nil t) out))
+           ;; Only \\ and \" are valid escape sequences in strings
+           ;; Other \x sequences keep both backslash and the character
+           (let ((next (read-char stream t nil t)))
+             (case next
+               ((#\\ #\")
+                (write-char next out))
+               (otherwise
+                (write-char #\\ out)
+                (write-char next out)))))
           (otherwise
            (write-char c out)))))))
 
@@ -822,9 +834,12 @@ Integers without decimal use *read-base*."
       (otherwise
        (list 'ffi:cl->js (read stream t nil t))))))
 
-(defun read-from-string (string &optional eof-error-p eof-value)
-  (with-input-from-string (in string)
-    (read in eof-error-p eof-value)))
+(defun read-from-string (string &optional eof-error-p eof-value
+                                &key (start 0) end preserve-whitespace)
+  (declare (ignore preserve-whitespace))
+  (let ((stream (make-string-input-stream string start end)))
+    (values (read stream eof-error-p eof-value)
+            (string-input-stream-position stream))))
 
 (defun read-char (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)
   (declare (ignore recursive-p))
