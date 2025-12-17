@@ -79,7 +79,9 @@
 (defmacro defpackage (package &body options)
   (when compiler::*in-host-runtime*
     ;; ホスト側のsbclで定義しないとin-packageもエラーになる
-    (cl:eval `(defpackage ,package ,@options)))
+    ;; 既存のパッケージがある場合はスキップ（Quicklispでロード済みの場合など）
+    (cl:unless (cl:find-package package)
+      (cl:eval `(defpackage ,package ,@options))))
   (let ((export (cdr (assoc :export options)))
         (use (cdr (assoc :use options)))
         (nicknames (cdr (assoc :nicknames options))))
