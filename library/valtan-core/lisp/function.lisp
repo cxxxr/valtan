@@ -43,3 +43,15 @@
             ((symbolp x)
              (setf (symbol-function x) function)))
       (error "Invalid function name: ~S" x)))
+
+(defun proper-list-p (x)
+  "Return T if X is a proper list (including NIL)."
+  (cond ((null x) t)
+        ((consp x) (proper-list-p (cdr x)))
+        (t nil)))
+
+(defun values-list (list)
+  "Return the elements of LIST as multiple values."
+  (unless (proper-list-p list)
+    (type-error list 'list))
+  (apply #'values list))
