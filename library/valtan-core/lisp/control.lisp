@@ -23,13 +23,13 @@
                (cond ,@(cl:rest clauses)))))))
 
 (*:defmacro* or (&rest forms)
-  (if (cl:null forms)
-      nil
-      (let ((value (cl:gensym)))
-        `(let ((,value ,(cl:first forms)))
-           (if ,value
-               ,value
-               (or ,@(cl:rest forms)))))))
+  (cond ((cl:null forms) nil)
+        ((cl:null (cl:rest forms)) (cl:first forms))  ; preserve multiple values
+        (t (let ((value (cl:gensym)))
+             `(let ((,value ,(cl:first forms)))
+                (if ,value
+                    ,value
+                    (or ,@(cl:rest forms))))))))
 
 (*:defmacro* and (&rest forms)
   (cond ((cl:null forms))
