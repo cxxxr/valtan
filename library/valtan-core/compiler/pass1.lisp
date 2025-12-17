@@ -287,14 +287,40 @@
   (multiple-value-bind (body declares docstring)
       (parse-body body t)
     (declare (ignore docstring))
-    (let* ((args (gensym))
-           (fn `(lambda (&rest ,args)
-                  (destructuring-bind ,lambda-list ,args
-                    (declare ,@declares)
-                    ,@body))))
-      (setf (get-macro name) fn)
-      (setf *macro-definitions* (nconc *macro-definitions* (list name)))
-      `',name)))
+    ;; Extract &ENVIRONMENT from lambda-list since cl:destructuring-bind doesn't support it
+    ;; Handle dotted pairs like (a b . rest) properly
+    (let ((clean-lambda-list nil)
+          (env-var nil)
+          (rest-var nil))
+      (do ((ll lambda-list (if (consp ll) (cdr ll) nil)))
+          ((atom ll)
+           ;; Handle dotted pair: (a b . rest) -> ll is 'rest at the end
+           (when ll (setf rest-var ll)))
+        (cond
+          ((eq (car ll) '&environment)
+           (when (and (consp (cdr ll)) (cdr ll))
+             (setf env-var (cadr ll))
+             (setf ll (cdr ll))))  ; skip the variable (loop will advance past env-var)
+          (t
+           (push (car ll) clean-lambda-list))))
+      (setf clean-lambda-list (nreverse clean-lambda-list))
+      ;; Reconstruct dotted pair if present
+      (when rest-var
+        (setf clean-lambda-list (nconc clean-lambda-list rest-var)))
+      (let* ((args (gensym))
+             ;; If there's an &ENVIRONMENT var, bind it to NIL
+             (inner-body (if env-var
+                             `(let ((,env-var nil))
+                                (destructuring-bind ,clean-lambda-list ,args
+                                  (declare ,@declares)
+                                  ,@body))
+                             `(destructuring-bind ,clean-lambda-list ,args
+                                (declare ,@declares)
+                                ,@body)))
+             (fn `(lambda (&rest ,args) ,inner-body)))
+        (setf (get-macro name) fn)
+        (setf *macro-definitions* (nconc *macro-definitions* (list name)))
+        `',name))))
 
 (def-transform *:defmacro* (name lambda-list &rest body)
   (multiple-value-bind (body declares docstring)

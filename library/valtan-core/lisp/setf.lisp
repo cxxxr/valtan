@@ -70,13 +70,39 @@
 (defmacro define-setf-expander (access-fn lambda-list &body body)
   (cl:unless (symbolp access-fn)
     (cl:error "DEFINE-SETF-EXPANDER access-function name ~S is not a symbol." access-fn))
-  (let ((g-rest (cl:gensym)))
-    (cl:setf (cl:get access-fn 'setf-expander)
-               (cl:eval `(lambda (,g-rest) (cl:destructuring-bind ,lambda-list ,g-rest ,@body))))
-    `(progn
-      (*:put ',access-fn 'setf-expander
-       (lambda (,g-rest) (cl:destructuring-bind ,lambda-list ,g-rest ,@body)))
-      ',access-fn)))
+  ;; Extract &ENVIRONMENT from lambda-list since standard destructuring-bind doesn't support it
+  ;; Handle dotted pairs like (a b . rest) properly
+  (let ((clean-lambda-list nil)
+        (env-var nil)
+        (rest-var nil))
+    (cl:do ((ll lambda-list (if (cl:consp ll) (cl:cdr ll) nil)))
+           ((cl:atom ll)
+            ;; Handle dotted pair: (a b . rest) -> ll is 'rest at the end
+            (cl:when ll (setq rest-var ll)))
+      (cl:cond
+       ((eq (cl:car ll) 'cl:&environment)
+        (cl:when (cl:and (cl:consp (cl:cdr ll)) (cl:cdr ll))
+          (setq env-var (cl:cadr ll))
+          (setq ll (cl:cdr ll))))  ; skip the variable (loop will advance past env-var)
+       (t
+        (cl:push (cl:car ll) clean-lambda-list))))
+    (setq clean-lambda-list (cl:nreverse clean-lambda-list))
+    ;; Reconstruct dotted pair if present
+    (cl:when rest-var
+      (setq clean-lambda-list (cl:nconc clean-lambda-list rest-var)))
+    (let ((g-rest (cl:gensym))
+          (g-env (cl:gensym)))
+      ;; Create a function that takes (args env) and binds appropriately
+      (let ((inner-body (if env-var
+                            `(let ((,env-var ,g-env))
+                               (cl:destructuring-bind ,clean-lambda-list ,g-rest ,@body))
+                            `(cl:destructuring-bind ,clean-lambda-list ,g-rest ,@body))))
+        (cl:setf (cl:get access-fn 'setf-expander)
+                 (cl:eval `(lambda (,g-rest &optional ,g-env) ,inner-body)))
+        `(progn
+           (*:put ',access-fn 'setf-expander
+                  (lambda (,g-rest &optional ,g-env) ,inner-body))
+           ',access-fn)))))
 
 (defmacro define-modify-macro
     (name lambda-list function &optional (cl:documentation nil documentation-p))

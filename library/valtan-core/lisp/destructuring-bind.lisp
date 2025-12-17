@@ -11,6 +11,33 @@
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defvar *db-bindings*)
   (defvar *tmp-db-vars*)
+  (defvar *db-environment-var*)
+
+  ;; Extract &ENVIRONMENT var from lambda-list, returning (values cleaned-lambda-list env-var)
+  ;; Handles dotted pairs like (a b . rest) properly
+  (defun extract-environment-var (lambda-list)
+    (let ((result nil)
+          (env-var nil)
+          (rest-var nil))
+      (cl:do ((ll lambda-list (if (cl:consp ll) (cl:cdr ll) nil)))
+             ((cl:atom ll)
+              ;; Handle dotted pair: (a b . rest) -> ll is 'rest at the end
+              (cl:when ll (setq rest-var ll)))
+        (cl:cond
+         ((eq (cl:car ll) 'cl:&environment)
+          (cl:when (cl:or (cl:atom (cl:cdr ll)) (cl:null (cl:cdr ll)))
+            (cl:error "&ENVIRONMENT must be followed by a variable name"))
+          (setq env-var (cl:cadr ll))
+          (setq ll (cl:cdr ll)))  ; skip the variable (loop will advance past env-var)
+         (t
+          (cl:push (cl:car ll) result))))
+      ;; Reconstruct the list, preserving dotted-pair if present
+      (let ((clean-list (cl:nreverse result)))
+        (cl:when rest-var
+          ;; Make it a dotted pair again
+          (setq clean-list (cl:nconc clean-list rest-var)))
+        (cl:values clean-list env-var))))
+
   (defun parse-db-lambda-list (lambda-list arg)
     (macrolet ((%push (x cl:list)
                  `(setq ,cl:list (cl:cons ,x ,cl:list)))
@@ -153,13 +180,19 @@
                                 (cl:or
                                  ,@(cl:mapcar (lambda (key) `(eq ,key (cl:first ,plist))) keys))
                               (cl:error "Unknown &key argument: ~S" (cl:first ,plist)))))))))))
-  (defun expand-destructuring-bind (lambda-list expression body)
-    (let ((*db-bindings* 'nil) (*tmp-db-vars* 'nil) (g-expression (cl:gensym)))
-      (parse-db-lambda-list lambda-list g-expression)
-      `(let ((,g-expression ,expression))
-         (let* ,(cl:nreverse *db-bindings*)
-           (declare (cl:ignorable . ,*tmp-db-vars*))
-           ,@body)))))
+  (defun expand-destructuring-bind (lambda-list expression body &optional env-value)
+    (cl:multiple-value-bind (cleaned-lambda-list env-var)
+        (extract-environment-var lambda-list)
+      (let ((*db-bindings* 'nil) (*tmp-db-vars* 'nil) (g-expression (cl:gensym)))
+        (parse-db-lambda-list cleaned-lambda-list g-expression)
+        (let ((bindings (cl:nreverse *db-bindings*)))
+          ;; Add environment binding if &ENVIRONMENT was specified
+          (cl:when env-var
+            (setq bindings (cl:cons (cl:list env-var (cl:or env-value 'nil)) bindings)))
+          `(let ((,g-expression ,expression))
+             (let* ,bindings
+               (declare (cl:ignorable . ,*tmp-db-vars*))
+               ,@body)))))))
 
 (*:defmacro* destructuring-bind (lambda-list expression &rest body)
   (expand-destructuring-bind lambda-list expression body))
