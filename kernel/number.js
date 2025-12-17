@@ -35,7 +35,8 @@ export function CL_mul(x, y) {
 }
 
 export function CL_floor(number, divisor) {
-    return values(Math.floor(number / divisor), number % divisor);
+    const quotient = Math.floor(number / divisor);
+    return values(quotient, number - quotient * divisor);
 }
 
 export function CL_rem(number, divisor) {
