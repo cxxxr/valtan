@@ -20,6 +20,11 @@
 
 (defvar *loop-body*)
 
+;; Error detection variables
+(defvar *has-termination-test* nil)  ; ALWAYS/NEVER/THEREIS used
+(defvar *has-accumulation* nil)      ; COLLECT/APPEND/NCONC etc. used
+(defvar *bound-vars* nil)            ; All bound variables for duplicate detection
+
 (defstruct let-bindings
   pairs)
 
@@ -90,7 +95,22 @@
          (setq ,maxmin-var ,g-value)))))
 
 (defun loop-error (msg &rest args)
-  (apply #'error msg args))
+  (error 'program-error :format-control msg :format-arguments args))
+
+(defun check-duplicate-binding (var)
+  "Check if VAR is already bound in the loop. Signals PROGRAM-ERROR if duplicate."
+  (when (and (symbolp var) (not (null var)))
+    (when (member var *bound-vars*)
+      (loop-error "Duplicate binding for variable ~S" var))
+    (push var *bound-vars*)))
+
+(defun check-duplicate-binding-d-var (d-var)
+  "Check duplicate bindings for a destructuring variable (can be symbol or list)."
+  (cond ((null d-var) nil)
+        ((symbolp d-var) (check-duplicate-binding d-var))
+        ((consp d-var)
+         (check-duplicate-binding-d-var (car d-var))
+         (check-duplicate-binding-d-var (cdr d-var)))))
 
 (defun ensure-keyword (x)
   (cond ((keywordp x)
@@ -212,6 +232,8 @@
                         (next-exp)
                         (next-exp))
                       nil)))
+        ;; Check for duplicate variable binding
+        (check-duplicate-binding-d-var var)
         (cond ((consp var)
                (if form
                    (let ((tmp-var (gensym)))
@@ -525,6 +547,8 @@
     (do ()
         (nil)
       (let ((var (next-exp)))
+        ;; Check for duplicate variable binding
+        (check-duplicate-binding-d-var var)
         (parse-type-spec)
         (case (to-keyword (lookahead))
           ((:=)
@@ -624,6 +648,10 @@
     (next-exp)
     (let ((var (next-exp)))
       (check-simple-var var)
+      ;; Only check if var is already bound by FOR/AS/WITH (not by other INTO)
+      ;; INTO variables can be reused across multiple accumulation clauses
+      (when (member var *bound-vars*)
+        (loop-error "Cannot use ~S as INTO variable - already bound" var))
       var)))
 
 (defmacro select-accumulator ((kind into) &body body)
@@ -678,29 +706,36 @@
                        ,kind))))
 
 (defun parse-accumulation-clause (exp)
-  (prog1 (case exp
-           ((:collect :collecting)
-            (next-exp)
-            (parse-collect-clause :collect))
-           ((:append :appending)
-            (next-exp)
-            (parse-collect-clause :append))
-           ((:nconc :nconcing)
-            (next-exp)
-            (parse-collect-clause :nconc))
-           ((:count :counting)
-            (next-exp)
-            (parse-count-clause :count))
-           ((:sum :summing)
-            (next-exp)
-            (parse-count-clause :sum))
-           ((:maximize :maximizing)
-            (next-exp)
-            (parse-maxmin-clause :max))
-           ((:minimize :minimizing)
-            (next-exp)
-            (parse-maxmin-clause :min)))
-    (parse-type-spec)))
+  (let ((result
+          (case exp
+            ((:collect :collecting)
+             (next-exp)
+             (parse-collect-clause :collect))
+            ((:append :appending)
+             (next-exp)
+             (parse-collect-clause :append))
+            ((:nconc :nconcing)
+             (next-exp)
+             (parse-collect-clause :nconc))
+            ((:count :counting)
+             (next-exp)
+             (parse-count-clause :count))
+            ((:sum :summing)
+             (next-exp)
+             (parse-count-clause :sum))
+            ((:maximize :maximizing)
+             (next-exp)
+             (parse-maxmin-clause :max))
+            ((:minimize :minimizing)
+             (next-exp)
+             (parse-maxmin-clause :min)))))
+    (when result
+      ;; Check for conflict with termination test (ALWAYS/NEVER/THEREIS)
+      (when *has-termination-test*
+        (loop-error "Cannot combine accumulation clause with termination test clause"))
+      (setq *has-accumulation* t))
+    (parse-type-spec)
+    result))
 
 (defun parse-selectable-clause ()
   (let ((exp (ensure-keyword (lookahead))))
@@ -775,16 +810,28 @@
        '(progn)))
     ((:always)
      (next-exp)
+     ;; Check for conflict with accumulation clause
+     (when *has-accumulation*
+       (loop-error "Cannot combine termination test clause with accumulation clause"))
+     (setq *has-termination-test* t)
      (push `(return t) *result-forms*)
      `(unless ,(next-exp)
         (return nil)))
     ((:never)
      (next-exp)
+     ;; Check for conflict with accumulation clause
+     (when *has-accumulation*
+       (loop-error "Cannot combine termination test clause with accumulation clause"))
+     (setq *has-termination-test* t)
      (push `(return t) *result-forms*)
      `(when ,(next-exp)
         (return nil)))
     ((:thereis)
      (next-exp)
+     ;; Check for conflict with accumulation clause
+     (when *has-accumulation*
+       (loop-error "Cannot combine termination test clause with accumulation clause"))
+     (setq *has-termination-test* t)
      (let ((thereis (gensym #"THEREIS")))
        `(let ((,thereis ,(next-exp)))
           (when ,thereis (return ,thereis)))))))
@@ -867,6 +914,9 @@
         (*it* nil)
         (*it-enable-context* nil)
         (*loop-body* '())
+        (*has-termination-test* nil)
+        (*has-accumulation* nil)
+        (*bound-vars* nil)
         (loop-start (gensym #"LOOP-START")))
     (parse-loop forms)
     (let ((body
