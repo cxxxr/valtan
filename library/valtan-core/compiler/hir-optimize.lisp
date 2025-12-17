@@ -276,7 +276,8 @@
   (with-hir-args (binding) hir
     (incf (binding-used-count binding))
     (cond ((eq *current-tagbody-label* binding)
-           (remake-hir 'recur hir))
+           ;; Pass binding to recur so pass2 can emit state change when in tagbody context
+           (remake-hir 'recur hir binding))
           ((member binding *env-for-escape*)
            hir)
           (t

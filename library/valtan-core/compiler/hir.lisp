@@ -196,6 +196,6 @@
     ((module)
      `(module ,(hir-arg1 hir) ,@(mapcar #'reduce-hir (hir-arg2 hir))))
     ((recur)
-     `(recur))
+     `(recur ,(hir-arg1 hir)))
     ((loop)
      `(loop ,(reduce-hir (hir-arg1 hir))))))

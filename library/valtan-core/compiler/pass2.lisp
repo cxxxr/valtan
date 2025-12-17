@@ -158,6 +158,7 @@
 (defvar *p2-toplevel-defun-stream*)
 (defvar *p2-defun-names*)
 (defvar *p2-temporary-variables*)
+(defvar *p2-in-simple-loop* nil)
 
 (def-interface make-emitter-stream (base-stream)
   (declare (ignore base-stream))
@@ -828,7 +829,8 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 
 (define-p2-emit loop (hir)
   (embed-source-map hir)
-  (let ((body (hir-arg1 hir)))
+  (let ((body (hir-arg1 hir))
+        (*p2-in-simple-loop* t))
     (write-line "for(;;){" *p2-emit-stream*)
     (p2 body :stmt)
     (write-line "break;" *p2-emit-stream*)
@@ -837,7 +839,19 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 
 (define-p2-emit recur (hir)
   (embed-source-map hir)
-  (write-line "continue;" *p2-emit-stream*)
+  (let ((binding (hir-arg1 hir)))
+    (cond (*p2-in-simple-loop*
+           ;; In a simple loop, just continue
+           (write-line "continue;" *p2-emit-stream*))
+          (binding
+           ;; In a tagbody with multiple tags, need to set state before continue
+           (let* ((name (tagbody-value-id (binding-id binding)))
+                  (state-var (tagbody-state-name name)))
+             (format *p2-emit-stream* "~A='~A';~%" state-var (tagbody-tag-name binding))
+             (format *p2-emit-stream* "continue ~A;~%" name)))
+          (t
+           ;; Fallback for old code without binding info
+           (write-line "continue;" *p2-emit-stream*))))
   (p2-no-return))
 
 (defun tagbody-state-name (tagbody-name)
