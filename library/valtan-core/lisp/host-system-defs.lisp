@@ -301,6 +301,11 @@
 (cl:defun system:map-clear (map)
   (cl:clrhash map))
 
+(cl:defun system:map-foreach (map function)
+  "Call FUNCTION with (value key) for each entry in MAP.
+Note: Order is (value key) to match JavaScript Map.forEach callback order."
+  (cl:maphash (cl:lambda (key value) (cl:funcall function value key)) map))
+
 (cl:defun system:function-name (function)
   (cl:declare (cl:ignore function))
   (cl:error "unimplemented"))

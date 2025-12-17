@@ -71,6 +71,10 @@
 (cl:defun system:map-clear (map)
   ((ffi:ref map "clear")))
 
+(cl:defun system:map-foreach (map function)
+  "Call FUNCTION with (value key) for each entry in MAP."
+  ((ffi:ref map "forEach") function))
+
 (cl:defun system:function-name (function)
   (let ((name (ffi:ref function "lisp_name")))
     (if (eq (ffi:typeof name) #j"string")

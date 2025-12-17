@@ -116,6 +116,7 @@
            :map-remove
            :map-length
            :map-clear
+           :map-foreach
            :function-name
            :unknown-object-to-string
            :raw-array-to-array

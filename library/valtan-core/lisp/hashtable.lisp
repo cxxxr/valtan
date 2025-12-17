@@ -10,18 +10,31 @@
                        (:constructor %make-hash-table))
   map
   (keys nil)
-  (test nil :read-only t)
+  (test 'eql :read-only t)
   ;; (size nil :read-only t)
-  (rehash-size nil :read-only t)
-  (rehash-threshold nil :read-only t))
+  (rehash-size 1.5 :read-only t)
+  (rehash-threshold 1.0 :read-only t))
+
+(defun %normalize-test (test)
+  "Normalize hash table test to symbol name."
+  (cond ((null test) 'eql)
+        ((eq test 'eq) 'eq)
+        ((eq test 'eql) 'eql)
+        ((eq test 'equal) 'equal)
+        ((eq test 'equalp) 'equalp)
+        ((eq test #'eq) 'eq)
+        ((eq test #'eql) 'eql)
+        ((eq test #'equal) 'equal)
+        ((eq test #'equalp) 'equalp)
+        (t (error "Invalid hash table test: ~S" test))))
 
 (defun make-hash-table (&key test size rehash-size rehash-threshold)
   (declare (ignore size))
   (%make-hash-table :map (system:make-map)
-                    :test test
+                    :test (%normalize-test test)
                     ;; :size size
-                    :rehash-size rehash-size
-                    :rehash-threshold rehash-threshold))
+                    :rehash-size (or rehash-size 1.5)
+                    :rehash-threshold (or rehash-threshold 1.0)))
 
 (defun hash-table-size (hash-table)
   (hash-table-count hash-table))
