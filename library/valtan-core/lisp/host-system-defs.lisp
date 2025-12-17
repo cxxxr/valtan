@@ -88,6 +88,15 @@
 
 (cl:defun system:map-package-symbols (package function)
   (cl:do-symbols (s package nil)
+    (cl:when (cl:eq (cl:symbol-package s) package)
+      (cl:funcall function s))))
+
+(cl:defun system:map-package-external-symbols (package function)
+  (cl:do-external-symbols (s package nil)
+    (cl:funcall function s)))
+
+(cl:defun system:map-package-all-symbols (package function)
+  (cl:do-symbols (s package nil)
     (cl:funcall function s)))
 
 (cl:defun system:put (symbol key value)
@@ -125,6 +134,15 @@
 (cl:defun system:export (symbols package)
   (cl:export symbols package))
 
+(cl:defun system:%delete-package (package)
+  (cl:delete-package package))
+
+(cl:defun system:package-used-by-list (package)
+  (cl:package-used-by-list package))
+
+(cl:defun system:package-use-list (package)
+  (cl:package-use-list package))
+
 (cl:defun system:%add (x y)
   (cl:+ x y))
 
@@ -142,6 +160,15 @@
 
 (cl:defun system:%floor (x y)
   (values (cl:floor x y)))
+
+(cl:defun system:%round (x y)
+  (values (cl:round x y)))
+
+(cl:defun system:%truncate (x y)
+  (values (cl:truncate x y)))
+
+(cl:defun system:%ceiling (x y)
+  (values (cl:ceiling x y)))
 
 (cl:defun system:%logand (x y)
   (cl:logand x y))

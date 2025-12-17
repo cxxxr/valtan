@@ -65,3 +65,15 @@ export function CL_greaterEqual(x, y) {
 export function CL_lessEqual(x, y) {
     return values1(toLispBoolean(x <= y));
 }
+
+export function CL_round(number, divisor) {
+    return values(Math.round(number / divisor), number - Math.round(number / divisor) * divisor);
+}
+
+export function CL_truncate(number, divisor) {
+    return values(Math.trunc(number / divisor), number - Math.trunc(number / divisor) * divisor);
+}
+
+export function CL_ceiling(number, divisor) {
+    return values(Math.ceil(number / divisor), number - Math.ceil(number / divisor) * divisor);
+}

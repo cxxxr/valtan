@@ -287,3 +287,74 @@ export function CL_mapPackageSymbols(pkg, fn) {
     pkg.mapSymbols(fn);
     return values1(S_nil);
 }
+
+// Map only over external symbols (exported symbols)
+export function CL_mapPackageExternalSymbols(pkg, fn) {
+    checkPackage(pkg);
+    for (let name in pkg.symbolTable) {
+        if (pkg.exportTable[name]) {
+            fn(pkg.symbolTable[name]);
+        }
+    }
+    return values1(S_nil);
+}
+
+// Map over all accessible symbols (present + inherited from used packages)
+export function CL_mapPackageAllSymbols(pkg, fn) {
+    checkPackage(pkg);
+    const seen = {};
+
+    // First, iterate over present symbols
+    for (let name in pkg.symbolTable) {
+        seen[name] = true;
+        fn(pkg.symbolTable[name]);
+    }
+
+    // Then, iterate over inherited symbols from used packages
+    for (let pkgName of pkg.usePackageNames) {
+        const usedPkg = ensurePackage(pkgName);
+        for (let name in usedPkg.symbolTable) {
+            if (usedPkg.exportTable[name] && !seen[name]) {
+                seen[name] = true;
+                fn(usedPkg.symbolTable[name]);
+            }
+        }
+    }
+    return values1(S_nil);
+}
+
+// Delete a package from the system
+export function CL_deletePackage(pkgDesignator) {
+    const pkg = ensurePackage(pkgDesignator);
+    const index = packages.indexOf(pkg);
+    if (index !== -1) {
+        packages.splice(index, 1);
+        return values1(S_t);
+    }
+    return values1(S_nil);
+}
+
+// Return a list of packages that use the given package
+export function CL_packageUsedByList(pkgDesignator) {
+    const pkg = ensurePackage(pkgDesignator);
+    const result = [];
+    for (let p of packages) {
+        if (p.usePackageNames.includes(pkg.name)) {
+            result.push(p);
+        }
+    }
+    return values1(jsArrayToList(result));
+}
+
+// Return a list of packages that this package uses
+export function CL_packageUseList(pkgDesignator) {
+    const pkg = ensurePackage(pkgDesignator);
+    const result = [];
+    for (let pkgName of pkg.usePackageNames) {
+        const usedPkg = findPackage(pkgName);
+        if (usedPkg) {
+            result.push(usedPkg);
+        }
+    }
+    return values1(jsArrayToList(result));
+}

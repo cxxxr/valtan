@@ -49,6 +49,8 @@
            :fset
            :%set
            :map-package-symbols
+           :map-package-external-symbols
+           :map-package-all-symbols
            :put
            :package-name
            :package-nicknames
@@ -56,6 +58,9 @@
            :find-symbol
            :make-package
            :export
+           :%delete-package
+           :package-used-by-list
+           :package-use-list
            :%add
            :%sub
            :%negate
@@ -68,6 +73,9 @@
            :%>=
            :%<=
            :%floor
+           :%round
+           :%truncate
+           :%ceiling
            :%logand
            :apply
            :%car

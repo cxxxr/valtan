@@ -61,7 +61,12 @@ import {
     CL_findSymbol,
     CL_makePackage,
     CL_mapPackageSymbols,
+    CL_mapPackageExternalSymbols,
+    CL_mapPackageAllSymbols,
     CL_export,
+    CL_deletePackage,
+    CL_packageUsedByList,
+    CL_packageUseList,
 } from './package';
 export * from './package';
 
@@ -96,6 +101,9 @@ import {
     CL_greaterEqual,
     CL_lessEqual,
     CL_floor,
+    CL_round,
+    CL_truncate,
+    CL_ceiling,
 } from './number';
 export * from './number';
 
@@ -207,6 +215,8 @@ registerFunction(system_package, 'SYMBOL-NAME', CL_symbolName, 1);
 registerFunction(system_package, 'SYMBOL-PACKAGE-NAME', CL_symbolPackage, 1);
 registerFunction(system_package, 'FSET', CL_setSymbolFunction, 2);
 registerFunction(system_package, 'MAP-PACKAGE-SYMBOLS', CL_mapPackageSymbols, 2);
+registerFunction(system_package, 'MAP-PACKAGE-EXTERNAL-SYMBOLS', CL_mapPackageExternalSymbols, 2);
+registerFunction(system_package, 'MAP-PACKAGE-ALL-SYMBOLS', CL_mapPackageAllSymbols, 2);
 registerFunction(system_package, 'PUT', CL_put, 3);
 
 // package.js
@@ -218,6 +228,9 @@ registerFunction(system_package, 'INTERN', CL_intern, 2);
 registerFunction(system_package, 'FIND-SYMBOL', CL_findSymbol, 2);
 registerFunction(system_package, 'MAKE-PACKAGE', CL_makePackage, 3);
 registerFunction(system_package, 'EXPORT', CL_export, 1, 2);
+registerFunction(system_package, '%DELETE-PACKAGE', CL_deletePackage, 1);
+registerFunction(system_package, 'PACKAGE-USED-BY-LIST', CL_packageUsedByList, 1);
+registerFunction(system_package, 'PACKAGE-USE-LIST', CL_packageUseList, 1);
 
 // number.js
 registerFunction(cl_package, 'NUMBERP', CL_numberp, 1);
@@ -234,6 +247,9 @@ registerFunction(system_package, '%<', CL_lessThan, 2);
 registerFunction(system_package, '%>=', CL_greaterEqual, 2);
 registerFunction(system_package, '%<=', CL_lessEqual, 2);
 registerFunction(system_package, '%FLOOR', CL_floor, 2);
+registerFunction(system_package, '%ROUND', CL_round, 2);
+registerFunction(system_package, '%TRUNCATE', CL_truncate, 2);
+registerFunction(system_package, '%CEILING', CL_ceiling, 2);
 
 // function.js
 registerFunction(system_package, 'APPLY', CL_apply, 2, null);

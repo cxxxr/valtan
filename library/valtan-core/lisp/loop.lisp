@@ -466,18 +466,57 @@
       (when hash-second-temp
         (push `(d-setq ,hash-second-var ,hash-second-temp) *loop-body*)))))
 
+(defun parse-for-as-package (var symbol-type)
+  ;; symbol-type is one of :symbols, :external-symbols, :present-symbols
+  (next-exp)  ; consume SYMBOL(S)/EXTERNAL-SYMBOL(S)/PRESENT-SYMBOL(S)
+  (ecase (ensure-keyword (next-exp))
+    ((:in :of)))  ; consume IN or OF
+  (let* ((package-form (next-exp))
+         (package-var (gensym #"PACKAGE"))
+         (symbols-var (gensym #"SYMBOLS"))
+         (temporary-var (gensym)))
+    ;; Bind the package and collect symbols into a list
+    (push (make-let-bindings
+           :pairs `((,package-var (find-package ,package-form))
+                    (,symbols-var nil)
+                    ,@(gen-d-var-bindings var)
+                    (,temporary-var nil)))
+          *bindings*)
+    ;; Add initially form to collect symbols using the appropriate iterator
+    (add-initially-form
+     `(setq ,symbols-var
+            (let ((result nil))
+              (,(ecase symbol-type
+                  (:symbols '*:map-package-all-symbols)
+                  (:external-symbols '*:map-package-external-symbols)
+                  (:present-symbols '*:map-package-symbols))
+               ,package-var
+               (lambda (sym) (push sym result)))
+              result)))
+    ;; Setup iteration - similar to FOR IN list
+    (add-initially-form `(setq ,temporary-var ,symbols-var))
+    (add-loop-test-form temporary-var)
+    (add-before-update-form 'd-setq var `(car ,temporary-var))
+    (add-after-update-form 'setq temporary-var `(cdr ,temporary-var))))
+
 (defun parse-for-as-hash-or-package (var)
   (ecase (ensure-keyword (lookahead))
     ((:each :the)
      (next-exp)))
-  (ecase (ensure-keyword (lookahead))
-    ((:hash-key :hash-keys)
-     (parse-for-as-hash var t))
-    ((:hash-values :hash-value)
-     (parse-for-as-hash var nil))
-    #+(or)
-    ((:symbol :symbols :present-symbol :present-symbols :external-symbol :external-symbols)
-     )))
+  (let ((keyword (ensure-keyword (lookahead))))
+    (case keyword
+      ((:hash-key :hash-keys)
+       (parse-for-as-hash var t))
+      ((:hash-values :hash-value)
+       (parse-for-as-hash var nil))
+      ((:symbol :symbols)
+       (parse-for-as-package var :symbols))
+      ((:external-symbol :external-symbols)
+       (parse-for-as-package var :external-symbols))
+      ((:present-symbol :present-symbols)
+       (parse-for-as-package var :present-symbols))
+      (otherwise
+       (loop-error "unexpected keyword after BEING: ~S" keyword)))))
 
 (defun parse-for-as-clause-1 ()
   (let ((*before-update-forms* '())
@@ -672,6 +711,8 @@
 
 (defun parse-conditional-then-else-clause ()
   (let ((forms (list (parse-selectable-clause))))
+    ;; IT is only valid for the first clause, disable for AND-joined clauses
+    (setq *it-enable-context* nil)
     (do ()
         (nil)
       (if (eq (ensure-keyword (lookahead)) :and)
@@ -726,9 +767,12 @@
      (let ((repeat-var (gensym #"REPEAT"))
            (repeat-value (next-exp)))
        (push (make-let-bindings :pairs `((,repeat-var ,repeat-value))) *bindings*)
-       `(if (<= ,repeat-var 0)
-            (go end-loop)
-            (decf ,repeat-var))))
+       ;; Add termination test at loop start (before body)
+       (add-loop-test-form `(> ,repeat-var 0))
+       ;; Add decrement after body
+       (add-after-update-form 'decf repeat-var 1)
+       ;; Return a no-op form for the body
+       '(progn)))
     ((:always)
      (next-exp)
      (push `(return t) *result-forms*)

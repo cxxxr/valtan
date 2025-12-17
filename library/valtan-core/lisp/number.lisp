@@ -76,6 +76,27 @@
     (type-error divisor 'number))
   (*:%floor number divisor))
 
+(defun round (number &optional (divisor 1))
+  (unless (numberp number)
+    (type-error number 'number))
+  (unless (numberp divisor)
+    (type-error divisor 'number))
+  (*:%round number divisor))
+
+(defun truncate (number &optional (divisor 1))
+  (unless (numberp number)
+    (type-error number 'number))
+  (unless (numberp divisor)
+    (type-error divisor 'number))
+  (*:%truncate number divisor))
+
+(defun ceiling (number &optional (divisor 1))
+  (unless (numberp number)
+    (type-error number 'number))
+  (unless (numberp divisor)
+    (type-error divisor 'number))
+  (*:%ceiling number divisor))
+
 (defun floatp (x)
   (and (not (integerp x))
        (numberp x)))
@@ -105,7 +126,7 @@
   (= 0 (rem x 2)))
 
 (defun oddp (x)
-  (= 1 (rem x 2)))
+  (not (evenp x)))
 
 (defun min (number &rest more-numbers)
   (dolist (n more-numbers number)

@@ -16,6 +16,12 @@
 (defun find-package (name)
   (cond ((packagep name)
          name)
+        ;; Handle raw strings from host environment (SBCL) - check if it's a CL string, not Valtan array
+        ((and (cl:stringp name) (not (arrayp name)))
+         (cl:find-package name))
+        ;; Handle symbols from host environment
+        ((and (cl:symbolp name) (not (arrayp name)))
+         (cl:find-package (cl:symbol-name name)))
         (t
          (dolist (package (list-all-packages))
            (when (or (string= name (package-name package))
@@ -43,12 +49,21 @@
           (*:raw-array-to-list (*:package-nicknames (ensure-package package)))))
 
 (defun intern (name &optional (package *package*))
-  (*:intern (*:array-to-raw-string name)
-            (find-package package)))
+  ;; Handle raw strings from host environment (SBCL) - check if it's a CL string, not Valtan array
+  (if (and (cl:stringp name) (not (arrayp name)))
+      (cl:intern name (let ((pkg (find-package package)))
+                        (if (cl:packagep pkg) pkg (cl:find-package (cl:string pkg)))))
+      (*:intern (*:array-to-raw-string name)
+                (find-package package))))
 
 (defun find-symbol (name &optional (package *package*))
-  (*:find-symbol (*:array-to-raw-string name)
-                 (find-package package)))
+  ;; Handle raw strings from host environment (SBCL) - check if it's a CL string, not Valtan array
+  (if (and (cl:stringp name) (not (arrayp name)))
+      (let* ((pkg (find-package package))
+             (real-pkg (if (cl:packagep pkg) pkg (cl:find-package (cl:string pkg)))))
+        (cl:find-symbol name real-pkg))
+      (*:find-symbol (*:array-to-raw-string name)
+                     (find-package package))))
 
 (defun make-package (package-name &key nicknames use)
   (*:make-package (*:array-to-raw-string (string package-name))
@@ -77,14 +92,24 @@
           (cond ((null symbols))
                 ((symbolp symbols)
                  (list symbols))
-                (t symbols))))
+                (t symbols)))
+        (package (ensure-package package)))
     (dolist (symbol symbols)
       (unless (symbolp symbol)
         (type-error symbol 'symbol)))
-    ;; (unless (packagep package)
-    ;;   (type-error symbol 'symbol))
     (system:export symbols package)
     t))
+
+(defun delete-package (package-designator)
+  (let ((package (find-package package-designator)))
+    (when package
+      (*:%delete-package package))))
+
+(defun package-used-by-list (package-designator)
+  (*:package-used-by-list (ensure-package package-designator)))
+
+(defun package-use-list (package-designator)
+  (*:package-use-list (ensure-package package-designator)))
 
 #|
 (defvar *packages* '())
