@@ -79,7 +79,6 @@ jobs:
 
             # Parse results into categorized files
             PERFECT=""
-            PERFECT_COUNT=0
             NEEDS_WORK=""
             CRITICAL=""
 
@@ -95,12 +94,9 @@ jobs:
               fi
 
               bar=$(make_bar $rate)
-              name=$(echo "$file" | sed "s/.lisp$//" | sed "s/^must-//" | sed "s/^should-/s:/")
 
               if [ "$rate" -eq 100 ]; then
-                if [ -n "$PERFECT" ]; then PERFECT+=", "; fi
-                PERFECT+="$name"
-                PERFECT_COUNT=$((PERFECT_COUNT + 1))
+                PERFECT+="| $file | $bar | $rate% | $pass |\\n"
               elif [ "$rate" -ge 50 ]; then
                 NEEDS_WORK+="| $file | $bar | $rate% | $fail |\\n"
               else
@@ -117,11 +113,14 @@ jobs:
             echo "**Overall: $RATE% ($PASS/$((PASS+FAIL)))** \`$OVERALL_BAR\`" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
 
-            # Perfect tests (collapsed into one line)
+            # Perfect tests (table)
             if [ -n "$PERFECT" ]; then
+              PERFECT_COUNT=$(echo -e "$PERFECT" | grep -c "^|" || true)
               echo "### ✅ Perfect ($PERFECT_COUNT tests)" >> $GITHUB_STEP_SUMMARY
               echo "" >> $GITHUB_STEP_SUMMARY
-              echo "$PERFECT" >> $GITHUB_STEP_SUMMARY
+              echo "| Test | Progress | Rate | Pass |" >> $GITHUB_STEP_SUMMARY
+              echo "|:-----|:--------:|-----:|-----:|" >> $GITHUB_STEP_SUMMARY
+              echo -e "$PERFECT" >> $GITHUB_STEP_SUMMARY
               echo "" >> $GITHUB_STEP_SUMMARY
             fi
 
