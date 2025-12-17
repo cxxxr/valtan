@@ -117,7 +117,7 @@
              (compile-error "Bad lambda list: ~S" lambda-list))
            (check-variable (x)
              (when (or (not (variable-symbol-p x))
-                       (member x '(&rest &optional &key)))
+                       (member x '(&rest &body &optional &key)))
                (lambda-list-error)))
            (add-optional-vars (kind arg add-fn)
              (cond ((symbolp arg)
@@ -197,7 +197,7 @@
                  (add-optional-vars :key arg (lambda (x) (push x keys))))
                 (rest-var
                  (lambda-list-error))
-                ((eq arg '&rest)
+                ((or (eq arg '&rest) (eq arg '&body))
                  (unless (consp (cdr arg*))
                    (lambda-list-error))
                  (check-variable (second arg*))
