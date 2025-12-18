@@ -237,17 +237,24 @@
         (t
          (type-error value 'function))))
 
-(*:defmacro* multiple-value-call (function arg &rest args)
-  (if (cl:null args)
-      `(*:multiple-value-call (ensure-function ,function)
-         ,(if (cl:atom arg)
-              `(values ,arg)
-              arg))
-      `(*:multiple-value-call (ensure-function ,function)
-         ,arg
-         ,@(if (cl:atom (cl:car (cl:last args)))
-               `(,@(cl:butlast args) (values ,@(cl:last args)))
-               args))))
+(*:defmacro* multiple-value-call (function &rest args)
+  (cond ((cl:null args)
+         ;; No arguments - just call function with no args
+         `(*:multiple-value-call (ensure-function ,function)))
+        ((cl:null (cl:rest args))
+         ;; Single argument
+         (let ((arg (cl:first args)))
+           `(*:multiple-value-call (ensure-function ,function)
+              ,(if (cl:atom arg)
+                   `(values ,arg)
+                   arg))))
+        (t
+         ;; Multiple arguments
+         `(*:multiple-value-call (ensure-function ,function)
+            ,(cl:first args)
+            ,@(if (cl:atom (cl:car (cl:last (cl:rest args))))
+                  `(,@(cl:butlast (cl:rest args)) (values ,@(cl:last args)))
+                  (cl:rest args))))))
 
 (*:defmacro* multiple-value-list (value-form)
   `(multiple-value-call #'list ,value-form))

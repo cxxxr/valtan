@@ -107,8 +107,8 @@
     (setf (gethash (read-from-string "SYSTEM::LIST-TO-JS-ARRAY") table)
           (list "lisp.CL_listToJsArray" (list 1)))
     (setf (gethash (read-from-string "CL:VALUES") table) (list "lisp.CL_values" (list 0 nil)))
-    (setf (gethash (read-from-string "SYSTEM::MULTIPLE-VALUE-CALL") table)
-          (list "lisp.CL_multipleValueCall" (list nil)))
+    (setf (gethash (read-from-string "*:MULTIPLE-VALUE-CALL") table)
+          'p2-multiple-value-call)
     (setf (gethash (read-from-string "SYSTEM::MAKE-STRUCTURE") table)
           (list "lisp.CL_makeStructure" (list 1 nil)))
     (setf (gethash (read-from-string "SYSTEM::%COPY-STRUCTURE") table)
@@ -142,7 +142,12 @@
 
     table))
 #+valtan
-(defparameter *builtin-function-table* (make-hash-table))
+(defparameter *builtin-function-table*
+  (let ((table (make-hash-table)))
+    ;; Register multiple-value-call for runtime evaluation
+    (setf (gethash (read-from-string "*:MULTIPLE-VALUE-CALL") table)
+          'p2-multiple-value-call)
+    table))
 
 (defun p2-cl->js (hir)
   (let ((args (hir-arg2 hir)))
@@ -1154,7 +1159,68 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
           (t
            (p2-call-default hir)))))
 
-
+(defun hir-definitely-single-value-p (hir)
+  "Check if HIR definitely returns a single value (not multiple values).
+   Returns T for literals, variable references, and forms known to return single values.
+   Returns NIL for function calls (which may return multiple values) and unknown forms."
+  (case (hir-op hir)
+    ;; These definitely return single values
+    ((const lref gref fref the) t)
+    ;; Progn returns what its last form returns
+    ((progn)
+     (let ((forms (hir-arg1 hir)))
+       (if forms
+           (hir-definitely-single-value-p (car (last forms)))
+           t)))  ; empty progn returns nil (single value)
+    ;; If returns what its branches return - conservative: assume might be multiple
+    ((if) nil)
+    ;; Function calls may return multiple values - don't assume single
+    ((call lcall) nil)
+    ;; Unknown forms - conservative, assume might be multiple
+    (t nil)))
+
+(defun p2-multiple-value-call (hir)
+  "Generate code for MULTIPLE-VALUE-CALL that properly collects all values from all arguments.
+   Uses block scope instead of IIFE to avoid potential scoping issues."
+  (let ((args (hir-arg2 hir)))
+    (cond ((<= 1 (length args))
+           (embed-source-map hir)
+           (destructuring-bind (fn-hir . arg-hirs) args
+             (let ((mv-array (p2-genvar "mvall"))
+                   (fn-var (p2-genvar "mvfn"))
+                   result)
+               ;; Use block scope with unique variable names
+               (format *p2-emit-stream* "{~%")
+               ;; Evaluate function first
+               (let ((fn-ref (%p2-form fn-hir)))
+                 (format *p2-emit-stream* "let ~A=~A;~%" fn-var fn-ref))
+               ;; Create array to collect all values
+               (format *p2-emit-stream* "let ~A=[];~%" mv-array)
+               ;; Process each argument
+               (dolist (arg-hir arg-hirs)
+                 (let ((arg-ref (%p2-form arg-hir)))
+                   ;; For forms that definitely return a single value (literals, variables),
+                   ;; we need to set currentValues explicitly. For function calls and other
+                   ;; forms that may return multiple values, let them set currentValues naturally.
+                   (if (hir-definitely-single-value-p arg-hir)
+                       ;; Single value form - wrap in values1 to set currentValues
+                       (format *p2-emit-stream* "lisp.values1(~A);~%" arg-ref)
+                       ;; May return multiple values - just evaluate, it sets currentValues
+                       (format *p2-emit-stream* "~A;~%" arg-ref))
+                   ;; Collect values from this argument
+                   (format *p2-emit-stream* "~A.push(...lisp.currentValues());~%" mv-array)))
+               ;; Call the function and assign result
+               (when (hir-return-value-p hir)
+                 (setq result (p2-temporary-var))
+                 (format *p2-emit-stream* "~A=~A(...~A);~%" result fn-var mv-array))
+               (unless (hir-return-value-p hir)
+                 (format *p2-emit-stream* "~A(...~A);~%" fn-var mv-array))
+               (format *p2-emit-stream* "}~%")
+               result)))
+          (t
+           (p2-call-default hir)))))
+
+
 (defun p2-toplevel-1 (hir)
   (p2 hir (if (hir-return-value-p hir) :expr :stmt)))
 
