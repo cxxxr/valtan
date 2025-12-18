@@ -83,6 +83,10 @@
   time-ms)
 
 ;;; Core test runner
+;; NOTE: Tests that use SIGNAL with error-type conditions (like type-error)
+;; may fail because the test runner's handler-case for catching errors will
+;; also catch signaled conditions when inner handlers decline. This is
+;; correct behavior per ANSI CL but causes some signal-return-value tests to fail.
 (defun run-single-test (form index)
   "Run a single test form and return test-result"
   (let ((start-time (js:-date.now))

@@ -644,39 +644,60 @@
 (def-pass1-form setq ((&whole setq-form &rest args) return-value-p multiple-values-p)
   (if (not (evenp (length args)))
       (compile-error "Setq with odd number of args")
-      (let ((forms '()))
-        (do ((args args (rest (rest args))))
-            ((null args))
-          (when (constant-p (first args))
-            (compile-error "~S is a constant" (first args)))
-          (unless (variable-symbol-p (first args))
-            (compile-error "~S is not a variable" (first args)))
-          (let* ((symbol (first args))
-                 (binding (lookup symbol :variable))
-                 (value (pass1 (second args) t nil)))
-            (count-if-used binding)
-            (count-if-used binding t)
-            (push (set-hir-position
-                   args
-                   (make-hir (if binding 'lset 'gset)
-                             (if (null (cddr args))
-                                 return-value-p
-                                 nil)
-                             nil
-                             (or binding symbol)
-                             value))
-                  forms)))
-        (cond ((null forms)
-               (pass1-const nil return-value-p))
-              ((length=1 forms)
-               (first forms))
-              (t
-               (set-hir-position
-                setq-form
-                (make-hir 'progn
-                          return-value-p
-                          nil
-                          (nreverse forms))))))))
+      ;; Check if any symbol is a symbol-macro and expand to SETF with expanded form
+      ;; (ANSI CL: SETQ with symbol-macro expands to SETF of the expanded place)
+      (let ((expanded-args nil)
+            (has-symbol-macro nil))
+        (do ((check-args args (rest (rest check-args))))
+            ((null check-args))
+          (let* ((sym (first check-args))
+                 (value (second check-args))
+                 (binding (and (symbolp sym) (lookup sym :symbol-macro)))
+                 (global-expansion (and (symbolp sym) (not binding) (get-symbol-macro sym))))
+            (if (or binding global-expansion)
+                ;; Expand symbol-macro to its definition
+                (let ((expansion (if binding (binding-id binding) global-expansion)))
+                  (setq has-symbol-macro t)
+                  (setq expanded-args (nconc expanded-args (list expansion value))))
+                ;; Keep as-is
+                (setq expanded-args (nconc expanded-args (list sym value))))))
+        (if has-symbol-macro
+            ;; Expand to SETF with all symbol-macros expanded
+            (pass1 `(setf ,@expanded-args) return-value-p multiple-values-p)
+            ;; Normal SETQ processing
+            (let ((forms '()))
+              (do ((args args (rest (rest args))))
+                  ((null args))
+                (when (constant-p (first args))
+                  (compile-error "~S is a constant" (first args)))
+                (unless (variable-symbol-p (first args))
+                  (compile-error "~S is not a variable" (first args)))
+                (let* ((symbol (first args))
+                       (binding (lookup symbol :variable))
+                       (value (pass1 (second args) t nil)))
+                  (count-if-used binding)
+                  (count-if-used binding t)
+                  (push (set-hir-position
+                         args
+                         (make-hir (if binding 'lset 'gset)
+                                   (if (null (cddr args))
+                                       return-value-p
+                                       nil)
+                                   nil
+                                   (or binding symbol)
+                                   value))
+                        forms)))
+              (cond ((null forms)
+                     (pass1-const nil return-value-p))
+                    ((length=1 forms)
+                     (first forms))
+                    (t
+                     (set-hir-position
+                      setq-form
+                      (make-hir 'progn
+                                return-value-p
+                                nil
+                                (nreverse forms))))))))))
 
 (def-pass1-form if ((&whole if-form test then &optional else) return-value-p multiple-values-p)
   (set-hir-position
