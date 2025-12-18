@@ -88,3 +88,38 @@
 (defun clrhash (hash-table)
   (system:map-clear (hash-table-map hash-table))
   hash-table)
+
+(defun sxhash (object)
+  "Return a hash code for OBJECT."
+  (cond ((null object) 0)
+        ((symbolp object) (%sxhash-string (symbol-name object)))
+        ((stringp object) (%sxhash-string object))
+        ((characterp object) (char-code object))
+        ((integerp object) (if (< object 0) (- object) object))
+        ((numberp object) (floor (abs object)))
+        ((consp object) (%sxhash-list object))
+        ((arrayp object) (%sxhash-array object))
+        ((hash-table-p object) (%sxhash-array (hash-table-keys object)))
+        (t 42)))  ; default hash for unknown types
+
+(defun %sxhash-string (string)
+  (let ((hash 0)
+        (len (length string)))
+    (dotimes (i (min len 10))
+      (setq hash (+ (* hash 3) (char-code (char string i)))))
+    hash))
+
+(defun %sxhash-list (list)
+  (let ((hash 0))
+    (dotimes (i 10)
+      (when (null list) (return hash))
+      (setq hash (+ hash (sxhash (car list))))
+      (setq list (cdr list)))
+    hash))
+
+(defun %sxhash-array (array)
+  (let ((hash 0)
+        (len (array-total-size array)))
+    (dotimes (i (min len 10))
+      (setq hash (+ (* hash 3) (sxhash (row-major-aref array i)))))
+    hash))

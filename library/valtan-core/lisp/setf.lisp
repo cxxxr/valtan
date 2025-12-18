@@ -126,5 +126,29 @@
                                (cl:append cl:values (cl:list ,update-form)))
                     set-form))))))
 
+(defmacro psetf (&rest pairs)
+  (cl:when (cl:oddp (cl:length pairs))
+    (cl:error "Odd number of args to PSETF."))
+  (if (cl:null pairs)
+      nil
+      (let ((bindings '())
+            (set-forms '()))
+        (cl:do* ((p pairs (cl:cddr p)))
+                ((cl:null p))
+          (let ((place (cl:first p))
+                (value (cl:second p)))
+            (cl:multiple-value-bind (vars forms store-vars set-form access)
+                (!get-setf-expansion place)
+              (declare (ignore access))
+              ;; Add bindings for the place subforms
+              (setq bindings (cl:nconc bindings (cl:mapcar #'cl:list vars forms)))
+              ;; Add binding for the store variable to the value
+              (setq bindings (cl:nconc bindings (cl:list (cl:list (cl:first store-vars) value))))
+              ;; Collect the set form (use cons instead of push to avoid macro issues at runtime)
+              (setq set-forms (cl:cons set-form set-forms)))))
+        `(let* ,bindings
+           ,@(cl:nreverse set-forms)
+           nil))))
+
 (define-modify-macro incf (&optional (n 1)) +)
 (define-modify-macro decf (&optional (n 1)) -)

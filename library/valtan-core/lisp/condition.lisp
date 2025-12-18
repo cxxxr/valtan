@@ -33,7 +33,8 @@
 (defun signal (datum &rest arguments)
   ;; TODO: *break-on-signals*
   (let ((condition (coerce-to-condition datum arguments 'simple-condition)))
-    (signal-1 condition)))
+    (signal-1 condition))
+  nil)
 
 (defun invoke-debugger (condition)
   (*:error (ffi:cl->js (princ-to-string condition))))
