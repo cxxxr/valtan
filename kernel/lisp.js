@@ -93,6 +93,7 @@ import {
     CL_sub,
     CL_negate,
     CL_mul,
+    CL_div,
     CL_rem,
     CL_numberEqual,
     CL_numberNotEqual,
@@ -239,6 +240,7 @@ registerFunction(system_package, '%ADD', CL_add, 2);
 registerFunction(system_package, '%SUB', CL_sub, 2);
 registerFunction(system_package, '%NEGATE', CL_negate, 1);
 registerFunction(system_package, '%MUL', CL_mul, 2);
+registerFunction(system_package, '%DIV', CL_div, 2);
 registerFunction(system_package, '%REM', CL_rem, 2);
 registerFunction(system_package, '%=', CL_numberEqual, 2);
 registerFunction(system_package, '%/=', CL_numberNotEqual, 2);

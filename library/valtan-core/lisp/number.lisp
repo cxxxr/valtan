@@ -32,7 +32,7 @@
       (dolist (n numbers number)
         (unless (numberp n)
           (type-error n 'number))
-        (setq number (*:%floor number n)))))
+        (setq number (*:%div number n)))))
 
 (defun logand (&rest integers)
   (let ((result -1))

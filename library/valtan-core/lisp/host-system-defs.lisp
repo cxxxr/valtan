@@ -155,6 +155,9 @@
 (cl:defun system:%mul (x y)
   (cl:* x y))
 
+(cl:defun system:%div (x y)
+  (cl:/ x y))
+
 (cl:defun system:%rem (x y)
   (values (cl:rem x y)))
 

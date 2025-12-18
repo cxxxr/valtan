@@ -224,7 +224,11 @@
               :initial-contents args))
 
 (defun adjustable-array-p (array)
-  (if (array-fill-pointer array) t nil))
+  (unless (arrayp array)
+    (error 'type-error :datum array :expected-type 'array))
+  ;; In Valtan, all arrays are potentially adjustable since
+  ;; adjust-array always creates a new array with the old contents
+  t)
 
 (defun fill-pointer (array)
   (array-fill-pointer array))
@@ -355,9 +359,12 @@
          (system:raw-array-set (array-contents array) index value))))
 
 (defun vector-pop (vector)
-  (when (or (null (array-fill-pointer vector))
-            (>= 0 (array-fill-pointer vector)))
-    (error (error "The fill pointer of the vector ~S is zero." vector)))
+  (unless (vectorp vector)
+    (error 'type-error :datum vector :expected-type 'vector))
+  (unless (array-has-fill-pointer-p vector)
+    (error 'type-error :datum vector :expected-type '(and vector (satisfies array-has-fill-pointer-p))))
+  (when (zerop (array-fill-pointer vector))
+    (error "The fill pointer of the vector ~S is zero." vector))
   (decf (array-fill-pointer vector))
   (system:raw-array-ref (array-contents vector) (array-fill-pointer vector)))
 

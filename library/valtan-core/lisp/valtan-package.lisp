@@ -65,6 +65,7 @@
            :%sub
            :%negate
            :%mul
+           :%div
            :%rem
            :%=
            :%/=
