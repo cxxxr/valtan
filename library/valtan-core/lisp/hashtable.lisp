@@ -79,10 +79,11 @@
             (,g-keys (hash-table-keys ,g-hash-table))
             (,g-map (hash-table-map ,g-hash-table)))
        (flet ((,name ()
-                (when ,g-keys
-                  (let* ((%key (pop ,g-keys))
-                         (%value (system:map-get ,g-map %key)))
-                    (values t %key %value)))))
+                (if ,g-keys
+                    (let* ((%key (pop ,g-keys))
+                           (%value (system:map-get ,g-map %key)))
+                      (values t %key %value))
+                    (values nil nil nil))))
          ,@body))))
 
 (defun clrhash (hash-table)
