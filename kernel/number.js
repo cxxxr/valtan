@@ -25,7 +25,11 @@ function isNumber(x) {
 }
 
 // Create a Float if needed (for preserving floatness in operations)
+// If value is already a Float, return it as-is to avoid nesting
 export function toFloat(value) {
+    if (value instanceof Float) {
+        return value;
+    }
     return new Float(value);
 }
 
