@@ -41,7 +41,7 @@
                                  (#\0 0)
                                  (#\1 1)))
                     'cl:vector)))
-     (system::make-structure-array! bits 't)))
+     (system::make-structure-array! bits 'bit)))
  *valtan-readtable*)
 
 (cl:set-dispatch-macro-character

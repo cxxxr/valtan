@@ -19,6 +19,8 @@
   (compiler::get-macro symbol))
 
 (defun special-operator-p (symbol)
+  (unless (symbolp symbol)
+    (error 'type-error :datum symbol :expected-type 'symbol))
   (not (null (member symbol
                      '(block catch eval-when flet function go if labels let let* load-time-value
                        locally macrolet multiple-value-call multiple-value-prog1 progn progv quote

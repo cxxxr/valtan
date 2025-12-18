@@ -113,6 +113,13 @@
 (defun package-use-list (package-designator)
   (*:package-use-list (ensure-package package-designator)))
 
+(defun package-shadowing-symbols (package-designator)
+  "Return a list of symbols that have been declared as shadowing symbols in package."
+  ;; Note: Valtan doesn't currently track shadowing symbols, so always return NIL.
+  ;; The ensure-package call will signal TYPE-ERROR for invalid package designators.
+  (ensure-package package-designator)
+  nil)
+
 #|
 (defvar *packages* '())
 
