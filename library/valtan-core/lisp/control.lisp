@@ -290,6 +290,10 @@
 (defun eql (x y)
   (cond ((and (characterp x) (characterp y))
          (char= x y))
+        ;; Two numbers are EQL if they are the same type and same value
+        ((and (numberp x) (numberp y))
+         (and (if (floatp x) (floatp y) (integerp y))
+              (= x y)))
         (t
          (eq x y))))
 

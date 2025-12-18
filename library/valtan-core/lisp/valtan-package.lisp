@@ -67,6 +67,9 @@
            :%mul
            :%div
            :%rem
+           :floatp
+           :make-float
+           :float-value
            :%=
            :%/=
            :%>

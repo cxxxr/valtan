@@ -161,6 +161,16 @@
 (cl:defun system:%rem (x y)
   (values (cl:rem x y)))
 
+;; Float distinction functions (host uses native floatp)
+(cl:defun system:floatp (x)
+  (cl:floatp x))
+
+(cl:defun system:make-float (x)
+  (cl:float x))
+
+(cl:defun system:float-value (x)
+  x)
+
 (cl:defun system:%floor (x y)
   (values (cl:floor x y)))
 

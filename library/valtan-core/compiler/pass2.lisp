@@ -337,7 +337,10 @@
                  (p2-symbol-to-call-value '*:raw-string-to-array)
                  (p2-encode-string x)))
         ((numberp x)
-         (princ-to-string x))
+         ;; Wrap floats with Float constructor to preserve float type
+         (if (floatp x)
+             (format nil "lisp.toFloat(~A)" (princ-to-string x))
+             (princ-to-string x)))
         ((characterp x)
          (format nil "lisp.makeCharacter(~D)" (char-code x)))
         ((consp x)

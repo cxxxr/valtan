@@ -98,8 +98,7 @@
   (*:%ceiling number divisor))
 
 (defun floatp (x)
-  (and (not (integerp x))
-       (numberp x)))
+  (*:floatp x))
 
 (defun realp (x)
   (numberp x))

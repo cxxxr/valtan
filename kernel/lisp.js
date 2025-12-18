@@ -89,6 +89,7 @@ export * from './structure';
 import {
     CL_numberp,
     CL_integerp,
+    CL_floatp,
     CL_add,
     CL_sub,
     CL_negate,
@@ -105,6 +106,9 @@ import {
     CL_round,
     CL_truncate,
     CL_ceiling,
+    toFloat,
+    numberValue,
+    Float,
 } from './number';
 export * from './number';
 
@@ -236,6 +240,9 @@ registerFunction(system_package, 'PACKAGE-USE-LIST', CL_packageUseList, 1);
 // number.js
 registerFunction(cl_package, 'NUMBERP', CL_numberp, 1);
 registerFunction(cl_package, 'INTEGERP', CL_integerp, 1);
+registerFunction(system_package, 'FLOATP', CL_floatp, 1);
+registerFunction(system_package, 'MAKE-FLOAT', toFloat, 1);
+registerFunction(system_package, 'FLOAT-VALUE', numberValue, 1);
 registerFunction(system_package, '%ADD', CL_add, 2);
 registerFunction(system_package, '%SUB', CL_sub, 2);
 registerFunction(system_package, '%NEGATE', CL_negate, 1);

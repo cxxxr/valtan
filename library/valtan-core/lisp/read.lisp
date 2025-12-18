@@ -333,7 +333,7 @@ Integers without decimal use *read-base*."
                        (setq value (* value exponent)))
                      (when minus
                        (setq value (- value)))
-                     value))))
+                     (*:make-float value)))))
              (float-case-2-p ()
                (let ((minus (sign))
                      integral-part
@@ -348,7 +348,7 @@ Integers without decimal use *read-base*."
                    (let ((value (* (+ integral-part decimal-part) exponent)))
                      (when minus
                        (setq value (- value)))
-                     value)))))
+                     (*:make-float value))))))
       (or (integer-p)
           (progn
             (setq pos 0)

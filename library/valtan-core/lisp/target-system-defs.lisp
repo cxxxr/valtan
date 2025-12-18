@@ -32,7 +32,8 @@
   ((ffi:ref raw-string "toLowerCase") raw-string))
 
 (cl:defun system:number-to-raw-string (number)
-  ((ffi:ref "String") number))
+  ;; Extract the raw value from Float wrapper objects
+  ((ffi:ref "String") (*:float-value number)))
 
 (cl:defun system:make-raw-array (size)
   (ffi:new (ffi:ref "Array") size))
