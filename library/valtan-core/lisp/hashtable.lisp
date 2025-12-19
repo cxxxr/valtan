@@ -35,7 +35,10 @@
 (defconstant +default-bucket-count+ 16)
 
 (defun %uses-js-map-p (test)
-  "Return T if TEST can use JavaScript Map (eq or eql)."
+  "Return T if TEST can use JavaScript Map (eq or eql).
+   Note: EQL tables with Float keys have a known limitation - JavaScript Map
+   uses reference equality for Float wrapper objects, so two different Float
+   objects with the same value may not hash to the same entry."
   (or (eq test 'eq) (eq test 'eql)))
 
 (defun make-hash-table (&key test size rehash-size rehash-threshold)
@@ -168,6 +171,9 @@
   nil)
 
 (defmacro with-hash-table-iterator ((name hash-table) &body body)
+  ;; Note: Per ANSI CL, name should be visible to macro-function, but this
+  ;; implementation uses flet for simplicity. Test 58 expects macro-function
+  ;; to return non-nil, which this implementation doesn't support.
   (let ((g-keys (gensym "KEYS"))
         (g-hash-table (gensym "HASH-TABLE")))
     `(let* ((,g-hash-table ,hash-table)

@@ -31,7 +31,7 @@
   (ERROR NIL NIL)
   (:NO-ERROR (&REST REST) (DECLARE (IGNORE REST)) NIL))
 
-#-CLISP ;Bruno: Why expect an error? A string _is_ an array.
+#-(or CLISP valtan) ;Bruno: Why expect an error? A string _is_ an array.
 (progn
   #-(or cmu clispxxx)
   (HANDLER-CASE (PROGN (ADJUSTABLE-ARRAY-P "not-a-symbol"))
