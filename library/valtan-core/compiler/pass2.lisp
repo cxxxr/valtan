@@ -1255,15 +1255,30 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
   (let ((*p2-emit-stream* stream))
     (p2-emit-declare-temporary-variables)))
 
+(defun p2-js-escape-string (string)
+  "Escape STRING for use as a JavaScript string literal (without quotes)."
+  (with-output-to-string (out)
+    (dotimes (i (length string))
+      (let ((c (char string i)))
+        (case c
+          (#\\ (write-string "\\\\" out))
+          (#\' (write-string "\\'" out))
+          (#\" (write-string "\\\"" out))
+          (#\newline (write-string "\\n" out))
+          (#\return (write-string "\\r" out))
+          (#\tab (write-string "\\t" out))
+          (otherwise (write-char c out)))))))
+
 (defun p2-emit-initialize-symbols (stream)
   (maphash (lambda (symbol ident)
-             (if (symbol-package symbol)
-                 (format stream
-                         "~A = lisp.intern('~A', '~A');~%"
-                         ident
-                         symbol
-                         (package-name (symbol-package symbol)))
-                 (format stream "~A = lisp.makeSymbol(\"~A\");" ident symbol)))
+             (let ((name (p2-js-escape-string (symbol-name symbol))))
+               (if (symbol-package symbol)
+                   (format stream
+                           "~A = lisp.intern('~A', '~A');~%"
+                           ident
+                           name
+                           (package-name (symbol-package symbol)))
+                   (format stream "~A = lisp.makeSymbol(\"~A\");~%" ident name))))
            *p2-literal-symbols*))
 
 (defun p2-finish-output (stream)
