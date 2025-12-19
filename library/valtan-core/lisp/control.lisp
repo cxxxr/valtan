@@ -281,8 +281,8 @@
 
 (*:defmacro* nth-value (n form)
   "Return the Nth value (0-indexed) of the multiple values returned by FORM."
-  (let ((values-var (cl:gensym "VALUES"))
-        (n-var (cl:gensym "N")))
+  (let ((values-var (cl:gensym #"VALUES"))
+        (n-var (cl:gensym #"N")))
     `(let ((,n-var ,n)
            (,values-var (multiple-value-list ,form)))
        (nth ,n-var ,values-var))))

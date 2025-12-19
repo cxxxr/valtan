@@ -32,7 +32,8 @@
         ((eq test #'equalp) 'equalp)
         (t (error "Invalid hash table test: ~S" test))))
 
-(defconstant +default-bucket-count+ 16)
+;; Default number of buckets for equal/equalp hash tables
+(defparameter *default-bucket-count* 16)
 
 (defun %uses-js-map-p (test)
   "Return T if TEST can use JavaScript Map (eq or eql).
@@ -53,12 +54,13 @@
                           :rehash-size (or rehash-size 1.5)
                           :rehash-threshold (or rehash-threshold 1.0))
         ;; equal/equalp: use bucket-based implementation
-        (%make-hash-table :map nil
-                          :buckets (make-array +default-bucket-count+ :initial-element nil)
-                          :bucket-count +default-bucket-count+
-                          :test normalized-test
-                          :rehash-size (or rehash-size 1.5)
-                          :rehash-threshold (or rehash-threshold 1.0)))))
+        (let ((bucket-count *default-bucket-count*))
+          (%make-hash-table :map nil
+                            :buckets (make-array bucket-count :initial-element nil)
+                            :bucket-count bucket-count
+                            :test normalized-test
+                            :rehash-size (or rehash-size 1.5)
+                            :rehash-threshold (or rehash-threshold 1.0))))))
 
 (defun hash-table-size (hash-table)
   (if (hash-table-map hash-table)
