@@ -305,17 +305,18 @@
         ((and (cl:stringp x)
               (cl:stringp y))
          (string= x y))
-        ;; Compare bit-vectors and simple-vectors element by element
-        ((and (vectorp x)
-              (vectorp y)
-              (not (cl:stringp x))
-              (not (cl:stringp y)))
+        ;; Bit-vectors are compared element by element like strings
+        ((and (bit-vector-p x)
+              (bit-vector-p y))
          (and (= (length x) (length y))
               (dotimes (i (length x) t)
                 (unless (eql (aref x i)
                              (aref y i))
                   (return nil)))))
+        ;; Note: Pathnames should be compared component by component per ANSI CL,
+        ;; but pathnames are not yet implemented in Valtan
         (t
+         ;; General arrays (including vectors) are only EQUAL if they are EQ
          (eql x y))))
 
 (defun equalp (x y)
