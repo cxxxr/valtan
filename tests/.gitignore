@@ -6,3 +6,4 @@ tests.js
 .valtan-cache
 *.map
 log
+test_output*.txt

@@ -5,6 +5,8 @@
 
 (defvar *print-escape* t)
 (defvar *print-circle* t)
+(defvar *print-case* :upcase)
+(defvar *print-readably* nil)
 
 (defvar *print-circle-table* nil)
 (defvar *print-circle-seen* nil)
@@ -34,27 +36,113 @@
        (write-string ">" ,g-stream)
        nil)))
 
+;;; Helper functions for symbol case conversion
+(defun %all-same-case-p (string)
+  "Check if string contains only alphabetic chars of the same case (or no alphabetic chars)."
+  (let ((has-upper nil)
+        (has-lower nil))
+    (dotimes (i (length string))
+      (let ((c (char string i)))
+        (cond ((upper-case-p c) (setq has-upper t))
+              ((lower-case-p c) (setq has-lower t)))))
+    (not (and has-upper has-lower))))
+
+(defun %has-special-chars-p (string)
+  "Check if string contains special characters that require escaping."
+  (let ((len (length string)))
+    (dotimes (i len nil)
+      (let ((c (char string i)))
+        (when (or (char= c #\space)
+                  (char= c #\()
+                  (char= c #\))
+                  (char= c #\')
+                  (char= c #\`)
+                  (char= c #\,)
+                  (char= c #\;)
+                  (char= c #\")
+                  (char= c #\\)
+                  (char= c #\|))
+          (return-from %has-special-chars-p t))))))
+
+(defun %needs-escape-p (string readtable-case)
+  "Check if symbol name needs vertical bar escaping for readability."
+  (let ((len (length string)))
+    (when (zerop len) (return-from %needs-escape-p t))
+    ;; Always escape if contains special characters
+    (when (%has-special-chars-p string)
+      (return-from %needs-escape-p t))
+    ;; Check case compatibility with readtable-case
+    (case readtable-case
+      (:upcase
+       ;; In upcase readtable, lowercase chars need escaping
+       (dotimes (i len nil)
+         (when (lower-case-p (char string i))
+           (return-from %needs-escape-p t))))
+      (:downcase
+       ;; In downcase readtable, uppercase chars need escaping
+       (dotimes (i len nil)
+         (when (upper-case-p (char string i))
+           (return-from %needs-escape-p t))))
+      ((:preserve :invert)
+       ;; Preserve and Invert modes: no case-based escaping needed
+       ;; In preserve mode, any case is valid
+       ;; In invert mode, we output the inverted form which is always valid
+       nil))
+    nil))
+
+(defun %convert-case (string print-case readtable-case)
+  "Convert symbol name according to *print-case* and readtable-case."
+  (case readtable-case
+    (:preserve string)
+    (:invert
+     ;; Invert: all-upper -> all-lower, all-lower -> all-upper, mixed -> preserve
+     (cond ((every #'(lambda (c) (or (not (alpha-char-p c)) (upper-case-p c))) string)
+            (string-downcase string))
+           ((every #'(lambda (c) (or (not (alpha-char-p c)) (lower-case-p c))) string)
+            (string-upcase string))
+           (t string)))
+    (otherwise
+     ;; :upcase or :downcase readtable
+     (case print-case
+       (:upcase (string-upcase string))
+       (:downcase (string-downcase string))
+       (:capitalize (string-capitalize string))
+       (otherwise string)))))
+
+(defun %write-symbol-name (name stream print-case readtable-case escape-p)
+  "Write symbol name with appropriate escaping and case conversion."
+  (let ((needs-escape (and escape-p (%needs-escape-p name readtable-case))))
+    (if needs-escape
+        (progn
+          (write-char #\| stream)
+          (write-string name stream)
+          (write-char #\| stream))
+        (write-string (%convert-case name print-case readtable-case) stream))))
+
 (defun print-symbol (symbol stream)
-  (if *print-escape*
-      (cond ((null (symbol-package symbol))
-             (write-string "#:" stream)
-             (write-string (symbol-name symbol) stream))
-            ((keywordp symbol)
-             (write-string ":" stream)
-             (write-string (symbol-name symbol) stream))
-            ((or (eq (symbol-package symbol) *package*)
-                 (eq symbol (find-symbol (symbol-name symbol))))
-             (write-string (symbol-name symbol) stream))
-            (t
-             (write-string (package-name (symbol-package symbol)) stream)
-             (multiple-value-bind (_symbol status)
-                 (find-symbol (symbol-name symbol) (symbol-package symbol))
-               (declare (ignore _symbol))
-               (if (eq :external status)
-                   (write-string ":" stream)
-                   (write-string "::" stream)))
-             (write-string (symbol-name symbol) stream)))
-      (write-string (symbol-name symbol) stream)))
+  (let ((name (symbol-name symbol))
+        (readtable-case (readtable-case *readtable*))
+        (print-case *print-case*))
+    (if *print-escape*
+        (cond ((null (symbol-package symbol))
+               (write-string "#:" stream)
+               (%write-symbol-name name stream print-case readtable-case t))
+              ((keywordp symbol)
+               (write-string ":" stream)
+               (%write-symbol-name name stream print-case readtable-case t))
+              ((or (eq (symbol-package symbol) *package*)
+                   (eq symbol (find-symbol (symbol-name symbol))))
+               (%write-symbol-name name stream print-case readtable-case t))
+              (t
+               (write-string (package-name (symbol-package symbol)) stream)
+               (multiple-value-bind (_symbol status)
+                   (find-symbol (symbol-name symbol) (symbol-package symbol))
+                 (declare (ignore _symbol))
+                 (if (eq :external status)
+                     (write-string ":" stream)
+                     (write-string "::" stream)))
+               (%write-symbol-name name stream print-case readtable-case t)))
+        (%write-symbol-name name stream print-case readtable-case nil))))
 
 (defun print-string (string stream)
   (cond (*print-escape*
@@ -157,7 +245,7 @@
 
 (defun write-1 (object &key array
                             base
-                            case
+                            (case nil case-supplied-p)
                             ((:circle *print-circle*) *print-circle*)
                             ((:escape *print-escape*) *print-escape*)
                             gensym
@@ -168,11 +256,16 @@
                             pprint-dispatch
                             pretty
                             radix
-                            readably
+                            (readably nil readably-supplied-p)
                             right-margin
                             (stream *standard-output*))
-  (declare (ignore array base case gensym length level lines miser-width pprint-dispatch
-                   pretty radix readably right-margin))
+  (declare (ignore array base gensym length level lines miser-width pprint-dispatch
+                   pretty radix right-margin))
+  (let ((*print-case* (if case-supplied-p case *print-case*))
+        (*print-readably* (if readably-supplied-p readably *print-readably*))
+        (*print-escape* (if (and readably-supplied-p readably)
+                            t
+                            *print-escape*)))
   (cond ((symbolp object)
          (print-symbol object stream))
         ((stringp object)
@@ -194,7 +287,7 @@
         (t
          (cl:print-unreadable-object (nil stream)
            (write-string (system:unknown-object-to-string object)
-                         stream)))))
+                         stream))))))
 
 (defun write (object &rest args)
   (let ((*print-circle-table*
