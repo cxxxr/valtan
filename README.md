@@ -77,6 +77,7 @@ suite](https://minejima.jp/lisp/sacla/index-en.html).
 ```bash
 $ cd valtan/tests
 $ npm install
+$ npm run build                      # Compile the tests and bundle dist/tests.js
 $ npm start                           # Run all tests
 $ node dist/tests.js --category cons  # Run specific category
 $ node dist/tests.js --quick          # Quick smoke test
