@@ -30,10 +30,12 @@ function reportWithFailures(failures = 0) {
     bundleSha256: sha, results, pass, fail, passRate: 100 * pass / (pass + fail) };
 }
 
-test('ANSI gate applies the 90% boundary to the complete upstream denominator', () => {
-  const total = inventory.registered, maximumFailures = Math.floor(total / 10);
+test('ANSI gate applies the 99% boundary to the complete upstream denominator', () => {
+  const total = inventory.registered, maximumFailures = Math.floor(total / 100);
   assert.equal(checkConformance(reportWithFailures(maximumFailures), sha).total, total);
-  assert.throws(() => checkConformance(reportWithFailures(maximumFailures + 1)), /below 90%/);
+  const below = reportWithFailures(maximumFailures + 1);
+  assert.equal(below.passRate.toFixed(2), '99.00'); // Rounding must not satisfy the gate.
+  assert.throws(() => checkConformance(below), /below 99%/);
 });
 
 test('ANSI gate rejects selected, missing, duplicate and truncated categories', () => {

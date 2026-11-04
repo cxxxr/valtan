@@ -19,6 +19,7 @@
   (declare (ignore environment))
   (cond ((symbolp typespec)
          (case typespec
+           ((nil) nil)
            ((character base-char standard-char extended-char)
             'character)
            ((bit)
@@ -74,6 +75,8 @@
              raw-array)))))
 
 (defun make-array-contents-with-initial-element (dimensions total-size rank element-type initial-element initial-element-p)
+  (when (and (eq element-type 'bit) (not initial-element-p))
+    (setq initial-element 0))
   (cond ((and (eq element-type 'character) (= rank 1))
          (let ((initial-raw-string
                  (system:code-to-raw-string
@@ -245,6 +248,9 @@
 (defun *:array-to-raw-string (array)
   (let ((length (or (array-fill-pointer array) (array-total-size array)))
         (offset 0))
+    (when (null (array-element-type array))
+      (unless (zerop length) (error "An array with element type NIL has no accessible elements"))
+      (return-from *:array-to-raw-string (system:make-raw-string)))
     (do () ((null (array-displaced-to array)))
       (incf offset (array-displaced-index-offset array))
       (setq array (array-displaced-to array)))
@@ -376,6 +382,8 @@
 (defun row-major-aref (array index)
   (unless (arrayp array)
     (type-error array 'array))
+  (when (null (array-element-type array))
+    (error "An array with element type NIL has no accessible elements"))
   (when (or (< index 0) (<= (array-total-size array) index))
     (error "Invalid index ~D for ~S, should be a non-negative integer below ~D."
            index array (array-total-size array)))
@@ -387,6 +395,7 @@
 (defun (cl:setf row-major-aref) (value array index)
   (unless (arrayp array)
     (type-error array 'array))
+  (when (null (array-element-type array)) (type-error value nil))
   (when (or (< index 0) (<= (array-total-size array) index))
     (error "Invalid array index ~D" index))
   (cond ((array-displaced-to array)

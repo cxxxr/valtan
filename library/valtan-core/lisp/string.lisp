@@ -5,12 +5,10 @@
 
 (defun stringp (x)
   (and (vectorp x)
-       (eq 'character (array-element-type x))))
+       (or (eq 'character (array-element-type x)) (null (array-element-type x)))))
 
 (defun simple-string-p (x)
-  (and (vectorp x)
-       (eq 'character (array-element-type x))
-       (null (array-fill-pointer x))))
+  (and (stringp x) (simple-array-p x)))
 
 (defun string (x)
   (cond ((stringp x)

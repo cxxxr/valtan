@@ -150,3 +150,23 @@
           (eql #c(1.0 -0.0) #c(1.0 0.0))
           (float-sign (abs -0.0)) (float-sign (imagpart -3.0)))
   nil t nil 1.0 -1.0)
+
+(deftest rationalize-finds-simple-rounding-equivalents
+  (values (rationalize 0.1) (rationalize -0.3) (rationalize 12.0)
+          (rationalize 7/13) (handler-case (rationalize #c(1 2)) (type-error () :type)))
+  1/10 -3/10 12 7/13 :type)
+
+(deftest numeric-boundaries-report-floating-point-conditions
+  (values (handler-case (exp 1000.0) (floating-point-overflow () :overflow))
+          (handler-case (exp -1000.0) (floating-point-underflow () :underflow))
+          (handler-case (expt most-positive-double-float 2) (floating-point-overflow () :overflow))
+          (handler-case (expt least-positive-double-float 2) (floating-point-underflow () :underflow)))
+  :overflow :underflow :overflow :underflow)
+
+(deftest numeric-checks-and-modify-evaluation-order
+  (let ((x 0))
+    (values (handler-case (max nil) (type-error () :type))
+            (handler-case (min nil) (type-error () :type))
+            (handler-case (evenp 1/2) (type-error () :type))
+            (incf x (setq x 3)) x (expt 0 #c(2 1))))
+  :type :type :type 6 6 0)

@@ -54,3 +54,19 @@
                     unless (eql value actual)
                       collect (list base value text actual)))
   nil)
+
+(deftest readable-symbols-ignore-readtable-case-and-escape-radix-digits
+  (let ((*readtable* (copy-readtable nil)) (*print-base* 36) (*read-base* 36))
+    (setf (readtable-case *readtable*) :invert)
+    (let* ((object (intern "mixedCase" :cl-test))
+           (text (write-to-string (list object nil 'car) :readably t)))
+      (let ((*readtable* (copy-readtable nil)))
+        (equal (read-from-string text) (list object nil 'car)))))
+  t)
+
+(deftest named-control-characters-round-trip
+  (let ((character (code-char 0)))
+    (values (eql character (name-char (char-name character)))
+            (eql character (read-from-string (write-to-string character)))
+            (eql character (read-from-string (format nil "~@C" character)))))
+  t t t)

@@ -11,7 +11,7 @@ const count = value => Number.isSafeInteger(value) && value >= 0;
 const names = value => Array.isArray(value) && value.every(name => typeof name === 'string') &&
   new Set(value).size === value.length;
 
-// Validate the complete upstream measurement before applying the 90% gate.
+// Validate the complete upstream measurement before applying the 99% gate.
 // In particular, a selected run or a smaller denominator cannot satisfy it.
 export function checkConformance(report, bundleSha256) {
   const require = (condition, message) => { if (!condition) throw new Error(message); };
@@ -66,7 +66,7 @@ export function checkConformance(report, bundleSha256) {
   require(report.pass === pass && report.fail === fail, 'Full-run totals do not match category totals');
   const total = pass + fail, rate = 100 * pass / total;
   require(Number.isFinite(report.passRate) && Math.abs(report.passRate - rate) < 1e-9, 'Incorrect recorded pass rate');
-  require(pass * 100 >= total * 90, `ANSI success rate is below 90%: ${pass}/${total} (${rate.toFixed(2)}%)`);
+  require(pass * 100 >= total * 99, `ANSI success rate is below 99%: ${pass}/${total} (${rate.toFixed(2)}%)`);
   return { pass, fail, total, rate, categories: report.results.length };
 }
 

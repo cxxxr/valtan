@@ -60,13 +60,19 @@ $ npm start # run
 
 Valtan is still in its alpha stage.
 
-**Upstream ANSI test success: 91.45%** (20,062/21,937 cases, all 24 categories
-complete, no unexecuted tests; 2026-11-04, eval mode).
-[Recorded full result](tests/ansi/full-results.json). The independent coverage
-and 90% gate passes; 1,875 test failures remain.
+**Latest complete upstream ANSI run: 99.43%** (21,812/21,937 cases,
+all 24 categories complete; 2026-11-04, eval mode).
+[Recorded full result](tests/ansi/full-conformance-results.json).
+The independent 99% gate passes, including complete registration coverage and
+verification of the measured runtime bundle. All 125 failures remain in the report.
 
-**Recorded SACLA baseline: 98.07%** (9,824/10,017 cases, all 27 files complete; 2026-11-04).
-[Recorded results](tests/conformance-results.json).
+This measures success on a pinned, unmodified test suite, not the percentage of
+the ANSI specification implemented. The full report includes every failure;
+selected regression tests do not contribute to the overall rate. See the
+[ANSI test documentation](tests/ansi/README.md) for the audit and reproduction steps.
+
+**Latest complete SACLA run: 99.36%** (9,953/10,017 cases, all 27 files complete; 2026-11-04).
+[Recorded results](tests/sacla-conformance-results.json).
 
 Valtan [aims](https://github.com/cxxxr/valtan/issues/18) to achieve
 compatibility with [ANSI Common Lisp](https://www.cliki.net/CLHS). At present,
@@ -84,10 +90,10 @@ incomplete files explicitly. CI requires every expected form to execute and at
 least 90% to pass. Expected counts were independently checked with SBCL using
 the `:valtan` feature, including the suite’s existing conditional exclusions.
 This measures SACLA coverage; it does not establish a percentage of the entire
-ANSI specification. The recorded SACLA run passes 9,824 of 10,017 cases (98.07%), with all
-27 files complete. It includes the radix-reader, WITH-SLOTS, WITH-ACCESSORS,
-CHANGE-CLASS and default slot allocation fixes, along with the preceding runtime improvements; see
-[the recorded results](tests/conformance-results.json).
+ANSI specification. The earlier [SACLA baseline](tests/conformance-results.json)
+records 9,824/10,017 passes (98.07%). The latest run improves that to 9,953 passes,
+with all 64 remaining failures included in the result. Diagnostic printing now
+handles circular test forms without changing the bindings used to execute them.
 
 ### Run tests
 ```bash
@@ -121,7 +127,7 @@ $ npm run test:ansi:check -- ansi-results.json dist-ansi/ansi.js
 ```
 
 The full-run check requires all 24 upstream categories to finish, validates the
-registered test inventory and runtime bundle, and requires at least 90% success.
+registered test inventory and runtime bundle, and requires at least 99% success.
 The runner itself reports a nonzero exit status whenever any test fails.
 
 ### Runtime performance

@@ -1,0 +1,81 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "c970b8c2a62bf0e81d7c035058435d890c5c5194114ddbadf6eddee5d893f4b5",
+  "startedAt": "2026-11-04T08:53:27.854Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "system-construction",
+      "files": [
+        "system-construction/compile-file.lsp",
+        "system-construction/load-file.lsp",
+        "system-construction/with-compilation-unit.lsp",
+        "system-construction/features.lsp",
+        "system-construction/modules.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 74,
+      "fail": 3,
+      "registered": 77,
+      "expectedRegistered": 77,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "system-construction/compile-file.lsp",
+        "system-construction/load-file.lsp",
+        "system-construction/with-compilation-unit.lsp",
+        "system-construction/features.lsp",
+        "system-construction/modules.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "COMPILE-FILE.17",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "COMPILE-FILE.18",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOAD.19",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\n\nWarning: #<COMPILE-FILE-TEST-CONDITION.2 {45}>\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file-2.fasl\" \n\n\nWarning: #<COMPILE-FILE-TEST-CONDITION.2A {46}>\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file-2.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file-2a.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file-2a.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file-3.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file-3.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file-3.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file-3.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/foo.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/foo.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/foo.ufsl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/foo.ufsl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/foo.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/foo.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/foo.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/foo.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file-4.fasl\" \n\n\n\n\n\n\n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file-4.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\"/tmp/valtan-ansi-work-veZh8N/sandbox/compile-file-test-file.fasl\" \n",
+      "pendingTest": null,
+      "currentFile": "system-construction/modules.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 77,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 74,
+  "fail": 3,
+  "complete": true,
+  "passRate": 96.1038961038961,
+  "finishedAt": "2026-11-04T08:53:51.329Z"
+}

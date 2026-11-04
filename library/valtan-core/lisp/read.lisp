@@ -5,7 +5,10 @@
 
 (defvar *inner-list-p* nil)
 (defvar *dot-marker* (gensym "DOT"))
-(defvar *read-label-table*)
+(defvar *read-label-table* nil)
+(defvar *reader-stream* nil)
+(defvar *preserve-whitespace* nil)
+(defvar *backquote-depth* 0)
 (defvar *read-skip-marker* (gensym "SKIP"))
 (defvar *read-base* 10)
 (defvar *read-suppress* nil)
@@ -17,7 +20,8 @@
          (*print-array* t) (*print-base* 10) (*print-case* :upcase)
          (*print-circle* nil) (*print-escape* t) (*print-gensym* t)
          (*print-length* nil) (*print-level* nil) (*print-lines* nil)
-         (*print-miser-width* nil) (*print-pprint-dispatch* nil)
+         (*print-miser-width* nil)
+         (*print-pprint-dispatch* (if (fboundp 'copy-pprint-dispatch) (copy-pprint-dispatch nil) nil))
          (*print-pretty* nil) (*print-radix* nil) (*print-readably* t)
          (*print-right-margin* nil) (*read-base* 10)
          (*read-default-float-format* 'single-float) (*read-eval* t)
@@ -28,11 +32,12 @@
 
 (defun read-error (format-control &rest format-arguments)
   (error 'simple-reader-error
+         :stream *reader-stream*
          :format-control format-control
          :format-arguments format-arguments))
 
 (defun whitespacep (c)
-  (find c *whitespaces*))
+  (eq (reader-syntax c) :whitespace))
 
 (defun peek-char (&optional peek-type (stream *standard-input*) (eof-error-p t) eof-value
                             recursive-p)
@@ -68,11 +73,49 @@
 
 (defstruct (readtable (:predicate readtablep)
                       (:copier %copy-readtable))
-  (case :upcase)
+  (%case :upcase)
+  (syntax (make-hash-table))
   (table (make-hash-table))
   (dispatch-macro-table (make-hash-table)))
 
 (defvar *readtable* (make-readtable))
+
+(defun readtable-case (readtable)
+  (readtable-%case readtable))
+
+(defun %set-readtable-case (readtable value)
+  (unless (member value '(:upcase :downcase :preserve :invert))
+    (type-error value '(member :upcase :downcase :preserve :invert)))
+  (setf (readtable-%case readtable) value))
+
+(defsetf readtable-case %set-readtable-case)
+
+(defun reader-syntax (char &optional (readtable *readtable*))
+  (or (gethash char (readtable-syntax readtable))
+      (cond ((gethash char (readtable-table readtable)) :macro)
+            ((member char *whitespaces*) :whitespace)
+            ((eql char #\\) :single-escape)
+            ((eql char #\|) :multiple-escape)
+            (t :constituent))))
+
+(defun set-syntax-from-char (to-char from-char
+                            &optional (to-readtable *readtable*) from-readtable)
+  (unless (characterp to-char) (type-error to-char 'character))
+  (unless (characterp from-char) (type-error from-char 'character))
+  (let* ((from (or from-readtable (copy-readtable nil)))
+         (syntax (reader-syntax from-char from))
+         (macro (gethash from-char (readtable-table from)))
+         (dispatch (gethash from-char (readtable-dispatch-macro-table from))))
+    (setf (gethash to-char (readtable-syntax to-readtable)) syntax)
+    (if macro
+        (setf (gethash to-char (readtable-table to-readtable)) (copy-list macro))
+        (remhash to-char (readtable-table to-readtable)))
+    (if dispatch
+        (let ((copy (make-hash-table)))
+          (maphash (lambda (key value) (setf (gethash key copy) value)) dispatch)
+          (setf (gethash to-char (readtable-dispatch-macro-table to-readtable)) copy))
+        (remhash to-char (readtable-dispatch-macro-table to-readtable))))
+  t)
 
 (defun init-readtable (readtable)
   (set-macro-character #\( 'cons-reader nil readtable)
@@ -100,6 +143,7 @@
   (set-dispatch-macro-character #\# #\A 'array-rank-reader readtable)
   (set-dispatch-macro-character #\# #\C 'complex-reader readtable)
   (set-dispatch-macro-character #\# #\P 'pathname-reader readtable)
+  (set-dispatch-macro-character #\# #\S 'structure-reader readtable)
   (set-dispatch-macro-character #\# #\. 'sharp-dot-reader readtable)
 
   ;; valtan dependency
@@ -110,7 +154,10 @@
 
 (defun set-readtable (to-readtable from-readtable)
   (let ((table (make-hash-table))
+        (syntax (make-hash-table))
         (dispatch-table (make-hash-table)))
+    (maphash (lambda (key value) (setf (gethash key syntax) value))
+             (readtable-syntax from-readtable))
     (maphash (lambda (key value) (setf (gethash key table) value))
              (readtable-table from-readtable))
     (maphash (lambda (key sub-table)
@@ -121,6 +168,7 @@
                  (setf (gethash key dispatch-table) copy)))
              (readtable-dispatch-macro-table from-readtable))
     (setf (readtable-case to-readtable) (readtable-case from-readtable)
+          (readtable-syntax to-readtable) syntax
           (readtable-table to-readtable) table
           (readtable-dispatch-macro-table to-readtable) dispatch-table))
   to-readtable)
@@ -136,12 +184,13 @@
          (init-readtable (make-readtable)))))
 
 (defun get-macro-character (char &optional (readtable *readtable*))
-  (let ((value (gethash char (readtable-table readtable))))
+  (let ((value (gethash char (readtable-table (or readtable (copy-readtable nil))))))
     (if value
         (values (car value) (cdr value))
         (values nil nil))))
 
 (defun set-macro-character (char function &optional non-terminating-p (readtable *readtable*))
+  (setf (gethash char (readtable-syntax readtable)) :macro)
   (setf (gethash char (readtable-table readtable))
         (cons function non-terminating-p))
   t)
@@ -249,6 +298,10 @@ Integers without decimal use *read-base*."
 指数マーカ ::= e | s | f | d | l | E | S | F | D | L
 |#
 
+(defun reader-ratio (numerator denominator)
+  (when (zerop denominator) (read-error "Zero denominator in ratio"))
+  (/ numerator denominator))
+
 (defun parse-number (string)
   (let ((pos 0)
         (len (length string)))
@@ -318,7 +371,7 @@ Integers without decimal use *read-base*."
                  (let ((base (if has-trailing-decimal 10 *read-base*)))
                    (when (and (setq integer (digit+ base))
                               (or (end-of-string-p)
-                                  (and (accept #\.)
+                                  (and has-trailing-decimal (accept #\.)
                                        (end-of-string-p))))
                      (if minus
                          (- integer)
@@ -333,53 +386,27 @@ Integers without decimal use *read-base*."
                             (setq denominator (digit+ *read-base*))
                             (end-of-string-p))
                    (if minus
-                       (- (/ numerator denominator))
-                       (/ numerator denominator)))))
+                       (- (reader-ratio numerator denominator))
+                       (reader-ratio numerator denominator)))))
              (exponent ()
-               (unless (end-of-string-p)
-                 (let ((c (lookahead))
-                       (minus nil)
-                       value)
-                   (when (and (member c '(#\e #\s #\f #\d #\l #\E #\S #\F #\D #\L))
-                              (next)
-                              (or (setq minus (sign)) t)
-                              (setq value (digit+)))
-                     (expt 10 (if minus (- value) value))))))
-             (decimal-part (optional)
-               (let ((digits (digits)))
-                 (if (and (not optional) (null digits))
-                     nil
-                     (* (digits-to-integer digits)
-                        (/ 1 (expt 10 (length digits)))))))
+               (when (member (lookahead*) '(#\e #\s #\f #\d #\l #\E #\S #\F #\D #\L))
+                 (next)
+                 (sign)
+                 (not (null (digits)))))
              (float-case-1-p ()
-               (let ((minus (sign))
-                     integral-part
-                     decimal-part
-                     exponent)
-                 (when (and (setq integral-part (digit*))
-                            (accept #\.)
-                            (setq decimal-part (decimal-part nil))
-                            (or (setq exponent (exponent)) t)
-                            (end-of-string-p))
-                   (let ((value (+ integral-part decimal-part)))
-                     (when exponent
-                       (setq value (* value exponent)))
-                     ;; Negate after coercion to retain a floating negative zero.
-                     (if minus (- (*:make-float value)) (*:make-float value))))))
+               (sign)
+               (digits)
+               (when (and (accept #\.) (digits))
+                 (when (lookahead*)
+                   (unless (exponent) (return-from float-case-1-p nil)))
+                 (when (end-of-string-p)
+                   (*:parse-float-string (*:array-to-raw-string string)))))
              (float-case-2-p ()
-               (let ((minus (sign))
-                     integral-part
-                     decimal-part
-                     exponent)
-                 (when (and (setq integral-part (digit+))
-                            (or (and (accept #\.)
-                                     (setq decimal-part (decimal-part t)))
-                                (setq decimal-part 0))
-                            (setq exponent (exponent))
-                            (end-of-string-p))
-                   (let ((value (* (+ integral-part decimal-part) exponent)))
-                     ;; Negate after coercion to retain a floating negative zero.
-                     (if minus (- (*:make-float value)) (*:make-float value)))))))
+               (sign)
+               (when (digits)
+                 (when (accept #\.) (digits))
+                 (when (and (exponent) (end-of-string-p))
+                   (*:parse-float-string (*:array-to-raw-string string))))))
       (or (integer-p)
           (progn
             (setq pos 0)
@@ -448,16 +475,12 @@ Integers without decimal use *read-base*."
 
 (defun read-multiple-escape-1 (stream)
   (with-output-to-string (out)
-    (do ()
-        (nil)
+    (do () (nil)
       (let ((c (read-char stream)))
-        (case c
-          (#\| (return))
-          (#\\
-           ;; Backslash escapes the next character
-           (write-char (read-char stream) out))
-          (otherwise
-           (write-char c out)))))))
+        (case (reader-syntax c)
+          (:multiple-escape (return))
+          (:single-escape (write-char (read-char stream) out))
+          (otherwise (write-char c out)))))))
 
 (defun read-multiple-escape (stream)
   ;; Multiple escape |...| creates a symbol directly from the characters.
@@ -469,8 +492,8 @@ Integers without decimal use *read-base*."
   (or (null c)
       (whitespacep c)
       (non-terminate-macro-character-p c)
-      (char= c #\\)
-      (char= c #\|)))
+      (eq (reader-syntax c) :single-escape)
+      (eq (reader-syntax c) :multiple-escape)))
 
 (defun maybe-invert (token escaped)
   (let ((upper nil) (lower nil))
@@ -494,15 +517,16 @@ Integers without decimal use *read-base*."
        (cond ((null c)
               (return))
              ((whitespacep c)
+              (when *preserve-whitespace* (unread-char c stream))
               (return))
              ((non-terminate-macro-character-p c)
               (unread-char c stream)
               (return))
-             ((char= c #\\)
+             ((eq (reader-syntax c) :single-escape)
               (push index escaped)
               (write-char (read-char stream) out)
               (incf index))
-             ((char= c #\|)
+             ((eq (reader-syntax c) :multiple-escape)
               ;; The marker also preserves an empty escape pair, as in ||.
               (push -1 escaped)
               (let ((part (read-multiple-escape-1 stream)))
@@ -510,6 +534,8 @@ Integers without decimal use *read-base*."
                 (incf index (length part))
                 (write-string part out)))
              (t
+              (when (or (member c *whitespaces*) (member c '(#\Backspace #\Rubout)))
+                (read-error "Invalid constituent character ~S" c))
               (write-char (case readtable-case
                             (:upcase (char-upcase c))
                             (:downcase (char-downcase c))
@@ -523,9 +549,12 @@ Integers without decimal use *read-base*."
   (multiple-value-bind (token escaped) (read-token-1 stream c (readtable-case *readtable*))
     (parse-token token escaped)))
 
-(defun read (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)
+(defun %read (stream eof-error-p eof-value recursive-p preserve-whitespace)
   (setq stream (input-stream-designator stream))
-  (let ((*read-label-table* (if recursive-p *read-label-table* (make-hash-table))))
+  (let ((*read-label-table* (if recursive-p *read-label-table* (make-hash-table)))
+        (*reader-stream* stream)
+        (*preserve-whitespace* (if recursive-p *preserve-whitespace* preserve-whitespace))
+        (*backquote-depth* (if recursive-p *backquote-depth* 0)))
     (do () (nil)
       (let* ((inner-eof-value '#:eof)
              (c (peek-char t stream eof-error-p inner-eof-value recursive-p)))
@@ -545,6 +574,13 @@ Integers without decimal use *read-base*."
                              (return *read-skip-marker*)))))
                    (t
                     (return (values (read-token stream c))))))))))))
+
+(defun read (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)
+  (%read stream eof-error-p eof-value recursive-p nil))
+
+(defun read-preserving-whitespace (&optional (stream *standard-input*) (eof-error-p t)
+                                            eof-value recursive-p)
+  (%read stream eof-error-p eof-value recursive-p t))
 
 (defun cons-reader (stream c)
   (declare (ignore c))
@@ -583,11 +619,14 @@ Integers without decimal use *read-base*."
 
 (defun backquote-reader (stream c)
   (declare (ignore c))
-  (list '*:backquote (read stream t nil t)))
+  (let ((*backquote-depth* (1+ *backquote-depth*)))
+    (list '*:backquote (read stream t nil t))))
 
 (defun unquote-reader (stream c)
   (declare (ignore c))
-  (let ((lookahead (peek-char nil stream t nil t)))
+  (unless (> *backquote-depth* 0) (read-error "Comma outside backquote"))
+  (let ((*backquote-depth* (1- *backquote-depth*))
+        (lookahead (peek-char nil stream t nil t)))
     (cond ((char= #\@ lookahead)
            (read-char stream t nil t)
            (list '*:unquote-splicing (read stream t nil t)))
@@ -599,30 +638,18 @@ Integers without decimal use *read-base*."
 
 (defun line-comment-reader (stream c)
   (declare (ignore c))
-  (peek-char #\newline stream nil nil t)
+  (do ((c (read-char stream nil nil t) (read-char stream nil nil t)))
+      ((or (null c) (char= c #\Newline))))
   (values))
 
-(defun string-reader (stream c)
-  (declare (ignore c))
+(defun string-reader (stream delimiter)
   (with-output-to-string (out)
-    (do ()
-        (nil)
+    (do () (nil)
       (let ((c (read-char stream t nil t)))
-        (case c
-          (#\"
-           (return))
-          (#\\
-           ;; Only \\ and \" are valid escape sequences in strings
-           ;; Other \x sequences keep both backslash and the character
-           (let ((next (read-char stream t nil t)))
-             (case next
-               ((#\\ #\")
-                (write-char next out))
-               (otherwise
-                (write-char #\\ out)
-                (write-char next out)))))
-          (otherwise
-           (write-char c out)))))))
+        (cond ((char= c delimiter) (return))
+              ((eq (reader-syntax c) :single-escape)
+               (write-char (read-char stream t nil t) out))
+              (t (write-char c out)))))))
 
 (defun read-dispatch-macro-character (stream disp-char)
   (let* ((sub-char (char-upcase (read-char stream t nil t)))
@@ -668,6 +695,7 @@ Integers without decimal use *read-base*."
                  #\return)
                 ((string-equal name "linefeed")
                  #\linefeed)
+                ((name-char name))
                 (t
                  (read-error "unrecognized character name: ~S" name)))))))
 
@@ -718,6 +746,20 @@ Integers without decimal use *read-base*."
                  (realp (second parts)))
       (read-error "Sharpsign C requires a list of two real numbers"))
     (complex (first parts) (second parts))))
+
+(defun structure-reader (stream sub-char arg)
+  (declare (ignore sub-char arg))
+  (let ((parts (read stream t nil t)))
+    (when *read-suppress* (return-from structure-reader nil))
+    (unless (and (consp parts) (proper-list-p parts) (symbolp (car parts))
+                 (get (car parts) 'structure-reader-constructor)
+                 (evenp (length (cdr parts))))
+      (read-error "Invalid structure literal ~S" parts))
+    (let ((arguments nil))
+      (do ((rest (cdr parts) (cddr rest))) ((null rest))
+        (push (intern (string (car rest)) :keyword) arguments)
+        (push (cadr rest) arguments))
+      (apply (get (car parts) 'structure-reader-constructor) (nreverse arguments)))))
 
 (defun pathname-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
@@ -778,13 +820,13 @@ Integers without decimal use *read-base*."
            (otherwise
             (read-error "unknown operator in feature expression: ~S." test))))
         ((symbolp test)
-         (not (null (member test *features* :test #'string=))))
+         (not (null (member test *features*))))
         (t
          (read-error "invalid feature expression: ~S" test))))
 
 (defun sharp-plus-minus-reader (stream sub-char arg)
   (declare (ignore arg))
-  (let ((test (let ((*package* (find-package :keyword)))
+  (let ((test (let ((*package* (find-package :keyword)) (*read-suppress* nil))
                 (read stream t nil t))))
     (if (and (not *read-suppress*)
              (char= sub-char (if (featurep test) #\+ #\-)))
@@ -848,23 +890,23 @@ Integers without decimal use *read-base*."
           (t
            (sharp-equal-value sharp-equal)))))
 
-(defun bit-vector-reader (stream sub-char arg)
-  (declare (ignore sub-char arg))
-  (let ((bits '()))
+(defun bit-vector-reader (stream sub-char size)
+  (declare (ignore sub-char))
+  (let ((bits nil))
     (do () (nil)
       (let ((c (peek-char nil stream nil nil t)))
-        (case c
-          (#\0
-           (push 0 bits))
-          (#\1
-           (push 1 bits))
-          (otherwise
-           (when (or (null c)
-                     (non-terminate-macro-character-p c)
-                     (whitespacep c))
-             (return))))
-        (read-char stream t nil t)))
+        (when (or (null c) (non-terminate-macro-character-p c) (whitespacep c))
+          (return))
+        (read-char stream t nil t)
+        (cond ((eql c #\0) (push 0 bits))
+              ((eql c #\1) (push 1 bits))
+              ((not *read-suppress*) (read-error "Invalid bit ~S" c)))))
+    (when *read-suppress* (return-from bit-vector-reader nil))
     (setq bits (nreverse bits))
+    (when size
+      (when (or (> (length bits) size) (and (> size 0) (null bits)))
+        (read-error "Invalid bit-vector length"))
+      (setq bits (append bits (make-list (- size (length bits)) :initial-element (car (last bits))))))
     (make-array (length bits) :element-type 'bit :initial-contents bits)))
 
 (defun block-comment-reader (stream sub-char arg)
@@ -937,9 +979,10 @@ Integers without decimal use *read-base*."
 
 (defun read-from-string (string &optional (eof-error-p t) eof-value
                                 &key (start 0) end preserve-whitespace)
-  (declare (ignore preserve-whitespace))
   (let ((stream (make-string-input-stream string start end)))
-    (values (read stream eof-error-p eof-value)
+    (values (if preserve-whitespace
+                (read-preserving-whitespace stream eof-error-p eof-value)
+                (read stream eof-error-p eof-value))
             (string-input-stream-position stream))))
 
 (defun parse-integer (string &key (start 0) end (radix 10) junk-allowed)
@@ -950,7 +993,7 @@ Integers without decimal use *read-base*."
   (unless (and (integerp start) (integerp end) (<= 0 start end (length string)))
     (error 'type-error :datum (list start end) :expected-type 'list))
   (let ((position start) (negative nil) (value 0) (digits 0))
-    (do () ((or (= position end) (not (whitespacep (char string position)))))
+    (do () ((or (= position end) (not (member (char string position) *whitespaces*))))
       (incf position))
     (when (and (< position end) (member (char string position) '(#\+ #\-)))
       (setq negative (char= (char string position) #\-))
@@ -962,7 +1005,7 @@ Integers without decimal use *read-base*."
         (incf digits)
         (incf position)))
     (unless junk-allowed
-      (do () ((or (= position end) (not (whitespacep (char string position)))))
+      (do () ((or (= position end) (not (member (char string position) *whitespaces*))))
         (incf position))
       (unless (and (> digits 0) (= position end))
         (error 'parse-error)))
@@ -994,22 +1037,19 @@ Integers without decimal use *read-base*."
         (values string (not next-line-p)))))
 
 (defun read-delimited-list (char &optional (stream *standard-input*) recursive-p)
-  (declare (ignore char))
-  (let ((head nil)
-        (tail nil))
+  (setq stream (input-stream-designator stream))
+  (let ((*read-label-table* (if recursive-p *read-label-table* (make-hash-table)))
+        (*reader-stream* stream)
+        (*inner-list-p* t)
+        (items nil))
     (do () (nil)
-      (let ((c (peek-char t stream t nil recursive-p)))
-        (cond ((char= c #\))
-               (read-char stream t nil recursive-p)
-               (return))
-              (t
-               (let ((x (read stream t nil recursive-p)))
-                 (cond ((null tail)
-                        (setf head (setf tail (list x))))
-                       (t
-                        (setf (cdr tail) (list x))
-                        (setf tail (cdr tail)))))))))
-    head))
+      (let ((c (peek-char t stream)))
+        (when (char= c char)
+          (read-char stream)
+          (return (unless *read-suppress* (nreverse items))))
+        (let ((value (read stream t nil t)))
+          (when (eq value *dot-marker*) (read-error "Dot in delimited list"))
+          (unless (eq value *read-skip-marker*) (push value items)))))))
 
 (copy-readtable nil *readtable*)
 

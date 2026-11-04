@@ -22,12 +22,11 @@
          (apply #'make-condition datum arguments))))
 
 (defun signal-1 (condition)
-  (let ((class (class-of condition))
-        (*handler-clusters* *handler-clusters*))
+  (let ((*handler-clusters* *handler-clusters*))
     (do ()
         ((null *handler-clusters*))
       (dolist (handler (pop *handler-clusters*))
-        (when (subclassp class (car handler))
+        (when (typep condition (car handler))
           (funcall (cadr handler) condition))))))
 
 (defun signal (datum &rest arguments)
@@ -86,7 +85,7 @@
   `(let ((*handler-clusters*
            (cons (list ,@(mapcar (lambda (binding)
                                    (destructuring-bind (type handler) binding
-                                     `(list (find-class ',type)
+                                     `(list ',type
                                             ,handler)))
                                  bindings))
                  *handler-clusters*)))

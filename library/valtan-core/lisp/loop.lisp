@@ -36,7 +36,8 @@
   tail)
 
 (defstruct sum-counter
-  var)
+  var
+  (initial-value 0))
 
 (defstruct maxmin-collector
   var)
@@ -60,13 +61,13 @@
          `(setf ,tail (cdr ,tail)))
         ((:append :nconc)
          `(do ()
-              ((null (cdr ,tail)))
+              ((atom (cdr ,tail)))
             (setq ,tail (cdr ,tail)))))
      ,@(when var
          `((setf ,var (cdr ,head))))))
 
-(defmacro with-sum-counter ((counter-var var) &body body)
-  `(let ((,counter-var 0))
+(defmacro with-sum-counter ((counter-var var initial-value) &body body)
+  `(let ((,counter-var ,initial-value))
      ,@body
      ,@(unless var `(,counter-var))))
 
@@ -234,7 +235,9 @@
                       nil)))
         ;; Check for duplicate variable binding
         (check-duplicate-binding-d-var var)
-        (cond ((consp var)
+        (cond ((null var)
+               (push (list (gensym) form) bindings))
+              ((consp var)
                (if form
                    (let ((tmp-var (gensym)))
                      (push (list var tmp-var) d-binds)
@@ -252,6 +255,7 @@
       (push (make-destructuring-bindings :pair d-bind) *bindings*))))
 
 (defun parse-for-as-arithmetic (var)
+  (when (null var) (setq var (gensym #"COUNTER")))
   (check-simple-var var)
   (let ((init-keyword nil)
         (end-keyword nil)
@@ -277,7 +281,7 @@
                (when (and dir1 dir (not (eq dir1 dir)))
                  (combination-error keyword dir-keyword)))
              (once-only-value (form name)
-               (if (consp form)
+               (if (not (constantp form))
                    (let ((var (gensym (string name))))
                      (push (list var form) bindings)
                      var)
@@ -381,7 +385,7 @@
 
 (defun parse-by-form (by-form var)
   (flet ((once-only-value (form)
-           (if (consp form)
+           (if (not (constantp form))
                (let ((var (gensym)))
                  (push (make-let-bindings :pairs `((,var ,form))) *bindings*)
                  var)
@@ -444,7 +448,8 @@
                              :hash-value
                              :hash-key)
                          (ensure-keyword (car form)))))
-        (setq hash-second-var (cadr form))))
+        (setq hash-second-var (cadr form))
+        (check-duplicate-binding-d-var hash-second-var)))
     (let* ((hash-second-var (if (eq hash-second-var null)
                                 (gensym (if hash-key-p #"HASH-VALUE" #"HASH-KEY"))
                                 hash-second-var))
@@ -491,15 +496,18 @@
 (defun parse-for-as-package (var symbol-type)
   ;; symbol-type is one of :symbols, :external-symbols, :present-symbols
   (next-exp)  ; consume SYMBOL(S)/EXTERNAL-SYMBOL(S)/PRESENT-SYMBOL(S)
-  (ecase (ensure-keyword (next-exp))
-    ((:in :of)))  ; consume IN or OF
-  (let* ((package-form (next-exp))
+  (let* ((package-form
+           (if (member (ensure-keyword (lookahead)) '(:in :of))
+               (progn (next-exp) (next-exp))
+               '*package*))
          (package-var (gensym #"PACKAGE"))
          (symbols-var (gensym #"SYMBOLS"))
          (temporary-var (gensym)))
     ;; Bind the package and collect symbols into a list
     (push (make-let-bindings
-           :pairs `((,package-var (find-package ,package-form))
+           :pairs `((,package-var (let ((designator ,package-form))
+                                    (or (find-package designator)
+                                        (error 'package-error :package designator))))
                     (,symbols-var nil)
                     ,@(gen-d-var-bindings var)
                     (,temporary-var nil)))
@@ -631,7 +639,7 @@
         exp)))
 
 (defun parse-return-clause ()
-  `(return ,(parse-form-or-it)))
+  `(return-from ,*named* ,(parse-form-or-it)))
 
 (defun parse-unconditional-clause (exp)
   (case exp
@@ -687,10 +695,13 @@
 
 (defun parse-count-clause (kind)
   (let ((form-or-it (parse-form-or-it))
-        (into (parse-into-clause)))
+        (into (parse-into-clause))
+        (type (parse-type-spec)))
     (let ((sum-counter
             (select-accumulator (kind into)
               (make-sum-counter :var (or into (gensym #"SUM-COUNTER"))))))
+      (when (and type (subtypep type 'float))
+        (setf (sum-counter-initial-value sum-counter) (coerce 0 type)))
       `(sum-count ,(sum-counter-var sum-counter)
                   ,form-or-it
                   ,kind))))
@@ -731,9 +742,9 @@
              (parse-maxmin-clause :min)))))
     (when result
       ;; Check for conflict with termination test (ALWAYS/NEVER/THEREIS)
-      (when *has-termination-test*
+      (when (and *has-termination-test* (gethash nil *accumulators*))
         (loop-error "Cannot combine accumulation clause with termination test clause"))
-      (setq *has-accumulation* t))
+      (setq *has-accumulation* (not (null (gethash nil *accumulators*)))))
     (parse-type-spec)
     result))
 
@@ -814,18 +825,18 @@
      (when *has-accumulation*
        (loop-error "Cannot combine termination test clause with accumulation clause"))
      (setq *has-termination-test* t)
-     (push `(return t) *result-forms*)
+     (push `(return-from ,*named* t) *result-forms*)
      `(unless ,(next-exp)
-        (return nil)))
+        (return-from ,*named* nil)))
     ((:never)
      (next-exp)
      ;; Check for conflict with accumulation clause
      (when *has-accumulation*
        (loop-error "Cannot combine termination test clause with accumulation clause"))
      (setq *has-termination-test* t)
-     (push `(return t) *result-forms*)
+     (push `(return-from ,*named* t) *result-forms*)
      `(when ,(next-exp)
-        (return nil)))
+        (return-from ,*named* nil)))
     ((:thereis)
      (next-exp)
      ;; Check for conflict with accumulation clause
@@ -834,7 +845,7 @@
      (setq *has-termination-test* t)
      (let ((thereis (gensym #"THEREIS")))
        `(let ((,thereis ,(next-exp)))
-          (when ,thereis (return ,thereis)))))))
+          (when ,thereis (return-from ,*named* ,thereis)))))))
 
 (defun parse-main-clause ()
   (let ((exp (ensure-keyword (lookahead))))
@@ -946,7 +957,8 @@
                      (sum-counter
                       (setq body
                             `(with-sum-counter (,(sum-counter-var accumulator)
-                                                ,name)
+                                                ,name
+                                                ,(sum-counter-initial-value accumulator))
                                ,body)))
                      (maxmin-collector
                       (setq body

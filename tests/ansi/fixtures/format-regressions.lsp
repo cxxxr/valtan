@@ -98,3 +98,19 @@ b   c
                                   :fill-pointer 1 :adjustable t)))
     (values (format destination "~A~D" "xy" 3) (coerce destination 'list)))
   nil (#\a #\x #\y #\3))
+
+(deftest floating-format-rounds-to-field-width
+  (values (format nil "~2f ~2f ~2f ~3f ~3,2f" 1.1 1.9 0.01 0.000001 0.5)
+          (format nil "~,2,,-1e ~,2,,0e ~,2,,2e" 5 0.5 0.05))
+  "1.0 2.0 .0 0.0 .50" "0.05E+2 0.50E+0 50.0E-3")
+
+(deftest format-case-conversion-preserves-text-before-escape
+  (values (format nil "~(AB~^CD~)")
+          (format nil "~:@(ab~^cd~)"))
+  "ab" "AB")
+
+(deftest format-omitted-escape-parameters-use-lower-arity-rule
+  (values (format nil "~{~1,1,v^~A~}" '(0 1 0 2 nil 3))
+          (format nil "~:{~v^~A~}" '((nil) (nil 1) (1 2)))
+          (format nil "~{~v,v,v^~A~}" '(#\a #\a nil 0)))
+  "12" "12" "")

@@ -5,7 +5,8 @@
 (defvar *require-modules* '())
 (defvar *export-modules* '())
 (defvar *lexenv* nil)
-(defvar *compile-level* -1)
+(defvar *compile-level* 0)
+(defvar *file-compilation-p* t)
 (defvar *macro-definitions* '())
 (defvar *macroexpansion-environment* nil)
 (defvar *macroexpansion-form* nil)
@@ -24,7 +25,7 @@
   (make-binding :kind :function
                 :name symbol
                 :init-value init-value
-                :id (genvar symbol)))
+                :id (genvar (if (consp symbol) (second symbol) symbol))))
 
 (defun make-macro-binding (name value)
   (make-binding :kind :macro
@@ -65,10 +66,10 @@
          (setf (gethash ',name *pass1-form-table*) ',fn-name)))))
 
 (defun get-macro (symbol)
-  (get symbol 'macro))
+  (*:compiler-property symbol 'macro))
 
 (defun (setf get-macro) (form symbol)
-  (setf (get symbol 'macro) form))
+  (*:set-compiler-property symbol 'macro form))
 
 (defun get-symbol-macro (symbol)
   (multiple-value-bind (indicator value tail)
@@ -80,23 +81,23 @@
   (setf (get symbol 'symbol-macro) value))
 
 (defun special-p (symbol)
-  (get symbol 'special))
+  (*:compiler-property symbol 'special))
 
 (defun (setf special-p) (value symbol)
-  (setf (get symbol 'special) value))
+  (*:set-compiler-property symbol 'special value))
 
 (defun constant-p (symbol)
-  (get symbol 'constant))
+  (*:compiler-property symbol 'constant))
 
 (defun (setf constant-p) (value symbol)
-  (setf (get symbol 'constant) value))
+  (*:set-compiler-property symbol 'constant value))
 
 (defun lookup (symbol types &optional (bindings *lexenv*))
   (dolist (binding bindings)
     (when (and (if (consp types)
                    (member (binding-kind binding) types)
                    (eq types (binding-kind binding)))
-               (eq symbol (binding-name binding)))
+               (equal symbol (binding-name binding)))
       (return binding))))
 
 (defun extend-lexenv (bindings lexenv)
@@ -255,14 +256,14 @@
         parsed-lambda-list))))
 
 (defun get-transform (symbol)
-  (get symbol 'transform))
+  (*:compiler-property symbol 'transform))
 
 (defun transform-symbol-p (symbol)
   (get-transform symbol))
 
 (defmacro def-transform (name lambda-list &body body)
-  `(setf (get ',name 'transform)
-         (lambda ,lambda-list ,@body)))
+  `(*:set-compiler-property ',name 'transform
+                           (lambda ,lambda-list ,@body)))
 
 (def-transform defun (name lambda-list &rest body)
   (cond ((and (consp name)
@@ -301,9 +302,13 @@
         ((variable-symbol-p name)
          (if (toplevel-p)
              `(*:%defun ,name ,lambda-list ,@body)
-             `(*:fset ',name
-                      (lambda ,lambda-list
-                        (block ,name ,@(parse-body body t))))))
+             `(progn
+                (*:fset ',name
+                         (lambda ,lambda-list
+                           ,@(multiple-value-bind (forms declares docstring) (parse-body body t)
+                               (declare (ignore docstring))
+                               `((declare ,@declares) (block ,name ,@forms)))))
+                ',name)))
         (t
          (compile-error "The NAME argument to DEFUN, ~S, is not a function name." name))))
 
@@ -346,14 +351,22 @@
                                 (block ,name ,@body))))
              (fn `(lambda (&rest ,args)
                     ,(if whole-var
-                         `(let ((,whole-var *macroexpansion-form*)) ,inner-body)
+                         (if (listp whole-var)
+                             `(destructuring-bind ,whole-var *macroexpansion-form* ,inner-body)
+                             `(let ((,whole-var *macroexpansion-form*)) ,inner-body))
                          inner-body))))
         fn))))
 
 (def-transform defmacro (name lambda-list &rest body)
-  (setf (get-macro name) (macro-expander-lambda name lambda-list body))
-  (setf *macro-definitions* (nconc *macro-definitions* (list name)))
-  `',name)
+  (let ((expander (macro-expander-lambda name lambda-list body)))
+    (if (toplevel-p)
+        (progn
+          (setf (get-macro name) expander)
+          (setf *macro-definitions* (nconc *macro-definitions* (list name)))
+          `',name)
+        `(progn
+           (setf (get-macro ',name) ,expander)
+           ',name))))
 
 (def-transform *:defmacro* (name lambda-list &rest body)
   (multiple-value-bind (body declares docstring)
@@ -384,7 +397,7 @@
         `(if (boundp ',var) nil (*:%set ',var ,value)))
      ,(when docp
         `(setf (documentation ',var 'variable) ,doc))
-     (*:put ',var 'special t)
+     (*:set-compiler-property ',var 'special t)
      ',var))
 
 (def-transform defparameter (var value &optional (doc nil docp))
@@ -393,7 +406,7 @@
      (*:%set ',var ,value)
      ,(when docp
         `(setf (documentation ',var 'variable) ,doc))
-     (*:put ',var 'special t)
+     (*:set-compiler-property ',var 'special t)
      ',var))
 
 (def-transform defconstant (name value &optional (doc nil docp))
@@ -402,7 +415,7 @@
      (*:%set ',name ,value)
      ,(when docp
         `(setf (documentation ',name 'variable) ,doc))
-     (*:put ',name 'constant t)
+     (*:set-compiler-property ',name 'constant t)
      ',name))
 
 (def-transform *:backquote (x)
@@ -495,9 +508,8 @@
                (values (first spec) (cdr spec)))
          (dolist (var vars)
            (let ((binding (lookup var '(:variable :special) *lexenv*)))
-             (if binding
-                 (setf (binding-var-type binding) type)
-                 (compile-error "invalid declaration specifier: ~S" spec))))))))
+             (when binding
+               (setf (binding-var-type binding) type))))))))
   *lexenv*)
 
 (defun make-parameter-binding (name declarations)
@@ -611,7 +623,7 @@
 (defun pass1-call (form return-value-p multiple-values-p)
   (let ((fn (first form))
         (args (rest form)))
-    (cond ((variable-symbol-p fn)
+    (cond ((and (symbolp fn) (not (js-symbol-p fn)))
            (let ((binding (lookup fn :function)))
              (count-if-used binding)
              (cond (binding
@@ -625,9 +637,11 @@
                                          (pass1 arg t nil))
                                        args))))
                    ((transform-symbol-p fn)
-                    (pass1 (apply (get-transform fn) args)
-                           return-value-p
-                           multiple-values-p))
+                    ;; A source transform retains the source form's context.
+                    (let ((*compile-level* (1- *compile-level*)))
+                      (pass1 (apply (get-transform fn) args)
+                             return-value-p
+                             multiple-values-p)))
                    (t
                     (set-hir-position
                      form
@@ -733,8 +747,9 @@
                 (unless (variable-symbol-p (first args))
                   (compile-error "~S is not a variable" (first args)))
                 (let* ((symbol (first args))
-                       (binding (lookup symbol :variable))
+                       (binding (lookup symbol '(:variable :special)))
                        (value (pass1 (second args) t nil)))
+                  (when (and binding (eq (binding-kind binding) :special)) (setq binding nil))
                   (count-if-used binding)
                   (count-if-used binding t)
                   (push (set-hir-position
@@ -793,7 +808,11 @@
      (pass1-lambda thing return-value-p))
     ((and (consp thing) (eq (first thing) 'setf)
           (consp (cdr thing)) (null (cddr thing)) (symbolp (second thing)))
-     (pass1 `(fdefinition ',thing) return-value-p nil))
+     (let ((binding (lookup thing :function)))
+       (count-if-used binding)
+       (if binding
+           (set-hir-position function-form (make-hir 'lref return-value-p nil binding))
+           (pass1 `(fdefinition ',thing) return-value-p nil))))
     (t
      (compile-error "~S is not a legal function name" thing))))
 
@@ -814,10 +833,10 @@
               b))
           bindings))
 
-(defun pass1-let-body (let-form bindings body return-value-p multiple-values-p)
+(defun pass1-let-body (let-form bindings body return-value-p multiple-values-p &optional sequential)
   (multiple-value-bind (body declares)
       (parse-body body nil)
-    (let* ((inner-lexenv bindings)
+    (let* ((inner-lexenv (if sequential (reverse bindings) bindings))
            (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
            (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
       (set-hir-position
@@ -839,15 +858,15 @@
 
 (def-pass1-form let* ((&whole let-form bindings &rest body) return-value-p multiple-values-p)
   (setf bindings (check-let-form bindings))
-  (let ((*lexenv* *lexenv*))
+  (let ((*lexenv* *lexenv*) (declarations (nth-value 1 (parse-body body nil))))
     (let ((bindings (mapcar (lambda (b)
-                              (let* ((b (make-variable-binding
-                                         (first b)
-                                         :init-value (pass1 (second b) t nil))))
-                                (push b *lexenv*)
-                                b))
+                              (let* ((init (pass1 (second b) t nil))
+                                     (binding (make-parameter-binding (first b) declarations)))
+                                (setf (binding-init-value binding) init)
+                                (push binding *lexenv*)
+                                binding))
                             bindings)))
-      (pass1-let-body let-form bindings body return-value-p multiple-values-p))))
+      (pass1-let-body let-form bindings body return-value-p multiple-values-p t))))
 
 (defun check-flet-definitions (definitions)
   (unless (listp definitions)
@@ -855,17 +874,26 @@
   (dolist (definition definitions)
     (unless (consp definition)
       (compile-error "Invalid definition form: ~S" definition))
-    (unless (symbolp (first definition))
+    (unless (or (symbolp (first definition))
+                (and (consp (first definition)) (eq (caar definition) 'setf)
+                     (consp (cdar definition)) (null (cddar definition))
+                     (symbolp (second (first definition)))))
       (compile-error "Illegal function name: ~S" (first definition)))))
 
 (defun parse-flet-definitions (definitions compile-lambda-p)
   (mapcar (lambda (definition)
+            (multiple-value-bind (body declarations docstring)
+                (parse-body (cddr definition) t)
+              (declare (ignore docstring))
             (make-function-binding
              (first definition)
-             :init-value (let ((fn `(lambda ,@(rest definition))))
+             :init-value (let ((fn `(lambda ,(second definition)
+                                     (declare ,@declarations)
+                                     (block ,(if (consp (first definition)) (second (first definition))
+                                                 (first definition)) ,@body))))
                            (if compile-lambda-p
                                (pass1-lambda fn t)
-                               fn))))
+                               fn)))))
           definitions))
 
 (def-pass1-form flet ((&whole flet-form definitions &rest body) return-value-p multiple-values-p)
@@ -890,11 +918,11 @@
     (multiple-value-bind (body declares)
         (parse-body body nil)
       (let* ((inner-lexenv bindings)
-             (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
-             (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
+             (*lexenv* (extend-lexenv inner-lexenv *lexenv*)))
         (dolist (b bindings)
           (setf (binding-init-value b)
                 (pass1 (binding-init-value b) t nil)))
+        (setq *lexenv* (pass1-declares declares inner-lexenv *lexenv*))
         (set-hir-position
          labels-form
          (make-hir 'let
@@ -1092,13 +1120,13 @@
   (pass1-const nil return-value-p))
 
 (def-pass1-form eval-when ((situations &rest body) return-value-p multiple-values-p)
-  (cond ((toplevel-p)
+  (cond ((and *file-compilation-p* (toplevel-p))
          (when (or (member :compile-toplevel situations)
                    (member 'compile situations))
            (eval `(progn ,@body)))
          (if (or (member :load-toplevel situations)
                    (member 'load situations))
-             (pass1-toplevel `(progn ,@body))
+             (pass1-toplevel `(progn ,@body) return-value-p multiple-values-p)
              (pass1-const nil return-value-p)))
         ((or (member :execute situations)
              (member 'eval situations))
@@ -1291,7 +1319,7 @@
 (defun pass1-toplevel (form &optional return-value-p multiple-values-p)
   (let ((*lexenv* *local-macro-compilation-environment*)
         (*local-macro-compilation-environment* nil)
-        (*compile-level* -1))
+        (*compile-level* 0))
     (pass1 form return-value-p multiple-values-p)))
 
 (defun pass1-module (file hir-forms export-modules)
@@ -1303,5 +1331,5 @@
               (pass1-toplevel
                (if present-p
                    `(*:put ',name 'symbol-macro ,expansion)
-                   `(*:put ',name 'macro ,(get-macro name))))))
+                   `(*:set-compiler-property ',name 'macro ,(get-macro name))))))
           macro-definitions))

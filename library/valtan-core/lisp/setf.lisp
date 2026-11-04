@@ -9,11 +9,21 @@
         (compiler::!macroexpand-1 place environment)
         (cl:macroexpand-1 place environment)))
   (defun !get-setf-expansion (place &optional environment)
-    (cl:multiple-value-bind (expansion expanded-p)
-        (!macroexpand-setf-place place environment)
-      (cl:when expanded-p
-        (cl:return-from !get-setf-expansion
-          (!get-setf-expansion expansion environment))))
+    ;; An explicit SETF definition takes precedence over a global accessor macro.
+    ;; Symbol macros and local accessor macros still expand in their environment.
+    (cl:unless (cl:and (cl:consp place) (cl:get (cl:car place) 'setf-expander)
+                       (cl:not
+                        (cl:and environment
+                          (if compiler::*in-host-runtime*
+                              (compiler::lookup (cl:car place) '(:macro) environment)
+                              #+valtan (compiler::lookup (cl:car place) '(:macro) environment)
+                              #-valtan (cl:not (cl:eq (cl:macro-function (cl:car place) environment)
+                                                     (cl:macro-function (cl:car place))))))))
+      (cl:multiple-value-bind (expansion expanded-p)
+          (!macroexpand-setf-place place environment)
+        (cl:when expanded-p
+          (cl:return-from !get-setf-expansion
+            (!get-setf-expansion expansion environment)))))
     (flet ((gensyms (cl:list)
              (cl:mapcar (lambda (x) (declare (ignore x)) (cl:gensym)) cl:list)))
       (let ((setf-expander nil))
@@ -45,7 +55,7 @@
                       (vars (gensyms (cl:cdr expansion)))
                       (vals (cl:cdr expansion)))
                   (cl:values vars vals (cl:list newvar)
-                             `(cl:funcall (cl:fdefinition '(cl:setf ,(cl:car expansion))) ,newvar
+                             `(cl:funcall (function (cl:setf ,(cl:car expansion))) ,newvar
                                           ,@vars)
                              `(,(cl:car expansion) ,@vars)))))))))))
 
@@ -131,7 +141,7 @@
             (cl:cond ((eq '&optional (cl:car cl:rest)))
                      ((eq '&rest (cl:car cl:rest))
                       (cl:return
-                        `(cl:list* ',function access-form ,@(cl:nreverse vars) (cl:cadr cl:rest))))
+                        `(cl:list* ',function access-form ,@(cl:nreverse vars) ,(cl:cadr cl:rest))))
                      ((symbolp (cl:car cl:rest)) (setq vars (cl:cons (cl:car cl:rest) vars)))
                      (t (setq vars (cl:cons (cl:caar cl:rest) vars)))))))
     (let ((reference (cl:gensym)) (environment (cl:gensym)))
@@ -139,10 +149,18 @@
          ,@(cl:when documentation-p `(,cl:documentation))
          (cl:multiple-value-bind (vars cl:values stores set-form access-form)
              (!get-setf-expansion ,reference ,environment)
-           (cl:list 'let*
-                    (cl:mapcar #'cl:list (cl:append vars stores)
-                               (cl:append cl:values (cl:list ,update-form)))
-                    set-form))))))
+           (cl:let* ((update ,update-form)
+                     (arguments (cl:cddr update))
+                     (temporaries (cl:mapcar (cl:lambda (form)
+                                              (cl:declare (cl:ignore form))
+                                              (cl:gensym)) arguments)))
+             (cl:list 'let*
+                      (cl:append (cl:mapcar #'cl:list vars cl:values)
+                                 (cl:mapcar #'cl:list temporaries arguments)
+                                 (cl:mapcar #'cl:list stores
+                                            (cl:list (cl:list* (cl:car update)
+                                                               access-form temporaries))))
+                      set-form)))))))
 
 (defmacro psetf (&rest pairs cl:&environment environment)
   (cl:when (cl:oddp (cl:length pairs))
@@ -160,10 +178,13 @@
               (declare (ignore access))
               ;; Add bindings for the place subforms
               (setq bindings (cl:nconc bindings (cl:mapcar #'cl:list vars forms)))
-              ;; Add binding for the store variable to the value
-              (setq bindings (cl:nconc bindings (cl:list (cl:list (cl:first store-vars) value))))
-              ;; Collect the set form (use cons instead of push to avoid macro issues at runtime)
-              (setq set-forms (cl:cons set-form set-forms)))))
+              (let ((saved-values (cl:gensym)))
+                (setq bindings (cl:nconc bindings
+                                        (cl:list (cl:list saved-values `(multiple-value-list ,value)))))
+                (setq set-forms
+                      (cl:cons `(multiple-value-bind ,store-vars (values-list ,saved-values)
+                                  ,set-form)
+                               set-forms))))))
         `(let* ,bindings
            ,@(cl:nreverse set-forms)
            nil))))
@@ -207,3 +228,53 @@
                     (cl:append (cl:cdr values-vars) (cl:list (cl:car values-vars)))
                     set-forms)
        nil)))
+
+(defmacro shiftf (&rest arguments cl:&environment environment)
+  (cl:when (cl:< (cl:length arguments) 2) (cl:error "SHIFTF requires a place and a new value"))
+  (let ((bindings nil) (value-bindings nil) (values-vars nil)
+        (stores-list nil) (set-forms nil) (new-value (cl:gensym)))
+    (cl:dolist (place (cl:butlast arguments))
+      (cl:multiple-value-bind (vars forms stores setter access)
+          (!get-setf-expansion place environment)
+        (let ((old-value (cl:gensym)))
+          (setq bindings (cl:append bindings (cl:mapcar #'cl:list vars forms))
+                value-bindings (cl:append value-bindings
+                                         (cl:list (cl:list old-value `(multiple-value-list ,access))))
+                values-vars (cl:append values-vars (cl:list old-value))
+                stores-list (cl:append stores-list (cl:list stores))
+                set-forms (cl:append set-forms (cl:list setter))))))
+    `(let* (,@bindings ,@value-bindings
+            (,new-value (multiple-value-list ,(cl:car (cl:last arguments)))))
+       ,@(cl:mapcar (lambda (stores value setter)
+                      `(multiple-value-bind ,stores (values-list ,value) ,setter))
+                    stores-list (cl:append (cl:cdr values-vars) (cl:list new-value)) set-forms)
+       (values-list ,(cl:car values-vars)))))
+
+(define-setf-expander apply (function &rest arguments)
+  (cl:unless (cl:and (cl:consp function) (eq (cl:car function) 'function)
+                    (cl:consp (cl:cdr function)) (cl:null (cl:cddr function))
+                    (symbolp (cl:second function)))
+    (cl:error "An APPLY place requires a literal function name"))
+  (let ((vars (cl:mapcar (lambda (x) (declare (ignore x)) (cl:gensym)) arguments))
+        (store (cl:gensym)))
+    (cl:values vars arguments (cl:list store)
+               `(apply (function (setf ,(cl:second function))) ,store ,@vars)
+               `(apply ,function ,@vars))))
+
+(define-setf-expander the (type place cl:&environment environment)
+  (cl:multiple-value-bind (vars forms stores setter accessor)
+      (!get-setf-expansion place environment)
+    (cl:values vars forms stores
+               `(multiple-value-bind ,stores (the ,type (values ,@stores)) ,setter)
+               `(the ,type ,accessor))))
+
+;; The bootstrap PSETQ in control.lisp is used before generalized places exist.
+;; Once PSETF is available, symbol macros must capture their place subforms too.
+(defmacro psetq (&rest pairs)
+  (cl:when (cl:oddp (cl:length pairs)) (cl:error "Odd number of args to PSETQ."))
+  (cl:do ((tail pairs (cl:cddr tail))) ((cl:null tail))
+    (cl:unless (symbolp (cl:car tail)) (cl:error "PSETQ requires variable names")))
+  `(psetf ,@pairs))
+
+(defmacro multiple-value-setq (vars form)
+  (cl:if vars `(values (setf (values ,@vars) ,form)) `(values ,form)))

@@ -3,7 +3,7 @@
 #-valtan
 (in-package :valtan-core)
 
-(defparameter char-code-limit 1114112)
+(#-valtan defparameter #+valtan defconstant char-code-limit 1114112)
 
 (defparameter *char-name-table*
   '((#\newline . "Newline")
@@ -169,7 +169,13 @@
 
 (defun char-name (c)
   (unless (characterp c) (type-error c 'character))
-  (cdr (assoc c *char-name-table*)))
+  (or (cdr (assoc c *char-name-table*))
+      (unless (graphic-char-p c)
+        (format nil "U~4,'0X" (char-code c)))))
 
 (defun name-char (name)
-  (car (rassoc (string name) *char-name-table* :test #'string-equal)))
+  (let ((text (string name)))
+    (or (car (rassoc text *char-name-table* :test #'string-equal))
+        (when (and (= (length text) 5) (char-equal (char text 0) #\U)
+                   (every (lambda (c) (digit-char-p c 16)) (subseq text 1)))
+          (code-char (parse-integer text :start 1 :radix 16))))))

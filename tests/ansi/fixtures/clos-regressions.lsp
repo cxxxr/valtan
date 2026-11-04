@@ -286,3 +286,46 @@
 (deftest clos-long-combination-without-applicable-methods-signals
   (handler-case (regression-no-methods-gf 1) (error () :caught))
   :caught)
+
+(deftest class-slot-option-validation-is-program-error
+  (values (handler-case (eval '(defclass invalid-duplicate-option () ((x :initform 1 :initform 2))))
+            (program-error () :duplicate))
+          (handler-case (eval '(defclass invalid-class-option () () (:unknown-option t)))
+            (program-error () :unknown)))
+  :duplicate :unknown)
+
+(deftest generic-signatures-and-applicable-keywords
+  (let ((name (gensym)))
+    (eval `(defgeneric ,name (x &key)
+             (:method ((x integer) &key a) a)
+             (:method ((x symbol) &key b) b)))
+    (values (funcall name 1 :a :accepted)
+            (handler-case (funcall name 1 :b :bad) (program-error () :keyword))
+            (handler-case (eval `(defmethod ,name (x y) y)) (program-error () :arity))))
+  :accepted :keyword :arity)
+
+(deftest generic-precedence-and-inline-method-replacement
+  (let ((name (gensym)))
+    (eval `(defgeneric ,name (x y)
+             (:argument-precedence-order y x)
+             (:method ((x symbol) y) :first)
+             (:method (x (y symbol)) :second)))
+    (let ((first (funcall name 'a 'b)))
+      (eval `(defgeneric ,name (x) (:method (x) :replacement)))
+      (values first (funcall name 1))))
+  :second :replacement)
+
+(defclass load-form-fixture-object () ((a :initarg :a) b))
+(defstruct load-form-fixture-structure (a 0 :read-only t))
+(deftest saving-slots-recreates-bound-and-unbound-slots
+  (let ((object (make-instance 'load-form-fixture-object :a '(1 2)))
+        (structure (make-load-form-fixture-structure :a 7)))
+    (multiple-value-bind (create init) (make-load-form-saving-slots object)
+      (let ((copy (eval create)))
+        (eval (subst copy object init))
+        (multiple-value-bind (create2 init2) (make-load-form-saving-slots structure)
+          (let ((copy2 (eval create2)))
+            (eval (subst copy2 structure init2))
+            (values (slot-value copy 'a) (slot-boundp copy 'b)
+                    (load-form-fixture-structure-a copy2)))))))
+  (1 2) nil 7)

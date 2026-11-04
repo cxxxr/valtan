@@ -138,19 +138,24 @@
                   (return))
                 (let ((result (run-single-test form n)))
                   (push result results)
-                  (if (test-result-passed result)
-                      (progn
-                        (incf pass)
-                        (when verbose
-                          (format t "~D PASS: ~S~%" n form)))
-                      (progn
-                        (incf fail)
-                        (when verbose
-                          (format t "~D FAIL: ~S~%   Error: ~A~%"
-                                  n form
-                                  (or (test-result-error-message result) "NIL")))
-                        (when *test-stop-on-error*
-                          (return)))))))))
+                  ;; Forms can contain circular reader literals. Keep diagnostic
+                  ;; printing finite without changing the test's printer bindings.
+                  (let ((*print-circle* t)
+                        (*print-length* 100)
+                        (*print-level* 20))
+                    (if (test-result-passed result)
+                        (progn
+                          (incf pass)
+                          (when verbose
+                            (format t "~D PASS: ~S~%" n form)))
+                        (progn
+                          (incf fail)
+                          (when verbose
+                            (format t "~D FAIL: ~S~%   Error: ~A~%"
+                                    n form
+                                    (or (test-result-error-message result) "NIL")))
+                          (when *test-stop-on-error*
+                            (return))))))))))
       (error (e)
         (format t "Error loading test file ~A: ~A~%" filename e)))
     (let ((total-time (- (js:-date.now) start-time)))

@@ -1,0 +1,1166 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "b8c412d32ce433b5308f4b037db3f87bdc70f40128d556dabf4321e6b327d7fe",
+  "startedAt": "2026-11-04T08:30:50.576Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "iteration",
+      "files": [
+        "iteration/do.lsp",
+        "iteration/dostar.lsp",
+        "iteration/dolist.lsp",
+        "iteration/dotimes.lsp",
+        "iteration/loop.lsp",
+        "iteration/loop1.lsp",
+        "iteration/loop2.lsp",
+        "iteration/loop3.lsp",
+        "iteration/loop4.lsp",
+        "iteration/loop5.lsp",
+        "iteration/loop6.lsp",
+        "iteration/loop7.lsp",
+        "iteration/loop8.lsp",
+        "iteration/loop9.lsp",
+        "iteration/loop10.lsp",
+        "iteration/loop11.lsp",
+        "iteration/loop12.lsp",
+        "iteration/loop13.lsp",
+        "iteration/loop14.lsp",
+        "iteration/loop15.lsp",
+        "iteration/loop16.lsp",
+        "iteration/loop17.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 806,
+      "fail": 37,
+      "registered": 843,
+      "expectedRegistered": 843,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "iteration/do.lsp",
+        "iteration/dostar.lsp",
+        "iteration/dolist.lsp",
+        "iteration/dotimes.lsp",
+        "iteration/loop.lsp",
+        "iteration/loop1.lsp",
+        "iteration/loop2.lsp",
+        "iteration/loop3.lsp",
+        "iteration/loop4.lsp",
+        "iteration/loop5.lsp",
+        "iteration/loop6.lsp",
+        "iteration/loop7.lsp",
+        "iteration/loop8.lsp",
+        "iteration/loop9.lsp",
+        "iteration/loop10.lsp",
+        "iteration/loop11.lsp",
+        "iteration/loop12.lsp",
+        "iteration/loop13.lsp",
+        "iteration/loop14.lsp",
+        "iteration/loop15.lsp",
+        "iteration/loop16.lsp",
+        "iteration/loop17.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "DO*.14",
+          "reason": "The variable I is unbound"
+        },
+        {
+          "test": "DO*.17",
+          "reason": "expected (:GOOD); actual (:BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DO*.18",
+          "reason": "expected (:GOOD); actual (:BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DO*.19",
+          "reason": "expected (:GOOD); actual (:BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DOLIST.17",
+          "reason": "expected (:GOOD); actual (:BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DOTIMES.8",
+          "reason": "expected (2); actual (1) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.1.20",
+          "reason": "expected ((0 1 2 3 4 5)); actual ((0 4)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.1.40",
+          "reason": "expected (5); actual (6) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.1.41",
+          "reason": "expected (4); actual (5) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.1.42",
+          "reason": "expected (0); actual (-1) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.1.43",
+          "reason": "expected (1); actual (0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.1.50",
+          "reason": "NIL is not variable"
+        },
+        {
+          "test": "LOOP.1.51",
+          "reason": "NIL is not variable"
+        },
+        {
+          "test": "LOOP.1.52",
+          "reason": "NIL is not variable"
+        },
+        {
+          "test": "LOOP.1.53",
+          "reason": "NIL is not variable"
+        },
+        {
+          "test": "LOOP.1.54",
+          "reason": "NIL is not variable"
+        },
+        {
+          "test": "LOOP.1.55",
+          "reason": "NIL is not variable"
+        },
+        {
+          "test": "LOOP.1.56",
+          "reason": "NIL is not variable"
+        },
+        {
+          "test": "LOOP.6.ERROR.4",
+          "reason": "expected (T); actual (NIL 3) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.6.ERROR.5",
+          "reason": "expected (T); actual (NIL 3) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.7.15",
+          "reason": "The value :COLLECT is not of the expected type (MEMBER IN OF)"
+        },
+        {
+          "test": "LOOP.7.16",
+          "reason": "The value :COLLECT is not of the expected type (MEMBER IN OF)"
+        },
+        {
+          "test": "LOOP.7.17",
+          "reason": "The value :COLLECT is not of the expected type (MEMBER IN OF)"
+        },
+        {
+          "test": "LOOP.7.18",
+          "reason": "The value NIL is not of the expected type PACKAGE"
+        },
+        {
+          "test": "LOOP.7.19",
+          "reason": "The value NIL is not of the expected type PACKAGE"
+        },
+        {
+          "test": "LOOP.7.20",
+          "reason": "The value NIL is not of the expected type PACKAGE"
+        },
+        {
+          "test": "LOOP.8.18",
+          "reason": "NIL is not a variable"
+        },
+        {
+          "test": "LOOP.9.22",
+          "reason": "The value WHATEVER is not of the expected type LIST"
+        },
+        {
+          "test": "LOOP.9.23",
+          "reason": "The value WHATEVER is not of the expected type LIST"
+        },
+        {
+          "test": "LOOP.9.32",
+          "reason": "The value WHATEVER is not of the expected type LIST"
+        },
+        {
+          "test": "LOOP.9.33",
+          "reason": "The value WHATEVER is not of the expected type LIST"
+        },
+        {
+          "test": "LOOP.9.42",
+          "reason": "The value FOO is not of the expected type LIST"
+        },
+        {
+          "test": "LOOP.10.8",
+          "reason": "expected (NIL 4.0); actual (NIL 4) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.10.101",
+          "reason": "expected (0.0); actual (0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.10.102",
+          "reason": "expected (0.0); actual (0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.10.103",
+          "reason": "expected (0.0); actual (0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.10.104",
+          "reason": "expected (0.0); actual (0) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "iteration/loop17.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 843,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "eval-and-compile",
+      "files": [
+        "eval-and-compile/eval.lsp",
+        "eval-and-compile/eval-and-compile.lsp",
+        "eval-and-compile/compile.lsp",
+        "eval-and-compile/compiler-macros.lsp",
+        "eval-and-compile/constantp.lsp",
+        "eval-and-compile/lambda.lsp",
+        "eval-and-compile/eval-when.lsp",
+        "eval-and-compile/define-compiler-macro.lsp",
+        "eval-and-compile/define-symbol-macro.lsp",
+        "eval-and-compile/defmacro.lsp",
+        "eval-and-compile/the.lsp",
+        "eval-and-compile/symbol-macrolet.lsp",
+        "eval-and-compile/proclaim.lsp",
+        "eval-and-compile/declaim.lsp",
+        "eval-and-compile/locally.lsp",
+        "eval-and-compile/ignore.lsp",
+        "eval-and-compile/ignorable.lsp",
+        "eval-and-compile/dynamic-extent.lsp",
+        "eval-and-compile/optimize.lsp",
+        "eval-and-compile/special.lsp",
+        "eval-and-compile/macroexpand.lsp",
+        "eval-and-compile/macroexpand-1.lsp",
+        "eval-and-compile/declaration.lsp",
+        "eval-and-compile/type.lsp",
+        "eval-and-compile/macro-function.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 276,
+      "fail": 42,
+      "registered": 318,
+      "expectedRegistered": 326,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "eval-and-compile/eval.lsp",
+        "eval-and-compile/eval-and-compile.lsp",
+        "eval-and-compile/compile.lsp",
+        "eval-and-compile/compiler-macros.lsp",
+        "eval-and-compile/constantp.lsp",
+        "eval-and-compile/lambda.lsp",
+        "eval-and-compile/eval-when.lsp",
+        "eval-and-compile/define-compiler-macro.lsp",
+        "eval-and-compile/define-symbol-macro.lsp",
+        "eval-and-compile/defmacro.lsp",
+        "eval-and-compile/the.lsp",
+        "eval-and-compile/symbol-macrolet.lsp",
+        "eval-and-compile/proclaim.lsp",
+        "eval-and-compile/declaim.lsp",
+        "eval-and-compile/locally.lsp",
+        "eval-and-compile/ignore.lsp",
+        "eval-and-compile/ignorable.lsp",
+        "eval-and-compile/dynamic-extent.lsp",
+        "eval-and-compile/optimize.lsp",
+        "eval-and-compile/special.lsp",
+        "eval-and-compile/macroexpand.lsp",
+        "eval-and-compile/macroexpand-1.lsp",
+        "eval-and-compile/declaration.lsp",
+        "eval-and-compile/type.lsp",
+        "eval-and-compile/macro-function.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "EVAL-AND-COMPILE-MACROS",
+          "reason": "expected (NIL); actual ((DEFMACRO DEFINE-SYMBOL-MACRO DECLAIM)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.1",
+          "reason": "The function COMPILE-FILE is undefined"
+        },
+        {
+          "test": "EVAL-WHEN.4",
+          "reason": "expected (:GOOD); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.7",
+          "reason": "expected (:GOOD); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.8",
+          "reason": "expected (:GOOD); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.10",
+          "reason": "expected (:GOOD); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.11",
+          "reason": "expected (A B C D); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.18",
+          "reason": "expected (:GOOD); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.1",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.2",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.3",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.4",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-SYMBOL-MACRO.ERROR.1",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFINE-SYMBOL-MACRO.ERROR.2",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFINE-SYMBOL-MACRO.ERROR.3",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.ERROR.1",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.ERROR.2",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.ERROR.3",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.3",
+          "reason": "The variable X is unbound"
+        },
+        {
+          "test": "DEFMACRO.4",
+          "reason": "expected (:GOOD); actual (:BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFMACRO.12",
+          "reason": "The variable FOO-DEFAULT is unbound"
+        },
+        {
+          "test": "DEFMACRO.13",
+          "reason": "The variable FOO-DEFAULT is unbound"
+        },
+        {
+          "test": "DEFMACRO.15",
+          "reason": "Invalid number of arguments for destructuring-bind: (BAR . BAZ) Y"
+        },
+        {
+          "test": "DEFMACRO.19",
+          "reason": "The value (X . Y) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "DEFMACRO.21",
+          "reason": "Unknown &key argument: :ALLOW-OTHER-KEYS"
+        },
+        {
+          "test": "PROCLAIM.ERROR.3",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.4",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.5",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.6",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.7",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.8",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.9",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.10",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.11",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.1",
+          "reason": "expected (NIL); actual ((DECLAIM DEFCONSTANT DEFINE-SYMBOL-MACRO DEFMACRO DEFPARAMETER DEFVAR DEFUN IN-PACKAGE SHIFTF STEP ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.2",
+          "reason": "expected (NIL); actual ((DECLAIM DEFCONSTANT DEFINE-SYMBOL-MACRO DEFMACRO DEFPARAMETER DEFVAR DEFUN IN-PACKAGE SHIFTF STEP ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.3",
+          "reason": "expected (NIL); actual ((DECLAIM DEFCONSTANT DEFINE-SYMBOL-MACRO DEFMACRO DEFPARAMETER DEFVAR DEFUN IN-PACKAGE SHIFTF STEP ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.8",
+          "reason": "The function (SETF MACRO-FUNCTION) is undefined."
+        },
+        {
+          "test": "MACRO-FUNCTION.9",
+          "reason": "The function (SETF MACRO-FUNCTION) is undefined."
+        },
+        {
+          "test": "MACRO-FUNCTION.10",
+          "reason": "The function (SETF MACRO-FUNCTION) is undefined."
+        },
+        {
+          "test": "MACRO-FUNCTION.14",
+          "reason": "The function (SETF MACRO-FUNCTION) is undefined."
+        },
+        {
+          "test": "MACRO-FUNCTION.15",
+          "reason": "The function (SETF MACRO-FUNCTION) is undefined."
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "eval-and-compile/macro-function.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": true,
+      "effectiveExpectedRegistered": 318,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [
+        "DECLARATION.10",
+        "DECLARATION.11",
+        "DECLARATION.4",
+        "DECLARATION.5",
+        "DECLARATION.6",
+        "DECLARATION.7",
+        "DECLARATION.8",
+        "DECLARATION.9"
+      ],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [
+        {
+          "file": "eval-and-compile/declaration.lsp",
+          "tests": [
+            "DECLARATION.4",
+            "DECLARATION.5",
+            "DECLARATION.6",
+            "DECLARATION.7",
+            "DECLARATION.8",
+            "DECLARATION.9",
+            "DECLARATION.10",
+            "DECLARATION.11"
+          ],
+          "delta": -8,
+          "reason": "The upstream guard registers these eight tests only when an unknown declaration signals a warning."
+        }
+      ],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "data-and-control-flow",
+      "files": [
+        "auxiliary/cons-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "data-and-control-flow/data-and-control-flow.lsp",
+        "data-and-control-flow/places.lsp",
+        "data-and-control-flow/psetq.lsp",
+        "data-and-control-flow/psetf.lsp",
+        "data-and-control-flow/shiftf.lsp",
+        "data-and-control-flow/rotatef.lsp",
+        "data-and-control-flow/return.lsp",
+        "data-and-control-flow/return-from.lsp",
+        "data-and-control-flow/defsetf.lsp",
+        "data-and-control-flow/define-setf-expander.lsp",
+        "data-and-control-flow/and.lsp",
+        "data-and-control-flow/apply.lsp",
+        "data-and-control-flow/block.lsp",
+        "data-and-control-flow/call-arguments-limit.lsp",
+        "data-and-control-flow/case.lsp",
+        "data-and-control-flow/catch.lsp",
+        "data-and-control-flow/ccase.lsp",
+        "data-and-control-flow/compiled-function-p.lsp",
+        "data-and-control-flow/complement.lsp",
+        "data-and-control-flow/cond.lsp",
+        "data-and-control-flow/constantly.lsp",
+        "data-and-control-flow/ctypecase.lsp",
+        "data-and-control-flow/defconstant.lsp",
+        "data-and-control-flow/define-modify-macro.lsp",
+        "data-and-control-flow/defparameter.lsp",
+        "data-and-control-flow/defun.lsp",
+        "data-and-control-flow/defvar.lsp",
+        "data-and-control-flow/destructuring-bind.lsp",
+        "data-and-control-flow/ecase.lsp",
+        "data-and-control-flow/eql.lsp",
+        "data-and-control-flow/equal.lsp",
+        "data-and-control-flow/equalp.lsp",
+        "data-and-control-flow/etypecase.lsp",
+        "data-and-control-flow/every.lsp",
+        "data-and-control-flow/fboundp.lsp",
+        "data-and-control-flow/fdefinition.lsp",
+        "data-and-control-flow/flet.lsp",
+        "data-and-control-flow/fmakunbound.lsp",
+        "data-and-control-flow/funcall.lsp",
+        "data-and-control-flow/function-lambda-expression.lsp",
+        "data-and-control-flow/function.lsp",
+        "data-and-control-flow/functionp.lsp",
+        "data-and-control-flow/get-setf-expansion.lsp",
+        "data-and-control-flow/identity.lsp",
+        "data-and-control-flow/if.lsp",
+        "data-and-control-flow/labels.lsp",
+        "data-and-control-flow/lambda-list-keywords.lsp",
+        "data-and-control-flow/lambda-parameters-limit.lsp",
+        "data-and-control-flow/let.lsp",
+        "data-and-control-flow/letstar.lsp",
+        "data-and-control-flow/macrolet.lsp",
+        "data-and-control-flow/multiple-value-bind.lsp",
+        "data-and-control-flow/multiple-value-call.lsp",
+        "data-and-control-flow/multiple-value-prog1.lsp",
+        "data-and-control-flow/multiple-value-setq.lsp",
+        "data-and-control-flow/multiple-value-list.lsp",
+        "data-and-control-flow/nil.lsp",
+        "data-and-control-flow/not-and-null.lsp",
+        "data-and-control-flow/notany.lsp",
+        "data-and-control-flow/notevery.lsp",
+        "data-and-control-flow/nth-value.lsp",
+        "data-and-control-flow/or.lsp",
+        "data-and-control-flow/prog.lsp",
+        "data-and-control-flow/prog1.lsp",
+        "data-and-control-flow/prog2.lsp",
+        "data-and-control-flow/progn.lsp",
+        "data-and-control-flow/progv.lsp",
+        "data-and-control-flow/some.lsp",
+        "data-and-control-flow/t.lsp",
+        "data-and-control-flow/tagbody.lsp",
+        "data-and-control-flow/typecase.lsp",
+        "data-and-control-flow/unless.lsp",
+        "data-and-control-flow/unwind-protect.lsp",
+        "data-and-control-flow/values-list.lsp",
+        "data-and-control-flow/values.lsp",
+        "data-and-control-flow/when.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 1321,
+      "fail": 107,
+      "registered": 1428,
+      "expectedRegistered": 1428,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/cons-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "data-and-control-flow/data-and-control-flow.lsp",
+        "data-and-control-flow/places.lsp",
+        "data-and-control-flow/psetq.lsp",
+        "data-and-control-flow/psetf.lsp",
+        "data-and-control-flow/shiftf.lsp",
+        "data-and-control-flow/rotatef.lsp",
+        "data-and-control-flow/return.lsp",
+        "data-and-control-flow/return-from.lsp",
+        "data-and-control-flow/defsetf.lsp",
+        "data-and-control-flow/define-setf-expander.lsp",
+        "data-and-control-flow/and.lsp",
+        "data-and-control-flow/apply.lsp",
+        "data-and-control-flow/block.lsp",
+        "data-and-control-flow/call-arguments-limit.lsp",
+        "data-and-control-flow/case.lsp",
+        "data-and-control-flow/catch.lsp",
+        "data-and-control-flow/ccase.lsp",
+        "data-and-control-flow/compiled-function-p.lsp",
+        "data-and-control-flow/complement.lsp",
+        "data-and-control-flow/cond.lsp",
+        "data-and-control-flow/constantly.lsp",
+        "data-and-control-flow/ctypecase.lsp",
+        "data-and-control-flow/defconstant.lsp",
+        "data-and-control-flow/define-modify-macro.lsp",
+        "data-and-control-flow/defparameter.lsp",
+        "data-and-control-flow/defun.lsp",
+        "data-and-control-flow/defvar.lsp",
+        "data-and-control-flow/destructuring-bind.lsp",
+        "data-and-control-flow/ecase.lsp",
+        "data-and-control-flow/eql.lsp",
+        "data-and-control-flow/equal.lsp",
+        "data-and-control-flow/equalp.lsp",
+        "data-and-control-flow/etypecase.lsp",
+        "data-and-control-flow/every.lsp",
+        "data-and-control-flow/fboundp.lsp",
+        "data-and-control-flow/fdefinition.lsp",
+        "data-and-control-flow/flet.lsp",
+        "data-and-control-flow/fmakunbound.lsp",
+        "data-and-control-flow/funcall.lsp",
+        "data-and-control-flow/function-lambda-expression.lsp",
+        "data-and-control-flow/function.lsp",
+        "data-and-control-flow/functionp.lsp",
+        "data-and-control-flow/get-setf-expansion.lsp",
+        "data-and-control-flow/identity.lsp",
+        "data-and-control-flow/if.lsp",
+        "data-and-control-flow/labels.lsp",
+        "data-and-control-flow/lambda-list-keywords.lsp",
+        "data-and-control-flow/lambda-parameters-limit.lsp",
+        "data-and-control-flow/let.lsp",
+        "data-and-control-flow/letstar.lsp",
+        "data-and-control-flow/macrolet.lsp",
+        "data-and-control-flow/multiple-value-bind.lsp",
+        "data-and-control-flow/multiple-value-call.lsp",
+        "data-and-control-flow/multiple-value-prog1.lsp",
+        "data-and-control-flow/multiple-value-setq.lsp",
+        "data-and-control-flow/multiple-value-list.lsp",
+        "data-and-control-flow/nil.lsp",
+        "data-and-control-flow/not-and-null.lsp",
+        "data-and-control-flow/notany.lsp",
+        "data-and-control-flow/notevery.lsp",
+        "data-and-control-flow/nth-value.lsp",
+        "data-and-control-flow/or.lsp",
+        "data-and-control-flow/prog.lsp",
+        "data-and-control-flow/prog1.lsp",
+        "data-and-control-flow/prog2.lsp",
+        "data-and-control-flow/progn.lsp",
+        "data-and-control-flow/progv.lsp",
+        "data-and-control-flow/some.lsp",
+        "data-and-control-flow/t.lsp",
+        "data-and-control-flow/tagbody.lsp",
+        "data-and-control-flow/typecase.lsp",
+        "data-and-control-flow/unless.lsp",
+        "data-and-control-flow/unwind-protect.lsp",
+        "data-and-control-flow/values-list.lsp",
+        "data-and-control-flow/values.lsp",
+        "data-and-control-flow/when.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "DCF-FUNS",
+          "reason": "expected (NIL); actual ((FUNCTION-LAMBDA-EXPRESSION)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DCF-MACROS",
+          "reason": "expected (NIL); actual ((DEFUN DEFCONSTANT DEFPARAMETER DEFVAR SHIFTF)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SETF-THE.1",
+          "reason": "The variable INTEGER is unbound"
+        },
+        {
+          "test": "SETF-THE.2",
+          "reason": "The variable SYMBOL is unbound"
+        },
+        {
+          "test": "SETF-APPLY.1",
+          "reason": "The function (SETF APPLY) is undefined."
+        },
+        {
+          "test": "SETF-APPLY.2",
+          "reason": "The function (SETF APPLY) is undefined."
+        },
+        {
+          "test": "SETF-APPLY.3",
+          "reason": "The function (SETF APPLY) is undefined."
+        },
+        {
+          "test": "SETF-APPLY.4",
+          "reason": "The function (SETF APPLY) is undefined."
+        },
+        {
+          "test": "SETF-MACRO.2",
+          "reason": "expected (2 BOO 3); actual (2 NIL 3) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PSETQ.7",
+          "reason": "expected (#(0 2 2 4 4 5 6 7 8 9) 4); actual (#(0 1 2 1 2 5 6 7 8 9) 4) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PSETF.36",
+          "reason": "The function (SETF MACRO-FUNCTION) is undefined."
+        },
+        {
+          "test": "PSETF.41",
+          "reason": "The variable #:G3026 is unbound"
+        },
+        {
+          "test": "SHIFTF-ORDER.1",
+          "reason": "The function SHIFTF is undefined"
+        },
+        {
+          "test": "SHIFTF-ORDER.2",
+          "reason": "The function SHIFTF is undefined"
+        },
+        {
+          "test": "SHIFTF.1",
+          "reason": "The function SHIFTF is undefined"
+        },
+        {
+          "test": "SHIFTF.2",
+          "reason": "The function SHIFTF is undefined"
+        },
+        {
+          "test": "SHIFTF.3",
+          "reason": "The function SHIFTF is undefined"
+        },
+        {
+          "test": "SHIFTF.4",
+          "reason": "The function SHIFTF is undefined"
+        },
+        {
+          "test": "SHIFTF.5",
+          "reason": "The function SHIFTF is undefined"
+        },
+        {
+          "test": "SHIFTF.6",
+          "reason": "The function SHIFTF is undefined"
+        },
+        {
+          "test": "DEFSETF.4C",
+          "reason": "expected (A (1 2 A 4) 3 1 2); actual ((A 4) (1 2 A 4) 3 1 2) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFSETF.5A",
+          "reason": "return for unknown block: DEFSETF.5-ACCESSOR"
+        },
+        {
+          "test": "DEFSETF.6A",
+          "reason": "The variable Z is unbound"
+        },
+        {
+          "test": "DEFSETF.7A",
+          "reason": "invalid number of arguments for NIL: 1"
+        },
+        {
+          "test": "BLOCK.10",
+          "reason": "expected (GOOD); actual (BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CALL-ARGUMENTS-LIMIT.4",
+          "reason": "Uncaught JavaScript exception: RangeError: Maximum call stack size exceeded\n    at LispSymbol.F_EQUAL_143 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:5106:23)\n    at LispSymbol.F_EQUAL_143 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:5252:27)\n    at LispSymbol.F_EQUAL_143 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:5260:28)\n    at LispSymbol.F_EQUAL_143 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:5260:28)\n    at LispSymbol.F_EQUAL_143 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:5260:28)\n    at LispSymbol.F_EQUAL_143 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:5260:28)\n    at LispSymbol.F_EQUAL_143 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:5260:28)\n    at LispSymbol.F_EQUAL_143 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:5260:28)\n    at LispSymbol.F_EQUAL_143 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:5260:28)\n    at LispSymbol.F_EQUAL_143 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:5260:28)"
+        },
+        {
+          "test": "CASE.32",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CASE.33",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CASE.34",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "THROW-ERROR",
+          "reason": "Uncaught JavaScript exception: Error: #<COMMON-LISP::THROW-CONDITION {98}>\n\nBacktrace:\n0: (ERROR COMMON-LISP::THROW-CONDITION :TAG #:G4201 :VALUE (NIL))\n1: (SYSTEM:THROW-VALUES #:G4201 (NIL))\n2: (FFI:JS-EVAL \"// initialize-vars\nlet G_18;\nlet G_14;\nlet G_11;\nlet G_8;\nlet G_2;\nlet TMP_17;\nlet TMP_16;\nlet TMP_15;\nlet TMP_13;\nlet TMP_12;\nlet TMP_10;\nlet TMP_9;\nlet TMP_7;\nlet TMP_6;\nlet TMP_3;\nlet TMP_1;\n// toplevel defun\n// initialize symbols\nG_18 = constants[1];\nG_14 = constants[2];\nG_11 = constants[3];\nG_8 = constants[4];\nG_2 = constants[5];\n// main\nTMP_1=lisp.callFunctionWithCallStack(G_2);\nTMP_3=TMP_1;\n{\nTMP_6=constants[0];\nTMP_7=lisp.callFunctionWithCallStack(G_8,TMP_6);\nTMP_9=TMP_7;\nTMP_10=lisp.callFunctionWithCallStack(G_11,TMP_9);\nlet mvfn_5=TMP_10;\nlet mvall_4=[];\nTMP_12=lisp.S_nil;\nTMP_13=lisp.callFunctionWithCallStack(G_14,TMP_12);\nTMP_13;\nmvall_4.push(...lisp.currentValues());\nTMP_15=mvfn_5(...mvall_4);\n}\nTMP_16=TMP_15;\nTMP_17=lisp.callFunctionWithCallStack(G_18,TMP_3,TMP_16);\nreturn TMP_17;\" #<[object Object]>)\n3: (EVAL (THROW (GENSYM) NIL))\n4: (FFI:JS-EVAL \"// initialize-vars\nlet G_77;\nlet G_69;\nlet G_53;\nlet G_51;\nlet G_44;\nlet G_43;\nlet G_39;\nlet G_36;\nlet G_27;\nlet G_21;\nlet G_18;\nlet G_17;\nlet G_14;\nlet G_10;\nlet G_7;\nlet G_3;\nlet TMP_79;\nlet TMP_78;\nlet TMP_76;\nlet TMP_75;\nlet TMP_74;\nlet TMP_73;\nlet TMP_72;\nlet TMP_71;\nlet TMP_70;\nlet TMP_68;\nlet save_STARHANDLER_CLUSTERSSTAR__5810;\nlet TMP_67;\nlet TMP_66;\nlet TMP_65;\nlet TMP_64;\nlet TMP_63;\nlet TMP_62;\nlet TMP_61;\nlet TMP_60;\nlet TMP_59;\nlet TMP_58;\nlet TMP_57;\nlet TMP_55;\nlet L_G4195__5807;\nlet F_G4192__5806;\nlet TMP_45;\nlet F_G4191__5802;\nlet TMP_22;\nlet TMP_20;\nlet TMP_19;\nlet save_STARHANDLER_CLUSTERSSTAR__5800;\nlet TMP_16;\nlet TMP_15;\nlet TMP_13;\nlet TMP_12;\nlet TMP_11;\nlet TMP_9;\nlet TMP_8;\nlet TMP_5;\nlet TMP_4;\nlet TMP_2;\nlet TMP_1;\n// toplevel defun\n// initialize symbols\nG_77 = constants[7];\nG_69 = constants[8];\nG_53 = constants[9];\nG_51 = constants[10];\nG_44 = constants[11];\nG_43 = constants[12];\nG_39 = constants[13];\nG_36 = constants[14];\nG_27 = constants[15];\nG_21 = constants[16];\nG_18 = constants[17];\nG_17 = constants[18];\nG_14 = constants[19];\nG_10 = constants[3];\nG_7 = constants[20];\nG_3 = constants[21];\n// main\n{\n{\nTMP_1=constants[0];\nTMP_2=lisp.callFunctionWithCallStack(G_3,TMP_1);\nTMP_4=TMP_2;\nTMP_5=(function(){\nif(arguments.length !== 1) {\nlisp.argumentsError(lisp.S_nil, arguments.length);\n}\nlet TMP_6;\nlet L_C__5799;\nL_C__5799=arguments[0];\nTMP_6=lisp.callFunctionWithCallStack(G_7);\nreturn TMP_6;\n});\nTMP_8=TMP_5;\nTMP_9=lisp.callFunctionWithCallStack(G_10,TMP_4,TMP_8);\nTMP_11=TMP_9;\nTMP_12=lisp.callFunctionWithCallStack(G_10,TMP_11);\nTMP_13=TMP_12;\nTMP_15=lisp.symbolValue(G_14);\nTMP_16=lisp.callFunctionWithCallStack(G_17,TMP_13,TMP_15);\nsave_STARHANDLER_CLUSTERSSTAR__5800=G_14.value;\nG_14.value=lisp.values1(TMP_16);\ntry{\nif(lisp.values1(lisp.symbolValue(G_18)) !== lisp.S_nil){\nTMP_20=constants[1];\nlisp.callFunctionWithCallStack(G_21,TMP_20);\n{\n{\nTMP_22=(function(){\nif(arguments.length !== 0) {\nlisp.argumentsError(lisp.S_nil, arguments.length);\n}\nlet TMP_42;\nlet TMP_41;\nlet TMP_40;\nlet TMP_38;\nlet TMP_37;\nlet TMP_35;\nlet TMP_34;\nlet TMP_33;\nlet TMP_32;\nlet TMP_29;\nlet TMP_28;\nlet TMP_26;\nlet TMP_25;\nlet TMP_24;\ntry {\nTMP_25=constants[2];\nTMP_26=lisp.callFunctionWithCallStack(G_27,TMP_25);\nTMP_28=TMP_26;\nTMP_29=lisp.S_nil;\n{\nTMP_32=constants[3];\nTMP_33=lisp.callFunctionWithCallStack(G_27,TMP_32);\nTMP_34=TMP_33;\nTMP_35=lisp.callFunctionWithCallStack(G_36,TMP_34);\nlet mvfn_31=TMP_35;\nlet mvall_30=[];\nTMP_37=constants[4];\nTMP_38=lisp.callFunctionWithCallStack(G_39,TMP_37);\nTMP_38;\nmvall_30.push(...lisp.currentValues());\nTMP_40=mvfn_31(...mvall_30);\n}\nTMP_41=TMP_40;\nTMP_42=lisp.callFunctionWithCallStack(G_43,TMP_28,TMP_29,TMP_41);\nTMP_24=TMP_42\n}catch(E__23){if(E__23 instanceof lisp.BlockValue && E__23.name === G_44){TMP_24=E__23.value;}\nelse{throw E__23;}\n}\nreturn TMP_24;\n});\nF_G4191__5802=lisp.values1(TMP_22);\nTMP_45=(function(){\nif(arguments.length !== 1) {\nlisp.argumentsError(lisp.S_nil, arguments.length);\n}\nlet TMP_52;\nlet TMP_50;\nlet TMP_49;\nlet TMP_48;\nlet L_G4197__5805;\nlet TMP_47;\nlet L_C__5803;\nL_C__5803=arguments[0];\ntry {\n{\nL_G4197__5805=lisp.values1(constants[5]);\nif(lisp.values1(L_G4197__5805) !== lisp.S_nil){\nTMP_49=L_C__5803;\nTMP_50=lisp.callFunctionWithCallStack(G_51,TMP_49);\nTMP_48=TMP_50;\n}else{\nTMP_48=lisp.values1(lisp.S_nil);\n}\nTMP_52=TMP_48;\n}\nTMP_47=TMP_52\n}catch(E__46){if(E__46 instanceof lisp.BlockValue && E__46.name === G_53){TMP_47=E__46.value;}\nelse{throw E__46;}\n}\nreturn TMP_47;\n});\nF_G4192__5806=lisp.values1(TMP_45);\n{\nL_G4195__5807=lisp.values1(lisp.S_nil);\ntry {\nlet TARGET_G4198_STATE = 'G4200';\nTARGET_G4198: for(;;){\ntry{\nswitch(TARGET_G4198_STATE){\ncase 'G4200':\n{\nTMP_57=constants[6];\nTMP_58=lisp.callFunctionWithCallStack(G_3,TMP_57);\nTMP_59=TMP_58;\nTMP_60=(function(){\nif(arguments.length !== 1) {\nlisp.argumentsError(lisp.S_nil, arguments.length);\n}\nlet L_G4196__5809;\nL_G4196__5809=arguments[0];\nL_G4195__5807=lisp.values1(L_G4196__5809);\nthrow new lisp.TagValue('TARGET_G4198', 'G4199');\nreturn lisp.values1(lisp.S_nil);\n});\nTMP_61=TMP_60;\nTMP_62=lisp.callFunctionWithCallStack(G_10,TMP_59,TMP_61);\nTMP_63=TMP_62;\nTMP_64=lisp.callFunctionWithCallStack(G_10,TMP_63);\nTMP_65=TMP_64;\nTMP_66=lisp.symbolValue(G_14);\nTMP_67=lisp.callFunctionWithCallStack(G_17,TMP_65,TMP_66);\nsave_STARHANDLER_CLUSTERSSTAR__5810=G_14.value;\nG_14.value=lisp.values1(TMP_67);\ntry{\nTMP_68=F_G4191__5802();\nthrow new lisp.BlockValue(G_69,TMP_68);TMP_70=lisp.values1(lisp.S_nil);\n}finally{\nG_14.value=save_STARHANDLER_CLUSTERSSTAR__5810;\n}\n}\ncase 'G4199':\nTMP_71=L_G4195__5807;\nTMP_72=F_G4192__5806(TMP_71);\nthrow new lisp.BlockValue(G_69,TMP_72);}\nbreak;\n}catch(ERR_56){\nif(ERR_56 instanceof lisp.TagValue && ERR_56.id==='TARGET_G4198'){TARGET_G4198_STATE=ERR_56.index;}\nelse{throw ERR_56;}}\n}\nTMP_55=lisp.values1(lisp.values1(lisp.S_nil))\n}catch(E__54){if(E__54 instanceof lisp.BlockValue && E__54.name === G_69){TMP_55=E__54.value;}\nelse{throw E__54;}\n}\nTMP_73=TMP_55;\n}\nTMP_74=TMP_73;\n}\nTMP_75=TMP_74;\n}\nTMP_19=TMP_75;\n}else{\nTMP_76=lisp.callFunctionWithCallStack(G_77);\nTMP_19=TMP_76;\n}\nTMP_78=TMP_19;\n}finally{\nG_14.value=save_STARHANDLER_CLUSTERSSTAR__5800;\n}\n}\nTMP_79=TMP_78;\n}\nreturn TMP_79;\" #<[object Object]>)\n5: (EVAL (SIGNALS-ERROR (THROW (GENSYM) NIL) CONTROL-ERROR))\n    at raise (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:755:9)\n    at CL_error (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:2436:3)\n    at LispSymbol.F_INVOKE_DEBUGGER_113 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:32908:14)\n    at F_ERROR_131 (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:32981:29)\n    at callFunction (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:2317:10)\n    at callFunctionWithCallStack (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:2393:14)\n    at F_THROW_VALUES_45 (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:176948:14)\n    at callFunction (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:2317:10)\n    at Module.callFunctionWithCallStack (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:2393:14)\n    at eval (eval at F_JS_EVAL_67 (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:15192:14), <anonymous>:42:13)"
+        },
+        {
+          "test": "CCASE.30",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CCASE.31",
+          "reason": "The value 0 is not of the expected type (MEMBER 1 7 2)"
+        },
+        {
+          "test": "CTYPECASE.11",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CTYPECASE.12",
+          "reason": "The value 1 is not of the expected type (OR SYMBOL FLOAT)"
+        },
+        {
+          "test": "DEFCONSTANT.ERROR.1",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFCONSTANT.ERROR.2",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFCONSTANT.ERROR.3",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFINE-MODIFY-MACRO.1",
+          "reason": "The variable REST is unbound"
+        },
+        {
+          "test": "DEFPARAMETER.ERROR.1",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFPARAMETER.ERROR.2",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFPARAMETER.ERROR.3",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFUN.5",
+          "reason": "expected (2 1); actual (2 2) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFUN.6",
+          "reason": "expected (2 1); actual (2 2) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFUN.7",
+          "reason": "expected (2 1); actual (2 2) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFUN.ERROR.1",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFUN.ERROR.2",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFUN.ERROR.3",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFUN.ERROR.4",
+          "reason": "The value #<Function G5007> is not of the expected type SYMBOL"
+        },
+        {
+          "test": "DEFVAR.ERROR.1",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFVAR.ERROR.2",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFVAR.ERROR.3",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DESTRUCTURING-BIND.20",
+          "reason": "The value (A . B) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "DESTRUCTURING-BIND.21",
+          "reason": "Invalid number of arguments for destructuring-bind: (Y Z) 2"
+        },
+        {
+          "test": "DESTRUCTURING-BIND.23",
+          "reason": "Unknown &key argument: :ALLOW-OTHER-KEYS"
+        },
+        {
+          "test": "DESTRUCTURING-BIND.ERROR.10",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "ECASE.32",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EQUALP.22",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EQUALP.23",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EQUALP.27",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EQUALP.29",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EQUALP.30",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EQUALP.35",
+          "reason": "expected ((0 0 0 0)); actual ((200 200 200 199)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EQUALP.36",
+          "reason": "Uncaught JavaScript exception: RangeError: Maximum call stack size exceeded\n    at F_GETF_3776 (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:24258:23)\n    at callFunction (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:2317:10)\n    at callFunctionWithCallStack (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:2393:14)\n    at F_GET_51 (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:38123:14)\n    at callFunction (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:2317:10)\n    at callFunctionWithCallStack (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:2393:14)\n    at LispSymbol.F_PERCENTSTRUCTURE_SUBTYPE_P_12 [as func] (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:34478:24)\n    at F_PERCENTSTRUCTURE_INSTANCE_P_27 (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:34518:23)\n    at callFunction (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:2317:10)\n    at callFunctionWithCallStack (file:///tmp/valtan-ansi-NxcObc/ansi.mjs:2393:14)"
+        },
+        {
+          "test": "ETYPECASE.11",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FBOUNDP.3",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FBOUNDP.8",
+          "reason": "expected (NIL); actual ((UNDEFINED-FUNCTION UNBOUND-VARIABLE TYPE-ERROR SIMPLE-ERROR PROGRAM-ERROR)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FDEFINITION.ERROR.4",
+          "reason": "The function 0 is undefined."
+        },
+        {
+          "test": "FDEFINITION.ERROR.6",
+          "reason": "The function 10 is undefined."
+        },
+        {
+          "test": "FDEFINITION.ERROR.7",
+          "reason": "The function (SETF) is undefined."
+        },
+        {
+          "test": "FDEFINITION.2",
+          "reason": "The function COND is undefined"
+        },
+        {
+          "test": "FDEFINITION.3",
+          "reason": "The function SETQ is undefined"
+        },
+        {
+          "test": "FDEFINITION.ORDER.1",
+          "reason": "The function SETQ is undefined"
+        },
+        {
+          "test": "FLET.45",
+          "reason": "Illegal function call: (NIL)"
+        },
+        {
+          "test": "FLET.47",
+          "reason": "Illegal function call: (:FOO)"
+        },
+        {
+          "test": "FLET.49",
+          "reason": "Illegal function call: (NIL)"
+        },
+        {
+          "test": "FLET.50",
+          "reason": "Illegal function call: (NIL)"
+        },
+        {
+          "test": "FMAKUNBOUND.3",
+          "reason": "expected (T NIL); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FUNCTION-LAMBDA-EXPRESSION.1",
+          "reason": "The function FUNCTION-LAMBDA-EXPRESSION is undefined"
+        },
+        {
+          "test": "FUNCTION-LAMBDA-EXPRESSION.2",
+          "reason": "The function FUNCTION-LAMBDA-EXPRESSION is undefined"
+        },
+        {
+          "test": "FUNCTION-LAMBDA-EXPRESSION.3",
+          "reason": "The function FUNCTION-LAMBDA-EXPRESSION is undefined"
+        },
+        {
+          "test": "FUNCTION-LAMBDA-EXPRESSION.ORDER.1",
+          "reason": "The function FUNCTION-LAMBDA-EXPRESSION is undefined"
+        },
+        {
+          "test": "FUNCTION-LAMBDA-EXPRESSION.ERROR.1",
+          "reason": "The function FUNCTION-LAMBDA-EXPRESSION is undefined"
+        },
+        {
+          "test": "FUNCTION-LAMBDA-EXPRESSION.ERROR.2",
+          "reason": "The function FUNCTION-LAMBDA-EXPRESSION is undefined"
+        },
+        {
+          "test": "LABELS.22",
+          "reason": "Illegal function call: (:FOO)"
+        },
+        {
+          "test": "LABELS.24",
+          "reason": "Illegal function call: (NIL (1- Y))"
+        },
+        {
+          "test": "LABELS.25",
+          "reason": "Illegal function call: (NIL (1- Y))"
+        },
+        {
+          "test": "LABELS.47",
+          "reason": "expected (:GOOD); actual (:BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LET*.8",
+          "reason": "expected (1); actual (0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LET*.10",
+          "reason": "expected (NIL); actual (1) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LET*.12",
+          "reason": "expected (3 2 5); actual (1 2 5) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACROLET.22",
+          "reason": "The value (Y Z) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "MACROLET.22A",
+          "reason": "The value (Y Z) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "MACROLET.24",
+          "reason": "Invalid number of arguments for destructuring-bind: (X Y Z) 1"
+        },
+        {
+          "test": "MACROLET.25",
+          "reason": "Invalid number of arguments for destructuring-bind: (X Y Z) 1"
+        },
+        {
+          "test": "MACROLET.26",
+          "reason": "The value (:A B) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.27",
+          "reason": "The value (:A (B C)) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.28",
+          "reason": "The value (:A (B C)) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.31",
+          "reason": "The value (:A (B C)) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.32",
+          "reason": "Unknown &key argument: :ALLOW-OTHER-KEYS"
+        },
+        {
+          "test": "MACROLET.33",
+          "reason": "Unknown &key argument: :FOO"
+        },
+        {
+          "test": "MACROLET.36",
+          "reason": "The value (M A B) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "MULTIPLE-VALUE-SETQ.5",
+          "reason": "expected ((1)); actual ((0)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MULTIPLE-VALUE-SETQ.8",
+          "reason": "expected ((6) (10)); actual ((0) (10)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPECASE.12",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPECASE.13",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPECASE.14",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "VALUES-LIST.ERROR.4",
+          "reason": "expected (T); actual (NIL ((TYPEP (QUOTE (A B C . D)) (QUOTE LIST)) \"==> true\")) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "data-and-control-flow/when.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 1428,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 2403,
+  "fail": 186,
+  "complete": true,
+  "passRate": 92.81575898030127,
+  "finishedAt": "2026-11-04T08:33:24.045Z"
+}

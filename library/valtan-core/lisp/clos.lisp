@@ -266,12 +266,18 @@
     (let ((result `(:name ,(if (consp direct-slot-spec)
                                (car direct-slot-spec)
                                direct-slot-spec)))
-          (others '()))
+          (others '())
+          (seen '()))
       (do ((plist (if (consp direct-slot-spec) (cdr direct-slot-spec) nil)
                   (cddr plist)))
           ((null plist))
         (let ((key (car plist))
               (value (cadr plist)))
+          (unless (member key '(:initform :initarg :reader :writer :accessor :documentation :type :allocation))
+            (error 'program-error :format-control "Unknown slot option ~S" :format-arguments (list key)))
+          (when (and (member key '(:initform :documentation :type :allocation)) (member key seen))
+            (error 'program-error :format-control "Repeated slot option ~S" :format-arguments (list key)))
+          (push key seen)
           (case key
             (:initform
              (setq result
@@ -323,6 +329,8 @@
     (mapcan (lambda (elt)
               (let ((key (car elt))
                     (rest (cdr elt)))
+                (unless (member key '(:default-initargs :metaclass :documentation))
+                  (error 'program-error :format-control "Unknown class option ~S" :format-arguments (list key)))
                 (when (eq key :default-initargs)
                   (setq key :direct-default-initargs))
                 (list key
@@ -353,15 +361,14 @@
         (when (member (name direct-slot)
                       (cdr direct-slots)
                       :key #'name)
-          (error "Duplicate slot ~S" (name direct-slot)))))))
+          (error 'program-error :format-control "Duplicate slot ~S" :format-arguments (list (name direct-slot))))))))
 
 (defun check-duplicate-direct-default-initargs (direct-default-initargs class-name)
   (do ((direct-default-initargs direct-default-initargs (cdr direct-default-initargs)))
       ((null direct-default-initargs))
     (when (member (caar direct-default-initargs) (cdr direct-default-initargs) :key #'car)
-      (error "Duplicate initialization argument name ~S in :DEFAULT-INITARGS DEFCLASS ~S."
-             (caar direct-default-initargs)
-             class-name))))
+      (error 'program-error :format-control "Duplicate initialization argument ~S in class ~S."
+             :format-arguments (list (caar direct-default-initargs) class-name)))))
 
 (defmacro defclass (name direct-superclasses direct-slot-specs &rest options)
   `(ensure-class-using-class (find-class ',name nil)
@@ -652,24 +659,52 @@
 
 (defvar *generic-function-objects* (make-hash-table :test 'eq))
 (defvar *generic-function-combinations* (make-hash-table :test 'eq))
+(defvar *generic-function-precedence* (make-hash-table :test 'eq))
+(defvar *defgeneric-methods* (make-hash-table :test 'eq))
+
 (defvar *method-combination-definitions* (make-hash-table :test 'eq))
 (defvar *traced-functions*)
 
 (defmacro defgeneric (function-name lambda-list &body options)
+  (let ((seen nil)
+        (required (getf (analyze-lambda-list lambda-list) :required-names)))
+    (dolist (option options)
+      (let ((key (car option)))
+        (unless (member key '(:argument-precedence-order :declare declare :documentation
+                             :method-combination :generic-function-class :method-class :method))
+          (error 'program-error :format-control "Unknown DEFGENERIC option ~S" :format-arguments (list key)))
+        (when (and (not (member key '(:method :declare declare))) (member key seen))
+          (error 'program-error :format-control "Repeated DEFGENERIC option ~S" :format-arguments (list key)))
+        (push key seen)
+        (when (eq key :argument-precedence-order)
+          (unless (and (= (length (cdr option)) (length required))
+                       (= (length (remove-duplicates (cdr option))) (length required))
+                       (every (lambda (name) (member name required)) (cdr option)))
+            (error 'program-error :format-control "Invalid argument precedence order"))))))
   `(progn
+     (%remove-defgeneric-methods ',function-name)
      (ensure-generic-function ',function-name
                               :lambda-list ',lambda-list
                               ,@(canonicalize-defgeneric-options
                                  (remove :method options :key #'car)))
-     ,@(mapcar (lambda (option) `(defmethod ,function-name ,@(cdr option)))
+     ,@(mapcar (lambda (option)
+                 `(push (defmethod ,function-name ,@(cdr option))
+                        (gethash (find-generic-function ',function-name) *defgeneric-methods*)))
                (remove-if-not (lambda (option) (eq (car option) :method)) options))
      (fdefinition ',function-name)))
+
+(defun %remove-defgeneric-methods (name)
+  (let ((gf (find-generic-function name)))
+    (when gf
+      (dolist (method (gethash gf *defgeneric-methods*)) (remove-method gf method))
+      (remhash gf *defgeneric-methods*))))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun canonicalize-defgeneric-option (option)
     (case (car option)
-      (:method-combination (list :method-combination (list 'quote (cdr option))))
-      (:method-function-class
+      ((:method-combination :argument-precedence-order)
+       (list (car option) (list 'quote (cdr option))))
+      (:generic-function-class
        (list :generic-function-class
              `(find-class ',(cadr option))))
       (:method-class
@@ -710,7 +745,7 @@
               (and (symbolp function-name)
                    (or (and (fboundp 'special-operator-p) (special-operator-p function-name))
                        (and (fboundp 'macro-function) (macro-function function-name)))))
-      (error "~S already names an ordinary function, macro or special operator." function-name)))
+      (error 'program-error :format-control "~S already names an ordinary function, macro or special operator." :format-arguments (list function-name))))
   (apply #'ensure-generic-function-using-class
          (find-generic-function function-name)
          function-name
@@ -727,8 +762,19 @@
           (generic-function-class +standard-generic-function+)
           (method-class +standard-method+)
      &allow-other-keys)
-  (declare (ignore lambda-list))
-  (or generic-function-or-null
+  (if generic-function-or-null
+      (let ((gf generic-function-or-null))
+        (when (member :lambda-list all-keys)
+          (dolist (method (generic-function-methods gf))
+            (%check-method-congruence lambda-list (method-lambda-list method)))
+          (setf (generic-function-lambda-list gf) lambda-list))
+        (%configure-generic-signature gf all-keys)
+        (when (member :method-combination all-keys)
+          (setf (gethash gf *generic-function-combinations*) (getf all-keys :method-combination)))
+        (when (member :method-class all-keys)
+          (setf (generic-function-method-class gf) (canonicalize-class method-class)))
+        (finalize-generic-function gf)
+        gf)
       (let ((gf (apply (if (eq generic-function-class +standard-generic-function+)
                            #'make-instance-standard-generic-function
                            (error "make-instance trap"))
@@ -741,7 +787,7 @@
 
 (defun make-instance-standard-generic-function
     (generic-function-class &key name lambda-list method-class
-                                 (method-combination '(standard)) &allow-other-keys)
+                                 (method-combination '(standard)) argument-precedence-order &allow-other-keys)
   (declare (ignore generic-function-class))
   (let ((gf (make-standard-instance :class +standard-generic-function+)))
     (setf (gethash gf *generic-function-combinations*) method-combination)
@@ -756,8 +802,27 @@
             (%slot-value gf 'max-argc)
             (unless (or rest-var (member '&key lambda-list))
               (+ (length required-args) (length optional-args)))))
+    (%configure-generic-signature gf (when argument-precedence-order
+                                      (list :argument-precedence-order argument-precedence-order)))
     (finalize-generic-function gf)
     gf))
+
+(defun %configure-generic-signature (gf options)
+  (let* ((shape (analyze-lambda-list (generic-function-lambda-list gf)))
+         (required (getf shape :required-names))
+         (order (if (member :argument-precedence-order options)
+                    (getf options :argument-precedence-order)
+                    required)))
+    (unless (and (= (length order) (length required))
+                 (= (length (remove-duplicates order)) (length required))
+                 (every (lambda (name) (member name required)) order))
+      (error 'program-error))
+    (setf (gethash gf *generic-function-precedence*)
+          (mapcar (lambda (name) (position name required)) order)
+          (generic-function-min-argc gf) (length required)
+          (%slot-value gf 'max-argc)
+          (unless (or (getf shape :rest-var) (getf shape :keyp))
+            (+ (length required) (length (getf shape :optional-args)))))))
 
 (defun finalize-generic-function (gf)
   (setf (%slot-value gf 'eql-specializers) (generic-function-eql-specializers gf))
@@ -793,9 +858,32 @@
     (let* ((classes (required-classes gf args))
            (key (method-cache-key gf args classes))
            (emfun (gethash key (classes-to-emf-table gf))))
+      (%check-generic-keywords gf args classes)
       (if emfun
           (funcall emfun args)
           (slow-method-lookup gf args classes key)))))
+
+(defun %check-generic-keywords (gf args classes)
+  (let* ((shape (analyze-lambda-list (generic-function-lambda-list gf)))
+         (methods nil))
+    (when (getf shape :keyp)
+      (setq methods (%compute-applicable-methods gf args classes))
+      (let ((keys (copy-list (getf shape :keywords)))
+            (allow (getf shape :allow-other-keys))
+            (tail (nthcdr (min (length args)
+                              (+ (length (getf shape :required-names))
+                                 (length (getf shape :optional-args)))) args)))
+        (dolist (method methods)
+          (let ((m (analyze-lambda-list (method-lambda-list method))))
+            (setq keys (union keys (getf m :keywords)))
+            (when (or (getf m :allow-other-keys)
+                      (and (getf m :rest-var) (not (getf m :keyp))))
+              (setq allow t))))
+        (unless (evenp (length tail)) (error 'program-error))
+        (unless (or allow (getf tail :allow-other-keys))
+          (do ((rest tail (cddr rest))) ((null rest))
+            (unless (or (eq (car rest) :allow-other-keys) (member (car rest) keys))
+              (error 'program-error))))))))
 
 (defun generic-function-eql-specializers (gf)
   (let ((specializers nil))
@@ -855,15 +943,11 @@
                    (error "method-more-specific-p trap"))))
 
 (defun std-method-more-specific-p (gf m1 m2 required-classes)
-  (declare (ignore gf))
-  (mapc (lambda (spec1 spec2 required-class)
-          (unless (eq spec1 spec2)
-            (return-from std-method-more-specific-p
-              (sub-specializer-p spec1 spec2 required-class))))
-        (method-specializers m1)
-        (method-specializers m2)
-        required-classes)
-  nil)
+  (dolist (index (gethash gf *generic-function-precedence*) nil)
+    (let ((spec1 (nth index (method-specializers m1)))
+          (spec2 (nth index (method-specializers m2))))
+      (unless (eq spec1 spec2)
+        (return (sub-specializer-p spec1 spec2 (nth index required-classes)))))))
 
 (defun subclassp (c1 c2)
   (not (null (member c2 (class-precedence-list c1)))))
@@ -1260,14 +1344,43 @@
     `(ensure-method ',function-name
                     :lambda-list ',lambda-list
                     :qualifiers ',qualifiers
-                    :specializers ',specializers
+                    :specializers (list ,@(mapcar (lambda (specializer)
+                                                   (if (and (consp specializer) (eq (car specializer) 'eql))
+                                                       `(intern-eql-specializer ,(cadr specializer))
+                                                       `',specializer)) specializers))
                     :body ',body
                     :function (%make-method-lambda ,(kludge-arglist lambda-list) ,body))))
+
+(defun %implicit-generic-lambda-list (lambda-list)
+  (let ((shape (analyze-lambda-list lambda-list)))
+    (append (getf shape :required-names)
+            (when (getf shape :optional-args)
+              (cons '&optional (mapcar (lambda (arg) (if (consp arg) (car arg) arg))
+                                      (getf shape :optional-args))))
+            (when (getf shape :rest-var) (list '&rest (getf shape :rest-var)))
+            (when (getf shape :keyp) (list '&key)))))
+
+(defun %check-method-congruence (generic-list method-list)
+  (let* ((generic (analyze-lambda-list generic-list))
+         (method (analyze-lambda-list method-list))
+         (g-tail (or (getf generic :rest-var) (getf generic :keyp)))
+         (m-tail (or (getf method :rest-var) (getf method :keyp))))
+    (unless (and (= (length (getf generic :required-names)) (length (getf method :required-names)))
+                 (= (length (getf generic :optional-args)) (length (getf method :optional-args)))
+                 (eq (not g-tail) (not m-tail))
+                 (or (not (getf generic :keyp))
+                     (getf method :allow-other-keys)
+                     (and (getf method :rest-var) (not (getf method :keyp)))
+                     (every (lambda (key) (member key (getf method :keywords)))
+                            (getf generic :keywords))))
+      (error 'program-error :format-control "Incongruent generic and method lambda lists: ~S and ~S"
+             :format-arguments (list generic-list method-list)))))
 
 (defun ensure-method (function-name &rest args &key lambda-list qualifiers specializers body
                                                     function)
   (declare (ignore qualifiers specializers body function))
-  (let* ((gf (%ensure-generic-function function-name :lambda-list lambda-list))
+  (let* ((gf (or (find-generic-function function-name)
+                 (%ensure-generic-function function-name :lambda-list (%implicit-generic-lambda-list lambda-list))))
          (method-class (generic-function-method-class gf))
          (method (apply (if (eq method-class +standard-method+)
                             #'make-instance-standard-method
@@ -1310,6 +1423,7 @@
 (defun add-method (gf method)
   (when (functionp gf)
     (setq gf (or (gethash gf *generic-function-objects*) (type-error gf 'generic-function))))
+  (%check-method-congruence (generic-function-lambda-list gf) (method-lambda-list method))
   (when (and (method-generic-function method) (not (eq (method-generic-function method) gf)))
     (error "Method already belongs to another generic function."))
   (let ((old-method
@@ -1342,6 +1456,9 @@
   (when (functionp gf)
     (setq gf (or (gethash gf *generic-function-objects*)
                  (type-error gf 'generic-function))))
+  (unless (= (length specializers) (generic-function-min-argc gf))
+    (error 'program-error))
+  (setq specializers (canonicalize-method-specializers specializers))
   (let ((method
           (find-if (lambda (method)
                      (and (equal qualifiers (method-qualifiers method))
@@ -1485,7 +1602,7 @@
 
 (defun %ensure-structure-class (name)
   (let* ((class (make-standard-instance :class (find-class 'structure-class)))
-         (superclass (find-class 'structure-object))
+         (superclass (find-class (or (get name 'structure-parent) 'structure-object)))
          (slots (mapcar (lambda (slot) (make-slot-definition :name slot :allocation :instance))
                         (get name 'structure-slots))))
     (setf (class-name class) name
@@ -1504,6 +1621,11 @@
 (defmethod allocate-instance ((class standard-class) &rest initargs)
   (declare (ignore initargs))
   (make-standard-instance :class class))
+
+(defmethod allocate-instance ((class structure-class) &rest initargs)
+  (declare (ignore initargs))
+  (apply #'*:make-structure (class-name class)
+         (make-list (length (class-slots class)))))
 
 (defgeneric shared-initialize (instance slot-names &key))
 
@@ -1672,7 +1794,7 @@
     `(progn
        (defclass ,name ,(or parent-types '(condition))
          ,slot-specs
-         ,@options)
+         ,@(remove :report options :key #'car))
        ,(cond ((null report))
               ((stringp report)
                `(defmethod print-object ((,g-condition ,name) ,g-stream)
@@ -1794,3 +1916,30 @@
     (or (gethash object eql-specializer-table)
         (setf (gethash object eql-specializer-table)
               (make-instance 'eql-specializer :object object)))))
+
+
+(defgeneric make-load-form (object &optional environment))
+(defmethod make-load-form ((object standard-object) &optional environment)
+  (declare (ignore environment))
+  (error "No MAKE-LOAD-FORM method for ~S" object))
+(defmethod make-load-form ((object structure-object) &optional environment)
+  (declare (ignore environment))
+  (error "No MAKE-LOAD-FORM method for ~S" object))
+(defmethod make-load-form ((object class) &optional environment)
+  (declare (ignore environment))
+  (let ((name (class-name object)))
+    (unless (and name (eq object (find-class name nil)))
+      (error "Cannot externalize an unnamed class"))
+    `(find-class ',name)))
+
+(defun make-load-form-saving-slots (object &key (slot-names nil supplied-p) environment)
+  (declare (ignore environment))
+  (unless (or (typep object 'standard-object) (typep object 'structure-object))
+    (type-error object '(or standard-object structure-object)))
+  (let* ((class (class-of object))
+         (names (if supplied-p slot-names (mapcar #'slot-definition-name (class-slots class)))))
+    (values `(allocate-instance (find-class ',(class-name class)))
+            `(progn ,@(mapcar (lambda (name)
+                                 (if (slot-boundp object name)
+                                     `(setf (slot-value ',object ',name) ',(slot-value object name))
+                                     `(slot-makunbound ',object ',name))) names)))))

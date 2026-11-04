@@ -36,9 +36,9 @@
 #+valtan
 (defconstant least-negative-normalized-short-float -2.2250738585072014d-308)
 #+valtan
-(defconstant short-float-epsilon 2.220446049250313d-16)
+(defconstant short-float-epsilon 1.1102230246251568d-16)
 #+valtan
-(defconstant short-float-negative-epsilon 1.1102230246251565d-16)
+(defconstant short-float-negative-epsilon 5.551115123125784d-17)
 #+valtan
 (defconstant most-positive-single-float 1.7976931348623157d308)
 #+valtan
@@ -52,9 +52,9 @@
 #+valtan
 (defconstant least-negative-normalized-single-float -2.2250738585072014d-308)
 #+valtan
-(defconstant single-float-epsilon 2.220446049250313d-16)
+(defconstant single-float-epsilon 1.1102230246251568d-16)
 #+valtan
-(defconstant single-float-negative-epsilon 1.1102230246251565d-16)
+(defconstant single-float-negative-epsilon 5.551115123125784d-17)
 #+valtan
 (defconstant most-positive-double-float 1.7976931348623157d308)
 #+valtan
@@ -68,9 +68,9 @@
 #+valtan
 (defconstant least-negative-normalized-double-float -2.2250738585072014d-308)
 #+valtan
-(defconstant double-float-epsilon 2.220446049250313d-16)
+(defconstant double-float-epsilon 1.1102230246251568d-16)
 #+valtan
-(defconstant double-float-negative-epsilon 1.1102230246251565d-16)
+(defconstant double-float-negative-epsilon 5.551115123125784d-17)
 #+valtan
 (defconstant most-positive-long-float 1.7976931348623157d308)
 #+valtan
@@ -84,9 +84,9 @@
 #+valtan
 (defconstant least-negative-normalized-long-float -2.2250738585072014d-308)
 #+valtan
-(defconstant long-float-epsilon 2.220446049250313d-16)
+(defconstant long-float-epsilon 1.1102230246251568d-16)
 #+valtan
-(defconstant long-float-negative-epsilon 1.1102230246251565d-16)
+(defconstant long-float-negative-epsilon 5.551115123125784d-17)
 #+valtan
 (defconstant pi 3.141592653589793d0)
 (#-valtan defparameter #+valtan defconstant boole-clr 0)

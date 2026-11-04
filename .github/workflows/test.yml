@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       run_ansi:
-        description: Run upstream ANSI tests (full runs require complete coverage and 90% success)
+        description: Run upstream ANSI tests (full runs require complete coverage and 99% success)
         type: boolean
         default: false
       ansi_category:

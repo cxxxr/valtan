@@ -33,3 +33,48 @@
             (notevery (lambda (x) (incf calls) x) nil)
             calls))
   nil t nil 0)
+
+(deftest elt-update-returns-element-and-honors-fill-pointer
+  (let ((list (list :old :tail))
+        (vector (make-array 4 :fill-pointer 1 :initial-element 0)))
+    (values (setf (elt list 0) :new) list
+            (handler-case (elt vector 1)
+              (type-error (c) (not (typep (type-error-datum c) (type-error-expected-type c)))))
+            (handler-case (setf (elt vector 1) 9) (type-error () :bounds))))
+  :new (:new :tail) t :bounds)
+
+(deftest sequence-construction-retains-element-and-length-constraints
+  (values (make-sequence (find-class 'bit-vector) 3 :initial-element 1)
+          (array-element-type (make-sequence 'bit-vector 3))
+          (handler-case (make-sequence '(vector t 4) 3) (type-error () :length))
+          (handler-case (map '(simple-string 2) #'identity "abc") (type-error () :length))
+          (handler-case (merge '(vector t 4) '(1 3) '(2) #'<) (type-error () :length)))
+  #*111 bit :length :length :length)
+
+(deftest sequence-conversions-produce-specialized-bit-vectors
+  (values (coerce '(1 0 1) 'bit-vector)
+          (concatenate 'bit-vector #*10 #*011)
+          (merge 'bit-vector #*01 #*01 #'<))
+  #*101 #*10011 #*0011)
+
+(deftest map-into-with-no-input-calls-nullary-function
+  (let ((calls 0) (list (list nil nil nil))
+        (vector (make-array 3 :fill-pointer 0 :initial-element 0)))
+    (map-into list (lambda () (incf calls)))
+    (map-into vector (lambda () (incf calls)))
+    (values list vector (fill-pointer vector) calls))
+  (1 2 3) #(4 5 6) 3 6)
+
+(deftest finite-member-subtypes-use-eql-and-include-characters
+  (let ((a (copy-seq "same")) (b (copy-seq "same")))
+    (values (multiple-value-list (subtypep `(member ,a) `(member ,b)))
+            (multiple-value-list (subtypep '(member #\a #\b) 'character))
+            (coerce 3 'complex)))
+  (nil t) (t t) 3)
+
+(deftest bit-vector-length-constraints-apply-to-merge
+  (values (typep #*000000 '(bit-vector 3))
+          (handler-case (make-sequence '(bit-vector 3) 6) (type-error () :length))
+          (handler-case (merge '(bit-vector 3) (list 0 0 0) (list 1 1 1) #'<)
+            (type-error () :length)))
+  nil :length :length)

@@ -48,7 +48,9 @@
                (:file "lisp/catch-throw")
                (:file "lisp/documentation")
                (:file "lisp/loop")
+               (:file "lisp/logical-pathname")
                (:file "lisp/format" :if-feature :valtan)
+               (:file "lisp/pprint" :if-feature :valtan)
                (:file "lisp/environment" :if-feature :valtan)))
 
 (defsystem "valtan-core/compiler"
@@ -68,7 +70,8 @@
                (:file "compiler/hir-optimize" :if-feature (:not :valtan))
                (:file "compiler/pass2")
                (:file "compiler/compiler")
-               (:file "lisp/compilation" :if-feature :valtan)))
+               (:file "lisp/compilation" :if-feature :valtan)
+               (:file "lisp/compilation-files" :if-feature :valtan)))
 
 (defsystem "valtan-core"
   :depends-on ("valtan-core/system"

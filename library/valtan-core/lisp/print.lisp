@@ -4,7 +4,7 @@
 (in-package :valtan-core)
 
 (defvar *print-escape* t)
-(defvar *print-circle* t)
+(defvar *print-circle* nil)
 (defvar *print-case* :upcase)
 (defvar *print-readably* nil)
 (defvar *print-array* t)
@@ -22,22 +22,30 @@
 (defvar *print-circle-table* nil)
 (defvar *print-circle-seen* nil)
 (defvar *print-depth* 0)
+(defvar *printing-active* nil)
 
 (defun make-circle-table (object)
   (let ((visited '())
         (circle '())
         (label 0))
-    (labels ((f (object)
+    (labels ((f (object &optional (depth 0) (count 0))
+               (when (and (not *print-readably*)
+                          (or (and *print-level* (>= depth *print-level*))
+                              (and *print-length* (>= count *print-length*))))
+                 (return-from f nil))
                (cond ((assoc object visited)
-                      (push (cons object (incf label)) circle))
+                      (unless (assoc object circle)
+                        (push (cons object (incf label)) circle)))
                      ((consp object)
                       (push (cons object t) visited)
-                      (f (car object))
-                      (f (cdr object)))
+                      (f (car object) (1+ depth))
+                      (f (cdr object) depth (1+ count)))
                      ((and (arrayp object) (not (stringp object)))
                       (push (cons object t) visited)
-                      (dotimes (i (array-total-size object))
-                        (f (row-major-aref object i))))
+                      (dotimes (i (if (and *print-length* (not *print-readably*))
+                                     (min *print-length* (array-total-size object))
+                                     (array-total-size object)))
+                        (f (row-major-aref object i) (1+ depth))))
                      ((and (symbolp object) (null (symbol-package object)))
                       (push (cons object t) visited))
                      (t
@@ -46,13 +54,24 @@
       circle)))
 
 (defmacro print-unreadable-object ((object stream &key type identity) &body body)
-  (declare (ignore object type identity))
-  (let ((g-stream (gensym)))
-    `(let ((,g-stream ,stream))
+  (let ((g-stream (gensym)) (g-object (gensym)) (g-type (gensym)) (g-id (gensym)))
+    `(let ((,g-object ,object) (,g-stream ,stream) (,g-type ,type) (,g-id ,identity))
+       (when *print-readably* (error 'print-not-readable :object ,g-object))
        (write-string "#<" ,g-stream)
+       (when ,g-type
+         (let ((*print-pretty* nil) (*print-escape* nil))
+           (write (type-of ,g-object) :stream ,g-stream))
+         (write-char #\Space ,g-stream))
        ,@body
+       (when ,g-id
+         ,(if body `(write-char #\Space ,g-stream)
+              `(unless ,g-type (write-char #\Space ,g-stream)))
+         (let ((*print-base* 16) (*print-radix* nil))
+           (print-number (*:object-identity ,g-object) ,g-stream)))
        (write-string ">" ,g-stream)
        nil)))
+
+(declaim (special *read-base* *readtable*))
 
 ;;; Helper functions for symbol case conversion
 (defun %all-same-case-p (string)
@@ -70,7 +89,10 @@
   (let ((len (length string)))
     (dotimes (i len nil)
       (let ((c (char string i)))
-        (when (or (char= c #\space)
+        (when (or (not (eq (reader-syntax c) :constituent))
+                  (char= c #\:)
+                  (member c '(#\Backspace #\Rubout))
+                  (char= c #\space)
                   (char= c #\()
                   (char= c #\))
                   (char= c #\')
@@ -87,7 +109,10 @@
   (let ((len (length string)))
     (when (zerop len) (return-from %needs-escape-p t))
     ;; Always escape if contains special characters
-    (when (%has-special-chars-p string)
+    (when (or (%has-special-chars-p string)
+              (every (lambda (c) (char= c #\.)) string)
+              (let ((*read-base* *print-base*))
+                (handler-case (parse-number string) (error () t))))
       (return-from %needs-escape-p t))
     ;; Check case compatibility with readtable-case
     (case readtable-case
@@ -120,12 +145,20 @@
             (string-upcase string))
            (t string)))
     (otherwise
-     ;; :upcase or :downcase readtable
-     (case print-case
-       (:upcase (string-upcase string))
-       (:downcase (string-downcase string))
-       (:capitalize (string-capitalize string))
-       (otherwise string)))))
+     (let ((result (copy-seq string)) (start t))
+       (dotimes (i (length string) result)
+         (let ((c (char string i)))
+           (setf (char result i)
+                 (cond ((and (eq readtable-case :upcase) (upper-case-p c))
+                        (if (or (eq print-case :downcase)
+                                (and (eq print-case :capitalize) (not start)))
+                            (char-downcase c) c))
+                       ((and (eq readtable-case :downcase) (lower-case-p c))
+                        (if (or (eq print-case :upcase)
+                                (and (eq print-case :capitalize) start))
+                            (char-upcase c) c))
+                       (t c)))
+           (setq start (not (alphanumericp c)))))))))
 
 (defun %write-symbol-name (name stream print-case readtable-case escape-p)
   "Write symbol name with appropriate escaping and case conversion."
@@ -133,17 +166,21 @@
     (if needs-escape
         (progn
           (write-char #\| stream)
-          (write-string name stream)
+          (dotimes (i (length name))
+            (let ((c (char name i)))
+              (when (or (char= c #\|) (char= c #\\))
+                (write-char #\\ stream))
+              (write-char c stream)))
           (write-char #\| stream))
         (write-string (%convert-case name print-case readtable-case) stream))))
 
 (defun print-symbol (symbol stream)
   (let ((name (symbol-name symbol))
-        (readtable-case (readtable-case *readtable*))
+        (readtable-case (if *print-readably* :upcase (readtable-case *readtable*)))
         (print-case *print-case*))
     (if *print-escape*
         (cond ((null (symbol-package symbol))
-               (write-string "#:" stream)
+               (when (or *print-gensym* *print-readably*) (write-string "#:" stream))
                (%write-symbol-name name stream print-case readtable-case t))
               ((keywordp symbol)
                (write-string ":" stream)
@@ -152,7 +189,8 @@
                    (eq symbol (find-symbol (symbol-name symbol))))
                (%write-symbol-name name stream print-case readtable-case t))
               (t
-               (write-string (package-name (symbol-package symbol)) stream)
+               (%write-symbol-name (package-name (symbol-package symbol))
+                                   stream print-case readtable-case t)
                (multiple-value-bind (_symbol status)
                    (find-symbol (symbol-name symbol) (symbol-package symbol))
                  (declare (ignore _symbol))
@@ -165,7 +203,10 @@
 (defun print-string (string stream)
   (cond (*print-escape*
          (write-char #\" stream)
-         (write-string string stream)
+         (dotimes (i (length string))
+           (let ((c (char string i)))
+             (when (or (char= c #\") (char= c #\\)) (write-char #\\ stream))
+             (write-char c stream)))
          (write-char #\" stream))
         (t
          (write-string string stream))))
@@ -181,7 +222,8 @@
 (defun print-character (char stream)
   (cond (*print-escape*
          (write-string "#\\" stream)
-         (write-string (or (char-name char) (string char)) stream))
+         (write-string (if (graphic-char-p char) (string char)
+                          (or (char-name char) (string char))) stream))
         (t
          (write-char char stream))))
 
@@ -252,21 +294,32 @@
          (write-string ")" stream))))
 
 (defun print-array (array stream)
+  (when (and *print-readably*
+             (let ((tail (member 0 (array-dimensions array))))
+               (and tail (some #'plusp (cdr tail)))))
+    (error 'print-not-readable :object array))
   (write-char #\# stream)
   (print-decimal-integer (array-rank array) stream)
   (write-char #\A stream)
-  (let ((index 0))
+  (let ((index 0) (*print-depth* (1- *print-depth*)))
     (labels ((contents (dimensions)
                (if (null dimensions)
                    (progn
                      (write-1 (row-major-aref array index) :stream stream)
                      (incf index))
-                   (progn
+                   (if (and (not *print-readably*) *print-level* (>= *print-depth* *print-level*))
+                       (progn (write-char #\# stream)
+                              (incf index (reduce #'* dimensions :initial-value 1)))
+                   (let ((*print-depth* (1+ *print-depth*)))
                      (write-char #\( stream)
                      (dotimes (i (car dimensions))
                        (unless (zerop i) (write-char #\space stream))
+                       (when (and (not *print-readably*) *print-length* (>= i *print-length*))
+                         (write-string "..." stream)
+                         (incf index (* (- (car dimensions) i) (reduce #'* (cdr dimensions) :initial-value 1)))
+                         (return))
                        (contents (cdr dimensions)))
-                     (write-char #\) stream)))))
+                     (write-char #\) stream))))))
       (contents (array-dimensions array)))))
 
 (defun print-function (function stream)
@@ -287,6 +340,15 @@
 (defun print-structure (structure stream)
   (funcall (structure-printer structure) structure stream))
 
+(defun print-structure-slots (structure stream)
+  (let* ((name (*:%structure-name structure)) (items (list name)) (index 0))
+    (dolist (slot (get name 'structure-slots))
+      (push (intern (symbol-name slot) :keyword) items)
+      (push (*:%structure-ref structure index) items)
+      (incf index))
+    (write-string "#S" stream)
+    (let ((*print-escape* t)) (print-cons-1 (nreverse items) stream))))
+
 (defun write-1 (object &key ((:array *print-array*) *print-array*)
                             ((:base *print-base*) *print-base*)
                             ((:case *print-case*) *print-case*)
@@ -303,6 +365,9 @@
                             ((:readably *print-readably*) *print-readably*)
                             ((:right-margin *print-right-margin*) *print-right-margin*)
                             (stream *standard-output*))
+  (when (and *print-pretty* (fboundp '%pretty-write))
+    (when (%pretty-write stream object)
+      (return-from write-1 object)))
   (let ((compound (cond ((consp object) t)
                         ((arrayp object) (not (or (stringp object) (bit-vector-p object))))
                         ((system:structure-p object) t))))
@@ -341,6 +406,12 @@
          (print-function object stream))
         ((packagep object)
          (print-package object stream))
+        ((and (fboundp 'pathnamep) (pathnamep object))
+         (when (and *print-readably* (not (equal object (pathname (namestring object)))))
+           (error 'print-not-readable :object object))
+         (if *print-escape*
+             (progn (write-string "#P" stream) (print-string (namestring object) stream))
+             (write-string (namestring object) stream)))
         ((*:structure-p object)
          (print-structure object stream))
         (t
@@ -350,12 +421,18 @@
   object)))
 
 (defun write (object &rest args)
-  (let ((*print-depth* 0)
+  (if *printing-active*
+      (apply #'write-1 object args)
+  (let* ((*printing-active* t)
+        (*print-depth* 0)
+        (*print-length* (getf args :length *print-length*))
+        (*print-level* (getf args :level *print-level*))
+        (*print-readably* (getf args :readably *print-readably*))
         (*print-circle-table*
           (when (getf args :circle *print-circle*)
             (make-circle-table object)))
         (*print-circle-seen* nil))
-    (apply #'write-1 object args)))
+    (apply #'write-1 object args))))
 
 (defun write-to-string (object &rest args
                                &key array base case circle escape gensym length level

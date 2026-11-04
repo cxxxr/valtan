@@ -11,6 +11,11 @@
             (*print-readably* (and escape *print-readably*)))
         (write-to-string object :escape escape))))
 
+(defun format-output-object (stream object escape colon)
+  (if (and colon (null object))
+      (write-string "()" stream)
+      (write object :stream stream :escape escape :readably (and escape *print-readably*))))
+
 (defun format (destination control &rest arguments)
   (let* ((string-destination (and destination (stringp destination)))
          (stream (cond ((or (null destination) string-destination)
@@ -31,11 +36,11 @@
            nil)
           (t nil))))
 
-(defun format-write-object (object colon at)
+(defun format-write-object (object colon at stream)
   (let ((*print-pretty* (or colon *print-pretty*))
         (*print-level* (if at nil *print-level*))
         (*print-length* (if at nil *print-length*)))
-    (write-to-string object)))
+    (write object :stream stream)))
 
 (defmacro formatter (control)
   (unless (stringp control) (type-error control 'string))

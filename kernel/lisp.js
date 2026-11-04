@@ -34,6 +34,8 @@ import {
     CL_symbolPlist,
     CL_setSymbolPlist,
     CL_put,
+    CL_compilerProperty,
+    CL_setCompilerProperty,
     CL_boundp,
     CL_fboundp,
     CL_symbolPackage,
@@ -91,7 +93,8 @@ import {
     CL_structureName,
     CL_structureSlotCount,
     CL_structureRef,
-    CL_structureSet
+    CL_structureSet,
+    CL_objectIdentity
 } from './structure';
 export * from './structure';
 
@@ -118,6 +121,7 @@ import {
     CL_phase,
     CL_cis,
     CL_numberPrintString,
+    CL_parseFloatString,
     CL_complexp,
     CL_complex,
     CL_realpart,
@@ -268,6 +272,8 @@ registerFunction(system_package, 'MAP-PACKAGE-SYMBOLS', CL_mapPackageSymbols, 2)
 registerFunction(system_package, 'MAP-PACKAGE-EXTERNAL-SYMBOLS', CL_mapPackageExternalSymbols, 2);
 registerFunction(system_package, 'MAP-PACKAGE-ALL-SYMBOLS', CL_mapPackageAllSymbols, 2);
 registerFunction(system_package, 'PUT', CL_put, 3);
+registerFunction(system_package, 'COMPILER-PROPERTY', CL_compilerProperty, 2);
+registerFunction(system_package, 'SET-COMPILER-PROPERTY', CL_setCompilerProperty, 3);
 
 // package.js
 registerFunction(cl_package, 'PACKAGEP', CL_packagep, 1);
@@ -325,6 +331,7 @@ registerFunction(cl_package, 'PHASE', CL_phase, 1);
 registerFunction(cl_package, 'CIS', CL_cis, 1);
 registerFunction(system_package, 'FORMAT-CONTROL', CL_formatControl, 3);
 registerFunction(system_package, 'NUMBER-PRINT-STRING', CL_numberPrintString, 3);
+registerFunction(system_package, 'PARSE-FLOAT-STRING', CL_parseFloatString, 1);
 registerFunction(cl_package, 'COMPLEXP', CL_complexp, 1);
 registerFunction(cl_package, 'COMPLEX', CL_complex, 1, 2);
 registerFunction(cl_package, 'REALPART', CL_realpart, 1);
@@ -379,6 +386,7 @@ registerFunction(system_package, '%STRUCTURE-NAME', CL_structureName, 1);
 registerFunction(system_package, '%STRUCTURE-SLOT-COUNT', CL_structureSlotCount, 1);
 registerFunction(system_package, '%STRUCTURE-REF', CL_structureRef, 2);
 registerFunction(system_package, '%STRUCTURE-SET', CL_structureSet, 3);
+registerFunction(system_package, 'OBJECT-IDENTITY', CL_objectIdentity, 1);
 
 // control.js
 registerFunction(cl_package, 'EQ', CL_eq, 2);

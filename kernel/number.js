@@ -35,13 +35,27 @@ export class Ratio {
         this.denominator = denominator;
     }
     valueOf() {
-        const negative = this.numerator < 0n;
-        const n = negative ? -this.numerator : this.numerator, d = this.denominator;
-        // Scale both operands before converting, avoiding Infinity / Infinity.
-        const ns = Math.max(0, n.toString(2).length - 54);
-        const ds = Math.max(0, d.toString(2).length - 54);
-        return (negative ? -1 : 1) * Number(n >> BigInt(ns)) / Number(d >> BigInt(ds)) * 2 ** (ns - ds);
+        return rationalToFloat(this.numerator, this.denominator);
     }
+}
+
+// Round the quotient once, using integer arithmetic and ties to even.
+function rationalToFloat(numerator, denominator) {
+    const negative = numerator < 0n;
+    const n = negative ? -numerator : numerator, d = denominator;
+    if (n === 0n) return 0;
+    let exponent = n.toString(2).length - d.toString(2).length;
+    if (exponent >= 0 ? n < (d << BigInt(exponent)) : (n << BigInt(-exponent)) < d) exponent--;
+    if (exponent > 1023) return negative ? -Infinity : Infinity;
+    // Limit the precision to the subnormal grid below the normal range.
+    const scale = exponent < -1022 ? 1074 : 52 - exponent;
+    const a = scale >= 0 ? n << BigInt(scale) : n;
+    const b = scale >= 0 ? d : d << BigInt(-scale);
+    let quotient = a / b;
+    const remainder = a % b;
+    if (2n * remainder > b || (2n * remainder === b && (quotient & 1n))) quotient++;
+    const result = Number(quotient) * 2 ** (-scale);
+    return negative ? -result : result;
 }
 
 const isRational = x => isInteger(x) || x instanceof Ratio;
@@ -211,12 +225,20 @@ export function CL_numberPrintString(x, base, radix) {
         return values1(({ 2: '#b', 8: '#o', 16: '#x' }[base] || `#${base}r`) + digits);
     }
     const value = numberValue(x);
-    let text = Object.is(value, -0) ? '-0' : String(value);
+    let text = Object.is(value, -0) ? '-0' :
+        Number.isFinite(value) && value !== 0 && (Math.abs(value) < 1e-3 || Math.abs(value) >= 1e7)
+            ? value.toExponential() : String(value);
     if (Number.isFinite(value) && !text.includes('.')) {
         const exponent = text.indexOf('e');
         text = exponent < 0 ? text + '.0' : text.slice(0, exponent) + '.0' + text.slice(exponent);
     }
-    return values1(text);
+    return values1(text.replace(/e\+?/, 'E'));
+}
+
+// The native decimal conversion rounds the complete significand once.  Parsing
+// its fractional and exponential parts separately introduces double rounding.
+export function CL_parseFloatString(text) {
+    return values1(new Float(Number(text.replace(/[sfdl]/gi, 'e'))));
 }
 
 export function CL_complexp(x) {
@@ -301,7 +323,12 @@ function arithmetic(x, y, op) {
     }
     const a = Number(numberValue(x)), b = Number(numberValue(y));
     if (op === '/' && b === 0) divisionByZero();
-    return new Float(op === '+' ? a+b : op === '-' ? a-b : op === '*' ? a*b : a/b);
+    const result = op === '+' ? a+b : op === '-' ? a-b : op === '*' ? a*b : a/b;
+    if (Number.isFinite(a) && Number.isFinite(b)) {
+        if (!Number.isFinite(result)) floatingPointError('OVERFLOW');
+        if (result === 0 && a !== 0 && b !== 0 && (op === '*' || op === '/')) floatingPointError('UNDERFLOW');
+    }
+    return new Float(result);
 }
 export function CL_add(x, y) { return values1(arithmetic(x, y, '+')); }
 export function CL_sub(x, y) { return values1(arithmetic(x, y, '-')); }
@@ -502,10 +529,17 @@ function complexMath(op, a, b) {
     default: throw new Error(`Unknown numeric operation ${op}`);
     }
 }
+function floatingPointError(kind) {
+    intern('ERROR', cl_package).getFunction()(intern(`FLOATING-POINT-${kind}`, cl_package));
+}
 export function CL_transcendental(op, x) {
     if (!isNumber(x)) typeError(x, S_number);
     if (!(x instanceof Complex)) {
         const value = Number(numberValue(x)), result = Math[op](value);
+        if (Number.isFinite(value)) {
+            if (!Number.isNaN(result) && !Number.isFinite(result)) floatingPointError('OVERFLOW');
+            if (op === 'exp' && result === 0) floatingPointError('UNDERFLOW');
+        }
         if (!Number.isNaN(result)) return values1(new Float(result));
     }
     const [r, i] = complexParts(x).map(part => Number(numberValue(part)));

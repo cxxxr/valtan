@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { runWorker, manifest, revision } from './run.mjs';
 import { auditRegistrations } from './registration-audit.mjs';
@@ -100,7 +102,7 @@ test('runtime conformance regressions', async () => {
   assert.equal(r.fail, 0);
 });
 
-for (const [file, count] of [['type-regressions.lsp', 13], ['numeric-type-regressions.lsp', 8], ['compiler-regressions.lsp', 50], ['place-regressions.lsp', 7], ['cons-regressions.lsp', 5], ['literal-regressions.lsp', 4], ['container-regressions.lsp', 4], ['hash-growth.lsp', 1], ['registry.lsp', 3], ['package-regressions.lsp', 15], ['number-regressions.lsp', 26], ['character-hash-regressions.lsp', 5], ['displacement-regressions.lsp', 7], ['adjust-array-regressions.lsp', 8], ['format-regressions.lsp', 22], ['reader-escape-regressions.lsp', 8], ['printer-regressions.lsp', 8], ['stream-regressions.lsp', 15], ['file-regressions.lsp', 10], ['clos-regressions.lsp', 31], ['class-change-regressions.lsp', 8], ['integer-field-regressions.lsp', 5], ['transcendental-regressions.lsp', 6], ['structure-class-regressions.lsp', 5], ['environment-regressions.lsp', 20], ['sequence-regressions.lsp', 6]]) {
+for (const [file, count] of [['type-regressions.lsp', 17], ['numeric-type-regressions.lsp', 8], ['compiler-regressions.lsp', 73], ['compilation-file-regressions.lsp', 5], ['place-regressions.lsp', 15], ['cons-regressions.lsp', 5], ['literal-regressions.lsp', 4], ['container-regressions.lsp', 7], ['hash-growth.lsp', 1], ['registry.lsp', 3], ['package-regressions.lsp', 15], ['number-regressions.lsp', 29], ['iteration-regressions.lsp', 4], ['character-hash-regressions.lsp', 5], ['displacement-regressions.lsp', 7], ['adjust-array-regressions.lsp', 8], ['format-regressions.lsp', 25], ['reader-escape-regressions.lsp', 8], ['reader-syntax-regressions.lsp', 10], ['printer-regressions.lsp', 10], ['pprint-regressions.lsp', 24], ['stream-regressions.lsp', 15], ['file-regressions.lsp', 10], ['pathname-regressions.lsp', 6], ['clos-regressions.lsp', 35], ['class-change-regressions.lsp', 8], ['integer-field-regressions.lsp', 5], ['transcendental-regressions.lsp', 6], ['structure-class-regressions.lsp', 5], ['structure-layout-regressions.lsp', 13], ['environment-regressions.lsp', 20], ['sequence-regressions.lsp', 12]]) {
   test(file, async () => {
     const r = await runWorker(file, [file], { fixture: true, timeout: 120000 });
     assert.equal(r.complete, true, JSON.stringify(r));
@@ -118,6 +120,27 @@ test('native exceptions fail their test and allow subsequent tests to run', asyn
   assert.equal(r.pass, 1);
   assert.equal(r.fail, 1);
   assert.match(r.failures[0].reason, /Uncaught JavaScript exception: SyntaxError/);
+});
+
+test('compiled artifacts load in a fresh process without their source', () => {
+  const scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'valtan-compiled-artifact-'));
+  try {
+    for (const file of ['compile-artifact-producer.lsp', 'compile-artifact-consumer.lsp']) {
+      const output = execFileSync(process.execPath, [new URL('./worker.mjs', import.meta.url).pathname, file], {
+        cwd: scratch,
+        env: { ...process.env, VALTAN_ANSI_FIXTURE: '1', VALTAN_ANSI_MODE: 'eval' },
+        encoding: 'utf8', timeout: 30000, maxBuffer: 4 * 1024 * 1024,
+      });
+      const events = output.split('\n').filter(line => line.startsWith('@@ANSI '))
+        .map(line => JSON.parse(line.slice(7)));
+      assert.ok(events.some(event => event.kind === 'complete'), output);
+      assert.equal(events.filter(event => event.kind === 'pass').length, 1, output);
+      assert.equal(events.filter(event => event.kind === 'fail' || event.kind.endsWith('-error')).length, 0, output);
+      assert.equal(fs.existsSync(path.join(scratch, 'restart-source.lisp')), false);
+    }
+  } finally {
+    fs.rmSync(scratch, { recursive: true, force: true });
+  }
 });
 
 test('missing registrations cannot produce a complete benchmark result', async () => {

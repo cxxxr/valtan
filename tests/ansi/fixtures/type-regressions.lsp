@@ -1,5 +1,31 @@
 (in-package :cl-test)
 
+(deftest cons-subtypes-preserve-empty-components
+  (values (multiple-value-list (subtypep '(cons nil t) 'symbol))
+          (multiple-value-list (subtypep 'cons '(cons * *)))
+          (multiple-value-list (subtypep '(cons) 'cons)))
+  (t t) (t t) (t t))
+
+(deftest member-type-list-values-are-compared-by-identity
+  (let ((left (list :same)) (right (list :same)))
+    (values (multiple-value-list (subtypep `(member ,left) `(member ,right)))
+            (subtypep `(or (eql ,left)) `(or (eql ,right)))))
+  (nil t) nil)
+
+(deftest array-class-and-array-type-have-the-same-extension
+  (values (multiple-value-list (subtypep (find-class 'array) '(array * *)))
+          (multiple-value-list (subtypep '(array * *) (find-class 'array)))
+          (typep #c(-1 1/2) (type-of #c(-1 1/2))))
+  (t t) (t t) t)
+
+(deftype implicit-block-type () (return-from implicit-block-type 'integer))
+(deftest type-of-retains-an-unregistered-class-object
+  (let* ((name (gensym)) (class (eval `(defclass ,name () ())))
+         (object (make-instance class)))
+    (setf (find-class name) nil)
+    (values (eq (type-of object) class) (typep 17 'implicit-block-type)))
+  t t)
+
 (deftest condition-subtypes
   (values (multiple-value-list (subtypep 'type-error 'condition))
           (multiple-value-list (subtypep 'condition 'type-error)))

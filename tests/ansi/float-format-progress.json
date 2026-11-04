@@ -1,0 +1,291 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "33b3bf2f2812f3101411f43b1d243de61bb92bcf8bba9fc543fdeeac7c40d8c0",
+  "startedAt": "2026-11-04T09:52:02.046Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "printer/format/format-f.lsp",
+      "files": [
+        "auxiliary/printer-aux.lsp",
+        "auxiliary/backquote-aux.lsp",
+        "printer/format/format-f.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 56,
+      "fail": 0,
+      "registered": 56,
+      "expectedRegistered": 56,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/printer-aux.lsp",
+        "auxiliary/backquote-aux.lsp",
+        "printer/format/format-f.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "printer/format/format-f.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 56,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "printer/format/format-e.lsp",
+      "files": [
+        "auxiliary/printer-aux.lsp",
+        "auxiliary/backquote-aux.lsp",
+        "printer/format/format-e.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 23,
+      "fail": 2,
+      "registered": 25,
+      "expectedRegistered": 25,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/printer-aux.lsp",
+        "auxiliary/backquote-aux.lsp",
+        "printer/format/format-e.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "FORMAT.E.1",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "FORMAT.E.2",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "printer/format/format-e.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 25,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "printer/format/format-c.lsp",
+      "files": [
+        "auxiliary/printer-aux.lsp",
+        "auxiliary/backquote-aux.lsp",
+        "printer/format/format-c.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 11,
+      "fail": 1,
+      "registered": 12,
+      "expectedRegistered": 12,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/printer-aux.lsp",
+        "auxiliary/backquote-aux.lsp",
+        "printer/format/format-c.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "FORMAT.C.5A",
+          "reason": "unrecognized character name: \"U0000\""
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "printer/format/format-c.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 12,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "printer/format/format-circumflex.lsp",
+      "files": [
+        "auxiliary/printer-aux.lsp",
+        "auxiliary/backquote-aux.lsp",
+        "printer/format/format-circumflex.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 454,
+      "fail": 16,
+      "registered": 470,
+      "expectedRegistered": 470,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/printer-aux.lsp",
+        "auxiliary/backquote-aux.lsp",
+        "printer/format/format-circumflex.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "FORMAT.^.{.25",
+          "reason": "expected (\"123\"); actual (\"1234\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.{.25",
+          "reason": "expected (\"123\"); actual (\"1234\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.^.{.33",
+          "reason": "expected (\"\"); actual (\"0\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.{.33",
+          "reason": "expected (\"\"); actual (\"0\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.^.:{.6",
+          "reason": "expected (\"12\"); actual (\"2\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.:{.6",
+          "reason": "expected (\"12\"); actual (\"2\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.^.@{.25",
+          "reason": "expected (\"123\"); actual (\"1234\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.@{.25",
+          "reason": "Tail is NIL, length should be 1"
+        },
+        {
+          "test": "FORMAT.^.@{.33",
+          "reason": "expected (\"\"); actual (\"0\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.@{.33",
+          "reason": "Tail is NIL, length should be 1"
+        },
+        {
+          "test": "FORMAT.^.:@{.6",
+          "reason": "expected (\"12\"); actual (\"2\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.:@{.6",
+          "reason": "expected (\"12\"); actual (\"2\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.:^.:{.26",
+          "reason": "expected (\"4\"); actual (\"415\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.:^.:{.26",
+          "reason": "expected (\"4\"); actual (\"415\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.:^.:@{.26",
+          "reason": "expected (\"4\"); actual (\"415\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.:^.:@{.26",
+          "reason": "Tail is NIL, length should be 1"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "printer/format/format-circumflex.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 470,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 544,
+  "fail": 19,
+  "complete": true,
+  "passRate": 96.62522202486679,
+  "finishedAt": "2026-11-04T09:53:52.848Z"
+}

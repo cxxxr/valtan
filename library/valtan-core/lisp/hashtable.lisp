@@ -217,21 +217,25 @@
   (setf (hash-table-count hash-table) 0)
   hash-table)
 
+(defvar *sxhash-depth* 0)
+
 (defun sxhash (object)
-  "Return a hash code for OBJECT."
-  (cond ((null object) 0)
-        ((symbolp object) (%sxhash-string (symbol-name object)))
-        ((stringp object) (%sxhash-string object))
-        ((characterp object) (char-code object))
-        ((integerp object) (if (< object 0) (- object) object))
-        ((numberp object)
-         ;; For floats, use floor of absolute value
-         (let ((n (if (< object 0) (- object) object)))
-           (floor n)))
-        ((consp object) (%sxhash-list object))
-        ((arrayp object) (%sxhash-array object))
-        ((hash-table-p object) (%sxhash-array (hash-table-keys object)))
-        (t 42)))  ; default hash for unknown types
+  "Hash EQUAL objects alike, with bounded traversal of circular objects."
+  (when (>= *sxhash-depth* 10) (return-from sxhash 0))
+  (let ((*sxhash-depth* (1+ *sxhash-depth*)))
+    (logand most-positive-fixnum
+      (cond ((null object) 0)
+            ((symbolp object) (%sxhash-string (symbol-name object)))
+            ((stringp object) (%sxhash-string object))
+            ((characterp object) (char-code object))
+            ((integerp object) (cl:abs object))
+            ((cl:complexp object) (+ (sxhash (cl:realpart object)) (* 31 (sxhash (cl:imagpart object)))))
+            ((numberp object) (floor (cl:abs object)))
+            ((consp object) (%sxhash-list object))
+            ((bit-vector-p object) (%sxhash-array object))
+            ;; EQUAL compares all other arrays and mutable objects by identity.
+            ;; A stable collision is preferable to hashing mutable contents.
+            (t 42)))))
 
 (defun %sxhash-string (string)
   (let ((hash 0)
@@ -250,7 +254,7 @@
 
 (defun %sxhash-array (array)
   (let ((hash 0)
-        (len (array-total-size array)))
+        (len (length array)))
     (dotimes (i (min len 10))
       (setq hash (+ (* hash 3) (sxhash (row-major-aref array i)))))
     hash))

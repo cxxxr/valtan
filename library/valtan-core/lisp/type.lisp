@@ -26,10 +26,14 @@
 
 (defmacro deftype (name lambda-list &body body)
   (setq lambda-list (parse-deftype-lambda-list lambda-list))
-  `(progn
+  (let ((declarations nil))
+    (cl:when (cl:and (cl:stringp (cl:car body)) (cl:cdr body)) (setq body (cl:cdr body)))
+    (cl:do () ((cl:not (cl:and (cl:consp (cl:car body)) (cl:eq (cl:caar body) 'declare))))
+      (setq declarations (cl:append declarations (cl:cdar body)) body (cl:cdr body)))
+    `(progn
      (setf (deftype-expander ',name)
-           (lambda ,lambda-list ,@body))
-     ',name))
+           (lambda ,lambda-list (declare ,@declarations) (block ,name ,@body)))
+     ',name)))
 
 (defun deftype-expander (symbol)
   (get symbol 'deftype-expander))
@@ -38,6 +42,8 @@
   (cl:setf (cl:get symbol 'deftype-expander) expander))
 
 (defun expand-deftype (type)
+  (when (and (*:structure-p type) (eq (*:%structure-name type) 'standard-instance))
+    (setq type (class-name type)))
   (do ()
       (nil)
     (let ((name (if (consp type) (car type) type))
@@ -52,11 +58,13 @@
   (let ((name (if (consp type) (car type) type))
         (args (if (consp type) (cdr type) nil)))
     (case name
-      ((array simple-array vector simple-vector bit-vector simple-bit-vector)
+      ((array simple-array vector)
        (list 'array
-             (if (member (car args) '(* nil))
+             (if (or (null args) (eq (car args) '*))
                  t
                  (car args))))
+      (simple-vector '(array t))
+      ((bit-vector simple-bit-vector) '(array bit))
       ((string simple-string base-string simple-base-string)
        '(array character))
       (otherwise
@@ -90,7 +98,10 @@
                       (fdefinition object)
                       (eval (list 'function object))))
                  (t (type-error object result-type)))))
-    (unless (typep result result-type) (type-error object result-type))
+    ;; COMPLEX canonically returns a rational when its imaginary part is zero.
+    (unless (or (typep result result-type)
+                (and (eq name 'complex) (rationalp result)))
+      (type-error object result-type))
     result))
 
 (defun numeric-type-bounds-p (object bounds)
@@ -112,7 +123,8 @@
   (let* ((name (car type))
          (array-type (member name '(array simple-array)))
          (element-type (cond ((member name '(simple-vector)) t)
-                             ((member name '(string simple-string base-string simple-base-string)) 'character)
+                             ((member name '(string simple-string)) '*)
+                             ((member name '(base-string simple-base-string)) 'character)
                              ((member name '(bit-vector simple-bit-vector)) 'bit)
                              ((cdr type) (second type))
                              (t '*)))
@@ -138,6 +150,7 @@
          (typep object 'generic-function)))
     ((nil) nil)
     (boolean (or (eq object nil) (eq object t)))
+    (values (error "VALUES is not a valid TYPEP type specifier"))
     (null (null object))
     (list (listp object))
     (cons (consp object))
@@ -146,8 +159,8 @@
     (keyword (keywordp object))
     (string (cl:stringp object))
     (simple-string (simple-string-p object))
-    (base-string (cl:stringp object))
-    (simple-base-string (simple-string-p object))
+    (base-string (and (cl:stringp object) (eq (array-element-type object) 'character)))
+    (simple-base-string (and (simple-string-p object) (eq (array-element-type object) 'character)))
     (character (characterp object))
     (base-char (characterp object))
     (standard-char (and (characterp object)
@@ -201,13 +214,15 @@
     (stream (streamp object))
     (string-stream (or (string-input-stream-p object) (string-output-stream-p object)))
     (package (packagep object))
-    ((pathname readtable random-state)
+    (pathname (and (*:structure-p object)
+                   (not (null (member (*:%structure-name object) '(pathname logical-pathname))))))
+    ((readtable random-state)
      (and (*:structure-p object) (eq (*:%structure-name object) type)))
     (extended-char (and (characterp object) (not (typep object 'base-char))))
     (structure-object (and (*:structure-p object)
                            (not (member (*:%structure-name object)
                                         '(array standard-instance hash-table readtable
-                                          pathname random-state string-input-stream string-output-stream
+                                          pathname logical-pathname random-state string-input-stream string-output-stream
                                           standard-input-stream standard-output-stream two-way-stream file-input-stream file-stream synonym-stream echo-stream
                                           broadcast-stream concatenated-stream)))))
     ((t) t)  ; type T means any object matches
@@ -241,8 +256,9 @@
               (complex
                (and (complexp object)
                     (or (null (cdr type)) (eq (second type) '*)
-                        (and (typep (realpart object) (second type))
-                             (typep (imagpart object) (second type))))))
+                        (let ((part-type (upgraded-complex-part-type (second type))))
+                          (and (typep (realpart object) part-type)
+                               (typep (imagpart object) part-type))))))
               ((array simple-array vector simple-vector bit-vector simple-bit-vector
                       string simple-string base-string simple-base-string)
                (array-type-specifier-p object type))
@@ -254,8 +270,7 @@
                  (find-class type nil))
             (subclassp (class-of object) (find-class type nil)))
            ((*:structure-p object)
-            (eq (*:%structure-name object)
-                type))
+            (%structure-subtype-p (*:%structure-name object) type))
            (t nil)))))
 
 (defun integer-type-bounds (type)
@@ -280,13 +295,111 @@
                  (values (- (cl:ash 1 (1- bits))) (1- (cl:ash 1 (1- bits))) t)))))
       (otherwise (values nil nil nil)))))
 
+(defun %array-type-description (type)
+  (let* ((spec (if (symbolp type) (list type) type)) (name (car spec)))
+    (when (member name '(array simple-array vector simple-vector string simple-string
+                        base-string simple-base-string bit-vector simple-bit-vector))
+      (list (not (null (member name '(simple-array simple-vector simple-string simple-base-string simple-bit-vector))))
+            (cond ((member name '(string simple-string)) '(nil character))
+                  ((member name '(base-string simple-base-string)) '(character))
+                  ((member name '(bit-vector simple-bit-vector)) '(bit))
+                  ((eq name 'simple-vector) '(t))
+                  ((or (null (cdr spec)) (eq (second spec) '*)) '*)
+                  (t (list (upgraded-array-element-type (second spec)))))
+            (cond ((member name '(array simple-array)) (if (cddr spec) (third spec) '*))
+                  ((eq name 'vector) (list (if (cddr spec) (third spec) '*)))
+                  (t (list (if (cdr spec) (second spec) '*))))))))
+
+(defun %array-dimensions-subtype-p (left right)
+  (cond ((eq right '*) t)
+        ((eq left '*) nil)
+        ((integerp right) (= (if (integerp left) left (length left)) right))
+        ((integerp left)
+         (and (= left (length right)) (every (lambda (x) (eq x '*)) right)))
+        (t (and (= (length left) (length right))
+                (every (lambda (a b) (or (eq b '*) (eql a b))) left right)))))
+
+(defun %same-type-specifier-p (left right)
+  (cond ((eql left right) t)
+        ((and (consp left) (consp right))
+         (if (member (car left) '(member eql))
+             (and (eq (car left) (car right)) (= (length left) (length right))
+                  (every #'eql (cdr left) (cdr right)))
+             (and (%same-type-specifier-p (car left) (car right))
+                  (%same-type-specifier-p (cdr left) (cdr right)))))
+        (t nil)))
+
+(defun %cons-type-description (type)
+  (cond ((eq type 'cons) '(t t))
+        ((and (consp type) (eq (car type) 'cons))
+         (list (if (or (null (cdr type)) (eq (second type) '*)) t (second type))
+               (if (or (null (cddr type)) (eq (third type) '*)) t (third type))))))
+
+(defun upgraded-complex-part-type (typespec &optional environment)
+  (declare (ignore environment))
+  (cond ((subtypep typespec nil) nil)
+        ((subtypep typespec 'rational) 'rational)
+        ((subtypep typespec 'float) 'single-float)
+        ((subtypep typespec 'real) 'real)
+        (t (error "Not a real component type: ~S" typespec))))
+
 (defun subtypep (type1 type2 &optional environment)
   (declare (ignore environment))
+  (flet ((builtin-name (type)
+           (if (and (*:structure-p type) (eq (*:%structure-name type) 'standard-instance)
+                    (eq (class-name (class-of type)) 'built-in-class))
+               (class-name type) type)))
+    (setq type1 (builtin-name type1) type2 (builtin-name type2)))
   (when (or (symbolp type1) (consp type1)) (setq type1 (expand-deftype type1)))
   (when (or (symbolp type2) (consp type2)) (setq type2 (expand-deftype type2)))
-  (when (equal type1 type2) (return-from subtypep (values t t)))
+  (when (and (consp type1) (member (car type1) '(member eql)))
+    (return-from subtypep
+      (values (every (lambda (value) (typep value type2)) (cdr type1)) t)))
+  (when (%same-type-specifier-p type1 type2) (return-from subtypep (values t t)))
+  (when (or (eq type2 t) (member type1 '(nil extended-char)))
+    (return-from subtypep (values t t)))
+  (when (eq type1 'boolean) (return-from subtypep (subtypep '(member nil t) type2)))
+  (when (and (eq type1 'null) (eq type2 'boolean)) (return-from subtypep (values t t)))
+  (let ((left (%cons-type-description type1)) (right (%cons-type-description type2)))
+    (when left
+      (when (or (subtypep (first left) nil) (subtypep (second left) nil))
+        (return-from subtypep (values t t)))
+      (when (member type2 '(cons list sequence)) (return-from subtypep (values t t)))
+      (when right
+        (when (and (subtypep (first left) (first right))
+                   (subtypep (second left) (second right)))
+          (return-from subtypep (values t t))))))
+  (let ((left (or (eq type1 'complex) (and (consp type1) (eq (car type1) 'complex))))
+        (right (or (eq type2 'complex) (and (consp type2) (eq (car type2) 'complex)))))
+    (when (and left right)
+      (let ((a (if (and (consp type1) (cdr type1)) (second type1) '*))
+            (b (if (and (consp type2) (cdr type2)) (second type2) '*)))
+        (return-from subtypep
+          (cond ((eq b '*) (values t t))
+                (t (subtypep (if (eq a '*) 'real (upgraded-complex-part-type a))
+                             (upgraded-complex-part-type b)))))))
+    (when (and left (member type2 '(number atom))) (return-from subtypep (values t t)))
+    (when (or (and left (subtypep type2 'real))
+              (and right (subtypep type1 'real)))
+      (return-from subtypep (values nil t))))
+  (let ((left (and (or (symbolp type1) (consp type1)) (%array-type-description type1)))
+        (right (and (or (symbolp type2) (consp type2)) (%array-type-description type2))))
+    (when (and left right)
+      (return-from subtypep
+        (values (and (or (not (first right)) (first left))
+                     (or (eq (second right) '*)
+                         (and (not (eq (second left) '*))
+                              (subsetp (second left) (second right))))
+                     (%array-dimensions-subtype-p (third left) (third right))) t)))
+    (when (and left (member type2 '(sequence atom)))
+      (return-from subtypep
+        (values (or (eq type2 'atom) (%array-dimensions-subtype-p (third left) 1)) t)))
+    (when (and left (member type2 '(number real rational integer fixnum bignum float symbol cons list character)))
+      (return-from subtypep (values nil t))))
   #+valtan
   (when (fboundp 'numeric-subtypep)
+    (when (and (eq type2 'atom) (nth-value 1 (numeric-type-intervals type1)))
+      (return-from subtypep (values t t)))
     (multiple-value-bind (subset known) (numeric-subtypep type1 type2)
       (when known (return-from subtypep (values subset t)))))
   ;; All four float formats use the same binary64 representation.
@@ -402,8 +515,8 @@
        (cond ,@(cl:mapcar (lambda (c)
                             (cl:destructuring-bind (type . body) c
                               (if (cl:member type '(otherwise t))
-                                  `(t ,@body)
-                                  `((typep ,gvalue ',type) ,@body))))
+                                  `(t ,@(cl:or body (cl:list nil)))
+                                  `((typep ,gvalue ',type) ,@(cl:or body (cl:list nil))))))
                           cases)))))
 
 (defmacro etypecase (keyform &body cases)
@@ -413,7 +526,7 @@
     `(let ((,gvalue ,keyform))
        (cond ,@(mapcar (lambda (c)
                          (destructuring-bind (type . body) c
-                           `((typep ,gvalue ',type) ,@body)))
+                           `((typep ,gvalue ',type) ,@(cl:or body (cl:list nil)))))
                        cases)
              (t (error 'type-error
                        :datum ,gvalue
@@ -427,17 +540,17 @@
     `(let ((,gvalue ,keyplace))
        (cond ,@(mapcar (lambda (c)
                          (destructuring-bind (type . body) c
-                           `((typep ,gvalue ',type) ,@body)))
+                           `((typep ,gvalue ',type) ,@(cl:or body (cl:list nil)))))
                        cases)
              (t (error 'type-error
                        :datum ,gvalue
                        :expected-type ',expected-type))))))
 
 (defun type-of (object)
-  (cond ((integerp object) (if (typep object 'fixnum) 'fixnum 'bignum))
+  (cond ((integerp object) (list 'integer object object))
         ((floatp object) 'single-float)
         ((rationalp object) 'ratio)
-        ((complexp object) (list 'complex (type-of (realpart object))))
+        ((complexp object) (list 'complex (if (floatp (realpart object)) 'single-float 'rational)))
         ((characterp object) 'base-char)
         ((symbolp object)
          (cond ((null object) 'null) ((eq object t) 'boolean)
@@ -450,6 +563,7 @@
         ((functionp object) (if (typep object 'generic-function)
                                'standard-generic-function 'compiled-function))
         ((and (*:structure-p object) (eq (*:%structure-name object) 'standard-instance))
-         (class-name (class-of object)))
+         (let* ((class (class-of object)) (name (class-name class)))
+           (if (and name (eq (find-class name nil) class)) name class)))
         ((*:structure-p object) (*:%structure-name object))
         (t (error "Unexpected object: ~S" object))))

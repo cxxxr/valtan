@@ -7,10 +7,191 @@ The upstream license and individual copyright notices are retained.
 
 ## Latest complete measurement
 
+The [complete conformance result](full-conformance-results.json) records
+**21,812/21,937 passes (99.43%)** and 125 failures on 2026-11-04, in eval mode.
+All 24 categories complete with zero unexecuted tests and no registration gaps.
+The independent **99% gate passes**, including verification against the measured
+runtime bundle. Upstream test bodies and expected results are unchanged.
+Bundle SHA-256: `48cb024c2df9a563c6fa5ccd0dfbf2838a75e51cd79bbc33903d02f4b761667b`.
+The run used eight workers and a 7,200-second limit per category and completed
+in about 21 minutes. The full compiled-mode suite has not been measured on this
+snapshot; selected regression fixtures cover that mode separately.
+
+This is a success rate for the pinned test suite, not a percentage of the ANSI
+specification implemented. Remaining failures include 34 object-system tests,
+32 condition tests, and 11 printer tests; every failure is retained in the report.
+The [selected FORMAT/reader run](reader-format-final-selection.json) also records
+two subnormal-float `~E` differences. Selected runs can exercise different random
+values after different preceding tests; their counts are not combined with the
+full-suite result.
+
+For comparison, the [preceding sequence/control run](full-sequence-control-progress.json)
+recorded 21,521 passes (98.10%), and the [first 99% candidate](full-conformance-candidate.json)
+recorded 21,790 passes (99.33%). The original 20,062-pass baseline is preserved below.
+
+## Implementation and regression coverage
+
+The changes cover structure layouts and inheritance, reader syntax and readtable
+copies, pretty printing and FORMAT, sequence and type operations, generalized
+places, dynamic CATCH/THROW, LOOP bindings and accumulation, numeric rounding and
+floating-point conditions, CLOS method congruence and dispatch, and compiler
+macro environments and EVAL-WHEN. COMPILE-FILE writes an artifact that LOAD can
+execute in a fresh process after the source is removed; pathname operations
+include logical pathname translation.
+
+The latest harness run passes all 49 groups, including 438 focused runtime
+regressions, upstream ATOM tests, cross-process compiled-artifact loading,
+registration auditing, and rejection of incomplete or misleading reports.
+The 35 FORMAT/printer regressions also pass in both eval and compiled modes.
+Compiler semantic regressions, eight workload checks, and two kernel test
+groups pass. These checks are separate from the upstream ANSI denominator.
+
+The [latest SACLA result](../sacla-conformance-results.json) records
+9,953/10,017 passes (99.36%) and 64 failures, with all 27 files complete.
+Its independent coverage check passes; the earlier 9,824-pass baseline is
+preserved separately.
+
+The SACLA suite also checks exact symbol spellings under nonstandard readtable
+case modes with `:READABLY T`. Its 22 newly failing desirable-printer cases remain
+failures in the report. The implementation now preserves symbol identity when
+read with the standard readtable, as required by
+[`*PRINT-READABLY*`](https://www.lispworks.com/documentation/HyperSpec/Body/v_pr_rda.htm);
+the requested spelling can conflict with that requirement or differ from another
+valid readable spelling. SACLA diagnostic output enables circular printing so
+logging a circular test form cannot prevent later tests from executing.
+
+## Historical PPRINT and FORMAT measurements
+
+The [complete reader/structure run](full-reader-structure-progress.json) records
+20,451/21,937 passes (93.23%) and 1,486 failures. All categories and the
+independent registration audit complete. This is below the required 99%.
+
+The subsequent [four-category measurement](pprint-string-progress.json), bundle
+`3e68c7cd26535709e44090217d6119e987bd4226eaf34aa2c40de35f974412dd`,
+records READER 673/673, ARRAYS 1,356/1,356, STRINGS 491/509 and PRINTER
+2,191/2,446. The [FORMAT pretty selection](format-pprint-progress.json), bundle
+`b02ccdc11a0aecd2e8364abbcd2f77d60345f943ab3d0d7ed345b65b0f831026`,
+passes all 151 logical-block, conditional-newline, indentation and tab tests.
+These selected results do not establish an overall rate.
+
+The new pretty printer captures logical blocks in a document tree, then chooses
+line breaks using section widths, margins and miser mode. It implements prefixes,
+indentation, tabs, length/depth abbreviation, dispatch-table copies and priorities,
+and shared/circular lists. FORMAT and FORMATTER use these same facilities for
+logical blocks and pretty directives. String output escapes quotes and backslashes;
+symbol case conversion preserves letters unaffected by the readtable case.
+Decimal float input uses one native decimal conversion to avoid double rounding.
+Array/string subtyping includes NIL element types, following the
+[STRING type definition](https://www.lispworks.com/documentation/HyperSpec/Body/t_string.htm).
+The NIL-vector string tests differ from SBCL's treatment of NIL vectors; they
+are checked against the specification and the unchanged upstream expectations.
+
+The first full run exposed ten reader regressions from conditionally defined
+structures: registering the class at compile time made runtime guards skip the
+constructor definitions. Registration now occurs with the definitions at runtime;
+a dedicated fixture covers both eval and compiled modes. FLET and LABELS bodies
+now have their required implicit named blocks, preserving local declarations.
+
+The [preceding complete full run](full-pprint-progress.json) records
+20,987/21,937 passes (95.67%) and 950 failures, with all categories complete
+and no registration gaps. It snapshots bundle
+`0511b112e31daa1e4e30b8262835b8d3e1e827c6456b8ad44cd1c60a53a91af2`.
+All 45 harness groups pass on that bundle, including 362 focused regressions;
+the 21 printer regressions in that snapshot also pass in compiled mode.
+Later edits require another measured
+bundle before any claim about their overall success rate.
+
+The [language progress full run](full-language-progress.json) records
+21,128/21,937 passes (96.31%) and 809 failures, with all 24 categories complete
+and no registration gaps. Its bundle SHA-256 is
+`80326cee8d12eb53b7ba8e4aabd2bb26364ee6e649b9658a9643c152116cc652`.
+The independent conformance gate rejects this result: 99% requires at most
+219 failures. This snapshot includes compiler metadata isolation, local SETF
+functions, named LOOP exits, multiple-value generalized places, compound
+condition types and additional pretty-print limits. It predates the subsequent
+COMPILE-FILE, LOAD, CATCH and pathname implementation changes.
+
+The [compilation selection](compile-eval-progress.json) completes with
+SYSTEM-CONSTRUCTION 74/77 and EVAL-AND-COMPILE 287/318. The
+[CATCH/place selection](catch-place-progress.json) passes all 73 tests.
+These later selections are not combined into the full-suite rate.
+
+## Historical structure measurements
+
+The [structure layout result](structure-layout-results.json) completes all
+1,394 STRUCTURES tests successfully (100%). It fixes all 197 failures from
+the recorded full-run baseline without regressing previously passing tests.
+This measurement uses bundle SHA-256
+`ddc71c7d9faa30728b631f0389694b3021c3b8558b2eeeaab96a2345d419928e`.
+It is extracted from the completed full-suite
+measurement below; it is not an overall success rate. Invalid typed predicates
+and name tags that cannot be represented by the vector element type signal
+errors and have regression coverage.
+
+DEFSTRUCT now implements list and vector layouts, specialized vector element
+types, `:NAMED`, inherited layouts and initial offsets, included slot overrides,
+multiple constructors and BOA argument defaults. Ordinary keyword constructors
+use fresh parameter names so special or constant slot names do not become
+lambda variables. Structure classes inherit from their included parent for
+TYPEP, SUBTYPEP and generic dispatch. Copiers preserve the dynamic structure
+type and copy the slot storage while sharing its contents. `:PRINT-OBJECT`
+receives two arguments. These semantics follow the
+[DEFSTRUCT specification](https://www.lispworks.com/documentation/HyperSpec/Body/m_defstr.htm)
+and [BOA lambda lists](https://www.lispworks.com/documentation/HyperSpec/Body/03_df.htm).
+
+The first ten new layout regressions all fail on the preceding reader build;
+the twelve current regressions pass on SBCL and the final Valtan build in
+both eval and compiled modes. All 44 harness groups pass, including 339 focused
+runtime regressions. Upstream sources and expected results are unchanged.
+
+The [full reader/structure run](full-reader-structure-progress.json) snapshots
+the follow-up bundle at SHA-256
+`ddc71c7d9faa30728b631f0389694b3021c3b8558b2eeeaab96a2345d419928e`,
+using eight workers and a 7,200-second limit per category. Check its `complete`
+field before interpreting totals. It must pass the independent 99% full-suite
+gate before the overall target can be considered achieved.
+
+## Historical reader measurements
+
+The [reader syntax result](reader-syntax-results.json) completes all 673 READER
+tests with 672 passes (99.85%) and one failure, `WITH-STANDARD-IO-SYNTAX.23`
+(missing `COPY-PPRINT-DISPATCH`). Compared with the recorded full-run baseline,
+191 failures are fixed and no previously passing READER test regresses. The
+bundle SHA-256 is
+`ec13c2fef7f0c41b52b6c0e9ae3fcf8f9c95975028c17ce5d8454a623b5e49c5`.
+This is a selected-category result, not a new overall ANSI success rate.
+
+Readtables now retain and independently copy syntax types and dispatch tables.
+The reader implements `SET-SYNTAX-FROM-CHAR`, `READ-PRESERVING-WHITESPACE`,
+structure literals, bit-vector length extension, delimited-list terminators,
+and stream information on reader errors. String escapes remove the escape
+character, feature expressions compare symbol identity, commas require a
+backquote context, and invalid constituents and zero-denominator ratios signal
+reader errors. Symbol printing escapes package markers, numeric names and
+embedded escape characters so those names can be read back.
+
+The [related stream/numeric selection](reader-stream-results.json) completes
+PEEK-CHAR with 25/28 passes (two improvements) and PARSE-INTEGER with 55/56
+passes. Remaining failures concern string-output-stream positions and NIL
+element-type strings. PARSE-INTEGER retains standard whitespace independently
+of readtable changes, as specified by the
+[HyperSpec](https://www.lispworks.com/documentation/HyperSpec/Body/f_parse_.htm).
+Readtable copying and recursive whitespace preservation follow
+[SET-SYNTAX-FROM-CHAR](https://www.lispworks.com/documentation/HyperSpec/Body/f_set_sy.htm)
+and [READ](https://www.lispworks.com/documentation/HyperSpec/Body/f_rd_rd.htm).
+
+All 43 harness groups pass on this bundle, including 327 focused regressions.
+The ten new reader regressions also pass in compiled mode and on SBCL; the
+first nine all failed on the preceding baseline bundle. Upstream test bodies,
+expected results and registration auditing are unchanged. The full-run
+conformance gate now requires 99% success, without rounding up the measured rate.
+
+## Historical baseline measurement
+
 The [full result](full-results.json) records **20,062/21,937 passes (91.45%)**
 and 1,875 failures on 2026-11-04. All 24 categories complete in eval mode,
 with no loader errors or unexecuted tests and a complete registration audit. The independent
-coverage and 90% gate passes against the measured bundle, SHA-256
+coverage and former 90% gate passed against the measured bundle, SHA-256
 `17e2da5d293126ee76d15768d985bf64d549c68f94724e0c28d72c8ffd624723`.
 The run used eight workers and a 7,200-second timeout per category, and finished
 in about 61 minutes. This is a result for the pinned test suite; the full compiled
@@ -147,7 +328,7 @@ Even if every registered test runs, failed auxiliary initialization makes the
 selection incomplete. Missing registrations never count as passes. An uncaught
 JavaScript exception fails the current test and allows subsequent tests to run;
 it never counts as the Lisp condition expected by an error-handling test. The
-latest complete result above includes all failures; a successful 90% gate does
+latest complete result above includes all failures; a successful 99% gate does
 not mean every upstream test passes.
 
 ## Implementation and measurement history
@@ -165,7 +346,7 @@ been addressed. Regression fixtures also cover numeric and array type specifiers
 keyword argument processing, generalized assignment, object identity during EVAL,
 growing hash tables, package operations and iteration, DEFPACKAGE option order,
 absolute values, displaced arrays, local macro environments, FORMAT/FORMATTER,
-reader escapes, and printer controls. The last completed full harness run covered 317 focused runtime regression cases.
+reader escapes, and printer controls. The baseline harness run covered 317 focused runtime regression cases.
 The latest complete full-suite rate is recorded separately above.
 
 The recorded [CONS baseline](cons-baseline.json) completed all 1,882 tests with
@@ -182,12 +363,12 @@ multiple values, case sensitivity, errors, and timeouts, plus an actual upstream
 ATOM file. This **harness check** is distinct from a conformance pass. The full
 ANSI run is available through the SACLA workflow's manual `run_ansi` input;
 the full-run gate requires all 24 categories, the complete audited inventory,
-and at least 90% success. It verifies that the measured bundle matches the CI
+and at least 99% success. It verifies that the measured bundle matches the CI
 build, recomputes counts and registration audits, and rejects selected or
 incomplete reports. Individual category runs still require every test to pass.
 The JSON report is uploaded even on failure. Manual runs allow 7,200 seconds
 per category; the runner itself continues to return status 1 for any failure,
-while the separate full-run gate decides whether the 90% target is met.
+while the separate full-run gate decides whether the 99% target is met.
 
 The recorded [four-category measurement](core-results.json) completed PACKAGES
 (479/500), CHARACTERS (259/259), HASH-TABLES (147/158), and ARRAYS (1,137/1,356).
@@ -198,9 +379,9 @@ registrations. It is incomplete and deliberately has no full-suite pass rate.
 The FORMAT interpreter and FORMATTER share argument tracking and directive
 parsing. Basic output, integer radix formatting, conditional and iterative
 controls, recursive controls, case conversion, and justification are implemented.
-Pretty-printer logical blocks remain unsupported, and floating-point directives
-still need broader conformance work; the presence of a directive is not a claim
-that all of its cases pass.
+The initial implementation lacked pretty-printer logical blocks and complete
+floating-point directives. Later measurements above cover those additions;
+the presence of a directive is not a claim that all of its cases pass.
 
 The recorded [FORMAT measurement](format-results.json) completed all 604 tests
 in eight unmodified upstream files (A, S, D, conditional, iteration, argument

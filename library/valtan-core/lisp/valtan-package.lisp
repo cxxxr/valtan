@@ -38,6 +38,10 @@
   (:export :+null+
            :format-control
            :number-print-string
+           :parse-float-string
+           :object-identity
+           :compiler-property
+           :set-compiler-property
            :initialize-file-system
            :initialize-environment
            :environment-op

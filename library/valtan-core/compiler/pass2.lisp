@@ -902,6 +902,9 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 (defun p2-escape-block-name (name)
   (concatenate 'string "BLOCK_" (p2-escape-string (binding-id name))))
 
+(defun p2-block-tag-var (name)
+  (concatenate 'string "BLOCK_TAG_" (p2-escape-string (binding-id name))))
+
 (define-p2-emit block (hir)
   (embed-source-map hir)
   (let ((name (hir-arg1 hir))
@@ -918,6 +921,9 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
           (t
            (let ((error-var (p2-genvar "E_"))
                  (result-var (p2-temporary-var)))
+             ;; A fresh token identifies this dynamic activation of the lexical
+             ;; block, even when another block has the same source-level name.
+             (format *p2-emit-stream* "const ~A={};~%" (p2-block-tag-var name))
              (p2-emit-try-catch
               (format *p2-emit-stream* "~A=~A~%" result-var (p2-forms body))
               ((error-var)
@@ -925,7 +931,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                        "if(~A instanceof lisp.BlockValue && ~A.name === ~A){~A=~A.value;}~%"
                        error-var
                        error-var
-                       (p2-symbol-to-js-value (binding-name name))
+                       (p2-block-tag-var name)
                        result-var
                        error-var)
                (format *p2-emit-stream*
@@ -944,7 +950,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
            (let ((result (p2-form form)))
              (format *p2-emit-stream*
                      "throw new lisp.BlockValue(~A,~A);"
-                     (p2-symbol-to-js-value (binding-name name))
+                     (p2-block-tag-var name)
                      result))))
     (p2-no-return)))
 

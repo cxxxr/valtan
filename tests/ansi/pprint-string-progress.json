@@ -1,0 +1,2250 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "3e68c7cd26535709e44090217d6119e987bd4226eaf34aa2c40de35f974412dd",
+  "startedAt": "2026-11-04T08:12:39.796Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "printer",
+      "files": [
+        "auxiliary/printer-aux.lsp",
+        "auxiliary/backquote-aux.lsp",
+        "printer/copy-pprint-dispatch.lsp",
+        "printer/print-integers.lsp",
+        "printer/print-ratios.lsp",
+        "printer/print-floats.lsp",
+        "printer/print-complex.lsp",
+        "printer/print-characters.lsp",
+        "printer/print-lines.lsp",
+        "printer/print-symbols.lsp",
+        "printer/print-strings.lsp",
+        "printer/print-cons.lsp",
+        "printer/print-backquote.lsp",
+        "printer/print-bit-vector.lsp",
+        "printer/print-vector.lsp",
+        "printer/print-array.lsp",
+        "printer/print-random-state.lsp",
+        "printer/print-pathname.lsp",
+        "printer/print-structure.lsp",
+        "printer/printer-control-vars.lsp",
+        "printer/pprint-dispatch.lsp",
+        "printer/pprint-fill.lsp",
+        "printer/pprint-linear.lsp",
+        "printer/pprint-tabular.lsp",
+        "printer/pprint-indent.lsp",
+        "printer/pprint-logical-block.lsp",
+        "printer/pprint-exit-if-list-exhausted.lsp",
+        "printer/pprint-newline.lsp",
+        "printer/pprint-tab.lsp",
+        "printer/print-unreadable-object.lsp",
+        "printer/write.lsp",
+        "printer/print.lsp",
+        "printer/pprint.lsp",
+        "printer/prin1.lsp",
+        "printer/princ.lsp",
+        "printer/write-to-string.lsp",
+        "printer/prin1-to-string.lsp",
+        "printer/princ-to-string.lsp",
+        "printer/print-level.lsp",
+        "printer/print-length.lsp",
+        "printer/format/format-c.lsp",
+        "printer/format/formatter-c.lsp",
+        "printer/format/format-percent.lsp",
+        "printer/format/format-ampersand.lsp",
+        "printer/format/format-page.lsp",
+        "printer/format/format-tilde.lsp",
+        "printer/format/format-r.lsp",
+        "printer/format/format-d.lsp",
+        "printer/format/format-b.lsp",
+        "printer/format/format-o.lsp",
+        "printer/format/format-x.lsp",
+        "printer/format/format-f.lsp",
+        "printer/format/format-e.lsp",
+        "printer/format/format-a.lsp",
+        "printer/format/format-s.lsp",
+        "printer/format/format-underscore.lsp",
+        "printer/format/format-logical-block.lsp",
+        "printer/format/format-i.lsp",
+        "printer/format/format-slash.lsp",
+        "printer/format/format-t.lsp",
+        "printer/format/format-justify.lsp",
+        "printer/format/format-goto.lsp",
+        "printer/format/format-conditional.lsp",
+        "printer/format/format-brace.lsp",
+        "printer/format/format-question.lsp",
+        "printer/format/format-paren.lsp",
+        "printer/format/format-p.lsp",
+        "printer/format/format-circumflex.lsp",
+        "printer/format/format-newline.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 2191,
+      "fail": 255,
+      "registered": 2446,
+      "expectedRegistered": 2446,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/printer-aux.lsp",
+        "auxiliary/backquote-aux.lsp",
+        "printer/copy-pprint-dispatch.lsp",
+        "printer/print-integers.lsp",
+        "printer/print-ratios.lsp",
+        "printer/print-floats.lsp",
+        "printer/print-complex.lsp",
+        "printer/print-characters.lsp",
+        "printer/print-lines.lsp",
+        "printer/print-symbols.lsp",
+        "printer/print-strings.lsp",
+        "printer/print-cons.lsp",
+        "printer/print-backquote.lsp",
+        "printer/print-bit-vector.lsp",
+        "printer/print-vector.lsp",
+        "printer/print-array.lsp",
+        "printer/print-random-state.lsp",
+        "printer/print-pathname.lsp",
+        "printer/print-structure.lsp",
+        "printer/printer-control-vars.lsp",
+        "printer/pprint-dispatch.lsp",
+        "printer/pprint-fill.lsp",
+        "printer/pprint-linear.lsp",
+        "printer/pprint-tabular.lsp",
+        "printer/pprint-indent.lsp",
+        "printer/pprint-logical-block.lsp",
+        "printer/pprint-exit-if-list-exhausted.lsp",
+        "printer/pprint-newline.lsp",
+        "printer/pprint-tab.lsp",
+        "printer/print-unreadable-object.lsp",
+        "printer/write.lsp",
+        "printer/print.lsp",
+        "printer/pprint.lsp",
+        "printer/prin1.lsp",
+        "printer/princ.lsp",
+        "printer/write-to-string.lsp",
+        "printer/prin1-to-string.lsp",
+        "printer/princ-to-string.lsp",
+        "printer/print-level.lsp",
+        "printer/print-length.lsp",
+        "printer/format/format-c.lsp",
+        "printer/format/formatter-c.lsp",
+        "printer/format/format-percent.lsp",
+        "printer/format/format-ampersand.lsp",
+        "printer/format/format-page.lsp",
+        "printer/format/format-tilde.lsp",
+        "printer/format/roman-numerals.lsp",
+        "printer/format/format-r.lsp",
+        "printer/format/format-d.lsp",
+        "printer/format/format-b.lsp",
+        "printer/format/format-o.lsp",
+        "printer/format/format-x.lsp",
+        "printer/format/format-f.lsp",
+        "printer/format/format-e.lsp",
+        "printer/format/format-a.lsp",
+        "printer/format/format-s.lsp",
+        "printer/format/format-underscore.lsp",
+        "printer/format/format-logical-block.lsp",
+        "printer/format/format-i.lsp",
+        "printer/format/format-slash.lsp",
+        "printer/format/format-t.lsp",
+        "printer/format/format-justify.lsp",
+        "printer/format/format-goto.lsp",
+        "printer/format/format-conditional.lsp",
+        "printer/format/format-brace.lsp",
+        "printer/format/format-question.lsp",
+        "printer/format/format-paren.lsp",
+        "printer/format/format-p.lsp",
+        "printer/format/format-circumflex.lsp",
+        "printer/format/format-newline.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "PRINT.SHORT-FLOAT.RANDOM",
+          "reason": "expected (NIL); actual (((8.606458298906593e-101 \"8.606458298906593e-101\" 8.606458298906594e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 31) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (-7.189127435705269e-101 \"-7.189127435705269e-101\" -7.18912743570527e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 12) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (1.0493731898168492e-101 \"1.0493731898168492e-101\" 1.0493731898168493e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 3) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (-8.354315432936727e-101 \"-8.354315432936727e-101\" -8.354315432936728e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 33) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (3.664226575531293e-101 \"3.664226575531293e-101\" 3.6642265755312935e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 23) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (-8.784008404560979e-102 \"-8.784008404560979e-102\" -8.78400840456098e-102 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 15) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (3.596942086805589e-101 \"3.596942086805589e-101\" 3.5969420868055895e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 31) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (2.0478814985607118e-100 \"2.0478814985607118e-100\" 2.0478814985607124e-100 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 10) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (9.754724063421339e-100 \"9.754724063421339e-100\" 9.75472406342134e-100 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 22) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (-8.450244437914991e-101 \"-8.450244437914991e-101\" -8.450244437914992e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 30) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SINGLE-FLOAT.RANDOM",
+          "reason": "expected (NIL); actual (((-7.242215886446079e-101 \"-7.242215886446079e-101\" -7.24221588644608e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 28) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (-2.7550654755135583e-101 \"-2.7550654755135583e-101\" -2.7550654755135586e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 11) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (3.789576486244572e-101 \"3.789576486244572e-101\" 3.789576486244573e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 28) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (-5.042099780505739e-101 \"-5.042099780505739e-101\" -5.04209978050574e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 14) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (8.822419655793102e-101 \"8.822419655793102e-101\" 8.822419655793103e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 32) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (-8.948255732295194e-101 \"-8.948255732295194e-101\" -8.948255732295195e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 8) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (3.847517583953188e-101 \"3.847517583953188e-101\" 3.8475175839531885e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 21) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (-1.8656775080222765e-101 \"-1.8656775080222765e-101\" -1.8656775080222768e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 3) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (5.896820297540524e-100 \"5.896820297540524e-100\" 5.896820297540523e-100 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 10) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (-5.05792779419832e-99 \"-5.05792779419832e-99\" -5.0579277941983196e-99 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 17) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.DOUBLE-FLOAT.RANDOM",
+          "reason": "expected (NIL); actual (((-6.953084797223003e-101 \"-6.953084797223003e-101\" -6.953084797223004e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 20) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (9.162883062362144e-101 \"9.162883062362144e-101\" 9.162883062362146e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 22) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (2.7226620878861636e-101 \"2.7226620878861636e-101\" 2.722662087886164e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 28) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (-8.084739520315679e-101 \"-8.084739520315679e-101\" -8.08473952031568e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 12) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (1.1881090215597507e-100 \"1.1881090215597507e-100\" 1.188109021559751e-100 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 29) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (-8.214249464722578e-101 \"-8.214249464722578e-101\" -8.214249464722579e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 11) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (-3.7921778367746446e-100 \"-3.7921778367746446e-100\" -3.7921778367746457e-100 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 23) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (-1.1484878344528294e-100 \"-1.1484878344528294e-100\" -1.1484878344528296e-100 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 8) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (6.921780621052061e-101 \"6.921780621052061e-101\" 6.921780621052063e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 17) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (2.9381408272209914e-99 \"2.9381408272209914e-99\" 2.938140827220991e-99 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 9) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.LONG-FLOAT.RANDOM",
+          "reason": "expected (NIL); actual (((-3.591336512559008e-101 \"-3.591336512559008e-101\" -3.591336512559009e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 26) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (-8.466665025874557e-101 \"-8.466665025874557e-101\" -8.466665025874558e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 18) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (-9.523002802037987e-101 \"-9.523002802037987e-101\" -9.52300280203799e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 32) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (7.206529681019314e-101 \"7.206529681019314e-101\" 7.206529681019316e-101 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 21) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (4.921664954019076e-97 \"4.921664954019076e-97\" 4.921664954019077e-97 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 24) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (5.91000140501989e-98 \"5.91000140501989e-98\" 5.910001405019891e-98 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 8) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (-2.822273084646534e-97 \"-2.822273084646534e-97\" -2.8222730846465344e-97 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 12) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (7.094352549815121e-97 \"7.094352549815121e-97\" 7.094352549815122e-97 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 22) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (-6.954964903540856e-97 \"-6.954964903540856e-97\" -6.954964903540857e-97 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 15) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (-6.23204302878902e-97 \"-6.23204302878902e-97\" -6.232043028789021e-97 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 29) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.CHAR.4",
+          "reason": "expected (\"#\\ \"); actual (\"#\\Space\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.CHAR.10",
+          "reason": "expected (NIL); actual (((#\\Space \"#\\Space\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.1",
+          "reason": "expected (T T T T T T T T T T ...); actual (T T T T (\"xyz\" \"XYZ\") (\"Xyz\" \"XYZ\") T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.2",
+          "reason": "expected (T T T T T T T T T T ...); actual ((\"XYZ\" \"xyz\") T (\"Xyz\" \"xyz\") T T T T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.3",
+          "reason": "expected (T T T T T T T T T T ...); actual ((\"XYZ\" \"Xyz\") T T T (\"xyz\" \"Xyz\") T T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.4",
+          "reason": "expected (T T T T T T T T T T ...); actual ((\"XYZ\" \"xYZ\") T (\"Xyz\" \"xyz\") T (\"xyz\" \"xYZ\") (\"Xyz\" \"XYZ\") T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.5",
+          "reason": "expected (T T T T T T T T T T ...); actual (T T T T (\"x1z\" \"X1Z\") (\"X1z\" \"X1Z\") T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.6",
+          "reason": "expected (T T T T T T T T T T ...); actual ((\"X1Z\" \"x1z\") T (\"X1z\" \"x1z\") T T T T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.7",
+          "reason": "expected (T T T T T T T T T T ...); actual ((\"X1Z\" \"X1z\") T T T (\"x1z\" \"X1z\") T T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.8",
+          "reason": "expected (T T T T T T T T T T ...); actual ((\"X1Z\" \"x1Z\") T (\"X1z\" \"x1z\") T (\"x1z\" \"x1Z\") (\"X1z\" \"X1Z\") T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.9",
+          "reason": "expected (T T T T T T T T T T ...); actual (T T T T (\"x z\" \"X Z\") T T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.10",
+          "reason": "expected (T T T T T T T T T T ...); actual ((\"X Z\" \"x z\") T (\"X Z\" \"x z\") T T T T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.11",
+          "reason": "expected (T T T T T T T T T T ...); actual ((\"X Z\" \"X z\") T (\"X Z\" \"X z\") T (\"x z\" \"X z\") T T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.12",
+          "reason": "expected (T T T T T T T T T T ...); actual ((\"X Z\" \"x Z\") T (\"X Z\" \"x Z\") T (\"x z\" \"x Z\") T T T T T ...) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.RANDOM.1",
+          "reason": "expected (NIL); actual (((PRINT-SYMBOL-TEST-PACKAGE::|a| \"|PRINT-SYMBOL-TEST-PACKAGE|::A\" PRINT-SYMBOL-TEST-PACKAGE::A (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 5) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (PRINT-SYMBOL-TEST-PACKAGE::|a| \"|PRINT-SYMBOL-TEST-PACKAGE|::a\" PRINT-SYMBOL-TEST-PACKAGE::A (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 35) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (PRINT-SYMBOL-TEST-PACKAGE::|a| \"|PRINT-SYMBOL-TEST-PACKAGE|::a\" PRINT-SYMBOL-TEST-PACKAGE::A (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 20) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (PRINT-SYMBOL-TEST-PACKAGE::|a| \"|PRINT-SYMBOL-TEST-PACKAGE|::A\" PRINT-SYMBOL-TEST-PACKAGE::A (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 3) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (PRINT-SYMBOL-TEST-PACKAGE::|a| \"print-symbol-test-package::A\" PRINT-SYMBOL-TEST-PACKAGE::A (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 10) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (PRINT-SYMBOL-TEST-PACKAGE::|a| \"|PRINT-SYMBOL-TEST-PACKAGE|::A\" PRINT-SYMBOL-TEST-PACKAGE::A (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 20) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (PRINT-SYMBOL-TEST-PACKAGE::|a| \"print-symbol-test-package::A\" PRINT-SYMBOL-TEST-PACKAGE::A (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 5) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (PRINT-SYMBOL-TEST-PACKAGE::|a| \"print-symbol-test-package::A\" PRINT-SYMBOL-TEST-PACKAGE::A (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 6) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (PRINT-SYMBOL-TEST-PACKAGE::|a| \"PRINT-SYMBOL-TEST-PACKAGE::a\" PRINT-SYMBOL-TEST-PACKAGE::A (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 29) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (PRINT-SYMBOL-TEST-PACKAGE::|a| \"PRINT-SYMBOL-TEST-PACKAGE::a\" PRINT-SYMBOL-TEST-PACKAGE::A (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 32) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) . \"And 953 more omitted.\")) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.RANDOM.2",
+          "reason": "expected (NIL); actual (((PRINT-SYMBOL-TEST-PACKAGE::|h%| \"PRINT-SYMBOL-TEST-PACKAGE::h%\" PRINT-SYMBOL-TEST-PACKAGE::H% (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 30) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (PRINT-SYMBOL-TEST-PACKAGE::|Xi| \"print-symbol-test-package::Xi\" PRINT-SYMBOL-TEST-PACKAGE::XI (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 28) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (PRINT-SYMBOL-TEST-PACKAGE::|Tu| \"PRINT-SYMBOL-TEST-PACKAGE::Tu\" PRINT-SYMBOL-TEST-PACKAGE::TU (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 29) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (PRINT-SYMBOL-TEST-PACKAGE::|Fu| \"print-symbol-test-package::Fu\" PRINT-SYMBOL-TEST-PACKAGE::FU (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 15) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (PRINT-SYMBOL-TEST-PACKAGE::|sN| \"print-symbol-test-package::sN\" PRINT-SYMBOL-TEST-PACKAGE::SN (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 2) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (PRINT-SYMBOL-TEST-PACKAGE::|d]| \"|PRINT-SYMBOL-TEST-PACKAGE|::d]\" PRINT-SYMBOL-TEST-PACKAGE::D] (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 30) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (PRINT-SYMBOL-TEST-PACKAGE::|db| \"PRINT-SYMBOL-TEST-PACKAGE::db\" PRINT-SYMBOL-TEST-PACKAGE::DB (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 11) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (PRINT-SYMBOL-TEST-PACKAGE::|Qu| \"PRINT-SYMBOL-TEST-PACKAGE::Qu\" PRINT-SYMBOL-TEST-PACKAGE::QU (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 4) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (PRINT-SYMBOL-TEST-PACKAGE::|if| \"PRINT-SYMBOL-TEST-PACKAGE::if\" PRINT-SYMBOL-TEST-PACKAGE::IF (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 2) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (PRINT-SYMBOL-TEST-PACKAGE::|s1| \"PRINT-SYMBOL-TEST-PACKAGE::s1\" PRINT-SYMBOL-TEST-PACKAGE::S1 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 8) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) . \"And 1 more omitted.\")) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.RANDOM.3",
+          "reason": "expected (NIL); actual (((WARN \"warn\" 1385218 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 35) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (COMPILE \"compile\" 6209818426 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 28) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (|xYZ| \"cl-test::xYZ\" XYZ (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 25) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (CAR \"car\" 10409 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 29) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (|a| \"CL-TEST::a\" A (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 33) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (IGNORABLE \"IGNORABLE\" 33021321329732 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 34) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (EQUAL \"equal\" 17570277 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 33) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (CIS \"cis\" 12892 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 32) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (LET \"let\" 19349 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 30) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (NTHCDR \"NTHCDR\" 935130201 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 33) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.RANDOM.4",
+          "reason": "expected (NIL); actual (((PHASE \"phase\" 30270782 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 33) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (PRINT-SYMBOL-TEST-PACKAGE::|s1| \"|PRINT-SYMBOL-TEST-PACKAGE|::S1\" PRINT-SYMBOL-TEST-PACKAGE::S1 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 29) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (LOOP \"loop\" 480505 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 28) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (FLOOR \"FLOOR\" 20899011 (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 34) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (|xYZ| \"CL-TEST::xYZ\" XYZ (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 11) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (|a| \"CL-TEST::a\" A (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 17) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (PSETF \"psetf\" 23936541 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 31) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (EVERY \"Every\" 22356004 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 35) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (DEFPARAMETER \"defparameter\" 238869846144224547 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 30) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (REST \"rest\" 899997 (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 32) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.SYMBOL.PREFIX.4",
+          "reason": "expected (T); actual (\"#:ABC\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.STRING.5",
+          "reason": "expected (\"\"\\\"\"\"); actual (\"\"\"\"\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.STRING.6",
+          "reason": "expected (\"\"\\\\\"\"); actual (\"\"\\\"\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.STRING.RANDOM.1",
+          "reason": "expected (NIL); actual (((\"?\\I_{\" \"\"?\\I_{\"\" \"?I_{\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 22) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (\"Ywg@\"\" \"\"Ywg@\"\"\" \"Ywg@\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 19) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (\"AotH\"\" \"\"AotH\"\"\" \"AotH\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 13) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (\"\\ZSv\" \"\"\\ZSv\"\" \"ZSv\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 14) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (\"Y\\9y\" \"\"Y\\9y\"\" \"Y9y\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 10) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (\"\\\" \"\"\\\"\" :END-OF-FILE (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 5) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (\"\"#\" \"\"\"#\"\" \"\" (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 4) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (\"O%\"]{\" \"\"O%\"]{\"\" \"O%\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 14) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (\"m@\"\" \"\"m@\"\"\" \"m@\" (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 20) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (\"UW\\\" \"\"UW\\\"\" :END-OF-FILE (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 3) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) . \"And 49 more omitted.\")) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.CONS.RANDOM.1",
+          "reason": "expected (NIL); actual (((((# # # NIL 11.458319587504096 560 . A) (#) NIL) \"((((((NIL)\n     (((NIL))\n      ((NIL))\n      . CL-TEST::|1|)\n     ((CL-TEST::B)\n      (462.66885055511733))\n     . CL-TEST::B)\n    (NIL\n     CL-TEST::|.|\n     . CL-TEST::G)\n    (CL-TEST::D\n     . CL-TEST::A)\n    621.9897432683313\n    . CL-TEST::|2|)\n   (NIL) NIL\n   ((CL-TEST::|1|)\n    CL-TEST::E\n    . 33.475363403555505)\n   (NIL))\n  ((#12rB3\n    . #12r192)\n   (NIL) NIL)\n  ((NIL\n    (NIL NIL))\n   907.602934142353\n   700.0857608312957)\n  NIL\n  11.458319587504096\n  #12r3A8\n  . CL-TEST::A)\n ((((NIL) NIL\n    . CL-TEST::E)))\n NIL)\" ((# # # NIL 11.458319587504096 560 . A) (#) NIL) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 12) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (((# # # # NIL) (236.40500283811937 432.5153887677917 NIL . B) (# # NIL) (NIL . 251)) \"(((((NIL . CL-TEST::D) NIL . CL-TEST::E) (948.8151264555356)\n   (CL-TEST::D . CL-TEST::|.|) . CL-TEST::A)\n  (NIL (CL-TEST::A CL-TEST::F . 358.32563768454884) (NIL . 774.3645472991686)\n   . CL-TEST::E)\n  (B6) ((((NIL CL-TEST::|.|))) (NIL NIL) NIL) NIL)\n (236.40500283811937 432.5153887677917 NIL . CL-TEST::B)\n ((233.85267964574663) (NIL 2I) NIL) (NIL . 9H))\" ((# # # # 16037) (236.40500283811937 432.5153887677917 16037 . B) (# # 16037) (16037 . 251)) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 26) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (((# # # #) (# #) 870.4089004729944 . 45) \"(((((((((nil . cl-test::d) nil 585.8651979806289 . 4A) cl-test::e) ((cl-test::c)) . cl-test::f) (97.15719397710953 nil 522.7040797475945 (nil)) 798.0350605574436 . cl-test::b) (((cl-test::c . cl-test::a) nil ((808.1205162456172) . cl-test::b) . 1BK) (nil nil . 155.8604382483897) nil)) nil nil nil) ((((nil (nil . cl-test::e) nil) nil (cl-test::|2|) . cl-test::f) . C6) OM 686.7317125548219) (((nil) nil nil) cl-test::|1| (nil) . cl-test::|2|) (((((cl-test::g nil) . cl-test::a) . cl-test::f) PE . 848.1350619986513) . cl-test::|1|)) (((DH (nil . 2O) cl-test::d) (nil) nil . cl-test::a) (((cl-test::|1|)))) 870.4089004729944 . 1J)\" ((# # # #) (# #) 870.4089004729944 . 45) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 26) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (((NIL # # . 51.0533178715582) (NIL # # # NIL 14 . 635.8177630907044) (# 766 #) C . 96.6254778270077) \"((nil (nil . C2) (398.53085376931443) . 51.0533178715582) (nil ((nil) (cl-test::d) ((cl-test::f) . cl-test::d) cl-test::a) ((nil) 1E2 nil) (((22G) . cl-test::|1|) nil) nil E . 635.8177630907044) (((167 . cl-test::c)) 1I6 (nil . 560.0523595264942)) cl-test::c . 96.6254778270077)\" ((NIL # # . 51.0533178715582) (NIL # # # NIL 14 . 635.8177630907044) (# 766 #) C . 96.6254778270077) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 20) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (((# #) (# # # # . |2|) (# # # D . E) (# . |1|) (# |2|) (NIL) (#)) \"(((2524 NIL) ((561.1653075540797))) ((((((NIL . 59.2241972505192) CL-TEST::|1| NIL) NIL NIL) NIL NIL NIL) . CL-TEST::|.|) ((NIL)) ((628.8047371707737 . CL-TEST::F) NIL) (CL-TEST::|.|) . CL-TEST::|2|) ((NIL . 91.90085512899205) (((((CL-TEST::D NIL NIL)) NIL) (NIL NIL) ((NIL) CL-TEST::|2| CL-TEST::C)) NIL (NIL NIL . 144)) ((555.5613952568358 (CL-TEST::|2|) CL-TEST::F)) CL-TEST::D . CL-TEST::E) (((CL-TEST::|.| NIL NIL) ((NIL (NIL . CL-TEST::D) (NIL . CL-TEST::C)) NIL (CL-TEST::|1|))) . CL-TEST::|1|) ((CL-TEST::|.| (NIL . 424.62248593196983) . CL-TEST::B) CL-TEST::|2|) (NIL) ((CL-TEST::|1| 2253)))\" ((# #) (# # # # . |2|) (# # # D . E) (# . |1|) (# |2|) (NIL) (#)) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 6) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (((# # #) (70 # 534 . 509.71779749619174) (#)) \"(((((|CL-TEST|::|G|) (|NIL|)) (((492.9363545500395) 343) (|CL-TEST|::|1| |NIL| . |CL-TEST|::|A|) |NIL| . 346.11414007407905) (642.8296980024 |CL-TEST|::|B|) (|NIL|) |NIL|) (((((|NIL|)) (|NIL| |NIL|)) (|NIL|) |NIL| |NIL|) . |CL-TEST|::|C|) (|NIL| . 415)) (154 (|NIL| |CL-TEST|::|F|) 2250 . 509.71779749619174) (((|NIL|) |NIL|)))\" ((# # #) (70 # 534 . 509.7177974961917) (#)) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 6) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (((NIL # NIL 188) (# # #) (# # 694.3157298863741 . |.|) (NIL # # NIL NIL) (# NIL) (# . 302) . 501.2050104885433) \"((NIL (NIL . #33rMQ) NIL #33r5N)\n ((#33rLS CL-TEST::G) (NIL) (NIL . #33rN2))\n (((((NIL NIL) . CL-TEST::F)\n    ((((NIL CL-TEST::C) . CL-TEST::|.|))\n     ((NIL))\n     . CL-TEST::G)\n    NIL)\n   69.57087252320915\n   ((NIL) NIL))\n  (((NIL . #33r9O)) NIL . CL-TEST::E)\n  694.3157298863741\n  . CL-TEST::|.|)\n (NIL (NIL) (NIL) NIL NIL)\n ((((NIL))\n   NIL\n   #33rLF\n   NIL\n   (CL-TEST::A)\n   . CL-TEST::A)\n  NIL)\n ((NIL) . #33r95)\n . 501.2050104885433)\" ((25662 # 25662 188) (# # #) (# # 694.3157298863741 . |.|) (25662 # # 25662 25662) (# 25662) (# . 302) . 501.2050104885433) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 33) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (((# # |.|) (# |.| NIL . D) (# # . 133) (NIL . 531.8621607042614) (# B . 53.183060497610235) 139.25317457065046 . G) \"(((1A9 (24B))\n  (((70.31587209708302\n     ((nil)\n      . 808.5210266711556)\n     ((cl-test::a)\n      . cl-test::d)\n     2H1\n     . 42.25262227680071)\n    (nil cl-test::b\n     nil nil)\n    (cl-test::|.|)\n    . cl-test::c)\n   (582.6070437778139\n    . 463.69654410970065)\n   . 90.4088150842195)\n  cl-test::|.|)\n ((nil\n   (cl-test::c\n    . 410.8177858726154)\n   . cl-test::b)\n  cl-test::|.| nil\n  . cl-test::d)\n (((nil\n    . 438.5332334622022)\n   nil\n   (1G2 cl-test::a\n    . cl-test::|.|)\n   nil)\n  ((nil) . cl-test::g)\n  . 77)\n (nil\n  . 531.8621607042614)\n ((cl-test::f)\n  cl-test::b\n  . 53.183060497610235)\n 139.25317457065046\n . cl-test::g)\" ((# # |.|) (# |.| NIL . D) (# # . 133) (NIL . 531.8621607042614) (# B . 53.18306049761024) 139.25317457065046 . G) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 18) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (((# # # NIL) (# # G # . 982.3483966463201) (# # # NIL) G (# NIL # . F) (NIL) (#)) \"(((nil nil ((nil) (nil) 803.7092395047229) (nil) ((nil . cl-test::e)) . 536) (995.2363276436292 ((nil)) . cl-test::|1|) (2A6 (nil . cl-test::a) 637.2232602737806 ((nil 323 . 77.37140061812443) cl-test::c . cl-test::c) (25 . 767)) nil) (((((nil . cl-test::f) (cl-test::a ((nil . cl-test::a) nil . 910.17151070412) nil . cl-test::g)) (nil 791 . 821) . cl-test::c) (nil . 599.7059363822736) ((cl-test::c) nil nil) cl-test::|2| 559.3130740578679 . cl-test::e) (307.22703851199105 . 574.2592233904471) cl-test::g ((882.7615562549564) . cl-test::d) . 982.3483966463201) (((409) (nil . cl-test::|2|) cl-test::|.|) (505.0885298194469) ((343) (nil . 247) . cl-test::|2|) nil) cl-test::g ((nil (nil . 173.8918939380142) cl-test::c . cl-test::d) nil (nil . cl-test::a) . cl-test::f) (nil) (((nil))))\" ((# # # NIL) (# # G # . 982.34839664632) (# # # NIL) G (# NIL # . F) (NIL) (#)) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 11) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (((B # 253 F . A) (232 921.8123947638571 # . |1|) NIL) \"((cl-test::b\n  ((nil)\n   (((((((nil\n          (nil\n           nil))\n         nil\n         337\n         (nil\n          cl-test::|1|\n          . 54))\n        nil\n        . 342.2755595066306)\n       nil\n       (356\n        . 935.051756916807)\n       . 483.30445863611146)\n      nil)\n     (nil\n      . cl-test::|1|)\n     nil\n     . 7D)\n    522.272111332809\n    . 857.742913494708)\n   ((nil\n     . cl-test::c)\n    (188.49722270369162\n     . cl-test::f))\n   . cl-test::|.|)\n  141\n  cl-test::f\n  . cl-test::a)\n (128\n  921.8123947638571\n  ((nil\n    nil\n    . 8A))\n  . cl-test::|1|)\n nil)\" ((B # 253 F . A) (232 921.8123947638572 # . |1|) NIL) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 14) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) . \"And 20 more omitted.\")) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.BACKQUOTE.RANDOM.14",
+          "reason": "expected (NIL); actual ((((SYSTEM:BACKQUOTE (NIL -722 # # # # # # # #)) \"(SYSTEM:BACKQUOTE\n (NIL #21r-1D8\n  ((NIL (SYSTEM:UNQUOTE CL-TEST::I))\n   ((((#21r17B) ((SYSTEM:UNQUOTE CL-TEST::Q) NIL)) (SYSTEM:UNQUOTE CL-TEST::N))\n    #21r-18B (SYSTEM:UNQUOTE CL-TEST::P) ((#21r16J)))\n   ((NIL (NIL NIL)) #21rF8 NIL) FORMATTER #21r257 (SYSTEM:UNQUOTE CL-TEST::D)\n   NIL\n   (((#21r-24J ((SYSTEM:UNQUOTE CL-TEST::Y)) INTEGER-DECODE-FLOAT\n      (SYSTEM:UNQUOTE CL-TEST::Q))))\n   (SYSTEM:UNQUOTE CL-TEST::L) ((((((SYSTEM:UNQUOTE CL-TEST::L)))) #21r-142)))\n  ((((SYSTEM:UNQUOTE CL-TEST::S) #21r1I3)))\n  (((((SYSTEM:UNQUOTE CL-TEST::P)) (SYSTEM:UNQUOTE CL-TEST::C) (STRING=)))\n   ((NIL)) NIL ((((SYSTEM:UNQUOTE CL-TEST::V)))) (SYSTEM:UNQUOTE T)\n   (SYSTEM:UNQUOTE CL-TEST::U))\n  ((SYSTEM:UNQUOTE CL-TEST::N) ((COMPLEMENT)) NIL *READ-BASE*\n   (SYSTEM:UNQUOTE CL-TEST::A))\n  ((SYSTEM:UNQUOTE CL-TEST::D))\n  (((SYSTEM:UNQUOTE CL-TEST::S)) (#21r1E9 /= ((SYSTEM:UNQUOTE CL-TEST::B))))\n  (WRITE-TO-STRING)\n  (GCD (SYSTEM:UNQUOTE CL-TEST::W)\n   (REALP (SYSTEM:UNQUOTE CL-TEST::K) SINGLE-FLOAT-NEGATIVE-EPSILON VECTOR))))\" (SYSTEM:BACKQUOTE (NIL -722 # # # # # # # #)) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 21) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) ((SYSTEM:BACKQUOTE (# # *PACKAGE* # # # # # # #)) \"(system:backquote\n ((((((-10S)))))\n  (boole-2 (system:unquote cl-test::g) ((with-simple-restart)) (((export) -35)))\n  *package* (system:unquote cl-test::f) (((((system:unquote cl-test::b)))))\n  (char keywordp (((system:unquote cl-test::g))))\n  (((system:unquote cl-test::k)))\n  ((((system:unquote cl-test::z) (system:unquote cl-test::y) (unexport)\n     (((14J)) (-AD) (8B) (shared-initialize) 13C storage-condition -GS ((nil))\n      11K *package*)\n     (-B1 ((nil)) (system:unquote cl-test::e)) (system:unquote cl-test::c)\n     quote (((CH)))))\n   (((system:unquote cl-test::m))) (-9N))\n  (((system:unquote cl-test::q) *print-radix*) PP (1Q BD allocate-instance)\n   (system:unquote cl-test::e) (system:unquote cl-test::k)\n   (system:unquote cl-test::q) (JB))\n  (((constantly ldb-test ((system:unquote cl-test::f))) (nil) nil))))\" (SYSTEM:BACKQUOTE (# # *PACKAGE* # # # # # # #)) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 29) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) ((SYSTEM:BACKQUOTE (# # # # # # # # NIL #)) \"(system:backquote (((#34r-H9)) ((system:unquote cl-test::f) (system:unquote cl-test::q)) ((system:unquote cl-test::d) cddaar caaar (system:unquote cl-test::x) (((system:unquote cl-test::f))) (caadr (nil)) #34rA2 compiled-function) ((system:unquote cl-test::g)) ((#34r-9H)) ((#34rF8) (system:unquote cl-test::e) ((system:unquote cl-test::u)) (system:unquote cl-test::i) make-echo-stream (system:unquote cl-test::w) nil nil ((system:unquote cl-test::o) ((system:unquote t)) ((system:unquote cl-test::n)) #34rDB nil apply (system:unquote cl-test::y) ((#34rEX (system:unquote cl-test::x))) #34rR5 ((((nil)) (#34rP2)) ((system:unquote cl-test::u) pathname-version) (system:unquote cl-test::s) (fourth nil) ((((system:unquote cl-test::v) (system:unquote cl-test::z)))))) (((system:unquote cl-test::w) ((some)) #34rSA) #34rQ8 nil)) (system:unquote cl-test::f) ((((system:unquote cl-test::s))) ((((#34r-A6))) (system:unquote cl-test::o) (((system:unquote cl-test::u)) (nil)))) nil (((system:unquote cl-test::z)))))\" (SYSTEM:BACKQUOTE (# # # # # # # # 27221 #)) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 34) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) ((SYSTEM:BACKQUOTE (# # # NIL # NIL NIL 321 # NIL)) \"(SYSTEM:BACKQUOTE (((NIL) ((SYSTEM:UNQUOTE CL-TEST::P) ((SYSTEM:UNQUOTE CL-TEST::M)) (CLEAR-INPUT) NIL) (PRINT-UNREADABLE-OBJECT)) (((SYSTEM:UNQUOTE CL-TEST::A) (*COMPILE-VERBOSE*) ((NIL MEMBER-IF NIL (SYSTEM:UNQUOTE CL-TEST::B) #28r-9F NIL ((SYSTEM:UNQUOTE CL-TEST::K))))) (#28r13C NIL NIL (SYNONYM-STREAM) (SYSTEM:UNQUOTE CL-TEST::Y) (#28rGM (#28r11D)) (((((SYSTEM:UNQUOTE CL-TEST::E) (SYSTEM:UNQUOTE CL-TEST::D)) (SYSTEM:UNQUOTE CL-TEST::K) (SYSTEM:UNQUOTE CL-TEST::W) (INVOKE-RESTART-INTERACTIVELY) #28rON))) (SYSTEM:UNQUOTE CL-TEST::H)) ((((NIL)) (#28rHN)) ((((SYSTEM:UNQUOTE CL-TEST::N) MAKE-BROADCAST-STREAM) ((NIL)) SIMPLE-VECTOR) (SYSTEM:UNQUOTE CL-TEST::Z) #28r-18) (LOGANDC1) ((((SYSTEM:UNQUOTE CL-TEST::O)))) (SYSTEM:UNQUOTE CL-TEST::M) NIL (SYSTEM:UNQUOTE CL-TEST::M) (SYSTEM:UNQUOTE CL-TEST::C) NIL (SYSTEM:UNQUOTE CL-TEST::W)) (SYSTEM:UNQUOTE CL-TEST::F) (SYSTEM:UNQUOTE CL-TEST::W) (SYSTEM:UNQUOTE CL-TEST::G) NIL (SYSTEM:UNQUOTE CL-TEST::P) (SYSTEM:UNQUOTE CL-TEST::H) #28r-9D) (SYSTEM:UNQUOTE CL-TEST::X) NIL ((SYSTEM:UNQUOTE CL-TEST::F) ((RASSOC))) NIL NIL #28rBD (SYSTEM:UNQUOTE CL-TEST::B) NIL))\" (SYSTEM:BACKQUOTE (# # # 18557 # 18557 18557 321 # 18557)) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 28) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) ((SYSTEM:BACKQUOTE (# # # -424 #)) \"(SYSTEM:BACKQUOTE ((((NIL))) ((SYSTEM:UNQUOTE CL-TEST::Z) (SYSTEM:UNQUOTE CL-TEST::P) 7I) ((MULTIPLE-VALUE-LIST) ((SYSTEM:UNQUOTE CL-TEST::M) NIL) (((SYSTEM:UNQUOTE CL-TEST::Q) ((LOWER-CASE-P) (-6B *FEATURES* ((SHORT-FLOAT-NEGATIVE-EPSILON)) (((-2G)))) (NIL -IJ NIL)) -H3 (((((SYSTEM:UNQUOTE CL-TEST::X) ((LISTP)) REALP) ((((SYSTEM:UNQUOTE CL-TEST::D)))))) NIL) ((MOD)) (-S5) -MH ((((SYSTEM:UNQUOTE CL-TEST::I)))) ((NIL)))) (((SYSTEM:UNQUOTE CL-TEST::J)) ((SYSTEM:UNQUOTE CL-TEST::V))) ((SYSTEM:UNQUOTE CL-TEST::K) (NIL)) DIVISION-BY-ZERO (((((SYSTEM:UNQUOTE CL-TEST::Y) ((SYSTEM:UNQUOTE CL-TEST::P))))) (NIL BASE-STRING (SYSTEM:UNQUOTE CL-TEST::U) (SYSTEM:UNQUOTE CL-TEST::C) (SYSTEM:UNQUOTE CL-TEST::D) ((>=)) -HK NIL READER-ERROR ((SYSTEM:UNQUOTE CL-TEST::Y)))) OM -CL (SYSTEM:UNQUOTE CL-TEST::W)) -C4 ((SYSTEM:UNQUOTE CL-TEST::N))))\" (SYSTEM:BACKQUOTE (# # # -424 #)) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 35) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) ((SYSTEM:BACKQUOTE (# # # # # # 613 # # 626)) \"(SYSTEM:BACKQUOTE ((((SYSTEM:UNQUOTE CL-TEST::W) ((((SYSTEM:UNQUOTE CL-TEST::Y)) #26rK5))) ((SUBSTITUTE NOTINLINE (SYSTEM:UNQUOTE CL-TEST::V))) NIL (((SYSTEM:UNQUOTE CL-TEST::W)) #26r-AE NIL) WRITE-TO-STRING) ((((SYSTEM:UNQUOTE CL-TEST::R) (SYSTEM:UNQUOTE CL-TEST::U)) SHORT-SITE-NAME WITH-COMPILATION-UNIT)) ((((SYSTEM:UNQUOTE CL-TEST::Z) (SYSTEM:UNQUOTE CL-TEST::W) (SYSTEM:UNQUOTE CL-TEST::M))) (SYSTEM:UNQUOTE CL-TEST::P) BREAK (MAKE-LOAD-FORM) (SYSTEM:UNQUOTE CL-TEST::P) (MAPCAR #26r-17E LIST* #26rJF DEBUG (SYSTEM:UNQUOTE CL-TEST::B) (SYSTEM:UNQUOTE CL-TEST::Z) NIL (SUBSTITUTE-IF-NOT)) (SYSTEM:UNQUOTE CL-TEST::O) ((((SYSTEM:UNQUOTE CL-TEST::J)) BASE-STRING NIL) PROCLAIM)) ((SYSTEM:UNQUOTE CL-TEST::M) (SYSTEM:UNQUOTE CL-TEST::K) ((SYSTEM:UNQUOTE T)) LOOP-FINISH CDDAR IF (((SYSTEM:UNQUOTE CL-TEST::A)) ((#26r17 INTEGER-LENGTH)) (NIL) (((SYSTEM:UNQUOTE CL-TEST::B)))) (NIL) NIL #26r-7) (PACKAGE-USE-LIST) (#26r-1A2 INPUT-STREAM-P) #26rNF ((NIL (SYSTEM:UNQUOTE CL-TEST::W))) ((SYSTEM:UNQUOTE CL-TEST::J) (SYSTEM:UNQUOTE CL-TEST::Z) #26r-JJ ((NIL))) #26rO2))\" (SYSTEM:BACKQUOTE (# # # # # # 613 # # 626)) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 26) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) ((SYSTEM:BACKQUOTE (# # # # # #)) \"(system:backquote (((system:unquote cl-test::a) 183 -H1 (((compile-file-pathname))) concatenated-stream) (((nil ((nil)) (system:unquote cl-test::h))) (((nil)) ((((system:unquote cl-test::s))) (system:unquote cl-test::e) (system:unquote cl-test::u)) fixnum copy-symbol (system:unquote cl-test::w) (((system:unquote cl-test::l))) (system:unquote cl-test::u)) -190 -68 -9J (system:unquote cl-test::b) nil lambda (system:unquote cl-test::o) nil) (((system:unquote cl-test::q) (pprint-newline) /// (((system:unquote cl-test::w) ((system:unquote t)) ((PM)) (-4B)) (((system:unquote cl-test::d))) (system:unquote cl-test::g) (system:unquote cl-test::p) N1) 8P set-macro-character nil)) (((machine-type)) ((boole-c1) oddp (string-trim)) (system:unquote cl-test::q)) (((system:unquote cl-test::q) nil (system:unquote cl-test::v) (((system:unquote cl-test::g))))) ((system:unquote cl-test::u) -O4 PO 127 cdaadr (nil 9O) ((((system:unquote cl-test::k)))))))\" (SYSTEM:BACKQUOTE (# # # # # #)) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 27) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) ((SYSTEM:BACKQUOTE (# # # # # NIL # NIL # #)) \"(system:backquote (((((nil))) ((nil)) (progv (-8A)) ((nil) ((nil (system:unquote cl-test::s) ((system:unquote cl-test::e) (5R)))))) (((system:unquote cl-test::p) dribble (((system:unquote cl-test::y) car)) nil) ((((system:unquote cl-test::c) (system:unquote cl-test::k) (nil) (system:unquote cl-test::u) (system:unquote cl-test::o)) ((((system:unquote cl-test::d)))) ((((system:unquote cl-test::o))) (nil) (system:unquote cl-test::z) (system:unquote t) (system:unquote cl-test::d) slot-unbound)) (((((system:unquote cl-test::i)) ((system:unquote cl-test::o) -HI ((system:unquote cl-test::m))) ((system:unquote cl-test::g))))) ((prog2 (((-89)) (N0))) ((system:unquote cl-test::p)) ((nil)))) (system:unquote cl-test::j) (((system:unquote cl-test::a))) ((system:unquote cl-test::d))) (system:unquote cl-test::g) (4R) (*load-verbose*) nil (system:unquote cl-test::j) nil (ignorable) ((system:unquote t))))\" (SYSTEM:BACKQUOTE (# # # # # 18557 # 18557 # #)) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 28) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) ((SYSTEM:BACKQUOTE (# ALPHA-CHAR-P # # # #)) \"(SYSTEM:BACKQUOTE (((((NIL (SYSTEM:UNQUOTE CL-TEST::E)) NIL) (#28r9G (SYSTEM:UNQUOTE CL-TEST::H) (STRING-NOT-LESSP))) NIL (#28r179)) ALPHA-CHAR-P ((((((((SYSTEM:UNQUOTE CL-TEST::R))) (((#28r64))) (SYSTEM:UNQUOTE CL-TEST::K))) (((NIL)))) #28r-99 (SYSTEM:UNQUOTE CL-TEST::X) (SYSTEM:UNQUOTE CL-TEST::A) (SYSTEM:UNQUOTE CL-TEST::E) (SYSTEM:UNQUOTE CL-TEST::R) (#28r-118) ((#28rE8) TAN #28r-GF) (SYSTEM:UNQUOTE CL-TEST::X) (SYSTEM:UNQUOTE CL-TEST::U)) ((SYSTEM:UNQUOTE CL-TEST::O) #28rB0 (#28r-11P) (SYSTEM:UNQUOTE CL-TEST::G) SET-DIFFERENCE) ((SYSTEM:UNQUOTE CL-TEST::X) ((SYSTEM:UNQUOTE CL-TEST::R) (#28r-P8)) (#28rP6) (SYSTEM:UNQUOTE CL-TEST::A) #28r-Q) (SYSTEM:UNQUOTE CL-TEST::K) #28r-KF (SYSTEM:UNQUOTE CL-TEST::Y) NIL ((NIL) (GET-PROPERTIES) NOTANY) CONCATENATED-STREAM NIL) (NIL) ((((SYSTEM:UNQUOTE CL-TEST::V)) (SYSTEM:UNQUOTE CL-TEST::U)) (((SYSTEM:UNQUOTE T)) (((((SYSTEM:UNQUOTE CL-TEST::K)))) (SYSTEM:UNQUOTE CL-TEST::Y))) (SYSTEM:UNQUOTE CL-TEST::R)) ((((#28r16 #28r-143))))))\" (SYSTEM:BACKQUOTE (# ALPHA-CHAR-P # # # #)) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 28) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) ((SYSTEM:BACKQUOTE (# # SHORT-SITE-NAME # NIL # # # -804 NIL)) \"(SYSTEM:BACKQUOTE (((M4 (((NIL)))) ((SYSTEM:UNQUOTE CL-TEST::S) SUBTYPEP (STREAM-ERROR-STREAM) (-I) (SYSTEM:UNQUOTE CL-TEST::W) (SYSTEM:UNQUOTE CL-TEST::X) NIL LEAST-NEGATIVE-NORMALIZED-SINGLE-FLOAT FLOAT-DIGITS) (SYSTEM:UNQUOTE CL-TEST::J) IF (((-CL) ((SYSTEM:UNQUOTE CL-TEST::M)) ((((NIL)))) (SYSTEM:UNQUOTE T) -2C) -F4 CDDR ((-K3 -C -8O (SYSTEM:UNQUOTE CL-TEST::M) (SYSTEM:UNQUOTE CL-TEST::B) (SYSTEM:UNQUOTE CL-TEST::U) (NIL ((SYSTEM:UNQUOTE CL-TEST::S)) (NIL)) (SYSTEM:UNQUOTE T) 13A (SYSTEM:UNQUOTE CL-TEST::F)) (SYSTEM:UNQUOTE CL-TEST::K) NIL (SYSTEM:UNQUOTE CL-TEST::P) INVOKE-DEBUGGER) ((SYSTEM:UNQUOTE CL-TEST::I) NIL (SYSTEM:UNQUOTE CL-TEST::G) (-11G FILE-POSITION) (SYSTEM:UNQUOTE CL-TEST::M)) (((-FF)) NIL ((JO)))) CATCH POSITION-IF (SYSTEM:UNQUOTE CL-TEST::C) (((NIL))) (SYSTEM:UNQUOTE CL-TEST::R)) (TRACE (((SYSTEM:UNQUOTE CL-TEST::B))) *READ-EVAL*) SHORT-SITE-NAME (((-11J (SYSTEM:UNQUOTE CL-TEST::W)))) NIL (SYSTEM:UNQUOTE CL-TEST::I) (SYSTEM:UNQUOTE CL-TEST::W) (SYSTEM:UNQUOTE CL-TEST::F) -174 NIL))\" (SYSTEM:BACKQUOTE (# # SHORT-SITE-NAME # 14846 # # # -804 14846)) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 25) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.BIT-VECTOR.RANDOM",
+          "reason": "The value (1 0 0 1 1 1 0 0 1 1 ...) is not of the expected type BIT-VECTOR"
+        },
+        {
+          "test": "PRINT.VECTOR.RANDOM.1",
+          "reason": "expected (NIL); actual (((\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\" \"\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\"\" \"~!@#$%^&*()_+`1234567890-=<,>.?/:;\" (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 17) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\" \"\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\"\" \"~!@#$%^&*()_+`1234567890-=<,>.?/:;\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 30) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\" \"\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\"\" \"~!@#$%^&*()_+`1234567890-=<,>.?/:;\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 5) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\" \"\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\"\" \"~!@#$%^&*()_+`1234567890-=<,>.?/:;\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 7) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\" \"\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\"\" \"~!@#$%^&*()_+`1234567890-=<,>.?/:;\" (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 15) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\" \"\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\"\" \"~!@#$%^&*()_+`1234567890-=<,>.?/:;\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 29) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\" \"\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\"\" \"~!@#$%^&*()_+`1234567890-=<,>.?/:;\" (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 5) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\" \"\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\"\" \"~!@#$%^&*()_+`1234567890-=<,>.?/:;\" (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 2) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\" \"\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\"\" \"~!@#$%^&*()_+`1234567890-=<,>.?/:;\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 19) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\" \"\"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\"\" \"~!@#$%^&*()_+`1234567890-=<,>.?/:;\" (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 21) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) . \"And 18 more omitted.\")) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.VECTOR.RANDOM.4",
+          "reason": "expected (NIL); actual (((#(#(# # #) #(# # 71.7528945846786 #) #(# #)) \"#(#(#(#(cl-test::e) #(#(#(106.93708710964667 #(#(#(#(#(#(#(739.) 366.8412520254032) 445.1640051418031)))) #(-660.)) #(260.)) 695.790429752939 cl-test::a)) #(#(cl-test::e -601.)) #(#(#(#(#(#(96.82261828997984 292.05296591750476) #(cl-test::e #(#(#(68.31555323985661)) 147.)))))) cl-test::b)) #(#(#(#(#(950. -100.) cl-test::a)))) #(-852. 239.)) #(#(cl-test::d) #(#(#(349.5045656518553)) #(438.1495332896904 #(cl-test::f))) 71.7528945846786 #(#(#(457.24540848407713) #(cl-test::f -349.)) cl-test::g)) #(#(#(759.0644561639838) 14.14689477095077) #(-338.)))\" #(#(# # #) #(# # 71.7528945846786 #) #(# #)) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 10) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (#(#(#) #(# # #) #(976.1461789837319) 7.934445025095771) \"#(#(#(|CL-TEST|::|D| |CL-TEST|::|A|))\n  #(#(#28rQ |CL-TEST|::|A|)\n    #(#(#(#(#28r-17E |CL-TEST|::|G|)) #(#(|CL-TEST|::|E|))))\n    #(#(#(982.9791371375039) |CL-TEST|::|C|) #(|CL-TEST|::|C|)))\n  #(976.1461789837319) 7.934445025095771)\" #(#(#) #(# # #) #(976.146178983732) 7.934445025095771) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 28) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (#(926.6083390804852 #(B) 695 #(B # # # 268.3808542216759 520.4542706985527 E C D C ...) #(893) #(851.9017152402195) A 527.1298616885632 606.2537291838094 633.7013256575159 ...) \"#(926.6083390804852 #(|CL-TEST|::|B|) #35rJU #(|CL-TEST|::|B| #(#(|CL-TEST|::|A|) #(#(957.9390303516409) |CL-TEST|::|D|)) #(#(#(#(#(#35r3S)) #(#(#(#(647.0457805481066)))) #(#35rQP 76.21867501071378)) |CL-TEST|::|E|) #(#(70.25911524156048 #(#(990.3735753062358 |CL-TEST|::|C|)))) |CL-TEST|::|F|) #(#(#(#(195.1913768008715 #(#35r-4N)))) #(#(#(|CL-TEST|::|B| #(633.6453145681209 #(#35r-JV)))))) 268.3808542216759 520.4542706985527 |CL-TEST|::|E| |CL-TEST|::|C| |CL-TEST|::|D| |CL-TEST|::|C| #35r-1X) #(#35rPI) #(851.9017152402195) |CL-TEST|::|A| 527.1298616885632 606.2537291838094 633.7013256575159 #35rIB #(527.7253436831937))\" #(926.6083390804852 #(B) 695 #(B # # # 268.3808542216759 520.4542706985527 E C D C ...) #(893) #(851.9017152402195) A 527.1298616885632 606.2537291838094 633.7013256575159 ...) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 35) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (#(#(638) #(96.68399332921196 901.4014627557995) -633 #(293.40353591941204) #(984.4437635065491 # # #) -478 D #(387.1622151867089) #(A) #(# 774.557242642185 973.6862084477373 # 854 645.0836557548148 # #) ...) \"#(#(#22r170) #(96.68399332921196 901.4014627557995) #22r-16H #(293.40353591941204) #(984.4437635065491 #(#(#22r-8I #(144.56842098311674)) #(#(#(#(#22r76 349.3886577265893))) #(cl-test::d))) #(#(#(#(577.2711572370135)))) #(cl-test::e)) #22r-LG cl-test::d #(387.1622151867089) #(cl-test::a) #(#(#(#(#(#(cl-test::g) 100.99589862541846)))) 774.557242642185 973.6862084477373 #(682.992643559802) #22r1GI 645.0836557548148 #(#(#(#(cl-test::f))) #(#(#(#(#(#(509.48174567796343 #22r1FJ)) 999.1188152437448)))) #(cl-test::a) #(638.684632394943)) #(#(#22r9C 249.56555144894722))) #(#(503.13397646119273 #(#(cl-test::d) 238.4854683908443)) #(633.801539581681)) 164.168776017656 #(cl-test::e cl-test::e))\" #(#(638) #(96.68399332921196 901.4014627557995) -633 #(293.40353591941204) #(984.4437635065492 # # #) -478 D #(387.1622151867089) #(A) #(# 774.557242642185 973.6862084477372 # 854 645.0836557548148 # #) ...) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 22) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (#(#(# #) #(# # G #) #(#) #(#) -267 #(#) #(#) A 160.93791029008787 A ...) \"#(#(#(386) #(#(CL-TEST::D -3A) -5B0)) #(#(#(#(CL-TEST::A #(386.2784865155566)) 30) #(#(#(12B))) 584.3821252324957) #(69) CL-TEST::G #(CL-TEST::G 430.5386100262402)) #(#(#(CL-TEST::D CL-TEST::F))) #(#(#(#(179.39195483956405 -27)) #(#(#(44B))))) -177 #(#(#(#(#(-503))) 48)) #(#(CL-TEST::G #(#(#(CL-TEST::C CL-TEST::C) #(-550)) -1C) #(#(-575 #(CL-TEST::B))))) CL-TEST::A 160.93791029008787 CL-TEST::A CL-TEST::B -21A 45.470164439277205 462.84281347007095 -492)\" #(#(# #) #(# # G #) #(#) #(#) -267 #(#) #(#) A 160.93791029008787 A ...) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 13) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (#(-361 #(884.0957047969983) #(#) #(985.6532072384521) #(#) G G B #(#) #(# #) ...) \"#(-AB #(884.0957047969983) #(#(#(#(662.1809057041237 582.5043488144333) #(|CL-TEST|::|G|)))) #(985.6532072384521) #(#(#(#(|CL-TEST|::|G|)))) |CL-TEST|::|G| |CL-TEST|::|G| |CL-TEST|::|B| #(#(#(#(#(#(#(-6L))))) 277.9525939921089)) #(#(#(563.0482112787873) 778.949479879508) #(#(#(|CL-TEST|::|B|) #(|CL-TEST|::|G| 698.2584268373381)))) #(#(#(#(#(|CL-TEST|::|D|)) 94.69667112222302))) #(124.1328806476335) #(#(#(693.9890581898187))) #(#(#(3P #(-9C))) #(|CL-TEST|::|D|)) #(|CL-TEST|::|F|) #(#(#(615.6006531036367)) #(#(544.4149075479949 JE)) #(#(|CL-TEST|::|A|)) |CL-TEST|::|E| #(#(#(|CL-TEST|::|E|) #(593.7274354934161 #(#(|CL-TEST|::|G|) 487.3388913632098))))) #(#(#(0.4251548723672727))))\" #(-361 #(884.0957047969983) #(#) #(985.653207238452) #(#) G G B #(#) #(# #) ...) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 35) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (#(-48 E D F 629.2457190259261 393.46657448904455 627 C 935.8044419946534 675.0132342671578 ...) \"#(-110000\n  CL-TEST::E\n  CL-TEST::D\n  CL-TEST::F\n  629.2457190259261\n  393.46657448904455\n  1001110011\n  CL-TEST::C\n  935.8044419946534\n  675.0132342671578\n  1111\n  #(#(#(#(#(357.41156721384823\n            #(#(-110101100 CL-TEST::B))))\n        #(-1001100101\n          #(247.89700449994712))\n        #(CL-TEST::D)\n        #(CL-TEST::F))\n      CL-TEST::A\n      632.9156456636908)\n    #(#(#(#(#(#(-110100110))\n            #(-1100100011))))\n      #(#(#(#(CL-TEST::A) CL-TEST::G))\n        -1010010001)\n      #(117.5407202024924)\n      #(-1110101101 762.8882922641441))\n    #(#(#(#(#(101110100)\n            #(#(CL-TEST::A CL-TEST::C)\n              -1100011))))\n      #(CL-TEST::E)\n      CL-TEST::B\n      #(-1000011))\n    #(CL-TEST::A)\n    1111011011\n    CL-TEST::B\n    #(CL-TEST::C\n      #(80.51576389289939\n        138.45253990654106))\n    355.03526354171754\n    503.94372878965044\n    CL-TEST::E)\n  111011101\n  #(#(CL-TEST::D))\n  #(1010111100 151.09539716364816)\n  #(#(#(-100100 -1110011010))))\" #(-48 E D F 629.2457190259261 393.46657448904455 627 C 935.8044419946534 675.0132342671578 ...) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 2) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (#(#(# 423) #(# 273.76737931877636) -459) \"#(#(#(#(#13r3B4) 428.19953827334535) #13r267) #(#(#(#(230.09719763536174) #13r-203) #(#13r-A7)) 273.76737931877636) #13r-294)\" #(#(# 423) #(# 273.76737931877636) -459) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 13) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (#(#(# # # # # -608 # # -903 706.3718278432948 ...) #(#)) \"#(#(#(#(#(#(cl-test::f) 557.0634310478994))) #(#(cl-test::g))\n    #(#(#(#(#(#(cl-test::f)))))) #(#(#(#34r-BL)) #(cl-test::b))\n    #(#(cl-test::e)) #34r-HU\n    #(#(#(#(#(#(#(#34r37 #(cl-test::c #(cl-test::g cl-test::d)))\n                #(#34r-QF 496.37190305840727))))))\n      977.1089851360717 #(#34r6W))\n    #(#(#(#(#34r-JP) cl-test::a))\n      #(cl-test::f #34r-CV\n        #(#(#(#(#(#(#34r-SC))) #34rCK)) #(#(#(#34r-MM #(cl-test::f)))))\n        #(#(cl-test::g #34r-FL))))\n    #34r-QJ 706.3718278432948 #34r-I5 #34r-3V cl-test::b)\n  #(#(#(#(cl-test::f #(cl-test::d 465.29145635240076)))\n      #(#(#34rRL) #(#34r4A cl-test::f)))))\" #(#(# # # # # -608 # # -903 706.3718278432948 ...) #(#)) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 34) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (#(-185 F #(# #) #(915 155.84867161762793) #(924.7617697571774 # # 491.0907490754339 # C 658) C 349 #(31) 576) \"#(-89 cl-test::f #(#(#(cl-test::d) 517.9406837295787) #(261.18469769452736))\n  #(1JD 155.84867161762793)\n  #(924.7617697571774 #(#(cl-test::b) #(-1FK L)) #(-1ED) 491.0907490754339\n    #(237.5084586107229 cl-test::b #(HK) BH 17D\n      #(1KA #(#(1L1 123.08790656205227) -D2))\n      #(#(#(#(#(#(#(#(468.2532810345836))\n                  #(534.1225670795095 #(#(964.1738273358599)))))))))\n      9A\n      #(-AG\n        #(cl-test::a #(#(cl-test::f #(#(740.6278806205098 cl-test::a))) AG))\n        #(873.4636622128197 cl-test::f) -1FH\n        #(#(FB) #(#(cl-test::d 660.9788151830182))))\n      20L)\n    cl-test::c 17K)\n  cl-test::c FJ #(19) 144)\" #(-185 F #(# #) #(915 155.84867161762793) #(924.7617697571774 # # 491.0907490754339 # C 658) C 349 #(31) 576) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 22) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) . \"And 489 more omitted.\")) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.2.21",
+          "reason": "expected (NIL); actual ((((0 3) #2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 28) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) ...) ((0 2) #2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 21) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) ...) ((0 1) #2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 12) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) ...) ((0 3) #2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 28) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) ...) ((0 2) #2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 19) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) ...) ((0 1) #2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 34) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) ...) ((0 3) #2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 18) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) ...) ((0 1) #2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 22) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) ...) ((0 2) #2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 22) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) ...) ((0 3) #2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 32) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) ...) . \"And 9 more omitted.\")) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.2.22",
+          "reason": "expected (NIL); actual (((#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 11) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 9) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 17) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 35) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 26) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 20) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 35) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 12) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 4) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 22) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.2.23",
+          "reason": "expected (NIL); actual (((#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 17) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 20) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 31) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 7) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 28) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 29) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 5) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 4) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 9) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (#2A() \"#2A()\" #2A() (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 25) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.LENGTH.1",
+          "reason": "expected (\"#2A(...)\"); actual (\"#2A(())\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.LENGTH.3",
+          "reason": "expected (\"#2A(...)\"); actual (\"#2A((1))\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.LENGTH.5",
+          "reason": "expected (\"#2A((a b c d e ...))\"); actual (\"#2A((a b c d e f g h))\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.LENGTH.6",
+          "reason": "expected (\"#2A((a ...) ...)\"); actual (\"#2A((a b) (c d))\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.LEVEL.2",
+          "reason": "expected (\"#2A(#)\"); actual (\"#2A(())\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.LEVEL.5",
+          "reason": "expected (\"#2A((4 #) (9 #) (# 0))\"); actual (\"#2A((4 (17)) (9 (CL-TEST::A)) ((CL-TEST::B) 0))\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.LEVEL.6",
+          "reason": "expected (\"(#2A(#))\"); actual (\"(#2A((CL-TEST::A)))\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.LEVEL.7",
+          "reason": "expected (\"#2A(#)\"); actual (\"#2A((#))\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.LEVEL.8",
+          "reason": "expected (\"#2A((#))\"); actual (\"#2A((#2A((CL-TEST::A))))\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.ARRAY.LEVEL.9",
+          "reason": "expected (\"#2A((#2A(#)))\"); actual (\"#2A((#2A((CL-TEST::A))))\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.PATHNAME.1",
+          "reason": "expected (NIL); actual (((#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE NIL :VERSION NIL) \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE NIL :VERSION NIL)\" #S(PATHNAME :HOST 16037 :DEVICE 16037 :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE 16037 :VERSION 16037) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 26) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE NIL :VERSION NIL) \"#S(pathname :host nil :device nil :directory (:absolute \"tmp\" \"valtan-ansi-work-5EMXFu\") :name \"foo\" :type nil :version nil)\" :READER-ERROR (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 33) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE NIL :VERSION NIL) \"#S(Pathname :Host Nil :Device Nil :Directory (:Absolute \"tmp\" \"valtan-ansi-work-5EMXFu\") :Name \"foo\" :Type Nil :Version Nil)\" #S(PATHNAME :HOST 16037 :DEVICE 16037 :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE 16037 :VERSION 16037) (*PRINT-READABLY* T) (*PRINT-ARRAY* NIL) (*PRINT-BASE* 26) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE NIL :VERSION NIL) \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE NIL :VERSION NIL)\" #S(PATHNAME :HOST 18557 :DEVICE 18557 :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE 18557 :VERSION 18557) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 28) (*PRINT-RADIX* NIL) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"FOO\" :TYPE NIL :VERSION NIL) \"#S(pathname :host nil :device nil :directory (:absolute\n                                              \"tmp\"\n                                              \"valtan-ansi-work-5EMXFu\") :name \"FOO\" :type nil :version nil)\" :READER-ERROR (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 35) (*PRINT-RADIX* T) (*PRINT-CASE* :UPCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* NIL) ...) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"FOO\" :TYPE NIL :VERSION NIL) \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"FOO\" :TYPE NIL :VERSION NIL)\" #S(PATHNAME :HOST 18557 :DEVICE 18557 :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"FOO\" :TYPE 18557 :VERSION 18557) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 28) (*PRINT-RADIX* NIL) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* NIL) ...) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"bar\" :TYPE NIL :VERSION NIL) \"#S(pathname :host nil :device nil :directory (:absolute\n                                              \"tmp\"\n                                              \"valtan-ansi-work-5EMXFu\") :name \"bar\" :type nil :version nil)\" :READER-ERROR (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 33) (*PRINT-RADIX* NIL) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"bar\" :TYPE NIL :VERSION NIL) \"#S(Pathname :Host Nil :Device Nil :Directory (:Absolute \"tmp\" \"valtan-ansi-work-5EMXFu\") :Name \"bar\" :Type Nil :Version Nil)\" #S(PATHNAME :HOST 18557 :DEVICE 18557 :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"bar\" :TYPE 18557 :VERSION 18557) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 28) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* NIL) (*PRINT-ESCAPE* T) ...) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"bar\" :TYPE NIL :VERSION NIL) \"#S(Pathname :Host Nil :Device Nil :Directory (:Absolute \"tmp\" \"valtan-ansi-work-5EMXFu\") :Name \"bar\" :Type Nil :Version Nil)\" #S(PATHNAME :HOST 14846 :DEVICE 14846 :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"bar\" :TYPE 14846 :VERSION 14846) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 25) (*PRINT-RADIX* T) (*PRINT-CASE* :CAPITALIZE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"bar\" :TYPE \"txt\" :VERSION NIL) \"#S(pathname :host nil :device nil :directory (:absolute\n                                              \"tmp\"\n                                              \"valtan-ansi-work-5EMXFu\") :name \"bar\" :type \"txt\" :version nil)\" #S(PATHNAME :HOST 17274 :DEVICE 17274 :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"bar\" :TYPE \"txt\" :VERSION 17274) (*PRINT-READABLY* T) (*PRINT-ARRAY* T) (*PRINT-BASE* 27) (*PRINT-RADIX* T) (*PRINT-CASE* :DOWNCASE) (*PRINT-CIRCLE* T) (*PRINT-ESCAPE* T) ...) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT.PATHNAME.2",
+          "reason": "expected (NIL); actual (((\"#P\"/tmp/valtan-ansi-work-5EMXFu/foo\"\" \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE NIL :VERSION NIL)\") (\"#P\"/tmp/valtan-ansi-work-5EMXFu/FOO\"\" \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"FOO\" :TYPE NIL :VERSION NIL)\") (\"#P\"/tmp/valtan-ansi-work-5EMXFu/bar\"\" \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"bar\" :TYPE NIL :VERSION NIL)\") (\"#P\"/tmp/valtan-ansi-work-5EMXFu/foo.txt\"\" \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE \"txt\" :VERSION NIL)\") (\"#P\"/tmp/valtan-ansi-work-5EMXFu/bar.txt\"\" \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"bar\" :TYPE \"txt\" :VERSION NIL)\") (\"#P\"/tmp/valtan-ansi-work-5EMXFu/XYZ.TXT\"\" \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"XYZ\" :TYPE \"TXT\" :VERSION NIL)\") (\"#P\"/tmp/valtan-ansi-work-5EMXFu/\"\" \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME NIL :TYPE NIL :VERSION NIL)\") (\"#P\"/tmp/valtan-ansi-work-5EMXFu/*\"\" \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME :WILD :TYPE NIL :VERSION NIL)\") (\"#P\"/tmp/valtan-ansi-work-5EMXFu/.txt\"\" \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME NIL :TYPE \"txt\" :VERSION NIL)\") (\"#P\"/tmp/valtan-ansi-work-5EMXFu/*.txt\"\" \"#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME :WILD :TYPE \"txt\" :VERSION NIL)\") ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT-CIRCLE.INIT.1",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PPRINT-POP.1",
+          "reason": "The assertion NIL failed."
+        },
+        {
+          "test": "PPRINT-POP.6",
+          "reason": "expected (\"{...}\" \"{1 ...}\" \"{1 2 . 3}\" \"{1 2 . 3}\" \"{1 2 . 3}\"); actual (\"{...}\" \"{1 ...}\" \"{1 2 ...}\" \"{1 2 . 3}\" \"{1 2 . 3}\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PPRINT-POP.7",
+          "reason": "expected (\"<#1=(1) 2 . #1#>\" \"<...>\" \"<(1) ...>\" \"<(1) 2 ...>\" \"<#1=(1) 2 . #1#>\" \"<#1=(1) 2 . #1#>\"); actual (\"<#1=(1) 2 . #1#>\" \"<...>\" \"<#1=(1) ...>\" \"<#1=(1) 2 ...>\" \"<#1=(1) 2 . #1#>\" \"<#1=(1) 2 . #1#>\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PPRINT-POP.8",
+          "reason": "expected (\"[[...]]\" \"[[1 ...]]\" \"[[1 2 ...]]\" \"[[1 . #1=(2 . #1#)]]\" \"[[1 . #1=(2 . #1#)]]\" \"[[1 . #1=(2 . #1#)]]\"); actual (\"[[...]]\" \"[[1 ...]]\" \"[[1 . #1=(2 . #1#)]]\" \"[[1 . #1=(2 . #1#)]]\" \"[[1 . #1=(2 . #1#)]]\" \"[[1 . #1=(2 . #1#)]]\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PPRINT-POP.9",
+          "reason": "expected (\"{1 2 3}\" \"{...}\" \"{1 ...}\" \"{1 2 ...}\" \"{1 2 3}\" \"{1 2 3}\"); actual (\"{1 2 3}\" \"{1 2 3}\" \"{1 2 3}\" \"{1 2 3}\" \"{1 2 3}\" \"{1 2 3}\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT-UNREADABLE-OBJECT.2",
+          "reason": "expected (NIL); actual (((0 (NIL) (NIL) \"#<>\" \"#<X>\") (#\\Space (NIL) (NIL) \"#<>\" \"#<X>\") (\"\u0000\" (NIL) (NIL) \"#<>\" \"#<X>\") ((A B) (NIL) (NIL) \"#<>\" \"#<X>\") (#<ARITHMETIC-ERROR {9}> (NIL) (NIL) \"#<>\" \"#<X>\") (#<PACKAGE \"COMMON-LISP\"> (NIL) (NIL) \"#<>\" \"#<X>\") (#(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) (NIL) (NIL) \"#<>\" \"#<X>\") (#S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) (NIL) (NIL) \"#<>\" \"#<X>\") (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE NIL :VERSION NIL) (NIL) (NIL) \"#<>\" \"#<X>\") (NIL (NIL) (NIL) \"#<>\" \"#<X>\") ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT-UNREADABLE-OBJECT.3",
+          "reason": "expected (NIL); actual (((0 (NIL) (NIL) \"#<FOO>\" \"#<>\") (#\\Space (NIL) (NIL) \"#<FOO>\" \"#<>\") (\"\u0000\" (NIL) (NIL) \"#<FOO>\" \"#<>\") ((A B) (NIL) (NIL) \"#<FOO>\" \"#<>\") (#<ARITHMETIC-ERROR {9}> (NIL) (NIL) \"#<FOO>\" \"#<>\") (#<PACKAGE \"COMMON-LISP\"> (NIL) (NIL) \"#<FOO>\" \"#<>\") (#(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) (NIL) (NIL) \"#<FOO>\" \"#<>\") (#S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) (NIL) (NIL) \"#<FOO>\" \"#<>\") (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE NIL :VERSION NIL) (NIL) (NIL) \"#<FOO>\" \"#<>\") (NIL (NIL) (NIL) \"#<FOO>\" \"#<>\") ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT-UNREADABLE-OBJECT.4",
+          "reason": "expected (NIL); actual (((0 (NIL) \"#<FOO>\") (#\\Space (NIL) \"#<FOO>\") (\"\u0000\" (NIL) \"#<FOO>\") ((A B) (NIL) \"#<FOO>\") (#<ARITHMETIC-ERROR {9}> (NIL) \"#<FOO>\") (#<PACKAGE \"COMMON-LISP\"> (NIL) \"#<FOO>\") (#(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) (NIL) \"#<FOO>\") (#S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) (NIL) \"#<FOO>\") (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-5EMXFu\") :NAME \"foo\" :TYPE NIL :VERSION NIL) (NIL) \"#<FOO>\") (NIL (NIL) \"#<FOO>\") ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PRINT-UNREADABLE-OBJECT.ERROR.1",
+          "reason": "The assertion (SIGNALS-ERROR (PRINT-UNREADABLE-OBJECT ((QUOTE 0) *STANDARD-OUTPUT*)) PRINT-NOT-READABLE) failed."
+        },
+        {
+          "test": "PRINT-LENGTH.11",
+          "reason": "expected (:GOOD); actual ((\"#S(PRINT-LENGTH-STRUCT :FOO 17)\" \"#S(PRINT-LENGTH-STRUCT :FOO 17)\" \"#S(PRINT-LENGTH-STRUCT :FOO 17)\" \"#S(PRINT-LENGTH-STRUCT :FOO 17)\" \"#S(PRINT-LENGTH-STRUCT :FOO 17)\")) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.C.4A",
+          "reason": "expected (NIL); actual (((0 #\\\u0000 \"\u0000\") (1 #\\\u0001 \"\u0001\") (2 #\\\u0002 \"\u0002\") (3 #\\\u0003 \"\u0003\") (4 #\\\u0004 \"\u0004\") (5 #\\\u0005 \"\u0005\") (6 #\\\u0006 \"\u0006\") (7 #\\\u0007 \"\u0007\") (11 #\\\u000b \"\u000b\") (14 #\\\u000e \"\u000e\") ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.C.6",
+          "reason": "expected (NIL); actual (((#\\a \"a\" \"#\\a\") (#\\b \"b\" \"#\\b\") (#\\c \"c\" \"#\\c\") (#\\d \"d\" \"#\\d\") (#\\e \"e\" \"#\\e\") (#\\f \"f\" \"#\\f\") (#\\g \"g\" \"#\\g\") (#\\h \"h\" \"#\\h\") (#\\i \"i\" \"#\\i\") (#\\j \"j\" \"#\\j\") ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.C.6A",
+          "reason": "expected (NIL); actual (((#\\\u0000 \"\u0000\" \"#\\\u0000\") (#\\\u0001 \"\u0001\" \"#\\\u0001\") (#\\\u0002 \"\u0002\" \"#\\\u0002\") (#\\\u0003 \"\u0003\" \"#\\\u0003\") (#\\\u0004 \"\u0004\" \"#\\\u0004\") (#\\\u0005 \"\u0005\" \"#\\\u0005\") (#\\\u0006 \"\u0006\" \"#\\\u0006\") (#\\\u0007 \"\u0007\" \"#\\\u0007\") (#\\Backspace \"Backspace\" \"#\\Backspace\") (#\\Tab \"Tab\" \"#\\Tab\") ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.C.4A",
+          "reason": "expected (NIL); actual (((#\\\u0000 NIL \"\u0000\") (#\\\u0001 NIL \"\u0001\") (#\\\u0002 NIL \"\u0002\") (#\\\u0003 NIL \"\u0003\") (#\\\u0004 NIL \"\u0004\") (#\\\u0005 NIL \"\u0005\") (#\\\u0006 NIL \"\u0006\") (#\\\u0007 NIL \"\u0007\") (#\\\u000b NIL \"\u000b\") (#\\\u000e NIL \"\u000e\") ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.1",
+          "reason": "expected (NIL); actual (((0.0 SHORT-FLOAT \"0.\" \"0.0\" \"0.\") (0.0 SINGLE-FLOAT \"0.\" \"0.0\" \"0.\") (0.0 DOUBLE-FLOAT \"0.\" \"0.0\" \"0.\") (0.0 LONG-FLOAT \"0.\" \"0.0\" \"0.\") (-0.0 SHORT-FLOAT \"-0.\" \"-0.0\" \"-0.\") (-0.0 SINGLE-FLOAT \"-0.\" \"-0.0\" \"-0.\") (-0.0 DOUBLE-FLOAT \"-0.\" \"-0.0\" \"-0.\") (-0.0 LONG-FLOAT \"-0.\" \"-0.0\" \"-0.\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.4",
+          "reason": "expected (NIL); actual (((1 \" 1.\" \" 1.\") (1.0 \" 1.\" \" 1.\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.5",
+          "reason": "expected (NIL); actual (((1 \"1.\" \"1.\") (1.0 \"1.\" \"1.\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.6",
+          "reason": "expected (NIL); actual (((1 \"  1.\" \"  1.\") (1.0 \"  1.\" \"  1.\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.7",
+          "reason": "expected (NIL); actual (((1 \" +1.\" \" +1.\") (1.0 \" +1.\" \" +1.\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.8",
+          "reason": "expected (NIL); actual (((1 \"+1.\" \"+1.\") (1.0 \"+1.\" \"+1.\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.9",
+          "reason": "expected (NIL); actual (((-1 \" -1.\" \" -1.\") (-1.0 \" -1.\" \" -1.\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.13",
+          "reason": "expected (NIL); actual (((1/2 \"0.50\" \"0.50\") (0.5 \"0.50\" \"0.50\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.14",
+          "reason": "expected (NIL); actual (((1/2 \"0.5\" \"0.5\") (0.5 \"0.5\" \"0.5\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.15",
+          "reason": "expected (NIL); actual (((1/2 \"+0.50\" \"+0.50\") (0.5 \"+0.50\" \"+0.50\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.16",
+          "reason": "expected (NIL); actual (((1/2 \"0.50\" \"0.50\") (0.5 \"0.50\" \"0.50\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.43",
+          "reason": "expected (\"0.0\"); actual (\"0.\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.F.43",
+          "reason": "expected (\"0.0\"); actual (\"0.\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.45",
+          "reason": "expected (\"1.0 2.0\"); actual (\"1.1 1.9\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.F.45",
+          "reason": "expected (\"1.0 2.0\"); actual (\"1.1 1.9\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.46",
+          "reason": "expected (\".0 .0 .0\"); actual (\"0.01 0.01 0.01\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.F.46",
+          "reason": "expected (\".0 .0 .0\"); actual (\"0.01 0.01 0.01\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.47",
+          "reason": "expected (\"0.0\"); actual (\"0.000001\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.F.47",
+          "reason": "expected (\"0.0\"); actual (\"0.000001\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.F.48",
+          "reason": "expected (\"10.0\"); actual (\"10.\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.F.48",
+          "reason": "expected (\"10.0\"); actual (\"10.\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.1",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "FORMAT.E.2",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "FORMAT.E.3",
+          "reason": "expected (NIL); actual (((0 \"0.000000E+0\" \"0.000000E+0\") (0.0 \"0.000000E+0\" \"0.000000E+0\") (0.0 \"0.000000E+0\" \"0.000000E+0\") (0.0 \"0.000000E+0\" \"0.000000E+0\") (0.0 \"0.000000E+0\" \"0.000000E+0\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.4",
+          "reason": "expected (NIL); actual (((1 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.5",
+          "reason": "expected (NIL); actual (((1 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.6",
+          "reason": "expected (NIL); actual (((1 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\") (1.0 \"1.000000E+0\" \"1.000000E+0\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.7",
+          "reason": "expected (NIL); actual (((1 \"+1.000000E+0\" \"+1.000000E+0\") (1.0 \"+1.000000E+0\" \"+1.000000E+0\") (1.0 \"+1.000000E+0\" \"+1.000000E+0\") (1.0 \"+1.000000E+0\" \"+1.000000E+0\") (1.0 \"+1.000000E+0\" \"+1.000000E+0\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.8",
+          "reason": "expected (NIL); actual (((1 \"+1.000000E+0\" \"+1.000000E+0\") (1.0 \"+1.000000E+0\" \"+1.000000E+0\") (1.0 \"+1.000000E+0\" \"+1.000000E+0\") (1.0 \"+1.000000E+0\" \"+1.000000E+0\") (1.0 \"+1.000000E+0\" \"+1.000000E+0\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.9",
+          "reason": "expected (NIL); actual (((1 \"-1.000000E+0\" \"-1.000000E+0\") (1.0 \"-1.000000E+0\" \"-1.000000E+0\") (1.0 \"-1.000000E+0\" \"-1.000000E+0\") (1.0 \"-1.000000E+0\" \"-1.000000E+0\") (1.0 \"-1.000000E+0\" \"-1.000000E+0\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.16",
+          "reason": "expected (NIL); actual (((5 \"5.00E+0\" \"5.00E+0\") (5.0 \"5.00E+0\" \"5.00E+0\") (5.0 \"5.00E+0\" \"5.00E+0\") (5.0 \"5.00E+0\" \"5.00E+0\") (5.0 \"5.00E+0\" \"5.00E+0\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.17",
+          "reason": "expected (NIL); actual (((1/2 \"5.00E-1\" \"5.00E-1\") (0.5 \"5.00E-1\" \"5.00E-1\") (0.5 \"5.00E-1\" \"5.00E-1\") (0.5 \"5.00E-1\" \"5.00E-1\") (0.5 \"5.00E-1\" \"5.00E-1\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.18",
+          "reason": "expected (NIL); actual (((1/20 \"5.00E-2\" \"5.00E-2\") (0.05 \"5.00E-2\" \"5.00E-2\") (0.05 \"5.00E-2\" \"5.00E-2\") (0.05 \"5.00E-2\" \"5.00E-2\") (0.05 \"5.00E-2\" \"5.00E-2\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.19",
+          "reason": "expected (NIL); actual (((1/20 \"5.00E-2\" \"5.00E-2\") (0.05 \"5.00E-2\" \"5.00E-2\") (0.05 \"5.00E-2\" \"5.00E-2\") (0.05 \"5.00E-2\" \"5.00E-2\") (0.05 \"5.00E-2\" \"5.00E-2\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.E.26",
+          "reason": "expected (NIL); actual ((((1.9515207193502118e-172 \"~,15,,0e\" \"1.951520719350212E-172\" \"951520719350212\" \"195152071935021\" NIL) (1.9515207193502118e-172 \"~,14,,0e\" \"1.95152071935021E-172\" \"95152071935021\" \"19515207193502\" NIL) (1.9515207193502118e-172 \"~,13,,0e\" \"1.9515207193502E-172\" \"9515207193502\" \"1951520719350\" NIL) (1.9515207193502118e-172 \"~,12,,0e\" \"1.951520719350E-172\" \"951520719350\" \"195152071935\" NIL) (1.9515207193502118e-172 \"~,11,,0e\" \"1.95152071935E-172\" \"95152071935\" \"19515207194\" NIL) (1.9515207193502118e-172 \"~,10,,0e\" \"1.9515207194E-172\" \"9515207194\" \"1951520719\" NIL) (1.9515207193502118e-172 \"~,9,,0e\" \"1.951520719E-172\" \"951520719\" \"195152072\" NIL) (1.9515207193502118e-172 \"~,8,,0e\" \"1.95152072E-172\" \"95152072\" \"19515207\" NIL) (1.9515207193502118e-172 \"~,7,,0e\" \"1.9515207E-172\" \"9515207\" \"1951521\" NIL) (1.9515207193502118e-172 \"~,6,,0e\" \"1.951521E-172\" \"951521\" \"195152\" NIL) ...) ((3.822768081015921e+150 \"~,15,,0e\" \"3.822768081015921E+150\" \"822768081015921\" \"382276808101592\" NIL) (3.822768081015921e+150 \"~,14,,0e\" \"3.82276808101592E+150\" \"82276808101592\" \"38227680810159\" NIL) (3.822768081015921e+150 \"~,13,,0e\" \"3.8227680810159E+150\" \"8227680810159\" \"3822768081016\" NIL) (3.822768081015921e+150 \"~,12,,0e\" \"3.822768081016E+150\" \"822768081016\" \"382276808102\" NIL) (3.822768081015921e+150 \"~,11,,0e\" \"3.82276808102E+150\" \"82276808102\" \"38227680810\" NIL) (3.822768081015921e+150 \"~,10,,0e\" \"3.8227680810E+150\" \"8227680810\" \"3822768081\" NIL) (3.822768081015921e+150 \"~,9,,0e\" \"3.822768081E+150\" \"822768081\" \"382276808\" NIL) (3.822768081015921e+150 \"~,8,,0e\" \"3.82276808E+150\" \"82276808\" \"38227681\" NIL) (3.822768081015921e+150 \"~,7,,0e\" \"3.8227681E+150\" \"8227681\" \"3822768\" NIL) (3.822768081015921e+150 \"~,6,,0e\" \"3.822768E+150\" \"822768\" \"382277\" NIL) ...) ((4.158246093461261e+244 \"~,15,,0e\" \"4.158246093461261E+244\" \"158246093461261\" \"415824609346126\" NIL) (4.158246093461261e+244 \"~,14,,0e\" \"4.15824609346126E+244\" \"15824609346126\" \"41582460934613\" NIL) (4.158246093461261e+244 \"~,13,,0e\" \"4.1582460934613E+244\" \"1582460934613\" \"4158246093461\" NIL) (4.158246093461261e+244 \"~,12,,0e\" \"4.158246093461E+244\" \"158246093461\" \"415824609346\" NIL) (4.158246093461261e+244 \"~,11,,0e\" \"4.15824609346E+244\" \"15824609346\" \"41582460935\" NIL) (4.158246093461261e+244 \"~,10,,0e\" \"4.1582460935E+244\" \"1582460935\" \"4158246093\" NIL) (4.158246093461261e+244 \"~,9,,0e\" \"4.158246093E+244\" \"158246093\" \"415824609\" NIL) (4.158246093461261e+244 \"~,8,,0e\" \"4.15824609E+244\" \"15824609\" \"41582461\" NIL) (4.158246093461261e+244 \"~,7,,0e\" \"4.1582461E+244\" \"1582461\" \"4158246\" NIL) (4.158246093461261e+244 \"~,6,,0e\" \"4.158246E+244\" \"158246\" \"415825\" NIL) ...) ((1.108853000571192e+271 \"~,15,,0e\" \"1.108853000571192E+271\" \"108853000571192\" \"110885300057119\" NIL) (1.108853000571192e+271 \"~,14,,0e\" \"1.10885300057119E+271\" \"10885300057119\" \"11088530005712\" NIL) (1.108853000571192e+271 \"~,13,,0e\" \"1.1088530005712E+271\" \"1088530005712\" \"1108853000571\" NIL) (1.108853000571192e+271 \"~,12,,0e\" \"1.108853000571E+271\" \"108853000571\" \"110885300057\" NIL) (1.108853000571192e+271 \"~,11,,0e\" \"1.10885300057E+271\" \"10885300057\" \"11088530006\" NIL) (1.108853000571192e+271 \"~,10,,0e\" \"1.1088530006E+271\" \"1088530006\" \"1108853001\" NIL) (1.108853000571192e+271 \"~,9,,0e\" \"1.108853001E+271\" \"108853001\" \"110885300\" NIL) (1.108853000571192e+271 \"~,8,,0e\" \"1.10885300E+271\" \"10885300\" \"11088530\" NIL) (1.108853000571192e+271 \"~,7,,0e\" \"1.1088530E+271\" \"1088530\" \"1108853\" NIL) (1.108853000571192e+271 \"~,6,,0e\" \"1.108853E+271\" \"108853\" \"110885\" NIL) ...) ((3.5348331220326433e-155 \"~,15,,0e\" \"3.534833122032643E-155\" \"534833122032643\" \"353483312203264\" NIL) (3.5348331220326433e-155 \"~,14,,0e\" \"3.53483312203264E-155\" \"53483312203264\" \"35348331220326\" NIL) (3.5348331220326433e-155 \"~,13,,0e\" \"3.5348331220326E-155\" \"5348331220326\" \"3534833122033\" NIL) (3.5348331220326433e-155 \"~,12,,0e\" \"3.534833122033E-155\" \"534833122033\" \"353483312203\" NIL) (3.5348331220326433e-155 \"~,11,,0e\" \"3.53483312203E-155\" \"53483312203\" \"35348331220\" NIL) (3.5348331220326433e-155 \"~,10,,0e\" \"3.5348331220E-155\" \"5348331220\" \"3534833122\" NIL) (3.5348331220326433e-155 \"~,9,,0e\" \"3.534833122E-155\" \"534833122\" \"353483312\" NIL) (3.5348331220326433e-155 \"~,8,,0e\" \"3.53483312E-155\" \"53483312\" \"35348331\" NIL) (3.5348331220326433e-155 \"~,7,,0e\" \"3.5348331E-155\" \"5348331\" \"3534833\" NIL) (3.5348331220326433e-155 \"~,6,,0e\" \"3.534833E-155\" \"534833\" \"353483\" NIL) ...) ((1.1746190268823455e+146 \"~,15,,0e\" \"1.174619026882345E+146\" \"174619026882345\" \"117461902688235\" NIL) (1.1746190268823455e+146 \"~,14,,0e\" \"1.17461902688235E+146\" \"17461902688235\" \"11746190268823\" NIL) (1.1746190268823455e+146 \"~,13,,0e\" \"1.1746190268823E+146\" \"1746190268823\" \"1174619026882\" NIL) (1.1746190268823455e+146 \"~,12,,0e\" \"1.174619026882E+146\" \"174619026882\" \"117461902688\" NIL) (1.1746190268823455e+146 \"~,11,,0e\" \"1.17461902688E+146\" \"17461902688\" \"11746190269\" NIL) (1.1746190268823455e+146 \"~,10,,0e\" \"1.1746190269E+146\" \"1746190269\" \"1174619027\" NIL) (1.1746190268823455e+146 \"~,9,,0e\" \"1.174619027E+146\" \"174619027\" \"117461903\" NIL) (1.1746190268823455e+146 \"~,8,,0e\" \"1.17461903E+146\" \"17461903\" \"11746190\" NIL) (1.1746190268823455e+146 \"~,7,,0e\" \"1.1746190E+146\" \"1746190\" \"1174619\" NIL) (1.1746190268823455e+146 \"~,6,,0e\" \"1.174619E+146\" \"174619\" \"117462\" NIL) ...) ((4.7570764345013695e-92 \"~,15,,0e\" \"4.757076434501369E-92\" \"757076434501369\" \"475707643450137\" NIL) (4.7570764345013695e-92 \"~,14,,0e\" \"4.75707643450137E-92\" \"75707643450137\" \"47570764345014\" NIL) (4.7570764345013695e-92 \"~,13,,0e\" \"4.7570764345014E-92\" \"7570764345014\" \"4757076434501\" NIL) (4.7570764345013695e-92 \"~,12,,0e\" \"4.757076434501E-92\" \"757076434501\" \"475707643450\" NIL) (4.7570764345013695e-92 \"~,11,,0e\" \"4.75707643450E-92\" \"75707643450\" \"47570764345\" NIL) (4.7570764345013695e-92 \"~,10,,0e\" \"4.7570764345E-92\" \"7570764345\" \"4757076435\" NIL) (4.7570764345013695e-92 \"~,9,,0e\" \"4.757076435E-92\" \"757076435\" \"475707643\" NIL) (4.7570764345013695e-92 \"~,8,,0e\" \"4.75707643E-92\" \"75707643\" \"47570764\" NIL) (4.7570764345013695e-92 \"~,7,,0e\" \"4.7570764E-92\" \"7570764\" \"4757076\" NIL) (4.7570764345013695e-92 \"~,6,,0e\" \"4.757076E-92\" \"757076\" \"475708\" NIL) ...) ((5.731990449190293e-68 \"~,15,,0e\" \"5.731990449190293E-68\" \"731990449190293\" \"573199044919029\" NIL) (5.731990449190293e-68 \"~,14,,0e\" \"5.73199044919029E-68\" \"73199044919029\" \"57319904491903\" NIL) (5.731990449190293e-68 \"~,13,,0e\" \"5.7319904491903E-68\" \"7319904491903\" \"5731990449190\" NIL) (5.731990449190293e-68 \"~,12,,0e\" \"5.731990449190E-68\" \"731990449190\" \"573199044919\" NIL) (5.731990449190293e-68 \"~,11,,0e\" \"5.73199044919E-68\" \"73199044919\" \"57319904492\" NIL) (5.731990449190293e-68 \"~,10,,0e\" \"5.7319904492E-68\" \"7319904492\" \"5731990449\" NIL) (5.731990449190293e-68 \"~,9,,0e\" \"5.731990449E-68\" \"731990449\" \"573199045\" NIL) (5.731990449190293e-68 \"~,8,,0e\" \"5.73199045E-68\" \"73199045\" \"57319904\" NIL) (5.731990449190293e-68 \"~,7,,0e\" \"5.7319904E-68\" \"7319904\" \"5731990\" NIL) (5.731990449190293e-68 \"~,6,,0e\" \"5.731990E-68\" \"731990\" \"573199\" NIL) ...) ((3.921253117585429e+81 \"~,15,,0e\" \"3.921253117585429E+81\" \"921253117585429\" \"392125311758543\" NIL) (3.921253117585429e+81 \"~,14,,0e\" \"3.92125311758543E+81\" \"92125311758543\" \"39212531175854\" NIL) (3.921253117585429e+81 \"~,13,,0e\" \"3.9212531175854E+81\" \"9212531175854\" \"3921253117585\" NIL) (3.921253117585429e+81 \"~,12,,0e\" \"3.921253117585E+81\" \"921253117585\" \"392125311759\" NIL) (3.921253117585429e+81 \"~,11,,0e\" \"3.92125311759E+81\" \"92125311759\" \"39212531176\" NIL) (3.921253117585429e+81 \"~,10,,0e\" \"3.9212531176E+81\" \"9212531176\" \"3921253118\" NIL) (3.921253117585429e+81 \"~,9,,0e\" \"3.921253118E+81\" \"921253118\" \"392125312\" NIL) (3.921253117585429e+81 \"~,8,,0e\" \"3.92125312E+81\" \"92125312\" \"39212531\" NIL) (3.921253117585429e+81 \"~,7,,0e\" \"3.9212531E+81\" \"9212531\" \"3921253\" NIL) (3.921253117585429e+81 \"~,6,,0e\" \"3.921253E+81\" \"921253\" \"392125\" NIL) ...) ((6.5224764593e-314 \"~,10,,0e\" \"6.5224764593E-314\" \"5224764593\" \"6522476459\" NIL) (6.5224764593e-314 \"~,9,,0e\" \"6.522476459E-314\" \"522476459\" \"652247646\" NIL) (6.5224764593e-314 \"~,8,,0e\" \"6.52247646E-314\" \"52247646\" \"65224765\" NIL) (6.5224764593e-314 \"~,7,,0e\" \"6.5224765E-314\" \"5224765\" \"6522476\" NIL) (6.5224764593e-314 \"~,6,,0e\" \"6.522476E-314\" \"522476\" \"652248\" NIL) (6.5224764593e-314 \"~,5,,0e\" \"6.52248E-314\" \"52248\" \"65225\" NIL) (6.5224764593e-314 \"~,4,,0e\" \"6.5225E-314\" \"5225\" \"6522\" NIL) (6.5224764593e-314 \"~,3,,0e\" \"6.522E-314\" \"522\" \"652\" NIL) (6.5224764593e-314 \"~,2,,0e\" \"6.52E-314\" \"52\" \"65\" NIL) (6.5224764593e-314 \"~,1,,0e\" \"6.5E-314\" \"5\" \"7\" NIL)) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT._.1",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT._.2",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT._.3",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT._.4",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT._.5",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT._.6",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT._.7",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT._.8",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT._.9",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMATTER._.9",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.@_.1",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.@_.2",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.@_.3",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.@_.4",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.@_.5",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.@_.6",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.@_.7",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.@_.8",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.@_.9",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.@_.10",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMATTER.@_.10",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:_.1",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:_.2",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:_.3",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:_.4",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:_.5",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:_.6",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:_.7",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMATTER.:_.7",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:@_.1",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:@_.2",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:@_.3",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:@_.4",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.:@_.5",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMATTER.:@_.5",
+          "reason": "FORMAT: unsupported directive _"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.1",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.2",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.3",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.4",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.5",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.6",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.7",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.8",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.9",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.10",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.11",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.12",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.13",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.14",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.15",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.16",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.17",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.18",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.19",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.20",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.21",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.22",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.23",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.24",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.25",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.26",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.27",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.28",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.29",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.CIRCLE.1",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.CIRCLE.2",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.CIRCLE.3",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.CIRCLE.4",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.CIRCLE.5",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.ESCAPE.1",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.LOGICAL-BLOCK.ESCAPE.2",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.1",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.2",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.3",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.4",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.5",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.6",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.7",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.8",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.9",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.10",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.11",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.12",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.13",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.14",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.15",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.I.16",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT./.11",
+          "reason": "The function FUNCTION is undefined"
+        },
+        {
+          "test": "FORMAT./.12",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT./.13",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT./.14",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT./.15",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT./.16",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT./.17",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT./.18",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.1",
+          "reason": "expected (\"XXYY\"); actual (\"XX        YY\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.:T.2",
+          "reason": "expected (\"XXYY\"); actual (\"XX        YY\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.:T.3",
+          "reason": "expected (\"XXYY\"); actual (\"XX        YY\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.:T.4",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.5",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.5A",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.6",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.6A",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.6B",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.7",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.8",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.9",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.10",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.11",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:T.12",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:@T.1",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:@T.1A",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:@T.1B",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:@T.1C",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:@T.1D",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:@T.2",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:@T.3",
+          "reason": "FORMAT: logical block formatting is not implemented"
+        },
+        {
+          "test": "FORMAT.:@T.4",
+          "reason": "expected (\"XXYY\"); actual (\"XX                  YY\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.:@T.5",
+          "reason": "expected (\"XXYY\"); actual (\"XX                  YY\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.8",
+          "reason": "expected (NIL); actual (((10 5 30 \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"     xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\") (1 1 6 \"xxxxxx\" \" xxxxxx\" \"xxxxxx\") (0 3 44 \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\") (0 3 24 \"xxxxxxxxxxxxxxxxxxxxxxxx\" \"   xxxxxxxxxxxxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxxxxxxxxxxxx\") (7 7 45 \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"       xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\") (7 1 30 \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \" xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\") (40 8 43 \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\") (15 8 15 \"xxxxxxxxxxxxxxx\" \"        xxxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxxx\") (31 7 46 \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"       xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\") (12 6 33 \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\") ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.11",
+          "reason": "expected (NIL); actual (((12 9 \"      xxxxxxxxxxxx\" \"xxxxxxxxxxxx\") (5 4 \"   xxxxx\" \"xxxxx\") (17 4 \"   xxxxxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxxxxx\") (13 9 \"     xxxxxxxxxxxxx\" \"xxxxxxxxxxxxx\") (14 5 \" xxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxx\") (20 8 \"    xxxxxxxxxxxxxxxxxxxx\" \"xxxxxxxxxxxxxxxxxxxx\"))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.29",
+          "reason": "expected (\"\nX AAA BBB CCC\"); actual (\"\nX \nX  AAA BBB CCC\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.31",
+          "reason": "expected (\"\nX AAABBBCCC\"); actual (\"\nX \nX AAA\nX BBB\nX CCC\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.37",
+          "reason": "expected (\"AA  CCCCDDDD\"); actual (\"AA  \nBBBBCCCCDDDD\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.39",
+          "reason": "expected (\"AA  CCCC**DDDD\"); actual (\"AA  \nBBBBCCCCDDDD\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.40",
+          "reason": "expected (\"AA  \nBBBBCCCC**DDDD\"); actual (\"AA  \nBBBBCCCCDDDD\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.41",
+          "reason": "expected (\"AA  CCCCDDDD\"); actual (\"AA  \nBBBBCCCCDDDD\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.43",
+          "reason": "expected (\"AA  CCCC**DDDD\"); actual (\"AA  \nBBBBCCCCDDDD\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.44",
+          "reason": "expected (\"AA  \nBBBBCCCC**DDDD\"); actual (\"AA  \nBBBBCCCCDDDD\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.ERROR.W.1",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.ERROR.W.2",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.ERROR.W.3",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.ERROR.:T.1",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.ERROR.:T.2",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.JUSTIFY.ERROR.:T.3",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.^.{.25",
+          "reason": "expected (\"123\"); actual (\"1234\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.{.25",
+          "reason": "expected (\"123\"); actual (\"1234\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.^.{.33",
+          "reason": "expected (\"\"); actual (\"0\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.{.33",
+          "reason": "expected (\"\"); actual (\"0\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.^.:{.6",
+          "reason": "expected (\"12\"); actual (\"2\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.:{.6",
+          "reason": "expected (\"12\"); actual (\"2\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.^.@{.25",
+          "reason": "expected (\"123\"); actual (\"1234\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.@{.25",
+          "reason": "Tail is NIL, length should be 1"
+        },
+        {
+          "test": "FORMAT.^.@{.33",
+          "reason": "expected (\"\"); actual (\"0\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.@{.33",
+          "reason": "Tail is NIL, length should be 1"
+        },
+        {
+          "test": "FORMAT.^.:@{.6",
+          "reason": "expected (\"12\"); actual (\"2\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.:@{.6",
+          "reason": "expected (\"12\"); actual (\"2\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.:^.:{.26",
+          "reason": "expected (\"4\"); actual (\"415\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.:^.:{.26",
+          "reason": "expected (\"4\"); actual (\"415\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.:^.:@{.26",
+          "reason": "expected (\"4\"); actual (\"415\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.:^.:@{.26",
+          "reason": "Tail is NIL, length should be 1"
+        },
+        {
+          "test": "FORMAT.^.(.1",
+          "reason": "expected (\"xy\"); actual (\"\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.(.1",
+          "reason": "expected (\"xy\"); actual (\"\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.^.:(.1",
+          "reason": "expected (\"Xy\"); actual (\"\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.:(.1",
+          "reason": "expected (\"Xy\"); actual (\"\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.^.@(.1",
+          "reason": "expected (\"Xa yb \"); actual (\"\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.@(.1",
+          "reason": "expected (\"Xa yb \"); actual (\"\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMAT.^.@:(.1",
+          "reason": "expected (\"XA YB \"); actual (\"\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FORMATTER.^.@:(.1",
+          "reason": "expected (\"XA YB \"); actual (\"\") [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(0 #\\\u0000 \"\u0000\") \n(1 #\\\u0001 \"\u0001\") \n(2 #\\\u0002 \"\u0002\") \n(3 #\\\u0003 \"\u0003\") \n(4 #\\\u0004 \"\u0004\") \n(5 #\\\u0005 \"\u0005\") \n(6 #\\\u0006 \"\u0006\") \n(7 #\\\u0007 \"\u0007\") \n(11 #\\\u000b \"\u000b\") \n(14 #\\\u000e \"\u000e\") \n(15 #\\\u000f \"\u000f\") \n(16 #\\\u0010 \"\u0010\") \n(17 #\\\u0011 \"\u0011\") \n(18 #\\\u0012 \"\u0012\") \n(19 #\\\u0013 \"\u0013\") \n(20 #\\\u0014 \"\u0014\") \n(21 #\\\u0015 \"\u0015\") \n(22 #\\\u0016 \"\u0016\") \n(23 #\\\u0017 \"\u0017\") \n(24 #\\\u0018 \"\u0018\") \n(25 #\\\u0019 \"\u0019\") \n(26 #\\\u001a \"\u001a\") \n(27 #\\\u001b \"\u001b\") \n(28 #\\\u001c \"\u001c\") \n(29 #\\\u001d \"\u001d\") \n(30 #\\\u001e \"\u001e\") \n(31 #\\\u001f \"\u001f\") \n(128 #\\ \"\") \n(129 #\\ \"\") \n(130 #\\ \"\") \n(131 #\\ \"\") \n(132 #\\ \"\") \n(133 #\\ \"\") \n(134 #\\ \"\") \n(135 #\\ \"\") \n(136 #\\ \"\") \n(137 #\\ \"\") \n(138 #\\ \"\") \n(139 #\\ \"\") \n(140 #\\ \"\") \n(141 #\\ \"\") \n(142 #\\ \"\") \n(143 #\\ \"\") \n(144 #\\ \"\") \n(145 #\\ \"\") \n(146 #\\ \"\") \n(147 #\\ \"\") \n(148 #\\ \"\") \n(149 #\\ \"\") \n(150 #\\ \"\") \n(151 #\\ \"\") \n(152 #\\ \"\") \n(153 #\\ \"\") \n(154 #\\ \"\") \n(155 #\\ \"\") \n(156 #\\ \"\") \n(157 #\\ \"\") \n(158 #\\ \"\") \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n(159 #\\ \"\") \n",
+      "pendingTest": null,
+      "currentFile": "printer/format/format-newline.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 2446,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "strings",
+      "files": [
+        "auxiliary/string-aux.lsp",
+        "strings/char-schar.lsp",
+        "strings/string.lsp",
+        "strings/base-string.lsp",
+        "strings/simple-string.lsp",
+        "strings/simple-base-string.lsp",
+        "strings/simple-string-p.lsp",
+        "strings/stringp.lsp",
+        "strings/string-upcase.lsp",
+        "strings/string-downcase.lsp",
+        "strings/string-capitalize.lsp",
+        "strings/nstring-upcase.lsp",
+        "strings/nstring-downcase.lsp",
+        "strings/nstring-capitalize.lsp",
+        "strings/string-trim.lsp",
+        "strings/string-left-trim.lsp",
+        "strings/string-right-trim.lsp",
+        "strings/string-comparisons.lsp",
+        "strings/make-string.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 491,
+      "fail": 18,
+      "registered": 509,
+      "expectedRegistered": 509,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/string-aux.lsp",
+        "strings/char-schar.lsp",
+        "strings/string.lsp",
+        "strings/base-string.lsp",
+        "strings/simple-string.lsp",
+        "strings/simple-base-string.lsp",
+        "strings/simple-string-p.lsp",
+        "strings/stringp.lsp",
+        "strings/string-upcase.lsp",
+        "strings/string-downcase.lsp",
+        "strings/string-capitalize.lsp",
+        "strings/nstring-upcase.lsp",
+        "strings/nstring-downcase.lsp",
+        "strings/nstring-capitalize.lsp",
+        "strings/string-trim.lsp",
+        "strings/string-left-trim.lsp",
+        "strings/string-right-trim.lsp",
+        "strings/string-comparisons.lsp",
+        "strings/make-string.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "STRING.8",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "STRING.9",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "BASE-STRING.5",
+          "reason": "expected (NIL T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "BASE-STRING.6",
+          "reason": "expected (NIL T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-STRING.3",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-STRING.6",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-STRING.7",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-STRING.8",
+          "reason": "expected (NIL T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-STRING.9",
+          "reason": "expected (NIL T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-STRING.10",
+          "reason": "expected (NIL T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-STRING.11",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-BASE-STRING.3",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-BASE-STRING.6",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-BASE-STRING.7",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-BASE-STRING.8",
+          "reason": "expected (NIL T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-BASE-STRING.9",
+          "reason": "expected (NIL T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-BASE-STRING.10",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SIMPLE-BASE-STRING.11",
+          "reason": "expected (NIL); actual (T) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "strings/make-string.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 509,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "reader",
+      "files": [
+        "auxiliary/reader-aux.lsp",
+        "reader/reader-test.lsp",
+        "reader/with-standard-io-syntax.lsp",
+        "reader/copy-readtable.lsp",
+        "reader/read.lsp",
+        "reader/read-preserving-whitespace.lsp",
+        "reader/read-delimited-list.lsp",
+        "reader/read-from-string.lsp",
+        "reader/readtable-case.lsp",
+        "reader/readtablep.lsp",
+        "reader/get-macro-character.lsp",
+        "reader/set-macro-character.lsp",
+        "reader/read-suppress.lsp",
+        "reader/set-syntax-from-char.lsp",
+        "reader/dispatch-macro-characters.lsp",
+        "reader/syntax.lsp",
+        "reader/syntax-tokens.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 673,
+      "fail": 0,
+      "registered": 673,
+      "expectedRegistered": 673,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/reader-aux.lsp",
+        "reader/reader-test.lsp",
+        "reader/with-standard-io-syntax.lsp",
+        "reader/copy-readtable.lsp",
+        "reader/read.lsp",
+        "reader/read-preserving-whitespace.lsp",
+        "reader/read-delimited-list.lsp",
+        "reader/read-from-string.lsp",
+        "reader/readtable-case.lsp",
+        "reader/readtablep.lsp",
+        "reader/get-macro-character.lsp",
+        "reader/set-macro-character.lsp",
+        "reader/read-suppress.lsp",
+        "reader/set-syntax-from-char.lsp",
+        "reader/dispatch-macro-characters.lsp",
+        "reader/syntax.lsp",
+        "reader/syntax-tokens.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "reader/syntax-tokens.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 673,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-AMPERSAND",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-APOSTROPHE",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-ASTERISK",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-CIRCUMFLEX_ACCENT",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-COMMA",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-COMMERCIAL_AT",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-DOLLAR_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-EQUALS_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-EXCLAMATION_MARK",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-GRAVE_ACCENT",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-GREATER-THAN_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-HYPHEN-MINUS",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_A",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_B",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_C",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_D",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_E",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_F",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_G",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_H",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_I",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_J",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_K",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_L",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_M",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_N",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_O",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_P",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Q",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_R",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_S",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_T",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_U",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_V",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_W",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_X",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Y",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Z",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_A",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_B",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_C",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_D",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_E",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_F",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_G",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_H",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_I",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_J",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_K",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_L",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_M",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_N",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_O",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_P",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Q",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_R",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_S",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_T",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_U",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_V",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_W",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_X",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Y",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Z",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_CURLY_BRACKET",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_PARENTHESIS",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_SQUARE_BRACKET",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LESS-THAN_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LOW_LINE",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-NUMBER_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-PERCENT_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-PLUS_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-QUESTION_MARK",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-QUOTATION_MARK",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-REVERSE_SOLIDUS",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_CURLY_BRACKET",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_PARENTHESIS",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_SQUARE_BRACKET",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-SEMICOLON",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-SOLIDUS",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-TILDE",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-VERTICAL_LINE"
+      ],
+      "unexpectedTests": [
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-\\",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-|",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-!",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-\"",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-#",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-$",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-%",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-&",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-'",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-(",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-)",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-*",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-,",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-;",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-<",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-=",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X->",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-?",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-@",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-[",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-]",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-^",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-_",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-`",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-~",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-{",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-}",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-+",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X--",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-/",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-a",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-b",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-c",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-d",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-e",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-f",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-g",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-h",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-i",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-j",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-k",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-l",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-m",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-n",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-o",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-p",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-q",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-r",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-s",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-t",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-u",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-v",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-w",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-x",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-y",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-z",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-A",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-B",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-C",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-D",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-E",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-F",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-G",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-H",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-I",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-J",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-K",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-L",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-M",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-N",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-O",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-P",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-Q",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-R",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-S",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-T",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-U",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-V",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-W",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-X",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-Y",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-Z"
+      ],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-AMPERSAND",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-&",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-APOSTROPHE",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-'",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-ASTERISK",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-*",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-CIRCUMFLEX_ACCENT",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-^",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-COMMA",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-,",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-COMMERCIAL_AT",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-@",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-DOLLAR_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-$",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-EQUALS_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-=",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-EXCLAMATION_MARK",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-!",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-GRAVE_ACCENT",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-`",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-GREATER-THAN_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X->",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-HYPHEN-MINUS",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X--",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_CURLY_BRACKET",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-{",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_PARENTHESIS",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-(",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_SQUARE_BRACKET",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-[",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LESS-THAN_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-<",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LOW_LINE",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-_",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-NUMBER_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-#",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-PERCENT_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-%",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-PLUS_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-+",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-QUESTION_MARK",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-?",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-QUOTATION_MARK",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-\"",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-REVERSE_SOLIDUS",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-\\",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_CURLY_BRACKET",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-}",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_PARENTHESIS",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-)",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_SQUARE_BRACKET",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-]",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-SEMICOLON",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-;",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-SOLIDUS",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-/",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-TILDE",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-~",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-VERTICAL_LINE",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-|",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_A",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-A",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_A",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-a",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_B",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-B",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_B",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-b",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_C",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-C",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_C",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-c",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_D",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-D",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_D",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-d",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_E",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-E",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_E",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-e",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_F",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-F",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_F",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-f",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_G",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-G",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_G",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-g",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_H",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-H",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_H",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-h",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_I",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-I",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_I",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-i",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_J",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-J",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_J",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-j",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_K",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-K",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_K",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-k",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_L",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-L",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_L",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-l",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_M",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-M",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_M",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-m",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_N",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-N",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_N",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-n",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_O",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-O",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_O",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-o",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_P",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-P",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_P",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-p",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Q",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-Q",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Q",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-q",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_R",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-R",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_R",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-r",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_S",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-S",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_S",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-s",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_T",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-T",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_T",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-t",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_U",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-U",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_U",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-u",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_V",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-V",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_V",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-v",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_W",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-W",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_W",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-w",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_X",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-X",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_X",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-x",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Y",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-Y",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Y",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-y",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Z",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-Z",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Z",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-z",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        }
+      ],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "arrays",
+      "files": [
+        "auxiliary/array-aux.lsp",
+        "auxiliary/bit-aux.lsp",
+        "arrays/aref.lsp",
+        "arrays/array.lsp",
+        "arrays/array-t.lsp",
+        "arrays/array-as-class.lsp",
+        "arrays/simple-array.lsp",
+        "arrays/simple-array-t.lsp",
+        "arrays/bit-vector.lsp",
+        "arrays/simple-bit-vector.lsp",
+        "arrays/make-array.lsp",
+        "arrays/adjust-array.lsp",
+        "arrays/adjustable-array-p.lsp",
+        "arrays/array-displacement.lsp",
+        "arrays/array-dimension.lsp",
+        "arrays/array-dimensions.lsp",
+        "arrays/array-element-type.lsp",
+        "arrays/array-has-fill-pointer-p.lsp",
+        "arrays/array-in-bounds-p.lsp",
+        "arrays/array-misc.lsp",
+        "arrays/array-rank.lsp",
+        "arrays/array-row-major-index.lsp",
+        "arrays/array-total-size.lsp",
+        "arrays/arrayp.lsp",
+        "arrays/fill-pointer.lsp",
+        "arrays/row-major-aref.lsp",
+        "arrays/simple-vector-p.lsp",
+        "arrays/svref.lsp",
+        "arrays/upgraded-array-element-type.lsp",
+        "arrays/vector.lsp",
+        "arrays/vector-pop.lsp",
+        "arrays/vector-push.lsp",
+        "arrays/vector-push-extend.lsp",
+        "arrays/vectorp.lsp",
+        "arrays/bit.lsp",
+        "arrays/sbit.lsp",
+        "arrays/bit-and.lsp",
+        "arrays/bit-andc1.lsp",
+        "arrays/bit-andc2.lsp",
+        "arrays/bit-eqv.lsp",
+        "arrays/bit-ior.lsp",
+        "arrays/bit-nand.lsp",
+        "arrays/bit-nor.lsp",
+        "arrays/bit-orc1.lsp",
+        "arrays/bit-orc2.lsp",
+        "arrays/bit-xor.lsp",
+        "arrays/bit-not.lsp",
+        "arrays/bit-vector-p.lsp",
+        "arrays/simple-bit-vector-p.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 1356,
+      "fail": 0,
+      "registered": 1356,
+      "expectedRegistered": 1356,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/array-aux.lsp",
+        "auxiliary/bit-aux.lsp",
+        "arrays/aref.lsp",
+        "arrays/array.lsp",
+        "arrays/array-t.lsp",
+        "arrays/array-as-class.lsp",
+        "arrays/simple-array.lsp",
+        "arrays/simple-array-t.lsp",
+        "arrays/bit-vector.lsp",
+        "arrays/simple-bit-vector.lsp",
+        "arrays/make-array.lsp",
+        "arrays/adjust-array.lsp",
+        "arrays/adjustable-array-p.lsp",
+        "arrays/array-displacement.lsp",
+        "arrays/array-dimension.lsp",
+        "arrays/array-dimensions.lsp",
+        "arrays/array-element-type.lsp",
+        "arrays/array-has-fill-pointer-p.lsp",
+        "arrays/array-in-bounds-p.lsp",
+        "arrays/array-misc.lsp",
+        "arrays/array-rank.lsp",
+        "arrays/array-row-major-index.lsp",
+        "arrays/array-total-size.lsp",
+        "arrays/arrayp.lsp",
+        "arrays/fill-pointer.lsp",
+        "arrays/row-major-aref.lsp",
+        "arrays/simple-vector-p.lsp",
+        "arrays/svref.lsp",
+        "arrays/upgraded-array-element-type.lsp",
+        "arrays/vector.lsp",
+        "arrays/vector-pop.lsp",
+        "arrays/vector-push.lsp",
+        "arrays/vector-push-extend.lsp",
+        "arrays/vectorp.lsp",
+        "arrays/bit.lsp",
+        "arrays/sbit.lsp",
+        "arrays/bit-and.lsp",
+        "arrays/bit-andc1.lsp",
+        "arrays/bit-andc2.lsp",
+        "arrays/bit-eqv.lsp",
+        "arrays/bit-ior.lsp",
+        "arrays/bit-nand.lsp",
+        "arrays/bit-nor.lsp",
+        "arrays/bit-orc1.lsp",
+        "arrays/bit-orc2.lsp",
+        "arrays/bit-xor.lsp",
+        "arrays/bit-not.lsp",
+        "arrays/bit-vector-p.lsp",
+        "arrays/simple-bit-vector-p.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "arrays/simple-bit-vector-p.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 1356,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 4711,
+  "fail": 273,
+  "complete": true,
+  "passRate": 94.52247191011236,
+  "finishedAt": "2026-11-04T08:18:16.322Z"
+}

@@ -2,6 +2,13 @@
 
 (cl:defparameter system:+null+ '#:null)
 
+;; Compiler declarations must survive replacing a user's property list.
+(cl:defvar *compiler-properties* (cl:make-hash-table :test 'cl:eq))
+(cl:defun system:compiler-property (symbol key)
+  (cl:getf (cl:gethash symbol *compiler-properties*) key))
+(cl:defun system:set-compiler-property (symbol key value)
+  (cl:setf (cl:getf (cl:gethash symbol *compiler-properties*) key) value))
+
 (cl:defclass structure ()
   ((name :initarg :name :reader structure-name)
    (values :initarg :values :reader structure-values)))
@@ -34,7 +41,7 @@
 (cl:defun system:%copy-structure (structure)
   (cl:make-instance 'structure
                     :name (structure-name structure)
-                    :values (structure-values structure)))
+                    :values (cl:copy-list (structure-values structure))))
 
 (cl:defun system:%structure-set (structure index value)
   (cl:setf (cl:elt (structure-values structure) index)
@@ -285,6 +292,14 @@
 
 (cl:defun system:number-print-string (number base radix)
   (cl:write-to-string number :base base :radix radix))
+
+(cl:defun system:object-identity (object) (cl:sxhash object))
+
+(cl:defun system:parse-float-string (string)
+  (cl:let ((cl:*read-default-float-format* 'cl:double-float))
+    (cl:read-from-string (cl:substitute #\e #\l
+                         (cl:substitute #\e #\f
+                          (cl:substitute #\e #\s (cl:string-downcase string)))))))
 
 (cl:defun system:make-raw-array (size)
   (cl:make-array size))

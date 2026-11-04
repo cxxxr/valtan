@@ -1,0 +1,1122 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "941632852411ab45b2999f105fe1a21f7d7d39502902a60a2452f1fa2befa67f",
+  "startedAt": "2026-11-04T09:42:57.580Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "objects",
+      "files": [
+        "auxiliary/defclass-aux.lsp",
+        "objects/defclass.lsp",
+        "objects/defclass-01.lsp",
+        "objects/defclass-02.lsp",
+        "objects/defclass-03.lsp",
+        "objects/defclass-errors.lsp",
+        "objects/defclass-forward-reference.lsp",
+        "objects/ensure-generic-function.lsp",
+        "objects/allocate-instance.lsp",
+        "objects/reinitialize-instance.lsp",
+        "objects/shared-initialize.lsp",
+        "objects/change-class.lsp",
+        "objects/update-instance-for-different-class.lsp",
+        "objects/slot-boundp.lsp",
+        "objects/slot-exists-p.lsp",
+        "objects/slot-makunbound.lsp",
+        "objects/slot-missing.lsp",
+        "objects/slot-unbound.lsp",
+        "objects/slot-value.lsp",
+        "objects/method-qualifiers.lsp",
+        "objects/no-applicable-method.lsp",
+        "objects/no-next-method.lsp",
+        "objects/remove-method.lsp",
+        "objects/make-instance.lsp",
+        "objects/make-instances-obsolete.lsp",
+        "objects/make-load-form.lsp",
+        "objects/make-load-form-order.lsp",
+        "objects/make-load-form-saving-slots.lsp",
+        "objects/with-accessors.lsp",
+        "objects/with-slots.lsp",
+        "objects/defgeneric.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-plus.lsp",
+        "objects/defgeneric-method-combination-append.lsp",
+        "objects/defgeneric-method-combination-nconc.lsp",
+        "objects/defgeneric-method-combination-list.lsp",
+        "objects/defgeneric-method-combination-max.lsp",
+        "objects/defgeneric-method-combination-min.lsp",
+        "objects/defgeneric-method-combination-and.lsp",
+        "objects/defgeneric-method-combination-or.lsp",
+        "objects/defgeneric-method-combination-progn.lsp",
+        "objects/find-class.lsp",
+        "objects/next-method-p.lsp",
+        "objects/call-next-method.lsp",
+        "objects/compute-applicable-methods.lsp",
+        "objects/define-method-combination.lsp",
+        "objects/define-method-combination-long-form.lsp",
+        "objects/find-method.lsp",
+        "objects/add-method.lsp",
+        "objects/class-name.lsp",
+        "objects/class-of.lsp",
+        "objects/unbound-slot.lsp",
+        "objects/defmethod.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 803,
+      "fail": 60,
+      "registered": 863,
+      "expectedRegistered": 862,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/defclass-aux.lsp",
+        "objects/defclass.lsp",
+        "objects/defclass-01.lsp",
+        "objects/defclass-02.lsp",
+        "objects/defclass-03.lsp",
+        "objects/defclass-errors.lsp",
+        "objects/defclass-forward-reference.lsp",
+        "objects/ensure-generic-function.lsp",
+        "objects/allocate-instance.lsp",
+        "objects/reinitialize-instance.lsp",
+        "objects/shared-initialize.lsp",
+        "objects/change-class.lsp",
+        "objects/update-instance-for-different-class.lsp",
+        "objects/slot-boundp.lsp",
+        "objects/slot-exists-p.lsp",
+        "objects/slot-makunbound.lsp",
+        "objects/slot-missing.lsp",
+        "objects/slot-unbound.lsp",
+        "objects/slot-value.lsp",
+        "objects/method-qualifiers.lsp",
+        "objects/no-applicable-method.lsp",
+        "objects/no-next-method.lsp",
+        "objects/remove-method.lsp",
+        "objects/make-instance.lsp",
+        "objects/make-instances-obsolete.lsp",
+        "objects/make-load-form.lsp",
+        "objects/make-load-form-order.lsp",
+        "objects/make-load-form-saving-slots.lsp",
+        "objects/with-accessors.lsp",
+        "objects/with-slots.lsp",
+        "objects/defgeneric.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-plus.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-append.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-nconc.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-list.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-max.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-min.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-and.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-or.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-progn.lsp",
+        "objects/find-class.lsp",
+        "objects/next-method-p.lsp",
+        "objects/call-next-method.lsp",
+        "objects/compute-applicable-methods.lsp",
+        "objects/define-method-combination.lsp",
+        "objects/define-method-combination-long-form.lsp",
+        "objects/find-method.lsp",
+        "objects/add-method.lsp",
+        "objects/class-name.lsp",
+        "objects/class-of.lsp",
+        "objects/unbound-slot.lsp",
+        "objects/defmethod.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "CLASS-0309.1",
+          "reason": "expected (T NIL T NIL); actual (T T T T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CLASS-0310.1",
+          "reason": "expected (T NIL T NIL CLASS-0310B CLASS-0310A); actual (T T T T CLASS-0310B CLASS-0310B) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFCLASS.FORWARD-REF.1",
+          "reason": "There is no class named #:G4440."
+        },
+        {
+          "test": "DEFCLASS.FORWARD-REF.2",
+          "reason": "There is no class named #:G4461."
+        },
+        {
+          "test": "DEFCLASS.FORWARD-REF.3",
+          "reason": "There is no class named #:G4483."
+        },
+        {
+          "test": "DEFCLASS.FORWARD-REF.4",
+          "reason": "There is no class named #:G4495."
+        },
+        {
+          "test": "ALLOCATE-INSTANCE.5",
+          "reason": "No applicable method for #<Function ALLOCATE-INSTANCE> with arguments (#<STRUCTURE-CLASS ALLOCATE-INSTANCE-STRUCT-01>)."
+        },
+        {
+          "test": "SHARED-INITIALIZE.ERROR.4",
+          "reason": "<unprintable>"
+        },
+        {
+          "test": "SLOT-BOUNDP.ERROR.5",
+          "reason": "expected (NIL); actual ((\"\u0000\" #(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT ...) #P\"foo\" #P\"CLTESTROOT:\" #S(COMMON-LISP::STANDARD-OUTPUT-STREAM :BUFFER \"\") #S(READTABLE :%CASE :UPCASE :SYNTAX #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :COUNT ...) :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :COUNT ...) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :COUNT ...)) #S(RANDOM-STATE :SEED 911384263869125))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-INSTANCE.ERROR.3",
+          "reason": "expected (:GOOD); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-INSTANCE.ERROR.4",
+          "reason": "expected (:GOOD); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-INSTANCES-OBSOLETE.1",
+          "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+        },
+        {
+          "test": "MAKE-INSTANCES-OBSOLETE.2",
+          "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+        },
+        {
+          "test": "MAKE-INSTANCES-OBSOLETE.ERROR.1",
+          "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+        },
+        {
+          "test": "MAKE-INSTANCES-OBSOLETE.ERROR.2",
+          "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.4",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.5",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.6",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.7",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.8",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.9",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.10",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.11",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.12",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.1",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.2",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.3",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.4",
+          "reason": "unexpected literal: B"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.5",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.6",
+          "reason": "unexpected literal: B"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.7",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.8",
+          "reason": "unexpected literal: B"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.9",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.10",
+          "reason": "unexpected literal: C"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.11",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.12",
+          "reason": "unexpected literal: C"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.13",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.14",
+          "reason": "unexpected literal: C"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.1",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.2",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.3",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.4",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.5",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.6",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.7",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.8",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.9",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVINGS-SLOTS.10",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVINGS-SLOTS.11",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVINGS-SLOTS.12",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.ERROR.1",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.ERROR.2",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM-SAVING-SLOTS.ERROR.3",
+          "reason": "The function MAKE-LOAD-FORM-SAVING-SLOTS is undefined"
+        },
+        {
+          "test": "DEFGENERIC.4",
+          "reason": "The value Y is not of the expected type SEQUENCE"
+        },
+        {
+          "test": "DEFGENERIC.30",
+          "reason": "expected (T T T T 1 2 1 2); actual (NIL T T T 1 2 1 2) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FIND-CLASS.24",
+          "reason": "expected (((T T T) (T T T))); actual (((NIL NIL T) (T T T))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CALL-NEXT-METHOD.ERROR.1",
+          "reason": "expected (:ERROR); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CALL-NEXT-METHOD.ERROR.2",
+          "reason": "expected (:ERROR); actual (:BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CLASS-NAME.2",
+          "reason": "expected (SILLY); actual (\"{2184}\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SETF-CLASS-NAME.1",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCLASS-NAME already names an ordinary function, macro or special operator.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "objects/defmethod.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": true,
+      "effectiveExpectedRegistered": 863,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [
+        "DEFGENERIC.30"
+      ],
+      "conditionalRegistrations": [
+        {
+          "file": "objects/defgeneric.lsp",
+          "tests": [
+            "DEFGENERIC.30"
+          ],
+          "delta": 1,
+          "reason": "The upstream guard registers this test when the metaclass of STANDARD-GENERIC-FUNCTION is a subtype of STANDARD-CLASS."
+        }
+      ],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "eval-and-compile",
+      "files": [
+        "eval-and-compile/eval.lsp",
+        "eval-and-compile/eval-and-compile.lsp",
+        "eval-and-compile/compile.lsp",
+        "eval-and-compile/compiler-macros.lsp",
+        "eval-and-compile/constantp.lsp",
+        "eval-and-compile/lambda.lsp",
+        "eval-and-compile/eval-when.lsp",
+        "eval-and-compile/define-compiler-macro.lsp",
+        "eval-and-compile/define-symbol-macro.lsp",
+        "eval-and-compile/defmacro.lsp",
+        "eval-and-compile/the.lsp",
+        "eval-and-compile/symbol-macrolet.lsp",
+        "eval-and-compile/proclaim.lsp",
+        "eval-and-compile/declaim.lsp",
+        "eval-and-compile/locally.lsp",
+        "eval-and-compile/ignore.lsp",
+        "eval-and-compile/ignorable.lsp",
+        "eval-and-compile/dynamic-extent.lsp",
+        "eval-and-compile/optimize.lsp",
+        "eval-and-compile/special.lsp",
+        "eval-and-compile/macroexpand.lsp",
+        "eval-and-compile/macroexpand-1.lsp",
+        "eval-and-compile/declaration.lsp",
+        "eval-and-compile/type.lsp",
+        "eval-and-compile/macro-function.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 296,
+      "fail": 22,
+      "registered": 318,
+      "expectedRegistered": 326,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "eval-and-compile/eval.lsp",
+        "eval-and-compile/eval-and-compile.lsp",
+        "eval-and-compile/compile.lsp",
+        "eval-and-compile/compiler-macros.lsp",
+        "eval-and-compile/constantp.lsp",
+        "eval-and-compile/lambda.lsp",
+        "eval-and-compile/eval-when.lsp",
+        "eval-and-compile/define-compiler-macro.lsp",
+        "eval-and-compile/define-symbol-macro.lsp",
+        "eval-and-compile/defmacro.lsp",
+        "eval-and-compile/the.lsp",
+        "eval-and-compile/symbol-macrolet.lsp",
+        "eval-and-compile/proclaim.lsp",
+        "eval-and-compile/declaim.lsp",
+        "eval-and-compile/locally.lsp",
+        "eval-and-compile/ignore.lsp",
+        "eval-and-compile/ignorable.lsp",
+        "eval-and-compile/dynamic-extent.lsp",
+        "eval-and-compile/optimize.lsp",
+        "eval-and-compile/special.lsp",
+        "eval-and-compile/macroexpand.lsp",
+        "eval-and-compile/macroexpand-1.lsp",
+        "eval-and-compile/declaration.lsp",
+        "eval-and-compile/type.lsp",
+        "eval-and-compile/macro-function.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "EVAL-AND-COMPILE-MACROS",
+          "reason": "expected (NIL); actual ((DECLAIM)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.1",
+          "reason": "expected (((\"load source\" (:EXECUTE) (:LOAD-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE) (LET :EXECUTE) (LET :LOAD-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)) (\"compile source\" (:COMPILE-TOPLEVEL) (:COMPILE-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)) (\"load compiled\" (:LOAD-TOPLEVEL) (:LOAD-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE) (LET :EXECUTE) (LET :LOAD-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)))); actual (((\"load source\" (:EXECUTE) (:LOAD-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE) (LET :EXECUTE) (LET :LOAD-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)) (\"compile source\" (:COMPILE-TOPLEVEL) (:COMPILE-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL) (LET :COMPILE-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)) (\"load compiled\" (:LOAD-TOPLEVEL) (:LOAD-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE) (LET :LOAD-TOPLEVEL) (LET :LOAD-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.1",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.2",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.3",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.4",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFMACRO.3",
+          "reason": "The variable X is unbound"
+        },
+        {
+          "test": "DEFMACRO.4",
+          "reason": "expected (:GOOD); actual (:BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFMACRO.12",
+          "reason": "The variable FOO-DEFAULT is unbound"
+        },
+        {
+          "test": "DEFMACRO.13",
+          "reason": "The variable FOO-DEFAULT is unbound"
+        },
+        {
+          "test": "PROCLAIM.ERROR.3",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.4",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.5",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.6",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.7",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.8",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.9",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.10",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.11",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.1",
+          "reason": "expected (NIL); actual ((DECLAIM IN-PACKAGE STEP)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.2",
+          "reason": "expected (NIL); actual ((DECLAIM IN-PACKAGE STEP)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.3",
+          "reason": "expected (NIL); actual ((DECLAIM IN-PACKAGE STEP)) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "eval-and-compile/macro-function.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": true,
+      "effectiveExpectedRegistered": 318,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [
+        "DECLARATION.10",
+        "DECLARATION.11",
+        "DECLARATION.4",
+        "DECLARATION.5",
+        "DECLARATION.6",
+        "DECLARATION.7",
+        "DECLARATION.8",
+        "DECLARATION.9"
+      ],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [
+        {
+          "file": "eval-and-compile/declaration.lsp",
+          "tests": [
+            "DECLARATION.4",
+            "DECLARATION.5",
+            "DECLARATION.6",
+            "DECLARATION.7",
+            "DECLARATION.8",
+            "DECLARATION.9",
+            "DECLARATION.10",
+            "DECLARATION.11"
+          ],
+          "delta": -8,
+          "reason": "The upstream guard registers these eight tests only when an unknown declaration signals a warning."
+        }
+      ],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "iteration",
+      "files": [
+        "iteration/do.lsp",
+        "iteration/dostar.lsp",
+        "iteration/dolist.lsp",
+        "iteration/dotimes.lsp",
+        "iteration/loop.lsp",
+        "iteration/loop1.lsp",
+        "iteration/loop2.lsp",
+        "iteration/loop3.lsp",
+        "iteration/loop4.lsp",
+        "iteration/loop5.lsp",
+        "iteration/loop6.lsp",
+        "iteration/loop7.lsp",
+        "iteration/loop8.lsp",
+        "iteration/loop9.lsp",
+        "iteration/loop10.lsp",
+        "iteration/loop11.lsp",
+        "iteration/loop12.lsp",
+        "iteration/loop13.lsp",
+        "iteration/loop14.lsp",
+        "iteration/loop15.lsp",
+        "iteration/loop16.lsp",
+        "iteration/loop17.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 839,
+      "fail": 4,
+      "registered": 843,
+      "expectedRegistered": 843,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "iteration/do.lsp",
+        "iteration/dostar.lsp",
+        "iteration/dolist.lsp",
+        "iteration/dotimes.lsp",
+        "iteration/loop.lsp",
+        "iteration/loop1.lsp",
+        "iteration/loop2.lsp",
+        "iteration/loop3.lsp",
+        "iteration/loop4.lsp",
+        "iteration/loop5.lsp",
+        "iteration/loop6.lsp",
+        "iteration/loop7.lsp",
+        "iteration/loop8.lsp",
+        "iteration/loop9.lsp",
+        "iteration/loop10.lsp",
+        "iteration/loop11.lsp",
+        "iteration/loop12.lsp",
+        "iteration/loop13.lsp",
+        "iteration/loop14.lsp",
+        "iteration/loop15.lsp",
+        "iteration/loop16.lsp",
+        "iteration/loop17.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "LOOP.1.40",
+          "reason": "expected (5); actual (6) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.1.41",
+          "reason": "expected (4); actual (5) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.1.42",
+          "reason": "expected (0); actual (-1) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "LOOP.1.43",
+          "reason": "expected (1); actual (0) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "iteration/loop17.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 843,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "numbers",
+      "files": [
+        "auxiliary/numbers-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/floor-aux.lsp",
+        "auxiliary/ffloor-aux.lsp",
+        "auxiliary/ceiling-aux.lsp",
+        "auxiliary/fceiling-aux.lsp",
+        "auxiliary/truncate-aux.lsp",
+        "auxiliary/ftruncate-aux.lsp",
+        "auxiliary/round-aux.lsp",
+        "auxiliary/fround-aux.lsp",
+        "auxiliary/times-aux.lsp",
+        "auxiliary/division-aux.lsp",
+        "auxiliary/exp-aux.lsp",
+        "auxiliary/gcd-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "numbers/number-comparison.lsp",
+        "numbers/max.lsp",
+        "numbers/min.lsp",
+        "numbers/minusp.lsp",
+        "numbers/plusp.lsp",
+        "numbers/zerop.lsp",
+        "numbers/floor.lsp",
+        "numbers/ffloor.lsp",
+        "numbers/ceiling.lsp",
+        "numbers/fceiling.lsp",
+        "numbers/truncate.lsp",
+        "numbers/ftruncate.lsp",
+        "numbers/round.lsp",
+        "numbers/fround.lsp",
+        "numbers/sin.lsp",
+        "numbers/cos.lsp",
+        "numbers/tan.lsp",
+        "numbers/asin.lsp",
+        "numbers/acos.lsp",
+        "numbers/atan.lsp",
+        "numbers/sinh.lsp",
+        "numbers/cosh.lsp",
+        "numbers/tanh.lsp",
+        "numbers/asinh.lsp",
+        "numbers/acosh.lsp",
+        "numbers/atanh.lsp",
+        "numbers/times.lsp",
+        "numbers/plus.lsp",
+        "numbers/minus.lsp",
+        "numbers/divide.lsp",
+        "numbers/oneplus.lsp",
+        "numbers/oneminus.lsp",
+        "numbers/abs.lsp",
+        "numbers/exp.lsp",
+        "numbers/expt.lsp",
+        "numbers/gcd.lsp",
+        "numbers/incf.lsp",
+        "numbers/decf.lsp",
+        "numbers/lcm.lsp",
+        "numbers/log.lsp",
+        "numbers/signum.lsp",
+        "numbers/sqrt.lsp",
+        "numbers/isqrt.lsp",
+        "numbers/random.lsp",
+        "numbers/random-state-p.lsp",
+        "numbers/make-random-state.lsp",
+        "numbers/numberp.lsp",
+        "numbers/cis.lsp",
+        "numbers/complex.lsp",
+        "numbers/complexp.lsp",
+        "numbers/conjugate.lsp",
+        "numbers/phase.lsp",
+        "numbers/realpart.lsp",
+        "numbers/imagpart.lsp",
+        "numbers/realp.lsp",
+        "numbers/numerator-denominator.lsp",
+        "numbers/rationalp.lsp",
+        "numbers/ash.lsp",
+        "numbers/integer-length.lsp",
+        "numbers/integerp.lsp",
+        "numbers/parse-integer.lsp",
+        "numbers/boole.lsp",
+        "numbers/logand.lsp",
+        "numbers/logandc1.lsp",
+        "numbers/logandc2.lsp",
+        "numbers/logeqv.lsp",
+        "numbers/logior.lsp",
+        "numbers/lognand.lsp",
+        "numbers/lognor.lsp",
+        "numbers/logorc1.lsp",
+        "numbers/logorc2.lsp",
+        "numbers/lognot.lsp",
+        "numbers/logxor.lsp",
+        "numbers/logbitp.lsp",
+        "numbers/logcount.lsp",
+        "numbers/logtest.lsp",
+        "numbers/byte.lsp",
+        "numbers/deposit-field.lsp",
+        "numbers/dpb.lsp",
+        "numbers/ldb.lsp",
+        "numbers/mask-field.lsp",
+        "numbers/float.lsp",
+        "numbers/floatp.lsp",
+        "numbers/rational.lsp",
+        "numbers/rationalize.lsp",
+        "numbers/evenp.lsp",
+        "numbers/oddp.lsp",
+        "numbers/epsilons.lsp",
+        "numbers/real.lsp",
+        "numbers/upgraded-complex-part-type.lsp",
+        "numbers/arithmetic-error.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 1443,
+      "fail": 1,
+      "registered": 1444,
+      "expectedRegistered": 1444,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/numbers-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/floor-aux.lsp",
+        "auxiliary/ffloor-aux.lsp",
+        "auxiliary/ceiling-aux.lsp",
+        "auxiliary/fceiling-aux.lsp",
+        "auxiliary/truncate-aux.lsp",
+        "auxiliary/ftruncate-aux.lsp",
+        "auxiliary/round-aux.lsp",
+        "auxiliary/fround-aux.lsp",
+        "auxiliary/times-aux.lsp",
+        "auxiliary/division-aux.lsp",
+        "auxiliary/exp-aux.lsp",
+        "auxiliary/gcd-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "numbers/number-comparison.lsp",
+        "numbers/max.lsp",
+        "numbers/min.lsp",
+        "numbers/minusp.lsp",
+        "numbers/plusp.lsp",
+        "numbers/zerop.lsp",
+        "numbers/floor.lsp",
+        "numbers/ffloor.lsp",
+        "numbers/ceiling.lsp",
+        "numbers/fceiling.lsp",
+        "numbers/truncate.lsp",
+        "numbers/ftruncate.lsp",
+        "numbers/round.lsp",
+        "numbers/fround.lsp",
+        "numbers/sin.lsp",
+        "numbers/cos.lsp",
+        "numbers/tan.lsp",
+        "numbers/asin.lsp",
+        "numbers/acos.lsp",
+        "numbers/atan.lsp",
+        "numbers/sinh.lsp",
+        "numbers/cosh.lsp",
+        "numbers/tanh.lsp",
+        "numbers/asinh.lsp",
+        "numbers/acosh.lsp",
+        "numbers/atanh.lsp",
+        "numbers/times.lsp",
+        "numbers/plus.lsp",
+        "numbers/minus.lsp",
+        "numbers/divide.lsp",
+        "numbers/oneplus.lsp",
+        "numbers/oneminus.lsp",
+        "numbers/abs.lsp",
+        "numbers/exp.lsp",
+        "numbers/expt.lsp",
+        "numbers/gcd.lsp",
+        "numbers/incf.lsp",
+        "numbers/decf.lsp",
+        "numbers/lcm.lsp",
+        "numbers/log.lsp",
+        "numbers/signum.lsp",
+        "numbers/sqrt.lsp",
+        "numbers/isqrt.lsp",
+        "numbers/random.lsp",
+        "numbers/random-state-p.lsp",
+        "numbers/make-random-state.lsp",
+        "numbers/numberp.lsp",
+        "numbers/cis.lsp",
+        "numbers/complex.lsp",
+        "numbers/complexp.lsp",
+        "numbers/conjugate.lsp",
+        "numbers/phase.lsp",
+        "numbers/realpart.lsp",
+        "numbers/imagpart.lsp",
+        "numbers/realp.lsp",
+        "numbers/numerator-denominator.lsp",
+        "numbers/rationalp.lsp",
+        "numbers/ash.lsp",
+        "numbers/integer-length.lsp",
+        "numbers/integerp.lsp",
+        "numbers/parse-integer.lsp",
+        "numbers/boole.lsp",
+        "numbers/logand.lsp",
+        "numbers/logandc1.lsp",
+        "numbers/logandc2.lsp",
+        "numbers/logeqv.lsp",
+        "numbers/logior.lsp",
+        "numbers/lognand.lsp",
+        "numbers/lognor.lsp",
+        "numbers/logorc1.lsp",
+        "numbers/logorc2.lsp",
+        "numbers/lognot.lsp",
+        "numbers/logxor.lsp",
+        "numbers/logbitp.lsp",
+        "numbers/logcount.lsp",
+        "numbers/logtest.lsp",
+        "numbers/byte.lsp",
+        "numbers/deposit-field.lsp",
+        "numbers/dpb.lsp",
+        "numbers/ldb.lsp",
+        "numbers/mask-field.lsp",
+        "numbers/float.lsp",
+        "numbers/floatp.lsp",
+        "numbers/rational.lsp",
+        "numbers/rationalize.lsp",
+        "numbers/evenp.lsp",
+        "numbers/oddp.lsp",
+        "numbers/epsilons.lsp",
+        "numbers/real.lsp",
+        "numbers/upgraded-complex-part-type.lsp",
+        "numbers/arithmetic-error.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "RATIONALIZE.1",
+          "reason": "expected (NIL); actual (((8.1318231e-18 1/122973653964508881))) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "numbers/arithmetic-error.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 1444,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "sequences",
+      "files": [
+        "auxiliary/search-aux.lsp",
+        "auxiliary/subseq-aux.lsp",
+        "auxiliary/remove-aux.lsp",
+        "auxiliary/remove-duplicates-aux.lsp",
+        "sequences/copy-seq.lsp",
+        "sequences/elt.lsp",
+        "sequences/fill.lsp",
+        "sequences/fill-strings.lsp",
+        "sequences/make-sequence.lsp",
+        "sequences/map.lsp",
+        "sequences/map-into.lsp",
+        "sequences/reduce.lsp",
+        "sequences/count.lsp",
+        "sequences/count-if.lsp",
+        "sequences/count-if-not.lsp",
+        "sequences/reverse.lsp",
+        "sequences/nreverse.lsp",
+        "sequences/sort.lsp",
+        "sequences/stable-sort.lsp",
+        "sequences/length.lsp",
+        "sequences/find.lsp",
+        "sequences/find-if.lsp",
+        "sequences/find-if-not.lsp",
+        "sequences/position.lsp",
+        "sequences/position-if.lsp",
+        "sequences/position-if-not.lsp",
+        "sequences/search-list.lsp",
+        "sequences/search-vector.lsp",
+        "sequences/search-bitvector.lsp",
+        "sequences/search-string.lsp",
+        "sequences/mismatch.lsp",
+        "sequences/replace.lsp",
+        "sequences/subseq.lsp",
+        "sequences/substitute.lsp",
+        "sequences/substitute-if.lsp",
+        "sequences/substitute-if-not.lsp",
+        "sequences/nsubstitute.lsp",
+        "sequences/nsubstitute-if.lsp",
+        "sequences/nsubstitute-if-not.lsp",
+        "sequences/concatenate.lsp",
+        "sequences/merge.lsp",
+        "sequences/remove.lsp",
+        "sequences/remove-duplicates.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 3287,
+      "fail": 0,
+      "registered": 3287,
+      "expectedRegistered": 3287,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/search-aux.lsp",
+        "auxiliary/subseq-aux.lsp",
+        "auxiliary/remove-aux.lsp",
+        "auxiliary/remove-duplicates-aux.lsp",
+        "sequences/copy-seq.lsp",
+        "sequences/elt.lsp",
+        "sequences/fill.lsp",
+        "sequences/fill-strings.lsp",
+        "sequences/make-sequence.lsp",
+        "sequences/map.lsp",
+        "sequences/map-into.lsp",
+        "sequences/reduce.lsp",
+        "sequences/count.lsp",
+        "sequences/count-if.lsp",
+        "sequences/count-if-not.lsp",
+        "sequences/reverse.lsp",
+        "sequences/nreverse.lsp",
+        "sequences/sort.lsp",
+        "sequences/stable-sort.lsp",
+        "sequences/length.lsp",
+        "sequences/find.lsp",
+        "sequences/find-if.lsp",
+        "sequences/find-if-not.lsp",
+        "sequences/position.lsp",
+        "sequences/position-if.lsp",
+        "sequences/position-if-not.lsp",
+        "sequences/search-list.lsp",
+        "sequences/search-vector.lsp",
+        "sequences/search-bitvector.lsp",
+        "sequences/search-string.lsp",
+        "sequences/mismatch.lsp",
+        "sequences/replace.lsp",
+        "sequences/subseq.lsp",
+        "sequences/substitute.lsp",
+        "sequences/substitute-if.lsp",
+        "sequences/substitute-if-not.lsp",
+        "sequences/nsubstitute.lsp",
+        "sequences/nsubstitute-if.lsp",
+        "sequences/nsubstitute-if-not.lsp",
+        "sequences/concatenate.lsp",
+        "sequences/merge.lsp",
+        "sequences/remove.lsp",
+        "sequences/remove-duplicates.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "sequences/remove-duplicates.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 3287,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 6668,
+  "fail": 87,
+  "complete": true,
+  "passRate": 98.7120651369356,
+  "finishedAt": "2026-11-04T09:49:01.019Z"
+}

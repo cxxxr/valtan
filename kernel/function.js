@@ -3,7 +3,8 @@ import {
 } from './values';
 
 import {
-    toLispBoolean
+    toLispBoolean,
+    S_function
 } from './header';
 
 import {

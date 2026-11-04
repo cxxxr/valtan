@@ -5,6 +5,10 @@
 
 (defvar *:*get-stdin-line-function*)
 
+;; A logical block captures output before choosing its line breaks.  Keeping
+;; this hook here also covers writes through synonym and two-way streams.
+(defvar *pretty-output-hook* nil)
+
 (defstruct (two-way-stream (:constructor %make-two-way-stream))
   input-stream
   output-stream)
@@ -462,6 +466,8 @@
 (defun stream-write-char (stream char)
   (setq stream (output-stream-designator stream))
   (unless (characterp char) (type-error char 'character))
+  (when (and *pretty-output-hook* (funcall *pretty-output-hook* stream char))
+    (return-from stream-write-char char))
   (cond ((synonym-stream-p stream) (stream-write-char (synonym-stream-target stream) char))
         ((two-way-stream-p stream) (stream-write-char (two-way-stream-output-stream stream) char))
         ((echo-stream-p stream) (stream-write-char (echo-stream-output-stream stream) char))
@@ -480,6 +486,8 @@
 (defun stream-write-string (stream string)
   (setq stream (output-stream-designator stream))
   (unless (stringp string) (type-error string 'string))
+  (when (and *pretty-output-hook* (funcall *pretty-output-hook* stream string))
+    (return-from stream-write-string string))
   (cond ((synonym-stream-p stream) (stream-write-string (synonym-stream-target stream) string))
         ((two-way-stream-p stream) (stream-write-string (two-way-stream-output-stream stream) string))
         ((echo-stream-p stream) (stream-write-string (echo-stream-output-stream stream) string))

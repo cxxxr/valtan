@@ -1,0 +1,373 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "dcb84816892cd7801de3a1f5f8be07d85b4cfc41c7a4c1ab87bd0b5da7079aaa",
+  "startedAt": "2026-11-04T08:35:46.861Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "symbols",
+      "files": [
+        "auxiliary/cl-symbols-aux.lsp",
+        "symbols/cl-symbols.lsp",
+        "symbols/symbolp.lsp",
+        "symbols/keywordp.lsp",
+        "symbols/make-symbol.lsp",
+        "symbols/copy-symbol.lsp",
+        "symbols/gensym.lsp",
+        "symbols/gentemp.lsp",
+        "symbols/symbol-function.lsp",
+        "symbols/symbol-name.lsp",
+        "symbols/boundp.lsp",
+        "symbols/special-operator-p.lsp",
+        "symbols/makunbound.lsp",
+        "symbols/set.lsp",
+        "symbols/remprop.lsp",
+        "symbols/get.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 1141,
+      "fail": 4,
+      "registered": 1145,
+      "expectedRegistered": 1145,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/cl-symbols-aux.lsp",
+        "symbols/cl-symbols.lsp",
+        "symbols/symbolp.lsp",
+        "symbols/keywordp.lsp",
+        "symbols/make-symbol.lsp",
+        "symbols/copy-symbol.lsp",
+        "symbols/gensym.lsp",
+        "symbols/gentemp.lsp",
+        "symbols/symbol-function.lsp",
+        "symbols/symbol-name.lsp",
+        "symbols/boundp.lsp",
+        "symbols/special-operator-p.lsp",
+        "symbols/makunbound.lsp",
+        "symbols/set.lsp",
+        "symbols/remprop.lsp",
+        "symbols/get.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "COMMON-LISP-USER-PACKAGE-NICKNAMES",
+          "reason": "expected ((\"CL-USER\")); actual ((\"CL-USER\" \"VALTAN-USER\")) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CL-FUNCTION-SYMBOLS.1",
+          "reason": "expected (NIL); actual ((BREAK COMPILE-FILE COMPILE-FILE-PATHNAME DRIBBLE FUNCTION-LAMBDA-EXPRESSION INSPECT INVALID-METHOD-ERROR LOAD-LOGICAL-PATHNAME-TRANSLATIONS LOGICAL-PATHNAME MAKE-LOAD-FORM-SAVING-SLOTS ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CL-MACRO-SYMBOLS.1",
+          "reason": "expected (NIL); actual ((DECLAIM DEFCONSTANT DEFINE-SYMBOL-MACRO DEFMACRO DEFPARAMETER DEFVAR DEFUN IN-PACKAGE SHIFTF STEP ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CL-VARIABLE-SYMBOLS.1",
+          "reason": "expected (NIL); actual ((* ** *** *BREAK-ON-SIGNALS* *COMPILE-FILE-PATHNAME* *COMPILE-FILE-TRUENAME* *COMPILE-PRINT* *COMPILE-VERBOSE* *DEBUGGER-HOOK* *LOAD-PATHNAME* ...)) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "symbols/get.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 1145,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "eval-and-compile",
+      "files": [
+        "eval-and-compile/eval.lsp",
+        "eval-and-compile/eval-and-compile.lsp",
+        "eval-and-compile/compile.lsp",
+        "eval-and-compile/compiler-macros.lsp",
+        "eval-and-compile/constantp.lsp",
+        "eval-and-compile/lambda.lsp",
+        "eval-and-compile/eval-when.lsp",
+        "eval-and-compile/define-compiler-macro.lsp",
+        "eval-and-compile/define-symbol-macro.lsp",
+        "eval-and-compile/defmacro.lsp",
+        "eval-and-compile/the.lsp",
+        "eval-and-compile/symbol-macrolet.lsp",
+        "eval-and-compile/proclaim.lsp",
+        "eval-and-compile/declaim.lsp",
+        "eval-and-compile/locally.lsp",
+        "eval-and-compile/ignore.lsp",
+        "eval-and-compile/ignorable.lsp",
+        "eval-and-compile/dynamic-extent.lsp",
+        "eval-and-compile/optimize.lsp",
+        "eval-and-compile/special.lsp",
+        "eval-and-compile/macroexpand.lsp",
+        "eval-and-compile/macroexpand-1.lsp",
+        "eval-and-compile/declaration.lsp",
+        "eval-and-compile/type.lsp",
+        "eval-and-compile/macro-function.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 281,
+      "fail": 37,
+      "registered": 318,
+      "expectedRegistered": 326,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "eval-and-compile/eval.lsp",
+        "eval-and-compile/eval-and-compile.lsp",
+        "eval-and-compile/compile.lsp",
+        "eval-and-compile/compiler-macros.lsp",
+        "eval-and-compile/constantp.lsp",
+        "eval-and-compile/lambda.lsp",
+        "eval-and-compile/eval-when.lsp",
+        "eval-and-compile/define-compiler-macro.lsp",
+        "eval-and-compile/define-symbol-macro.lsp",
+        "eval-and-compile/defmacro.lsp",
+        "eval-and-compile/the.lsp",
+        "eval-and-compile/symbol-macrolet.lsp",
+        "eval-and-compile/proclaim.lsp",
+        "eval-and-compile/declaim.lsp",
+        "eval-and-compile/locally.lsp",
+        "eval-and-compile/ignore.lsp",
+        "eval-and-compile/ignorable.lsp",
+        "eval-and-compile/dynamic-extent.lsp",
+        "eval-and-compile/optimize.lsp",
+        "eval-and-compile/special.lsp",
+        "eval-and-compile/macroexpand.lsp",
+        "eval-and-compile/macroexpand-1.lsp",
+        "eval-and-compile/declaration.lsp",
+        "eval-and-compile/type.lsp",
+        "eval-and-compile/macro-function.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "EVAL-AND-COMPILE-MACROS",
+          "reason": "expected (NIL); actual ((DEFMACRO DEFINE-SYMBOL-MACRO DECLAIM)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.1",
+          "reason": "The function COMPILE-FILE is undefined"
+        },
+        {
+          "test": "EVAL-WHEN.4",
+          "reason": "expected (:GOOD); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.7",
+          "reason": "expected (:GOOD); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.8",
+          "reason": "expected (:GOOD); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.10",
+          "reason": "expected (:GOOD); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.11",
+          "reason": "expected (A B C D); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.18",
+          "reason": "expected (:GOOD); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.1",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.2",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.3",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.4",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-SYMBOL-MACRO.ERROR.1",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFINE-SYMBOL-MACRO.ERROR.2",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFINE-SYMBOL-MACRO.ERROR.3",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.ERROR.1",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.ERROR.2",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.ERROR.3",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.3",
+          "reason": "The variable X is unbound"
+        },
+        {
+          "test": "DEFMACRO.4",
+          "reason": "expected (:GOOD); actual (:BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFMACRO.12",
+          "reason": "The variable FOO-DEFAULT is unbound"
+        },
+        {
+          "test": "DEFMACRO.13",
+          "reason": "The variable FOO-DEFAULT is unbound"
+        },
+        {
+          "test": "DEFMACRO.15",
+          "reason": "Invalid number of arguments for destructuring-bind: (BAR . BAZ) Y"
+        },
+        {
+          "test": "DEFMACRO.19",
+          "reason": "The value (X . Y) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "DEFMACRO.21",
+          "reason": "Unknown &key argument: :ALLOW-OTHER-KEYS"
+        },
+        {
+          "test": "PROCLAIM.ERROR.3",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.4",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.5",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.6",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.7",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.8",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.9",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.10",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.11",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.1",
+          "reason": "expected (NIL); actual ((DECLAIM DEFCONSTANT DEFINE-SYMBOL-MACRO DEFMACRO DEFPARAMETER DEFVAR DEFUN IN-PACKAGE SHIFTF STEP ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.2",
+          "reason": "expected (NIL); actual ((DECLAIM DEFCONSTANT DEFINE-SYMBOL-MACRO DEFMACRO DEFPARAMETER DEFVAR DEFUN IN-PACKAGE SHIFTF STEP ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.3",
+          "reason": "expected (NIL); actual ((DECLAIM DEFCONSTANT DEFINE-SYMBOL-MACRO DEFMACRO DEFPARAMETER DEFVAR DEFUN IN-PACKAGE SHIFTF STEP ...)) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "eval-and-compile/macro-function.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": true,
+      "effectiveExpectedRegistered": 318,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [
+        "DECLARATION.10",
+        "DECLARATION.11",
+        "DECLARATION.4",
+        "DECLARATION.5",
+        "DECLARATION.6",
+        "DECLARATION.7",
+        "DECLARATION.8",
+        "DECLARATION.9"
+      ],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [
+        {
+          "file": "eval-and-compile/declaration.lsp",
+          "tests": [
+            "DECLARATION.4",
+            "DECLARATION.5",
+            "DECLARATION.6",
+            "DECLARATION.7",
+            "DECLARATION.8",
+            "DECLARATION.9",
+            "DECLARATION.10",
+            "DECLARATION.11"
+          ],
+          "delta": -8,
+          "reason": "The upstream guard registers these eight tests only when an unknown declaration signals a warning."
+        }
+      ],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 1422,
+  "fail": 41,
+  "complete": true,
+  "passRate": 97.19753930280245,
+  "finishedAt": "2026-11-04T08:36:15.735Z"
+}

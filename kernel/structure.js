@@ -20,7 +20,7 @@ class Structure {
     }
 
     copy() {
-        return new Structure(this.name, this.values);
+        return new Structure(this.name, this.values.slice());
     }
 }
 
@@ -51,4 +51,14 @@ export function CL_structureRef(structure, i) {
 export function CL_structureSet(structure, i, value) {
     structure.setValue(i, value);
     return values1(value);
+}
+
+const objectIdentities = new WeakMap();
+const primitiveIdentities = new Map();
+let nextIdentity = 0;
+export function CL_objectIdentity(object) {
+    const table = object !== null && (typeof object === 'object' || typeof object === 'function')
+        ? objectIdentities : primitiveIdentities;
+    if (!table.has(object)) table.set(object, ++nextIdentity);
+    return values1(table.get(object));
 }

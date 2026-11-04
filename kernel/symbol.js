@@ -30,6 +30,7 @@ class LispSymbol {
         this.value = null;
         this.func = null;
         this.plist = S_nil;
+        this.compilerProperties = new Map();
     }
 
     isBound() {
@@ -37,7 +38,10 @@ class LispSymbol {
     }
 
     isFBound() {
-        return this.func !== null;
+        return this.func !== null ||
+            (this.compilerProperties.has('MACRO') && this.compilerProperties.get('MACRO') !== S_nil) ||
+            (this.compilerProperties.has('TRANSFORM') && this.compilerProperties.get('TRANSFORM') !== S_nil) ||
+            (this.compilerProperties.has('SPECIAL-OPERATOR') && this.compilerProperties.get('SPECIAL-OPERATOR') !== S_nil);
     }
 
     getFunction() {
@@ -86,6 +90,7 @@ export function setSymbolValue(symbol, value) {
 }
 
 export function setSymbolFunction(symbol, func) {
+    symbol.compilerProperties.delete('MACRO');
     symbol.func = func;
     func.lisp_name = symbol.name;
     symbol.func.lisp_symbol = symbol;
@@ -120,6 +125,7 @@ export function CL_setSymbolPlist(symbol, plist) {
 }
 
 export function CL_put(symbol, key, value) {
+    checkSymbol(symbol);
     for (let plist = symbol.plist; plist !== S_nil; plist = plist.cdr.cdr) {
         if (plist.car === key) {
             plist.cdr.car = value;
@@ -128,6 +134,18 @@ export function CL_put(symbol, key, value) {
     }
     symbol.plist = makeCons(key, makeCons(value, symbol.plist));
     return values1(S_nil);
+}
+
+export function CL_compilerProperty(symbol, key) {
+    checkSymbol(symbol);
+    return values1(symbol.compilerProperties.get(key.name) ?? S_nil);
+}
+
+export function CL_setCompilerProperty(symbol, key, value) {
+    checkSymbol(symbol);
+    symbol.compilerProperties.set(key.name, value);
+    if (key.name === 'MACRO' && value !== S_nil) symbol.func = null;
+    return values1(value);
 }
 
 export function CL_boundp(x) {
@@ -168,6 +186,11 @@ export function CL_symbolValue(symbol) {
 
 export function CL_symbolFunction(symbol) {
     checkSymbol(symbol);
+    if (symbol.func === null && symbol.isFBound()) {
+        const descriptor = ['MACRO', 'TRANSFORM'].map(key => symbol.compilerProperties.get(key))
+            .find(value => value !== undefined && value !== S_nil);
+        return values1(descriptor || symbol);
+    }
     return values1(symbol.getFunction());
 }
 
@@ -201,5 +224,6 @@ export function CL_fmakunbound(symbol) {
     }
     checkSymbol(symbol);
     symbol.func = null;
+    symbol.compilerProperties.delete('MACRO');
     return values1(symbol);
 }

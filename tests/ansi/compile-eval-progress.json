@@ -1,0 +1,323 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "5bb46784e3efa89cb60d62ff878bab650d7bc9ddf1b97a1d555422c94e7e9335",
+  "startedAt": "2026-11-04T08:56:18.453Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "system-construction",
+      "files": [
+        "system-construction/compile-file.lsp",
+        "system-construction/load-file.lsp",
+        "system-construction/with-compilation-unit.lsp",
+        "system-construction/features.lsp",
+        "system-construction/modules.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 74,
+      "fail": 3,
+      "registered": 77,
+      "expectedRegistered": 77,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "system-construction/compile-file.lsp",
+        "system-construction/load-file.lsp",
+        "system-construction/with-compilation-unit.lsp",
+        "system-construction/features.lsp",
+        "system-construction/modules.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "COMPILE-FILE.17",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "COMPILE-FILE.18",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOAD.19",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\n\nWarning: #<COMPILE-FILE-TEST-CONDITION.2 {43}>\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file-2.fasl\" \n\n\nWarning: #<COMPILE-FILE-TEST-CONDITION.2A {44}>\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file-2.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file-2a.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file-2a.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file-3.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file-3.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file-3.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file-3.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/foo.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/foo.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/foo.ufsl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/foo.ufsl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/foo.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/foo.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/foo.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/foo.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file-4.fasl\" \n\n\n\n\n\n\n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file-4.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\"/tmp/valtan-ansi-work-4i8LcI/sandbox/compile-file-test-file.fasl\" \n",
+      "pendingTest": null,
+      "currentFile": "system-construction/modules.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 77,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "eval-and-compile",
+      "files": [
+        "eval-and-compile/eval.lsp",
+        "eval-and-compile/eval-and-compile.lsp",
+        "eval-and-compile/compile.lsp",
+        "eval-and-compile/compiler-macros.lsp",
+        "eval-and-compile/constantp.lsp",
+        "eval-and-compile/lambda.lsp",
+        "eval-and-compile/eval-when.lsp",
+        "eval-and-compile/define-compiler-macro.lsp",
+        "eval-and-compile/define-symbol-macro.lsp",
+        "eval-and-compile/defmacro.lsp",
+        "eval-and-compile/the.lsp",
+        "eval-and-compile/symbol-macrolet.lsp",
+        "eval-and-compile/proclaim.lsp",
+        "eval-and-compile/declaim.lsp",
+        "eval-and-compile/locally.lsp",
+        "eval-and-compile/ignore.lsp",
+        "eval-and-compile/ignorable.lsp",
+        "eval-and-compile/dynamic-extent.lsp",
+        "eval-and-compile/optimize.lsp",
+        "eval-and-compile/special.lsp",
+        "eval-and-compile/macroexpand.lsp",
+        "eval-and-compile/macroexpand-1.lsp",
+        "eval-and-compile/declaration.lsp",
+        "eval-and-compile/type.lsp",
+        "eval-and-compile/macro-function.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 287,
+      "fail": 31,
+      "registered": 318,
+      "expectedRegistered": 326,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "eval-and-compile/eval.lsp",
+        "eval-and-compile/eval-and-compile.lsp",
+        "eval-and-compile/compile.lsp",
+        "eval-and-compile/compiler-macros.lsp",
+        "eval-and-compile/constantp.lsp",
+        "eval-and-compile/lambda.lsp",
+        "eval-and-compile/eval-when.lsp",
+        "eval-and-compile/define-compiler-macro.lsp",
+        "eval-and-compile/define-symbol-macro.lsp",
+        "eval-and-compile/defmacro.lsp",
+        "eval-and-compile/the.lsp",
+        "eval-and-compile/symbol-macrolet.lsp",
+        "eval-and-compile/proclaim.lsp",
+        "eval-and-compile/declaim.lsp",
+        "eval-and-compile/locally.lsp",
+        "eval-and-compile/ignore.lsp",
+        "eval-and-compile/ignorable.lsp",
+        "eval-and-compile/dynamic-extent.lsp",
+        "eval-and-compile/optimize.lsp",
+        "eval-and-compile/special.lsp",
+        "eval-and-compile/macroexpand.lsp",
+        "eval-and-compile/macroexpand-1.lsp",
+        "eval-and-compile/declaration.lsp",
+        "eval-and-compile/type.lsp",
+        "eval-and-compile/macro-function.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "EVAL-AND-COMPILE-MACROS",
+          "reason": "expected (NIL); actual ((DEFMACRO DEFINE-SYMBOL-MACRO DECLAIM)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EVAL-WHEN.1",
+          "reason": "expected (((\"load source\" (:EXECUTE) (:LOAD-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE) (LET :EXECUTE) (LET :LOAD-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)) (\"compile source\" (:COMPILE-TOPLEVEL) (:COMPILE-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)) (\"load compiled\" (:LOAD-TOPLEVEL) (:LOAD-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE) (LET :EXECUTE) (LET :LOAD-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)))); actual (((\"load source\" (:EXECUTE) (:LOAD-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE) (LET :EXECUTE) (LET :LOAD-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)) (\"compile source\" (:COMPILE-TOPLEVEL) (:COMPILE-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL) (LET :COMPILE-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)) (\"load compiled\" (:LOAD-TOPLEVEL) (:LOAD-TOPLEVEL :EXECUTE) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (:COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE) (LET :LOAD-TOPLEVEL) (LET :LOAD-TOPLEVEL :EXECUTE) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL) (LET :COMPILE-TOPLEVEL :LOAD-TOPLEVEL :EXECUTE)))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.1",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.2",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.3",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-COMPILER-MACRO.4",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DEFINE-SYMBOL-MACRO.ERROR.1",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFINE-SYMBOL-MACRO.ERROR.2",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFINE-SYMBOL-MACRO.ERROR.3",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.ERROR.1",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.ERROR.2",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.ERROR.3",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "DEFMACRO.3",
+          "reason": "The variable X is unbound"
+        },
+        {
+          "test": "DEFMACRO.4",
+          "reason": "expected (:GOOD); actual (:BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFMACRO.12",
+          "reason": "The variable FOO-DEFAULT is unbound"
+        },
+        {
+          "test": "DEFMACRO.13",
+          "reason": "The variable FOO-DEFAULT is unbound"
+        },
+        {
+          "test": "DEFMACRO.15",
+          "reason": "Invalid number of arguments for destructuring-bind: (BAR . BAZ) Y"
+        },
+        {
+          "test": "DEFMACRO.19",
+          "reason": "The value (X . Y) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "DEFMACRO.21",
+          "reason": "Unknown &key argument: :ALLOW-OTHER-KEYS"
+        },
+        {
+          "test": "PROCLAIM.ERROR.3",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.4",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.5",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.6",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.7",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.8",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.9",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.10",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PROCLAIM.ERROR.11",
+          "reason": "expected (T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.1",
+          "reason": "expected (NIL); actual ((DECLAIM DEFCONSTANT DEFINE-SYMBOL-MACRO DEFMACRO DEFPARAMETER DEFVAR DEFUN IN-PACKAGE STEP)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.2",
+          "reason": "expected (NIL); actual ((DECLAIM DEFCONSTANT DEFINE-SYMBOL-MACRO DEFMACRO DEFPARAMETER DEFVAR DEFUN IN-PACKAGE STEP)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MACRO-FUNCTION.3",
+          "reason": "expected (NIL); actual ((DECLAIM DEFCONSTANT DEFINE-SYMBOL-MACRO DEFMACRO DEFPARAMETER DEFVAR DEFUN IN-PACKAGE STEP)) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "eval-and-compile/macro-function.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": true,
+      "effectiveExpectedRegistered": 318,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [
+        "DECLARATION.10",
+        "DECLARATION.11",
+        "DECLARATION.4",
+        "DECLARATION.5",
+        "DECLARATION.6",
+        "DECLARATION.7",
+        "DECLARATION.8",
+        "DECLARATION.9"
+      ],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [
+        {
+          "file": "eval-and-compile/declaration.lsp",
+          "tests": [
+            "DECLARATION.4",
+            "DECLARATION.5",
+            "DECLARATION.6",
+            "DECLARATION.7",
+            "DECLARATION.8",
+            "DECLARATION.9",
+            "DECLARATION.10",
+            "DECLARATION.11"
+          ],
+          "delta": -8,
+          "reason": "The upstream guard registers these eight tests only when an unknown declaration signals a warning."
+        }
+      ],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 361,
+  "fail": 34,
+  "complete": true,
+  "passRate": 91.39240506329114,
+  "finishedAt": "2026-11-04T08:57:23.088Z"
+}

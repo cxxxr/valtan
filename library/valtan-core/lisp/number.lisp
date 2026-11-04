@@ -137,17 +137,20 @@
   (= x 0))
 
 (defun evenp (x)
+  (unless (integerp x) (type-error x 'integer))
   (= 0 (rem x 2)))
 
 (defun oddp (x)
   (not (evenp x)))
 
 (defun min (number &rest more-numbers)
+  (unless (realp number) (type-error number 'real))
   (dolist (n more-numbers number)
     (when (< n number)
       (setq number n))))
 
 (defun max (number &rest more-numbers)
+  (unless (realp number) (type-error number 'real))
   (dolist (n more-numbers number)
     (when (< number n)
       (setq number n))))
@@ -158,7 +161,7 @@
   (unless (integerp power)
     (return-from expt
       (cond ((zerop power) (if (or (cl:complexp base) (cl:complexp power)) (cl:complex 1.0 0.0) 1.0))
-            ((and (zerop base) (realp power) (plusp power)) (* base power))
+            ((and (zerop base) (plusp (cl:realpart power))) (* base power))
             (t (cl:exp (* power (cl:log base)))))))
   (let ((acc (cond ((floatp base) (cl:float 1 base))
                    ((and (cl:complexp base) (floatp (cl:realpart base))) (cl:complex 1.0 0.0))
@@ -321,3 +324,25 @@
 (defun signum (number)
   (unless (numberp number) (type-error number 'number))
   (if (zerop number) number (/ number (cl:abs number))))
+
+
+(defun rationalize (number)
+  (unless (realp number) (type-error number 'real))
+  (when (rationalp number) (return-from rationalize number))
+  (when (zerop number) (return-from rationalize 0))
+  ;; Find the simplest fraction strictly inside the float's rounding interval.
+  ;; Exact rational bounds keep continued-fraction steps free of roundoff.
+  (multiple-value-bind (significand exponent sign) (cl:integer-decode-float number)
+    (let* ((value (cl:rational (cl:abs number)))
+           (half-step (/ (expt 2 exponent) 2))
+           (lower (- value (if (= significand (expt 2 52))
+                               (/ half-step 2) half-step)))
+           (upper (+ value half-step)))
+      (labels ((simplest (low high)
+                 (let ((integer (floor low)))
+                   (cond ((< (1+ integer) high) (1+ integer))
+                         ((= low integer)
+                          (+ integer (/ (1+ (floor (/ (- high integer)))))))
+                         (t (+ integer (/ (simplest (/ (- high integer))
+                                                    (/ (- low integer))))))))))
+        (* sign (simplest lower upper))))))
