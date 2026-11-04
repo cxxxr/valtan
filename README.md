@@ -99,7 +99,7 @@ handles circular test forms without changing the bindings used to execute them.
 ```bash
 $ cd valtan/tests
 $ npm install
-$ ../valtan build tests.system && npx vite build
+$ ../valtan build tests.system && npx vite build  # Compile the tests and bundle dist/tests.js
 $ npm start                           # Run all tests
 $ node dist/tests.js --category cons  # Run specific category
 $ node dist/tests.js --quick          # Quick smoke test

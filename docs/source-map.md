@@ -1,28 +1,11 @@
-## install source-map-loader
-```
-npm i source-map-loader
-```
+Enable source maps in the ASDF system definition:
 
-## defsystem
-```
+```lisp
 (defsystem "system-name"
   :source-map t
-  ...)  
+  ...)
 ```
 
-## webpack.config.js
-```
-module.exports = {
-  ...
-  devtool: 'inline-source-map',
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        use: ["source-map-loader"],
-        enforce: "pre"
-      }
-    ]
-  }
-}
-```
+When `valtan build` compiles that system, Valtan writes a `.map` file beside each generated JavaScript
+file and adds a `sourceMappingURL` reference. The generated files are consumed by the Vite-based
+browser and Node skeletons; a separate `source-map-loader` or webpack configuration is not required.

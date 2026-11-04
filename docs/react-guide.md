@@ -478,4 +478,3 @@ ReactのHooksルールはValtanでも適用されます：
 
 - [FFIリファレンス](./ffi-reference.md)
 - [サンプルコード集](./examples.md)
-- [Vite設定ガイド](./vite-setup.md)
