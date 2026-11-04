@@ -13,4 +13,5 @@
   :build-operation program-op
   :build-pathname "valtan"
   :entry-point "valtan-cli:main"
-  :depends-on ("valtan-cli"))
+  :depends-on ("valtan-cli")
+  :components ((:file "cli/foreign-libraries")))
