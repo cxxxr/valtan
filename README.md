@@ -124,5 +124,50 @@ The full-run check requires all 24 upstream categories to finish, validates the
 registered test inventory and runtime bundle, and requires at least 90% success.
 The runner itself reports a nonzero exit status whenever any test fails.
 
+### Runtime performance
+
+The compiler specializes fixed-arity arithmetic, comparisons, list access and
+character equality while retaining type checks and left-to-right argument
+evaluation. Single-value returns and backtraces now allocate their Lisp/array
+representations only when consumed; vector indexing avoids the general stride
+calculation. These optimizations are enabled by default, including in runtime
+`COMPILE`/`EVAL` code generation.
+
+Eight compiled Lisp workloads cover arithmetic, recursion, lists, vectors,
+closures, hash tables, strings and CLOS. Against a clean rebuild of commit
+`55ea3e0b53231387246bbaa44be86aa0c0fd5667`, the measured geometric-mean speedup is
+**19.56x**, and the sum of the eight workload medians improves **14.89x**.
+Individual speedups range from **3.59x to 52.01x**; this is a representative
+benchmark result, not a guarantee that every application runs ten times faster.
+Measurements use Node 24.21.0 on an AMD Ryzen AI Max+ 395. See the
+[baseline](tests/performance/baseline.json) and
+[optimized samples](tests/performance/optimized.json), including bundle hashes
+and build-time workload/semantic-test hashes.
+
+The final build preserves all 21,937 upstream ANSI and 10,017 SACLA test outcomes
+from the baseline. The 42 existing regression/coverage test groups, new kernel
+tests and compiler semantic assertions also pass. See the
+[validation record](tests/performance/validation.json). CI runs the new semantic
+tests; performance comparisons use both revisions on the same machine.
+
+```bash
+# Rebuild ./valtan from the changed compiler sources first (see installation).
+cd tests
+npm run build:performance
+npm run test:performance
+node performance/run.mjs dist-performance/performance.js after.json
+node performance/compare.mjs performance/baseline.json after.json
+```
+
+For a comparison on another machine, build both revisions there with identical
+`performance.system`, `performance/workloads.lisp`, `performance/semantics.lisp`
+and `vite.performance.config.js` files. Save the original bundle before rebuilding,
+then run `performance/run.mjs ORIGINAL-BUNDLE before.json` and compare that report
+with `after.json`. The comparison requires matching Node/CPU and workload identity;
+the default gate is a geometric mean of at least 10x. Timing excludes startup,
+compilation and semantic regression assertions. Each workload checks its result,
+warms up for at least 500 ms and ten calls, then reports seven sample timings and
+their median. Run measurements without other CPU-intensive jobs.
+
 ## License
 MIT

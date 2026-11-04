@@ -1,3 +1,5 @@
+import { makeCons, jsArrayToList } from './cons';
+
 const callStack = [];
 
 var lispFormatFunction = null;
@@ -23,7 +25,11 @@ export function getBacktrace() {
         const frame = callStack[i];
         s += `${n}: `;
         try {
-            s += lispFormatFunction("~S", frame);
+            // Calls retain their JS argument array; Lisp conses are needed only
+            // on the exceptional path that actually prints a backtrace.
+            const printable = frame && frame.args
+                ? makeCons(frame.function, jsArrayToList(frame.args)) : frame;
+            s += lispFormatFunction("~S", printable);
         } catch (e) {
             s += `#<error printing ${e}>`;
         }

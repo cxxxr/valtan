@@ -1,0 +1,635 @@
+{
+  "baselineRevision": "55ea3e0b53231387246bbaa44be86aa0c0fd5667",
+  "ansi": {
+    "bundleSha256": "ef6b9b2dcb9cd8ce45cf8d133c9dd49484867e64cea8e41f3c8af94d9000683f",
+    "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+    "startedAt": "2026-11-04T06:28:42.480Z",
+    "finishedAt": "2026-11-04T06:43:35.359Z",
+    "pass": 20062,
+    "fail": 1875,
+    "total": 21937,
+    "complete": true,
+    "newFailures": [],
+    "categories": [
+      {
+        "name": "symbols",
+        "pass": 1101,
+        "fail": 44,
+        "registered": 1145,
+        "unchangedFailures": true
+      },
+      {
+        "name": "eval-and-compile",
+        "pass": 268,
+        "fail": 50,
+        "registered": 318,
+        "unchangedFailures": true
+      },
+      {
+        "name": "data-and-control-flow",
+        "pass": 1304,
+        "fail": 124,
+        "registered": 1428,
+        "unchangedFailures": true
+      },
+      {
+        "name": "iteration",
+        "pass": 775,
+        "fail": 68,
+        "registered": 843,
+        "unchangedFailures": true
+      },
+      {
+        "name": "objects",
+        "pass": 727,
+        "fail": 136,
+        "registered": 863,
+        "unchangedFailures": true
+      },
+      {
+        "name": "conditions",
+        "pass": 635,
+        "fail": 38,
+        "registered": 673,
+        "unchangedFailures": true
+      },
+      {
+        "name": "cons",
+        "pass": 1882,
+        "fail": 0,
+        "registered": 1882,
+        "unchangedFailures": true
+      },
+      {
+        "name": "arrays",
+        "pass": 1355,
+        "fail": 1,
+        "registered": 1356,
+        "unchangedFailures": true
+      },
+      {
+        "name": "hash-tables",
+        "pass": 152,
+        "fail": 6,
+        "registered": 158,
+        "unchangedFailures": true
+      },
+      {
+        "name": "packages",
+        "pass": 486,
+        "fail": 14,
+        "registered": 500,
+        "unchangedFailures": true
+      },
+      {
+        "name": "numbers",
+        "pass": 1392,
+        "fail": 52,
+        "registered": 1444,
+        "unchangedFailures": true
+      },
+      {
+        "name": "sequences",
+        "pass": 3212,
+        "fail": 75,
+        "registered": 3287,
+        "unchangedFailures": true
+      },
+      {
+        "name": "structures",
+        "pass": 1197,
+        "fail": 197,
+        "registered": 1394,
+        "unchangedFailures": true
+      },
+      {
+        "name": "types-and-classes",
+        "pass": 541,
+        "fail": 86,
+        "registered": 627,
+        "unchangedFailures": true
+      },
+      {
+        "name": "strings",
+        "pass": 465,
+        "fail": 44,
+        "registered": 509,
+        "unchangedFailures": true
+      },
+      {
+        "name": "characters",
+        "pass": 259,
+        "fail": 0,
+        "registered": 259,
+        "unchangedFailures": true
+      },
+      {
+        "name": "pathnames",
+        "pass": 128,
+        "fail": 87,
+        "registered": 215,
+        "unchangedFailures": true
+      },
+      {
+        "name": "files",
+        "pass": 72,
+        "fail": 15,
+        "registered": 87,
+        "unchangedFailures": true
+      },
+      {
+        "name": "streams",
+        "pass": 788,
+        "fail": 15,
+        "registered": 803,
+        "unchangedFailures": true
+      },
+      {
+        "name": "printer",
+        "pass": 1958,
+        "fail": 488,
+        "registered": 2446,
+        "unchangedFailures": true
+      },
+      {
+        "name": "reader",
+        "pass": 481,
+        "fail": 192,
+        "registered": 673,
+        "unchangedFailures": true
+      },
+      {
+        "name": "system-construction",
+        "pass": 8,
+        "fail": 69,
+        "registered": 77,
+        "unchangedFailures": true
+      },
+      {
+        "name": "environment",
+        "pass": 201,
+        "fail": 9,
+        "registered": 210,
+        "unchangedFailures": true
+      },
+      {
+        "name": "misc",
+        "pass": 675,
+        "fail": 65,
+        "registered": 740,
+        "unchangedFailures": true
+      }
+    ],
+    "reportSha256": "6062c8c5716e718ea94a77d0b1c06fa4cf7bf81a2fc760e9e5646ecc1a49f549"
+  },
+  "sacla": {
+    "pass": 9824,
+    "fail": 193,
+    "incomplete_files": 0,
+    "time_ms": 295660,
+    "files": [
+      {
+        "file": "must-cons.lisp",
+        "pass": 728,
+        "fail": 0
+      },
+      {
+        "file": "must-character.lisp",
+        "pass": 313,
+        "fail": 0
+      },
+      {
+        "file": "must-do.lisp",
+        "pass": 75,
+        "fail": 0
+      },
+      {
+        "file": "must-eval.lisp",
+        "pass": 9,
+        "fail": 0
+      },
+      {
+        "file": "must-condition.lisp",
+        "pass": 142,
+        "fail": 5
+      },
+      {
+        "file": "must-array.lisp",
+        "pass": 330,
+        "fail": 0
+      },
+      {
+        "file": "must-hash-table.lisp",
+        "pass": 93,
+        "fail": 3
+      },
+      {
+        "file": "must-data-and-control.lisp",
+        "pass": 304,
+        "fail": 6
+      },
+      {
+        "file": "must-loop.lisp",
+        "pass": 850,
+        "fail": 0
+      },
+      {
+        "file": "must-symbol.lisp",
+        "pass": 113,
+        "fail": 0
+      },
+      {
+        "file": "must-string.lisp",
+        "pass": 414,
+        "fail": 0
+      },
+      {
+        "file": "desirable-printer.lisp",
+        "pass": 36,
+        "fail": 0
+      },
+      {
+        "file": "must-reader.lisp",
+        "pass": 1485,
+        "fail": 75
+      },
+      {
+        "file": "must-sequence.lisp",
+        "pass": 3840,
+        "fail": 11
+      },
+      {
+        "file": "should-cons.lisp",
+        "pass": 141,
+        "fail": 0
+      },
+      {
+        "file": "should-character.lisp",
+        "pass": 49,
+        "fail": 0
+      },
+      {
+        "file": "should-array.lisp",
+        "pass": 32,
+        "fail": 0
+      },
+      {
+        "file": "should-hash-table.lisp",
+        "pass": 3,
+        "fail": 0
+      },
+      {
+        "file": "should-data-and-control.lisp",
+        "pass": 4,
+        "fail": 0
+      },
+      {
+        "file": "should-eval.lisp",
+        "pass": 2,
+        "fail": 0
+      },
+      {
+        "file": "should-package.lisp",
+        "pass": 6,
+        "fail": 0
+      },
+      {
+        "file": "should-sequence.lisp",
+        "pass": 55,
+        "fail": 17
+      },
+      {
+        "file": "should-string.lisp",
+        "pass": 0,
+        "fail": 0
+      },
+      {
+        "file": "should-symbol.lisp",
+        "pass": 44,
+        "fail": 0
+      },
+      {
+        "file": "must-package.lisp",
+        "pass": 329,
+        "fail": 6
+      },
+      {
+        "file": "must-printer.lisp",
+        "pass": 369,
+        "fail": 70
+      },
+      {
+        "file": "x-sequence.lisp",
+        "pass": 58,
+        "fail": 0
+      }
+    ],
+    "newFailures": [],
+    "bundleSha256": "bfe58ce1e025524558a3a2d1ecba876f7be5f477cf0462f16d7eab289b8af50b"
+  },
+  "regressionTests": {
+    "ansiHarness": {
+      "groups": 42,
+      "passed": 42
+    },
+    "kernel": {
+      "groups": 2,
+      "passed": 2
+    },
+    "compilerSemantics": "passed",
+    "workloadResults": {
+      "cases": 8,
+      "passed": 8
+    }
+  },
+  "performance": {
+    "baseline": "baseline.json",
+    "optimized": "optimized.json",
+    "geometricMean": 19.564466500523057,
+    "sumOfMediansSpeedup": 14.885711944432076,
+    "minimum": 3.5859229406464634,
+    "maximum": 52.013109820010285,
+    "repeat": {
+      "baseline": {
+        "node": "v24.21.0",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "date": "2026-11-04T06:45:16.325Z",
+        "bundleSha256": "7450a23a0fa12d508b1e49dc32b6464b3076240ac969648fb841b59c2a10f2de",
+        "workloadsSha256": "77d02d3bd5cc7015d9749696b1aa8f886d003965e4fa9fa589ce1149b5102917",
+        "semanticsSha256": "4483e434afacfd439150a33b867d8c8e0887e1d0f10034a1b158575192907f91",
+        "results": [
+          {
+            "name": "sum",
+            "input": 10000,
+            "expected": 49995000,
+            "batch": 7,
+            "medianMs": 14.305867428571446,
+            "samples": [
+              14.625797428571445,
+              14.516771285714283,
+              14.380883428571419,
+              14.305867428571446,
+              14.28007699999999,
+              14.293872285714315,
+              14.285405428571428
+            ]
+          },
+          {
+            "name": "fib",
+            "input": 20,
+            "expected": 6765,
+            "batch": 5,
+            "medianMs": 23.683005199999933,
+            "samples": [
+              23.72216180000005,
+              23.68772320000007,
+              23.683005199999933,
+              23.60623000000005,
+              23.63907480000007,
+              23.6266654,
+              23.69291480000002
+            ]
+          },
+          {
+            "name": "list",
+            "input": 10000,
+            "expected": 49995000,
+            "batch": 6,
+            "medianMs": 17.56397583333334,
+            "samples": [
+              18.43476116666663,
+              17.56397583333334,
+              17.560142500000058,
+              17.496079833333322,
+              17.631129833333336,
+              17.53041533333324,
+              17.624096833333322
+            ]
+          },
+          {
+            "name": "vector",
+            "input": 10000,
+            "expected": 49995000,
+            "batch": 1,
+            "medianMs": 139.66637300000002,
+            "samples": [
+              140.13729599999988,
+              140.13759500000015,
+              139.24786799999947,
+              139.45398999999998,
+              139.45089000000007,
+              139.66637300000002,
+              139.7350209999995
+            ]
+          },
+          {
+            "name": "closure",
+            "input": 10000,
+            "expected": 49995000,
+            "batch": 7,
+            "medianMs": 15.18745299999994,
+            "samples": [
+              15.135752000000009,
+              15.133412000000005,
+              15.169520714285811,
+              15.18745299999994,
+              15.196661285714331,
+              15.192624285714244,
+              15.209402142857082
+            ]
+          },
+          {
+            "name": "hash",
+            "input": 1000,
+            "expected": 499500,
+            "batch": 18,
+            "medianMs": 5.339912055555538,
+            "samples": [
+              5.351964444444396,
+              5.379341166666665,
+              5.339912055555538,
+              5.331839555555537,
+              5.3424097777777,
+              5.268606277777811,
+              5.258212777777771
+            ]
+          },
+          {
+            "name": "string",
+            "input": 10000,
+            "expected": 10000,
+            "batch": 3,
+            "medianMs": 47.4809609999999,
+            "samples": [
+              46.77536933333371,
+              47.38565766666701,
+              47.44222566666637,
+              47.4809609999999,
+              47.73825833333285,
+              47.588950333333436,
+              47.61158633333313
+            ]
+          },
+          {
+            "name": "clos",
+            "input": 100,
+            "expected": 400,
+            "batch": 10,
+            "medianMs": 9.775963799999953,
+            "samples": [
+              10.011660400000073,
+              9.775963799999953,
+              9.573662999999943,
+              9.616950499999984,
+              9.683428200000161,
+              9.863393599999835,
+              9.835876699999972
+            ]
+          }
+        ]
+      },
+      "optimized": {
+        "node": "v24.21.0",
+        "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+        "date": "2026-11-04T06:45:26.142Z",
+        "bundleSha256": "98e329e09fd7cd8e20857cb58fc986c1dd2e546ff57e274c32e0ea766ff1a9c0",
+        "workloadsSha256": "77d02d3bd5cc7015d9749696b1aa8f886d003965e4fa9fa589ce1149b5102917",
+        "semanticsSha256": "4483e434afacfd439150a33b867d8c8e0887e1d0f10034a1b158575192907f91",
+        "results": [
+          {
+            "name": "sum",
+            "input": 10000,
+            "expected": 49995000,
+            "batch": 367,
+            "medianMs": 0.26913755040871923,
+            "samples": [
+              0.2689673678474116,
+              0.2693864795640326,
+              0.26915085013623985,
+              0.26910621798365086,
+              0.26913755040871923,
+              0.269111885558583,
+              0.2691407138964574
+            ]
+          },
+          {
+            "name": "fib",
+            "input": 20,
+            "expected": 6765,
+            "batch": 211,
+            "medianMs": 0.4730279336492881,
+            "samples": [
+              0.47294523696682494,
+              0.47352966824644604,
+              0.47353507582938315,
+              0.4730279336492881,
+              0.4726744407582947,
+              0.47316139336492713,
+              0.4729000236966816
+            ]
+          },
+          {
+            "name": "list",
+            "input": 10000,
+            "expected": 49995000,
+            "batch": 161,
+            "medianMs": 0.6009267391304353,
+            "samples": [
+              0.6017703664596276,
+              0.6008264285714295,
+              0.6006743850931676,
+              0.6010274161490681,
+              0.6009267391304353,
+              0.600506,
+              0.6013323105590073
+            ]
+          },
+          {
+            "name": "vector",
+            "input": 10000,
+            "expected": 49995000,
+            "batch": 10,
+            "medianMs": 10.865235600000052,
+            "samples": [
+              10.727006600000005,
+              10.734387400000013,
+              10.822597200000018,
+              10.865235600000052,
+              10.874491399999988,
+              10.880644099999973,
+              10.879117199999929
+            ]
+          },
+          {
+            "name": "closure",
+            "input": 10000,
+            "expected": 49995000,
+            "batch": 324,
+            "medianMs": 0.3061338487654335,
+            "samples": [
+              0.30717476851851855,
+              0.3067957685185168,
+              0.3095716265432084,
+              0.30603530246913513,
+              0.3059724012345674,
+              0.3058345679012347,
+              0.3061338487654335
+            ]
+          },
+          {
+            "name": "hash",
+            "input": 1000,
+            "expected": 499500,
+            "batch": 126,
+            "medianMs": 0.7883405634920636,
+            "samples": [
+              0.7859515317460309,
+              0.7858135158730153,
+              0.7883405634920636,
+              0.7868234841269889,
+              0.7904517619047597,
+              0.7889889523809495,
+              0.7907481031746044
+            ]
+          },
+          {
+            "name": "string",
+            "input": 10000,
+            "expected": 10000,
+            "batch": 42,
+            "medianMs": 2.3805882857142846,
+            "samples": [
+              2.3805882857142846,
+              2.389948428571426,
+              2.5295296190476315,
+              2.555279857142869,
+              2.3781121904761937,
+              2.3780579047619366,
+              2.3705357857142664
+            ]
+          },
+          {
+            "name": "clos",
+            "input": 100,
+            "expected": 400,
+            "batch": 33,
+            "medianMs": 2.7836318181818402,
+            "samples": [
+              2.8048686060606225,
+              2.7836318181818402,
+              2.782607909090957,
+              2.785416000000017,
+              2.7861120303030367,
+              2.780468303030306,
+              2.77536606060604
+            ]
+          }
+        ]
+      },
+      "geometricMean": 19.790879519724136,
+      "sumOfMediansSpeedup": 14.783298915269835,
+      "minimum": 3.511945702066745,
+      "maximum": 53.15448329988211
+    }
+  }
+}

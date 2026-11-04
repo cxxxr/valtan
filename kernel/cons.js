@@ -5,6 +5,8 @@ import {
     S_nil,
     toLispBoolean,
 } from './header';
+import { typeError } from './error';
+import { intern, cl_package } from './package';
 
 class Cons {
     constructor(car, cdr) {
@@ -70,6 +72,24 @@ export function CL_cdr(list) {
         return values1(list.cdr);
     }
 }
+
+// Public accessors keep their Lisp type checks even when the compiler bypasses
+// the Lisp wrapper. Internal %CAR/%CDR retain their existing unchecked ABI.
+export function CL_checkedCar(list) {
+    if (list === S_nil) return values1(S_nil);
+    if (!isCons(list)) typeError(list, intern('LIST', cl_package));
+    return values1(list.car);
+}
+
+export function CL_checkedCdr(list) {
+    if (list === S_nil) return values1(S_nil);
+    if (!isCons(list)) typeError(list, intern('LIST', cl_package));
+    return values1(list.cdr);
+}
+
+export function CL_null(x) { return values1(toLispBoolean(x === S_nil)); }
+export function CL_listp(x) { return values1(toLispBoolean(x === S_nil || isCons(x))); }
+export function CL_atom(x) { return values1(toLispBoolean(!isCons(x))); }
 
 export function CL_rplaca(cons, car) {
     return values1(rplaca(cons, car));

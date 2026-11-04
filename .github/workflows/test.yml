@@ -61,6 +61,15 @@ jobs:
             npx vite build
           '
 
+      - name: Verify compiler optimization semantics
+        run: |
+          nix develop --command bash -c '
+            set -e
+            cd tests
+            npm run build:performance
+            npm run test:performance
+          '
+
       - name: Build and verify ANSI test adapter
         run: |
           nix develop --command bash -c '

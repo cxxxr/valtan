@@ -3,9 +3,13 @@ import {
 } from './header';
 
 let current_values = [];
+let primary_value;
 
 export function values1(x) {
-    current_values = [x];
+    // Most calls return one value. Materialize a stable snapshot only when a
+    // multiple-value consumer actually asks for it.
+    current_values = null;
+    primary_value = x;
     return x;
 }
 
@@ -19,7 +23,7 @@ export function CL_values(...args) {
 }
 
 export function currentValues() {
-  return current_values;
+  return current_values === null ? [primary_value] : current_values;
 }
 
 export function restoreValues(values) {
@@ -31,5 +35,5 @@ export function CL_multipleValueCall(fn, ...args) {
     for (let i = 0; i < args.length - 1; i++) {
         vector.push(args[i]);
     }
-    return fn(...vector.concat(current_values));
+    return fn(...vector.concat(currentValues()));
 }

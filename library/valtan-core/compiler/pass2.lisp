@@ -145,6 +145,7 @@
           'p2-cl->js)
 
     table))
+
 #+valtan
 (defparameter *builtin-function-table*
   (let ((table (make-hash-table)))
@@ -819,6 +820,40 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                    (gen name)
                    (p2-call-default hir))))))))
 
+;; Share these specializations between the host compiler and runtime COMPILE.
+;; Keep unsupported arities on the ordinary path, including its arity checks.
+(dolist (name '(+ - * / = /= < > <= >= 1+ 1- zerop))
+  (setf (gethash name *builtin-function-table*) 'p2-numeric-call))
+
+(dolist (entry '((car "lisp.CL_checkedCar" (1))
+                 (cdr "lisp.CL_checkedCdr" (1))
+                 (null "lisp.CL_null" (1))
+                 (not "lisp.CL_null" (1))
+                 (listp "lisp.CL_listp" (1))
+                 (atom "lisp.CL_atom" (1))
+                 (char= "lisp.CL_charEqual" (2))))
+  (setf (gethash (first entry) *builtin-function-table*) (rest entry)))
+
+(defun p2-numeric-call (hir)
+  (let* ((name (hir-arg1 hir))
+         (args (hir-arg2 hir))
+         (binary (cdr (assoc name '((+ . "lisp.CL_add") (- . "lisp.CL_sub")
+                                   (* . "lisp.CL_mul") (/ . "lisp.CL_div")
+                                   (= . "lisp.CL_numberEqual") (/= . "lisp.CL_numberNotEqual")
+                                   (< . "lisp.CL_lessThan") (> . "lisp.CL_greaterThan")
+                                   (<= . "lisp.CL_lessEqual") (>= . "lisp.CL_greaterEqual")))))
+         (unary (cdr (assoc name '((1+ . "lisp.CL_add") (1- . "lisp.CL_sub")
+                                  (zerop . "lisp.CL_numberEqual"))))))
+    (cond ((and binary (= (length args) 2))
+           (p2-call-builtin-using-list-spec hir (list binary '(2))))
+          ((and unary (= (length args) 1))
+           (let ((prepared (p2-prepare-args args))
+                 (result (when (hir-return-value-p hir) (p2-temporary-var))))
+             (when result (format *p2-emit-stream* "~A=" result))
+             (format *p2-emit-stream* "~A(~A,~D);~%" unary (first prepared)
+                     (if (eq name 'zerop) 0 1))
+             result))
+          (t (p2-call-default hir)))))
 (define-p2-emit call (hir)
   (let* ((symbol (hir-arg1 hir))
          (builtin (gethash symbol *builtin-function-table*)))

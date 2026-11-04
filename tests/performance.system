@@ -1,0 +1,5 @@
+(defsystem "performance"
+  :serial t
+  :components ((:file "performance/semantics")
+               (:file "performance/workloads"))
+  :target :node)

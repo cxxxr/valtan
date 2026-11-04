@@ -320,6 +320,16 @@
         (dimensions (array-dimensions array)))
     (unless (= rank (length subscripts))
       (subscripts-error (length subscripts) rank))
+    ;; Vectors dominate ordinary indexing. Avoid the general stride loop and
+    ;; repeated NTH traversals for this common case.
+    (when (= rank 1)
+      (let ((index (car subscripts)) (dim (car dimensions)))
+        (unless (integerp index) (type-error index 'integer))
+        (if (and (<= 0 index) (< index dim))
+            (return-from %array-row-major-index index)
+            (if out-of-bounds-error-p
+                (error "Invalid index ~S for a vector of length ~D." index dim)
+                (return-from %array-row-major-index nil)))))
     (do ((axis (1- rank) (1- axis))
          (chunk-size 1)
          (result 0))
