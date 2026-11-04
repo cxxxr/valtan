@@ -44,13 +44,14 @@
     (cl:do ((plist plist (cl:cddr plist)))
            ((cl:null plist))
       (let ((key (cl:car plist)) (value (cl:cadr plist)))
-        (cl:push
-         (cl:cond ((cl:stringp key) `(ffi:cl->js ,key))
-                  ((cl:keywordp key)
-                   `(ffi:cl->js ,(compiler::kebab-to-lower-camel-case (cl:string key))))
-                  (t key))
-         new-plist)
-        (cl:push value new-plist)))
+        (setq new-plist
+              (cl:cons
+               (cl:cond ((cl:stringp key) `(ffi:cl->js ,key))
+                        ((cl:keywordp key)
+                         `(ffi:cl->js ,(compiler::kebab-to-lower-camel-case (cl:string key))))
+                        (t key))
+               new-plist))
+        (setq new-plist (cl:cons value new-plist))))
     `(ffi::%object ,@(cl:nreverse new-plist))))
 
 (defun ffi:array (&rest args)
