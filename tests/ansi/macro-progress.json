@@ -1,0 +1,252 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "c0fc874b08e44e6559af32bf6b311706737a5f606c75c0701843c17e3a6841a6",
+  "startedAt": "2026-11-03T23:01:09.045Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "reader/readtable-case.lsp",
+      "files": [
+        "auxiliary/reader-aux.lsp",
+        "reader/readtable-case.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 16,
+      "fail": 1,
+      "registered": 17,
+      "expectedRegistered": 17,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/reader-aux.lsp",
+        "reader/readtable-case.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "READTABLE-CASE.ERROR.4",
+          "reason": "expected (NIL); actual (((0 (NIL 0)) (#\\Newline (NIL #\\Newline)) (\"\u0000\" (NIL \"\u0000\")) (#1=(A B) (NIL #1#)) (#<ARITHMETIC-ERROR {7}> (NIL #<ARITHMETIC-ERROR {7}>)) (#<PACKAGE \"COMMON-LISP\"> (NIL #<PACKAGE \"COMMON-LISP\">)) (#2=#(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) (NIL #2#)) (#S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) (NIL #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0))) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-1qehv0\") :NAME \"foo\" :TYPE NIL :VERSION NIL) (NIL #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-1qehv0\") :NAME \"foo\" :TYPE NIL :VERSION NIL))) (NIL (NIL NIL)) (#S(STANDARD-OUTPUT-STREAM :BUFFER \"\") (NIL #S(STANDARD-OUTPUT-STREAM :BUFFER \"\"))) (#S(READTABLE :CASE :UPCASE :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :COUNT 8 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :COUNT 1 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0)) (NIL #S(READTABLE :CASE :UPCASE :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :COUNT 8 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :COUNT 1 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0)))) (#S(FOO-STRUCTURE :X 1 :Y A :Z NIL) (NIL #S(FOO-STRUCTURE :X 1 :Y A :Z NIL))) (#<Function> (NIL #<Function>)) (#S(RANDOM-STATE :SEED 2231786625403940) (NIL #S(RANDOM-STATE :SEED 2231786625403940))) (#<STANDARD-METHOD MEANINGLESS-USER-GENERIC-FUNCTION-FOR-UNIVERSE (#<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER>)> (NIL #<STANDARD-METHOD MEANINGLESS-USER-GENERIC-FUNCTION-FOR-UNIVERSE (#<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER>)>)) (1.2 (NIL 1.2)) (1.3 (NIL 1.3)) (1.5 (NIL 1.5)) (1.8 (NIL 1.8)) (3/5 (NIL 3/5)) (10000000000000000000000 (NIL 10000000000000000000000))))"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "reader/readtable-case.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "data-and-control-flow/macrolet.lsp",
+      "files": [
+        "auxiliary/cons-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "data-and-control-flow/macrolet.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 30,
+      "fail": 23,
+      "registered": 53,
+      "expectedRegistered": 53,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/cons-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "data-and-control-flow/macrolet.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "MACROLET.6",
+          "reason": "expected (FOO FOO XXX XXX); actual (FOO XXX XXX XXX)"
+        },
+        {
+          "test": "MACROLET.7",
+          "reason": "expected (FOO FOO NIL NIL); actual (FOO NIL NIL NIL)"
+        },
+        {
+          "test": "MACROLET.8",
+          "reason": "expected (FOO FOO 10 10); actual (FOO 10 10 10)"
+        },
+        {
+          "test": "MACROLET.9",
+          "reason": "expected ((FOO T) (FOO T) (XXX NIL) (XXX NIL)); actual ((FOO T) #2=(XXX NIL) #2# #2#)"
+        },
+        {
+          "test": "MACROLET.15",
+          "reason": "Illegal function name: NIL"
+        },
+        {
+          "test": "MACROLET.16",
+          "reason": "Illegal function name: NIL"
+        },
+        {
+          "test": "MACROLET.22",
+          "reason": "The value (Y Z) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "MACROLET.22A",
+          "reason": "The value (Y Z) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "MACROLET.24",
+          "reason": "Invalid number of arguments for destructuring-bind: (X Y Z) 1"
+        },
+        {
+          "test": "MACROLET.25",
+          "reason": "Invalid number of arguments for destructuring-bind: (X Y Z) 1"
+        },
+        {
+          "test": "MACROLET.26",
+          "reason": "The value (:A B) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.27",
+          "reason": "The value (:A (B C)) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.28",
+          "reason": "The value (:A (B C)) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.31",
+          "reason": "The value (:A (B C)) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.32",
+          "reason": "Unknown &key argument: :ALLOW-OTHER-KEYS"
+        },
+        {
+          "test": "MACROLET.33",
+          "reason": "Unknown &key argument: :FOO"
+        },
+        {
+          "test": "MACROLET.36",
+          "reason": "The value (M A B) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "MACROLET.40",
+          "reason": "The function OPTIMIZE is undefined"
+        },
+        {
+          "test": "MACROLET.41",
+          "reason": "The function OPTIMIZE is undefined"
+        },
+        {
+          "test": "MACROLET.42",
+          "reason": "The function OPTIMIZE is undefined"
+        },
+        {
+          "test": "MACROLET.47",
+          "reason": "The function SPECIAL is undefined"
+        },
+        {
+          "test": "MACROLET.48",
+          "reason": "The function IGNORE is undefined"
+        },
+        {
+          "test": "MACROLET.49",
+          "reason": "The function IGNORABLE is undefined"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "data-and-control-flow/macrolet.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "eval-and-compile/symbol-macrolet.lsp",
+      "files": [
+        "eval-and-compile/symbol-macrolet.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 7,
+      "fail": 5,
+      "registered": 12,
+      "expectedRegistered": 12,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "eval-and-compile/symbol-macrolet.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "SYMBOL-MACROLET.3",
+          "reason": "The function OPTIMIZE is undefined"
+        },
+        {
+          "test": "SYMBOL-MACROLET.8",
+          "reason": "The function SPECIAL is undefined"
+        },
+        {
+          "test": "SYMBOL-MACROLET.ERROR.1",
+          "reason": "The function SPECIAL is undefined"
+        },
+        {
+          "test": "SYMBOL-MACROLET.ERROR.2",
+          "reason": "expected (T); actual (NIL A)"
+        },
+        {
+          "test": "SYMBOL-MACROLET.ERROR.3",
+          "reason": "expected (T); actual (NIL 19)"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "eval-and-compile/symbol-macrolet.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 53,
+  "fail": 29,
+  "complete": true,
+  "passRate": 64.63414634146342,
+  "finishedAt": "2026-11-03T23:04:40.162Z",
+  "runtimeNote": "After lexical macro environment and shadowing fixes, before local declaration handling, argument evaluation-order correction and shared class slots."
+}

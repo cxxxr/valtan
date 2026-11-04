@@ -1,0 +1,629 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "2c1da34748c7bde44300cf7045a89fdbd8c4625e246b2faadb092017bc657884",
+  "startedAt": "2026-11-04T00:21:16.556Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "sequences/sort.lsp",
+      "files": [
+        "auxiliary/search-aux.lsp",
+        "auxiliary/subseq-aux.lsp",
+        "auxiliary/remove-aux.lsp",
+        "auxiliary/remove-duplicates-aux.lsp",
+        "sequences/sort.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 34,
+      "fail": 0,
+      "registered": 34,
+      "expectedRegistered": 34,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/search-aux.lsp",
+        "auxiliary/subseq-aux.lsp",
+        "auxiliary/remove-aux.lsp",
+        "auxiliary/remove-duplicates-aux.lsp",
+        "sequences/sort.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "sequences/sort.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 34,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "sequences/stable-sort.lsp",
+      "files": [
+        "auxiliary/search-aux.lsp",
+        "auxiliary/subseq-aux.lsp",
+        "auxiliary/remove-aux.lsp",
+        "auxiliary/remove-duplicates-aux.lsp",
+        "sequences/stable-sort.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 34,
+      "fail": 0,
+      "registered": 34,
+      "expectedRegistered": 34,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/search-aux.lsp",
+        "auxiliary/subseq-aux.lsp",
+        "auxiliary/remove-aux.lsp",
+        "auxiliary/remove-duplicates-aux.lsp",
+        "sequences/stable-sort.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "sequences/stable-sort.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 34,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "types-and-classes/subtypep-float.lsp",
+      "files": [
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep-float.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 79,
+      "fail": 0,
+      "registered": 79,
+      "expectedRegistered": 79,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep-float.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "types-and-classes/subtypep-float.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 79,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "types-and-classes/subtypep-real.lsp",
+      "files": [
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep-real.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 25,
+      "fail": 0,
+      "registered": 25,
+      "expectedRegistered": 25,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep-real.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "types-and-classes/subtypep-real.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 25,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "types-and-classes/subtypep-rational.lsp",
+      "files": [
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep-rational.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 18,
+      "fail": 0,
+      "registered": 18,
+      "expectedRegistered": 18,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep-rational.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "types-and-classes/subtypep-rational.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 18,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "types-and-classes/subtypep-integer.lsp",
+      "files": [
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep-integer.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 78,
+      "fail": 0,
+      "registered": 78,
+      "expectedRegistered": 78,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep-integer.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "types-and-classes/subtypep-integer.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 78,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "types-and-classes/class-precedence-lists.lsp",
+      "files": [
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/class-precedence-lists.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 0,
+      "fail": 71,
+      "registered": 71,
+      "expectedRegistered": 71,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/class-precedence-lists.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "ARITHMETIC-ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "CELL-ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "CONDITION-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "CONTROL-ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "DIVISION-BY-ZERO-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "END-OF-FILE-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "FILE-ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "FLOATING-POINT-INEXACT-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "FLOATING-POINT-INVALID-OPERATION-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "FLOATING-POINT-OVERFLOW-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "FLOATING-POINT-UNDERFLOW-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PACKAGE-ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PARSE-ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PRINT-NOT-READABLE-CPL",
+          "reason": "The value PRINT-NOT-READABLE is not of the expected type CONDITION"
+        },
+        {
+          "test": "PROGRAM-ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "READER-ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "SERIOUS-CONDITION-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "SIMPLE-CONDITION-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "SIMPLE-ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "SIMPLE-TYPE-ERROR-CPL",
+          "reason": "The value SIMPLE-TYPE-ERROR is not of the expected type CONDITION"
+        },
+        {
+          "test": "SIMPLE-WARNING-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "STORAGE-CONDITION-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "STREAM-ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "STYLE-WARNING-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "TYPE-ERROR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "UNBOUND-SLOT-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "UNBOUND-VARIABLE-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "UNDEFINED-FUNCTION-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "WARNING-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "ARRAY-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "BIT-VECTOR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "BROADCAST-STREAM-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#S(BROADCAST-STREAM :STREAMS NIL))."
+        },
+        {
+          "test": "BUILT-IN-CLASS-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "CHARACTER-CPL.1",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "COMPLEX-CPL.1",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "COMPLEX-CPL.2",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "COMPLEX-CPL.3",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "CONCATENATED-STREAM-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#S(CONCATENATED-STREAM :STREAMS NIL))."
+        },
+        {
+          "test": "CONS-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "ECHO-STREAM-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#S(ECHO-STREAM :INPUT-STREAM #S(STRING-INPUT-STREAM :STRING \"foo\" :POSITION 0 :END 3) :OUTPUT-STREAM #S(STRING-OUTPUT-STREAM :BUFFER \"\" :TARGET NIL :ELEMENT-TYPE CHARACTER) :UNREAD-P NIL))."
+        },
+        {
+          "test": "FILE-STREAM-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#S(FILE-STREAM :HANDLE #<[object Object]> :PATHNAME #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-SMRw0F\" \"sandbox\") :NAME \"class-precedence-lists\" :TYPE \"txt\" :VERSION :NEWEST) :ELEMENT-TYPE CHARACTER :DIRECTION :PROBE))."
+        },
+        {
+          "test": "FLOAT-CPL.1",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "FLOAT-CPL.2",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "FLOAT-CPL.3",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "FLOAT-CPL.4",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "FUNCTION-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "HASH-TABLE-CPL.1",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "HASH-TABLE-CPL.2",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "HASH-TABLE-CPL.3",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "INTEGER-CPL.1",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "INTEGER-CPL.2",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "INTEGER-CPL.3",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "LIST-CPL.1",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "LIST-CPL.2",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "NULL-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PACKAGE-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#<PACKAGE \"COMMON-LISP\">)."
+        },
+        {
+          "test": "PATHNAME-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME \"foo\" :TYPE NIL :VERSION :NEWEST))."
+        },
+        {
+          "test": "RANDOM-STATE-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#S(RANDOM-STATE :SEED 6335820945992251))."
+        },
+        {
+          "test": "RATIO-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (5/3)."
+        },
+        {
+          "test": "READTABLE-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#S(READTABLE :CASE :UPCASE :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :COUNT 8 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :COUNT 1 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0)))."
+        },
+        {
+          "test": "STANDARD-CLASS-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "STANDARD-GENERIC-FUNCTION-CPL",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "STANDARD-METHOD-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#<STANDARD-METHOD CPL-EXAMPLE-GF (#<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T>)>)."
+        },
+        {
+          "test": "STRING-CPL.1",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "STRING-CPL.2",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "STRING-STREAM-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#S(STRING-INPUT-STREAM :STRING \"abcdef\" :POSITION 0 :END 6))."
+        },
+        {
+          "test": "SYMBOL-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (A)."
+        },
+        {
+          "test": "SYNONYM-STREAM-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#S(SYNONYM-STREAM :SYMBOL *CPL-INPUT-STREAM*))."
+        },
+        {
+          "test": "TWO-WAY-STREAM-CPL",
+          "reason": "No applicable method for #<Function CLASS-PRECEDENCE-LIST-FOO> with arguments (#S(TWO-WAY-STREAM :INPUT-STREAM #S(STRING-INPUT-STREAM :STRING \"foofoofoofoo\" :POSITION 0 :END 12) :OUTPUT-STREAM #S(STRING-OUTPUT-STREAM :BUFFER \"\" :TARGET NIL :ELEMENT-TYPE CHARACTER)))."
+        },
+        {
+          "test": "VECTOR-CPL",
+          "reason": "expected (T); actual (NIL)"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThere is no class named LOGICAL-PATHNAME.\nThere is no class named LOGICAL-PATHNAME.\nThere is no class named LOGICAL-PATHNAME.\nThere is no class named LOGICAL-PATHNAME.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "types-and-classes/class-precedence-lists.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 71,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 268,
+  "fail": 71,
+  "complete": true,
+  "passRate": 79.05604719764011,
+  "finishedAt": "2026-11-04T00:27:54.622Z",
+  "measurementNote": "SORT and STABLE-SORT plus exact numeric interval SUBTYPEP changes: 268/268 in those six files. Class precedence tests complete 0/71 because their upstream helper stops defining methods at the missing LOGICAL-PATHNAME class; that class is added in a subsequent snapshot."
+}

@@ -255,28 +255,28 @@
 (defun make-list (size &key initial-element)
   (unless (and (integerp size) (<= 0 size))
     (type-error size '(integer 0 *)))
-  (labels ((f (n acc)
-             (if (zerop n)
-                 (nreverse acc)
-                 (f (1- n) (cons initial-element acc)))))
-    (f size nil)))
+  (do ((n size (1- n))
+       (result nil (cons initial-element result)))
+      ((zerop n) result)))
 
-(defmacro push (obj place)
+(defmacro push (obj place cl:&environment environment)
   (multiple-value-bind (vars vals stores store-form access-form)
-      (!get-setf-expansion place)
-    `(let* ,(cl:mapcar #'cl:list
-                       (cl:append vars stores)
-                       (cl:append vals (cl:list (cl:list 'cons obj access-form))))
-       ,store-form)))
-
-(defmacro pop (place)
-  (multiple-value-bind (vars vals stores store-form access-form)
-      (!get-setf-expansion place)
-    `(let* ,(cl:mapcar #'cl:list
-                       (cl:append vars stores)
-                       (cl:append vals (cl:list (cl:list 'cdr access-form))))
-       (prog1 (cl:car ,access-form)
+      (!get-setf-expansion place environment)
+    (let ((item (cl:gensym)))
+      `(let* ((,item ,obj)
+              ,@(cl:mapcar #'cl:list vars vals)
+              (,(cl:first stores) (cons ,item ,access-form)))
          ,store-form))))
+
+(defmacro pop (place cl:&environment environment)
+  (multiple-value-bind (vars vals stores store-form access-form)
+      (!get-setf-expansion place environment)
+    (let ((old (cl:gensym)))
+      `(let* (,@(cl:mapcar #'cl:list vars vals)
+              (,old ,access-form)
+              (,(cl:first stores) (cdr ,old)))
+         (prog1 (car ,old)
+           ,store-form)))))
 
 (defun first (list) (car list))
 (defun second (list) (nth 1 list))
@@ -364,7 +364,7 @@
 
 (defun butlast (list &optional (n 1))
   (unless (listp list) (type-error list 'list))
-  (unless (<= 0 n) (type-error n '(integer 0 *)))
+  (unless (and (integerp n) (<= 0 n)) (type-error n '(integer 0 *)))
   (do ((l list (cdr l))
        (r list)
        (acc nil)
@@ -380,7 +380,7 @@
 
 (defun nbutlast (list &optional (n 1))
   (unless (listp list) (type-error list 'list))
-  (unless (<= 0 n) (type-error n '(integer 0 *)))
+  (unless (and (integerp n) (<= 0 n)) (type-error n '(integer 0 *)))
   (cond ((>= 0 n)
          list)
         (t
@@ -401,6 +401,8 @@
       list))
 
 (defun last (list &optional (n 1))
+  (unless (listp list) (type-error list 'list))
+  (unless (and (integerp n) (<= 0 n)) (type-error n '(integer 0 *)))
   (if (= n 1)
       (last1 list)
       (do ((l list (cdr l))
@@ -438,7 +440,8 @@
 (defun rest (list)
   (cdr list))
 
-(defsetf rest rplacd)
+(defsetf rest (list) (value)
+  `(progn (rplacd ,list ,value) ,value))
 
 (defun process-list (item list key key-p test test-p test-not test-not-p
                      get-element return)
@@ -651,18 +654,19 @@
       (setf (cadr plist*) new-value)
       (return plist))))
 
-(define-setf-expander getf (place indicator &optional default)
+(define-setf-expander getf (place indicator &optional default cl:&environment environment)
   (multiple-value-bind (vars vals stores store-form access-form)
-      (!get-setf-expansion place)
+      (!get-setf-expansion place environment)
     (let ((newval (cl:gensym))
+          (default-var (cl:gensym))
           (store (cl:gensym)))
-      (cl:values `(,@vars ,newval)
-                 `(,@vals ,indicator)
+      (cl:values `(,@vars ,newval ,default-var)
+                 `(,@vals ,indicator ,default)
                  (list store)
                  `(let ((,(car stores) (%putf ,access-form ,store ,newval)))
                     ,store-form
                     ,store)
-                 `(getf ,access-form ,newval ,default)))))
+                 `(getf ,access-form ,newval ,default-var)))))
 
 (defun %remf (plist indicator)
   (do ((prev nil plist*)
@@ -676,13 +680,13 @@
                                plist))
                          t)))))
 
-(defmacro remf (place indicator)
+(defmacro remf (place indicator cl:&environment environment)
   (multiple-value-bind (vars vals stores store-form access-form)
-      (!get-setf-expansion place)
-    (let ((ok (cl:gensym)))
-      `(let* (,@(mapcar #'list vars vals))
+      (!get-setf-expansion place environment)
+    (let ((ok (cl:gensym)) (indicator-var (cl:gensym)))
+      `(let* (,@(mapcar #'list vars vals) (,indicator-var ,indicator))
          (multiple-value-bind (,(car stores) ,ok)
-             (%remf ,access-form ,indicator)
+             (%remf ,access-form ,indicator-var)
            ,store-form
            ,ok)))))
 
@@ -734,14 +738,14 @@
       list
       (cons item list)))
 
-(defmacro pushnew (item place &rest args &key key test test-not)
-  (declare (ignore key test test-not))
+(defmacro pushnew (item place &rest args cl:&environment environment)
   (multiple-value-bind (vars vals stores store-form access-form)
-      (!get-setf-expansion place)
-    `(let* ,(mapcar #'list
-                    (append vars stores)
-                    (append vals (list (list* 'adjoin item access-form args))))
-       ,store-form)))
+      (!get-setf-expansion place environment)
+    (let ((value (cl:gensym)))
+      `(let* ((,value ,item)
+              ,@(cl:mapcar #'cl:list vars vals)
+              (,(cl:first stores) (adjoin ,value ,access-form ,@args)))
+         ,store-form))))
 
 (defun set-difference (list-1 list-2 &key key (test nil testp) (test-not nil test-not-p))
   (when (and testp test-not-p)
@@ -772,16 +776,26 @@
             (cl:values #2#))))
     result))
 
-(defun set-exclusive-or (list-1 list-2 &rest args &key key test test-not)
-  (declare (ignore key test test-not))
-  (nconc (apply #'set-difference list-1 list-2 args)
-         (apply #'set-difference list-2 list-1 args)))
+(defun set-exclusive-or (list-1 list-2 &key key (test nil testp) (test-not nil test-not-p))
+  (when (and testp test-not-p)
+    (error ":TEST and :TEST-NOT were both supplied."))
+  (let ((first (cond (testp (set-difference list-1 list-2 :key key :test test))
+                     (test-not-p (set-difference list-1 list-2 :key key :test-not test-not))
+                     (t (set-difference list-1 list-2 :key key)))))
+    ;; The first predicate argument must always come from LIST-1, including
+    ;; when searching for unmatched elements of LIST-2.
+    (nconc first
+           (cond (testp
+                  (set-difference list-2 list-1 :key key
+                                  :test (lambda (b a) (funcall test a b))))
+                 (test-not-p
+                  (set-difference list-2 list-1 :key key
+                                  :test-not (lambda (b a) (funcall test-not a b))))
+                 (t (set-difference list-2 list-1 :key key))))))
 
 (defun nset-exclusive-or (list-1 list-2 &rest args &key key test test-not)
   (declare (ignore key test test-not))
-  (let ((copy (copy-list list-1)))
-    (nconc (apply #'nset-difference list-1 list-2 args)
-           (apply #'nset-difference list-2 copy args))))
+  (apply #'set-exclusive-or list-1 list-2 args))
 
 (defun subsetp (list-1 list-2 &key key (test nil testp) (test-not nil test-not-p))
   (when (and testp test-not-p)
@@ -802,7 +816,8 @@
 (defun nunion (list-1 list-2 &key key (test nil testp) (test-not nil test-not-p))
   (when (and testp test-not-p)
     (error ":TEST and :TEST-NOT were both supplied."))
-  (dolist (x list-1)
-    (unless (member-aux x list-2 key test testp test-not test-not-p)
-      (push x list-1)))
-  list-1)
+  (let ((result list-2))
+    (dolist (x list-1)
+      (unless (member-aux x list-2 key test testp test-not test-not-p)
+        (push x result)))
+    result))

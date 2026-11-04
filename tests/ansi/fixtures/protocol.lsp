@@ -1,0 +1,13 @@
+(in-package :cl-test)
+(deftest multi-values
+  (progn (princ "INLINE-PROTOCOL-REGRESSION") (force-output)
+         (values nil 7 "Case"))
+  nil 7 "Case")
+(deftest no-values (values))
+(deftest vector-values (vector 1 2) #(1 2))
+(deftest wrong-value-count (values 1 2) 1)
+(deftest wrong-case "case" "Case")
+(deftest expected-error (handler-case (error "fixture") (error () t)) t)
+(deftest unexpected-error (error "fixture") t)
+(deftest |mixed-Case| :actual :expected)
+(deftest MIXED-CASE :actual :expected)

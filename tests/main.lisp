@@ -12,8 +12,8 @@
 
 (defun parse-cli-args ()
   "Parse command line arguments from Node.js process.argv"
-  ;; For now, return empty list - CLI arg parsing has issues with FFI
-  '())
+  (loop for i from 2 below (ffi:ref "process" "argv" "length")
+        collect (ffi:js->cl (ffi:aget (ffi:ref "process" "argv") i))))
 
 (defun args-get-values (args flag)
   "Get all values following a flag until next flag or end"

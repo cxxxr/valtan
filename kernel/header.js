@@ -2,8 +2,12 @@ export let S_t;
 export let S_nil;
 export let S_package;
 export let S_symbol;
+export let S_integer;
+export let S_number;
 export let S_string;
 export let S_function;
+export let S_setf;
+export let S_fdefinition_setf;
 export let S_type_error;
 
 export let S_arguments_error;
@@ -26,10 +30,18 @@ export function initSymbols({
     S_nil = nil;
     S_nil.value = nil;
     S_nil.plist = nil;
+    // Symbols interned while bootstrapping predate the NIL object.
+    for (const symbol of Object.values(symbols)) {
+        if (symbol.plist === undefined) symbol.plist = nil;
+    }
     S_package = symbols["PACKAGE"];
     S_symbol = symbols["SYMBOL"];
+    S_integer = symbols["INTEGER"];
+    S_number = symbols["NUMBER"];
     S_string = symbols["STRING"];
     S_function = symbols["FUNCTION"];
+    S_setf = symbols["SETF"];
+    S_fdefinition_setf = symbols["FDEFINITION-SETF"];
     S_type_error = symbols["TYPE-ERROR"];
 
     S_arguments_error = symbols["ARGUMENTS-ERROR"];

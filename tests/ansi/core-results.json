@@ -1,0 +1,1364 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "81b465acc0f7c0bed70fec241e651a36dc7d5633a00ff2108cb691b8678b5827",
+  "startedAt": "2026-11-03T21:04:28.162Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "packages",
+      "files": [
+        "auxiliary/packages00-aux.lsp",
+        "auxiliary/package-aux.lsp",
+        "packages/find-symbol.lsp",
+        "packages/find-all-symbols.lsp",
+        "packages/find-package.lsp",
+        "packages/list-all-packages.lsp",
+        "packages/package-name.lsp",
+        "packages/package-nicknames.lsp",
+        "packages/intern.lsp",
+        "packages/export.lsp",
+        "packages/rename-package.lsp",
+        "packages/shadow.lsp",
+        "packages/shadowing-import.lsp",
+        "packages/delete-package.lsp",
+        "packages/make-package.lsp",
+        "packages/with-package-iterator.lsp",
+        "packages/unexport.lsp",
+        "packages/unintern.lsp",
+        "packages/in-package.lsp",
+        "packages/unuse-package.lsp",
+        "packages/use-package.lsp",
+        "packages/defpackage.lsp",
+        "packages/do-symbols.lsp",
+        "packages/do-external-symbols.lsp",
+        "packages/do-all-symbols.lsp",
+        "packages/packagep.lsp",
+        "packages/package-error.lsp",
+        "packages/package-error-package.lsp",
+        "packages/keyword.lsp",
+        "packages/package-shadowing-symbols.lsp",
+        "packages/package-use-list.lsp",
+        "packages/package-used-by-list.lsp",
+        "packages/import.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 479,
+      "fail": 21,
+      "registered": 500,
+      "expectedRegistered": 500,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/packages00-aux.lsp",
+        "auxiliary/package-aux.lsp",
+        "packages/find-symbol.lsp",
+        "packages/find-all-symbols.lsp",
+        "packages/find-package.lsp",
+        "packages/list-all-packages.lsp",
+        "packages/package-name.lsp",
+        "packages/package-nicknames.lsp",
+        "packages/intern.lsp",
+        "packages/export.lsp",
+        "packages/rename-package.lsp",
+        "packages/shadow.lsp",
+        "packages/shadowing-import.lsp",
+        "packages/delete-package.lsp",
+        "packages/make-package.lsp",
+        "packages/with-package-iterator.lsp",
+        "packages/unexport.lsp",
+        "packages/unintern.lsp",
+        "packages/in-package.lsp",
+        "packages/unuse-package.lsp",
+        "packages/use-package.lsp",
+        "packages/defpackage.lsp",
+        "packages/do-symbols.lsp",
+        "packages/do-external-symbols.lsp",
+        "packages/do-all-symbols.lsp",
+        "packages/packagep.lsp",
+        "packages/package-error.lsp",
+        "packages/package-error-package.lsp",
+        "packages/keyword.lsp",
+        "packages/package-shadowing-symbols.lsp",
+        "packages/package-use-list.lsp",
+        "packages/package-used-by-list.lsp",
+        "packages/import.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "PACKAGE-NAME.6",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PACKAGE-NAME.6A",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "INTERN.3",
+          "reason": "Uncaught JavaScript exception: TypeError: values1(...).substring is not a function\n    at F_SUB_RAW_STRINGSLASH3_15 (file:///tmp/valtan-ansi-Shwlt8/ansi.mjs:1613:38)\n    at callFunction (file:///tmp/valtan-ansi-Shwlt8/ansi.mjs:924:10)\n    at callFunctionWithCallStack (file:///tmp/valtan-ansi-Shwlt8/ansi.mjs:1000:14)\n    at F_ARRAY_TO_RAW_STRING_457 (file:///tmp/valtan-ansi-Shwlt8/ansi.mjs:29262:16)\n    at callFunction (file:///tmp/valtan-ansi-Shwlt8/ansi.mjs:924:10)\n    at callFunctionWithCallStack (file:///tmp/valtan-ansi-Shwlt8/ansi.mjs:1000:14)\n    at F_INTERN_97 (file:///tmp/valtan-ansi-Shwlt8/ansi.mjs:49572:16)\n    at callFunction (file:///tmp/valtan-ansi-Shwlt8/ansi.mjs:924:10)\n    at Module.callFunctionWithCallStack (file:///tmp/valtan-ansi-Shwlt8/ansi.mjs:1000:14)\n    at eval (eval at F_JS_EVAL_44 (file:///tmp/valtan-ansi-Shwlt8/ansi.mjs:8041:14), <anonymous>:24:12)"
+        },
+        {
+          "test": "DELETE-PACKAGE.6",
+          "reason": "expected (:GOOD); actual (T)"
+        },
+        {
+          "test": "MAKE-PACKAGE.ERROR.1",
+          "reason": "expected (CL-TEST::SUCCESS); actual (CL-TEST::FAIL)"
+        },
+        {
+          "test": "MAKE-PACKAGE.ERROR.2",
+          "reason": "expected (CL-TEST::SUCCESS); actual (CL-TEST::FAIL)"
+        },
+        {
+          "test": "MAKE-PACKAGE.ERROR.3",
+          "reason": "expected (CL-TEST::SUCCESS); actual (CL-TEST::FAIL)"
+        },
+        {
+          "test": "MAKE-PACKAGE.ERROR.4",
+          "reason": "expected (CL-TEST::SUCCESS); actual (CL-TEST::FAIL)"
+        },
+        {
+          "test": "WITH-PACKAGE-ITERATOR.11",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "IN-PACKAGE.5",
+          "reason": "expected (COMMON-LISP:PACKAGE-ERROR); actual (#<COMMON-LISP:SIMPLE-ERROR {172}>)"
+        },
+        {
+          "test": "IN-PACKAGE.ERROR.1",
+          "reason": "The function NIL is undefined"
+        },
+        {
+          "test": "UNUSE-PACKAGE.9",
+          "reason": "The value #<PACKAGE \"H2\"> is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "USE-PACKAGE.5",
+          "reason": "The value #<PACKAGE \"G3\"> is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "DEFPACKAGE.26",
+          "reason": "expected ((CL-TEST::SUCCESS CL-TEST::SUCCESS)); actual (NIL #<COMMON-LISP:PACKAGE-ERROR {195}>)"
+        },
+        {
+          "test": "DO-SYMBOLS.17",
+          "reason": "expected (:GOOD); actual (:BAD)"
+        },
+        {
+          "test": "DO-EXTERNAL-SYMBOLS.17",
+          "reason": "expected (:GOOD); actual (:BAD)"
+        },
+        {
+          "test": "DO-ALL-SYMBOLS.11",
+          "reason": "expected (:GOOD); actual (:BAD)"
+        },
+        {
+          "test": "PACKAGE-ERROR-PACKAGE.ERROR.1",
+          "reason": "Too few arguments to generic function #<COMMON-LISP:STANDARD-GENERIC-FUNCTION COMMON-LISP:PACKAGE-ERROR-PACKAGE (COMMON-LISP::OBJECT)>."
+        },
+        {
+          "test": "PACKAGE-ERROR-PACKAGE.ERROR.2",
+          "reason": "expected (COMMON-LISP:T); actual (NIL #\\A)"
+        },
+        {
+          "test": "IMPORT.ERROR.4",
+          "reason": "The assertion CL-TEST::MY-RESTARTS failed."
+        },
+        {
+          "test": "IMPORT.ERROR.5",
+          "reason": "The assertion CL-TEST::MY-RESTARTS failed."
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "Caught error in EXPORT.5: Package error: #<PACKAGE \"TEST2\">\nPackage #<PACKAGE \"COMMON-LISP\">\nPackage #<PACKAGE \"SYSTEM\">\nPackage #<PACKAGE \"FFI\">\nPackage #<PACKAGE \"KEYWORD\">\nPackage #<PACKAGE \"COMMON-LISP-USER\">\nPackage #<PACKAGE \"COMPILER\">\nPackage #<PACKAGE \"JS\">\nPackage #<PACKAGE \"VALTAN-CORE\">\nPackage #<PACKAGE \"VALTAN-CORE.READER\">\nPackage #<PACKAGE \"VALTAN-CORE/LOOP\">\nPackage #<PACKAGE \"REGRESSION-TEST\">\nPackage #<PACKAGE \"CL-TEST\">\nPackage #<PACKAGE \"FS-A\">\nPackage #<PACKAGE \"FS-B\">\nPackage #<PACKAGE \"DS1\">\nPackage #<PACKAGE \"DS2\">\nPackage #<PACKAGE \"DS3\">\nPackage #<PACKAGE \"DS4\">\nPackage #<PACKAGE \"TEST-DPE2\">\nPackage #<PACKAGE \"A\">\nPackage #<PACKAGE \"B\">\nPackage #<PACKAGE \"COMMON-LISP\">\nPackage #<PACKAGE \"SYSTEM\">\nPackage #<PACKAGE \"FFI\">\nPackage #<PACKAGE \"KEYWORD\">\nPackage #<PACKAGE \"COMMON-LISP-USER\">\nPackage #<PACKAGE \"COMPILER\">\nPackage #<PACKAGE \"JS\">\nPackage #<PACKAGE \"VALTAN-CORE\">\nPackage #<PACKAGE \"VALTAN-CORE.READER\">\nPackage #<PACKAGE \"VALTAN-CORE/LOOP\">\nPackage #<PACKAGE \"REGRESSION-TEST\">\nPackage #<PACKAGE \"CL-TEST\">\nPackage #<PACKAGE \"FS-A\">\nPackage #<PACKAGE \"FS-B\">\nPackage #<PACKAGE \"DS1\">\nPackage #<PACKAGE \"DS2\">\nPackage #<PACKAGE \"DS3\">\nPackage #<PACKAGE \"DS4\">\nPackage #<PACKAGE \"TEST-DPE2\">\nPackage #<PACKAGE \"A\">\nPackage #<PACKAGE \"B\">\nPackage #<PACKAGE \"COMMON-LISP\">\nPackage #<PACKAGE \"SYSTEM\">\nPackage #<PACKAGE \"FFI\">\nPackage #<PACKAGE \"KEYWORD\">\nPackage #<PACKAGE \"COMMON-LISP-USER\">\nPackage #<PACKAGE \"COMPILER\">\nPackage #<PACKAGE \"JS\">\nPackage #<PACKAGE \"VALTAN-CORE\">\nPackage #<PACKAGE \"VALTAN-CORE.READER\">\nPackage #<PACKAGE \"VALTAN-CORE/LOOP\">\nPackage #<PACKAGE \"REGRESSION-TEST\">\nPackage #<PACKAGE \"CL-TEST\">\nPackage #<PACKAGE \"FS-A\">\nPackage #<PACKAGE \"FS-B\">\nPackage #<PACKAGE \"DS1\">\nPackage #<PACKAGE \"DS2\">\nPackage #<PACKAGE \"DS3\">\nPackage #<PACKAGE \"DS4\">\nPackage #<PACKAGE \"TEST-DPE2\">\nPackage #<PACKAGE \"A\">\nPackage #<PACKAGE \"B\">\nProperly threw an error: #<PACKAGE-ERROR {169}>\nMaking G1...\nMaking G2...\nMaking G3...\n",
+      "pendingTest": null,
+      "currentFile": "packages/import.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "characters",
+      "files": [
+        "auxiliary/char-aux.lsp",
+        "characters/character.lsp",
+        "characters/char-compare.lsp",
+        "characters/name-char.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 259,
+      "fail": 0,
+      "registered": 259,
+      "expectedRegistered": 259,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/char-aux.lsp",
+        "characters/character.lsp",
+        "characters/char-compare.lsp",
+        "characters/name-char.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "",
+      "pendingTest": null,
+      "currentFile": "characters/name-char.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "hash-tables",
+      "files": [
+        "auxiliary/hash-table-aux.lsp",
+        "hash-tables/hash-table.lsp",
+        "hash-tables/make-hash-table.lsp",
+        "hash-tables/hash-table-p.lsp",
+        "hash-tables/hash-table-count.lsp",
+        "hash-tables/hash-table-size.lsp",
+        "hash-tables/hash-table-rehash-size.lsp",
+        "hash-tables/hash-table-rehash-threshold.lsp",
+        "hash-tables/hash-table-test.lsp",
+        "hash-tables/gethash.lsp",
+        "hash-tables/remhash.lsp",
+        "hash-tables/clrhash.lsp",
+        "hash-tables/maphash.lsp",
+        "hash-tables/with-hash-table-iterator.lsp",
+        "hash-tables/sxhash.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 147,
+      "fail": 11,
+      "registered": 158,
+      "expectedRegistered": 158,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/hash-table-aux.lsp",
+        "hash-tables/hash-table.lsp",
+        "hash-tables/make-hash-table.lsp",
+        "hash-tables/hash-table-p.lsp",
+        "hash-tables/hash-table-count.lsp",
+        "hash-tables/hash-table-size.lsp",
+        "hash-tables/hash-table-rehash-size.lsp",
+        "hash-tables/hash-table-rehash-threshold.lsp",
+        "hash-tables/hash-table-test.lsp",
+        "hash-tables/gethash.lsp",
+        "hash-tables/remhash.lsp",
+        "hash-tables/clrhash.lsp",
+        "hash-tables/maphash.lsp",
+        "hash-tables/with-hash-table-iterator.lsp",
+        "hash-tables/sxhash.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "MAKE-HASH-TABLE.14",
+          "reason": "The variable SINGLE-FLOAT-EPSILON is unbound"
+        },
+        {
+          "test": "MAKE-HASH-TABLE.26",
+          "reason": "The variable LEAST-POSITIVE-SHORT-FLOAT is unbound"
+        },
+        {
+          "test": "MAKE-HASH-TABLE.27",
+          "reason": "The variable LEAST-POSITIVE-SINGLE-FLOAT is unbound"
+        },
+        {
+          "test": "MAKE-HASH-TABLE.28",
+          "reason": "The variable LEAST-POSITIVE-DOUBLE-FLOAT is unbound"
+        },
+        {
+          "test": "MAKE-HASH-TABLE.29",
+          "reason": "The variable LEAST-POSITIVE-LONG-FLOAT is unbound"
+        },
+        {
+          "test": "WITH-HASH-TABLE-ITERATOR.8",
+          "reason": "The function OPTIMIZE is undefined"
+        },
+        {
+          "test": "WITH-HASH-TABLE-ITERATOR.8A",
+          "reason": "The function OPTIMIZE is undefined"
+        },
+        {
+          "test": "SXHASH.1",
+          "reason": "The value NIL is not of the expected type ARRAY"
+        },
+        {
+          "test": "SXHASH.6",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "SXHASH.7",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "SXHASH.22",
+          "reason": "expected (:GOOD); actual ((3 3 3 30 3 3))"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "",
+      "pendingTest": null,
+      "currentFile": "hash-tables/sxhash.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "arrays",
+      "files": [
+        "auxiliary/array-aux.lsp",
+        "auxiliary/bit-aux.lsp",
+        "arrays/aref.lsp",
+        "arrays/array.lsp",
+        "arrays/array-t.lsp",
+        "arrays/array-as-class.lsp",
+        "arrays/simple-array.lsp",
+        "arrays/simple-array-t.lsp",
+        "arrays/bit-vector.lsp",
+        "arrays/simple-bit-vector.lsp",
+        "arrays/make-array.lsp",
+        "arrays/adjust-array.lsp",
+        "arrays/adjustable-array-p.lsp",
+        "arrays/array-displacement.lsp",
+        "arrays/array-dimension.lsp",
+        "arrays/array-dimensions.lsp",
+        "arrays/array-element-type.lsp",
+        "arrays/array-has-fill-pointer-p.lsp",
+        "arrays/array-in-bounds-p.lsp",
+        "arrays/array-misc.lsp",
+        "arrays/array-rank.lsp",
+        "arrays/array-row-major-index.lsp",
+        "arrays/array-total-size.lsp",
+        "arrays/arrayp.lsp",
+        "arrays/fill-pointer.lsp",
+        "arrays/row-major-aref.lsp",
+        "arrays/simple-vector-p.lsp",
+        "arrays/svref.lsp",
+        "arrays/upgraded-array-element-type.lsp",
+        "arrays/vector.lsp",
+        "arrays/vector-pop.lsp",
+        "arrays/vector-push.lsp",
+        "arrays/vector-push-extend.lsp",
+        "arrays/vectorp.lsp",
+        "arrays/bit.lsp",
+        "arrays/sbit.lsp",
+        "arrays/bit-and.lsp",
+        "arrays/bit-andc1.lsp",
+        "arrays/bit-andc2.lsp",
+        "arrays/bit-eqv.lsp",
+        "arrays/bit-ior.lsp",
+        "arrays/bit-nand.lsp",
+        "arrays/bit-nor.lsp",
+        "arrays/bit-orc1.lsp",
+        "arrays/bit-orc2.lsp",
+        "arrays/bit-xor.lsp",
+        "arrays/bit-not.lsp",
+        "arrays/bit-vector-p.lsp",
+        "arrays/simple-bit-vector-p.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 1137,
+      "fail": 219,
+      "registered": 1356,
+      "expectedRegistered": 1356,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/array-aux.lsp",
+        "auxiliary/bit-aux.lsp",
+        "arrays/aref.lsp",
+        "arrays/array.lsp",
+        "arrays/array-t.lsp",
+        "arrays/array-as-class.lsp",
+        "arrays/simple-array.lsp",
+        "arrays/simple-array-t.lsp",
+        "arrays/bit-vector.lsp",
+        "arrays/simple-bit-vector.lsp",
+        "arrays/make-array.lsp",
+        "arrays/adjust-array.lsp",
+        "arrays/adjustable-array-p.lsp",
+        "arrays/array-displacement.lsp",
+        "arrays/array-dimension.lsp",
+        "arrays/array-dimensions.lsp",
+        "arrays/array-element-type.lsp",
+        "arrays/array-has-fill-pointer-p.lsp",
+        "arrays/array-in-bounds-p.lsp",
+        "arrays/array-misc.lsp",
+        "arrays/array-rank.lsp",
+        "arrays/array-row-major-index.lsp",
+        "arrays/array-total-size.lsp",
+        "arrays/arrayp.lsp",
+        "arrays/fill-pointer.lsp",
+        "arrays/row-major-aref.lsp",
+        "arrays/simple-vector-p.lsp",
+        "arrays/svref.lsp",
+        "arrays/upgraded-array-element-type.lsp",
+        "arrays/vector.lsp",
+        "arrays/vector-pop.lsp",
+        "arrays/vector-push.lsp",
+        "arrays/vector-push-extend.lsp",
+        "arrays/vectorp.lsp",
+        "arrays/bit.lsp",
+        "arrays/sbit.lsp",
+        "arrays/bit-and.lsp",
+        "arrays/bit-andc1.lsp",
+        "arrays/bit-andc2.lsp",
+        "arrays/bit-eqv.lsp",
+        "arrays/bit-ior.lsp",
+        "arrays/bit-nand.lsp",
+        "arrays/bit-nor.lsp",
+        "arrays/bit-orc1.lsp",
+        "arrays/bit-orc2.lsp",
+        "arrays/bit-xor.lsp",
+        "arrays/bit-not.lsp",
+        "arrays/bit-vector-p.lsp",
+        "arrays/simple-bit-vector-p.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "BIT-VECTOR.CLASS.2",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "BIT-VECTOR.CLASS.3",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "ADJUST-ARRAY.1",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.2",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.3",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.4",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.5",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.6",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.7",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.8",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.9",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.10",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.11",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.12",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.13",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.14",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.15",
+          "reason": "expected (#(2 3 4 5)); actual (#(3 4 5 6))"
+        },
+        {
+          "test": "ADJUST-ARRAY.16",
+          "reason": "expected (#(1 2 3 4 5)); actual (#(2 3 4 5 6))"
+        },
+        {
+          "test": "ADJUST-ARRAY.17",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.18",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.19",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.20",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.21",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.22",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.23",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A2) (QUOTE (2 3)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.30",
+          "reason": "expected (#(1 2 3 4 5 6)); actual (#(CL-TEST::A CL-TEST::B CL-TEST::C CL-TEST::D 5 6))"
+        },
+        {
+          "test": "ADJUST-ARRAY.31",
+          "reason": "expected (#(#\\A #\\B #\\C)); actual (#(CL-TEST::A CL-TEST::B CL-TEST::C))"
+        },
+        {
+          "test": "ADJUST-ARRAY.36",
+          "reason": "expected (#(3 4 5)); actual (#(CL-TEST::A CL-TEST::B CL-TEST::C))"
+        },
+        {
+          "test": "ADJUST-ARRAY.37",
+          "reason": "expected (#(2 3 4 5 6)); actual (#(CL-TEST::A CL-TEST::B CL-TEST::C CL-TEST::D 6))"
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.1",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.2",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.3",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.4",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.5",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.6",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.7",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.8",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.9",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.10",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.11",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.12",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.ADJUSTABLE.13",
+          "reason": "The assertion (EQ CL-TEST::A1 (ADJUST-ARRAY CL-TEST::A1 5 :DISPLACED-TO CL-TEST::A0 :DISPLACED-INDEX-OFFSET 2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.1",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.2",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.3",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.4",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.5",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.6",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.7",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.8",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.9",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.10",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.11",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.12",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.13",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.14",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.15",
+          "reason": "expected (\"2345\"); actual (\"3456\")"
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.16",
+          "reason": "expected (\"12345\"); actual (\"23456\")"
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.17",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.18",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.19",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.20",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.1",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.2",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.3",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.4",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.5",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.6",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.7",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.8",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.9",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.10",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.11",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.12",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.ADJUSTABLE.13",
+          "reason": "The assertion (EQ CL-TEST::A1 (ADJUST-ARRAY CL-TEST::A1 5 :DISPLACED-TO CL-TEST::A0 :DISPLACED-INDEX-OFFSET 2 :ELEMENT-TYPE (QUOTE CHARACTER))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.1",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.2",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.3",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.4",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.5",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.6",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.7",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.8",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.9",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.10",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.11",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.12",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.13",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.14",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.15",
+          "reason": "expected (\"2345\"); actual (\"3456\")"
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.16",
+          "reason": "expected (\"12345\"); actual (\"23456\")"
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.17",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.18",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.19",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.20",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.1",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.2",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.3",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.4",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.5",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.6",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.7",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.8",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.9",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.10",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.11",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.12",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BASEST.ADJUSTABLE.13",
+          "reason": "The assertion (EQ CL-TEST::A1 (ADJUST-ARRAY CL-TEST::A1 5 :DISPLACED-TO CL-TEST::A0 :DISPLACED-INDEX-OFFSET 2 :ELEMENT-TYPE (QUOTE BASE-CHAR))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.21",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.STRING.22",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.1",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.2",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.3",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.4",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.5",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.6",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.7",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.8",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.9",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.10",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.11",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.12",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.13",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.14",
+          "reason": "The assertion (IF (ADJUSTABLE-ARRAY-P CL-TEST::A1) (EQ CL-TEST::A1 CL-TEST::A2) (EQUAL (ARRAY-DIMENSIONS CL-TEST::A1) (QUOTE (5)))) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.15",
+          "reason": "expected (#*1000); actual (#*0001)"
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.16",
+          "reason": "expected (#*10110); actual (#*01101)"
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.17",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.18",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.19",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.20",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.21",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.22",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.1",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.2",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.3",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.4",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.5",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.6",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.7",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.8",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.9",
+          "reason": "The assertion (OR (NOT (ADJUSTABLE-ARRAY-P CL-TEST::A1)) (EQ CL-TEST::A1 CL-TEST::A2)) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.10",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.11",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.12",
+          "reason": "The assertion (EQ CL-TEST::A1 CL-TEST::A2) failed."
+        },
+        {
+          "test": "ADJUST-ARRAY.BIT-VECTOR.ADJUSTABLE.13",
+          "reason": "The assertion (EQ CL-TEST::A1 (ADJUST-ARRAY CL-TEST::A1 5 :DISPLACED-TO CL-TEST::A0 :DISPLACED-INDEX-OFFSET 2 :ELEMENT-TYPE (QUOTE BIT))) failed."
+        },
+        {
+          "test": "FILL-POINTER.ORDER.2",
+          "reason": "expected (0 6 #(1 2 3 4 5 6) 2 1 2); actual (2 6 #(1 2 3 4 5 6) 2 1 2)"
+        },
+        {
+          "test": "FILL-POINTER.ERROR.3",
+          "reason": "expected (T); actual (NIL NIL)"
+        },
+        {
+          "test": "FILL-POINTER.ERROR.4",
+          "reason": "expected (T); actual (NIL NIL)"
+        },
+        {
+          "test": "FILL-POINTER.ERROR.5",
+          "reason": "expected (T); actual (NIL NIL)"
+        },
+        {
+          "test": "FILL-POINTER.ERROR.6",
+          "reason": "expected (NIL); actual (((\"\u0000\" (NIL NIL)) (#(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) (NIL NIL))))"
+        },
+        {
+          "test": "FILL-POINTER.ERROR.7",
+          "reason": "expected (T); actual (NIL T)"
+        },
+        {
+          "test": "UPGRADED-ARRAY-ELEMENT-TYPE.NIL.1",
+          "reason": "expected (NIL); actual ((NIL T :A :B :|| :|a| :1234 #:NIL #:T #:FOO #:|| CL-TEST::|a| CL-TEST::|| CL-TEST::\u0000 CL-TEST::|\u0000\u0000\u0000a\u0000\u0000\u0000\u0000\u0000\u0000| CL-TEST::|\u0000\u0000\u0000\u0000a\u0000\u0000\u0000\u0000\u0000| CL-TEST::|\u0000\u0000\u0000\u0000a\u0000\u0000b\u0000\u0000| FOO X CONS LAMBDA *PRINT-READABLY* PUSH 0 9007199254740986 9007199254740987 9007199254740988 9007199254740989 9007199254740990 9007199254740993 9007199254740994 9007199254740995 9007199254740996 -9007199254740996 -9007199254740995 -9007199254740994 -9007199254740993 -9007199254740990 -9007199254740989 -9007199254740988 -9007199254740987 -9007199254740986 2 4 8 16 32 64 128 256 512 1024 2048 4096 8192 16384 32768 65536 131072 262144 524288 1048576 2097152 4194304 8388608 16777216 33554432 67108864 134217728 268435456 536870912 1073741824 2147483648 4294967296 8589934592 17179869184 34359738368 68719476736 137438953472 274877906944 549755813888 1099511627776 2199023255552 4398046511104 8796093022208 17592186044416 35184372088832 70368744177664 140737488355328 281474976710656 562949953421312 1125899906842624 2251799813685248 4503599627370496 9007199254740992 18014398509481984 36028797018963968 72057594037927936 144115188075855872 288230376151711744 576460752303423488 1152921504606846976 2305843009213693952 4611686018427387904 9223372036854775808 18446744073709551616 1 3 7 15 31 63 127 255 511 1023 2047 4095 8191 16383 32767 65535 131071 262143 524287 1048575 2097151 4194303 8388607 16777215 33554431 67108863 134217727 268435455 536870911 1073741823 2147483647 4294967295 8589934591 17179869183 34359738367 68719476735 137438953471 274877906943 549755813887 1099511627775 2199023255551 4398046511103 8796093022207 17592186044415 35184372088831 70368744177663 140737488355327 281474976710655 562949953421311 1125899906842623 2251799813685247 4503599627370495 9007199254740991 18014398509481983 36028797018963967 72057594037927935 144115188075855871 288230376151711743 576460752303423487 1152921504606846975 2305843009213693951 4611686018427387903 9223372036854775807 18446744073709551615 -2 -4 -8 -16 -32 -64 -128 -256 -512 -1024 -2048 -4096 -8192 -16384 -32768 -65536 -131072 -262144 -524288 -1048576 -2097152 -4194304 -8388608 -16777216 -33554432 -67108864 -134217728 -268435456 -536870912 -1073741824 -2147483648 -4294967296 -8589934592 -17179869184 -34359738368 -68719476736 -137438953472 -274877906944 -549755813888 -1099511627776 -2199023255552 -4398046511104 -8796093022208 -17592186044416 -35184372088832 -70368744177664 -140737488355328 -281474976710656 -562949953421312 -1125899906842624 -2251799813685248 -4503599627370496 -9007199254740992 -18014398509481984 -36028797018963968 -72057594037927936 -144115188075855872 -288230376151711744 -576460752303423488 -1152921504606846976 -2305843009213693952 -4611686018427387904 -9223372036854775808 -18446744073709551616 -1 -3 -7 -15 -31 -63 -127 -255 -511 -1023 -2047 -4095 -8191 -16383 -32767 -65535 -131071 -262143 -524287 -1048575 -2097151 -4194303 -8388607 -16777215 -33554431 -67108863 -134217727 -268435455 -536870911 -1073741823 -2147483647 -4294967295 -8589934591 -17179869183 -34359738367 -68719476735 -137438953471 -274877906943 -549755813887 -1099511627775 -2199023255551 -4398046511103 -8796093022207 -17592186044415 -35184372088831 -70368744177663 -140737488355327 -281474976710655 -562949953421311 -1125899906842623 -2251799813685247 -4503599627370495 -9007199254740991 -18014398509481983 -36028797018963967 -72057594037927935 -144115188075855871 -288230376151711743 -576460752303423487 -1152921504606846975 -2305843009213693951 -4611686018427387903 -9223372036854775807 -18446744073709551615 33300140732146818380750772381422989832214186835186851059977249 12387131 1272314 231 -131 -561823 23713 -1234611312123 444121 991 0 1 -1 313123.13 283143.231 -314781.9 131.28300000000002 834.13812 813123810000000000000 -4618926.231 -37818131 81.318231 1312.7300000000002 12361.12 6124.124 13123.1 0.3333333333333333 0.001 1e-15 -3.3333333333333335 -142.85714285714286 -72.51379835060577 1.536674792958947e-16 [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] [object Object] #\\\n #\\  CL-TEST::#RUBOUT CL-TEST::#PAGE CL-TEST::#TAB CL-TEST::#BACKSPACE CL-TEST::#RETURN CL-TEST::#LINEFEED CL-TEST::#NULL #\\a #\\A #\\0 #\\9 #\\. #\\( #\\) #\\[ #\\] \"\u0000\" \"\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\" \"\" \"A\" \"a\" \"0\" \"abcdef\" \"~!@#$%^&*()_+`1234567890-=<,>.?/:;\"'{[}]|\\ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYXZ\" \"gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg\" \"\u0000\u0001\u0002\u0003\u0004\u0005\u0006\u0007\b\t\n\u000b\f\r\u000e\u000f\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001a\u001b\u001c\u001d\u001e\u001f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ\" \"bcd\" \"xxxxx\" \"xxxxxxxxxx\" \"yyy\" (CL-TEST::A CL-TEST::B) (NIL) (1 2 3 4 5 6) #<CELL-ERROR {8}> #<CONDITION {9}> #<CONTROL-ERROR {10}> #<ERROR {13}> #<PACKAGE-ERROR {19}> #<PARSE-ERROR {20}> #<PROGRAM-ERROR {22}> #<READER-ERROR {23}> #<SERIOUS-CONDITION {24}> #<SIMPLE-CONDITION {25}> #<SIMPLE-ERROR {26}> #<SIMPLE-WARNING {28}> #<STORAGE-CONDITION {29}> #<STREAM-ERROR {30}> #<STYLE-WARNING {31}> #<TYPE-ERROR {32}> #<UNBOUND-VARIABLE {34}> #<UNDEFINED-FUNCTION {35}> #<WARNING {36}> #<PACKAGE \"COMMON-LISP\"> #<PACKAGE \"COMMON-LISP-USER\"> #<PACKAGE \"KEYWORD\"> #(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) #0ANIL #(NIL NIL) #2A((NIL NIL) (NIL NIL)) #3A(((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) #4A((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) #5A(((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) #6A((((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) (((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))))) #7A(((((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) (((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))))) ((((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) (((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))))) #0A18 #(18 18) #2A((18 18) (18 18)) #3A(((18 18) (18 18)) ((18 18) (18 18))) #4A((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18)))) #5A(((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18)))) ((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18))))) #6A((((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18)))) ((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18))))) (((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18)))) ((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18)))))) #7A(((((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18)))) ((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18))))) (((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18)))) ((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18)))))) ((((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18)))) ((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18))))) (((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18)))) ((((18 18) (18 18)) ((18 18) (18 18))) (((18 18) (18 18)) ((18 18) (18 18))))))) #0A16 #(16 16) #2A((16 16) (16 16)) #3A(((16 16) (16 16)) ((16 16) (16 16))) #4A((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16)))) #5A(((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16)))) ((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16))))) #6A((((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16)))) ((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16))))) (((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16)))) ((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16)))))) #7A(((((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16)))) ((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16))))) (((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16)))) ((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16)))))) ((((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16)))) ((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16))))) (((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16)))) ((((16 16) (16 16)) ((16 16) (16 16))) (((16 16) (16 16)) ((16 16) (16 16))))))) #0A0 #*00 #2A((0 0) (0 0)) #3A(((0 0) (0 0)) ((0 0) (0 0))) #4A((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0)))) #5A(((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0)))) ((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0))))) #6A((((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0)))) ((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0))))) (((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0)))) ((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0)))))) #7A(((((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0)))) ((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0))))) (((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0)))) ((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0)))))) ((((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0)))) ((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0))))) (((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0)))) ((((0 0) (0 0)) ((0 0) (0 0))) (((0 0) (0 0)) ((0 0) (0 0))))))) #0A#\\x \"xx\" #2A((#\\x #\\x) (#\\x #\\x)) #3A(((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) #4A((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x)))) #5A(((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x)))) ((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))))) #6A((((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x)))) ((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))))) (((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x)))) ((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x)))))) #7A(((((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x)))) ((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))))) (((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x)))) ((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x)))))) ((((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x)))) ((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))))) (((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x)))) ((((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))) (((#\\x #\\x) (#\\x #\\x)) ((#\\x #\\x) (#\\x #\\x))))))) #0A#\\y \"yy\" #2A((#\\y #\\y) (#\\y #\\y)) #3A(((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) #4A((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y)))) #5A(((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y)))) ((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))))) #6A((((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y)))) ((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))))) (((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y)))) ((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y)))))) #7A(((((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y)))) ((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))))) (((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y)))) ((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y)))))) ((((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y)))) ((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))))) (((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y)))) ((((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))) (((#\\y #\\y) (#\\y #\\y)) ((#\\y #\\y) (#\\y #\\y))))))) #0A127 #(127 127) #2A((127 127) (127 127)) #3A(((127 127) (127 127)) ((127 127) (127 127))) #4A((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127)))) #5A(((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127)))) ((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127))))) #6A((((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127)))) ((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127))))) (((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127)))) ((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127)))))) #7A(((((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127)))) ((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127))))) (((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127)))) ((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127)))))) ((((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127)))) ((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127))))) (((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127)))) ((((127 127) (127 127)) ((127 127) (127 127))) (((127 127) (127 127)) ((127 127) (127 127))))))) #0A200 #(200 200) #2A((200 200) (200 200)) #3A(((200 200) (200 200)) ((200 200) (200 200))) #4A((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200)))) #5A(((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200)))) ((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200))))) #6A((((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200)))) ((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200))))) (((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200)))) ((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200)))))) #7A(((((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200)))) ((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200))))) (((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200)))) ((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200)))))) ((((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200)))) ((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200))))) (((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200)))) ((((200 200) (200 200)) ((200 200) (200 200))) (((200 200) (200 200)) ((200 200) (200 200))))))) #*1111111111 #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #(1 1 1 1 1 1 1 1 1 1) #(0 0 0 0 0 0 0 0 0 0) #0ANIL #(NIL NIL) #2A((NIL NIL) (NIL NIL)) #3A(((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) #4A((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) #5A(((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) #6A((((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) (((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))))) #7A(((((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) (((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))))) ((((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) (((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))))) #0ANIL #(NIL NIL) #2A((NIL NIL) (NIL NIL)) #3A(((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) #4A((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) #5A(((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) #6A((((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) (((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))))) #7A(((((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) (((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))))) ((((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))) (((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL)))) ((((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))) (((NIL NIL) (NIL NIL)) ((NIL NIL) (NIL NIL))))))) #() #* #*00000 #*1010101010101101 #*01101111 #*10001 #*1100111011 #(8 9 10 11 12 1 2 3 4 5) #(8 9 -10 11 -12 1 -2 -3 4 5) #(5 9 100 1312 23432 87) #(100000 231213 8123712 19) #(4294967295 0 872312 10000000) #0A14 #2A((34 98) (14 119)) #(1 2 3 4 5) #(1 2 3 4 5) #(1 2 3 4 5) #(1 2 3 4 5) #() #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1) #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQ :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1) #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1) #S(HASH-TABLE :MAP NIL :BUCKETS #(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) :BUCKET-COUNT 16 :KEYS NIL :COUNT 0 :TEST EQUAL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1) #S(HASH-TABLE :MAP NIL :BUCKETS #(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) :BUCKET-COUNT 16 :KEYS NIL :COUNT 0 :TEST EQUALP :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME \"foo\" :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME \"FOO\" :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME \"bar\" :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME \"foo\" :TYPE \"txt\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME \"bar\" :TYPE \"txt\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME \"XYZ\" :TYPE \"TXT\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME NIL :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME :WILD :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME NIL :TYPE \"txt\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME :WILD :TYPE \"txt\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME :WILD :TYPE \"TXT\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME :WILD :TYPE \"abc\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY :WILD :NAME NIL :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME NIL :TYPE :WILD :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME NIL :TYPE NIL :VERSION :WILD) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY NIL :NAME NIL :TYPE NIL :VERSION :NEWEST) #S(STANDARD-OUTPUT-STREAM :BUFFER \"\") #S(STANDARD-INPUT-STREAM :STRING \"\" :POSITION 0) #S(TWO-WAY-STREAM :INPUT-STREAM #S(STANDARD-INPUT-STREAM :STRING \"\" :POSITION 0) :OUTPUT-STREAM #S(STANDARD-OUTPUT-STREAM :BUFFER \"\")) #S(STANDARD-OUTPUT-STREAM :BUFFER \"\") #S(READTABLE :CASE :UPCASE :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :COUNT 8 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :COUNT 1 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1)) #S(READTABLE :CASE :UPCASE :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\( #\\) #\\' #\\` #\\, #\\; #\\\" #\\#) :COUNT 8 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :COUNT 1 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1)) #S(FOO-STRUCTURE :X 1 :Y CL-TEST::A :Z NIL) #S(FOO-STRUCTURE :X 1 :Y CL-TEST::A :Z NIL) #S(BAR-STRUCTURE :X 1 :Y CL-TEST::A :Z NIL) #<Function> #<Function CAR> #<Function APPEND> #<Function> #<Function> #<Function MEANINGLESS-USER-FUNCTION-FOR-UNIVERSE> #<Function MEANINGLESS-USER-GENERIC-FUNCTION-FOR-UNIVERSE> #<Function> #<Function> #S(RANDOM-STATE :SEED 8695672930889959) #<STANDARD-METHOD CL-TEST::MEANINGLESS-USER-GENERIC-FUNCTION-FOR-UNIVERSE (#<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER>)>))"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.1",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.2",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.3",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.4",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.5",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.6",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.7",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.8",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.9",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.10",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.11",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.12",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH.ERROR.13",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.4",
+          "reason": "invalid number of arguments for VECTOR-PUSH-EXTEND: 3"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.6",
+          "reason": "invalid number of arguments for VECTOR-PUSH-EXTEND: 3"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.8",
+          "reason": "invalid number of arguments for VECTOR-PUSH-EXTEND: 3"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.10",
+          "reason": "invalid number of arguments for VECTOR-PUSH-EXTEND: 3"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.12",
+          "reason": "invalid number of arguments for VECTOR-PUSH-EXTEND: 3"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.14",
+          "reason": "invalid number of arguments for VECTOR-PUSH-EXTEND: 3"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.16",
+          "reason": "invalid number of arguments for VECTOR-PUSH-EXTEND: 3"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.18",
+          "reason": "invalid number of arguments for VECTOR-PUSH-EXTEND: 3"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.20",
+          "reason": "invalid number of arguments for VECTOR-PUSH-EXTEND: 3"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.22",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.24",
+          "reason": "invalid number of arguments for VECTOR-PUSH-EXTEND: 3"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.26",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.28",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "VECTOR-PUSH-EXTEND.30",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "BIT-AND.17",
+          "reason": "expected (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 0) (0 1))); actual (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 1) (0 1)))"
+        },
+        {
+          "test": "BIT-AND.18",
+          "reason": "expected (#*00010011 #2A((0 0) (0 1)) #2A((0 0) (1 1)) #2A((0 0) (0 1))); actual (#*01010011 #1=#2A((0 1) (0 1)) #2A((0 0) (1 1)) #1#)"
+        },
+        {
+          "test": "BIT-AND.19",
+          "reason": "expected (#*010100110001 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 0) (0 1))); actual (#*010100110101 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 1) (0 1)))"
+        },
+        {
+          "test": "BIT-ANDC1.17",
+          "reason": "expected (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 0) (1 0))); actual (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 0) (0 0)))"
+        },
+        {
+          "test": "BIT-ANDC1.18",
+          "reason": "expected (#*00100011 #2A((0 0) (1 0)) #2A((0 0) (1 1)) #2A((0 0) (1 0))); actual (#*00000011 #1=#2A((0 0) (0 0)) #2A((0 0) (1 1)) #1#)"
+        },
+        {
+          "test": "BIT-ANDC1.19",
+          "reason": "expected (#*010100110010 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 0) (1 0))); actual (#*010100110000 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 0) (0 0)))"
+        },
+        {
+          "test": "BIT-ANDC1.RANDOM.1",
+          "reason": "The function LOGANDC1 is undefined"
+        },
+        {
+          "test": "BIT-ANDC2.17",
+          "reason": "expected (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 1) (0 0))); actual (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 0) (0 0)))"
+        },
+        {
+          "test": "BIT-ANDC2.18",
+          "reason": "expected (#*01000011 #2A((0 1) (0 0)) #2A((0 0) (1 1)) #2A((0 1) (0 0))); actual (#*00000011 #1=#2A((0 0) (0 0)) #2A((0 0) (1 1)) #1#)"
+        },
+        {
+          "test": "BIT-ANDC2.19",
+          "reason": "expected (#*010100110100 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 1) (0 0))); actual (#*010100110000 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 0) (0 0)))"
+        },
+        {
+          "test": "BIT-ANDC2.RANDOM.1",
+          "reason": "The function LOGANDC2 is undefined"
+        },
+        {
+          "test": "BIT-EQV.17",
+          "reason": "expected (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 0) (0 1))); actual (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 1) (1 1)))"
+        },
+        {
+          "test": "BIT-EQV.18",
+          "reason": "expected (#*10010011 #2A((1 0) (0 1)) #2A((0 0) (1 1)) #2A((1 0) (0 1))); actual (#*11110011 #1=#2A((1 1) (1 1)) #2A((0 0) (1 1)) #1#)"
+        },
+        {
+          "test": "BIT-EQV.19",
+          "reason": "expected (#*010100111001 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 0) (0 1))); actual (#*010100111111 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 1) (1 1)))"
+        },
+        {
+          "test": "BIT-EQV.RANDOM.1",
+          "reason": "The function LOGEQV is undefined"
+        },
+        {
+          "test": "BIT-IOR.17",
+          "reason": "expected (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 1) (1 1))); actual (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 1) (0 1)))"
+        },
+        {
+          "test": "BIT-IOR.18",
+          "reason": "expected (#*01110011 #2A((0 1) (1 1)) #2A((0 0) (1 1)) #2A((0 1) (1 1))); actual (#*01010011 #1=#2A((0 1) (0 1)) #2A((0 0) (1 1)) #1#)"
+        },
+        {
+          "test": "BIT-IOR.19",
+          "reason": "expected (#*010100110111 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 1) (1 1))); actual (#*010100110101 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 1) (0 1)))"
+        },
+        {
+          "test": "BIT-IOR.RANDOM.1",
+          "reason": "The function LOGIOR is undefined"
+        },
+        {
+          "test": "BIT-NAND.17",
+          "reason": "expected (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 1) (1 0))); actual (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 0) (1 0)))"
+        },
+        {
+          "test": "BIT-NAND.18",
+          "reason": "expected (#*11100011 #2A((1 1) (1 0)) #2A((0 0) (1 1)) #2A((1 1) (1 0))); actual (#*10100011 #1=#2A((1 0) (1 0)) #2A((0 0) (1 1)) #1#)"
+        },
+        {
+          "test": "BIT-NAND.19",
+          "reason": "expected (#*010100111110 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 1) (1 0))); actual (#*010100111010 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 0) (1 0)))"
+        },
+        {
+          "test": "BIT-NAND.RANDOM.1",
+          "reason": "The function LOGNAND is undefined"
+        },
+        {
+          "test": "BIT-NOR.17",
+          "reason": "expected (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 0) (0 0))); actual (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 0) (1 0)))"
+        },
+        {
+          "test": "BIT-NOR.18",
+          "reason": "expected (#*10000011 #2A((1 0) (0 0)) #2A((0 0) (1 1)) #2A((1 0) (0 0))); actual (#*10100011 #1=#2A((1 0) (1 0)) #2A((0 0) (1 1)) #1#)"
+        },
+        {
+          "test": "BIT-NOR.19",
+          "reason": "expected (#*010100111000 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 0) (0 0))); actual (#*010100111010 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 0) (1 0)))"
+        },
+        {
+          "test": "BIT-NOR.RANDOM.1",
+          "reason": "The function LOGNOR is undefined"
+        },
+        {
+          "test": "BIT-ORC1.17",
+          "reason": "expected (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 0) (1 1))); actual (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 1) (1 1)))"
+        },
+        {
+          "test": "BIT-ORC1.18",
+          "reason": "expected (#*10110011 #2A((1 0) (1 1)) #2A((0 0) (1 1)) #2A((1 0) (1 1))); actual (#*11110011 #1=#2A((1 1) (1 1)) #2A((0 0) (1 1)) #1#)"
+        },
+        {
+          "test": "BIT-ORC1.19",
+          "reason": "expected (#*010100111011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 0) (1 1))); actual (#*010100111111 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 1) (1 1)))"
+        },
+        {
+          "test": "BIT-ORC1.RANDOM.1",
+          "reason": "The function LOGORC1 is undefined"
+        },
+        {
+          "test": "BIT-ORC2.17",
+          "reason": "expected (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 1) (0 1))); actual (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 1) (1 1)))"
+        },
+        {
+          "test": "BIT-ORC2.18",
+          "reason": "expected (#*11010011 #2A((1 1) (0 1)) #2A((0 0) (1 1)) #2A((1 1) (0 1))); actual (#*11110011 #1=#2A((1 1) (1 1)) #2A((0 0) (1 1)) #1#)"
+        },
+        {
+          "test": "BIT-ORC2.19",
+          "reason": "expected (#*010100111101 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 1) (0 1))); actual (#*010100111111 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((1 1) (1 1)))"
+        },
+        {
+          "test": "BIT-ORC2.RANDOM.1",
+          "reason": "The function LOGORC2 is undefined"
+        },
+        {
+          "test": "BIT-XOR.17",
+          "reason": "expected (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 1) (1 0))); actual (#*01010011 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 0) (0 0)))"
+        },
+        {
+          "test": "BIT-XOR.18",
+          "reason": "expected (#*01100011 #2A((0 1) (1 0)) #2A((0 0) (1 1)) #2A((0 1) (1 0))); actual (#*00000011 #1=#2A((0 0) (0 0)) #2A((0 0) (1 1)) #1#)"
+        },
+        {
+          "test": "BIT-XOR.19",
+          "reason": "expected (#*010100110110 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 1) (1 0))); actual (#*010100110000 #2A((0 1) (0 1)) #2A((0 0) (1 1)) #2A((0 0) (0 0)))"
+        },
+        {
+          "test": "BIT-XOR.RANDOM.1",
+          "reason": "The function LOGXOR is undefined"
+        },
+        {
+          "test": "BIT-NOT.15",
+          "reason": "expected (#2A((1 0) (0 1)) #*000110100100 #2A((0 1) (1 0)) #2A((1 0) (0 1))); actual (#1=#2A((1 1) (1 0)) #*000110111000 #2A((0 1) (1 0)) #1#)"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "",
+      "pendingTest": null,
+      "currentFile": "arrays/simple-bit-vector-p.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 2022,
+  "fail": 251,
+  "complete": true,
+  "passRate": 88.95732512098549,
+  "finishedAt": "2026-11-03T21:09:40.851Z",
+  "runtimeNote": "Complete four-category measurement after package, displaced-array, NAME-CHAR, hash-iterator, and MACROLET fixes, before the FORMAT implementation. This is not a full-suite rate."
+}

@@ -1,0 +1,42 @@
+;;; Regenerate with: sbcl --script tests/ansi/generate-manifest.lisp > tests/ansi/manifest.json
+;;; Read (never evaluate) the pinned upstream loaders under Valtan's features.
+(require :asdf)
+(let* ((root (truename (merge-pathnames "../../submodules/ansi-test/"
+                                       (uiop:pathname-directory-pathname *load-truename*))))
+       (*features* '(:valtan))
+       (*read-eval* nil))
+  (labels ((calls (relative)
+             (let ((result nil))
+               (labels ((walk (form)
+                          (when (consp form)
+                            (if (and (symbolp (car form))
+                                     (member (symbol-name (car form))
+                                             '("LOAD" "COMPILE-AND-LOAD" "COMPILE-AND-LOAD*")
+                                             :test #'string=))
+                                (progn
+                                  (assert (stringp (second form)))
+                                  (push (list (symbol-name (car form)) (second form)) result))
+                                (mapc #'walk form)))))
+                 (with-open-file (in (merge-pathnames relative root))
+                   (loop for form = (read in nil in) until (eq form in) do (walk form))))
+               (nreverse result)))
+           (expand-loader (relative &optional base)
+             (loop for (kind name) in (calls relative)
+                   for target = (if (string= kind "COMPILE-AND-LOAD*")
+                                    (concatenate 'string "auxiliary/" name)
+                                    (enough-namestring
+                                     (merge-pathnames name (merge-pathnames (or base relative) root)) root))
+                   do (assert (probe-file (merge-pathnames target root)))
+                   append (if (string= (file-namestring target) "load.lsp")
+                              (expand-loader target (or base relative))
+                              (list target)))))
+    (write-string "{")
+    (loop for (kind loader) in (calls "gclload2.lsp") for first = t then nil
+          do (assert (string= kind "LOAD"))
+             (unless first (write-string ","))
+             (format t "~%  ~S: [" (subseq loader 0 (position #\/ loader)))
+             (loop for file in (expand-loader loader) for first-file = t then nil
+                   do (unless first-file (write-string ","))
+                      (format t "~%    ~S" file))
+             (format t "~%  ]"))
+    (format t "~%}~%")))

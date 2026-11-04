@@ -4,7 +4,9 @@ import {
 import {
     S_nil,
     toLispBoolean,
-    S_symbol
+    S_symbol,
+    S_setf,
+    S_fdefinition_setf
 } from './header';
 import {
     typeError,
@@ -13,7 +15,8 @@ import {
     undefinedFunction,
 } from './error';
 import {
-    makeCons
+    makeCons,
+    isCons
 } from './cons';
 
 class LispSymbol {
@@ -27,6 +30,7 @@ class LispSymbol {
         this.value = null;
         this.func = null;
         this.plist = S_nil;
+        this.compilerProperties = new Map();
     }
 
     isBound() {
@@ -34,7 +38,10 @@ class LispSymbol {
     }
 
     isFBound() {
-        return this.func !== null;
+        return this.func !== null ||
+            (this.compilerProperties.has('MACRO') && this.compilerProperties.get('MACRO') !== S_nil) ||
+            (this.compilerProperties.has('TRANSFORM') && this.compilerProperties.get('TRANSFORM') !== S_nil) ||
+            (this.compilerProperties.has('SPECIAL-OPERATOR') && this.compilerProperties.get('SPECIAL-OPERATOR') !== S_nil);
     }
 
     getFunction() {
@@ -83,6 +90,7 @@ export function setSymbolValue(symbol, value) {
 }
 
 export function setSymbolFunction(symbol, func) {
+    symbol.compilerProperties.delete('MACRO');
     symbol.func = func;
     func.lisp_name = symbol.name;
     symbol.func.lisp_symbol = symbol;
@@ -117,6 +125,7 @@ export function CL_setSymbolPlist(symbol, plist) {
 }
 
 export function CL_put(symbol, key, value) {
+    checkSymbol(symbol);
     for (let plist = symbol.plist; plist !== S_nil; plist = plist.cdr.cdr) {
         if (plist.car === key) {
             plist.cdr.car = value;
@@ -127,12 +136,40 @@ export function CL_put(symbol, key, value) {
     return values1(S_nil);
 }
 
+export function CL_compilerProperty(symbol, key) {
+    checkSymbol(symbol);
+    return values1(symbol.compilerProperties.get(key.name) ?? S_nil);
+}
+
+export function CL_setCompilerProperty(symbol, key, value) {
+    checkSymbol(symbol);
+    symbol.compilerProperties.set(key.name, value);
+    if (key.name === 'MACRO' && value !== S_nil) symbol.func = null;
+    return values1(value);
+}
+
 export function CL_boundp(x) {
     checkSymbol(x);
     return values1(toLispBoolean(x.isBound()));
 }
 
+function setfFunctionCell(name, setfSymbol, setfKey) {
+    if (isCons(name) && name.car === setfSymbol && isCons(name.cdr) &&
+        name.cdr.cdr === S_nil && name.cdr.car instanceof LispSymbol) {
+        for (let plist = name.cdr.car.plist; plist !== S_nil; plist = plist.cdr.cdr) {
+            if (plist.car === setfKey) return plist.cdr;
+        }
+        return null;
+    }
+    checkSymbol(name);
+    return null;
+}
+
 export function CL_fboundp(x) {
+    if (isCons(x)) {
+        const cell = setfFunctionCell(x, S_setf, S_fdefinition_setf);
+        return values1(toLispBoolean(cell !== null && cell.car !== S_nil));
+    }
     checkSymbol(x);
     return values1(toLispBoolean(x.isFBound()));
 }
@@ -149,6 +186,11 @@ export function CL_symbolValue(symbol) {
 
 export function CL_symbolFunction(symbol) {
     checkSymbol(symbol);
+    if (symbol.func === null && symbol.isFBound()) {
+        const descriptor = ['MACRO', 'TRANSFORM'].map(key => symbol.compilerProperties.get(key))
+            .find(value => value !== undefined && value !== S_nil);
+        return values1(descriptor || symbol);
+    }
     return values1(symbol.getFunction());
 }
 
@@ -175,7 +217,13 @@ export function CL_makunbound(symbol) {
 }
 
 export function CL_fmakunbound(symbol) {
+    if (isCons(symbol)) {
+        const cell = setfFunctionCell(symbol, S_setf, S_fdefinition_setf);
+        if (cell !== null) cell.car = S_nil;
+        return values1(symbol);
+    }
     checkSymbol(symbol);
     symbol.func = null;
+    symbol.compilerProperties.delete('MACRO');
     return values1(symbol);
 }

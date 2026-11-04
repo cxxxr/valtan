@@ -5,8 +5,12 @@
 (defvar *require-modules* '())
 (defvar *export-modules* '())
 (defvar *lexenv* nil)
-(defvar *compile-level* -1)
+(defvar *compile-level* 0)
+(defvar *file-compilation-p* t)
 (defvar *macro-definitions* '())
+(defvar *macroexpansion-environment* nil)
+(defvar *macroexpansion-form* nil)
+(defvar *local-macro-compilation-environment* nil)
 
 (defun toplevel-p (&optional (level *compile-level*))
   (>= 0 level))
@@ -21,7 +25,7 @@
   (make-binding :kind :function
                 :name symbol
                 :init-value init-value
-                :id (genvar symbol)))
+                :id (genvar (if (consp symbol) (second symbol) symbol))))
 
 (defun make-macro-binding (name value)
   (make-binding :kind :macro
@@ -62,35 +66,38 @@
          (setf (gethash ',name *pass1-form-table*) ',fn-name)))))
 
 (defun get-macro (symbol)
-  (get symbol 'macro))
+  (*:compiler-property symbol 'macro))
 
 (defun (setf get-macro) (form symbol)
-  (setf (get symbol 'macro) form))
+  (*:set-compiler-property symbol 'macro form))
 
 (defun get-symbol-macro (symbol)
-  (get symbol 'symbol-macro))
+  (multiple-value-bind (indicator value tail)
+      (get-properties (symbol-plist symbol) '(symbol-macro))
+    (declare (ignore indicator))
+    (values value (not (null tail)))))
 
 (defun (setf get-symbol-macro) (value symbol)
   (setf (get symbol 'symbol-macro) value))
 
 (defun special-p (symbol)
-  (get symbol 'special))
+  (*:compiler-property symbol 'special))
 
 (defun (setf special-p) (value symbol)
-  (setf (get symbol 'special) value))
+  (*:set-compiler-property symbol 'special value))
 
 (defun constant-p (symbol)
-  (get symbol 'constant))
+  (*:compiler-property symbol 'constant))
 
 (defun (setf constant-p) (value symbol)
-  (setf (get symbol 'constant) value))
+  (*:set-compiler-property symbol 'constant value))
 
 (defun lookup (symbol types &optional (bindings *lexenv*))
   (dolist (binding bindings)
     (when (and (if (consp types)
                    (member (binding-kind binding) types)
                    (eq types (binding-kind binding)))
-               (eq symbol (binding-name binding)))
+               (equal symbol (binding-name binding)))
       (return binding))))
 
 (defun extend-lexenv (bindings lexenv)
@@ -117,7 +124,7 @@
              (compile-error "Bad lambda list: ~S" lambda-list))
            (check-variable (x)
              (when (or (not (variable-symbol-p x))
-                       (member x '(&rest &body &optional &key)))
+                       (member x lambda-list-keywords))
                (lambda-list-error)))
            (add-optional-vars (kind arg add-fn)
              (cond ((symbolp arg)
@@ -174,6 +181,7 @@
           (state nil)
           (optionals '())
           (keys '())
+          (auxs '())
           (optional-p nil)
           (key-p nil)
           (allow-other-keys nil))
@@ -182,10 +190,19 @@
         (when (atom arg*)
           (lambda-list-error))
         (let ((arg (car arg*)))
-          (cond ((eq arg '&allow-other-keys)
+          (cond ((eq arg '&aux)
+                 (when (eq state :aux) (lambda-list-error))
+                 (setf state :aux))
+                ((eq state :aux)
+                 (let ((parameter (if (symbolp arg) (list arg nil) arg)))
+                   (unless (and (proper-list-p parameter) (<= 1 (length parameter) 2))
+                     (lambda-list-error))
+                   (check-variable (first parameter))
+                   (push (list (first parameter) (second parameter)) auxs)))
+                ((eq arg '&allow-other-keys)
                  (unless (eq state :key)
                    (lambda-list-error))
-                 (unless (null (cdr arg*))
+                 (unless (or (null (cdr arg*)) (eq (cadr arg*) '&aux))
                    (lambda-list-error))
                  (setf allow-other-keys t))
                 ((eq arg '&key)
@@ -225,26 +242,28 @@
                 :optionals optionals
                 :rest-var rest-var
                 :keys keys
+                :auxs (nreverse auxs)
                 :min (length vars)
-                :max (cond (rest-var nil)
+                :max (cond ((or rest-var key-p) nil)
                            (t (+ min
                                  (length optionals)
                                  (* 2 (length keys)))))
-                :allow-other-keys allow-other-keys)))
+                :allow-other-keys allow-other-keys
+                :keyp key-p)))
         (let ((all-vars (collect-variables parsed-lambda-list)))
           (when (duplicate-var-p all-vars)
             (lambda-list-error)))
         parsed-lambda-list))))
 
 (defun get-transform (symbol)
-  (get symbol 'transform))
+  (*:compiler-property symbol 'transform))
 
 (defun transform-symbol-p (symbol)
   (get-transform symbol))
 
 (defmacro def-transform (name lambda-list &body body)
-  `(setf (get ',name 'transform)
-         (lambda ,lambda-list ,@body)))
+  `(*:set-compiler-property ',name 'transform
+                           (lambda ,lambda-list ,@body)))
 
 (def-transform defun (name lambda-list &rest body)
   (cond ((and (consp name)
@@ -255,51 +274,65 @@
          (let ((gensyms (gensym "GENSYMS"))
                (g-args (gensym "ARGS"))
                (g-store (gensym "STORE"))
-               (g-setter (gensym "SETTER"))
                (g-getter (gensym "GETTER"))
-               (setf-fn (intern (format nil "(SETF ~A)" (second name))
-                                (symbol-package (second name)))))
+               (setf-fn (if (symbol-package (second name))
+                            (intern (format nil "(SETF ~A)" (second name))
+                                    (symbol-package (second name)))
+                            (make-symbol (format nil "(SETF ~A)" (second name))))))
            `(progn
-              (defun ,setf-fn ,lambda-list ,@body)
+              (defun ,setf-fn ,lambda-list
+                ,@(multiple-value-bind (forms declares docstring) (parse-body body t)
+                    (append (when docstring (list docstring))
+                            (list `(declare ,@declares)
+                                  `(block ,(second name) ,@forms)))))
               (define-setf-expander ,(second name) (&rest ,g-args)
                 (let ((,gensyms (mapcar (lambda (x) (declare (ignore x)) (gensym))
                                         ,g-args))
                       (,g-store (gensym "G-STORE"))
-                      (,g-setter ',setf-fn)
                       (,g-getter ',(second name)))
                   (values ,gensyms
                           ,g-args
                           (list ,g-store)
-                          (list* ,g-setter ,g-store ,gensyms)
+                          (list* 'funcall
+                                 (list 'fdefinition (list 'quote (list 'setf ,g-getter)))
+                                 ,g-store ,gensyms)
                           (list* ,g-getter ,gensyms))))
               (*:put ',(second name) '*:fdefinition-setf #',setf-fn)
               ',name)))
         ((variable-symbol-p name)
          (if (toplevel-p)
              `(*:%defun ,name ,lambda-list ,@body)
-             `(*:fset ',name
-                      (lambda ,lambda-list
-                        (block ,name ,@(parse-body body t))))))
+             `(progn
+                (*:fset ',name
+                         (lambda ,lambda-list
+                           ,@(multiple-value-bind (forms declares docstring) (parse-body body t)
+                               (declare (ignore docstring))
+                               `((declare ,@declares) (block ,name ,@forms)))))
+                ',name)))
         (t
          (compile-error "The NAME argument to DEFUN, ~S, is not a function name." name))))
 
-(def-transform defmacro (name lambda-list &rest body)
+(defun macro-expander-lambda (name lambda-list body)
   (multiple-value-bind (body declares docstring)
       (parse-body body t)
     (declare (ignore docstring))
-    ;; Extract &ENVIRONMENT from lambda-list since cl:destructuring-bind doesn't support it
+    ;; Bind top-level &WHOLE to the original call and &ENVIRONMENT to the
+    ;; expansion environment; destructure only the remaining arguments.
     ;; Handle dotted pairs like (a b . rest) properly
     (let ((clean-lambda-list nil)
           (env-var nil)
+          (whole-var nil)
           (rest-var nil))
       (do ((ll lambda-list (if (consp ll) (cdr ll) nil)))
           ((atom ll)
            ;; Handle dotted pair: (a b . rest) -> ll is 'rest at the end
            (when ll (setf rest-var ll)))
         (cond
-          ((eq (car ll) '&environment)
+          ((member (car ll) '(&environment &whole))
            (when (and (consp (cdr ll)) (cdr ll))
-             (setf env-var (cadr ll))
+             (if (eq (car ll) '&environment)
+                 (setf env-var (cadr ll))
+                 (setf whole-var (cadr ll)))
              (setf ll (cdr ll))))  ; skip the variable (loop will advance past env-var)
           (t
            (push (car ll) clean-lambda-list))))
@@ -308,19 +341,32 @@
       (when rest-var
         (setf clean-lambda-list (nconc clean-lambda-list rest-var)))
       (let* ((args (gensym))
-             ;; If there's an &ENVIRONMENT var, bind it to NIL
              (inner-body (if env-var
-                             `(let ((,env-var nil))
+                             `(let ((,env-var *macroexpansion-environment*))
                                 (destructuring-bind ,clean-lambda-list ,args
                                   (declare ,@declares)
-                                  ,@body))
+                                  (block ,name ,@body)))
                              `(destructuring-bind ,clean-lambda-list ,args
                                 (declare ,@declares)
-                                ,@body)))
-             (fn `(lambda (&rest ,args) ,inner-body)))
-        (setf (get-macro name) fn)
-        (setf *macro-definitions* (nconc *macro-definitions* (list name)))
-        `',name))))
+                                (block ,name ,@body))))
+             (fn `(lambda (&rest ,args)
+                    ,(if whole-var
+                         (if (listp whole-var)
+                             `(destructuring-bind ,whole-var *macroexpansion-form* ,inner-body)
+                             `(let ((,whole-var *macroexpansion-form*)) ,inner-body))
+                         inner-body))))
+        fn))))
+
+(def-transform defmacro (name lambda-list &rest body)
+  (let ((expander (macro-expander-lambda name lambda-list body)))
+    (if (toplevel-p)
+        (progn
+          (setf (get-macro name) expander)
+          (setf *macro-definitions* (nconc *macro-definitions* (list name)))
+          `',name)
+        `(progn
+           (setf (get-macro ',name) ,expander)
+           ',name))))
 
 (def-transform *:defmacro* (name lambda-list &rest body)
   (multiple-value-bind (body declares docstring)
@@ -351,7 +397,7 @@
         `(if (boundp ',var) nil (*:%set ',var ,value)))
      ,(when docp
         `(setf (documentation ',var 'variable) ,doc))
-     (*:put ',var 'special t)
+     (*:set-compiler-property ',var 'special t)
      ',var))
 
 (def-transform defparameter (var value &optional (doc nil docp))
@@ -360,7 +406,7 @@
      (*:%set ',var ,value)
      ,(when docp
         `(setf (documentation ',var 'variable) ,doc))
-     (*:put ',var 'special t)
+     (*:set-compiler-property ',var 'special t)
      ',var))
 
 (def-transform defconstant (name value &optional (doc nil docp))
@@ -369,11 +415,17 @@
      (*:%set ',name ,value)
      ,(when docp
         `(setf (documentation ',name 'variable) ,doc))
-     (*:put ',name 'constant t)
+     (*:set-compiler-property ',name 'constant t)
      ',name))
 
 (def-transform *:backquote (x)
   (expand-backquote x))
+
+(def-transform progv (symbols values &rest body)
+  `(system:call-with-progv ,symbols ,values (lambda () ,@body)))
+
+(def-transform throw (tag result)
+  `(system:throw-values ,tag (multiple-value-list ,result)))
 
 (defun pass1-const (x return-value-p)
   (make-hir 'const return-value-p nil x))
@@ -387,7 +439,12 @@
     (cond ((js-symbol-p symbol)
            (js-symbol-to-ref-form symbol return-value-p))
           ((setq binding (constant-p symbol))
-           (pass1-const (binding-init-value binding) return-value-p))
+           ;; Cross-compiled constants carry a marker, whereas constants seen
+           ;; during compilation carry their binding and initialization value.
+           (pass1-const (if (eq binding t)
+                           (symbol-value symbol)
+                           (binding-init-value binding))
+                        return-value-p))
           (t
            (let ((binding (lookup symbol '(:variable :special))))
              (count-if-used binding)
@@ -441,8 +498,9 @@
                (push (make-variable-binding symbol :special-p t)
                      *lexenv*)))))
       ((optimize))
-      ((inline))
-      ((dynamic-extent))
+      ;; Function type declarations constrain calls; they do not declare
+      ;; variables. We currently emit no optimization based on FTYPE.
+      ((inline notinline dynamic-extent ignore ignorable declaration ftype))
       (otherwise
        (multiple-value-bind (type vars)
            (if (eq 'type (first spec))
@@ -450,39 +508,46 @@
                (values (first spec) (cdr spec)))
          (dolist (var vars)
            (let ((binding (lookup var '(:variable :special) *lexenv*)))
-             (if binding
-                 (setf (binding-var-type binding) type)
-                 (compile-error "invalid declaration specifier: ~S" spec))))))))
+             (when binding
+               (setf (binding-var-type binding) type))))))))
   *lexenv*)
 
-(defun pass1-lambda-list (parsed-lambda-list)
+(defun make-parameter-binding (name declarations)
+  (make-variable-binding
+   name :special-p (or (special-p name)
+                       (some (lambda (declaration)
+                               (and (eq (car declaration) 'special)
+                                    (member name (cdr declaration))))
+                             declarations))))
+
+(defun pass1-lambda-list (parsed-lambda-list &optional declarations)
   (let ((vars (parsed-lambda-list-vars parsed-lambda-list))
         (rest-var (parsed-lambda-list-rest-var parsed-lambda-list))
         (inner-lexenv '()))
     (setf (parsed-lambda-list-vars parsed-lambda-list)
           (mapcar (lambda (var)
-                    (let ((binding (make-variable-binding var)))
+                    (let ((binding (make-parameter-binding var declarations)))
                       (push binding inner-lexenv)
                       binding))
                   vars))
     (flet ((f (opt)
-             (let ((binding (make-variable-binding (first opt))))
+             (let ((binding (make-parameter-binding (first opt) declarations)))
                (setf (first opt) binding)
                (setf (second opt)
                      (let ((*lexenv* (extend-lexenv inner-lexenv *lexenv*)))
                        (pass1 (second opt) t nil)))
                (push binding inner-lexenv))
              (when (third opt)
-               (let ((binding (make-variable-binding (third opt))))
+               (let ((binding (make-parameter-binding (third opt) declarations)))
                  (setf (third opt) binding)
                  (push binding inner-lexenv)))))
       (mapc #'f (parsed-lambda-list-optionals parsed-lambda-list))
-      (mapc #'f (parsed-lambda-list-keys parsed-lambda-list)))
-    (when rest-var
-      (let ((binding (make-variable-binding rest-var)))
-        (push binding inner-lexenv)
-        (setf (parsed-lambda-list-rest-var parsed-lambda-list)
-              binding)))
+      (when rest-var
+        (let ((binding (make-parameter-binding rest-var declarations)))
+          (push binding inner-lexenv)
+          (setf (parsed-lambda-list-rest-var parsed-lambda-list) binding)))
+      (mapc #'f (parsed-lambda-list-keys parsed-lambda-list))
+      (mapc #'f (parsed-lambda-list-auxs parsed-lambda-list)))
     inner-lexenv))
 
 (defun pass1-lambda (form return-value-p)
@@ -498,7 +563,7 @@
         (multiple-value-bind (body declares docstring)
             (parse-body body t)
           (declare (ignore docstring))
-          (let* ((inner-lexenv (pass1-lambda-list parsed-lambda-list))
+          (let* ((inner-lexenv (pass1-lambda-list parsed-lambda-list declares))
                  (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
                  (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
             (set-hir-position
@@ -512,9 +577,10 @@
                                          (make-hir 'progn t t (pass1-forms body t t)))))))))))
 
 (defun %macro-function (symbol)
-  (let ((binding (lookup symbol :macro)))
+  (let ((binding (lookup symbol '(:macro :function))))
     ;; (count-if-used binding)
-    (cond (binding
+    (cond ((and binding (eq (binding-kind binding) :function)) nil)
+          (binding
            (binding-id binding))
           (t
            (if *in-host-runtime*
@@ -531,19 +597,23 @@
 
 (defun %macroexpand-1 (form)
   (cond ((symbolp form)
-         (let ((binding (lookup form :symbol-macro)))
+         (let ((binding (lookup form '(:symbol-macro :variable :special))))
            (count-if-used binding)
            (if binding
-               (values (binding-id binding) t)
-               (let ((expansion (get-symbol-macro form)))
-                 (if expansion
+               (if (eq (binding-kind binding) :symbol-macro)
+                   (values (binding-id binding) t)
+                   (values form nil))
+               (multiple-value-bind (expansion present-p) (get-symbol-macro form)
+                 (if present-p
                      (values expansion t)
                      (values form nil))))))
         ((and (consp form) (symbolp (first form)))
          (let ((position (get-form-position form))
                (function (%macro-function (first form))))
            (if function
-               (let ((expanded-form (apply function (rest form))))
+               (let* ((*macroexpansion-environment* *lexenv*)
+                      (*macroexpansion-form* form)
+                      (expanded-form (apply function (rest form))))
                  (add-source-info* expanded-form position)
                  (values expanded-form t))
                (values form nil))))
@@ -553,7 +623,7 @@
 (defun pass1-call (form return-value-p multiple-values-p)
   (let ((fn (first form))
         (args (rest form)))
-    (cond ((variable-symbol-p fn)
+    (cond ((and (symbolp fn) (not (js-symbol-p fn)))
            (let ((binding (lookup fn :function)))
              (count-if-used binding)
              (cond (binding
@@ -567,9 +637,11 @@
                                          (pass1 arg t nil))
                                        args))))
                    ((transform-symbol-p fn)
-                    (pass1 (apply (get-transform fn) args)
-                           return-value-p
-                           multiple-values-p))
+                    ;; A source transform retains the source form's context.
+                    (let ((*compile-level* (1- *compile-level*)))
+                      (pass1 (apply (get-transform fn) args)
+                             return-value-p
+                             multiple-values-p)))
                    (t
                     (set-hir-position
                      form
@@ -641,6 +713,10 @@
 (def-pass1-form quote ((x) return-value-p multiple-values-p)
   (pass1-const x return-value-p))
 
+(def-pass1-form the ((type value) return-value-p multiple-values-p)
+  (declare (ignore type))
+  (pass1 value return-value-p multiple-values-p))
+
 (def-pass1-form setq ((&whole setq-form &rest args) return-value-p multiple-values-p)
   (if (not (evenp (length args)))
       (compile-error "Setq with odd number of args")
@@ -650,17 +726,15 @@
             (has-symbol-macro nil))
         (do ((check-args args (rest (rest check-args))))
             ((null check-args))
-          (let* ((sym (first check-args))
-                 (value (second check-args))
-                 (binding (and (symbolp sym) (lookup sym :symbol-macro)))
-                 (global-expansion (and (symbolp sym) (not binding) (get-symbol-macro sym))))
-            (if (or binding global-expansion)
-                ;; Expand symbol-macro to its definition
-                (let ((expansion (if binding (binding-id binding) global-expansion)))
+          (let ((sym (first check-args))
+                (value (second check-args)))
+            (multiple-value-bind (expansion expanded-p) (%macroexpand-1 sym)
+              (if expanded-p
+                (progn
                   (setq has-symbol-macro t)
                   (setq expanded-args (nconc expanded-args (list expansion value))))
                 ;; Keep as-is
-                (setq expanded-args (nconc expanded-args (list sym value))))))
+                (setq expanded-args (nconc expanded-args (list sym value)))))))
         (if has-symbol-macro
             ;; Expand to SETF with all symbol-macros expanded
             (pass1 `(setf ,@expanded-args) return-value-p multiple-values-p)
@@ -673,8 +747,9 @@
                 (unless (variable-symbol-p (first args))
                   (compile-error "~S is not a variable" (first args)))
                 (let* ((symbol (first args))
-                       (binding (lookup symbol :variable))
+                       (binding (lookup symbol '(:variable :special)))
                        (value (pass1 (second args) t nil)))
+                  (when (and binding (eq (binding-kind binding) :special)) (setq binding nil))
                   (count-if-used binding)
                   (count-if-used binding t)
                   (push (set-hir-position
@@ -731,6 +806,13 @@
                   nil))))
     ((and (consp thing) (member (first thing) '(lambda *:named-lambda)))
      (pass1-lambda thing return-value-p))
+    ((and (consp thing) (eq (first thing) 'setf)
+          (consp (cdr thing)) (null (cddr thing)) (symbolp (second thing)))
+     (let ((binding (lookup thing :function)))
+       (count-if-used binding)
+       (if binding
+           (set-hir-position function-form (make-hir 'lref return-value-p nil binding))
+           (pass1 `(fdefinition ',thing) return-value-p nil))))
     (t
      (compile-error "~S is not a legal function name" thing))))
 
@@ -751,10 +833,10 @@
               b))
           bindings))
 
-(defun pass1-let-body (let-form bindings body return-value-p multiple-values-p)
+(defun pass1-let-body (let-form bindings body return-value-p multiple-values-p &optional sequential)
   (multiple-value-bind (body declares)
       (parse-body body nil)
-    (let* ((inner-lexenv bindings)
+    (let* ((inner-lexenv (if sequential (reverse bindings) bindings))
            (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
            (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
       (set-hir-position
@@ -776,15 +858,15 @@
 
 (def-pass1-form let* ((&whole let-form bindings &rest body) return-value-p multiple-values-p)
   (setf bindings (check-let-form bindings))
-  (let ((*lexenv* *lexenv*))
+  (let ((*lexenv* *lexenv*) (declarations (nth-value 1 (parse-body body nil))))
     (let ((bindings (mapcar (lambda (b)
-                              (let* ((b (make-variable-binding
-                                         (first b)
-                                         :init-value (pass1 (second b) t nil))))
-                                (push b *lexenv*)
-                                b))
+                              (let* ((init (pass1 (second b) t nil))
+                                     (binding (make-parameter-binding (first b) declarations)))
+                                (setf (binding-init-value binding) init)
+                                (push binding *lexenv*)
+                                binding))
                             bindings)))
-      (pass1-let-body let-form bindings body return-value-p multiple-values-p))))
+      (pass1-let-body let-form bindings body return-value-p multiple-values-p t))))
 
 (defun check-flet-definitions (definitions)
   (unless (listp definitions)
@@ -792,17 +874,26 @@
   (dolist (definition definitions)
     (unless (consp definition)
       (compile-error "Invalid definition form: ~S" definition))
-    (unless (variable-symbol-p (first definition))
+    (unless (or (symbolp (first definition))
+                (and (consp (first definition)) (eq (caar definition) 'setf)
+                     (consp (cdar definition)) (null (cddar definition))
+                     (symbolp (second (first definition)))))
       (compile-error "Illegal function name: ~S" (first definition)))))
 
 (defun parse-flet-definitions (definitions compile-lambda-p)
   (mapcar (lambda (definition)
+            (multiple-value-bind (body declarations docstring)
+                (parse-body (cddr definition) t)
+              (declare (ignore docstring))
             (make-function-binding
              (first definition)
-             :init-value (let ((fn `(lambda ,@(rest definition))))
+             :init-value (let ((fn `(lambda ,(second definition)
+                                     (declare ,@declarations)
+                                     (block ,(if (consp (first definition)) (second (first definition))
+                                                 (first definition)) ,@body))))
                            (if compile-lambda-p
                                (pass1-lambda fn t)
-                               fn))))
+                               fn)))))
           definitions))
 
 (def-pass1-form flet ((&whole flet-form definitions &rest body) return-value-p multiple-values-p)
@@ -827,11 +918,11 @@
     (multiple-value-bind (body declares)
         (parse-body body nil)
       (let* ((inner-lexenv bindings)
-             (*lexenv* (extend-lexenv inner-lexenv *lexenv*))
-             (*lexenv* (pass1-declares declares inner-lexenv *lexenv*)))
+             (*lexenv* (extend-lexenv inner-lexenv *lexenv*)))
         (dolist (b bindings)
           (setf (binding-init-value b)
                 (pass1 (binding-init-value b) t nil)))
+        (setq *lexenv* (pass1-declares declares inner-lexenv *lexenv*))
         (set-hir-position
          labels-form
          (make-hir 'let
@@ -840,25 +931,70 @@
                    bindings
                    (pass1-forms body return-value-p multiple-values-p)))))))
 
+(defun eval-local-macro (form)
+  (if *in-host-runtime*
+      ;; The host EVAL does not understand Valtan binding objects. Recreate its
+      ;; visible macro bindings, without capturing local run-time variables.
+      (let ((symbols nil) (macros nil) (seen-vars nil) (seen-functions nil))
+        (dolist (binding *lexenv*)
+          (let ((name (binding-name binding)))
+            (case (binding-kind binding)
+              ((:variable :special :symbol-macro)
+               (unless (member name seen-vars)
+                 (push name seen-vars)
+                 (when (eq (binding-kind binding) :symbol-macro)
+                   (push (list name (binding-id binding)) symbols))))
+              ((:function :macro)
+               (unless (member name seen-functions)
+                 (push name seen-functions)
+                 (when (eq (binding-kind binding) :macro)
+                   (let ((whole (gensym)) (args (gensym)))
+                     (push `(,name (&whole ,whole &rest ,args)
+                              (let ((*macroexpansion-form* ,whole)
+                                    (*macroexpansion-environment* ',*lexenv*))
+                                (apply ',(binding-id binding) ,args)))
+                           macros))))))))
+        (eval `(symbol-macrolet ,symbols (macrolet ,macros ,form))))
+      ;; This environment is consumed by the immediate compilation only.
+      ;; An EVAL called later by the expander still has a null lexical environment.
+      (let ((*local-macro-compilation-environment* *lexenv*))
+        (eval form))))
+
 (def-pass1-form macrolet ((definitions &rest body) return-value-p multiple-values-p)
   (check-flet-definitions definitions)
   (let ((*lexenv*
           (extend-lexenv (mapcar (lambda (definition)
                                    (make-macro-binding (first definition)
-                                                       (eval `(lambda ,@(rest definition)))))
+                                                       (eval-local-macro (macro-expander-lambda
+                                                              (first definition)
+                                                              (second definition)
+                                                              (cddr definition)))))
                                  definitions)
                          *lexenv*)))
-    (apply #'pass1-progn return-value-p multiple-values-p nil body)))
+    (apply #'pass1-locally return-value-p multiple-values-p nil body)))
 
 (def-pass1-form symbol-macrolet ((definitions &rest body) return-value-p multiple-values-p)
   (check-flet-definitions definitions)
+  (dolist (definition definitions)
+    (let ((name (first definition)))
+      (unless (and (variable-symbol-p name) (not (constant-p name)) (not (special-p name)))
+        (error 'program-error :format-control "Invalid symbol macro name ~S."
+               :format-arguments (list name)))))
+  (multiple-value-bind (forms declarations) (parse-body body nil)
+    (declare (ignore forms))
+    (dolist (declaration declarations)
+      (when (eq (car declaration) 'special)
+        (dolist (name (cdr declaration))
+          (when (assoc name definitions)
+            (error 'program-error :format-control "Symbol macro ~S cannot be SPECIAL."
+                   :format-arguments (list name)))))))
   (let ((*lexenv*
           (extend-lexenv (mapcar (lambda (definition)
                                    (make-symbol-macro-binding (first definition)
                                                               (second definition)))
                                  definitions)
                          *lexenv*)))
-    (apply #'pass1-progn return-value-p multiple-values-p nil body)))
+    (apply #'pass1-locally return-value-p multiple-values-p nil body)))
 
 (def-pass1-form unwind-protect ((&whole unwind-protected-form protected &rest cleanup) return-value-p multiple-values-p)
   (set-hir-position
@@ -984,13 +1120,13 @@
   (pass1-const nil return-value-p))
 
 (def-pass1-form eval-when ((situations &rest body) return-value-p multiple-values-p)
-  (cond ((toplevel-p)
+  (cond ((and *file-compilation-p* (toplevel-p))
          (when (or (member :compile-toplevel situations)
                    (member 'compile situations))
            (eval `(progn ,@body)))
          (if (or (member :load-toplevel situations)
                    (member 'load situations))
-             (pass1-toplevel `(progn ,@body))
+             (pass1-toplevel `(progn ,@body) return-value-p multiple-values-p)
              (pass1-const nil return-value-p)))
         ((or (member :execute situations)
              (member 'eval situations))
@@ -1181,8 +1317,9 @@
             form))
 
 (defun pass1-toplevel (form &optional return-value-p multiple-values-p)
-  (let ((*lexenv* '())
-        (*compile-level* -1))
+  (let ((*lexenv* *local-macro-compilation-environment*)
+        (*local-macro-compilation-environment* nil)
+        (*compile-level* 0))
     (pass1 form return-value-p multiple-values-p)))
 
 (defun pass1-module (file hir-forms export-modules)
@@ -1190,8 +1327,9 @@
 
 (defun pass1-dump-macros (&optional (macro-definitions *macro-definitions*))
   (mapcar (lambda (name)
-            (pass1-toplevel
-             (if (get-symbol-macro name)
-                 `(*:put ',name 'symbol-macro ,(get-symbol-macro name))
-                 `(*:put ',name 'macro ,(get-macro name)))))
+            (multiple-value-bind (expansion present-p) (get-symbol-macro name)
+              (pass1-toplevel
+               (if present-p
+                   `(*:put ',name 'symbol-macro ,expansion)
+                   `(*:set-compiler-property ',name 'macro ,(get-macro name))))))
           macro-definitions))

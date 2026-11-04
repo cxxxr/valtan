@@ -1,0 +1,92 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "a1646fe46bb32ad5f8423f504459ac46c0baae0b2dd9d5502b0d1c29b24a075c",
+  "startedAt": "2026-11-03T22:50:18.915Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "objects/remove-method.lsp",
+      "files": [
+        "auxiliary/defclass-aux.lsp",
+        "objects/remove-method.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 11,
+      "fail": 0,
+      "registered": 11,
+      "expectedRegistered": 11,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/defclass-aux.lsp",
+        "objects/remove-method.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "objects/remove-method.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "objects/compute-applicable-methods.lsp",
+      "files": [
+        "auxiliary/defclass-aux.lsp",
+        "objects/compute-applicable-methods.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 10,
+      "fail": 0,
+      "registered": 10,
+      "expectedRegistered": 10,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/defclass-aux.lsp",
+        "objects/compute-applicable-methods.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "objects/compute-applicable-methods.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 21,
+  "fail": 0,
+  "complete": true,
+  "passRate": 100,
+  "finishedAt": "2026-11-03T22:52:44.290Z"
+}

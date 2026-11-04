@@ -56,10 +56,16 @@
         (do ((i 0 (1+ i))
              (length (apply #'min (mapcar #'length sequences))))
             ((>= i length) nil)
-          (funcall function (mapcar (lambda (s) (elt s i)) sequences))))))
+          ;; Advance list cursors once per element. ELT with an increasing
+          ;; index repeatedly walks each list from its beginning.
+          (funcall function (mapcar (lambda (s) (if (listp s) (car s) (elt s i)))
+                                    sequences))
+          (setq sequences (mapcar (lambda (s) (if (listp s) (cdr s) s))
+                                  sequences))))))
 
 (defun copy-seq (sequence)
   (cond ((listp sequence)
+         (unless (proper-list-p sequence) (type-error sequence '(satisfies proper-list-p)))
          (copy-list sequence))
         ((vectorp sequence)
          (make-array (length sequence)
@@ -68,68 +74,70 @@
         (t
          (type-error sequence 'sequence))))
 
+(defun %check-sequence-index (sequence index)
+  (unless (or (listp sequence) (vectorp sequence)) (type-error sequence 'sequence))
+  (let ((size (length sequence)))
+    (unless (and (integerp index) (<= 0 index) (< index size))
+      (type-error index `(integer 0 (,size)))))
+  index)
+
 (defun elt (sequence index)
-  (cond ((consp sequence)
-         (let ((result (nthcdr index sequence)))
-           (if result
-               (car result)
-               (error "The index ~A is too large." index))))
-        ((vectorp sequence)
-         (aref sequence index))
-        (t
-         (type-error sequence 'sequence))))
+  (%check-sequence-index sequence index)
+  (if (listp sequence) (nth index sequence) (aref sequence index)))
 
 (defun (cl:setf elt) (value sequence index)
-  (cond ((consp sequence)
-         (let ((result (nthcdr index sequence)))
-           (rplaca result value)))
-        ((vectorp sequence)
-         (setf (aref sequence index) value))
-        (t
-         (type-error sequence 'sequence))))
+  (%check-sequence-index sequence index)
+  (if (listp sequence) (rplaca (nthcdr index sequence) value)
+      (setf (aref sequence index) value))
+  value)
 
 (defun fill (sequence item &key (start 0) end)
-  (cond ((listp sequence)
-         (let ((list (nthcdr start sequence)))
-           (do ((list list (cdr list))
-                (start start (1+ start)))
-               ((if end (>= start end) (null list))
-                sequence)
-             (rplaca list item))))
-        ((vectorp sequence)
-         (unless end (setq end (length sequence)))
-         (do ((i start (1+ i)))
-             ((>= i end) sequence)
-           (setf (aref sequence i) item)))
-        (t
-         (type-error sequence 'sequence))))
+  (let* ((size (length sequence)) (end (or end size)))
+    (unless (and (integerp start) (<= 0 start size))
+      (type-error start `(integer 0 ,size)))
+    (unless (and (integerp end) (<= start end size))
+      (type-error end `(integer ,start ,size)))
+    (if (listp sequence)
+        (do ((tail (nthcdr start sequence) (cdr tail)) (i start (1+ i)))
+            ((= i end))
+          (rplaca tail item))
+        (do ((i start (1+ i))) ((= i end)) (setf (aref sequence i) item))))
+  sequence)
 
 (defun make-sequence (result-type size &key (initial-element nil initial-element-p))
-  (setq result-type (canonicalize-type result-type))
-  (let ((name (if (consp result-type) (car result-type) result-type))
-        (args (if (consp result-type) (cdr result-type) nil)))
-    (case name
-      (null
-       (unless (zerop size)
-         (error "The length requested (1) does not match the type restriction in NULL."))
-       nil)
-      ((list cons)
-       (when (and (eq name 'cons) (zerop size))
-         (error "The length requested (0) does not match the type restriction in CONS."))
-       (if initial-element-p
-           (make-list size :initial-element initial-element)
-           (make-list size)))
-      (array
-       (if initial-element-p
-           (make-array size
-                       :initial-element initial-element
-                       :element-type (or (car args) t))
-           (make-array size
-                       :element-type (or (car args) t))))
-      (otherwise
-       (type-error result-type 'sequence)))))
+  (unless (and (integerp size) (>= size 0)) (type-error size '(integer 0 *)))
+  (let* ((type (canonicalize-type result-type))
+         (name (if (consp type) (car type) type))
+         (args (if (consp type) (cdr type) nil))
+         (result
+           (case name
+             (null
+              (unless (zerop size) (type-error size '(integer 0 0)))
+              nil)
+             ((list cons)
+              (when (and (eq name 'cons) (zerop size)) (type-error size '(integer 1 *)))
+              (make-list size :initial-element initial-element))
+             (array
+              (if initial-element-p
+                  (make-array size :initial-element initial-element :element-type (car args))
+                  (make-array size :element-type (car args))))
+             (otherwise (type-error result-type 'sequence)))))
+    (unless (typep result result-type) (type-error result result-type))
+    result))
+
+(defun %sequence-from-list (type list)
+  (let ((result (make-sequence type (length list))))
+    (cond ((listp result)
+           ;; Reuse the already constructed list, including MERGE's splices.
+           (unless (typep list type) (type-error list type))
+           list)
+          (t
+           (do ((tail list (cdr tail)) (i 0 (1+ i))) ((null tail))
+             (setf (aref result i) (car tail)))
+           result))))
 
 (defun subseq-list (list start end)
+  (unless (proper-list-p list) (type-error list '(satisfies proper-list-p)))
   (when (and start
              (< 0 start))
     (setq list (nthcdr (1- start) list))
@@ -177,81 +185,28 @@
   new-subsequence)
 
 (defun map (result-type function sequence &rest more-sequences)
-  (setq result-type (canonicalize-type result-type))
-  (cond ((and (null result-type) (null more-sequences))
-         (map-sequence function sequence nil nil nil nil)
-         nil)
-        ((null result-type)
-         (map-sequences (lambda (args)
-                          (apply function args))
-                        (cons sequence more-sequences))
-         nil)
-        (t
-         (let ((acc '())
-               (length 0))
-           (map-sequences (lambda (args)
-                            (incf length)
-                            (push (apply function args) acc))
-                          (cons sequence more-sequences))
-           (setq acc (nreverse acc))
-           (let ((type-name (if (consp result-type)
-                                (car result-type)
-                                result-type))
-                 (type-args (if (consp result-type)
-                                (cdr result-type)
-                                nil)))
-             (case type-name
-               (null
-                (when acc
-                  (type-error acc 'null))
-                nil)
-               ((list cons)
-                acc)
-               (array
-                (make-array length
-                            :initial-contents acc
-                            :element-type (if type-args
-                                              (car type-args)
-                                              t)))
-               (otherwise
-                (type-error result-type 'sequence))))))))
+  (let ((result nil))
+    (map-sequences (lambda (args)
+                     (let ((value (apply function args)))
+                       (when result-type (push value result))))
+                   (cons sequence more-sequences))
+    (when result-type (%sequence-from-list result-type (nreverse result)))))
 
 (defun map-into (result-sequence function &rest sequences)
-  (cond ((listp result-sequence)
-         (let ((current result-sequence))
-           (block end
-             (map-sequences (lambda (args)
-                              (unless current (return-from end))
-                              (rplaca current
-                                      (apply function args))
-                              (setq current (cdr current)))
-                            sequences))
-           result-sequence))
-        ((vectorp result-sequence)
-         (let* ((i 0)
-                (use-fill-pointer-p
-                  (and (not (listp result-sequence))
-                       (array-has-fill-pointer-p result-sequence)))
-                (size (if use-fill-pointer-p
-                          (array-total-size result-sequence)
-                          (length result-sequence))))
-           (when use-fill-pointer-p
-             (dolist (seq sequences)
-               (let ((len (length seq)))
-                 (when (< len size)
-                   (setq size len)))))
-           (block end
-             (map-sequences (lambda (args)
-                              (when (>= i size) (return-from end))
-                              (setf (aref result-sequence i)
-                                    (apply function args))
-                              (incf i))
-                            sequences))
-           (when use-fill-pointer-p
-             (setf (fill-pointer result-sequence) size)))
-         result-sequence)
-        (t
-         (type-error result-sequence 'sequence))))
+  (let* ((vector (vectorp result-sequence))
+         (size (if vector (array-total-size result-sequence) (length result-sequence)))
+         (cursors (copy-list sequences))
+         (result-tail (unless vector result-sequence)))
+    (dolist (sequence sequences) (setq size (min size (length sequence))))
+    (dotimes (i size)
+      (let* ((args (mapcar (lambda (seq) (if (listp seq) (car seq) (aref seq i))) cursors))
+             (value (apply function args)))
+        (if vector (setf (aref result-sequence i) value)
+            (progn (rplaca result-tail value) (setq result-tail (cdr result-tail))))
+        (setq cursors (mapcar (lambda (seq) (if (listp seq) (cdr seq) seq)) cursors))))
+    (when (and vector (array-has-fill-pointer-p result-sequence))
+      (setf (fill-pointer result-sequence) size))
+    result-sequence))
 
 (defun reduce-list (function list start end key initial-value initial-value-p)
   (setq list (nthcdr start list))
@@ -310,13 +265,14 @@
 
 (defun length (sequence)
   (cond ((listp sequence)
-         (list-length sequence))
+         (or (list-length sequence) (type-error sequence 'sequence)))
         ((vectorp sequence)
          (vector-length sequence))
         (t
          (type-error sequence 'sequence))))
 
 (defun reverse-list (list)
+  (unless (proper-list-p list) (type-error list '(satisfies proper-list-p)))
   (let ((reversed-list '()))
     (dolist (x list)
       (push x reversed-list))
@@ -341,6 +297,7 @@
          (type-error sequence 'sequence))))
 
 (defun nreverse-list (list)
+  (unless (proper-list-p list) (type-error list '(satisfies proper-list-p)))
   (do ((1st (cdr list) (if (endp 1st) 1st (cdr 1st)))
        (2nd list 1st)
        (3rd '() 2nd))
@@ -377,7 +334,8 @@
                     (if (null list1)
                         (nconc (nreverse list3) list2)
                         (nconc (nreverse list3) list1)))
-                 (if (apply-key key (funcall predicate (car list1) (car list2)))
+                 (if (not (funcall predicate (apply-key key (car list2))
+                                            (apply-key key (car list1))))
                      (push (pop list1) list3)
                      (push (pop list2) list3)))))
            (rec (list)
@@ -388,7 +346,7 @@
                       (let* ((middle (floor size 2))
                              (left (stable-sort-list (subseq list 0 middle) predicate key))
                              (right (stable-sort-list (subseq list middle) predicate key)))
-                        (merge* right left)))))))
+                        (merge* left right)))))))
     (rec list)))
 
 (defun stable-sort-vector (vector predicate key)
@@ -427,9 +385,6 @@
                      (rec middle right)
                      (merge* left middle right)))))
       (rec 0 size)
-      (dotimes (i size)
-        (setf (aref vector i)
-              (aref temp i)))
       vector)))
 
 (defun stable-sort (sequence predicate &key key)
@@ -742,28 +697,9 @@
                 x1 (cdr x1))))))
 
 (defun merge (result-type sequence-1 sequence-2 predicate &key key)
-  (let ((list (merge-lists (sequence-to-list sequence-1)
-                           (sequence-to-list sequence-2)
-                           predicate
-                           key)))
-    (setq result-type (canonicalize-type result-type))
-    (let ((name (if (consp result-type) (car result-type) result-type))
-          (args (if (consp result-type) (cdr result-type) nil)))
-      (case name
-        (null
-         (if (null list)
-             list
-             (error 'type-error
-                    :datum list
-                    :expected-type 'null)))
-        ((list cons)
-         list)
-        (array
-         (make-array (length list)
-                     :initial-contents list
-                     :element-type (or (car args) t)))
-        (otherwise
-         (type-error result-type 'sequence))))))
+  (%sequence-from-list result-type
+                       (merge-lists (sequence-to-list sequence-1)
+                                    (sequence-to-list sequence-2) predicate key)))
 
 (defun remove (item sequence &key from-end test test-not (start 0) end count key)
   (delete item (copy-seq sequence)
@@ -984,8 +920,8 @@
 (defun some (function sequence &rest more-sequences)
   (cond ((null more-sequences)
          (map-sequence (lambda (x)
-                         (when (funcall function x)
-                           (return-from some t)))
+                         (let ((value (funcall function x)))
+                           (when value (return-from some value))))
                        sequence
                        nil
                        nil
@@ -994,10 +930,13 @@
          nil)
         (t
          (map-sequences (lambda (args)
-                          (when (apply function args)
-                            (return-from some t)))
+                          (let ((value (apply function args)))
+                            (when value (return-from some value))))
                         (cons sequence more-sequences))
          nil)))
 
 (defun notany (function sequence &rest more-sequences)
   (not (apply #'some function sequence more-sequences)))
+
+(defun notevery (function sequence &rest more-sequences)
+  (not (apply #'every function sequence more-sequences)))

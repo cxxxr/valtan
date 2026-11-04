@@ -1,0 +1,348 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "80b0970f13610d78d766d81d9964ba5b7dd768d2a239689e0ae945da8bde3e7c",
+  "startedAt": "2026-11-04T09:16:31.343Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "sequences",
+      "files": [
+        "auxiliary/search-aux.lsp",
+        "auxiliary/subseq-aux.lsp",
+        "auxiliary/remove-aux.lsp",
+        "auxiliary/remove-duplicates-aux.lsp",
+        "sequences/copy-seq.lsp",
+        "sequences/elt.lsp",
+        "sequences/fill.lsp",
+        "sequences/fill-strings.lsp",
+        "sequences/make-sequence.lsp",
+        "sequences/map.lsp",
+        "sequences/map-into.lsp",
+        "sequences/reduce.lsp",
+        "sequences/count.lsp",
+        "sequences/count-if.lsp",
+        "sequences/count-if-not.lsp",
+        "sequences/reverse.lsp",
+        "sequences/nreverse.lsp",
+        "sequences/sort.lsp",
+        "sequences/stable-sort.lsp",
+        "sequences/length.lsp",
+        "sequences/find.lsp",
+        "sequences/find-if.lsp",
+        "sequences/find-if-not.lsp",
+        "sequences/position.lsp",
+        "sequences/position-if.lsp",
+        "sequences/position-if-not.lsp",
+        "sequences/search-list.lsp",
+        "sequences/search-vector.lsp",
+        "sequences/search-bitvector.lsp",
+        "sequences/search-string.lsp",
+        "sequences/mismatch.lsp",
+        "sequences/replace.lsp",
+        "sequences/subseq.lsp",
+        "sequences/substitute.lsp",
+        "sequences/substitute-if.lsp",
+        "sequences/substitute-if-not.lsp",
+        "sequences/nsubstitute.lsp",
+        "sequences/nsubstitute-if.lsp",
+        "sequences/nsubstitute-if-not.lsp",
+        "sequences/concatenate.lsp",
+        "sequences/merge.lsp",
+        "sequences/remove.lsp",
+        "sequences/remove-duplicates.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 3285,
+      "fail": 2,
+      "registered": 3287,
+      "expectedRegistered": 3287,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/search-aux.lsp",
+        "auxiliary/subseq-aux.lsp",
+        "auxiliary/remove-aux.lsp",
+        "auxiliary/remove-duplicates-aux.lsp",
+        "sequences/copy-seq.lsp",
+        "sequences/elt.lsp",
+        "sequences/fill.lsp",
+        "sequences/fill-strings.lsp",
+        "sequences/make-sequence.lsp",
+        "sequences/map.lsp",
+        "sequences/map-into.lsp",
+        "sequences/reduce.lsp",
+        "sequences/count.lsp",
+        "sequences/count-if.lsp",
+        "sequences/count-if-not.lsp",
+        "sequences/reverse.lsp",
+        "sequences/nreverse.lsp",
+        "sequences/sort.lsp",
+        "sequences/stable-sort.lsp",
+        "sequences/length.lsp",
+        "sequences/find.lsp",
+        "sequences/find-if.lsp",
+        "sequences/find-if-not.lsp",
+        "sequences/position.lsp",
+        "sequences/position-if.lsp",
+        "sequences/position-if-not.lsp",
+        "sequences/search-list.lsp",
+        "sequences/search-vector.lsp",
+        "sequences/search-bitvector.lsp",
+        "sequences/search-string.lsp",
+        "sequences/mismatch.lsp",
+        "sequences/replace.lsp",
+        "sequences/subseq.lsp",
+        "sequences/substitute.lsp",
+        "sequences/substitute-if.lsp",
+        "sequences/substitute-if-not.lsp",
+        "sequences/nsubstitute.lsp",
+        "sequences/nsubstitute-if.lsp",
+        "sequences/nsubstitute-if-not.lsp",
+        "sequences/concatenate.lsp",
+        "sequences/merge.lsp",
+        "sequences/remove.lsp",
+        "sequences/remove-duplicates.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "MERGE.ERROR.3",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MERGE.ERROR.5",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "sequences/remove-duplicates.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 3287,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "types-and-classes",
+      "files": [
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/types-and-class.lsp",
+        "types-and-classes/types-and-class-2.lsp",
+        "types-and-classes/coerce.lsp",
+        "types-and-classes/subtypep.lsp",
+        "types-and-classes/subtypep-integer.lsp",
+        "types-and-classes/subtypep-float.lsp",
+        "types-and-classes/subtypep-rational.lsp",
+        "types-and-classes/subtypep-real.lsp",
+        "types-and-classes/subtypep-cons.lsp",
+        "types-and-classes/subtypep-member.lsp",
+        "types-and-classes/subtypep-eql.lsp",
+        "types-and-classes/subtypep-array.lsp",
+        "types-and-classes/subtypep-function.lsp",
+        "types-and-classes/subtypep-complex.lsp",
+        "types-and-classes/deftype.lsp",
+        "types-and-classes/standard-generic-function.lsp",
+        "types-and-classes/type-of.lsp",
+        "types-and-classes/typep.lsp",
+        "types-and-classes/class-precedence-lists.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 599,
+      "fail": 28,
+      "registered": 627,
+      "expectedRegistered": 627,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/types-and-class.lsp",
+        "types-and-classes/types-and-class-2.lsp",
+        "types-and-classes/coerce.lsp",
+        "types-and-classes/subtypep.lsp",
+        "types-and-classes/subtypep-integer.lsp",
+        "types-and-classes/subtypep-float.lsp",
+        "types-and-classes/subtypep-rational.lsp",
+        "types-and-classes/subtypep-real.lsp",
+        "types-and-classes/subtypep-cons.lsp",
+        "types-and-classes/subtypep-member.lsp",
+        "types-and-classes/subtypep-eql.lsp",
+        "types-and-classes/subtypep-array.lsp",
+        "types-and-classes/subtypep-function.lsp",
+        "types-and-classes/subtypep-complex.lsp",
+        "types-and-classes/deftype.lsp",
+        "types-and-classes/standard-generic-function.lsp",
+        "types-and-classes/type-of.lsp",
+        "types-and-classes/typep.lsp",
+        "types-and-classes/class-precedence-lists.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "TYPES.3",
+          "reason": "expected (NIL); actual (((((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPES.6",
+          "reason": "expected (NIL); actual (((((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPES.8",
+          "reason": "expected (0); actual (7) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "ALL-STANDARD-GENERIC-FUNCTIONS-ARE-INSTANCES-OF-THAT-CLASS",
+          "reason": "expected (NIL); actual (((ADD-METHOD #<Function ADD-METHOD>) (CLASS-NAME #<Function CLASS-NAME>) (COMPUTE-APPLICABLE-METHODS #<Function COMPUTE-APPLICABLE-METHODS>) (FIND-METHOD #<Function FIND-METHOD>) (FUNCTION-KEYWORDS NIL) (MAKE-INSTANCES-OBSOLETE NIL) (MAKE-LOAD-FORM NIL) (METHOD-QUALIFIERS #<Function METHOD-QUALIFIERS>) (NO-NEXT-METHOD NIL) (REMOVE-METHOD #<Function REMOVE-METHOD>) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "RATIO-IS-SUBTYPE-OF-ATOM",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXTENDED-CHAR-IS-SUBTYPE-OF-ATOM",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP.EXTENDED-CHAR.1",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP.CONS.1",
+          "reason": "expected (NIL); actual (((CONS (CONS)) (CONS (CONS *)) (CONS (CONS * *)) (CONS (CONS T)) (CONS (CONS T T)) (CONS (CONS T *)) (CONS (CONS * T)) ((CONS) CONS) ((CONS) (CONS *)) ((CONS) (CONS * *)) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP.CONS.2",
+          "reason": "expected (NIL); actual (((CONS NIL) (CONS NIL *) (CONS NIL T) (CONS * NIL) (CONS T NIL) (CONS NIL NIL))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP.CONS.35",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP.CONS.36",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP.CONS.37",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP.MEMBER.18",
+          "reason": "expected (NIL); actual (\"T1 is subtype of T2\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP.EQL.2",
+          "reason": "expected (NIL); actual (\"T1 is subtype of T2\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP.ARRAY.1",
+          "reason": "expected (NIL); actual (((#<BUILT-IN-CLASS ARRAY> (ARRAY)) (#<BUILT-IN-CLASS ARRAY> (ARRAY *)) (#<BUILT-IN-CLASS ARRAY> (ARRAY * *)) ((ARRAY) #<BUILT-IN-CLASS ARRAY>) ((ARRAY *) #<BUILT-IN-CLASS ARRAY>) ((ARRAY * *) #<BUILT-IN-CLASS ARRAY>))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP.ARRAY.10",
+          "reason": "expected (NIL T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP-COMPLEX.3",
+          "reason": "expected (NIL); actual (((BIT (NIL NIL) (NIL NIL)) (UNSIGNED-BYTE (NIL NIL) (NIL NIL)) (SHORT-FLOAT (NIL NIL) (NIL NIL)) (SINGLE-FLOAT (NIL NIL) (NIL NIL)) (DOUBLE-FLOAT (NIL NIL) (NIL NIL)) (LONG-FLOAT (NIL NIL) (NIL NIL)) (FIXNUM (NIL NIL) (NIL NIL)) (BIGNUM (NIL NIL) (NIL NIL)))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP-COMPLEX.4",
+          "reason": "expected (NIL); actual ((((UNSIGNED-BYTE 1) (NIL NIL) (NIL NIL)) ((UNSIGNED-BYTE 2) (NIL NIL) (NIL NIL)) ((UNSIGNED-BYTE 3) (NIL NIL) (NIL NIL)) ((UNSIGNED-BYTE 4) (NIL NIL) (NIL NIL)) ((UNSIGNED-BYTE 5) (NIL NIL) (NIL NIL)) ((UNSIGNED-BYTE 6) (NIL NIL) (NIL NIL)) ((UNSIGNED-BYTE 7) (NIL NIL) (NIL NIL)) ((UNSIGNED-BYTE 8) (NIL NIL) (NIL NIL)) ((UNSIGNED-BYTE 9) (NIL NIL) (NIL NIL)) ((UNSIGNED-BYTE 10) (NIL NIL) (NIL NIL)) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP-COMPLEX.5",
+          "reason": "expected (NIL); actual ((((SIGNED-BYTE 1) (NIL NIL) (NIL NIL)) ((SIGNED-BYTE 2) (NIL NIL) (NIL NIL)) ((SIGNED-BYTE 3) (NIL NIL) (NIL NIL)) ((SIGNED-BYTE 4) (NIL NIL) (NIL NIL)) ((SIGNED-BYTE 5) (NIL NIL) (NIL NIL)) ((SIGNED-BYTE 6) (NIL NIL) (NIL NIL)) ((SIGNED-BYTE 7) (NIL NIL) (NIL NIL)) ((SIGNED-BYTE 8) (NIL NIL) (NIL NIL)) ((SIGNED-BYTE 9) (NIL NIL) (NIL NIL)) ((SIGNED-BYTE 10) (NIL NIL) (NIL NIL)) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP-COMPLEX.7",
+          "reason": "expected (NIL); actual (((COMPLEX (COMPLEX) (NIL NIL)) (COMPLEX (COMPLEX *) (NIL NIL)) ((COMPLEX) COMPLEX (NIL NIL)) ((COMPLEX) (COMPLEX *) (NIL NIL)) ((COMPLEX *) COMPLEX (NIL NIL)) ((COMPLEX *) (COMPLEX) (NIL NIL)))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SUBTYPEP-COMPLEX.8",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "DEFTYPE.16",
+          "reason": "return for unknown block: #:G25957"
+        },
+        {
+          "test": "TYPE-OF.1",
+          "reason": "expected (NIL); actual (((NIL (BOOLEAN)) (T (ATOM SYMBOL)) (0 (ATOM BIT UNSIGNED-BYTE)) (9007199254740986 (ATOM UNSIGNED-BYTE)) (9007199254740987 (ATOM UNSIGNED-BYTE)) (9007199254740988 (ATOM UNSIGNED-BYTE)) (9007199254740989 (ATOM UNSIGNED-BYTE)) (9007199254740990 (ATOM UNSIGNED-BYTE)) (9007199254740993 (ATOM UNSIGNED-BYTE)) (9007199254740994 (ATOM UNSIGNED-BYTE)) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPE-OF.4",
+          "reason": "expected (NIL); actual ((T :A :B :|| :|a| :|1234| 0 9007199254740986 9007199254740987 9007199254740988 ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPE-OF.8",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPE-OF.9",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPE-OF.11",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPEP.ERROR.4",
+          "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nShould be atomic, but isn't: READTABLE\nShould be atomic, but isn't: PACKAGE\nShould be atomic, but isn't: PATHNAME\nShould be atomic, but isn't: STREAM\nShould be atomic, but isn't: RANDOM-STATE\nShould be atomic, but isn't: CONDITION\nShould be atomic, but isn't: \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRESTART\n",
+      "pendingTest": null,
+      "currentFile": "types-and-classes/class-precedence-lists.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 627,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 3884,
+  "fail": 30,
+  "complete": true,
+  "passRate": 99.23352069494123,
+  "finishedAt": "2026-11-04T09:22:14.171Z"
+}

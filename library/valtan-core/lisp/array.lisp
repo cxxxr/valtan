@@ -19,6 +19,7 @@
   (declare (ignore environment))
   (cond ((symbolp typespec)
          (case typespec
+           ((nil) nil)
            ((character base-char standard-char extended-char)
             'character)
            ((bit)
@@ -39,12 +40,13 @@
              (error "There are ~D elements in the :INITIAL-CONTENTS, but the vector length is ~D."
                     (length initial-contents)
                     (car dimensions)))
-           (do ((i 0 (1+ i)))
-               ((>= i len))
-             (setq raw-string
-                   (system:concat-raw-string/2 raw-string
-                                               (system:array-to-raw-string
-                                                (string (elt initial-contents i))))))
+           (map nil
+                (lambda (character)
+                  (unless (characterp character) (type-error character 'character))
+                  (setq raw-string
+                        (system:concat-raw-string/2 raw-string
+                          (system:code-to-raw-string (char-code character)))))
+                initial-contents)
            raw-string))
         ((= rank 0)
          (let ((raw-array (system:make-raw-array 1)))
@@ -73,6 +75,8 @@
              raw-array)))))
 
 (defun make-array-contents-with-initial-element (dimensions total-size rank element-type initial-element initial-element-p)
+  (when (and (eq element-type 'bit) (not initial-element-p))
+    (setq initial-element 0))
   (cond ((and (eq element-type 'character) (= rank 1))
          (let ((initial-raw-string
                  (system:code-to-raw-string
@@ -99,6 +103,9 @@
 
 (defun copy-array-contents (old-dimensions old new-dimensions new
                             initial-element initial-element-p)
+  (when (null new-dimensions)
+    (setf (row-major-aref new 0) (row-major-aref old 0))
+    (return-from copy-array-contents new))
   (let ((n 0) (o 0))
     (macrolet ((post-incf (x)
                  `(let ((old ,x)) (setq ,x (1+ old)) old)))
@@ -136,13 +143,21 @@
                            (t
                             (list dimensions))))
          (rank (length dimensions)))
+    (dolist (dimension dimensions)
+      (unless (and (integerp dimension) (<= 0 dimension) (< dimension array-dimension-limit))
+        (type-error dimension `(integer 0 (,array-dimension-limit)))))
+    (when array
+      (unless (= rank (array-rank array)) (error "ADJUST-ARRAY cannot change the rank."))
+      (when (and fill-pointer (not (array-has-fill-pointer-p array)))
+        (error "ADJUST-ARRAY cannot add a fill pointer."))
+      (unless fill-pointer (setq fill-pointer (array-fill-pointer array))))
     (when fill-pointer
       (when (/= rank 1)
         (error "Only vectors can have fill pointers."))
       (cond ((eq fill-pointer t)
              (setq fill-pointer (car dimensions)))
             ((not (and (integerp fill-pointer)
-                       (<= 0 fill-pointer)))
+                       (<= 0 fill-pointer (car dimensions))))
              (error "Bad fill-pointer: ~S" fill-pointer))))
     (let* ((element-type (upgraded-array-element-type element-type))
            (total-size (apply #'* dimensions))
@@ -151,6 +166,14 @@
                               (error ":INITIAL-ELEMENT may not be specified with the :DISPLACED-TO option"))
                             (unless displaced-index-offset
                               (setq displaced-index-offset 0))
+                            (unless (and (integerp displaced-index-offset)
+                                         (<= 0 displaced-index-offset)
+                                         (<= (+ displaced-index-offset total-size)
+                                             (array-total-size displaced-to)))
+                              (error "Displaced array exceeds its backing array."))
+                            (do ((backing displaced-to (array-displaced-to backing)))
+                                ((null backing))
+                              (when (eq backing array) (error "Circular array displacement.")))
                             (array-contents displaced-to))
                            (t
                             (when (and initial-contents-p initial-element-p)
@@ -177,15 +200,22 @@
                           :rank rank
                           :element-type element-type)))
       (cond (array
-             (copy-array-contents (array-dimensions array) array
-                                  dimensions new-array
-                                  initial-element
-                                  initial-element-p)
-             (setf (array-dimensions array) dimensions
+             (unless (or initial-contents-p displaced-to)
+               (copy-array-contents (array-dimensions array) array
+                                    dimensions new-array
+                                    initial-element
+                                    initial-element-p))
+             ;; Every Valtan array is actually adjustable. Keep its identity so
+             ;; existing displaced views continue to follow the same object.
+             (setf (array-contents array) (array-contents new-array)
+                   (array-dimensions array) dimensions
                    (array-total-size array) total-size
+                   (array-displaced-to array) displaced-to
                    (array-displaced-index-offset array) displaced-index-offset
-                   (array-rank array) rank)
-             new-array)
+                   (array-fill-pointer array) fill-pointer
+                   (array-rank array) rank
+                   (array-element-type array) element-type)
+             array)
             (t
              new-array)))))
 
@@ -193,6 +223,7 @@
   (apply #'make-or-adjust-array nil dimensions args))
 
 (defun adjust-array (array dimensions &rest args)
+  (unless (arrayp array) (type-error array 'array))
   (apply #'make-or-adjust-array array dimensions args))
 
 (defun *:raw-array-to-array (js-array)
@@ -215,9 +246,15 @@
   (simple-make-string raw-string))
 
 (defun *:array-to-raw-string (array)
-  (if (array-fill-pointer array)
-      (system:sub-raw-string/3 (array-contents array) 0 (array-fill-pointer array))
-      (array-contents array)))
+  (let ((length (or (array-fill-pointer array) (array-total-size array)))
+        (offset 0))
+    (when (null (array-element-type array))
+      (unless (zerop length) (error "An array with element type NIL has no accessible elements"))
+      (return-from *:array-to-raw-string (system:make-raw-string)))
+    (do () ((null (array-displaced-to array)))
+      (incf offset (array-displaced-index-offset array))
+      (setq array (array-displaced-to array)))
+    (system:sub-raw-string/3 (array-contents array) offset (+ offset length))))
 
 (defun vector (&rest args)
   (make-array (length args)
@@ -226,14 +263,19 @@
 (defun adjustable-array-p (array)
   (unless (arrayp array)
     (error 'type-error :datum array :expected-type 'array))
-  ;; In Valtan, all arrays are potentially adjustable since
-  ;; adjust-array always creates a new array with the old contents
+  ;; ADJUST-ARRAY updates every Valtan array in place.
   t)
 
 (defun fill-pointer (array)
+  (unless (and (vectorp array) (array-has-fill-pointer-p array))
+    (type-error array '(and vector (satisfies array-has-fill-pointer-p))))
   (array-fill-pointer array))
 
 (defun (cl:setf fill-pointer) (fill-pointer array)
+  (unless (and (vectorp array) (array-has-fill-pointer-p array))
+    (type-error array '(and vector (satisfies array-has-fill-pointer-p))))
+  (unless (and (integerp fill-pointer) (<= 0 fill-pointer (array-total-size array)))
+    (type-error fill-pointer `(integer 0 ,(array-total-size array))))
   (setf (array-fill-pointer array) fill-pointer))
 
 (defun vectorp (x)
@@ -284,13 +326,20 @@
         (dimensions (array-dimensions array)))
     (unless (= rank (length subscripts))
       (subscripts-error (length subscripts) rank))
+    ;; Vectors dominate ordinary indexing. Avoid the general stride loop and
+    ;; repeated NTH traversals for this common case.
+    (when (= rank 1)
+      (let ((index (car subscripts)) (dim (car dimensions)))
+        (unless (integerp index) (type-error index 'integer))
+        (if (and (<= 0 index) (< index dim))
+            (return-from %array-row-major-index index)
+            (if out-of-bounds-error-p
+                (error "Invalid index ~S for a vector of length ~D." index dim)
+                (return-from %array-row-major-index nil)))))
     (do ((axis (1- rank) (1- axis))
          (chunk-size 1)
          (result 0))
-        ((minusp axis)
-         (if (array-displaced-to array)
-             (+ result (array-displaced-index-offset array))
-             result))
+        ((minusp axis) result)
       (let ((index (nth axis subscripts))
             (dim (nth axis dimensions)))
         (when (or (< index 0) (<= dim index))
@@ -310,10 +359,10 @@
       nil))
 
 (defun aref (array &rest subscripts)
-  (system:raw-array-ref (array-contents array) (%array-row-major-index array subscripts t)))
+  (row-major-aref array (%array-row-major-index array subscripts t)))
 
 (defun *::%vector-ref (vector index)
-  (system:raw-array-ref (array-contents vector) index))
+  (row-major-aref vector index))
 
 (defun %string-set (array index value)
   (unless (characterp value)
@@ -328,34 +377,33 @@
   value)
 
 (defun (cl:setf aref) (value array &rest subscripts)
-  (unless (arrayp array)
-    (type-error array 'array))
-  (cond ((eq (array-element-type array) 'character)
-         (unless (and subscripts (null (cdr subscripts)))
-           (subscripts-error (length subscripts) 1))
-         (%string-set array (car subscripts) value))
-        (t
-         (system:raw-array-set (array-contents array)
-                               (%array-row-major-index array subscripts t)
-                               value))))
+  (setf (row-major-aref array (%array-row-major-index array subscripts t)) value))
 
 (defun row-major-aref (array index)
   (unless (arrayp array)
     (type-error array 'array))
+  (when (null (array-element-type array))
+    (error "An array with element type NIL has no accessible elements"))
   (when (or (< index 0) (<= (array-total-size array) index))
     (error "Invalid index ~D for ~S, should be a non-negative integer below ~D."
            index array (array-total-size array)))
-  (system:raw-array-ref (array-contents array) index))
+  (if (array-displaced-to array)
+      (row-major-aref (array-displaced-to array)
+                     (+ index (array-displaced-index-offset array)))
+      (system:raw-array-ref (array-contents array) index)))
 
 (defun (cl:setf row-major-aref) (value array index)
   (unless (arrayp array)
     (type-error array 'array))
-  (cond ((eq (array-element-type array) 'character)
+  (when (null (array-element-type array)) (type-error value nil))
+  (when (or (< index 0) (<= (array-total-size array) index))
+    (error "Invalid array index ~D" index))
+  (cond ((array-displaced-to array)
+         (setf (row-major-aref (array-displaced-to array)
+                              (+ index (array-displaced-index-offset array))) value))
+        ((and (eq (array-element-type array) 'character) (= (array-rank array) 1))
          (%string-set array index value))
         (t
-         (when (or (< index 0) (<= (array-total-size array) index))
-           (error "Invalid index ~D for ~S, should be a non-negative integer below ~D."
-                  index array (array-total-size array)))
          (system:raw-array-set (array-contents array) index value))))
 
 (defun vector-pop (vector)
@@ -366,22 +414,22 @@
   (when (zerop (array-fill-pointer vector))
     (error "The fill pointer of the vector ~S is zero." vector))
   (decf (array-fill-pointer vector))
-  (system:raw-array-ref (array-contents vector) (array-fill-pointer vector)))
+  (row-major-aref vector (array-fill-pointer vector)))
 
 (defun vector-push (new-element vector)
-  (let ((fp (array-fill-pointer vector)))
-    (when (and (array-fill-pointer vector)
-               (<= 0 (array-fill-pointer vector)))
-      (when (< fp (array-total-size vector))
-        (incf (array-fill-pointer vector))
-        (setf (aref vector fp) new-element)
-        fp))))
+  (let ((fp (fill-pointer vector)))
+    (when (< fp (array-total-size vector))
+      (setf (aref vector fp) new-element)
+      (incf (array-fill-pointer vector))
+      fp)))
 
-(defun vector-push-extend (new-element vector)
-  (let ((size (array-total-size vector))
-        (fp (array-fill-pointer vector)))
+(defun vector-push-extend (new-element vector &optional (extension nil extension-p))
+  (let ((fp (fill-pointer vector))
+        (size (array-total-size vector)))
+    (when (and extension-p (not (and (integerp extension) (> extension 0))))
+      (type-error extension '(integer 1 *)))
     (when (>= fp size)
-      (adjust-array vector (* (1+ size) 2)))
+      (adjust-array vector (+ size (if extension-p extension (max 1 size)))))
     (setf (aref vector fp) new-element)
     (incf (array-fill-pointer vector))
     fp))
@@ -393,16 +441,16 @@
   (system:raw-array-set (array-contents vector) index value))
 
 (defun bit (bit-array &rest subscripts)
-  (system:raw-array-ref (array-contents bit-array) (%array-row-major-index bit-array subscripts t)))
+  (row-major-aref bit-array (%array-row-major-index bit-array subscripts t)))
 
 (defun (cl:setf bit) (bit bit-array &rest subscripts)
-  (system:raw-array-set (array-contents bit-array) (%array-row-major-index bit-array subscripts t) bit))
+  (setf (row-major-aref bit-array (%array-row-major-index bit-array subscripts t)) bit))
 
 (defun sbit (bit-array &rest subscripts)
-  (system:raw-array-ref (array-contents bit-array) (%array-row-major-index bit-array subscripts t)))
+  (row-major-aref bit-array (%array-row-major-index bit-array subscripts t)))
 
 (defun (cl:setf sbit) (bit bit-array &rest subscripts)
-  (system:raw-array-set (array-contents bit-array) (%array-row-major-index bit-array subscripts t) bit))
+  (setf (row-major-aref bit-array (%array-row-major-index bit-array subscripts t)) bit))
 
 ;; Helper macro for bit-vector operations
 (defmacro define-bit-operation (name op)
@@ -414,13 +462,11 @@
              (case opt-arg
                ((t) bit-array-1)
                ((nil) (make-array (array-dimensions bit-array-1) :element-type 'bit))
-               (otherwise opt-arg)))
-           (contents-1 (array-contents bit-array-1))
-           (contents-2 (array-contents bit-array-2)))
+               (otherwise opt-arg))))
        (dotimes (i (array-total-size bit-array-1))
          (setf (row-major-aref dst-bit-array i)
-               (,op (system:raw-array-ref contents-1 i)
-                    (system:raw-array-ref contents-2 i))))
+               (,op (row-major-aref bit-array-1 i)
+                    (row-major-aref bit-array-2 i))))
        dst-bit-array)))
 
 ;; Bit operation primitives (for single bits: 0 or 1)
@@ -452,11 +498,10 @@
           (case opt-arg
             ((t) bit-array)
             ((nil) (make-array (array-dimensions bit-array) :element-type 'bit))
-            (otherwise opt-arg)))
-        (contents (array-contents bit-array)))
+            (otherwise opt-arg))))
     (dotimes (i (array-total-size bit-array))
       (setf (row-major-aref dst-bit-array i)
-            (if (= (system:raw-array-ref contents i) 0) 1 0)))
+            (if (= (row-major-aref bit-array i) 0) 1 0)))
     dst-bit-array))
 
 (defun vector-length (vector)
@@ -470,8 +515,8 @@
                  (len2 (vector-length y)))
              (and (= len1 len2)
                   (dotimes (i len1 t)
-                    (unless (equalp (svref x i)
-                                    (svref y i))
+                    (unless (equalp (row-major-aref x i)
+                                    (row-major-aref y i))
                       (return nil))))))
       (and (equal (array-dimensions x)
                   (array-dimensions y))

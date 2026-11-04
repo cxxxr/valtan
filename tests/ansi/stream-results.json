@@ -1,0 +1,805 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "c50dac78c11c51fa0d15b874ea2026b26f5b0226b227c78c497a249f81fa404a",
+  "startedAt": "2026-11-03T22:33:08.347Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "pathnames",
+      "files": [
+        "auxiliary/pathnames-aux.lsp",
+        "pathnames/pathnames.lsp",
+        "pathnames/pathname.lsp",
+        "pathnames/pathnamep.lsp",
+        "pathnames/make-pathname.lsp",
+        "pathnames/pathname-host.lsp",
+        "pathnames/pathname-device.lsp",
+        "pathnames/pathname-directory.lsp",
+        "pathnames/pathname-name.lsp",
+        "pathnames/pathname-type.lsp",
+        "pathnames/pathname-version.lsp",
+        "pathnames/load-logical-pathname-translations.lsp",
+        "pathnames/logical-pathname.lsp",
+        "pathnames/logical-pathname-translations.lsp",
+        "pathnames/translate-logical-pathname.lsp",
+        "pathnames/namestring.lsp",
+        "pathnames/file-namestring.lsp",
+        "pathnames/directory-namestring.lsp",
+        "pathnames/host-namestring.lsp",
+        "pathnames/enough-namestring.lsp",
+        "pathnames/wild-pathname-p.lsp",
+        "pathnames/merge-pathnames.lsp",
+        "pathnames/pathname-match-p.lsp",
+        "pathnames/parse-namestring.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 128,
+      "fail": 87,
+      "registered": 215,
+      "expectedRegistered": 215,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/pathnames-aux.lsp",
+        "pathnames/pathnames.lsp",
+        "pathnames/pathname.lsp",
+        "pathnames/pathnamep.lsp",
+        "pathnames/make-pathname.lsp",
+        "pathnames/pathname-host.lsp",
+        "pathnames/pathname-device.lsp",
+        "pathnames/pathname-directory.lsp",
+        "pathnames/pathname-name.lsp",
+        "pathnames/pathname-type.lsp",
+        "pathnames/pathname-version.lsp",
+        "pathnames/load-logical-pathname-translations.lsp",
+        "pathnames/logical-pathname.lsp",
+        "pathnames/logical-pathname-translations.lsp",
+        "pathnames/translate-logical-pathname.lsp",
+        "pathnames/namestring.lsp",
+        "pathnames/file-namestring.lsp",
+        "pathnames/directory-namestring.lsp",
+        "pathnames/host-namestring.lsp",
+        "pathnames/enough-namestring.lsp",
+        "pathnames/wild-pathname-p.lsp",
+        "pathnames/merge-pathnames.lsp",
+        "pathnames/pathname-match-p.lsp",
+        "pathnames/parse-namestring.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "PATHNAMES-PRINT-AND-READ-PROPERLY",
+          "reason": "There is no class named PRINT-NOT-READABLE."
+        },
+        {
+          "test": "MAKE-PATHNAME.1",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.2",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.2A",
+          "reason": "The assertion (MAKE-PATHNAME-TEST :NAME S) failed."
+        },
+        {
+          "test": "MAKE-PATHNAME.3",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.3A",
+          "reason": "The assertion (MAKE-PATHNAME-TEST :NAME \"foo\" :TYPE S) failed."
+        },
+        {
+          "test": "MAKE-PATHNAME.4",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.5",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.6",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.7",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.8",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.11",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.12",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.13",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.14",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME-ERROR-ABSOLUTE-UP",
+          "reason": "expected (T); actual (NIL (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE) :NAME NIL :TYPE NIL :VERSION NIL)))"
+        },
+        {
+          "test": "MAKE-PATHNAME-ERROR-ABSOLUTE-BACK",
+          "reason": "expected (T); actual (NIL (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE) :NAME NIL :TYPE NIL :VERSION NIL)))"
+        },
+        {
+          "test": "MAKE-PATHNAME-ERROR-RELATIVE-WILD-INFERIORS-UP",
+          "reason": "expected (T); actual (NIL 1)"
+        },
+        {
+          "test": "MAKE-PATHNAME-ERROR-ABSOLUTE-WILD-INFERIORS-BACK",
+          "reason": "expected (T); actual (NIL (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE) :NAME NIL :TYPE NIL :VERSION NIL)))"
+        },
+        {
+          "test": "MAKE-PATHNAME-ERROR-RELATIVE-WILD-INFERIORS-BACK",
+          "reason": "expected (T); actual (NIL (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-FjWk0m\" \"sandbox\") :NAME NIL :TYPE NIL :VERSION NIL)))"
+        },
+        {
+          "test": "PATHNAME-HOST.2",
+          "reason": "invalid number of arguments for PATHNAME-HOST: 3"
+        },
+        {
+          "test": "PATHNAME-HOST.3",
+          "reason": "invalid number of arguments for PATHNAME-HOST: 3"
+        },
+        {
+          "test": "PATHNAME-HOST.4",
+          "reason": "invalid number of arguments for PATHNAME-HOST: 3"
+        },
+        {
+          "test": "PATHNAME-HOST.5",
+          "reason": "invalid number of arguments for PATHNAME-HOST: 5"
+        },
+        {
+          "test": "PATHNAME-HOST.6",
+          "reason": "invalid number of arguments for PATHNAME-HOST: 7"
+        },
+        {
+          "test": "PATHNAME-HOST.8",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "PATHNAME-DEVICE.2",
+          "reason": "invalid number of arguments for PATHNAME-DEVICE: 3"
+        },
+        {
+          "test": "PATHNAME-DEVICE.3",
+          "reason": "invalid number of arguments for PATHNAME-DEVICE: 3"
+        },
+        {
+          "test": "PATHNAME-DEVICE.4",
+          "reason": "invalid number of arguments for PATHNAME-DEVICE: 3"
+        },
+        {
+          "test": "PATHNAME-DEVICE.5",
+          "reason": "invalid number of arguments for PATHNAME-DEVICE: 5"
+        },
+        {
+          "test": "PATHNAME-DEVICE.6",
+          "reason": "invalid number of arguments for PATHNAME-DEVICE: 7"
+        },
+        {
+          "test": "PATHNAME-DEVICE.8",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.2",
+          "reason": "invalid number of arguments for PATHNAME-DIRECTORY: 3"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.3",
+          "reason": "invalid number of arguments for PATHNAME-DIRECTORY: 3"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.4",
+          "reason": "invalid number of arguments for PATHNAME-DIRECTORY: 3"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.5",
+          "reason": "invalid number of arguments for PATHNAME-DIRECTORY: 5"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.6",
+          "reason": "invalid number of arguments for PATHNAME-DIRECTORY: 7"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.8",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "PATHNAME-NAME.2",
+          "reason": "invalid number of arguments for PATHNAME-NAME: 3"
+        },
+        {
+          "test": "PATHNAME-NAME.3",
+          "reason": "invalid number of arguments for PATHNAME-NAME: 3"
+        },
+        {
+          "test": "PATHNAME-NAME.4",
+          "reason": "invalid number of arguments for PATHNAME-NAME: 3"
+        },
+        {
+          "test": "PATHNAME-NAME.5",
+          "reason": "invalid number of arguments for PATHNAME-NAME: 5"
+        },
+        {
+          "test": "PATHNAME-NAME.6",
+          "reason": "invalid number of arguments for PATHNAME-NAME: 7"
+        },
+        {
+          "test": "PATHNAME-NAME.8",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "PATHNAME-TYPE.2",
+          "reason": "invalid number of arguments for PATHNAME-TYPE: 3"
+        },
+        {
+          "test": "PATHNAME-TYPE.3",
+          "reason": "invalid number of arguments for PATHNAME-TYPE: 3"
+        },
+        {
+          "test": "PATHNAME-TYPE.4",
+          "reason": "invalid number of arguments for PATHNAME-TYPE: 3"
+        },
+        {
+          "test": "PATHNAME-TYPE.5",
+          "reason": "invalid number of arguments for PATHNAME-TYPE: 5"
+        },
+        {
+          "test": "PATHNAME-TYPE.6",
+          "reason": "invalid number of arguments for PATHNAME-TYPE: 7"
+        },
+        {
+          "test": "PATHNAME-TYPE.8",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "PATHNAME-VERSION.3",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "LOAD-LOGICAL-PATHNAME-TRANSLATIONS.1",
+          "reason": "The function LOAD-LOGICAL-PATHNAME-TRANSLATIONS is undefined"
+        },
+        {
+          "test": "LOAD-LOGICAL-PATHNAME-TRANSLATIONS.ERROR.2",
+          "reason": "The function LOAD-LOGICAL-PATHNAME-TRANSLATIONS is undefined"
+        },
+        {
+          "test": "LOAD-LOGICAL-PATHNAME-TRANSLATIONS.ERROR.3",
+          "reason": "The function LOAD-LOGICAL-PATHNAME-TRANSLATIONS is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.2",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.3",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.1",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.2",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.3",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.4",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.5",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.6",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.7",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.8",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.9",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.10",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRANSLATE-LOGICAL-PATHNAME.1",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRANSLATE-LOGICAL-PATHNAME.2",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRANSLATE-LOGICAL-PATHNAME.3",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRANSLATE-LOGICAL-PATHNAME.4",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRANSLATE-LOGICAL-PATHNAME.ERROR.1",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.1",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.2",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.3",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.4",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.5",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.6",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.7",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.8",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.1",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.2",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.3",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.4",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.5",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.6",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.7",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PARSE-NAMESTRING.5",
+          "reason": "expected (T); actual (NIL)"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "pathnames/parse-namestring.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "files",
+      "files": [
+        "files/directory.lsp",
+        "files/probe-file.lsp",
+        "files/ensure-directories-exist.lsp",
+        "files/truename.lsp",
+        "files/file-author.lsp",
+        "files/file-write-date.lsp",
+        "files/rename-file.lsp",
+        "files/delete-file.lsp",
+        "files/file-error.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 66,
+      "fail": 21,
+      "registered": 87,
+      "expectedRegistered": 87,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "files/directory.lsp",
+        "files/probe-file.lsp",
+        "files/ensure-directories-exist.lsp",
+        "files/truename.lsp",
+        "files/file-author.lsp",
+        "files/file-write-date.lsp",
+        "files/rename-file.lsp",
+        "files/delete-file.lsp",
+        "files/file-error.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "DIRECTORY.8",
+          "reason": "expected (NIL); actual (0)"
+        },
+        {
+          "test": "PROBE-FILE.4",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PROBE-FILE.ERROR.3",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "PROBE-FILE.ERROR.4",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "TRUENAME.5",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRUENAME.ERROR.5",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "FILE-AUTHOR.ERROR.3",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "FILE-AUTHOR.ERROR.4",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "FILE-WRITE-DATE.1",
+          "reason": "The function GET-UNIVERSAL-TIME is undefined"
+        },
+        {
+          "test": "FILE-WRITE-DATE.2",
+          "reason": "The function GET-UNIVERSAL-TIME is undefined"
+        },
+        {
+          "test": "FILE-WRITE-DATE.3",
+          "reason": "The function GET-UNIVERSAL-TIME is undefined"
+        },
+        {
+          "test": "FILE-WRITE-DATE.4",
+          "reason": "The function GET-UNIVERSAL-TIME is undefined"
+        },
+        {
+          "test": "FILE-WRITE-DATE.ERROR.3",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "FILE-WRITE-DATE.ERROR.4",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "RENAME-FILE.5",
+          "reason": "The assertion (TYPEP (PATHNAME PN1) (QUOTE LOGICAL-PATHNAME)) failed."
+        },
+        {
+          "test": "DELETE-FILE.3",
+          "reason": "The assertion (TYPEP (PATHNAME PN) (QUOTE LOGICAL-PATHNAME)) failed."
+        },
+        {
+          "test": "DELETE-FILE.4",
+          "reason": "The assertion (TYPEP (PATHNAME PN) (QUOTE LOGICAL-PATHNAME)) failed."
+        },
+        {
+          "test": "FILE-ERROR.1",
+          "reason": "expected (T T); actual (NIL)"
+        },
+        {
+          "test": "FILE-ERROR-PATHNAME.4",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "FILE-ERROR-PATHNAME.ERROR.1",
+          "reason": "Too few arguments to generic function #<STANDARD-GENERIC-FUNCTION FILE-ERROR-PATHNAME (COMMON-LISP::OBJECT)>."
+        },
+        {
+          "test": "FILE-ERROR-PATHNAME.ERROR.2",
+          "reason": "expected (T); actual (NIL \"foo.txt\")"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "files/file-error.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "streams",
+      "files": [
+        "streams/input-stream-p.lsp",
+        "streams/output-stream-p.lsp",
+        "streams/interactive-stream-p.lsp",
+        "streams/open-stream-p.lsp",
+        "streams/stream-element-type.lsp",
+        "streams/streamp.lsp",
+        "streams/read-byte.lsp",
+        "streams/peek-char.lsp",
+        "streams/read-char.lsp",
+        "streams/read-char-no-hang.lsp",
+        "streams/terpri.lsp",
+        "streams/fresh-line.lsp",
+        "streams/unread-char.lsp",
+        "streams/write-char.lsp",
+        "streams/read-line.lsp",
+        "streams/write-string.lsp",
+        "streams/write-line.lsp",
+        "streams/read-sequence.lsp",
+        "streams/write-sequence.lsp",
+        "streams/file-length.lsp",
+        "streams/file-position.lsp",
+        "streams/file-string-length.lsp",
+        "streams/open.lsp",
+        "streams/stream-external-format.lsp",
+        "streams/with-open-file.lsp",
+        "streams/with-open-stream.lsp",
+        "streams/listen.lsp",
+        "streams/clear-input.lsp",
+        "streams/finish-output.lsp",
+        "streams/force-output.lsp",
+        "streams/clear-output.lsp",
+        "streams/make-synonym-stream.lsp",
+        "streams/synonym-stream-symbol.lsp",
+        "streams/make-broadcast-stream.lsp",
+        "streams/broadcast-stream-streams.lsp",
+        "streams/make-two-way-stream.lsp",
+        "streams/two-way-stream-input-stream.lsp",
+        "streams/two-way-stream-output-stream.lsp",
+        "streams/echo-stream-input-stream.lsp",
+        "streams/echo-stream-output-stream.lsp",
+        "streams/make-echo-stream.lsp",
+        "streams/concatenated-stream-streams.lsp",
+        "streams/make-concatenated-stream.lsp",
+        "streams/get-output-stream-string.lsp",
+        "streams/make-string-input-stream.lsp",
+        "streams/make-string-output-stream.lsp",
+        "streams/with-input-from-string.lsp",
+        "streams/with-output-to-string.lsp",
+        "streams/stream-error-stream.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 781,
+      "fail": 22,
+      "registered": 803,
+      "expectedRegistered": 803,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "streams/input-stream-p.lsp",
+        "streams/output-stream-p.lsp",
+        "streams/interactive-stream-p.lsp",
+        "streams/open-stream-p.lsp",
+        "streams/stream-element-type.lsp",
+        "streams/streamp.lsp",
+        "streams/read-byte.lsp",
+        "streams/peek-char.lsp",
+        "streams/read-char.lsp",
+        "streams/read-char-no-hang.lsp",
+        "streams/terpri.lsp",
+        "streams/fresh-line.lsp",
+        "streams/unread-char.lsp",
+        "streams/write-char.lsp",
+        "streams/read-line.lsp",
+        "streams/write-string.lsp",
+        "streams/write-line.lsp",
+        "streams/read-sequence.lsp",
+        "streams/write-sequence.lsp",
+        "streams/file-length.lsp",
+        "streams/file-position.lsp",
+        "streams/file-string-length.lsp",
+        "streams/open.lsp",
+        "streams/stream-external-format.lsp",
+        "streams/with-open-file.lsp",
+        "streams/with-open-stream.lsp",
+        "streams/listen.lsp",
+        "streams/clear-input.lsp",
+        "streams/finish-output.lsp",
+        "streams/force-output.lsp",
+        "streams/clear-output.lsp",
+        "streams/make-synonym-stream.lsp",
+        "streams/synonym-stream-symbol.lsp",
+        "streams/make-broadcast-stream.lsp",
+        "streams/broadcast-stream-streams.lsp",
+        "streams/make-two-way-stream.lsp",
+        "streams/two-way-stream-input-stream.lsp",
+        "streams/two-way-stream-output-stream.lsp",
+        "streams/echo-stream-input-stream.lsp",
+        "streams/echo-stream-output-stream.lsp",
+        "streams/make-echo-stream.lsp",
+        "streams/concatenated-stream-streams.lsp",
+        "streams/make-concatenated-stream.lsp",
+        "streams/get-output-stream-string.lsp",
+        "streams/make-string-input-stream.lsp",
+        "streams/make-string-output-stream.lsp",
+        "streams/with-input-from-string.lsp",
+        "streams/with-output-to-string.lsp",
+        "streams/stream-error-stream.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "PEEK-CHAR.17",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "PEEK-CHAR.18",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "PEEK-CHAR.19",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "PEEK-CHAR.20",
+          "reason": "The function SET-SYNTAX-FROM-CHAR is undefined"
+        },
+        {
+          "test": "PEEK-CHAR.21",
+          "reason": "The function SET-SYNTAX-FROM-CHAR is undefined"
+        },
+        {
+          "test": "WRITE-STRING.2",
+          "reason": "The value #() is not of the expected type STRING"
+        },
+        {
+          "test": "WRITE-LINE.2",
+          "reason": "The value #() is not of the expected type STRING"
+        },
+        {
+          "test": "OPEN.64",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "OPEN.OUTPUT.3",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "OPEN.IO.3",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "MAKE-BROADCAST-STREAM.6",
+          "reason": "The value #S(BROADCAST-STREAM :STREAMS NIL) is not of the expected type STREAM"
+        },
+        {
+          "test": "MAKE-BROADCAST-STREAM.7",
+          "reason": "expected (1); actual (28)"
+        },
+        {
+          "test": "MAKE-BROADCAST-STREAM.8",
+          "reason": "expected (:DEFAULT); actual (:UTF-8)"
+        },
+        {
+          "test": "BROADCAST-STREAM-STREAMS.3",
+          "reason": "The value #S(BROADCAST-STREAM :STREAMS (#S(STRING-OUTPUT-STREAM :BUFFER \"\" :TARGET NIL :ELEMENT-TYPE CHARACTER) #S(FILE-STREAM :HANDLE #<[object Object]> :PATHNAME #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-9QRtmU\" \"sandbox\") :NAME \"bss-last\" :TYPE \"txt\" :VERSION :NEWEST) :ELEMENT-TYPE CHARACTER :DIRECTION :OUTPUT))) is not of the expected type STREAM"
+        },
+        {
+          "test": "BROADCAST-STREAM-STREAMS.4",
+          "reason": "The value #S(BROADCAST-STREAM :STREAMS NIL) is not of the expected type STREAM"
+        },
+        {
+          "test": "MAKE-STRING-INPUT-STREAM.10",
+          "reason": "The value #() is not of the expected type STRING"
+        },
+        {
+          "test": "MAKE-STRING-OUTPUT-STREAM.12",
+          "reason": "expected (NIL); actual (T)"
+        },
+        {
+          "test": "WITH-INPUT-FROM-STRING.10",
+          "reason": "The value #() is not of the expected type STRING"
+        },
+        {
+          "test": "WITH-INPUT-FROM-STRING.22",
+          "reason": "expected (#\\a NIL); actual (#\\a 1)"
+        },
+        {
+          "test": "WITH-OUTPUT-TO-STRING.4",
+          "reason": "The value #\\a is not of the expected type NIL"
+        },
+        {
+          "test": "STREAM-ERROR-STREAM.ERROR.1",
+          "reason": "Too few arguments to generic function #<STANDARD-GENERIC-FUNCTION STREAM-ERROR-STREAM (COMMON-LISP::OBJECT)>."
+        },
+        {
+          "test": "STREAM-ERROR-STREAM.ERROR.2",
+          "reason": "expected (T); actual (NIL #S(STRING-INPUT-STREAM :STRING \"\" :POSITION 0 :END 0))"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "streams/stream-error-stream.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 975,
+  "fail": 130,
+  "complete": true,
+  "passRate": 88.23529411764706,
+  "runtimeNote": "Selected completed categories extracted from the ongoing full stream/CLOS-era attempt. Includes RT sandbox, CL-TEST package and output-framing corrections and pathname equality. Predates subsequent empty-broadcast and string-macro fixes, generic-function arity/identity fixes, transcendental functions and structure class metadata."
+}

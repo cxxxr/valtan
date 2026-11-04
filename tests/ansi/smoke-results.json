@@ -1,0 +1,48 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "startedAt": "2026-11-03T20:00:18.873Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "cons/atom.lsp",
+      "files": [
+        "auxiliary/cons-aux.lsp",
+        "cons/atom.lsp"
+      ],
+      "mode": "eval",
+      "pass": 5,
+      "fail": 0,
+      "registered": 5,
+      "completedFiles": [
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/cons-aux.lsp",
+        "cons/atom.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "",
+      "exitCode": 0,
+      "signal": null,
+      "pendingTest": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false
+    }
+  ],
+  "pass": 5,
+  "fail": 0,
+  "complete": true,
+  "passRate": 100,
+  "finishedAt": "2026-11-03T20:01:04.498Z"
+}

@@ -87,6 +87,21 @@
     (when (funcall test-fn key (caar current))
       (return (cons (car current) prev)))))
 
+(defun %grow-hash-buckets (hash-table)
+  (let* ((old (hash-table-buckets hash-table))
+         (size (hash-table-bucket-count hash-table))
+         (growth (hash-table-rehash-size hash-table))
+         (new-size (max (1+ size)
+                        (if (integerp growth) (+ size growth)
+                            (ceiling (* size growth)))))
+         (buckets (make-array new-size :initial-element nil)))
+    (dotimes (i size)
+      (dolist (entry (aref old i))
+        (let ((index (%bucket-index (car entry) new-size)))
+          (push entry (aref buckets index)))))
+    (setf (hash-table-buckets hash-table) buckets
+          (hash-table-bucket-count hash-table) new-size)))
+
 (defun gethash (key hash-table &optional default)
   (let ((map (hash-table-map hash-table)))
     (if map
@@ -130,7 +145,11 @@
               (progn
                 (setf (aref buckets index) (acons key value bucket))
                 (push key (hash-table-keys hash-table))
-                (incf (hash-table-count hash-table)))))))
+                (incf (hash-table-count hash-table))
+                (when (> (hash-table-count hash-table)
+                         (* (hash-table-bucket-count hash-table)
+                            (hash-table-rehash-threshold hash-table)))
+                  (%grow-hash-buckets hash-table)))))))
   value)
 
 (defun remhash (key hash-table)
@@ -172,24 +191,18 @@
           (funcall function key value)))))
   nil)
 
+(defun make-hash-table-iterator (hash-table)
+  (let ((keys (copy-list (hash-table-keys hash-table))))
+    (lambda ()
+      (do () ((null keys) (values nil))
+        (let ((key (pop keys)))
+          (multiple-value-bind (value found) (gethash key hash-table)
+            (when found (return (values t key value)))))))))
+
 (defmacro with-hash-table-iterator ((name hash-table) &body body)
-  ;; Note: Per ANSI CL, name should be visible to macro-function, but this
-  ;; implementation uses flet for simplicity. Test 58 expects macro-function
-  ;; to return non-nil, which this implementation doesn't support.
-  (let ((g-keys (gensym "KEYS"))
-        (g-hash-table (gensym "HASH-TABLE")))
-    `(let* ((,g-hash-table ,hash-table)
-            (,g-keys (copy-list (hash-table-keys ,g-hash-table))))
-       (flet ((,name ()
-                (if ,g-keys
-                    (let ((%key (pop ,g-keys)))
-                      (multiple-value-bind (%value %found)
-                          (gethash %key ,g-hash-table)
-                        (if %found
-                            (values t %key %value)
-                            ;; Key was removed during iteration, try next
-                            (,name))))
-                    (values nil nil nil))))
+  (let ((iterator (gensym "ITERATOR")))
+    `(let ((,iterator (make-hash-table-iterator ,hash-table)))
+       (macrolet ((,name () '(funcall ,iterator)))
          ,@body))))
 
 (defun clrhash (hash-table)
@@ -204,21 +217,25 @@
   (setf (hash-table-count hash-table) 0)
   hash-table)
 
+(defvar *sxhash-depth* 0)
+
 (defun sxhash (object)
-  "Return a hash code for OBJECT."
-  (cond ((null object) 0)
-        ((symbolp object) (%sxhash-string (symbol-name object)))
-        ((stringp object) (%sxhash-string object))
-        ((characterp object) (char-code object))
-        ((integerp object) (if (< object 0) (- object) object))
-        ((numberp object)
-         ;; For floats, use floor of absolute value
-         (let ((n (if (< object 0) (- object) object)))
-           (floor n)))
-        ((consp object) (%sxhash-list object))
-        ((arrayp object) (%sxhash-array object))
-        ((hash-table-p object) (%sxhash-array (hash-table-keys object)))
-        (t 42)))  ; default hash for unknown types
+  "Hash EQUAL objects alike, with bounded traversal of circular objects."
+  (when (>= *sxhash-depth* 10) (return-from sxhash 0))
+  (let ((*sxhash-depth* (1+ *sxhash-depth*)))
+    (logand most-positive-fixnum
+      (cond ((null object) 0)
+            ((symbolp object) (%sxhash-string (symbol-name object)))
+            ((stringp object) (%sxhash-string object))
+            ((characterp object) (char-code object))
+            ((integerp object) (cl:abs object))
+            ((cl:complexp object) (+ (sxhash (cl:realpart object)) (* 31 (sxhash (cl:imagpart object)))))
+            ((numberp object) (floor (cl:abs object)))
+            ((consp object) (%sxhash-list object))
+            ((bit-vector-p object) (%sxhash-array object))
+            ;; EQUAL compares all other arrays and mutable objects by identity.
+            ;; A stable collision is preferable to hashing mutable contents.
+            (t 42)))))
 
 (defun %sxhash-string (string)
   (let ((hash 0)
@@ -230,14 +247,14 @@
 (defun %sxhash-list (list)
   (let ((hash 0))
     (dotimes (i 10)
-      (when (null list) (return hash))
+      (when (atom list) (return-from %sxhash-list (+ hash (sxhash list))))
       (setq hash (+ hash (sxhash (car list))))
       (setq list (cdr list)))
     hash))
 
 (defun %sxhash-array (array)
   (let ((hash 0)
-        (len (array-total-size array)))
+        (len (length array)))
     (dotimes (i (min len 10))
       (setq hash (+ (* hash 3) (sxhash (row-major-aref array i)))))
     hash))

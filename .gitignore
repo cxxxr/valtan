@@ -8,6 +8,7 @@ example/example.js
 
 # Build artifacts
 /valtan
+/tests/dist-performance/
 quicklisp.lisp
 
 # Nix

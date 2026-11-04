@@ -1,6 +1,10 @@
 (cl:in-package :common-lisp)
 
 #+node (ffi:require js:fs "fs")
+#+node (ffi:require js:path "path")
+#+node (system:initialize-file-system js:fs js:path)
+#+node (ffi:require js:os "os")
+#+node (system:initialize-environment js:os)
 
 (cl:define-symbol-macro system:+null+ (ffi:ref "null"))
 

@@ -29,6 +29,7 @@
                (:file "lisp/symbol")
                (:file "lisp/type")
                (:file "lisp/number")
+               (:file "lisp/numeric-types" :if-feature :valtan)
                (:file "lisp/array")
                (:file "lisp/character")
                (:file "lisp/string")
@@ -39,13 +40,18 @@
                (:file "lisp/stream")
                (:file "lisp/print")
                (:file "lisp/read")
+               (:file "lisp/pathname")
                (:file "lisp/file")
                (:file "lisp/pkg" :if-feature :valtan)
                (:file "lisp/clos")
                (:file "lisp/restart")
                (:file "lisp/catch-throw")
                (:file "lisp/documentation")
-               (:file "lisp/loop")))
+               (:file "lisp/loop")
+               (:file "lisp/logical-pathname")
+               (:file "lisp/format" :if-feature :valtan)
+               (:file "lisp/pprint" :if-feature :valtan)
+               (:file "lisp/environment" :if-feature :valtan)))
 
 (defsystem "valtan-core/compiler"
   :depends-on ("valtan-core/common-lisp")
@@ -64,7 +70,8 @@
                (:file "compiler/hir-optimize" :if-feature (:not :valtan))
                (:file "compiler/pass2")
                (:file "compiler/compiler")
-               (:file "lisp/compilation" :if-feature :valtan)))
+               (:file "lisp/compilation" :if-feature :valtan)
+               (:file "lisp/compilation-files" :if-feature :valtan)))
 
 (defsystem "valtan-core"
   :depends-on ("valtan-core/system"

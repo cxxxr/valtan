@@ -1,0 +1,235 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "f70bde336846ee7f0fd1a18cc9d3dc2c95787cd76c60720d933442a1ccadf94e",
+  "startedAt": "2026-11-04T00:04:56.632Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "environment",
+      "files": [
+        "environment/apropos.lsp",
+        "environment/apropos-list.lsp",
+        "environment/describe.lsp",
+        "environment/disassemble.lsp",
+        "environment/environment-functions.lsp",
+        "environment/room.lsp",
+        "environment/time.lsp",
+        "environment/trace.lsp",
+        "environment/user-homedir-pathname.lsp",
+        "environment/decode-universal-time.lsp",
+        "environment/encode-universal-time.lsp",
+        "environment/get-universal-time.lsp",
+        "environment/sleep.lsp",
+        "environment/get-internal-time.lsp",
+        "environment/documentation.lsp",
+        "environment/inspect.lsp",
+        "environment/dribble.lsp",
+        "environment/ed.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 175,
+      "fail": 35,
+      "registered": 210,
+      "expectedRegistered": 210,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "environment/apropos.lsp",
+        "environment/apropos-list.lsp",
+        "environment/describe.lsp",
+        "environment/disassemble.lsp",
+        "environment/environment-functions.lsp",
+        "environment/room.lsp",
+        "environment/time.lsp",
+        "environment/trace.lsp",
+        "environment/user-homedir-pathname.lsp",
+        "environment/decode-universal-time.lsp",
+        "environment/encode-universal-time.lsp",
+        "environment/get-universal-time.lsp",
+        "environment/sleep.lsp",
+        "environment/get-internal-time.lsp",
+        "environment/documentation.lsp",
+        "environment/inspect.lsp",
+        "environment/dribble.lsp",
+        "environment/ed.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "TRACE.5",
+          "reason": "The value (SETF FUNCTION-TO-TRACE) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "TRACE.6",
+          "reason": "The value (SETF FUNCTION-TO-TRACE) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "TRACE.7",
+          "reason": "The value (SETF FUNCTION-TO-TRACE) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "TRACE.8",
+          "reason": "The value (SETF FUNCTION-TO-TRACE) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "TRACE.9",
+          "reason": "The value (SETF FUNCTION-TO-TRACE) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "TRACE.10",
+          "reason": "The value (SETF FUNCTION-TO-TRACE) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "TRACE.11",
+          "reason": "The value (SETF FUNCTION-TO-TRACE) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "TRACE.12",
+          "reason": "The value (SETF FUNCTION-TO-TRACE) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "TRACE.13",
+          "reason": "The value (SETF FUNCTION-TO-TRACE) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "TRACE.14",
+          "reason": "The value (SETF FUNCTION-TO-TRACE) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "TRACE.15",
+          "reason": "The value (SETF FUNCTION-TO-TRACE) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.1",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.3",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.5",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.5A",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.7",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.9",
+          "reason": "The function BREAK is undefined"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.10",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.11",
+          "reason": "No applicable method for #<Function DOCUMENTATION> with arguments (NIL T)."
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.12",
+          "reason": "The function CHANGE-CLASS is undefined"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.FUNCTION.1",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.FUNCTION.3",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.FUNCTION.5",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.LIST.FUNCTION.1",
+          "reason": "The value NIL is not of the expected type PACKAGE"
+        },
+        {
+          "test": "DOCUMENTATION.LIST.FUNCTION.2",
+          "reason": "The value NIL is not of the expected type PACKAGE"
+        },
+        {
+          "test": "DOCUMENTATION.LIST.COMPILER-MACRO.1",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.LIST.COMPILER-MACRO.2",
+          "reason": "The value (SETF #:G2391) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "DOCUMENTATION.SYMBOL.FUNCTION.1",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.SYMBOL.FUNCTION.3",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.SYMBOL.FUNCTION.5",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "DOCUMENTATION.SYMBOL.COMPILER-MACRO.1",
+          "reason": "expected (NIL); actual (NIL NIL)"
+        },
+        {
+          "test": "INSPECT.ERROR.1",
+          "reason": "The function INSPECT is undefined"
+        },
+        {
+          "test": "INSPECT.ERROR.2",
+          "reason": "The function INSPECT is undefined"
+        },
+        {
+          "test": "DRIBBLE.ERROR.1",
+          "reason": "The function DRIBBLE is undefined"
+        },
+        {
+          "test": "ED.ERROR.1",
+          "reason": "The function ED is undefined"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "environment/ed.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 210,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 175,
+  "fail": 35,
+  "complete": true,
+  "passRate": 83.33333333333333,
+  "finishedAt": "2026-11-04T00:09:28.453Z",
+  "measurementNote": "Environment and TRACE/documentation implementation; before SOME/NOTEVERY, displaced-vector EQUALP, single-valued DOCUMENTATION and SETF function binding fixes."
+}

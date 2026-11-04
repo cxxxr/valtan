@@ -22,12 +22,11 @@
          (apply #'make-condition datum arguments))))
 
 (defun signal-1 (condition)
-  (let ((class (class-of condition))
-        (*handler-clusters* *handler-clusters*))
+  (let ((*handler-clusters* *handler-clusters*))
     (do ()
         ((null *handler-clusters*))
       (dolist (handler (pop *handler-clusters*))
-        (when (subclassp class (car handler))
+        (when (typep condition (car handler))
           (funcall (cadr handler) condition))))))
 
 (defun signal (datum &rest arguments)
@@ -79,14 +78,14 @@
 (defun type-error (datum expected-type)
   (error 'type-error :datum datum :expected-type expected-type))
 
-(defun eof-error ()
-  (error "End of file"))
+(defun eof-error (&optional stream)
+  (error 'end-of-file :stream stream))
 
 (defmacro handler-bind (bindings &body forms)
   `(let ((*handler-clusters*
            (cons (list ,@(mapcar (lambda (binding)
                                    (destructuring-bind (type handler) binding
-                                     `(list (find-class ',type)
+                                     `(list ',type
                                             ,handler)))
                                  bindings))
                  *handler-clusters*)))

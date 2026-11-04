@@ -1,0 +1,31 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const [beforePath, afterPath, minimum = '10'] = process.argv.slice(2);
+if (!beforePath || !afterPath) throw new Error('Usage: node performance/compare.mjs BEFORE.json AFTER.json [minimum-geomean]');
+const before = JSON.parse(fs.readFileSync(beforePath));
+const after = JSON.parse(fs.readFileSync(afterPath));
+assert.equal(before.node, after.node, 'Node versions differ');
+assert.equal(before.cpu, after.cpu, 'CPUs differ');
+assert.ok(before.workloadsSha256, 'Missing workload identity');
+assert.equal(before.workloadsSha256, after.workloadsSha256, 'Workloads differ');
+assert.ok(before.semanticsSha256, 'Missing semantic test identity');
+assert.equal(before.semanticsSha256, after.semanticsSha256, 'Semantic tests differ');
+assert.ok(before.bundleSha256 && after.bundleSha256, 'Missing bundle identity');
+assert.equal(before.results.length, 8, 'Missing baseline workload');
+assert.equal(before.results.length, after.results.length, 'Missing workload');
+assert.equal(new Set(before.results.map(r => r.name)).size, before.results.length, 'Duplicate workload');
+let logSum = 0, beforeTotal = 0, afterTotal = 0;
+for (let i = 0; i < before.results.length; i++) {
+  const a = before.results[i], b = after.results[i];
+  assert.deepEqual([a.name, a.input, a.expected], [b.name, b.input, b.expected]);
+  assert.ok(a.medianMs > 0 && b.medianMs > 0 && Number.isFinite(a.medianMs / b.medianMs));
+  const ratio = a.medianMs / b.medianMs;
+  logSum += Math.log(ratio);
+  beforeTotal += a.medianMs;
+  afterTotal += b.medianMs;
+  console.log(`${a.name.padEnd(10)} ${a.medianMs.toFixed(3)} -> ${b.medianMs.toFixed(3)} ms  ${ratio.toFixed(2)}x`);
+}
+const geometricMean = Math.exp(logSum / before.results.length);
+console.log(`Geometric mean: ${geometricMean.toFixed(2)}x; sum of workload medians: ${(beforeTotal / afterTotal).toFixed(2)}x`);
+assert.ok(Number.isFinite(Number(minimum)) && Number(minimum) > 0);
+assert.ok(geometricMean >= Number(minimum), `Target ${minimum}x not met`);

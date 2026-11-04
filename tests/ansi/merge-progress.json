@@ -1,0 +1,77 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "54e15c872d22bf2dd83df1991e97e8d5cf78fe3613e8cb132c40ea28a6336b34",
+  "startedAt": "2026-11-04T09:25:07.000Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "sequences/merge.lsp",
+      "files": [
+        "auxiliary/search-aux.lsp",
+        "auxiliary/subseq-aux.lsp",
+        "auxiliary/remove-aux.lsp",
+        "auxiliary/remove-duplicates-aux.lsp",
+        "sequences/merge.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 122,
+      "fail": 2,
+      "registered": 124,
+      "expectedRegistered": 124,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/search-aux.lsp",
+        "auxiliary/subseq-aux.lsp",
+        "auxiliary/remove-aux.lsp",
+        "auxiliary/remove-duplicates-aux.lsp",
+        "sequences/merge.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "MERGE.ERROR.3",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MERGE.ERROR.5",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "sequences/merge.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 124,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 122,
+  "fail": 2,
+  "complete": true,
+  "passRate": 98.38709677419355,
+  "finishedAt": "2026-11-04T09:25:36.673Z"
+}

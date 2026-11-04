@@ -4,6 +4,7 @@
 (in-package :valtan-core)
 
 (defun make-symbol (string)
+  (unless (stringp string) (type-error string 'string))
   (*:make-symbol (*:array-to-raw-string string)))
 
 (defun symbol-name (symbol)
@@ -53,7 +54,7 @@
   (*:symbol-function symbol))
 
 (defun set (symbol value)
-  (when (get symbol 'compiler::constant)
+  (when (*:compiler-property symbol 'compiler::constant)
     (error "Constant modification: attempt to set SYMBOL-VALUE of ~A." symbol))
   (*:%set symbol value))
 
@@ -71,8 +72,11 @@
                      ((not (stringp prefix))
                       (type-error prefix '(or string (integer 0 *))))
                      (t
-                      (prog1 (*:string-append prefix (princ-to-string *gensym-counter*))
-                        (incf *gensym-counter*))))))
+                      (unless (and (integerp *gensym-counter*) (<= 0 *gensym-counter*))
+                        (type-error *gensym-counter* '(integer 0 *)))
+                      (let ((*print-base* 10) (*print-radix* nil))
+                        (prog1 (*:string-append prefix (princ-to-string *gensym-counter*))
+                          (incf *gensym-counter*)))))))
 
 (defvar *gentemp-counter* 0)
 (defvar *package* (cl:find-package :cl-user))

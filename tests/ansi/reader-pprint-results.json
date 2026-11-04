@@ -1,0 +1,751 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "0c52256efaad552f1182c1917fb2c7e869d30c628851ce696df2c8e8e138b61b",
+  "startedAt": "2026-11-04T08:10:27.575Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "reader",
+      "files": [
+        "auxiliary/reader-aux.lsp",
+        "reader/reader-test.lsp",
+        "reader/with-standard-io-syntax.lsp",
+        "reader/copy-readtable.lsp",
+        "reader/read.lsp",
+        "reader/read-preserving-whitespace.lsp",
+        "reader/read-delimited-list.lsp",
+        "reader/read-from-string.lsp",
+        "reader/readtable-case.lsp",
+        "reader/readtablep.lsp",
+        "reader/get-macro-character.lsp",
+        "reader/set-macro-character.lsp",
+        "reader/read-suppress.lsp",
+        "reader/set-syntax-from-char.lsp",
+        "reader/dispatch-macro-characters.lsp",
+        "reader/syntax.lsp",
+        "reader/syntax-tokens.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 673,
+      "fail": 0,
+      "registered": 673,
+      "expectedRegistered": 673,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/reader-aux.lsp",
+        "reader/reader-test.lsp",
+        "reader/with-standard-io-syntax.lsp",
+        "reader/copy-readtable.lsp",
+        "reader/read.lsp",
+        "reader/read-preserving-whitespace.lsp",
+        "reader/read-delimited-list.lsp",
+        "reader/read-from-string.lsp",
+        "reader/readtable-case.lsp",
+        "reader/readtablep.lsp",
+        "reader/get-macro-character.lsp",
+        "reader/set-macro-character.lsp",
+        "reader/read-suppress.lsp",
+        "reader/set-syntax-from-char.lsp",
+        "reader/dispatch-macro-characters.lsp",
+        "reader/syntax.lsp",
+        "reader/syntax-tokens.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "reader/syntax-tokens.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 673,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-AMPERSAND",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-APOSTROPHE",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-ASTERISK",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-CIRCUMFLEX_ACCENT",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-COMMA",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-COMMERCIAL_AT",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-DOLLAR_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-EQUALS_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-EXCLAMATION_MARK",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-GRAVE_ACCENT",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-GREATER-THAN_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-HYPHEN-MINUS",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_A",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_B",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_C",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_D",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_E",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_F",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_G",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_H",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_I",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_J",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_K",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_L",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_M",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_N",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_O",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_P",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Q",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_R",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_S",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_T",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_U",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_V",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_W",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_X",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Y",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Z",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_A",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_B",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_C",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_D",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_E",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_F",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_G",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_H",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_I",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_J",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_K",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_L",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_M",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_N",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_O",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_P",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Q",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_R",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_S",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_T",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_U",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_V",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_W",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_X",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Y",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Z",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_CURLY_BRACKET",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_PARENTHESIS",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_SQUARE_BRACKET",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LESS-THAN_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-LOW_LINE",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-NUMBER_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-PERCENT_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-PLUS_SIGN",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-QUESTION_MARK",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-QUOTATION_MARK",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-REVERSE_SOLIDUS",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_CURLY_BRACKET",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_PARENTHESIS",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_SQUARE_BRACKET",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-SEMICOLON",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-SOLIDUS",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-TILDE",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-VERTICAL_LINE"
+      ],
+      "unexpectedTests": [
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-\\",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-|",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-!",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-\"",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-#",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-$",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-%",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-&",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-'",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-(",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-)",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-*",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-,",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-;",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-<",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-=",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X->",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-?",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-@",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-[",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-]",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-^",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-_",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-`",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-~",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-{",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-}",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-+",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X--",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-/",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-a",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-b",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-c",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-d",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-e",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-f",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-g",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-h",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-i",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-j",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-k",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-l",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-m",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-n",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-o",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-p",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-q",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-r",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-s",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-t",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-u",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-v",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-w",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-x",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-y",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-z",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-A",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-B",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-C",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-D",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-E",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-F",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-G",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-H",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-I",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-J",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-K",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-L",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-M",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-N",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-O",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-P",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-Q",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-R",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-S",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-T",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-U",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-V",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-W",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-X",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-Y",
+        "SET-SYNTAX-FROM-CHAR-TRAIT-X-Z"
+      ],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-AMPERSAND",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-&",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-APOSTROPHE",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-'",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-ASTERISK",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-*",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-CIRCUMFLEX_ACCENT",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-^",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-COMMA",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-,",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-COMMERCIAL_AT",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-@",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-DOLLAR_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-$",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-EQUALS_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-=",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-EXCLAMATION_MARK",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-!",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-GRAVE_ACCENT",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-`",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-GREATER-THAN_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X->",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-HYPHEN-MINUS",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X--",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_CURLY_BRACKET",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-{",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_PARENTHESIS",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-(",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LEFT_SQUARE_BRACKET",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-[",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LESS-THAN_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-<",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LOW_LINE",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-_",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-NUMBER_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-#",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-PERCENT_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-%",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-PLUS_SIGN",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-+",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-QUESTION_MARK",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-?",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-QUOTATION_MARK",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-\"",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-REVERSE_SOLIDUS",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-\\",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_CURLY_BRACKET",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-}",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_PARENTHESIS",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-)",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-RIGHT_SQUARE_BRACKET",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-]",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-SEMICOLON",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-;",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-SOLIDUS",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-/",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-TILDE",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-~",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-VERTICAL_LINE",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-|",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_A",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-A",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_A",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-a",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_B",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-B",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_B",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-b",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_C",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-C",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_C",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-c",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_D",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-D",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_D",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-d",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_E",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-E",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_E",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-e",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_F",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-F",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_F",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-f",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_G",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-G",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_G",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-g",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_H",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-H",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_H",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-h",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_I",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-I",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_I",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-i",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_J",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-J",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_J",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-j",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_K",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-K",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_K",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-k",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_L",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-L",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_L",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-l",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_M",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-M",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_M",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-m",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_N",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-N",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_N",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-n",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_O",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-O",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_O",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-o",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_P",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-P",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_P",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-p",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Q",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-Q",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Q",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-q",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_R",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-R",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_R",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-r",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_S",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-S",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_S",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-s",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_T",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-T",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_T",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-t",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_U",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-U",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_U",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-u",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_V",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-V",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_V",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-v",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_W",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-W",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_W",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-w",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_X",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-X",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_X",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-x",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Y",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-Y",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Y",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-y",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_CAPITAL_LETTER_Z",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-Z",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        },
+        {
+          "file": "reader/set-syntax-from-char.lsp",
+          "referenceName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-LATIN_SMALL_LETTER_Z",
+          "actualName": "SET-SYNTAX-FROM-CHAR-TRAIT-X-z",
+          "reason": "The upstream test name uses the implementation-defined CHAR-NAME or the character itself."
+        }
+      ],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 673,
+  "fail": 0,
+  "complete": true,
+  "passRate": 100,
+  "finishedAt": "2026-11-04T08:11:26.461Z"
+}

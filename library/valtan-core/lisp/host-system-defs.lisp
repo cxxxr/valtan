@@ -2,6 +2,13 @@
 
 (cl:defparameter system:+null+ '#:null)
 
+;; Compiler declarations must survive replacing a user's property list.
+(cl:defvar *compiler-properties* (cl:make-hash-table :test 'cl:eq))
+(cl:defun system:compiler-property (symbol key)
+  (cl:getf (cl:gethash symbol *compiler-properties*) key))
+(cl:defun system:set-compiler-property (symbol key value)
+  (cl:setf (cl:getf (cl:gethash symbol *compiler-properties*) key) value))
+
 (cl:defclass structure ()
   ((name :initarg :name :reader structure-name)
    (values :initarg :values :reader structure-values)))
@@ -34,7 +41,7 @@
 (cl:defun system:%copy-structure (structure)
   (cl:make-instance 'structure
                     :name (structure-name structure)
-                    :values (structure-values structure)))
+                    :values (cl:copy-list (structure-values structure))))
 
 (cl:defun system:%structure-set (structure index value)
   (cl:setf (cl:elt (structure-values structure) index)
@@ -161,27 +168,29 @@
 (cl:defun system:%rem (x y)
   (values (cl:rem x y)))
 
+(cl:defun system:rationalp (x) (cl:rationalp x))
+
 ;; Float distinction functions (host uses native floatp)
 (cl:defun system:floatp (x)
   (cl:floatp x))
 
 (cl:defun system:make-float (x)
-  (cl:float x))
+  (cl:float x 1.0d0))
 
 (cl:defun system:float-value (x)
   x)
 
 (cl:defun system:%floor (x y)
-  (values (cl:floor x y)))
+  (cl:floor x y))
 
 (cl:defun system:%round (x y)
-  (values (cl:round x y)))
+  (cl:round x y))
 
 (cl:defun system:%truncate (x y)
-  (values (cl:truncate x y)))
+  (cl:truncate x y))
 
 (cl:defun system:%ceiling (x y)
-  (values (cl:ceiling x y)))
+  (cl:ceiling x y))
 
 (cl:defun system:%logand (x y)
   (cl:logand x y))
@@ -280,6 +289,17 @@
 
 (cl:defun system:number-to-raw-string (number)
   (cl:princ-to-string number))
+
+(cl:defun system:number-print-string (number base radix)
+  (cl:write-to-string number :base base :radix radix))
+
+(cl:defun system:object-identity (object) (cl:sxhash object))
+
+(cl:defun system:parse-float-string (string)
+  (cl:let ((cl:*read-default-float-format* 'cl:double-float))
+    (cl:read-from-string (cl:substitute #\e #\l
+                         (cl:substitute #\e #\f
+                          (cl:substitute #\e #\s (cl:string-downcase string)))))))
 
 (cl:defun system:make-raw-array (size)
   (cl:make-array size))
@@ -386,3 +406,26 @@ Note: Order is (value key) to match JavaScript Map.forEach callback order."
 (cl:defun ffi:instanceof (value instance)
   (cl:declare (cl:ignore value instance))
   (cl:error "unimplemented"))
+
+(cl:defun system:unexport (a b)
+  (cl:unexport a b))
+(cl:defun system:use-package (a b)
+  (cl:use-package a b))
+(cl:defun system:unuse-package (a b)
+  (cl:unuse-package a b))
+(cl:defun system:import (a b)
+  (cl:import a b))
+(cl:defun system:shadowing-import (a b)
+  (cl:shadowing-import a b))
+(cl:defun system:shadow (a b)
+  (cl:shadow a b))
+(cl:defun system:package-shadowing-symbols (a)
+  (cl:package-shadowing-symbols a))
+(cl:defun system:unintern (a b)
+  (cl:unintern a b))
+(cl:defun system:rename-package (a b c)
+  (cl:rename-package a b c))
+
+(cl:defvar *closed-host-streams* (cl:make-hash-table :test 'cl:eq #+sbcl :weakness #+sbcl :key))
+(cl:defun system:stream-closed-p (stream) (cl:gethash stream *closed-host-streams*))
+(cl:defun system:mark-stream-closed (stream) (cl:setf (cl:gethash stream *closed-host-streams*) cl:t))

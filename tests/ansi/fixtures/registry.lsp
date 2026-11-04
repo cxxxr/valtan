@@ -1,0 +1,7 @@
+(in-package :cl-test)
+(defvar *definition-order* nil)
+(deftest replaced (progn (push :old *definition-order*) :old) :old)
+(deftest following (reverse *definition-order*) (:updated))
+(deftest replaced (progn (push :updated *definition-order*) :new) :new)
+(deftest "string-name" (quote :old) :old)
+(deftest "string-name" (quote :new) :new)

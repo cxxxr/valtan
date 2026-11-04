@@ -1,0 +1,535 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "9bf066b390f65be5703d6786af6c897d5a698ebcdaf5313e2b8db42ecff43d92",
+  "startedAt": "2026-11-04T09:28:45.156Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "types-and-classes",
+      "files": [
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/types-and-class.lsp",
+        "types-and-classes/types-and-class-2.lsp",
+        "types-and-classes/coerce.lsp",
+        "types-and-classes/subtypep.lsp",
+        "types-and-classes/subtypep-integer.lsp",
+        "types-and-classes/subtypep-float.lsp",
+        "types-and-classes/subtypep-rational.lsp",
+        "types-and-classes/subtypep-real.lsp",
+        "types-and-classes/subtypep-cons.lsp",
+        "types-and-classes/subtypep-member.lsp",
+        "types-and-classes/subtypep-eql.lsp",
+        "types-and-classes/subtypep-array.lsp",
+        "types-and-classes/subtypep-function.lsp",
+        "types-and-classes/subtypep-complex.lsp",
+        "types-and-classes/deftype.lsp",
+        "types-and-classes/standard-generic-function.lsp",
+        "types-and-classes/type-of.lsp",
+        "types-and-classes/typep.lsp",
+        "types-and-classes/class-precedence-lists.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 622,
+      "fail": 5,
+      "registered": 627,
+      "expectedRegistered": 627,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/types-and-class.lsp",
+        "types-and-classes/types-and-class-2.lsp",
+        "types-and-classes/coerce.lsp",
+        "types-and-classes/subtypep.lsp",
+        "types-and-classes/subtypep-integer.lsp",
+        "types-and-classes/subtypep-float.lsp",
+        "types-and-classes/subtypep-rational.lsp",
+        "types-and-classes/subtypep-real.lsp",
+        "types-and-classes/subtypep-cons.lsp",
+        "types-and-classes/subtypep-member.lsp",
+        "types-and-classes/subtypep-eql.lsp",
+        "types-and-classes/subtypep-array.lsp",
+        "types-and-classes/subtypep-function.lsp",
+        "types-and-classes/subtypep-complex.lsp",
+        "types-and-classes/deftype.lsp",
+        "types-and-classes/standard-generic-function.lsp",
+        "types-and-classes/type-of.lsp",
+        "types-and-classes/typep.lsp",
+        "types-and-classes/class-precedence-lists.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "TYPES.6",
+          "reason": "expected (NIL); actual (((((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) (((SUBTYPEP # #) :==> NIL NIL)) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPES.8",
+          "reason": "expected (0); actual (7) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "ALL-STANDARD-GENERIC-FUNCTIONS-ARE-INSTANCES-OF-THAT-CLASS",
+          "reason": "expected (NIL); actual (((ADD-METHOD #<Function ADD-METHOD>) (CLASS-NAME #<Function CLASS-NAME>) (COMPUTE-APPLICABLE-METHODS #<Function COMPUTE-APPLICABLE-METHODS>) (FIND-METHOD #<Function FIND-METHOD>) (FUNCTION-KEYWORDS NIL) (MAKE-INSTANCES-OBSOLETE NIL) (MAKE-LOAD-FORM NIL) (METHOD-QUALIFIERS #<Function METHOD-QUALIFIERS>) (NO-NEXT-METHOD NIL) (REMOVE-METHOD #<Function REMOVE-METHOD>) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPE-OF.1",
+          "reason": "expected (NIL); actual (((#\\  (ATOM STANDARD-CHAR)) (#\\Rubout (ATOM)) (#\\Page (ATOM)) (#\\Tab (ATOM)) (#\\Backspace (ATOM)) (#\\Return (ATOM)) (#\\Newline (ATOM STANDARD-CHAR)) (#\\a (ATOM STANDARD-CHAR)) (#\\A (ATOM STANDARD-CHAR)) (#\\0 (ATOM STANDARD-CHAR)) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "TYPE-OF.4",
+          "reason": "expected (NIL); actual ((#S(COMMON-LISP::STANDARD-OUTPUT-STREAM :BUFFER \"\") #S(COMMON-LISP::STANDARD-INPUT-STREAM :STRING \"\" :POSITION 0) #S(COMMON-LISP::STANDARD-OUTPUT-STREAM :BUFFER \"RESTART\"))) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nShould be atomic, but isn't: READTABLE\nShould be atomic, but isn't: PACKAGE\nShould be atomic, but isn't: PATHNAME\nShould be atomic, but isn't: STREAM\nShould be atomic, but isn't: RANDOM-STATE\nShould be atomic, but isn't: CONDITION\nShould be atomic, but isn't: \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRESTART\n",
+      "pendingTest": null,
+      "currentFile": "types-and-classes/class-precedence-lists.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 627,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "numbers",
+      "files": [
+        "auxiliary/numbers-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/floor-aux.lsp",
+        "auxiliary/ffloor-aux.lsp",
+        "auxiliary/ceiling-aux.lsp",
+        "auxiliary/fceiling-aux.lsp",
+        "auxiliary/truncate-aux.lsp",
+        "auxiliary/ftruncate-aux.lsp",
+        "auxiliary/round-aux.lsp",
+        "auxiliary/fround-aux.lsp",
+        "auxiliary/times-aux.lsp",
+        "auxiliary/division-aux.lsp",
+        "auxiliary/exp-aux.lsp",
+        "auxiliary/gcd-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "numbers/number-comparison.lsp",
+        "numbers/max.lsp",
+        "numbers/min.lsp",
+        "numbers/minusp.lsp",
+        "numbers/plusp.lsp",
+        "numbers/zerop.lsp",
+        "numbers/floor.lsp",
+        "numbers/ffloor.lsp",
+        "numbers/ceiling.lsp",
+        "numbers/fceiling.lsp",
+        "numbers/truncate.lsp",
+        "numbers/ftruncate.lsp",
+        "numbers/round.lsp",
+        "numbers/fround.lsp",
+        "numbers/sin.lsp",
+        "numbers/cos.lsp",
+        "numbers/tan.lsp",
+        "numbers/asin.lsp",
+        "numbers/acos.lsp",
+        "numbers/atan.lsp",
+        "numbers/sinh.lsp",
+        "numbers/cosh.lsp",
+        "numbers/tanh.lsp",
+        "numbers/asinh.lsp",
+        "numbers/acosh.lsp",
+        "numbers/atanh.lsp",
+        "numbers/times.lsp",
+        "numbers/plus.lsp",
+        "numbers/minus.lsp",
+        "numbers/divide.lsp",
+        "numbers/oneplus.lsp",
+        "numbers/oneminus.lsp",
+        "numbers/abs.lsp",
+        "numbers/exp.lsp",
+        "numbers/expt.lsp",
+        "numbers/gcd.lsp",
+        "numbers/incf.lsp",
+        "numbers/decf.lsp",
+        "numbers/lcm.lsp",
+        "numbers/log.lsp",
+        "numbers/signum.lsp",
+        "numbers/sqrt.lsp",
+        "numbers/isqrt.lsp",
+        "numbers/random.lsp",
+        "numbers/random-state-p.lsp",
+        "numbers/make-random-state.lsp",
+        "numbers/numberp.lsp",
+        "numbers/cis.lsp",
+        "numbers/complex.lsp",
+        "numbers/complexp.lsp",
+        "numbers/conjugate.lsp",
+        "numbers/phase.lsp",
+        "numbers/realpart.lsp",
+        "numbers/imagpart.lsp",
+        "numbers/realp.lsp",
+        "numbers/numerator-denominator.lsp",
+        "numbers/rationalp.lsp",
+        "numbers/ash.lsp",
+        "numbers/integer-length.lsp",
+        "numbers/integerp.lsp",
+        "numbers/parse-integer.lsp",
+        "numbers/boole.lsp",
+        "numbers/logand.lsp",
+        "numbers/logandc1.lsp",
+        "numbers/logandc2.lsp",
+        "numbers/logeqv.lsp",
+        "numbers/logior.lsp",
+        "numbers/lognand.lsp",
+        "numbers/lognor.lsp",
+        "numbers/logorc1.lsp",
+        "numbers/logorc2.lsp",
+        "numbers/lognot.lsp",
+        "numbers/logxor.lsp",
+        "numbers/logbitp.lsp",
+        "numbers/logcount.lsp",
+        "numbers/logtest.lsp",
+        "numbers/byte.lsp",
+        "numbers/deposit-field.lsp",
+        "numbers/dpb.lsp",
+        "numbers/ldb.lsp",
+        "numbers/mask-field.lsp",
+        "numbers/float.lsp",
+        "numbers/floatp.lsp",
+        "numbers/rational.lsp",
+        "numbers/rationalize.lsp",
+        "numbers/evenp.lsp",
+        "numbers/oddp.lsp",
+        "numbers/epsilons.lsp",
+        "numbers/real.lsp",
+        "numbers/upgraded-complex-part-type.lsp",
+        "numbers/arithmetic-error.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 1404,
+      "fail": 40,
+      "registered": 1444,
+      "expectedRegistered": 1444,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/numbers-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/floor-aux.lsp",
+        "auxiliary/ffloor-aux.lsp",
+        "auxiliary/ceiling-aux.lsp",
+        "auxiliary/fceiling-aux.lsp",
+        "auxiliary/truncate-aux.lsp",
+        "auxiliary/ftruncate-aux.lsp",
+        "auxiliary/round-aux.lsp",
+        "auxiliary/fround-aux.lsp",
+        "auxiliary/times-aux.lsp",
+        "auxiliary/division-aux.lsp",
+        "auxiliary/exp-aux.lsp",
+        "auxiliary/gcd-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "numbers/number-comparison.lsp",
+        "numbers/max.lsp",
+        "numbers/min.lsp",
+        "numbers/minusp.lsp",
+        "numbers/plusp.lsp",
+        "numbers/zerop.lsp",
+        "numbers/floor.lsp",
+        "numbers/ffloor.lsp",
+        "numbers/ceiling.lsp",
+        "numbers/fceiling.lsp",
+        "numbers/truncate.lsp",
+        "numbers/ftruncate.lsp",
+        "numbers/round.lsp",
+        "numbers/fround.lsp",
+        "numbers/sin.lsp",
+        "numbers/cos.lsp",
+        "numbers/tan.lsp",
+        "numbers/asin.lsp",
+        "numbers/acos.lsp",
+        "numbers/atan.lsp",
+        "numbers/sinh.lsp",
+        "numbers/cosh.lsp",
+        "numbers/tanh.lsp",
+        "numbers/asinh.lsp",
+        "numbers/acosh.lsp",
+        "numbers/atanh.lsp",
+        "numbers/times.lsp",
+        "numbers/plus.lsp",
+        "numbers/minus.lsp",
+        "numbers/divide.lsp",
+        "numbers/oneplus.lsp",
+        "numbers/oneminus.lsp",
+        "numbers/abs.lsp",
+        "numbers/exp.lsp",
+        "numbers/expt.lsp",
+        "numbers/gcd.lsp",
+        "numbers/incf.lsp",
+        "numbers/decf.lsp",
+        "numbers/lcm.lsp",
+        "numbers/log.lsp",
+        "numbers/signum.lsp",
+        "numbers/sqrt.lsp",
+        "numbers/isqrt.lsp",
+        "numbers/random.lsp",
+        "numbers/random-state-p.lsp",
+        "numbers/make-random-state.lsp",
+        "numbers/numberp.lsp",
+        "numbers/cis.lsp",
+        "numbers/complex.lsp",
+        "numbers/complexp.lsp",
+        "numbers/conjugate.lsp",
+        "numbers/phase.lsp",
+        "numbers/realpart.lsp",
+        "numbers/imagpart.lsp",
+        "numbers/realp.lsp",
+        "numbers/numerator-denominator.lsp",
+        "numbers/rationalp.lsp",
+        "numbers/ash.lsp",
+        "numbers/integer-length.lsp",
+        "numbers/integerp.lsp",
+        "numbers/parse-integer.lsp",
+        "numbers/boole.lsp",
+        "numbers/logand.lsp",
+        "numbers/logandc1.lsp",
+        "numbers/logandc2.lsp",
+        "numbers/logeqv.lsp",
+        "numbers/logior.lsp",
+        "numbers/lognand.lsp",
+        "numbers/lognor.lsp",
+        "numbers/logorc1.lsp",
+        "numbers/logorc2.lsp",
+        "numbers/lognot.lsp",
+        "numbers/logxor.lsp",
+        "numbers/logbitp.lsp",
+        "numbers/logcount.lsp",
+        "numbers/logtest.lsp",
+        "numbers/byte.lsp",
+        "numbers/deposit-field.lsp",
+        "numbers/dpb.lsp",
+        "numbers/ldb.lsp",
+        "numbers/mask-field.lsp",
+        "numbers/float.lsp",
+        "numbers/floatp.lsp",
+        "numbers/rational.lsp",
+        "numbers/rationalize.lsp",
+        "numbers/evenp.lsp",
+        "numbers/oddp.lsp",
+        "numbers/epsilons.lsp",
+        "numbers/real.lsp",
+        "numbers/upgraded-complex-part-type.lsp",
+        "numbers/arithmetic-error.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "MAX.ERROR.2",
+          "reason": "expected (NIL); actual (((NIL (NIL NIL)) (#\\  (NIL #\\ )) (\"\u0000\" (NIL \"\u0000\")) ((A B) (NIL (A B))) (#<ARITHMETIC-ERROR {9}> (NIL #<ARITHMETIC-ERROR {9}>)) (#<PACKAGE \"COMMON-LISP\"> (NIL #<PACKAGE \"COMMON-LISP\">)) (#(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) (NIL #(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL))) (#S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT ...) (NIL #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT ...))) (#P\"foo\" (NIL #P\"foo\")) (#P\"CLTESTROOT:\" (NIL #P\"CLTESTROOT:\")) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MIN.ERROR.2",
+          "reason": "expected (NIL); actual (((NIL (NIL NIL)) (#\\  (NIL #\\ )) (\"\u0000\" (NIL \"\u0000\")) ((A B) (NIL (A B))) (#<ARITHMETIC-ERROR {9}> (NIL #<ARITHMETIC-ERROR {9}>)) (#<PACKAGE \"COMMON-LISP\"> (NIL #<PACKAGE \"COMMON-LISP\">)) (#(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) (NIL #(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL))) (#S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT ...) (NIL #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT ...))) (#P\"foo\" (NIL #P\"foo\")) (#P\"CLTESTROOT:\" (NIL #P\"CLTESTROOT:\")) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PLUS.REASSOCIATION.2",
+          "reason": "expected (NIL); actual (((1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "PLUS.REASSOCIATION.4",
+          "reason": "expected (NIL); actual (((1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXP.ERROR.4",
+          "reason": "expected (T); actual (NIL Infinity) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXP.ERROR.5",
+          "reason": "expected (T); actual (NIL Infinity) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXP.ERROR.6",
+          "reason": "expected (T); actual (NIL Infinity) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXP.ERROR.7",
+          "reason": "expected (T); actual (NIL Infinity) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXP.ERROR.8",
+          "reason": "expected (T); actual (NIL 0.0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXP.ERROR.9",
+          "reason": "expected (T); actual (NIL 0.0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXP.ERROR.10",
+          "reason": "expected (T); actual (NIL 0.0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXP.ERROR.11",
+          "reason": "expected (T); actual (NIL 0.0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXPT.ERROR.4",
+          "reason": "expected (T); actual (NIL Infinity) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXPT.ERROR.5",
+          "reason": "expected (T); actual (NIL Infinity) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXPT.ERROR.6",
+          "reason": "expected (T); actual (NIL Infinity) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXPT.ERROR.7",
+          "reason": "expected (T); actual (NIL Infinity) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXPT.ERROR.8",
+          "reason": "expected (T); actual (NIL 0.0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXPT.ERROR.9",
+          "reason": "expected (T); actual (NIL 0.0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXPT.ERROR.10",
+          "reason": "expected (T); actual (NIL 0.0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXPT.ERROR.11",
+          "reason": "expected (T); actual (NIL 0.0) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EXPT.29",
+          "reason": "expected (NIL); actual (((0 #C(2 2) #C(NaN NaN)) (0 #C(2 1/2) #C(NaN NaN)) (0 #C(2.0 0.5) #C(NaN NaN)) (0 #C(2.0 0.5) #C(NaN NaN)) (0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2 2) #C(NaN NaN)) (0.0 #C(2 1/2) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) ...)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "INCF.ORDER.4",
+          "reason": "expected (2 2); actual (1 1) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DECF.ORDER.4",
+          "reason": "expected (0 0); actual (-1 -1) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "RATIONALIZE.ERROR.1",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.ERROR.2",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.ERROR.3",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.ERROR.4",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.1",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.2",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.3",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "EVENP.ERROR.3",
+          "reason": "expected (NIL); actual (((1.2 (NIL NIL)) (1.3 (NIL NIL)) (1.5 (NIL NIL)) (1.8 (NIL NIL)) (3/5 (NIL NIL)))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "ODDP.ERROR.3",
+          "reason": "expected (NIL); actual (((1.2 (NIL T)) (1.3 (NIL T)) (1.5 (NIL T)) (1.8 (NIL T)) (3/5 (NIL T)))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EPSILONS.6",
+          "reason": "expected (:GOOD); actual ((1.1102230246251568e-16 2.220446049250313e-16)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EPSILONS.7",
+          "reason": "expected (:GOOD); actual ((1.1102230246251568e-16 2.220446049250313e-16)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EPSILONS.8",
+          "reason": "expected (:GOOD); actual ((1.1102230246251568e-16 2.220446049250313e-16)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EPSILONS.9",
+          "reason": "expected (:GOOD); actual ((1.1102230246251568e-16 2.220446049250313e-16)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EPSILONS.10",
+          "reason": "expected (:GOOD); actual ((5.551115123125784e-17 1.1102230246251565e-16)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EPSILONS.11",
+          "reason": "expected (:GOOD); actual ((5.551115123125784e-17 1.1102230246251565e-16)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EPSILONS.12",
+          "reason": "expected (:GOOD); actual ((5.551115123125784e-17 1.1102230246251565e-16)) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "EPSILONS.13",
+          "reason": "expected (:GOOD); actual ((5.551115123125784e-17 1.1102230246251565e-16)) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "numbers/arithmetic-error.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 1444,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 2026,
+  "fail": 45,
+  "complete": true,
+  "passRate": 97.82713664896185,
+  "finishedAt": "2026-11-04T09:32:04.573Z"
+}

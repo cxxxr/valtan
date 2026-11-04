@@ -1,0 +1,157 @@
+(in-package :common-lisp)
+
+(defconstant internal-time-units-per-second 1000)
+
+(defun get-internal-real-time () (*:environment-op :real-time))
+(defun get-internal-run-time () (*:environment-op :run-time))
+(defun get-universal-time () (*:environment-op :universal-time))
+
+(defun valid-time-zone-p (zone)
+  (and (rationalp zone) (<= -24 zone 24) (integerp (* zone 3600))))
+(defun time-zone-offset (zone)
+  (unless (valid-time-zone-p zone)
+    (type-error zone '(satisfies valid-time-zone-p)))
+  (* zone 3600))
+
+(defun decode-universal-time (time &optional (zone nil zone-p))
+  (unless (typep time '(integer 0 *)) (type-error time '(integer 0 *)))
+  (multiple-value-bind (second minute hour date month year day daylight offset)
+      (*:environment-op :decode time (when zone-p (time-zone-offset zone)))
+    (values second minute hour date month year day daylight
+            (if zone-p zone (/ offset 3600)))))
+
+(defun encode-universal-time (second minute hour date month year &optional (zone nil zone-p))
+  (unless (typep second '(integer 0 59)) (type-error second '(integer 0 59)))
+  (unless (typep minute '(integer 0 59)) (type-error minute '(integer 0 59)))
+  (unless (typep hour '(integer 0 23)) (type-error hour '(integer 0 23)))
+  (unless (typep date '(integer 1 31)) (type-error date '(integer 1 31)))
+  (unless (typep month '(integer 1 12)) (type-error month '(integer 1 12)))
+  (unless (typep year '(integer 0 *)) (type-error year '(integer 0 *)))
+  (*:environment-op :encode second minute hour date month year
+                    (when zone-p (time-zone-offset zone))))
+
+(defun get-decoded-time () (decode-universal-time (get-universal-time)))
+
+(defun sleep (seconds)
+  (unless (and (realp seconds) (>= seconds 0)) (type-error seconds '(real 0 *)))
+  (*:environment-op :sleep seconds))
+
+(defmacro time (form)
+  (let ((real (gensym "REAL-TIME")) (run (gensym "RUN-TIME")))
+    `(let ((,real (get-internal-real-time)) (,run (get-internal-run-time)))
+       (unwind-protect ,form
+         (format *trace-output* "~&Elapsed: ~,3F seconds; CPU: ~,3F seconds.~%"
+                 (/ (- (get-internal-real-time) ,real) (float internal-time-units-per-second))
+                 (/ (- (get-internal-run-time) ,run) (float internal-time-units-per-second)))))))
+
+(defun lisp-implementation-type () "Valtan")
+(defun lisp-implementation-version () (ffi:js->cl (*:environment-op :version)))
+(defun short-site-name () nil)
+(defun long-site-name () nil)
+(defun machine-instance () (ffi:js->cl (*:environment-op :machine-instance)))
+(defun machine-type () (ffi:js->cl (*:environment-op :machine-type)))
+(defun machine-version () (ffi:js->cl (*:environment-op :machine-version)))
+(defun software-type () (ffi:js->cl (*:environment-op :software-type)))
+(defun software-version () (ffi:js->cl (*:environment-op :software-version)))
+
+(defun user-homedir-pathname (&optional host)
+  (declare (ignore host))
+  (let ((home (*:environment-op :home)))
+    (when home (pathname (ffi:js->cl home)))))
+
+(defun apropos-list (string-designator &optional package)
+  (let ((pattern (string string-designator)) (matches nil))
+    (dolist (pkg (if package (list (or (find-package package)
+                                      (error 'package-error :package package)))
+                    (list-all-packages)))
+      (do-symbols (symbol pkg)
+        (when (search pattern (symbol-name symbol) :test #'char-equal)
+          (pushnew symbol matches :test #'eq))))
+    (sort matches #'string-lessp :key #'symbol-name)))
+
+(defun apropos (string-designator &optional package)
+  (dolist (symbol (apropos-list string-designator package))
+    (format t "~&~S" symbol)
+    (when (boundp symbol) (format t "  bound"))
+    (when (fboundp symbol) (format t "  function"))
+    (terpri))
+  (values))
+
+(defgeneric describe-object (object stream))
+(defmethod describe-object ((object t) stream)
+  (let ((*print-circle* t) (*print-readably* nil) (*print-level* 3) (*print-length* 10))
+    (if (standard-instance-p object)
+        (format stream "~&Instance of ~S.~%" (class-name (class-of object)))
+        (format stream "~&~S~%Type: ~S~%" object (type-of object)))
+    (when (arrayp object)
+      (format stream "Dimensions: ~S; element type: ~S.~%" (array-dimensions object) (array-element-type object)))
+    (when (symbolp object)
+      (format stream "Package: ~S; bound: ~S; function: ~S.~%"
+              (symbol-package object) (boundp object) (fboundp object))))
+  (values))
+
+(defun describe (object &optional stream)
+  (let ((stream (cond ((eq stream t) *terminal-io*) ((null stream) *standard-output*) (t stream))))
+    (unless (typep stream 'stream) (type-error stream 'stream))
+    (describe-object object stream))
+  (values))
+
+(defun room (&optional (detail :default))
+  (declare (ignore detail))
+  (format t "~&Memory (bytes): ~A~%" (ffi:js->cl (*:environment-op :room)))
+  (values))
+
+(defun disassemble (function)
+  (unless (or (functionp function) (symbolp function)
+              (and (consp function) (eq (car function) 'lambda))
+              (typep function '(cons (eql setf) (cons symbol null))))
+    (type-error function '(or function symbol (cons (eql setf) (cons symbol null))
+                             (cons (eql lambda) t))))
+  (let ((function (cond ((functionp function) function)
+                        ((and (consp function) (eq (car function) 'lambda)) (compile nil function))
+                        (t (fdefinition function)))))
+    (format t "~&; Valtan JavaScript representation~%~A~%"
+            (ffi:js->cl (*:environment-op :disassemble function))))
+  nil)
+
+(defvar *traced-functions* nil)
+(defvar *trace-depth* 0)
+(defvar *inside-trace-report* nil)
+
+(defun report-trace (control &rest arguments)
+  (let ((*inside-trace-report* t) (*print-circle* t) (*print-readably* nil)
+        (*print-level* 3) (*print-length* 10))
+    (apply #'format *trace-output* control arguments)))
+
+(defun trace-functions (names)
+  (unless names (return-from trace-functions (mapcar #'car *traced-functions*)))
+  (dolist (name names)
+    (unless (assoc name *traced-functions* :test #'equal)
+      (let* ((original (fdefinition name))
+             (wrapper
+               (lambda (&rest arguments)
+                 (if *inside-trace-report*
+                     (apply original arguments)
+                     (let ((*trace-depth* (1+ *trace-depth*)))
+                       (report-trace "~&~D: ~S called with ~S~%" *trace-depth* name arguments)
+                       (let ((results (multiple-value-list (apply original arguments))))
+                         (report-trace "~&~D: ~S returned ~S~%" *trace-depth* name results)
+                         (values-list results)))))))
+        (let ((gf (gethash original *generic-function-objects*)))
+          (when gf (setf (gethash wrapper *generic-function-objects*) gf)))
+        (setf (fdefinition name) wrapper)
+        (push (list name original wrapper) *traced-functions*))))
+  names)
+
+(defun untrace-functions (names)
+  (let ((names (or names (mapcar #'car *traced-functions*))))
+    (dolist (name names)
+      (let ((entry (assoc name *traced-functions* :test #'equal)))
+        (when entry
+          (when (and (fboundp name) (eq (fdefinition name) (third entry)))
+            (setf (fdefinition name) (second entry)))
+          (setq *traced-functions* (delete entry *traced-functions* :test #'eq)))))
+    names))
+
+(defmacro trace (&rest names) `(trace-functions ',names))
+(defmacro untrace (&rest names) `(untrace-functions ',names))

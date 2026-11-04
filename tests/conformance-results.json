@@ -1,0 +1,144 @@
+{
+  "pass": 9824,
+  "fail": 193,
+  "incomplete_files": 0,
+  "time_ms": 1424142,
+  "files": [
+    {
+      "file": "must-cons.lisp",
+      "pass": 728,
+      "fail": 0
+    },
+    {
+      "file": "must-character.lisp",
+      "pass": 313,
+      "fail": 0
+    },
+    {
+      "file": "must-do.lisp",
+      "pass": 75,
+      "fail": 0
+    },
+    {
+      "file": "must-eval.lisp",
+      "pass": 9,
+      "fail": 0
+    },
+    {
+      "file": "must-condition.lisp",
+      "pass": 142,
+      "fail": 5
+    },
+    {
+      "file": "must-array.lisp",
+      "pass": 330,
+      "fail": 0
+    },
+    {
+      "file": "must-hash-table.lisp",
+      "pass": 93,
+      "fail": 3
+    },
+    {
+      "file": "must-data-and-control.lisp",
+      "pass": 304,
+      "fail": 6
+    },
+    {
+      "file": "must-loop.lisp",
+      "pass": 850,
+      "fail": 0
+    },
+    {
+      "file": "must-symbol.lisp",
+      "pass": 113,
+      "fail": 0
+    },
+    {
+      "file": "must-string.lisp",
+      "pass": 414,
+      "fail": 0
+    },
+    {
+      "file": "desirable-printer.lisp",
+      "pass": 36,
+      "fail": 0
+    },
+    {
+      "file": "must-reader.lisp",
+      "pass": 1485,
+      "fail": 75
+    },
+    {
+      "file": "must-sequence.lisp",
+      "pass": 3840,
+      "fail": 11
+    },
+    {
+      "file": "should-cons.lisp",
+      "pass": 141,
+      "fail": 0
+    },
+    {
+      "file": "should-character.lisp",
+      "pass": 49,
+      "fail": 0
+    },
+    {
+      "file": "should-array.lisp",
+      "pass": 32,
+      "fail": 0
+    },
+    {
+      "file": "should-hash-table.lisp",
+      "pass": 3,
+      "fail": 0
+    },
+    {
+      "file": "should-data-and-control.lisp",
+      "pass": 4,
+      "fail": 0
+    },
+    {
+      "file": "should-eval.lisp",
+      "pass": 2,
+      "fail": 0
+    },
+    {
+      "file": "should-package.lisp",
+      "pass": 6,
+      "fail": 0
+    },
+    {
+      "file": "should-sequence.lisp",
+      "pass": 55,
+      "fail": 17
+    },
+    {
+      "file": "should-string.lisp",
+      "pass": 0,
+      "fail": 0
+    },
+    {
+      "file": "should-symbol.lisp",
+      "pass": 44,
+      "fail": 0
+    },
+    {
+      "file": "must-package.lisp",
+      "pass": 329,
+      "fail": 6
+    },
+    {
+      "file": "must-printer.lisp",
+      "pass": 369,
+      "fail": 70
+    },
+    {
+      "file": "x-sequence.lisp",
+      "pass": 58,
+      "fail": 0
+    }
+  ],
+  "measurementNote": "Current runtime including decimal dispatch-infix and binary sign/ratio reader fixes, along with the prior CLOS, array, control-flow, numeric and environment fixes. All 27 SACLA files completed and the independent count/rate gate passed. The separate complete upstream ANSI measurement is recorded in ansi/full-results.json; its 20,062/21,937 passes are not included in these SACLA totals."
+}

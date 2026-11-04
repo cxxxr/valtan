@@ -7,3 +7,6 @@ tests.js
 *.map
 log
 test_output*.txt
+
+dist-ansi/
+ansi-results*.json

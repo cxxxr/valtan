@@ -4,6 +4,8 @@ import {
 import {
     toLispBoolean,
 } from './header';
+import { typeError } from './error';
+import { intern, cl_package } from './package';
 
 export function isCharacter(x) {
     return (typeof(x) === 'string' || x instanceof String) && x.length === 1;
@@ -23,4 +25,10 @@ export function CL_codeChar(code) {
 
 export function CL_charCode(char) {
     return values1(char.charCodeAt(0));
+}
+
+export function CL_charEqual(x, y) {
+    if (!isCharacter(x)) typeError(x, intern('CHARACTER', cl_package));
+    if (!isCharacter(y)) typeError(y, intern('CHARACTER', cl_package));
+    return values1(toLispBoolean(x.charCodeAt(0) === y.charCodeAt(0)));
 }

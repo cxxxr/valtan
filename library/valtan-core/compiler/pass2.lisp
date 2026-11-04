@@ -81,6 +81,10 @@
     (setf (gethash (read-from-string "SYSTEM::MAKE-PACKAGE") table)
           (list "lisp.CL_makePackage" (list 3)))
     (setf (gethash (read-from-string "CL:NUMBERP") table) (list "lisp.CL_numberp" (list 1)))
+    (setf (gethash (read-from-string "CL:COMPLEXP") table) (list "lisp.CL_complexp" (list 1)))
+    (setf (gethash (read-from-string "CL:COMPLEX") table) (list "lisp.CL_complex" (list 1 2)))
+    (setf (gethash (read-from-string "CL:REALPART") table) (list "lisp.CL_realpart" (list 1)))
+    (setf (gethash (read-from-string "CL:IMAGPART") table) (list "lisp.CL_imagpart" (list 1)))
     (setf (gethash (read-from-string "CL:INTEGERP") table) (list "lisp.CL_integerp" (list 1)))
     (setf (gethash (read-from-string "SYSTEM::%ADD") table) (list "lisp.CL_add" (list 2)))
     (setf (gethash (read-from-string "SYSTEM::%SUB") table) (list "lisp.CL_sub" (list 2)))
@@ -141,6 +145,7 @@
           'p2-cl->js)
 
     table))
+
 #+valtan
 (defparameter *builtin-function-table*
   (let ((table (make-hash-table)))
@@ -160,6 +165,8 @@
 
 (defvar *p2-emit-stream* *standard-output*)
 (defvar *p2-literal-symbols* (make-hash-table))
+(defvar *p2-runtime-literals* nil)
+(defvar *p2-runtime-literal-values* nil)
 (defvar *p2-toplevel-defun-stream*)
 (defvar *p2-defun-names*)
 (defvar *p2-temporary-variables*)
@@ -328,7 +335,9 @@
       circle)))
 
 (defun p2-literal-1 (x circle seen)
-  (cond ((null x)
+  (cond ((assoc x seen)
+         (cdr (assoc x seen)))
+        ((null x)
          "lisp.S_nil")
         ((symbolp x)
          (p2-symbol-to-js-value x))
@@ -336,10 +345,34 @@
          (format nil "~A(lisp.codeArrayToString(~A))"
                  (p2-symbol-to-call-value '*:raw-string-to-array)
                  (p2-encode-string x)))
+        ((packagep x)
+         (format nil "~A(~A)" (p2-symbol-to-call-value 'find-package)
+                 (p2-literal-1 (package-name x) circle seen)))
+        ((pathnamep x)
+         (format nil "~A(~A, ~A, ~A, ~A, ~A, ~A, ~A, ~A, ~A, ~A, ~A, ~A)"
+                 (p2-symbol-to-call-value 'make-pathname)
+                 (p2-literal-1 :host circle seen) (p2-literal-1 (pathname-host x) circle seen)
+                 (p2-literal-1 :device circle seen) (p2-literal-1 (pathname-device x) circle seen)
+                 (p2-literal-1 :directory circle seen) (p2-literal-1 (pathname-directory x) circle seen)
+                 (p2-literal-1 :name circle seen) (p2-literal-1 (pathname-name x) circle seen)
+                 (p2-literal-1 :type circle seen) (p2-literal-1 (pathname-type x) circle seen)
+                 (p2-literal-1 :version circle seen) (p2-literal-1 (pathname-version x) circle seen)))
+        ((complexp x)
+         (format nil "lisp.CL_complex(~A, ~A)"
+                 (p2-literal-1 (realpart x) circle seen)
+                 (p2-literal-1 (imagpart x) circle seen)))
+        ((and (integerp x) (or (> x 9007199254740991) (< x -9007199254740991)))
+         (format nil "BigInt('~A')" (princ-to-string x)))
+        ((and (rationalp x) (not (integerp x)))
+         (format nil "lisp.makeRatio(~A, ~A)"
+                 (p2-literal-1 (numerator x) circle seen)
+                 (p2-literal-1 (denominator x) circle seen)))
         ((numberp x)
          ;; Wrap floats with Float constructor to preserve float type
          (if (floatp x)
-             (format nil "lisp.toFloat(~A)" (princ-to-string x))
+             (format nil "lisp.toFloat(~A)"
+                     (substitute #\e #\d
+                       (substitute #\e #\D (princ-to-string x))))
              (princ-to-string x)))
         ((characterp x)
          (format nil "lisp.makeCharacter(~D)" (char-code x)))
@@ -361,40 +394,37 @@
                 (format nil "lisp.makeCons(~A, ~A)"
                         (p2-literal-1 (car x) circle seen)
                         (p2-literal-1 (cdr x) circle seen)))))
-        ((vectorp x)
-         (with-output-to-string (out)
-           ;; Check if it's a bit-vector and generate appropriate code
-           (cond ((cl:eq (cl:array-element-type x) 'cl:bit)
-                  ;; Generate make-array call with :element-type 'bit for bit-vectors
-                  (write-string (p2-symbol-to-call-value 'cl:make-array) out)
-                  (format out "(~D," (cl:length x))
-                  (write-string (p2-symbol-to-js-value :element-type) out)
-                  (write-string "," out)
-                  (write-string (p2-symbol-to-js-value 'cl:bit) out)
-                  (write-string "," out)
-                  (write-string (p2-symbol-to-js-value :initial-contents) out)
-                  (write-string ",lisp.jsArrayToList([" out)
-                  (dotimes (i (cl:length x))
-                    (unless (zerop i)
-                      (write-string "," out))
-                    (write-string (p2-literal-1 (cl:aref x i) circle seen) out))
-                  (write-string "]))" out))
-                 (t
-                  ;; Regular vector - use vector function
-                  (write-string (p2-symbol-to-call-value 'cl:vector) out)
-                  (if (zerop (length x))
-                      (write-string "(" out)
-                      (dotimes (i (length x))
-                        (if (zerop i)
-                            (write-string "(" out)
-                            (write-string "," out))
-                        (write-string (p2-literal-1 (aref x i) circle seen) out)))
-                  (write-string ")" out)))))
+        ((arrayp x)
+         ;; Allocate before filling so references back to this array are valid.
+         (let* ((var (genvar "LITERAL"))
+                (seen (acons x var seen)))
+           (with-output-to-string (out)
+             (write-line "(function () {" out)
+             (format out "const ~A = ~A(~A, ~A, ~A);~%"
+                     var (p2-symbol-to-call-value 'cl:make-array)
+                     (p2-literal-1 (array-dimensions x) circle seen)
+                     (p2-symbol-to-js-value :element-type)
+                     (p2-literal-1 (array-element-type x) circle seen))
+             (dotimes (i (array-total-size x))
+               (format out "lisp.intern(\"(SETF ROW-MAJOR-AREF)\", \"COMMON-LISP\").func(~A, ~A, ~D);~%"
+                       (p2-literal-1 (row-major-aref x i) circle seen) var i))
+             (format out "return ~A;~%" var)
+             (write-string "})()" out))))
         (t
          (error "unexpected literal: ~S" x))))
 
+(defun p2-runtime-literal (object)
+  (multiple-value-bind (index found) (gethash object *p2-runtime-literals*)
+    (unless found
+      (setq index (hash-table-count *p2-runtime-literals*))
+      (setf (gethash object *p2-runtime-literals*) index)
+      (push object *p2-runtime-literal-values*))
+    (format nil "constants[~D]" index)))
+
 (defun p2-literal (x)
-  (p2-literal-1 x (make-circle-table x) nil))
+  (if (and *p2-runtime-literals* (not (or (null x) (numberp x) (characterp x))))
+      (p2-runtime-literal x)
+      (p2-literal-1 x (make-circle-table x) nil)))
 
 (defun %p2-form (form)
   (p2 form (if (hir-return-value-p form) :expr :stmt)))
@@ -544,22 +574,27 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 (defun p2-make-save-var (var)
   (p2-local-var (binding-id var) "save_"))
 
-(defun p2-emit-unwind-var (var finally-stream)
+(defun p2-emit-unwind-var (var finally-stream &optional active-var)
   (when (eq (binding-kind var) :special)
     (let ((js-var (p2-symbol-to-js-value (binding-name var)))
           (save-var (p2-make-save-var var)))
-      (format finally-stream "~A.value=~A;~%" js-var save-var))))
+      (when active-var (format finally-stream "if(~A){" active-var))
+      (format finally-stream "~A.value=~A;~%" js-var save-var)
+      (when active-var (write-line "}" finally-stream)))))
 
 (defun p2-emit-declvar (var finally-stream)
   (ecase (binding-kind var)
     ((:special)
      (let ((js-var (p2-symbol-to-js-value (binding-name var)))
-           (save-var (p2-make-save-var var)))
+           (save-var (p2-make-save-var var))
+           (active-var (when finally-stream (p2-local-var (binding-id var) "bound_"))))
        (push save-var *p2-temporary-variables*)
        (format *p2-emit-stream* "~A=~A.value;~%" save-var js-var)
-       (format *p2-emit-stream* "~A.value=" js-var))
-     (when finally-stream
-       (p2-emit-unwind-var var finally-stream)))
+       (when active-var
+         (push active-var *p2-temporary-variables*)
+         (format *p2-emit-stream* "~A=true;~%" active-var)
+         (p2-emit-unwind-var var finally-stream active-var))
+       (format *p2-emit-stream* "~A.value=" js-var)))
     ((:variable)
      (let ((var (p2-local-var (binding-id var))))
        (push var *p2-temporary-variables*)
@@ -579,59 +614,70 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
       (let ((var (first opt))
             (value (second opt))
             (supplied-binding (third opt)))
-        (let ((result (p2-form value)))
+        (let ((result (p2-temporary-var)))
+          (format *p2-emit-stream* "if(arguments.length > ~D){~A=arguments[~D];}else{~%" i result i)
+          (format *p2-emit-stream* "~A=~A;~%" result (p2-form value))
+          (write-line "}" *p2-emit-stream*)
           (p2-emit-declvar var finally-stream)
-          (format *p2-emit-stream* "arguments.length > ~D ? arguments[~D] : " i i)
-          (format *p2-emit-stream* "(~A);~%" result))
+          (format *p2-emit-stream* "~A;~%" result))
         (when supplied-binding
           (p2-emit-declvar supplied-binding finally-stream)
           (format *p2-emit-stream* "(arguments.length > ~D ? lisp.S_t : lisp.S_nil);~%" i))
         (incf i)))
-    (when (parsed-lambda-list-keys parsed-lambda-list)
+    (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
+      (when rest-var
+        (p2-emit-declvar rest-var finally-stream)
+        (format *p2-emit-stream* "lisp.jsArrayToList(arguments, ~D);~%" i)))
+    (when (parsed-lambda-list-keyp parsed-lambda-list)
       (let ((keyword-vars '()))
         (dolist (opt (parsed-lambda-list-keys parsed-lambda-list))
           (let* ((var (first opt))
                  (value (second opt))
                  (supplied-binding (third opt))
                  (keyword-var (p2-symbol-to-js-value (fourth opt)))
-                 (supplied-var (p2-local-var (binding-id var) "supplied_")))
+                 (supplied-var (p2-local-var (binding-id var) "supplied_"))
+                 (present-var (p2-local-var (binding-id var) "present_")))
             (push keyword-var keyword-vars)
-            (format *p2-emit-stream* "let ~A;~%" supplied-var)
+            (format *p2-emit-stream* "let ~A, ~A=false;~%" supplied-var present-var)
             (let ((loop-var (p2-genvar)))
               (p2-emit-for (loop-var i "arguments.length" 2)
                 (format *p2-emit-stream* "if(arguments[~D] === ~A){~%" loop-var keyword-var)
-                (format *p2-emit-stream* "~A=arguments[~D+1];~%" supplied-var loop-var)
+                (format *p2-emit-stream* "~A=arguments[~D+1];~A=true;~%" supplied-var loop-var present-var)
                 (write-line "break;" *p2-emit-stream*)
                 (write-line "}" *p2-emit-stream*)))
-            (let ((result (p2-form value)))
+            (let ((result (p2-temporary-var)))
+              (format *p2-emit-stream* "if(~A){~A=~A;}else{~%" present-var result supplied-var)
+              (format *p2-emit-stream* "~A=~A;~%" result (p2-form value))
+              (write-line "}" *p2-emit-stream*)
               (p2-emit-declvar var finally-stream)
-              (format *p2-emit-stream*
-                      "~A !== undefined ? ~A : (~A);~%"
-                      supplied-var
-                      supplied-var
-                      result))
+              (format *p2-emit-stream* "~A;~%" result))
             (when supplied-binding
               (p2-emit-declvar supplied-binding finally-stream)
-              (format *p2-emit-stream* "(~A !== undefined ? lisp.S_t : lisp.S_nil);~%" supplied-var))))
+              (format *p2-emit-stream* "(~A ? lisp.S_t : lisp.S_nil);~%" present-var))))
         (format *p2-emit-stream* "if((arguments.length-~D)%2===1)" i)
         (write-line "{lisp.programError('odd number of &KEY arguments');}" *p2-emit-stream*)
-        (when (and keyword-vars
-                   (null (parsed-lambda-list-allow-other-keys parsed-lambda-list)))
-          (let ((loop-var (p2-genvar)))
+        (unless (parsed-lambda-list-allow-other-keys parsed-lambda-list)
+          (let ((loop-var (p2-genvar))
+                (allow-var (p2-genvar))
+                (allow-key (p2-symbol-to-js-value :allow-other-keys)))
+            (format *p2-emit-stream* "let ~A = false;~%" allow-var)
             (p2-emit-for (loop-var i "arguments.length" 2)
-              (write-string "if(" *p2-emit-stream*)
-              (do ((keyword-vars keyword-vars (rest keyword-vars)))
-                  ((null keyword-vars))
-                (format *p2-emit-stream* "arguments[~D]!==~A" loop-var (first keyword-vars))
-                (when (rest keyword-vars)
-                  (write-string " && " *p2-emit-stream*)))
               (format *p2-emit-stream*
-                      ") { lisp.programError('Unknown &KEY argument: ' + arguments[~A].name); }~%"
-                      loop-var))))))
-    (let ((rest-var (parsed-lambda-list-rest-var parsed-lambda-list)))
-      (when rest-var
-        (p2-emit-declvar rest-var finally-stream)
-        (format *p2-emit-stream* "lisp.jsArrayToList(arguments, ~D);~%" i)))))
+                      "if(arguments[~A] === ~A){ ~A = arguments[~A+1] !== lisp.S_nil; break; }~%"
+                      loop-var allow-key allow-var loop-var))
+            (format *p2-emit-stream* "if(!~A){~%" allow-var)
+            (p2-emit-for (loop-var i "arguments.length" 2)
+              (format *p2-emit-stream* "if(arguments[~A] !== ~A" loop-var allow-key)
+              (dolist (keyword keyword-vars)
+                (format *p2-emit-stream* " && arguments[~A] !== ~A" loop-var keyword))
+              (format *p2-emit-stream*
+                      ") { lisp.programError('Unknown &KEY argument'); }~%"))
+            (format *p2-emit-stream* "}~%")))))
+    (dolist (aux (parsed-lambda-list-auxs parsed-lambda-list))
+      (let ((result (p2-temporary-var)))
+        (format *p2-emit-stream* "~A=~A;~%" result (p2-form (second aux)))
+        (p2-emit-declvar (first aux) finally-stream)
+        (format *p2-emit-stream* "~A;~%" result)))))
 
 (define-p2-emit lambda (hir)
   (let ((name (hir-arg1 hir))
@@ -652,12 +698,16 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
       (let* ((base-stream *p2-emit-stream*)
              (emitter-stream (make-emitter-stream base-stream)))
         (let ((*p2-emit-stream* emitter-stream))
-          (let ((finally-code
+          (let* ((initialization-stream (make-emitter-stream emitter-stream))
+                 (finally-code
                   (with-output-to-string (finally-stream)
-                    (p2-emit-lambda-list parsed-lambda-list finally-stream))))
+                    (let ((*p2-emit-stream* initialization-stream))
+                      (p2-emit-lambda-list parsed-lambda-list finally-stream)))))
             (p2-with-unwind-special-vars
-             (let ((result (p2-form body)))
-               (format *p2-emit-stream* "return ~A;~%" result))
+             (progn
+               (join-emitter-stream emitter-stream initialization-stream)
+               (let ((result (p2-form body)))
+                 (format *p2-emit-stream* "return ~A;~%" result)))
              finally-code)))
         (p2-emit-declare-temporary-variables)
         (join-emitter-stream base-stream emitter-stream)))
@@ -676,7 +726,9 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
         (format *p2-emit-stream* "~A;~%" value)))
     (let (result)
       (p2-with-unwind-special-vars
-       (setq result (p2-forms body))
+       (let ((value (p2-forms body)))
+         (setq result (p2-temporary-var))
+         (format *p2-emit-stream* "~A=~A;~%" result value))
        (with-output-to-string (output)
          (dolist (binding (reverse bindings))
            (p2-emit-unwind-var binding output))))
@@ -684,7 +736,14 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
       result)))
 
 (defun p2-prepare-args (args)
-  (mapcar #'%p2-form args))
+  ;; Later arguments can emit assignments before the call itself. Capture each
+  ;; argument now, including bare variable reads, to preserve left-to-right order.
+  (mapcar (lambda (arg)
+            (let ((value (%p2-form arg))
+                  (temporary (p2-temporary-var)))
+              (format *p2-emit-stream* "~A=~A;~%" temporary value)
+              temporary))
+          args))
 
 (defun p2-emit-args (args)
   (do ((args args (cdr args)))
@@ -761,6 +820,40 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                    (gen name)
                    (p2-call-default hir))))))))
 
+;; Share these specializations between the host compiler and runtime COMPILE.
+;; Keep unsupported arities on the ordinary path, including its arity checks.
+(dolist (name '(+ - * / = /= < > <= >= 1+ 1- zerop))
+  (setf (gethash name *builtin-function-table*) 'p2-numeric-call))
+
+(dolist (entry '((car "lisp.CL_checkedCar" (1))
+                 (cdr "lisp.CL_checkedCdr" (1))
+                 (null "lisp.CL_null" (1))
+                 (not "lisp.CL_null" (1))
+                 (listp "lisp.CL_listp" (1))
+                 (atom "lisp.CL_atom" (1))
+                 (char= "lisp.CL_charEqual" (2))))
+  (setf (gethash (first entry) *builtin-function-table*) (rest entry)))
+
+(defun p2-numeric-call (hir)
+  (let* ((name (hir-arg1 hir))
+         (args (hir-arg2 hir))
+         (binary (cdr (assoc name '((+ . "lisp.CL_add") (- . "lisp.CL_sub")
+                                   (* . "lisp.CL_mul") (/ . "lisp.CL_div")
+                                   (= . "lisp.CL_numberEqual") (/= . "lisp.CL_numberNotEqual")
+                                   (< . "lisp.CL_lessThan") (> . "lisp.CL_greaterThan")
+                                   (<= . "lisp.CL_lessEqual") (>= . "lisp.CL_greaterEqual")))))
+         (unary (cdr (assoc name '((1+ . "lisp.CL_add") (1- . "lisp.CL_sub")
+                                  (zerop . "lisp.CL_numberEqual"))))))
+    (cond ((and binary (= (length args) 2))
+           (p2-call-builtin-using-list-spec hir (list binary '(2))))
+          ((and unary (= (length args) 1))
+           (let ((prepared (p2-prepare-args args))
+                 (result (when (hir-return-value-p hir) (p2-temporary-var))))
+             (when result (format *p2-emit-stream* "~A=" result))
+             (format *p2-emit-stream* "~A(~A,~D);~%" unary (first prepared)
+                     (if (eq name 'zerop) 0 1))
+             result))
+          (t (p2-call-default hir)))))
 (define-p2-emit call (hir)
   (let* ((symbol (hir-arg1 hir))
          (builtin (gethash symbol *builtin-function-table*)))
@@ -779,26 +872,28 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
   (embed-source-map hir)
   (let ((protected-form (hir-arg1 hir))
         (cleanup-form (hir-arg2 hir))
-        (saved-return-var (when (hir-return-value-p hir) (p2-genvar "saved")))
+        (saved-return-var (p2-genvar "saved"))
         (result))
-    (when saved-return-var
-      (format *p2-emit-stream* "let ~A;~%" saved-return-var))
+    (format *p2-emit-stream* "let ~A;~%" saved-return-var)
     (p2-emit-try-finally (setq result
                                (cond ((hir-return-value-p hir)
                                       (let ((protect-form-result (p2-form protected-form)))
-                                        (format *p2-emit-stream*
-                                                "~A=lisp.currentValues();~%"
-                                                saved-return-var)
-                                        protect-form-result))
+                                        (setq result (p2-temporary-var))
+                                        (format *p2-emit-stream* "~A=~A;~%" result protect-form-result)
+                                        result))
                                      (t
                                       (p2 protected-form :stmt)
                                       nil)))
                          (progn
+                           ;; Save values on entry to cleanup, including values
+                           ;; being transferred by RETURN-FROM or THROW. Saving
+                           ;; only after normal completion leaves this undefined
+                           ;; on a nonlocal exit and corrupts later VALUES calls.
+                           (format *p2-emit-stream* "~A=lisp.currentValues();~%" saved-return-var)
                            (p2 cleanup-form :stmt)
-                           (when (hir-return-value-p hir)
-                             (format *p2-emit-stream*
-                                     "lisp.restoreValues(~A);~%"
-                                     saved-return-var))))
+                           (format *p2-emit-stream*
+                                   "lisp.restoreValues(~A);~%"
+                                   saved-return-var)))
     result))
 
 (defun p2-block-result-var-name (name)
@@ -806,6 +901,9 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 
 (defun p2-escape-block-name (name)
   (concatenate 'string "BLOCK_" (p2-escape-string (binding-id name))))
+
+(defun p2-block-tag-var (name)
+  (concatenate 'string "BLOCK_TAG_" (p2-escape-string (binding-id name))))
 
 (define-p2-emit block (hir)
   (embed-source-map hir)
@@ -823,6 +921,9 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
           (t
            (let ((error-var (p2-genvar "E_"))
                  (result-var (p2-temporary-var)))
+             ;; A fresh token identifies this dynamic activation of the lexical
+             ;; block, even when another block has the same source-level name.
+             (format *p2-emit-stream* "const ~A={};~%" (p2-block-tag-var name))
              (p2-emit-try-catch
               (format *p2-emit-stream* "~A=~A~%" result-var (p2-forms body))
               ((error-var)
@@ -830,7 +931,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                        "if(~A instanceof lisp.BlockValue && ~A.name === ~A){~A=~A.value;}~%"
                        error-var
                        error-var
-                       (p2-symbol-to-js-value (binding-name name))
+                       (p2-block-tag-var name)
                        result-var
                        error-var)
                (format *p2-emit-stream*
@@ -849,7 +950,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
            (let ((result (p2-form form)))
              (format *p2-emit-stream*
                      "throw new lisp.BlockValue(~A,~A);"
-                     (p2-symbol-to-js-value (binding-name name))
+                     (p2-block-tag-var name)
                      result))))
     (p2-no-return)))
 
@@ -1159,16 +1260,14 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
   (let ((args (p2-prepare-args (hir-arg2 hir))))
     (embed-source-map hir)
     (destructuring-bind (lhs rhs) args
-      (format nil "(~A & ~A)" lhs rhs))))
+      (format nil "lisp.CL_logand(~A, ~A)" lhs rhs))))
 
 (defun p2-funcall (hir)
   (let ((args (hir-arg2 hir)))
     (cond ((<= 1 (length args))
            (embed-source-map hir)
-           (destructuring-bind (fn . args) args
-             (let ((args (p2-prepare-args args))
-                   (fn (p2-form fn))
-                   result)
+           (destructuring-bind (fn . args) (p2-prepare-args args)
+             (let (result)
                (when (hir-return-value-p hir)
                  (setq result (p2-temporary-var))
                  (format *p2-emit-stream* "~A=" result))
@@ -1271,6 +1370,8 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 
 (defun p2-emit-initialize-symbols (stream)
   (maphash (lambda (symbol ident)
+             (if *p2-runtime-literals*
+                 (format stream "~A = ~A;~%" ident (p2-runtime-literal symbol))
              (let ((name (p2-js-escape-string (symbol-name symbol))))
                (if (symbol-package symbol)
                    (format stream
@@ -1278,7 +1379,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                            ident
                            name
                            (package-name (symbol-package symbol)))
-                   (format stream "~A = lisp.makeSymbol(\"~A\");~%" ident name))))
+                   (format stream "~A = lisp.makeSymbol(\"~A\");~%" ident name)))))
            *p2-literal-symbols*))
 
 (defun p2-finish-output (stream)

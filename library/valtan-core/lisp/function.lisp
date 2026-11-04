@@ -27,12 +27,11 @@
              (*:apply function (*:list-to-raw-array head)))))))
 
 (defun fdefinition (x)
-  (or (cond ((consp x)
-             (when (eq 'setf (car x))
-               (get (cadr x) '*:fdefinition-setf)))
-            ((symbolp x)
-             (symbol-function x)))
-      (error "The function ~S is undefined." x)))
+  (cond ((symbolp x) (symbol-function x))
+        ((and (consp x) (eq (car x) 'setf) (consp (cdr x))
+              (symbolp (cadr x)) (null (cddr x)))
+         (or (get (cadr x) '*:fdefinition-setf) (error 'undefined-function :name x)))
+        (t (type-error x '(or symbol (cons (eql setf) (cons symbol null)))))))
 
 (defun (cl:setf fdefinition) (function x)
   (or (cond ((consp x)
@@ -46,12 +45,16 @@
 
 (defun proper-list-p (x)
   "Return T if X is a proper list (including NIL)."
-  (cond ((null x) t)
-        ((consp x) (proper-list-p (cdr x)))
-        (t nil)))
+  (let ((slow x) (fast x))
+    (do () (nil)
+      (when (atom fast) (return (null fast)))
+      (setq fast (cdr fast))
+      (when (atom fast) (return (null fast)))
+      (setq fast (cdr fast) slow (cdr slow))
+      (when (eq slow fast) (return nil)))))
 
 (defun values-list (list)
   "Return the elements of LIST as multiple values."
   (unless (proper-list-p list)
-    (type-error list 'list))
+    (type-error list '(satisfies proper-list-p)))
   (apply #'values list))

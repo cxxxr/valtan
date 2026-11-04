@@ -1,0 +1,490 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "8443f0ae24b36a2dd90b1082200b74eb52efac2ec3296c9902986048f1147439",
+  "startedAt": "2026-11-03T22:43:29.726Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "numbers",
+      "files": [
+        "auxiliary/numbers-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/floor-aux.lsp",
+        "auxiliary/ffloor-aux.lsp",
+        "auxiliary/ceiling-aux.lsp",
+        "auxiliary/fceiling-aux.lsp",
+        "auxiliary/truncate-aux.lsp",
+        "auxiliary/ftruncate-aux.lsp",
+        "auxiliary/round-aux.lsp",
+        "auxiliary/fround-aux.lsp",
+        "auxiliary/times-aux.lsp",
+        "auxiliary/division-aux.lsp",
+        "auxiliary/exp-aux.lsp",
+        "auxiliary/gcd-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "numbers/number-comparison.lsp",
+        "numbers/max.lsp",
+        "numbers/min.lsp",
+        "numbers/minusp.lsp",
+        "numbers/plusp.lsp",
+        "numbers/zerop.lsp",
+        "numbers/floor.lsp",
+        "numbers/ffloor.lsp",
+        "numbers/ceiling.lsp",
+        "numbers/fceiling.lsp",
+        "numbers/truncate.lsp",
+        "numbers/ftruncate.lsp",
+        "numbers/round.lsp",
+        "numbers/fround.lsp",
+        "numbers/sin.lsp",
+        "numbers/cos.lsp",
+        "numbers/tan.lsp",
+        "numbers/asin.lsp",
+        "numbers/acos.lsp",
+        "numbers/atan.lsp",
+        "numbers/sinh.lsp",
+        "numbers/cosh.lsp",
+        "numbers/tanh.lsp",
+        "numbers/asinh.lsp",
+        "numbers/acosh.lsp",
+        "numbers/atanh.lsp",
+        "numbers/times.lsp",
+        "numbers/plus.lsp",
+        "numbers/minus.lsp",
+        "numbers/divide.lsp",
+        "numbers/oneplus.lsp",
+        "numbers/oneminus.lsp",
+        "numbers/abs.lsp",
+        "numbers/exp.lsp",
+        "numbers/expt.lsp",
+        "numbers/gcd.lsp",
+        "numbers/incf.lsp",
+        "numbers/decf.lsp",
+        "numbers/lcm.lsp",
+        "numbers/log.lsp",
+        "numbers/signum.lsp",
+        "numbers/sqrt.lsp",
+        "numbers/isqrt.lsp",
+        "numbers/random.lsp",
+        "numbers/random-state-p.lsp",
+        "numbers/make-random-state.lsp",
+        "numbers/numberp.lsp",
+        "numbers/cis.lsp",
+        "numbers/complex.lsp",
+        "numbers/complexp.lsp",
+        "numbers/conjugate.lsp",
+        "numbers/phase.lsp",
+        "numbers/realpart.lsp",
+        "numbers/imagpart.lsp",
+        "numbers/realp.lsp",
+        "numbers/numerator-denominator.lsp",
+        "numbers/rationalp.lsp",
+        "numbers/ash.lsp",
+        "numbers/integer-length.lsp",
+        "numbers/integerp.lsp",
+        "numbers/parse-integer.lsp",
+        "numbers/boole.lsp",
+        "numbers/logand.lsp",
+        "numbers/logandc1.lsp",
+        "numbers/logandc2.lsp",
+        "numbers/logeqv.lsp",
+        "numbers/logior.lsp",
+        "numbers/lognand.lsp",
+        "numbers/lognor.lsp",
+        "numbers/logorc1.lsp",
+        "numbers/logorc2.lsp",
+        "numbers/lognot.lsp",
+        "numbers/logxor.lsp",
+        "numbers/logbitp.lsp",
+        "numbers/logcount.lsp",
+        "numbers/logtest.lsp",
+        "numbers/byte.lsp",
+        "numbers/deposit-field.lsp",
+        "numbers/dpb.lsp",
+        "numbers/ldb.lsp",
+        "numbers/mask-field.lsp",
+        "numbers/float.lsp",
+        "numbers/floatp.lsp",
+        "numbers/rational.lsp",
+        "numbers/rationalize.lsp",
+        "numbers/evenp.lsp",
+        "numbers/oddp.lsp",
+        "numbers/epsilons.lsp",
+        "numbers/real.lsp",
+        "numbers/upgraded-complex-part-type.lsp",
+        "numbers/arithmetic-error.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 1388,
+      "fail": 56,
+      "registered": 1444,
+      "expectedRegistered": 1444,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/numbers-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/floor-aux.lsp",
+        "auxiliary/ffloor-aux.lsp",
+        "auxiliary/ceiling-aux.lsp",
+        "auxiliary/fceiling-aux.lsp",
+        "auxiliary/truncate-aux.lsp",
+        "auxiliary/ftruncate-aux.lsp",
+        "auxiliary/round-aux.lsp",
+        "auxiliary/fround-aux.lsp",
+        "auxiliary/times-aux.lsp",
+        "auxiliary/division-aux.lsp",
+        "auxiliary/exp-aux.lsp",
+        "auxiliary/gcd-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "numbers/number-comparison.lsp",
+        "numbers/max.lsp",
+        "numbers/min.lsp",
+        "numbers/minusp.lsp",
+        "numbers/plusp.lsp",
+        "numbers/zerop.lsp",
+        "numbers/floor.lsp",
+        "numbers/ffloor.lsp",
+        "numbers/ceiling.lsp",
+        "numbers/fceiling.lsp",
+        "numbers/truncate.lsp",
+        "numbers/ftruncate.lsp",
+        "numbers/round.lsp",
+        "numbers/fround.lsp",
+        "numbers/sin.lsp",
+        "numbers/cos.lsp",
+        "numbers/tan.lsp",
+        "numbers/asin.lsp",
+        "numbers/acos.lsp",
+        "numbers/atan.lsp",
+        "numbers/sinh.lsp",
+        "numbers/cosh.lsp",
+        "numbers/tanh.lsp",
+        "numbers/asinh.lsp",
+        "numbers/acosh.lsp",
+        "numbers/atanh.lsp",
+        "numbers/times.lsp",
+        "numbers/plus.lsp",
+        "numbers/minus.lsp",
+        "numbers/divide.lsp",
+        "numbers/oneplus.lsp",
+        "numbers/oneminus.lsp",
+        "numbers/abs.lsp",
+        "numbers/exp.lsp",
+        "numbers/expt.lsp",
+        "numbers/gcd.lsp",
+        "numbers/incf.lsp",
+        "numbers/decf.lsp",
+        "numbers/lcm.lsp",
+        "numbers/log.lsp",
+        "numbers/signum.lsp",
+        "numbers/sqrt.lsp",
+        "numbers/isqrt.lsp",
+        "numbers/random.lsp",
+        "numbers/random-state-p.lsp",
+        "numbers/make-random-state.lsp",
+        "numbers/numberp.lsp",
+        "numbers/cis.lsp",
+        "numbers/complex.lsp",
+        "numbers/complexp.lsp",
+        "numbers/conjugate.lsp",
+        "numbers/phase.lsp",
+        "numbers/realpart.lsp",
+        "numbers/imagpart.lsp",
+        "numbers/realp.lsp",
+        "numbers/numerator-denominator.lsp",
+        "numbers/rationalp.lsp",
+        "numbers/ash.lsp",
+        "numbers/integer-length.lsp",
+        "numbers/integerp.lsp",
+        "numbers/parse-integer.lsp",
+        "numbers/boole.lsp",
+        "numbers/logand.lsp",
+        "numbers/logandc1.lsp",
+        "numbers/logandc2.lsp",
+        "numbers/logeqv.lsp",
+        "numbers/logior.lsp",
+        "numbers/lognand.lsp",
+        "numbers/lognor.lsp",
+        "numbers/logorc1.lsp",
+        "numbers/logorc2.lsp",
+        "numbers/lognot.lsp",
+        "numbers/logxor.lsp",
+        "numbers/logbitp.lsp",
+        "numbers/logcount.lsp",
+        "numbers/logtest.lsp",
+        "numbers/byte.lsp",
+        "numbers/deposit-field.lsp",
+        "numbers/dpb.lsp",
+        "numbers/ldb.lsp",
+        "numbers/mask-field.lsp",
+        "numbers/float.lsp",
+        "numbers/floatp.lsp",
+        "numbers/rational.lsp",
+        "numbers/rationalize.lsp",
+        "numbers/evenp.lsp",
+        "numbers/oddp.lsp",
+        "numbers/epsilons.lsp",
+        "numbers/real.lsp",
+        "numbers/upgraded-complex-part-type.lsp",
+        "numbers/arithmetic-error.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "MAX.ERROR.2",
+          "reason": "expected (NIL); actual (((#\\Newline (NIL #\\Newline)) (\"\u0000\" (NIL \"\u0000\")) (#1=(A B) (NIL #1#)) (#<ARITHMETIC-ERROR {7}> (NIL #<ARITHMETIC-ERROR {7}>)) (#<PACKAGE \"COMMON-LISP\"> (NIL #<PACKAGE \"COMMON-LISP\">)) (#2=#(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) (NIL #2#)) (#S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) (NIL #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0))) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-c1QgbY\") :NAME \"foo\" :TYPE NIL :VERSION NIL) (NIL #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-c1QgbY\") :NAME \"foo\" :TYPE NIL :VERSION NIL))) (NIL (NIL NIL)) (#S(STANDARD-OUTPUT-STREAM :BUFFER \"\") (NIL #S(STANDARD-OUTPUT-STREAM :BUFFER \"\"))) (#S(READTABLE :CASE :UPCASE :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :COUNT 8 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :COUNT 1 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0)) (NIL #S(READTABLE :CASE :UPCASE :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :COUNT 8 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :COUNT 1 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0)))) (#S(FOO-STRUCTURE :X 1 :Y A :Z NIL) (NIL #S(FOO-STRUCTURE :X 1 :Y A :Z NIL))) (#<Function> (NIL #<Function>)) (#S(RANDOM-STATE :SEED 5260796130373366) (NIL #S(RANDOM-STATE :SEED 5260796130373366))) (#<STANDARD-METHOD MEANINGLESS-USER-GENERIC-FUNCTION-FOR-UNIVERSE (#<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER>)> (NIL #<STANDARD-METHOD MEANINGLESS-USER-GENERIC-FUNCTION-FOR-UNIVERSE (#<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER>)>))))"
+        },
+        {
+          "test": "MIN.ERROR.2",
+          "reason": "expected (NIL); actual (((#\\Newline (NIL #\\Newline)) (\"\u0000\" (NIL \"\u0000\")) (#1=(A B) (NIL #1#)) (#<ARITHMETIC-ERROR {7}> (NIL #<ARITHMETIC-ERROR {7}>)) (#<PACKAGE \"COMMON-LISP\"> (NIL #<PACKAGE \"COMMON-LISP\">)) (#2=#(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) (NIL #2#)) (#S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) (NIL #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :COUNT 0 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0))) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-c1QgbY\") :NAME \"foo\" :TYPE NIL :VERSION NIL) (NIL #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-c1QgbY\") :NAME \"foo\" :TYPE NIL :VERSION NIL))) (NIL (NIL NIL)) (#S(STANDARD-OUTPUT-STREAM :BUFFER \"\") (NIL #S(STANDARD-OUTPUT-STREAM :BUFFER \"\"))) (#S(READTABLE :CASE :UPCASE :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :COUNT 8 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :COUNT 1 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0)) (NIL #S(READTABLE :CASE :UPCASE :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :COUNT 8 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :COUNT 1 :TEST EQL :REHASH-SIZE 1.5 :REHASH-THRESHOLD 1.0)))) (#S(FOO-STRUCTURE :X 1 :Y A :Z NIL) (NIL #S(FOO-STRUCTURE :X 1 :Y A :Z NIL))) (#<Function> (NIL #<Function>)) (#S(RANDOM-STATE :SEED 5260796130373366) (NIL #S(RANDOM-STATE :SEED 5260796130373366))) (#<STANDARD-METHOD MEANINGLESS-USER-GENERIC-FUNCTION-FOR-UNIVERSE (#<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER>)> (NIL #<STANDARD-METHOD MEANINGLESS-USER-GENERIC-FUNCTION-FOR-UNIVERSE (#<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER> #<STANDARD-CLASS INTEGER>)>))))"
+        },
+        {
+          "test": "ZEROP.10",
+          "reason": "The function NOTEVERY is undefined"
+        },
+        {
+          "test": "PLUS.REASSOCIATION.2",
+          "reason": "expected (NIL); actual (((1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16)))"
+        },
+        {
+          "test": "PLUS.REASSOCIATION.4",
+          "reason": "expected (NIL); actual (((1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16) (1.0 2.220446049250313e-16 1.9984014443252818e-16)))"
+        },
+        {
+          "test": "MINUS.2",
+          "reason": "invalid declaration specifier: (NOTINLINE -)"
+        },
+        {
+          "test": "EXP.ERROR.4",
+          "reason": "expected (T); actual (NIL Infinity)"
+        },
+        {
+          "test": "EXP.ERROR.5",
+          "reason": "expected (T); actual (NIL Infinity)"
+        },
+        {
+          "test": "EXP.ERROR.6",
+          "reason": "expected (T); actual (NIL Infinity)"
+        },
+        {
+          "test": "EXP.ERROR.7",
+          "reason": "expected (T); actual (NIL Infinity)"
+        },
+        {
+          "test": "EXP.ERROR.8",
+          "reason": "expected (T); actual (NIL 0.0)"
+        },
+        {
+          "test": "EXP.ERROR.9",
+          "reason": "expected (T); actual (NIL 0.0)"
+        },
+        {
+          "test": "EXP.ERROR.10",
+          "reason": "expected (T); actual (NIL 0.0)"
+        },
+        {
+          "test": "EXP.ERROR.11",
+          "reason": "expected (T); actual (NIL 0.0)"
+        },
+        {
+          "test": "EXPT.ERROR.4",
+          "reason": "expected (T); actual (NIL Infinity)"
+        },
+        {
+          "test": "EXPT.ERROR.5",
+          "reason": "expected (T); actual (NIL Infinity)"
+        },
+        {
+          "test": "EXPT.ERROR.6",
+          "reason": "expected (T); actual (NIL Infinity)"
+        },
+        {
+          "test": "EXPT.ERROR.7",
+          "reason": "expected (T); actual (NIL Infinity)"
+        },
+        {
+          "test": "EXPT.ERROR.8",
+          "reason": "expected (T); actual (NIL 0.0)"
+        },
+        {
+          "test": "EXPT.ERROR.9",
+          "reason": "expected (T); actual (NIL 0.0)"
+        },
+        {
+          "test": "EXPT.ERROR.10",
+          "reason": "expected (T); actual (NIL 0.0)"
+        },
+        {
+          "test": "EXPT.ERROR.11",
+          "reason": "expected (T); actual (NIL 0.0)"
+        },
+        {
+          "test": "EXPT.29",
+          "reason": "expected (NIL); actual (((0 #C(2 2) #C(NaN NaN)) (0 #C(2 1/2) #C(NaN NaN)) (0 #C(2.0 0.5) #C(NaN NaN)) (0 #C(2.0 0.5) #C(NaN NaN)) (0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2 2) #C(NaN NaN)) (0.0 #C(2 1/2) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2 2) #C(NaN NaN)) (0.0 #C(2 1/2) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2 2) #C(NaN NaN)) (0.0 #C(2 1/2) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) (0.0 #C(2.0 0.5) #C(NaN NaN)) (#C(0.0 0.0) #C(2 2) #C(NaN NaN)) (#C(0.0 0.0) #C(2 1/2) #C(NaN NaN)) (#C(0.0 0.0) #C(2.0 0.5) #C(NaN NaN)) (#C(0.0 0.0) #C(2.0 0.5) #C(NaN NaN)) (#C(0.0 0.0) #C(2.0 0.5) #C(NaN NaN)) (#C(0.0 0.0) #C(2 2) #C(NaN NaN)) (#C(0.0 0.0) #C(2 1/2) #C(NaN NaN)) (#C(0.0 0.0) #C(2.0 0.5) #C(NaN NaN)) (#C(0.0 0.0) #C(2.0 0.5) #C(NaN NaN)) (#C(0.0 0.0) #C(2.0 0.5) #C(NaN NaN)) (#C(0.0 0.0) #C(2 2) #C(NaN NaN)) (#C(0.0 0.0) #C(2 1/2) #C(NaN NaN)) (#C(0.0 0.0) #C(2.0 0.5) #C(NaN NaN)) (#C(0.0 0.0) #C(2.0 0.5) #C(NaN NaN)) (#C(0.0 0.0) #C(2.0 0.5) #C(NaN NaN))))"
+        },
+        {
+          "test": "PARSE-INTEGER.21",
+          "reason": "The value #() is not of the expected type STRING"
+        },
+        {
+          "test": "RATIONALIZE.ERROR.1",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.ERROR.2",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.ERROR.3",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.ERROR.4",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.1",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.2",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "RATIONALIZE.3",
+          "reason": "The function RATIONALIZE is undefined"
+        },
+        {
+          "test": "EVENP.ERROR.3",
+          "reason": "expected (NIL); actual (((1.2 (NIL NIL)) (1.3 (NIL NIL)) (1.5 (NIL NIL)) (1.8 (NIL NIL)) (3/5 (NIL NIL))))"
+        },
+        {
+          "test": "ODDP.ERROR.3",
+          "reason": "expected (NIL); actual (((1.2 (NIL T)) (1.3 (NIL T)) (1.5 (NIL T)) (1.8 (NIL T)) (3/5 (NIL T))))"
+        },
+        {
+          "test": "EPSILONS.6",
+          "reason": "expected (:GOOD); actual ((1.1102230246251568e-16 2.220446049250313e-16))"
+        },
+        {
+          "test": "EPSILONS.7",
+          "reason": "expected (:GOOD); actual ((1.1102230246251568e-16 2.220446049250313e-16))"
+        },
+        {
+          "test": "EPSILONS.8",
+          "reason": "expected (:GOOD); actual ((1.1102230246251568e-16 2.220446049250313e-16))"
+        },
+        {
+          "test": "EPSILONS.9",
+          "reason": "expected (:GOOD); actual ((1.1102230246251568e-16 2.220446049250313e-16))"
+        },
+        {
+          "test": "EPSILONS.10",
+          "reason": "expected (:GOOD); actual ((5.551115123125784e-17 1.1102230246251565e-16))"
+        },
+        {
+          "test": "EPSILONS.11",
+          "reason": "expected (:GOOD); actual ((5.551115123125784e-17 1.1102230246251565e-16))"
+        },
+        {
+          "test": "EPSILONS.12",
+          "reason": "expected (:GOOD); actual ((5.551115123125784e-17 1.1102230246251565e-16))"
+        },
+        {
+          "test": "EPSILONS.13",
+          "reason": "expected (:GOOD); actual ((5.551115123125784e-17 1.1102230246251565e-16))"
+        },
+        {
+          "test": "UPGRADED-COMPLEX-PART-TYPE.1",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "UPGRADED-COMPLEX-PART-TYPE.2",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "UPGRADED-COMPLEX-PART-TYPE.3",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "UPGRADED-COMPLEX-PART-TYPE.4",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "UPGRADED-COMPLEX-PART-TYPE.5",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "UPGRADED-COMPLEX-PART-TYPE.6",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "UPGRADED-COMPLEX-PART-TYPE.7",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "UPGRADED-COMPLEX-PART-TYPE.8",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "UPGRADED-COMPLEX-PART-TYPE.9",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "UPGRADED-COMPLEX-PART-TYPE.ERROR.1",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "UPGRADED-COMPLEX-PART-TYPE.ERROR.2",
+          "reason": "The function UPGRADED-COMPLEX-PART-TYPE is undefined"
+        },
+        {
+          "test": "ARITHMETIC-ERROR-OPERATION.ERROR.1",
+          "reason": "Too few arguments to generic function #<STANDARD-GENERIC-FUNCTION ARITHMETIC-ERROR-OPERATION (COMMON-LISP::OBJECT)>."
+        },
+        {
+          "test": "ARITHMETIC-ERROR-OPERATION.ERROR.2",
+          "reason": "expected (T); actual (NIL /)"
+        },
+        {
+          "test": "ARITHMETIC-ERROR-OPERANDS.ERROR.1",
+          "reason": "Too few arguments to generic function #<STANDARD-GENERIC-FUNCTION ARITHMETIC-ERROR-OPERANDS (COMMON-LISP::OBJECT)>."
+        },
+        {
+          "test": "ARITHMETIC-ERROR-OPERANDS.ERROR.2",
+          "reason": "expected (T); actual (NIL (1 0))"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "numbers/arithmetic-error.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 1388,
+  "fail": 56,
+  "complete": true,
+  "passRate": 96.1218836565097,
+  "finishedAt": "2026-11-03T23:00:05.958Z",
+  "runtimeNote": "After exact bit-field operations, ISQRT and real/complex transcendental functions; before structure class metadata, generic-function identity/arity and lexical macro fixes."
+}

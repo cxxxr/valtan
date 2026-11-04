@@ -30,12 +30,12 @@
     (:hash-table . ("must-hash-table.lisp" "should-hash-table.lisp"))
     (:loop       . ("must-loop.lisp"))
     (:reader     . ("must-reader.lisp"))
-    (:printer    . ("desirable-printer.lisp"))
+    (:printer    . ("must-printer.lisp" "desirable-printer.lisp"))
     (:condition  . ("must-condition.lisp"))
     (:control    . ("must-data-and-control.lisp" "should-data-and-control.lisp"))
     (:do         . ("must-do.lisp"))
     (:eval       . ("must-eval.lisp" "should-eval.lisp"))
-    (:package    . ("should-package.lisp"))))
+    (:package    . ("must-package.lisp" "should-package.lisp"))))
 
 ;;; Default test files (stable tests first)
 (defparameter *default-test-files*
@@ -64,7 +64,10 @@
     "should-package.lisp"
     "should-sequence.lisp"
     "should-string.lisp"
-    "should-symbol.lisp"))
+    "should-symbol.lisp"
+    "must-package.lisp"
+    "must-printer.lisp"
+    "x-sequence.lisp"))
 
 ;;; Result structure
 (defstruct test-result
@@ -77,6 +80,7 @@
 
 (defstruct file-result
   file
+  completed-p
   pass-count
   fail-count
   results
@@ -109,9 +113,15 @@
   "Run all tests in a file, return file-result"
   (let* ((filepath (format nil "sacla-tests/~A" filename))
          (*current-test-file* filename)
+         ;; Reader conformance cases intentionally mutate the active readtable.
+         ;; Keep those changes local to this file so the next file is read with
+         ;; the standard syntax it expects.
+         (*readtable* (copy-readtable nil))
+         (*read-base* 10)
          (start-time (js:-date.now))
          (pass 0)
          (fail 0)
+         (completed-p nil)
          (results '()))
     (when verbose
       (format t "~%=== Testing: ~A ===~%" filename))
@@ -124,22 +134,28 @@
               (let* ((*package* cl-user-pkg)
                      (form (read in nil eof-value)))
                 (when (eq form eof-value)
+                  (setq completed-p t)
                   (return))
                 (let ((result (run-single-test form n)))
                   (push result results)
-                  (if (test-result-passed result)
-                      (progn
-                        (incf pass)
-                        (when verbose
-                          (format t "~D PASS: ~S~%" n form)))
-                      (progn
-                        (incf fail)
-                        (when verbose
-                          (format t "~D FAIL: ~S~%   Error: ~A~%"
-                                  n form
-                                  (or (test-result-error-message result) "NIL")))
-                        (when *test-stop-on-error*
-                          (return)))))))))
+                  ;; Forms can contain circular reader literals. Keep diagnostic
+                  ;; printing finite without changing the test's printer bindings.
+                  (let ((*print-circle* t)
+                        (*print-length* 100)
+                        (*print-level* 20))
+                    (if (test-result-passed result)
+                        (progn
+                          (incf pass)
+                          (when verbose
+                            (format t "~D PASS: ~S~%" n form)))
+                        (progn
+                          (incf fail)
+                          (when verbose
+                            (format t "~D FAIL: ~S~%   Error: ~A~%"
+                                    n form
+                                    (or (test-result-error-message result) "NIL")))
+                          (when *test-stop-on-error*
+                            (return))))))))))
       (error (e)
         (format t "Error loading test file ~A: ~A~%" filename e)))
     (let ((total-time (- (js:-date.now) start-time)))
@@ -147,6 +163,7 @@
         (format t "--- ~A: Pass=~D, Fail=~D (~Dms) ---~%"
                 filename pass fail total-time))
       (make-file-result :file filename
+                        :completed-p completed-p
                         :pass-count pass
                         :fail-count fail
                         :results (nreverse results)
@@ -182,6 +199,7 @@
          (start-time (js:-date.now))
          (total-pass 0)
          (total-fail 0)
+         (incomplete-files 0)
          (file-results '()))
 
     (format t "~%========================================~%")
@@ -194,6 +212,8 @@
         (push result file-results)
         (incf total-pass (file-result-pass-count result))
         (incf total-fail (file-result-fail-count result))
+        (unless (file-result-completed-p result)
+          (incf incomplete-files))
         (when (and stop-on-error (> (file-result-fail-count result) 0))
           (format t "~%Stopping due to failures in ~A~%" file)
           (return))))
@@ -201,15 +221,19 @@
     (let ((total-time (- (js:-date.now) start-time)))
       (format t "~%========================================~%")
       (format t "TOTAL: Pass=~D, Fail=~D (~Dms)~%" total-pass total-fail total-time)
+      (format t "Incomplete files: ~D~%" incomplete-files)
       (let* ((total (+ total-pass total-fail))
              (rate (if (> total 0)
                        (floor (* 100 total-pass) total)
                        0)))
-        (format t "Pass Rate: ~D%~%" rate))
+        (if (zerop incomplete-files)
+            (format t "Pass Rate: ~D%~%" rate)
+            (format t "Partial pass rate: ~D% (incomplete run)~%" rate)))
       (format t "========================================~%")
 
       ;; Return summary
       (list :total-pass total-pass
+            :incomplete-files incomplete-files
             :total-fail total-fail
             :file-results (nreverse file-results)
             :time-ms total-time))))
@@ -236,13 +260,18 @@
 ;;; Export results as JSON-like format for CI
 (defun results-to-json (results)
   "Convert test results to JSON string for CI integration"
-  (format nil "{\"pass\":~D,\"fail\":~D,\"time_ms\":~D,\"files\":[~{~A~^,~}]}"
-          (getf results :total-pass)
-          (getf results :total-fail)
-          (getf results :time-ms)
-          (mapcar (lambda (fr)
-                    (format nil "{\"file\":\"~A\",\"pass\":~D,\"fail\":~D}"
-                            (file-result-file fr)
-                            (file-result-pass-count fr)
-                            (file-result-fail-count fr)))
-                  (getf results :file-results))))
+  (with-output-to-string (out)
+    (format out "{\"pass\":~D,\"fail\":~D,\"incomplete_files\":~D,\"time_ms\":~D,\"files\":["
+            (getf results :total-pass)
+            (getf results :total-fail)
+            (getf results :incomplete-files)
+            (getf results :time-ms))
+    (let ((first t))
+      (dolist (fr (getf results :file-results))
+        (unless first (write-char #\, out))
+        (setq first nil)
+        (format out "{\"file\":~S,\"pass\":~D,\"fail\":~D}"
+                (file-result-file fr)
+                (file-result-pass-count fr)
+                (file-result-fail-count fr))))
+    (write-string "]}" out)))

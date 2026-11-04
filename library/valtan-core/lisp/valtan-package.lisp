@@ -36,6 +36,22 @@
   (:nicknames :*)
   (:use)
   (:export :+null+
+           :format-control
+           :number-print-string
+           :parse-float-string
+           :object-identity
+           :compiler-property
+           :set-compiler-property
+           :initialize-file-system
+           :initialize-environment
+           :environment-op
+           :file-op
+           :stream-closed-p
+           :mark-stream-closed
+           :rationalp
+           :float-rank
+           :call-with-progv
+           :throw-values
            :*get-stdin-line-function*
            :write-raw-string-to-stdout
            :read-whole-file
@@ -61,6 +77,15 @@
            :%delete-package
            :package-used-by-list
            :package-use-list
+           :unexport
+           :use-package
+           :unuse-package
+           :import
+           :shadowing-import
+           :shadow
+           :package-shadowing-symbols
+           :unintern
+           :rename-package
            :%add
            :%sub
            :%negate
