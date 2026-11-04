@@ -46,9 +46,13 @@
 
 (defun proper-list-p (x)
   "Return T if X is a proper list (including NIL)."
-  (cond ((null x) t)
-        ((consp x) (proper-list-p (cdr x)))
-        (t nil)))
+  (let ((slow x) (fast x))
+    (do () (nil)
+      (when (atom fast) (return (null fast)))
+      (setq fast (cdr fast))
+      (when (atom fast) (return (null fast)))
+      (setq fast (cdr fast) slow (cdr slow))
+      (when (eq slow fast) (return nil)))))
 
 (defun values-list (list)
   "Return the elements of LIST as multiple values."

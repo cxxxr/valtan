@@ -14,27 +14,26 @@
         (if (cl:consp name-and-options)
             (cl:values (cl:first name-and-options) (cl:rest name-and-options))
             (cl:values name-and-options nil))
-      (let* ((conc-name (cl:format nil #"~A-" structure-name))
+      (let* ((conc-name (cl:format nil #"~A-" (cl:symbol-name structure-name)))
              constructor-option
              included-option
              type-option
              named-option
              (constructor-name
-              (cl:intern (cl:format nil #"MAKE-~A" structure-name)
-                         (cl:symbol-package structure-name)))
+              (cl:intern (cl:format nil #"MAKE-~A" (cl:symbol-name structure-name))))
              (copier-name
-              (cl:intern (cl:format nil #"COPY-~A" structure-name)
-                         (cl:symbol-package structure-name)))
+              (cl:intern (cl:format nil #"COPY-~A" (cl:symbol-name structure-name))))
              (predicate-name
-              (cl:intern (cl:format nil #"~A-P" structure-name) (cl:symbol-package structure-name)))
+              (cl:intern (cl:format nil #"~A-P" (cl:symbol-name structure-name))))
              print-function)
         (cl:dolist (option options)
           (cl:unless (cl:consp option) (setq option (cl:list option)))
           (cl:ecase (cl:first option)
             (:conc-name (setq conc-name (cl:second option)))
             (:constructor
-             (setq constructor-name (cl:second option)
-                   constructor-option (cl:rest option)))
+             (cl:when (cl:rest option)
+               (setq constructor-name (cl:second option)
+                     constructor-option (cl:rest option))))
             (:copier (cl:unless (cl:null (cl:rest option)) (setq copier-name (cl:second option))))
             (:predicate
              (cl:unless (cl:null (cl:rest option)) (setq predicate-name (cl:second option))))
@@ -52,13 +51,27 @@
         (&key structure-name conc-name constructor-option included-option type-option named-option
               constructor-name copier-name predicate-name print-function)
       (parse-structure-name-and-options name-and-options)
-    (declare (ignore included-option type-option named-option))
-    (cl:check-type structure-name cl:symbol)
+    (declare (ignore included-option named-option))
+    (cl:when (cl:stringp (cl:first slot-descriptions)) (cl:pop slot-descriptions))
+    ;; CHECK-TYPE is defined later in the bootstrap sequence.
+    (cl:unless (cl:symbolp structure-name)
+      (cl:error 'cl:type-error :datum structure-name :expected-type 'cl:symbol))
     `(progn
-       ,@(cl:unless (cl:null copier-name) `((defun ,copier-name (x) (cl:copy-structure x))))
+       ,@(cl:unless type-option
+           `((cl:setf (cl:get ',structure-name 'structure-defined) t
+                      (cl:get ',structure-name 'structure-slots)
+                      ',(cl:mapcar (lambda (slot) (if (cl:consp slot) (cl:car slot) slot))
+                                   slot-descriptions))))
+       ,@(cl:unless (cl:null copier-name)
+           `((defun ,copier-name (x)
+               (cl:unless (cl:and (*:structure-p x)
+                                 (cl:eq (*:%structure-name x) ',structure-name))
+                 (type-error x ',structure-name))
+               (cl:copy-structure x))))
        ,@(cl:unless (cl:null predicate-name)
            `((defun ,predicate-name (x) (typep x ',structure-name))))
-       (defun ,constructor-name
+       ,@(cl:when constructor-name
+         `((defun ,constructor-name
            ,(if (cl:and constructor-option (cl:rest constructor-option))
                 (cl:second constructor-option)
                 `(&key
@@ -76,7 +89,7 @@
                                             (cl:first slot-desc)
                                             slot-desc)))
                                   slot-name))
-                              slot-descriptions)))
+                              slot-descriptions)))))
        ,@(let ((i -1))
            (cl:mapcar
             (lambda (slot-desc)
@@ -84,7 +97,9 @@
                        (if (cl:consp slot-desc)
                            (cl:first slot-desc)
                            slot-desc))
-                     (accessor (cl:intern (cl:format nil #"~A~A" conc-name slot-name))))
+                     (accessor (if conc-name
+                                   (cl:intern (cl:format nil #"~A~A" (cl:string conc-name) (cl:symbol-name slot-name)))
+                                   slot-name)))
                 (cl:incf i)
                 (cl:destructuring-bind
                       (&key cl:type read-only)
@@ -94,13 +109,15 @@
                   (declare (ignore cl:type))
                   `(progn
                      (defun ,accessor (cl:structure)
-                       (cl:unless (*:structure-p cl:structure)
-                         (type-error cl:structure 'cl:structure-object))
+                       (cl:unless (cl:and (*:structure-p cl:structure)
+                                         (cl:eq (*:%structure-name cl:structure) ',structure-name))
+                         (type-error cl:structure ',structure-name))
                        (*:%structure-ref cl:structure ,i))
                      ,@(cl:unless read-only
                          `((defun (cl:setf ,accessor) (value cl:structure)
-                             (cl:unless (*:structure-p cl:structure)
-                               (type-error cl:structure 'cl:structure-object))
+                             (cl:unless (cl:and (*:structure-p cl:structure)
+                                               (cl:eq (*:%structure-name cl:structure) ',structure-name))
+                               (type-error cl:structure ',structure-name))
                              (*:%structure-set cl:structure ,i value))))))))
             slot-descriptions))
        (cl:setf (cl:get ',structure-name 'structure-printer)

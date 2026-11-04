@@ -87,6 +87,21 @@
     (when (funcall test-fn key (caar current))
       (return (cons (car current) prev)))))
 
+(defun %grow-hash-buckets (hash-table)
+  (let* ((old (hash-table-buckets hash-table))
+         (size (hash-table-bucket-count hash-table))
+         (growth (hash-table-rehash-size hash-table))
+         (new-size (max (1+ size)
+                        (if (integerp growth) (+ size growth)
+                            (ceiling (* size growth)))))
+         (buckets (make-array new-size :initial-element nil)))
+    (dotimes (i size)
+      (dolist (entry (aref old i))
+        (let ((index (%bucket-index (car entry) new-size)))
+          (push entry (aref buckets index)))))
+    (setf (hash-table-buckets hash-table) buckets
+          (hash-table-bucket-count hash-table) new-size)))
+
 (defun gethash (key hash-table &optional default)
   (let ((map (hash-table-map hash-table)))
     (if map
@@ -130,7 +145,11 @@
               (progn
                 (setf (aref buckets index) (acons key value bucket))
                 (push key (hash-table-keys hash-table))
-                (incf (hash-table-count hash-table)))))))
+                (incf (hash-table-count hash-table))
+                (when (> (hash-table-count hash-table)
+                         (* (hash-table-bucket-count hash-table)
+                            (hash-table-rehash-threshold hash-table)))
+                  (%grow-hash-buckets hash-table)))))))
   value)
 
 (defun remhash (key hash-table)
@@ -172,24 +191,18 @@
           (funcall function key value)))))
   nil)
 
+(defun make-hash-table-iterator (hash-table)
+  (let ((keys (copy-list (hash-table-keys hash-table))))
+    (lambda ()
+      (do () ((null keys) (values nil))
+        (let ((key (pop keys)))
+          (multiple-value-bind (value found) (gethash key hash-table)
+            (when found (return (values t key value)))))))))
+
 (defmacro with-hash-table-iterator ((name hash-table) &body body)
-  ;; Note: Per ANSI CL, name should be visible to macro-function, but this
-  ;; implementation uses flet for simplicity. Test 58 expects macro-function
-  ;; to return non-nil, which this implementation doesn't support.
-  (let ((g-keys (gensym "KEYS"))
-        (g-hash-table (gensym "HASH-TABLE")))
-    `(let* ((,g-hash-table ,hash-table)
-            (,g-keys (copy-list (hash-table-keys ,g-hash-table))))
-       (flet ((,name ()
-                (if ,g-keys
-                    (let ((%key (pop ,g-keys)))
-                      (multiple-value-bind (%value %found)
-                          (gethash %key ,g-hash-table)
-                        (if %found
-                            (values t %key %value)
-                            ;; Key was removed during iteration, try next
-                            (,name))))
-                    (values nil nil nil))))
+  (let ((iterator (gensym "ITERATOR")))
+    `(let ((,iterator (make-hash-table-iterator ,hash-table)))
+       (macrolet ((,name () '(funcall ,iterator)))
          ,@body))))
 
 (defun clrhash (hash-table)
@@ -230,7 +243,7 @@
 (defun %sxhash-list (list)
   (let ((hash 0))
     (dotimes (i 10)
-      (when (null list) (return hash))
+      (when (atom list) (return-from %sxhash-list (+ hash (sxhash list))))
       (setq hash (+ hash (sxhash (car list))))
       (setq list (cdr list)))
     hash))

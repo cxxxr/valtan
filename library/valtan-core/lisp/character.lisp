@@ -172,5 +172,4 @@
   (cdr (assoc c *char-name-table*)))
 
 (defun name-char (name)
-  (unless (stringp name) (type-error name 'string))
-  (car (rassoc name *char-name-table* :test #'equal)))
+  (car (rassoc (string name) *char-name-table* :test #'string-equal)))

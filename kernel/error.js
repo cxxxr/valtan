@@ -33,7 +33,7 @@ export function simpleError(string, ...args) {
 }
 
 export function programError(string, ...args) {
-    S_simple_error.func(S_simple_make_string.func(string), ...args);
+    S_program_error.func(S_simple_make_string.func(string), ...args);
 }
 
 export function undefinedFunction(name) {

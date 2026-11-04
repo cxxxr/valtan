@@ -56,10 +56,16 @@
         (do ((i 0 (1+ i))
              (length (apply #'min (mapcar #'length sequences))))
             ((>= i length) nil)
-          (funcall function (mapcar (lambda (s) (elt s i)) sequences))))))
+          ;; Advance list cursors once per element. ELT with an increasing
+          ;; index repeatedly walks each list from its beginning.
+          (funcall function (mapcar (lambda (s) (if (listp s) (car s) (elt s i)))
+                                    sequences))
+          (setq sequences (mapcar (lambda (s) (if (listp s) (cdr s) s))
+                                  sequences))))))
 
 (defun copy-seq (sequence)
   (cond ((listp sequence)
+         (unless (proper-list-p sequence) (type-error sequence '(satisfies proper-list-p)))
          (copy-list sequence))
         ((vectorp sequence)
          (make-array (length sequence)
@@ -130,6 +136,7 @@
        (type-error result-type 'sequence)))))
 
 (defun subseq-list (list start end)
+  (unless (proper-list-p list) (type-error list '(satisfies proper-list-p)))
   (when (and start
              (< 0 start))
     (setq list (nthcdr (1- start) list))
@@ -310,13 +317,14 @@
 
 (defun length (sequence)
   (cond ((listp sequence)
-         (list-length sequence))
+         (or (list-length sequence) (type-error sequence 'sequence)))
         ((vectorp sequence)
          (vector-length sequence))
         (t
          (type-error sequence 'sequence))))
 
 (defun reverse-list (list)
+  (unless (proper-list-p list) (type-error list '(satisfies proper-list-p)))
   (let ((reversed-list '()))
     (dolist (x list)
       (push x reversed-list))
@@ -341,6 +349,7 @@
          (type-error sequence 'sequence))))
 
 (defun nreverse-list (list)
+  (unless (proper-list-p list) (type-error list '(satisfies proper-list-p)))
   (do ((1st (cdr list) (if (endp 1st) 1st (cdr 1st)))
        (2nd list 1st)
        (3rd '() 2nd))
@@ -377,7 +386,8 @@
                     (if (null list1)
                         (nconc (nreverse list3) list2)
                         (nconc (nreverse list3) list1)))
-                 (if (apply-key key (funcall predicate (car list1) (car list2)))
+                 (if (not (funcall predicate (apply-key key (car list2))
+                                            (apply-key key (car list1))))
                      (push (pop list1) list3)
                      (push (pop list2) list3)))))
            (rec (list)
@@ -388,7 +398,7 @@
                       (let* ((middle (floor size 2))
                              (left (stable-sort-list (subseq list 0 middle) predicate key))
                              (right (stable-sort-list (subseq list middle) predicate key)))
-                        (merge* right left)))))))
+                        (merge* left right)))))))
     (rec list)))
 
 (defun stable-sort-vector (vector predicate key)
@@ -427,9 +437,6 @@
                      (rec middle right)
                      (merge* left middle right)))))
       (rec 0 size)
-      (dotimes (i size)
-        (setf (aref vector i)
-              (aref temp i)))
       vector)))
 
 (defun stable-sort (sequence predicate &key key)
@@ -984,8 +991,8 @@
 (defun some (function sequence &rest more-sequences)
   (cond ((null more-sequences)
          (map-sequence (lambda (x)
-                         (when (funcall function x)
-                           (return-from some t)))
+                         (let ((value (funcall function x)))
+                           (when value (return-from some value))))
                        sequence
                        nil
                        nil
@@ -994,10 +1001,13 @@
          nil)
         (t
          (map-sequences (lambda (args)
-                          (when (apply function args)
-                            (return-from some t)))
+                          (let ((value (apply function args)))
+                            (when value (return-from some value))))
                         (cons sequence more-sequences))
          nil)))
 
 (defun notany (function sequence &rest more-sequences)
   (not (apply #'some function sequence more-sequences)))
+
+(defun notevery (function sequence &rest more-sequences)
+  (not (apply #'every function sequence more-sequences)))

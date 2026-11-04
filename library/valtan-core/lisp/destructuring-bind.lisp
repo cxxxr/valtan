@@ -30,7 +30,8 @@
           (setq env-var (cl:cadr ll))
           (setq ll (cl:cdr ll)))  ; skip the variable (loop will advance past env-var)
          (t
-          (cl:push (cl:car ll) result))))
+          ;; This helper is compiled before PUSH is defined during bootstrap.
+          (setq result (cl:cons (cl:car ll) result)))))
       ;; Reconstruct the list, preserving dotted-pair if present
       (let ((clean-list (cl:nreverse result)))
         (cl:when rest-var

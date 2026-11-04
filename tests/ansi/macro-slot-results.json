@@ -1,0 +1,192 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "ab4e36e5224427214424a1f853ce0ce22c0601b013a0f8b695bef8eeab171ea7",
+  "startedAt": "2026-11-03T23:08:31.624Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "data-and-control-flow/macrolet.lsp",
+      "files": [
+        "auxiliary/cons-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "data-and-control-flow/macrolet.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 41,
+      "fail": 12,
+      "registered": 53,
+      "expectedRegistered": 53,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/cons-aux.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/types-aux.lsp",
+        "data-and-control-flow/macrolet.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "MACROLET.22",
+          "reason": "The value (Y Z) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "MACROLET.22A",
+          "reason": "The value (Y Z) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "MACROLET.24",
+          "reason": "Invalid number of arguments for destructuring-bind: (X Y Z) 1"
+        },
+        {
+          "test": "MACROLET.25",
+          "reason": "Invalid number of arguments for destructuring-bind: (X Y Z) 1"
+        },
+        {
+          "test": "MACROLET.26",
+          "reason": "The value (:A B) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.27",
+          "reason": "The value (:A (B C)) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.28",
+          "reason": "The value (:A (B C)) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.31",
+          "reason": "The value (:A (B C)) is not of the expected type STRING-DESIGNATOR"
+        },
+        {
+          "test": "MACROLET.32",
+          "reason": "Unknown &key argument: :ALLOW-OTHER-KEYS"
+        },
+        {
+          "test": "MACROLET.33",
+          "reason": "Unknown &key argument: :FOO"
+        },
+        {
+          "test": "MACROLET.36",
+          "reason": "The value (M A B) is not of the expected type SYMBOL"
+        },
+        {
+          "test": "MACROLET.47",
+          "reason": "The variable X is unbound"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "data-and-control-flow/macrolet.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "eval-and-compile/symbol-macrolet.lsp",
+      "files": [
+        "eval-and-compile/symbol-macrolet.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 11,
+      "fail": 1,
+      "registered": 12,
+      "expectedRegistered": 12,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "eval-and-compile/symbol-macrolet.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "SYMBOL-MACROLET.8",
+          "reason": "The variable X is unbound"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "eval-and-compile/symbol-macrolet.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "objects/slot-makunbound.lsp",
+      "files": [
+        "auxiliary/defclass-aux.lsp",
+        "objects/slot-makunbound.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 7,
+      "fail": 1,
+      "registered": 8,
+      "expectedRegistered": 8,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/defclass-aux.lsp",
+        "objects/slot-makunbound.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "SLOT-MAKUNBOUND.ERROR.4",
+          "reason": "There is no class named BUILT-IN-CLASS."
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "objects/slot-makunbound.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 59,
+  "fail": 14,
+  "complete": true,
+  "passRate": 80.82191780821918,
+  "finishedAt": "2026-11-03T23:12:37.821Z",
+  "runtimeNote": "After local macro environments/declarations, argument evaluation order and shared class slot/reinitialization changes; before LET/UNWIND-PROTECT result capture."
+}

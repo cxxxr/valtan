@@ -1,0 +1,131 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "2c1da34748c7bde44300cf7045a89fdbd8c4625e246b2faadb092017bc657884",
+  "startedAt": "2026-11-04T00:21:15.404Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "environment",
+      "files": [
+        "environment/apropos.lsp",
+        "environment/apropos-list.lsp",
+        "environment/describe.lsp",
+        "environment/disassemble.lsp",
+        "environment/environment-functions.lsp",
+        "environment/room.lsp",
+        "environment/time.lsp",
+        "environment/trace.lsp",
+        "environment/user-homedir-pathname.lsp",
+        "environment/decode-universal-time.lsp",
+        "environment/encode-universal-time.lsp",
+        "environment/get-universal-time.lsp",
+        "environment/sleep.lsp",
+        "environment/get-internal-time.lsp",
+        "environment/documentation.lsp",
+        "environment/inspect.lsp",
+        "environment/dribble.lsp",
+        "environment/ed.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 201,
+      "fail": 9,
+      "registered": 210,
+      "expectedRegistered": 210,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "environment/apropos.lsp",
+        "environment/apropos-list.lsp",
+        "environment/describe.lsp",
+        "environment/disassemble.lsp",
+        "environment/environment-functions.lsp",
+        "environment/room.lsp",
+        "environment/time.lsp",
+        "environment/trace.lsp",
+        "environment/user-homedir-pathname.lsp",
+        "environment/decode-universal-time.lsp",
+        "environment/encode-universal-time.lsp",
+        "environment/get-universal-time.lsp",
+        "environment/sleep.lsp",
+        "environment/get-internal-time.lsp",
+        "environment/documentation.lsp",
+        "environment/inspect.lsp",
+        "environment/dribble.lsp",
+        "environment/ed.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "TRACE.9",
+          "reason": "The assertion (EQL (FUNCTION-TO-TRACE (QUOTE (B))) (QUOTE B)) failed."
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.9",
+          "reason": "The function BREAK is undefined"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.10",
+          "reason": "The function COMPILER-MACRO-FUNCTION is undefined"
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.11",
+          "reason": "No applicable method for #<Function DOCUMENTATION> with arguments (NIL T)."
+        },
+        {
+          "test": "DOCUMENTATION.FUNCTION.T.12",
+          "reason": "The function CHANGE-CLASS is undefined"
+        },
+        {
+          "test": "INSPECT.ERROR.1",
+          "reason": "The function INSPECT is undefined"
+        },
+        {
+          "test": "INSPECT.ERROR.2",
+          "reason": "The function INSPECT is undefined"
+        },
+        {
+          "test": "DRIBBLE.ERROR.1",
+          "reason": "The function DRIBBLE is undefined"
+        },
+        {
+          "test": "ED.ERROR.1",
+          "reason": "The function ED is undefined"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "environment/ed.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 210,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 201,
+  "fail": 9,
+  "complete": true,
+  "passRate": 95.71428571428571,
+  "finishedAt": "2026-11-04T00:25:32.135Z",
+  "measurementNote": "Includes environment/TRACE/documentation, SETF function binding and redefinition, sequence fixes, displaced-vector EQUALP and numeric interval SUBTYPEP. Predates ADJUST-ARRAY/vector/bit-array corrections."
+}

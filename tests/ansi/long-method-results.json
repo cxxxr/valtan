@@ -1,0 +1,62 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "d3ea4ca38d2e552bc5a1ee7b185c819d4e965b70379be020ceb5e92fc55b4ad0",
+  "startedAt": "2026-11-03T23:52:05.413Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "objects/define-method-combination-long-form.lsp",
+      "files": [
+        "auxiliary/defclass-aux.lsp",
+        "objects/define-method-combination-long-form.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 33,
+      "fail": 0,
+      "registered": 33,
+      "expectedRegistered": 33,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/defclass-aux.lsp",
+        "objects/define-method-combination-long-form.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "objects/define-method-combination-long-form.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 33,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 33,
+  "fail": 0,
+  "complete": true,
+  "passRate": 100,
+  "finishedAt": "2026-11-03T23:55:04.190Z",
+  "measurementNote": "After default PROGRAM-ERROR reporting and method-combination AUX extraction; before environment/time functions."
+}

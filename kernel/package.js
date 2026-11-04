@@ -4,6 +4,7 @@ import {
 } from './values';
 import {
     S_package,
+    S_symbol,
     S_t,
     S_nil,
     S_current_package,
@@ -29,91 +30,78 @@ import {
 } from './cons';
 
 class Package {
-    constructor(options = {}) {
-        const {
-            name,
-            nicknames,
-            usePackageNames
-        } = options;
+    constructor({ name, nicknames = [] } = {}) {
         this.name = name;
-        this.nicknames = nicknames || [];
-        this.usePackageNames = usePackageNames || [];
-        this.symbolTable = {};
-        this.exportTable = {};
+        this.nicknames = [...new Set(nicknames)];
+        this.useList = [];
+        this.symbolTable = Object.create(null);
+        this.exportTable = Object.create(null);
+        this.shadowing = new Set();
     }
 
-    is(name) {
-        if (this.name === name) {
-            return true;
+    is(name) { return this.name === name || this.nicknames.includes(name); }
+    exportSymbol(name) { this.exportTable[name] = true; }
+    addNickname(name) { if (!this.nicknames.includes(name)) this.nicknames.push(name); }
+    mapSymbols(fn) { for (const symbol of Object.values(this.symbolTable)) fn(symbol); }
+
+    findSymbol(name) {
+        if (Object.hasOwn(this.symbolTable, name)) {
+            return [this.symbolTable[name], this.exportTable[name] ? 'EXTERNAL' : 'INTERNAL'];
         }
-        for (let nickname of this.nicknames) {
-            if (nickname === name) {
-                return true;
+        let inherited = null;
+        for (const used of this.useList) {
+            if (used.exportTable[name]) {
+                const symbol = used.symbolTable[name];
+                if (inherited && inherited !== symbol) packageError(this, `Conflicting inherited symbol ${name}`);
+                inherited = symbol;
             }
         }
-        return false;
-    }
-
-    exportSymbol(name) {
-        if (typeof name !== 'string') {
-            simpleError(`Internal Error: ${name} is not string`);
-        }
-        this.exportTable[name] = true;
-    }
-
-    addNickname(nickname) {
-        if (this.nicknames.indexOf(nickname) === -1) {
-            this.nicknames.push(nickname);
-        }
-    }
-
-    mapSymbols(fn) {
-        for (let name in this.symbolTable) {
-            fn(this.symbolTable[name]);
-        }
-    }
-
-    _findSymbol(name, sanePackage) {
-        for (let pkgName of this.usePackageNames) {
-            const pkg = ensurePackage(pkgName);
-            const s = pkg._findSymbol(name, sanePackage);
-            if (s) {
-                return s;
-            }
-        }
-
-        if (this === sanePackage) {
-            return this.symbolTable[name];
-        } else if (this.symbolTable[name] && this.exportTable[name]) {
-            return this.symbolTable[name];
-        } else {
-            return null;
-        }
-    }
-
-    findSymbol(name, sanePackage = this) {
-        const symbol = this._findSymbol(name, sanePackage);
-        if (!symbol) {
-            return [null, null];
-        }
-        if (symbol.getPackageName() !== this.name) {
-            return [symbol, 'INHERITED'];
-        }
-        if (this.exportTable[symbolName(symbol)]) {
-            return [symbol, 'EXTERNAL'];
-        }
-        return [symbol, 'INTERNAL'];
+        return inherited ? [inherited, 'INHERITED'] : [null, null];
     }
 
     intern(name) {
         const [symbol, status] = this.findSymbol(name);
-        if (status === null) {
-            const newSymbol = makeSymbol(name, this.name);
-            this.symbolTable[name] = newSymbol;
-            return [newSymbol, null];
+        if (status !== null) return [symbol, status];
+        const result = makeSymbol(name, this.name);
+        this.symbolTable[name] = result;
+        if (this.name === 'KEYWORD') {
+            this.exportSymbol(name);
+            result.value = result;
         }
-        return [symbol, status];
+        return [result, null];
     }
+}
+
+function packageError(pkg, message) {
+    const handler = cl_package.symbolTable['PACKAGE-OPERATION-ERROR'];
+    if (handler?.func) handler.func(pkg, message);
+    simpleError(message);
+}
+
+function checkSymbol(symbol) {
+    if (!isSymbol(symbol)) typeError(symbol, S_symbol);
+}
+
+function symbolList(symbols) {
+    const result = symbols === S_nil ? [] : isCons(symbols) ? listToJsArray(symbols) : [symbols];
+    result.forEach(checkSymbol);
+    return result;
+}
+
+function usePackages(usedPackages, pkg) {
+    const combined = [...new Set([...pkg.useList, ...usedPackages])];
+    for (const used of combined) {
+        for (const name of Object.keys(used.exportTable)) {
+            if (pkg.shadowing.has(name)) continue;
+            const candidates = new Set();
+            if (Object.hasOwn(pkg.symbolTable, name)) candidates.add(pkg.symbolTable[name]);
+            for (const source of combined) {
+                if (source.exportTable[name]) candidates.add(source.symbolTable[name]);
+            }
+            if (candidates.size > 1) packageError(pkg, `USE-PACKAGE conflict for ${name}`);
+        }
+    }
+    pkg.useList = combined;
 }
 
 const packages = [];
@@ -141,15 +129,11 @@ function alreadyExistPackageName(name, nicknames) {
 }
 
 function makePackage(name, nicknames = [], usePackageNames = []) {
-    const [duplicateName, _] = alreadyExistPackageName(name, nicknames);
-    if (duplicateName) {
-        simpleError(`Package ${duplicateName} already exists`);
-    }
-    const p = new Package({
-        name,
-        nicknames,
-        usePackageNames,
-    });
+    const [duplicateName] = alreadyExistPackageName(name, nicknames);
+    if (duplicateName) packageError(name, `Package ${duplicateName} already exists`);
+    const used = usePackageNames.map(ensurePackage);
+    const p = new Package({ name, nicknames });
+    usePackages(used, p);
     packages.push(p);
     return p;
 }
@@ -164,6 +148,10 @@ export function defpackage(name, {
         pkg = makePackage(name, nicknames, usePackageNames);
     }
     for (let name of exportNames) {
+        // Exported but not yet implemented CL names must still be accessible
+        // as CL symbols, rather than being interned in each using package.
+        const [symbol] = pkg.intern(name);
+        pkg.symbolTable[name] = symbol;
         pkg.exportSymbol(name);
     }
     for (let name of nicknames) {
@@ -263,23 +251,115 @@ export function CL_makePackage(name, nicknames, usePackageNames) {
     for (let name of nicknames) {
         checkString(name);
     }
-    for (let name of usePackageNames) {
-        checkString(name);
-    }
+    usePackageNames.forEach(ensurePackage);
     return values1(makePackage(name, nicknames, usePackageNames));
 }
 
-export function CL_export(exportSyms, pkg) {
-    let exportNames;
-    if(isCons(exportSyms)) {
-        exportNames = listToJsArray(exportSyms).map(symbolName);
-    } else {
-        exportNames = [symbolName(exportSyms)]
+export function CL_export(symbols, pkg) {
+    checkPackage(pkg);
+    const entries = symbolList(symbols);
+    for (const symbol of entries) {
+        const [accessible] = pkg.findSymbol(symbol.name);
+        if (accessible !== symbol) packageError(pkg, `Symbol ${symbol.name} is not accessible for EXPORT`);
+        for (const user of packages.filter(p => p.useList.includes(pkg))) {
+            if (user.shadowing.has(symbol.name)) continue;
+            const [old] = user.findSymbol(symbol.name);
+            if (old && old !== symbol) packageError(user, `EXPORT conflict for ${symbol.name}`);
+        }
     }
-    for (let name of exportNames) {
-        pkg.exportSymbol(name);
+    for (const symbol of entries) {
+        pkg.symbolTable[symbol.name] = symbol;
+        pkg.exportSymbol(symbol.name);
     }
     return values1(S_t);
+}
+
+export function CL_unexport(symbols, pkg) {
+    checkPackage(pkg);
+    for (const symbol of symbolList(symbols)) {
+        const [accessible] = pkg.findSymbol(symbol.name);
+        if (accessible !== symbol) packageError(pkg, `Symbol ${symbol.name} is not accessible for UNEXPORT`);
+        delete pkg.exportTable[symbol.name];
+    }
+    return values1(S_t);
+}
+
+export function CL_usePackage(used, pkg) {
+    checkPackage(pkg);
+    usePackages(listToJsArray(used).map(ensurePackage), pkg);
+    return values1(S_t);
+}
+
+export function CL_unusePackage(used, pkg) {
+    checkPackage(pkg);
+    const removed = listToJsArray(used).map(ensurePackage);
+    pkg.useList = pkg.useList.filter(p => !removed.includes(p));
+    return values1(S_t);
+}
+
+export function CL_import(symbols, pkg, shadowing = false) {
+    checkPackage(pkg);
+    const entries = symbolList(symbols);
+    if (!shadowing) for (const symbol of entries) {
+        const [old] = pkg.findSymbol(symbol.name);
+        if (old && old !== symbol) packageError(pkg, `IMPORT conflict for ${symbol.name}`);
+    }
+    for (const symbol of entries) {
+        const old = pkg.symbolTable[symbol.name];
+        if (old && old !== symbol) {
+            if (old.packageName === pkg.name) old.packageName = null;
+            delete pkg.exportTable[symbol.name];
+        }
+        pkg.symbolTable[symbol.name] = symbol;
+        if (symbol.packageName === null) symbol.packageName = pkg.name;
+        if (shadowing) pkg.shadowing.add(symbol.name);
+    }
+    return values1(S_t);
+}
+
+export function CL_shadowingImport(symbols, pkg) { return CL_import(symbols, pkg, true); }
+
+export function CL_shadow(names, pkg) {
+    checkPackage(pkg);
+    for (const name of names) {
+        checkString(name);
+        if (!Object.hasOwn(pkg.symbolTable, name)) pkg.symbolTable[name] = makeSymbol(name, pkg.name);
+        pkg.shadowing.add(name);
+    }
+    return values1(S_t);
+}
+
+export function CL_packageShadowingSymbols(pkg) {
+    checkPackage(pkg);
+    return values1(jsArrayToList([...pkg.shadowing].map(name => pkg.symbolTable[name])));
+}
+
+export function CL_unintern(symbol, pkg) {
+    checkSymbol(symbol); checkPackage(pkg);
+    if (pkg.symbolTable[symbol.name] !== symbol) return values1(S_nil);
+    if (pkg.shadowing.has(symbol.name)) {
+        const inherited = new Set(pkg.useList.filter(p => p.exportTable[symbol.name]).map(p => p.symbolTable[symbol.name]));
+        if (inherited.size > 1) packageError(pkg, `UNINTERN would expose a conflict for ${symbol.name}`);
+    }
+    delete pkg.symbolTable[symbol.name];
+    delete pkg.exportTable[symbol.name];
+    pkg.shadowing.delete(symbol.name);
+    if (symbol.packageName === pkg.name) symbol.packageName = null;
+    return values1(S_t);
+}
+
+export function CL_renamePackage(pkg, name, nicknames) {
+    checkPackage(pkg); checkString(name); nicknames.forEach(checkString);
+    for (const candidate of [name, ...nicknames]) {
+        const old = findPackage(candidate);
+        if (old && old !== pkg) packageError(pkg, `Package name ${candidate} already exists`);
+    }
+    for (const symbol of Object.values(pkg.symbolTable)) {
+        if (symbol.packageName === pkg.name) symbol.packageName = name;
+    }
+    pkg.name = name;
+    pkg.nicknames = [...new Set(nicknames)];
+    return values1(pkg);
 }
 
 export function CL_mapPackageSymbols(pkg, fn) {
@@ -302,7 +382,7 @@ export function CL_mapPackageExternalSymbols(pkg, fn) {
 // Map over all accessible symbols (present + inherited from used packages)
 export function CL_mapPackageAllSymbols(pkg, fn) {
     checkPackage(pkg);
-    const seen = {};
+    const seen = Object.create(null);
 
     // First, iterate over present symbols
     for (let name in pkg.symbolTable) {
@@ -311,8 +391,7 @@ export function CL_mapPackageAllSymbols(pkg, fn) {
     }
 
     // Then, iterate over inherited symbols from used packages
-    for (let pkgName of pkg.usePackageNames) {
-        const usedPkg = ensurePackage(pkgName);
+    for (const usedPkg of pkg.useList) {
         for (let name in usedPkg.symbolTable) {
             if (usedPkg.exportTable[name] && !seen[name]) {
                 seen[name] = true;
@@ -323,38 +402,31 @@ export function CL_mapPackageAllSymbols(pkg, fn) {
     return values1(S_nil);
 }
 
-// Delete a package from the system
+// The Lisp wrapper handles the correctable error when other packages use it.
 export function CL_deletePackage(pkgDesignator) {
     const pkg = ensurePackage(pkgDesignator);
+    if (pkg.name === null) return values1(S_nil);
     const index = packages.indexOf(pkg);
-    if (index !== -1) {
-        packages.splice(index, 1);
-        return values1(S_t);
+    if (index < 0) return values1(S_nil);
+    for (const p of packages) p.useList = p.useList.filter(used => used !== pkg);
+    for (const symbol of Object.values(pkg.symbolTable)) {
+        if (symbol.packageName === pkg.name) symbol.packageName = null;
     }
-    return values1(S_nil);
+    packages.splice(index, 1);
+    pkg.name = null;
+    pkg.nicknames = [];
+    pkg.useList = [];
+    pkg.symbolTable = Object.create(null);
+    pkg.exportTable = Object.create(null);
+    pkg.shadowing.clear();
+    return values1(S_t);
 }
 
-// Return a list of packages that use the given package
 export function CL_packageUsedByList(pkgDesignator) {
     const pkg = ensurePackage(pkgDesignator);
-    const result = [];
-    for (let p of packages) {
-        if (p.usePackageNames.includes(pkg.name)) {
-            result.push(p);
-        }
-    }
-    return values1(jsArrayToList(result));
+    return values1(jsArrayToList(packages.filter(p => p.useList.includes(pkg))));
 }
 
-// Return a list of packages that this package uses
 export function CL_packageUseList(pkgDesignator) {
-    const pkg = ensurePackage(pkgDesignator);
-    const result = [];
-    for (let pkgName of pkg.usePackageNames) {
-        const usedPkg = findPackage(pkgName);
-        if (usedPkg) {
-            result.push(usedPkg);
-        }
-    }
-    return values1(jsArrayToList(result));
+    return values1(jsArrayToList(ensurePackage(pkgDesignator).useList));
 }

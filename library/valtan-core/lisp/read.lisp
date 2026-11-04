@@ -8,6 +8,21 @@
 (defvar *read-label-table*)
 (defvar *read-skip-marker* (gensym "SKIP"))
 (defvar *read-base* 10)
+(defvar *read-suppress* nil)
+(defvar *read-eval* t)
+(defvar *read-default-float-format* 'single-float)
+
+(defmacro with-standard-io-syntax (&body body)
+  `(let ((*package* (find-package :cl-user))
+         (*print-array* t) (*print-base* 10) (*print-case* :upcase)
+         (*print-circle* nil) (*print-escape* t) (*print-gensym* t)
+         (*print-length* nil) (*print-level* nil) (*print-lines* nil)
+         (*print-miser-width* nil) (*print-pprint-dispatch* nil)
+         (*print-pretty* nil) (*print-radix* nil) (*print-readably* t)
+         (*print-right-margin* nil) (*read-base* 10)
+         (*read-default-float-format* 'single-float) (*read-eval* t)
+         (*read-suppress* nil) (*readtable* (copy-readtable nil)))
+     ,@body))
 
 (defparameter *whitespaces* '(#\space #\tab #\newline #\linefeed #\page #\return))
 
@@ -22,11 +37,12 @@
 (defun peek-char (&optional peek-type (stream *standard-input*) (eof-error-p t) eof-value
                             recursive-p)
   (declare (ignore recursive-p))
+  (setq stream (input-stream-designator stream))
   (cond ((null peek-type)
          (let ((c (stream-peek-char stream)))
            (if (eq c :eof)
                (if eof-error-p
-                   (eof-error)
+                   (eof-error stream)
                    eof-value)
                c)))
         (t
@@ -35,7 +51,7 @@
            (let ((c (stream-peek-char stream)))
              (cond ((eq c :eof)
                     (if eof-error-p
-                        (eof-error)
+                        (eof-error stream)
                         (return eof-value)))
                    ((if (eq peek-type t)
                         (not (whitespacep c))
@@ -77,7 +93,13 @@
   (set-dispatch-macro-character #\# #\# 'sharp-sharp-reader readtable)
   (set-dispatch-macro-character #\# #\* 'bit-vector-reader readtable)
   (set-dispatch-macro-character #\# #\| 'block-comment-reader readtable)
-  (set-dispatch-macro-character #\# #\B 'bit-number-reader readtable)
+  (set-dispatch-macro-character #\# #\B 'radix-number-reader readtable)
+  (set-dispatch-macro-character #\# #\O 'radix-number-reader readtable)
+  (set-dispatch-macro-character #\# #\X 'radix-number-reader readtable)
+  (set-dispatch-macro-character #\# #\R 'radix-number-reader readtable)
+  (set-dispatch-macro-character #\# #\A 'array-rank-reader readtable)
+  (set-dispatch-macro-character #\# #\C 'complex-reader readtable)
+  (set-dispatch-macro-character #\# #\P 'pathname-reader readtable)
   (set-dispatch-macro-character #\# #\. 'sharp-dot-reader readtable)
 
   ;; valtan dependency
@@ -87,17 +109,27 @@
   readtable)
 
 (defun set-readtable (to-readtable from-readtable)
-  (setf (readtable-case to-readtable) (readtable-case from-readtable))
-  (setf (readtable-table to-readtable) (readtable-table from-readtable))
-  (setf (readtable-dispatch-macro-table to-readtable)
-        (readtable-dispatch-macro-table from-readtable))
-  from-readtable)
+  (let ((table (make-hash-table))
+        (dispatch-table (make-hash-table)))
+    (maphash (lambda (key value) (setf (gethash key table) value))
+             (readtable-table from-readtable))
+    (maphash (lambda (key sub-table)
+               (let ((copy (make-hash-table)))
+                 (maphash (lambda (sub-char function)
+                            (setf (gethash sub-char copy) function))
+                          sub-table)
+                 (setf (gethash key dispatch-table) copy)))
+             (readtable-dispatch-macro-table from-readtable))
+    (setf (readtable-case to-readtable) (readtable-case from-readtable)
+          (readtable-table to-readtable) table
+          (readtable-dispatch-macro-table to-readtable) dispatch-table))
+  to-readtable)
 
 (defun copy-readtable (&optional (from-readtable *readtable*) to-readtable)
   (cond ((and from-readtable to-readtable)
          (set-readtable to-readtable from-readtable))
         (from-readtable
-         (%copy-readtable from-readtable))
+         (set-readtable (make-readtable) from-readtable))
         (to-readtable
          (init-readtable (set-readtable to-readtable (make-readtable))))
         (t
@@ -147,6 +179,7 @@
   "Check if TOKEN could be a number. Returns T if it's a valid number string.
 Numbers with decimal points or exponents use base 10.
 Integers without decimal use *read-base*."
+  (when (zerop (length token)) (return-from number-string-p nil))
   (let ((pos (case (aref token 0)
                ((#\+ #\-) 1)
                (otherwise 0)))
@@ -317,7 +350,7 @@ Integers without decimal use *read-base*."
                  (if (and (not optional) (null digits))
                      nil
                      (* (digits-to-integer digits)
-                        (expt 0.1 (length digits))))))
+                        (/ 1 (expt 10 (length digits)))))))
              (float-case-1-p ()
                (let ((minus (sign))
                      integral-part
@@ -331,9 +364,8 @@ Integers without decimal use *read-base*."
                    (let ((value (+ integral-part decimal-part)))
                      (when exponent
                        (setq value (* value exponent)))
-                     (when minus
-                       (setq value (- value)))
-                     (*:make-float value)))))
+                     ;; Negate after coercion to retain a floating negative zero.
+                     (if minus (- (*:make-float value)) (*:make-float value))))))
              (float-case-2-p ()
                (let ((minus (sign))
                      integral-part
@@ -346,9 +378,8 @@ Integers without decimal use *read-base*."
                             (setq exponent (exponent))
                             (end-of-string-p))
                    (let ((value (* (+ integral-part decimal-part) exponent)))
-                     (when minus
-                       (setq value (- value)))
-                     (*:make-float value))))))
+                     ;; Negate after coercion to retain a floating negative zero.
+                     (if minus (- (*:make-float value)) (*:make-float value)))))))
       (or (integer-p)
           (progn
             (setq pos 0)
@@ -369,14 +400,12 @@ Integers without decimal use *read-base*."
                   (return t))))
          (read-error "dot error"))))
 
-(defun parse-symbol (token)
+(defun parse-symbol (token &optional escaped)
   (flet ((f (package-name symbol-name external-p)
            (let ((package (find-package package-name)))
              (cond
                ((null package)
                 (read-error "Package ~A does not exist." package-name))
-               ((find #\: symbol-name)
-                (read-error "too many colons after ~S name" package-name))
                ((or (not external-p)
                     (string= package-name "JS"))
                 (intern symbol-name package-name))
@@ -388,27 +417,34 @@ Integers without decimal use *read-base*."
                       (intern symbol-name package-name)
                       (read-error "Symbol ~S not found in the ~A package."
                                   symbol-name package-name))))))))
-    (let ((pos (position #\: token)))
-      (cond ((null pos)
+    (let ((colons nil))
+      (dotimes (i (length token))
+        (when (and (char= #\: (char token i)) (not (member i escaped)))
+          (push i colons)))
+      (setq colons (nreverse colons))
+      (let ((pos (first colons)))
+      (cond ((null colons)
              (intern token))
-            ((= pos 0)
+            ((and (= pos 0) (null (cdr colons)))
              (f :keyword (subseq token 1) nil))
-            ((char= #\: (aref token (1+ pos)))
+            ((and (> pos 0) (= (length colons) 2) (= (second colons) (1+ pos)))
              (f (subseq token 0 pos)
                 (subseq token (+ pos 2))
                 nil))
-            (t
+            ((and (> pos 0) (null (cdr colons)))
              (f (subseq token 0 pos)
                 (subseq token (1+ pos))
-                t))))))
+                t))
+            (t (read-error "Invalid package markers in ~S" token)))))))
 
-(defun parse-token (token)
-  (or (parse-number token)
+(defun parse-token (token &optional escaped)
+  (when *read-suppress* (return-from parse-token nil))
+  (or (and (null escaped) (parse-number token))
       (progn
-        (check-dot token)
-        (if (string= token ".")
+        (unless escaped (check-dot token))
+        (if (and (null escaped) (string= token "."))
             *dot-marker*
-            (parse-symbol token)))))
+            (parse-symbol token escaped)))))
 
 (defun read-multiple-escape-1 (stream)
   (with-output-to-string (out)
@@ -426,7 +462,8 @@ Integers without decimal use *read-base*."
 (defun read-multiple-escape (stream)
   ;; Multiple escape |...| creates a symbol directly from the characters.
   ;; No interpretation of : as package marker or digits as numbers.
-  (intern (read-multiple-escape-1 stream)))
+  (let ((name (read-multiple-escape-1 stream)))
+    (unless *read-suppress* (intern name))))
 
 (defun delimiter-p (c)
   (or (null c)
@@ -435,31 +472,23 @@ Integers without decimal use *read-base*."
       (char= c #\\)
       (char= c #\|)))
 
-(defun maybe-invert (token)
-  (when (eq :invert (readtable-case *readtable*))
-    (let ((state nil))
-      (dotimes (i (length token)
-                  (setq token
-                        (ecase state
-                          ((nil) token)
-                          (:upcase
-                           (string-downcase token))
-                          (:downcase
-                           (string-upcase token)))))
-        (let ((c (aref token i)))
-          (cond ((char<= #\a c #\z)
-                 (when (eq state :upcase)
-                   (return))
-                 (setq state :downcase))
-                ((char<= #\A c #\Z)
-                 (when (eq state :downcase)
-                   (return))
-                 (setq state :upcase)))))))
+(defun maybe-invert (token escaped)
+  (let ((upper nil) (lower nil))
+    (dotimes (i (length token))
+      (unless (member i escaped)
+        (let ((char (char token i)))
+          (when (upper-case-p char) (setq upper t))
+          (when (lower-case-p char) (setq lower t)))))
+    (unless (and upper lower)
+      (dotimes (i (length token))
+        (unless (member i escaped)
+          (setf (char token i)
+                (if upper (char-downcase (char token i)) (char-upcase (char token i))))))))
   token)
 
 (defun read-token-1 (stream c readtable-case)
-  (maybe-invert
-   (with-output-to-string (out)
+  (let ((escaped nil) (index 0))
+    (let ((token (with-output-to-string (out)
      (do ((c c (read-char stream nil nil)))
          (nil)
        (cond ((null c)
@@ -470,21 +499,32 @@ Integers without decimal use *read-base*."
               (unread-char c stream)
               (return))
              ((char= c #\\)
-              (write-char (read-char stream) out))
+              (push index escaped)
+              (write-char (read-char stream) out)
+              (incf index))
              ((char= c #\|)
-              (write-string (read-multiple-escape-1 stream) out))
+              ;; The marker also preserves an empty escape pair, as in ||.
+              (push -1 escaped)
+              (let ((part (read-multiple-escape-1 stream)))
+                (dotimes (i (length part)) (push (+ index i) escaped))
+                (incf index (length part))
+                (write-string part out)))
              (t
               (write-char (case readtable-case
                             (:upcase (char-upcase c))
                             (:downcase (char-downcase c))
                             (otherwise c))
-                          out)))))))
+                          out)
+              (incf index)))))))
+      (values (if (eq readtable-case :invert) (maybe-invert token escaped) token)
+              escaped))))
 
 (defun read-token (stream c)
-  (let ((token (read-token-1 stream c (readtable-case *readtable*))))
-    (parse-token token)))
+  (multiple-value-bind (token escaped) (read-token-1 stream c (readtable-case *readtable*))
+    (parse-token token escaped)))
 
 (defun read (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)
+  (setq stream (input-stream-designator stream))
   (let ((*read-label-table* (if recursive-p *read-label-table* (make-hash-table))))
     (do () (nil)
       (let* ((inner-eof-value '#:eof)
@@ -500,13 +540,11 @@ Integers without decimal use *read-base*."
                    (function
                     (let ((values (multiple-value-list (funcall function stream c))))
                       (cond (values
-                             (return (first values)))
+                             (return (unless *read-suppress* (first values))))
                             (*inner-list-p*
                              (return *read-skip-marker*)))))
-                   ((char= c #\|)
-                    (return (read-multiple-escape stream)))
                    (t
-                    (return (read-token stream c)))))))))))
+                    (return (values (read-token stream c))))))))))))
 
 (defun cons-reader (stream c)
   (declare (ignore c))
@@ -561,7 +599,7 @@ Integers without decimal use *read-base*."
 
 (defun line-comment-reader (stream c)
   (declare (ignore c))
-  (peek-char #\newline stream t nil t)
+  (peek-char #\newline stream nil nil t)
   (values))
 
 (defun string-reader (stream c)
@@ -589,16 +627,18 @@ Integers without decimal use *read-base*."
 (defun read-dispatch-macro-character (stream disp-char)
   (let* ((sub-char (char-upcase (read-char stream t nil t)))
          (arg (when (digit-char-p sub-char)
-                (parse-number
+                ;; Dispatch infixes are decimal, independent of *READ-BASE*.
+                (parse-integer
                  (with-output-to-string (out)
                    (write-char sub-char out)
-                   (do ((c (peek-char nil stream t nil t) (read-char stream t nil t)))
+                   (do ((c (peek-char nil stream t nil t) (peek-char nil stream t nil t)))
                        (nil)
                      (if (digit-char-p c)
-                         (write-char c out)
-                         (return))))))))
+                         (write-char (read-char stream t nil t) out)
+                         (return))))
+                 :radix 10))))
     (when arg
-      (setq sub-char (read-char stream t nil t)))
+      (setq sub-char (char-upcase (read-char stream t nil t))))
     (let ((fn (get-dispatch-macro-character disp-char sub-char)))
       (unless fn
         (read-error "no dispatch function defined for ~S" sub-char))
@@ -611,7 +651,8 @@ Integers without decimal use *read-base*."
     (if (delimiter-p next-char)
         char
         (let ((name (read-token-1 stream char nil)))
-          (cond ((string-equal name "newline")
+          (cond (*read-suppress* nil)
+                ((string-equal name "newline")
                  #\newline)
                 ((string-equal name "space")
                  #\space)
@@ -635,16 +676,89 @@ Integers without decimal use *read-base*."
   (list 'function (read stream t nil t)))
 
 (defun array-reader (stream sub-char arg)
+  (declare (ignore sub-char))
+  (let* ((contents (read-delimited-list #\) stream t))
+         (size arg))
+    (when *read-suppress* (return-from array-reader nil))
+    (when size
+      (when (> (length contents) size)
+        (read-error "Too many elements in vector literal"))
+      (when (and (< (length contents) size) contents)
+        (let ((last-element (car (last contents))))
+          (setq contents
+                (append contents
+                        (make-list (- size (length contents))
+                                   :initial-element last-element)))))
+      (when (and (< (length contents) size) (null contents))
+        (read-error "Cannot fill an empty vector literal")))
+    (apply #'vector contents)))
+
+(defun radix-number-reader (stream sub-char arg)
+  (when *read-suppress*
+    (read stream t nil t)
+    (return-from radix-number-reader nil))
+  (let ((radix (case sub-char
+                 (#\B 2)
+                 (#\O 8)
+                 (#\X 16)
+                 (#\R arg))))
+    (unless (and (integerp radix) (<= 2 radix 36))
+      (read-error "Invalid radix for sharpsign ~C: ~S" sub-char radix))
+    (let ((*read-base* radix))
+      (read stream t nil t))))
+
+(defun complex-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
-  (apply #'vector (read-delimited-list #\) stream t)))
+  (let ((parts (read stream t nil t)))
+    (when *read-suppress* (return-from complex-reader nil))
+    (unless (and (listp parts)
+                 (proper-list-p parts)
+                 (= (length parts) 2)
+                 (realp (first parts))
+                 (realp (second parts)))
+      (read-error "Sharpsign C requires a list of two real numbers"))
+    (complex (first parts) (second parts))))
+
+(defun pathname-reader (stream sub-char arg)
+  (declare (ignore sub-char arg))
+  (let ((namestring (read stream t nil t)))
+    (unless *read-suppress* (pathname namestring))))
+
+(defun array-rank-reader (stream sub-char rank)
+  (declare (ignore sub-char))
+  (when *read-suppress*
+    (read stream t nil t)
+    (return-from array-rank-reader nil))
+  (unless (and (integerp rank) (<= 0 rank))
+    (read-error "Sharpsign A requires a non-negative rank"))
+  (let ((contents (read stream t nil t)))
+    (labels ((dimensions (object remaining)
+               (if (zerop remaining)
+                   nil
+                   (progn
+                     (unless (or (and (listp object) (proper-list-p object))
+                                 (vectorp object))
+                       (read-error "Initial contents for a rank ~D array must be a sequence"
+                                   rank))
+                     (let ((length (length object)))
+                       (cons length
+                             (if (zerop length)
+                                 (make-list (1- remaining) :initial-element 0)
+                                 (dimensions (elt object 0) (1- remaining)))))))))
+      (make-array (dimensions contents rank)
+                  :initial-contents contents))))
 
 (defun unintern-symbol-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
-  (let ((token (read-token-1 stream
+  (multiple-value-bind (token escaped) (read-token-1 stream
                              (read-char stream t nil t)
-                             (readtable-case *readtable*))))
-    (when (number-string-p token)
+                             (readtable-case *readtable*))
+    (when *read-suppress* (return-from unintern-symbol-reader nil))
+    (when (and (null escaped) (number-string-p token))
       (read-error "The symbol following #: has numeric syntax: ~S" token))
+    (dotimes (i (length token))
+      (when (and (char= (char token i) #\:) (not (member i escaped)))
+        (read-error "Package marker after #:")))
     (make-symbol token)))
 
 (defun featurep (test)
@@ -670,13 +784,14 @@ Integers without decimal use *read-base*."
 
 (defun sharp-plus-minus-reader (stream sub-char arg)
   (declare (ignore arg))
-  ;; TODO: testがnilの場合は*read-suppress*をnilにしてreadする必要がある
   (let ((test (let ((*package* (find-package :keyword)))
-                (read stream t nil t)))
-        (form (read stream t nil t)))
-    (if (char= sub-char (if (featurep test) #\+ #\-))
-        form
-        (values))))
+                (read stream t nil t))))
+    (if (and (not *read-suppress*)
+             (char= sub-char (if (featurep test) #\+ #\-)))
+        (read stream t nil t)
+        (let ((*read-suppress* t))
+          (read stream t nil t)
+          (values)))))
 
 (defun subst-sharp-equal (tree)
   (let ((visit (make-hash-table :test 'eq)))
@@ -696,12 +811,17 @@ Integers without decimal use *read-base*."
                                (unless (eq cdr (cdr tree))
                                  (rplacd tree cdr))))
                             ((arrayp tree)
-                             (read-error "subst-sharp-equal trap")))
+                             (dotimes (i (array-total-size tree))
+                               (setf (row-major-aref tree i)
+                                     (f (row-major-aref tree i))))))
                       tree))))
       (f tree))))
 
 (defun sharp-equal-reader (stream sub-char label)
   (declare (ignore sub-char))
+  (when *read-suppress*
+    (read stream t nil t)
+    (return-from sharp-equal-reader nil))
   (unless label
     (read-error "Reader dispatch macro character #\= requires an argument."))
   (when (gethash label *read-label-table*)
@@ -717,6 +837,7 @@ Integers without decimal use *read-base*."
 
 (defun sharp-sharp-reader (stream sub-char label)
   (declare (ignore stream sub-char))
+  (when *read-suppress* (return-from sharp-sharp-reader nil))
   (unless label
     (read-error "Reader dispatch macro character #\# requires an argument."))
   (let ((sharp-equal (gethash label *read-label-table*)))
@@ -746,48 +867,28 @@ Integers without decimal use *read-base*."
     (setq bits (nreverse bits))
     (make-array (length bits) :element-type 'bit :initial-contents bits)))
 
-(defun bit-number-reader (stream sub-char arg)
-  (declare (ignore sub-char arg))
-  (let ((bits '()))
-    (do () (nil)
-      (let ((c (peek-char nil stream nil nil t)))
-        (case c
-          (#\0
-           (push 0 bits))
-          (#\1
-           (push 1 bits))
-          (otherwise
-           (when (or (null c)
-                     (non-terminate-macro-character-p c)
-                     (whitespacep c))
-             (return))))
-        (read-char stream t nil t)))
-    (let ((n 0)
-          (digit 1))
-      (dolist (b bits)
-        (when (= b 1)
-          (incf n digit))
-        (setq digit (* digit 2)))
-      n)))
-
 (defun block-comment-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
-  (read-char stream t nil t)
   (do ((c (read-char stream t nil t) (read-char stream t nil t))
        (depth 1))
       (nil)
     (cond ((and (char= c #\|)
                 (char= #\# (peek-char nil stream t nil t)))
+           (read-char stream t nil t)
            (when (zerop (decf depth))
-             (read-char stream t nil t)
              (return)))
           ((and (char= c #\#)
                 (char= #\| (peek-char nil stream t nil t)))
+           (read-char stream t nil t)
            (incf depth))))
   (values))
 
 (defun sharp-dot-reader (stream sub-char arg)
   (declare (ignore sub-char arg))
+  (when *read-suppress*
+    (read stream t nil t)
+    (return-from sharp-dot-reader nil))
+  (unless *read-eval* (read-error "Read-time evaluation is disabled"))
   #+valtan
   (eval (read stream t nil t))
   #-valtan
@@ -834,33 +935,61 @@ Integers without decimal use *read-base*."
       (otherwise
        (list 'ffi:cl->js (read stream t nil t))))))
 
-(defun read-from-string (string &optional eof-error-p eof-value
+(defun read-from-string (string &optional (eof-error-p t) eof-value
                                 &key (start 0) end preserve-whitespace)
   (declare (ignore preserve-whitespace))
   (let ((stream (make-string-input-stream string start end)))
     (values (read stream eof-error-p eof-value)
             (string-input-stream-position stream))))
 
+(defun parse-integer (string &key (start 0) end (radix 10) junk-allowed)
+  (unless (stringp string) (type-error string 'string))
+  (unless (and (integerp radix) (<= 2 radix 36))
+    (type-error radix '(integer 2 36)))
+  (unless end (setq end (length string)))
+  (unless (and (integerp start) (integerp end) (<= 0 start end (length string)))
+    (error 'type-error :datum (list start end) :expected-type 'list))
+  (let ((position start) (negative nil) (value 0) (digits 0))
+    (do () ((or (= position end) (not (whitespacep (char string position)))))
+      (incf position))
+    (when (and (< position end) (member (char string position) '(#\+ #\-)))
+      (setq negative (char= (char string position) #\-))
+      (incf position))
+    (do () ((= position end))
+      (let ((digit (digit-char-p (char string position) radix)))
+        (unless digit (return))
+        (setq value (+ (* value radix) digit))
+        (incf digits)
+        (incf position)))
+    (unless junk-allowed
+      (do () ((or (= position end) (not (whitespacep (char string position)))))
+        (incf position))
+      (unless (and (> digits 0) (= position end))
+        (error 'parse-error)))
+    (values (and (> digits 0) (if negative (- value) value)) position)))
+
 (defun read-char (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)
   (declare (ignore recursive-p))
+  (setq stream (input-stream-designator stream))
   (let ((c (stream-read-char stream)))
     (if (eq c :eof)
         (if eof-error-p
-            (eof-error)
+            (eof-error stream)
             eof-value)
         c)))
 
 (defun unread-char (character &optional (stream *standard-input*))
-  (declare (ignore character))
-  (stream-unread-char stream))
+  (unless (characterp character) (type-error character 'character))
+  (stream-unread-char (input-stream-designator stream) character))
 
 (defun read-line (&optional (stream *standard-input*) (eof-error-p t) eof-value recursive-p)
   (declare (ignore recursive-p))
+  (setq stream (input-stream-designator stream))
   (multiple-value-bind (string next-line-p)
       (stream-read-line stream)
     (if (and (string= string "") (not next-line-p))
         (if eof-error-p
-            (eof-error)
+            (eof-error stream)
             (values eof-value t))
         (values string (not next-line-p)))))
 
@@ -886,7 +1015,7 @@ Integers without decimal use *read-base*."
 
 (cl:defpackage :valtan-core.reader
   (:use)
-  (:import-from :valtan-core
+  (:import-from #+valtan :common-lisp #-valtan :valtan-core
                 . #1=(:cons-reader
                       :quote-reader
                       :backquote-reader

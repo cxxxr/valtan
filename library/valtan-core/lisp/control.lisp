@@ -292,8 +292,16 @@
          (char= x y))
         ;; Two numbers are EQL if they are the same type and same value
         ((and (numberp x) (numberp y))
-         (and (if (floatp x) (floatp y) (integerp y))
-              (= x y)))
+         (cond ((cl:complexp x)
+                (and (cl:complexp y) (eql (cl:realpart x) (cl:realpart y))
+                     (eql (cl:imagpart x) (cl:imagpart y))))
+               ((cl:complexp y) nil)
+               ((floatp x)
+                (and (floatp y) (= x y)
+                     (or (not (zerop x))
+                         (= (cl:float-sign x) (cl:float-sign y)))))
+               ((integerp x) (and (integerp y) (= x y)))
+               (t (and (rationalp y) (not (integerp y)) (= x y)))))
         (t
          (eq x y))))
 
@@ -313,8 +321,11 @@
                 (unless (eql (aref x i)
                              (aref y i))
                   (return nil)))))
-        ;; Note: Pathnames should be compared component by component per ANSI CL,
-        ;; but pathnames are not yet implemented in Valtan
+        ((and (*:structure-p x) (eq (*:%structure-name x) 'pathname)
+              (*:structure-p y) (eq (*:%structure-name y) 'pathname))
+         (dotimes (i (*:%structure-slot-count x) t)
+           (unless (equal (*:%structure-ref x i) (*:%structure-ref y i))
+             (return nil))))
         (t
          ;; General arrays (including vectors) are only EQUAL if they are EQ
          (eql x y))))
@@ -336,6 +347,8 @@
         ((and (arrayp x)
               (arrayp y))
          (array-equalp x y))
+        ((and (*:structure-p x) (eq (*:%structure-name x) 'pathname))
+         (equal x y))
         ((and (*:structure-p x)
               (*:structure-p y))
          (and (eq (*:%structure-name x)
@@ -398,3 +411,24 @@
   (lambda (&rest args)
     (declare (ignore args))
     value))
+
+(defun system:call-with-progv (symbols values thunk)
+  (unless (proper-list-p symbols) (type-error symbols 'list))
+  (unless (proper-list-p values) (type-error values 'list))
+  (let ((saved nil))
+    (unwind-protect
+         (progn
+           (dolist (symbol symbols)
+             (unless (symbolp symbol) (type-error symbol 'symbol))
+             (let ((bound (boundp symbol)))
+               (setq saved (cons (list symbol bound (when bound (symbol-value symbol))) saved)))
+             (if values
+                 (let ((value (car values)))
+                   (setq values (cdr values))
+                   (set symbol value))
+                 (makunbound symbol)))
+           (funcall thunk))
+      (dolist (binding saved)
+        (if (second binding)
+            (set (first binding) (third binding))
+            (makunbound (first binding)))))))

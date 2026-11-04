@@ -4,11 +4,11 @@
 (in-package :valtan-core)
 
 (defun stringp (x)
-  (and (arrayp x)
+  (and (vectorp x)
        (eq 'character (array-element-type x))))
 
 (defun simple-string-p (x)
-  (and (arrayp x)
+  (and (vectorp x)
        (eq 'character (array-element-type x))
        (null (array-fill-pointer x))))
 

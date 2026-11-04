@@ -60,12 +60,12 @@
   #-valtan
   (cl:error "unimplemented"))
 
-(defun ffi:js-eval (x)
-  (declare (ignorable x))
+(defun ffi:js-eval (x &optional constants)
+  (declare (ignorable x constants))
   #+valtan
-  (let* ((code (*:string-append* "(function(lisp) { 'use strict'; " x "; });"))
+  (let* ((code (*:string-append* "(function(lisp, constants) { 'use strict'; " x "; });"))
          (fn (js::eval (ffi:cl->js code))))
-    (cl:funcall fn (ffi:ref "lisp")))
+    (cl:funcall fn (ffi:ref "lisp") constants))
   #-valtan
   (cl:error "unimplemented"))
 

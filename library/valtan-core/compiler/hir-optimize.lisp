@@ -138,6 +138,7 @@
   (defun match-parsed-lambda-list-and-arguments (parsed-lambda-list args)
     (let ((nargs (length args)))
       (when (and (null (parsed-lambda-list-keys parsed-lambda-list))
+                 (null (parsed-lambda-list-auxs parsed-lambda-list))
                  (null (parsed-lambda-list-optionals parsed-lambda-list))
                  (null (parsed-lambda-list-rest-var parsed-lambda-list))
                  (<= (parsed-lambda-list-min parsed-lambda-list) nargs)

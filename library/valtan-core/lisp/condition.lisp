@@ -79,8 +79,8 @@
 (defun type-error (datum expected-type)
   (error 'type-error :datum datum :expected-type expected-type))
 
-(defun eof-error ()
-  (error "End of file"))
+(defun eof-error (&optional stream)
+  (error 'end-of-file :stream stream))
 
 (defmacro handler-bind (bindings &body forms)
   `(let ((*handler-clusters*

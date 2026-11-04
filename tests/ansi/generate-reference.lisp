@@ -1,0 +1,63 @@
+;;; SBCL registration reference, using an expendable copy of the pinned suite.
+;;; Usage: sbcl --script tests/ansi/generate-reference.lisp /tmp/ansi-copy/
+;;; Original loaders compile files in that copy; do not pass the Git submodule.
+(require :asdf)
+(defparameter *reference-root*
+  (truename (or (second sb-ext:*posix-argv*)
+                (error "Supply a scratch copy of ansi-test"))))
+(when (probe-file (merge-pathnames ".git" *reference-root*))
+  (error "Use a scratch copy, not a Git checkout"))
+(defparameter *reference-origins* (make-hash-table))
+(let ((*default-pathname-defaults* *reference-root*)
+      (*features* '(:valtan))
+      (*standard-output* *error-output*))
+  (load "gclload1.lsp"))
+(let ((original (symbol-function 'rt::add-entry)))
+  (setf (symbol-function 'rt::add-entry)
+        (lambda (entry)
+          (setf (gethash (rt::name entry) *reference-origins*)
+                (enough-namestring *load-truename* *reference-root*))
+          (funcall original entry))))
+(let ((*default-pathname-defaults* *reference-root*)
+      (*features* '(:valtan))
+      (*standard-output* *error-output*))
+  (load "gclload2.lsp"))
+(let ((files (make-hash-table :test 'equal))
+      (names (make-hash-table :test 'equal))
+      (categories (make-hash-table :test 'equal)))
+  (dolist (entry (cdr rt::*entries*))
+    (let ((file (gethash (rt::name entry) *reference-origins*)))
+      (incf (gethash file files 0))
+      (push (if (symbolp (rt::name entry))
+                (symbol-name (rt::name entry))
+                (princ-to-string (rt::name entry)))
+            (gethash file names))
+      (incf (gethash (subseq file 0 (position #\/ file)) categories 0))))
+  (flet ((write-counts (table)
+           (format t "{")
+           (loop for key in (sort (loop for key being the hash-keys in table collect key) #'string<)
+                 for first = t then nil
+                 do (unless first (format t ","))
+                    (format t "~%    ~S: ~D" key (gethash key table)))
+           (format t "~%  }")))
+    (format t "{~%  ~S: ~S,~%  ~S: ~S,~%  ~S: ~S,~%  ~S: [~S],~%"
+            "suite" "ansi-test" "revision" "ebf9c806f383d5dc921c421e0d083e925c64a6cd"
+            "referenceImplementation" (lisp-implementation-type) "features" "valtan")
+    (format t "  ~S: ~S,~%  ~S: ~D,~%  ~S: "
+            "purpose" "Registration reference, not Valtan conformance results. Runtime-dependent registrations may differ."
+            "registered" (length (cdr rt::*entries*)) "categories")
+    (write-counts categories)
+    (format t ",~%  ~S: " "files")
+    (write-counts files)
+    (format t ",~%  ~S: {" "testNames")
+    (loop for file in (sort (loop for key being the hash-keys in names collect key) #'string<)
+          for first-file = t then nil
+          do (unless first-file (format t ","))
+             (format t "~%    ~S: [" file)
+             (loop for name in (sort (gethash file names) #'string<)
+                   for first-name = t then nil
+                   do (unless first-name (format t ", "))
+                      (format t "~S" name))
+             (format t "]"))
+    (format t "~%  }")
+    (format t "~%}~%")))

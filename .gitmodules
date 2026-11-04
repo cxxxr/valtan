@@ -1,3 +1,6 @@
 [submodule "submodules/cl-source-map"]
 	path = submodules/cl-source-map
 	url = https://github.com/cxxxr/cl-source-map.git
+[submodule "tests/ansi-test"]
+	path = submodules/ansi-test
+	url = https://gitlab.common-lisp.net/ansi-test/ansi-test.git

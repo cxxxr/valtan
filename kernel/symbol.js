@@ -4,7 +4,9 @@ import {
 import {
     S_nil,
     toLispBoolean,
-    S_symbol
+    S_symbol,
+    S_setf,
+    S_fdefinition_setf
 } from './header';
 import {
     typeError,
@@ -13,7 +15,8 @@ import {
     undefinedFunction,
 } from './error';
 import {
-    makeCons
+    makeCons,
+    isCons
 } from './cons';
 
 class LispSymbol {
@@ -132,7 +135,23 @@ export function CL_boundp(x) {
     return values1(toLispBoolean(x.isBound()));
 }
 
+function setfFunctionCell(name, setfSymbol, setfKey) {
+    if (isCons(name) && name.car === setfSymbol && isCons(name.cdr) &&
+        name.cdr.cdr === S_nil && name.cdr.car instanceof LispSymbol) {
+        for (let plist = name.cdr.car.plist; plist !== S_nil; plist = plist.cdr.cdr) {
+            if (plist.car === setfKey) return plist.cdr;
+        }
+        return null;
+    }
+    checkSymbol(name);
+    return null;
+}
+
 export function CL_fboundp(x) {
+    if (isCons(x)) {
+        const cell = setfFunctionCell(x, S_setf, S_fdefinition_setf);
+        return values1(toLispBoolean(cell !== null && cell.car !== S_nil));
+    }
     checkSymbol(x);
     return values1(toLispBoolean(x.isFBound()));
 }
@@ -175,6 +194,11 @@ export function CL_makunbound(symbol) {
 }
 
 export function CL_fmakunbound(symbol) {
+    if (isCons(symbol)) {
+        const cell = setfFunctionCell(symbol, S_setf, S_fdefinition_setf);
+        if (cell !== null) cell.car = S_nil;
+        return values1(symbol);
+    }
     checkSymbol(symbol);
     symbol.func = null;
     return values1(symbol);

@@ -67,6 +67,15 @@ import {
     CL_deletePackage,
     CL_packageUsedByList,
     CL_packageUseList,
+    CL_unexport,
+    CL_usePackage,
+    CL_unusePackage,
+    CL_import,
+    CL_shadowingImport,
+    CL_shadow,
+    CL_packageShadowingSymbols,
+    CL_unintern,
+    CL_renamePackage,
 } from './package';
 export * from './package';
 
@@ -88,7 +97,35 @@ export * from './structure';
 
 import {
     CL_numberp,
+    CL_integerDecodeFloat,
+    CL_decodeFloat,
+    CL_floatRadix,
+    CL_floatDigits,
+    CL_floatPrecision,
+    CL_floatSign,
+    CL_scaleFloat,
+
+    CL_rationalp,
+    CL_numerator,
+    CL_denominator,
+    CL_rational,
+    CL_floatRank,
+    CL_float,
+    CL_abs,
+    CL_log,
+    CL_transcendental,
+    CL_atan,
+    CL_phase,
+    CL_cis,
+    CL_numberPrintString,
+    CL_complexp,
+    CL_complex,
+    CL_realpart,
+    CL_imagpart,
     CL_integerp,
+    CL_ash,
+    CL_integerLength,
+    CL_logand,
     CL_floatp,
     CL_add,
     CL_sub,
@@ -111,6 +148,10 @@ import {
     Float,
 } from './number';
 export * from './number';
+
+import { CL_formatControl } from './format';
+import { CL_initializeFileSystem, CL_fileOperation, CL_streamClosedp, CL_markStreamClosed } from './files';
+import { CL_initializeEnvironment, CL_environmentOperation } from './environment';
 
 import {
     CL_apply,
@@ -153,8 +194,11 @@ function symbols() {
     const names = [
         "PACKAGE",
         "SYMBOL",
+        "INTEGER",
+        "NUMBER",
         "STRING",
         "FUNCTION",
+        "SETF",
         "TYPE-ERROR",
         "ARGUMENTS-ERROR",
         "SIMPLE-ERROR",
@@ -173,6 +217,7 @@ function symbols() {
 initSymbols(Object.assign({
     t: intern('T', cl_package),
     nil: intern('NIL', cl_package),
+    'FDEFINITION-SETF': intern('FDEFINITION-SETF', system_package),
 }, symbols()));
 
 setSymbolValue(S_current_package, cl_user_package);
@@ -236,10 +281,58 @@ registerFunction(system_package, 'EXPORT', CL_export, 1, 2);
 registerFunction(system_package, '%DELETE-PACKAGE', CL_deletePackage, 1);
 registerFunction(system_package, 'PACKAGE-USED-BY-LIST', CL_packageUsedByList, 1);
 registerFunction(system_package, 'PACKAGE-USE-LIST', CL_packageUseList, 1);
+registerFunction(system_package, 'UNEXPORT', CL_unexport, 2);
+registerFunction(system_package, 'USE-PACKAGE', CL_usePackage, 2);
+registerFunction(system_package, 'UNUSE-PACKAGE', CL_unusePackage, 2);
+registerFunction(system_package, 'IMPORT', CL_import, 2);
+registerFunction(system_package, 'SHADOWING-IMPORT', CL_shadowingImport, 2);
+registerFunction(system_package, 'SHADOW', CL_shadow, 2);
+registerFunction(system_package, 'PACKAGE-SHADOWING-SYMBOLS', CL_packageShadowingSymbols, 1);
+registerFunction(system_package, 'UNINTERN', CL_unintern, 2);
+registerFunction(system_package, 'RENAME-PACKAGE', CL_renamePackage, 3);
+
+
+registerFunction(system_package, 'INITIALIZE-FILE-SYSTEM', CL_initializeFileSystem, 2);
+registerFunction(system_package, 'INITIALIZE-ENVIRONMENT', CL_initializeEnvironment, 1);
+registerFunction(system_package, 'ENVIRONMENT-OP', CL_environmentOperation, 1, null);
+registerFunction(system_package, 'FILE-OP', CL_fileOperation, 1, null);
+registerFunction(system_package, 'STREAM-CLOSED-P', CL_streamClosedp, 1);
+registerFunction(system_package, 'MARK-STREAM-CLOSED', CL_markStreamClosed, 1);
 
 // number.js
 registerFunction(cl_package, 'NUMBERP', CL_numberp, 1);
+registerFunction(cl_package, 'INTEGER-DECODE-FLOAT', CL_integerDecodeFloat, 1);
+registerFunction(cl_package, 'DECODE-FLOAT', CL_decodeFloat, 1);
+registerFunction(cl_package, 'FLOAT-RADIX', CL_floatRadix, 1);
+registerFunction(cl_package, 'FLOAT-DIGITS', CL_floatDigits, 1);
+registerFunction(cl_package, 'FLOAT-PRECISION', CL_floatPrecision, 1);
+registerFunction(cl_package, 'FLOAT-SIGN', CL_floatSign, 1, 2);
+registerFunction(cl_package, 'SCALE-FLOAT', CL_scaleFloat, 2);
+
+registerFunction(system_package, 'RATIONALP', CL_rationalp, 1);
+registerFunction(cl_package, 'NUMERATOR', CL_numerator, 1);
+registerFunction(cl_package, 'DENOMINATOR', CL_denominator, 1);
+registerFunction(cl_package, 'RATIONAL', CL_rational, 1);
+registerFunction(system_package, 'FLOAT-RANK', CL_floatRank, 2);
+registerFunction(cl_package, 'FLOAT', CL_float, 1, 2);
+registerFunction(cl_package, 'ABS', CL_abs, 1);
+registerFunction(cl_package, 'LOG', CL_log, 1, 2);
+for (const op of ['sqrt', 'exp', 'sin', 'cos', 'tan', 'asin', 'acos', 'sinh', 'cosh', 'tanh', 'asinh', 'acosh', 'atanh']) {
+    registerFunction(cl_package, op.toUpperCase(), x => CL_transcendental(op, x), 1);
+}
+registerFunction(cl_package, 'ATAN', CL_atan, 1, 2);
+registerFunction(cl_package, 'PHASE', CL_phase, 1);
+registerFunction(cl_package, 'CIS', CL_cis, 1);
+registerFunction(system_package, 'FORMAT-CONTROL', CL_formatControl, 3);
+registerFunction(system_package, 'NUMBER-PRINT-STRING', CL_numberPrintString, 3);
+registerFunction(cl_package, 'COMPLEXP', CL_complexp, 1);
+registerFunction(cl_package, 'COMPLEX', CL_complex, 1, 2);
+registerFunction(cl_package, 'REALPART', CL_realpart, 1);
+registerFunction(cl_package, 'IMAGPART', CL_imagpart, 1);
 registerFunction(cl_package, 'INTEGERP', CL_integerp, 1);
+registerFunction(cl_package, 'ASH', CL_ash, 2);
+registerFunction(cl_package, 'INTEGER-LENGTH', CL_integerLength, 1);
+registerFunction(system_package, '%LOGAND', CL_logand, 2);
 registerFunction(system_package, 'FLOATP', CL_floatp, 1);
 registerFunction(system_package, 'MAKE-FLOAT', toFloat, 1);
 registerFunction(system_package, 'FLOAT-VALUE', numberValue, 1);

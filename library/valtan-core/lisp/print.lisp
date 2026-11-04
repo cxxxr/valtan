@@ -7,9 +7,21 @@
 (defvar *print-circle* t)
 (defvar *print-case* :upcase)
 (defvar *print-readably* nil)
+(defvar *print-array* t)
+(defvar *print-base* 10)
+(defvar *print-gensym* t)
+(defvar *print-length* nil)
+(defvar *print-level* nil)
+(defvar *print-lines* nil)
+(defvar *print-miser-width* nil)
+(defvar *print-pprint-dispatch* nil)
+(defvar *print-pretty* nil)
+(defvar *print-radix* nil)
+(defvar *print-right-margin* nil)
 
 (defvar *print-circle-table* nil)
 (defvar *print-circle-seen* nil)
+(defvar *print-depth* 0)
 
 (defun make-circle-table (object)
   (let ((visited '())
@@ -22,6 +34,12 @@
                       (push (cons object t) visited)
                       (f (car object))
                       (f (cdr object)))
+                     ((and (arrayp object) (not (stringp object)))
+                      (push (cons object t) visited)
+                      (dotimes (i (array-total-size object))
+                        (f (row-major-aref object i))))
+                     ((and (symbolp object) (null (symbol-package object)))
+                      (push (cons object t) visited))
                      (t
                       object))))
       (f object)
@@ -153,12 +171,17 @@
          (write-string string stream))))
 
 (defun print-number (number stream)
-  (write-string (system:raw-string-to-array (system:number-to-raw-string number)) stream))
+  (write-string (system:raw-string-to-array
+                 (system:number-print-string number *print-base* *print-radix*)) stream))
+
+(defun print-decimal-integer (number stream)
+  (let ((*print-base* 10) (*print-radix* nil))
+    (print-number number stream)))
 
 (defun print-character (char stream)
   (cond (*print-escape*
          (write-string "#\\" stream)
-         (write-char char stream))
+         (write-string (or (char-name char) (string char)) stream))
         (t
          (write-char char stream))))
 
@@ -166,28 +189,28 @@
   (let ((label (cdr (assoc object *print-circle-table*))))
     (when label
       (write-char #\# stream)
-      (print-number label stream)
+      (print-decimal-integer label stream)
       (write-char #\# stream))))
 
 (defun print-cons-1 (cons stream)
-  (labels ((f (x)
-             (when (consp x)
-               (write-1 (car x) :stream stream)
-               (cond ((consp (cdr x))
-                      (let ((object (cdr x)))
-                        (if (member object *print-circle-seen*)
-                            (progn
-                              (write-string " . " stream)
-                              (print-label object stream))
-                            (progn
-                              (write-char #\space stream)
-                              (f object)))))
-                     ((not (null (cdr x)))
-                      (write-string " . " stream)
-                      (write-1 (cdr x) :stream stream))))))
-    (write-char #\( stream)
-    (f cons)
-    (write-char #\) stream)))
+  (write-char #\( stream)
+  (do ((tail cons (cdr tail)) (count 0 (1+ count)))
+      ((null tail))
+    (when (and (not *print-readably*) *print-length* (>= count *print-length*))
+      (when (> count 0) (write-char #\space stream))
+      (write-string "..." stream)
+      (return))
+    (when (> count 0) (write-char #\space stream))
+    (write-1 (car tail) :stream stream)
+    (cond ((and (consp (cdr tail)) *print-circle* (assoc (cdr tail) *print-circle-table*))
+           (write-string " . " stream)
+           (print-cons (cdr tail) stream)
+           (return))
+          ((and (cdr tail) (atom (cdr tail)))
+           (write-string " . " stream)
+           (write-1 (cdr tail) :stream stream)
+           (return))))
+  (write-char #\) stream))
 
 (defun print-cons (cons stream)
   (let (label)
@@ -196,12 +219,12 @@
            (print-cons-1 cons stream))
           ((member cons *print-circle-seen*)
            (write-char #\# stream)
-           (print-number label stream)
+           (print-decimal-integer label stream)
            (write-char #\# stream))
           (t
            (push cons *print-circle-seen*)
            (write-char #\# stream)
-           (print-number label stream)
+           (print-decimal-integer label stream)
            (write-char #\= stream)
            (force-output stream)
            (print-cons-1 cons stream)))))
@@ -220,10 +243,31 @@
          (let ((len (length vector)))
            (do ((i 0 (1+ i)))
                ((= i len))
+             (when (and (not *print-readably*) *print-length* (>= i *print-length*))
+               (write-string "..." stream)
+               (return))
              (write-1 (aref vector i) :stream stream)
              (when (< i (1- len))
                (write-char #\space stream))))
          (write-string ")" stream))))
+
+(defun print-array (array stream)
+  (write-char #\# stream)
+  (print-decimal-integer (array-rank array) stream)
+  (write-char #\A stream)
+  (let ((index 0))
+    (labels ((contents (dimensions)
+               (if (null dimensions)
+                   (progn
+                     (write-1 (row-major-aref array index) :stream stream)
+                     (incf index))
+                   (progn
+                     (write-char #\( stream)
+                     (dotimes (i (car dimensions))
+                       (unless (zerop i) (write-char #\space stream))
+                       (contents (cdr dimensions)))
+                     (write-char #\) stream)))))
+      (contents (array-dimensions array)))))
 
 (defun print-function (function stream)
   (cl:print-unreadable-object (function stream)
@@ -243,29 +287,40 @@
 (defun print-structure (structure stream)
   (funcall (structure-printer structure) structure stream))
 
-(defun write-1 (object &key array
-                            base
-                            (case nil case-supplied-p)
+(defun write-1 (object &key ((:array *print-array*) *print-array*)
+                            ((:base *print-base*) *print-base*)
+                            ((:case *print-case*) *print-case*)
                             ((:circle *print-circle*) *print-circle*)
                             ((:escape *print-escape*) *print-escape*)
-                            gensym
-                            length
-                            level
-                            lines
-                            miser-width
-                            pprint-dispatch
-                            pretty
-                            radix
-                            (readably nil readably-supplied-p)
-                            right-margin
+                            ((:gensym *print-gensym*) *print-gensym*)
+                            ((:length *print-length*) *print-length*)
+                            ((:level *print-level*) *print-level*)
+                            ((:lines *print-lines*) *print-lines*)
+                            ((:miser-width *print-miser-width*) *print-miser-width*)
+                            ((:pprint-dispatch *print-pprint-dispatch*) *print-pprint-dispatch*)
+                            ((:pretty *print-pretty*) *print-pretty*)
+                            ((:radix *print-radix*) *print-radix*)
+                            ((:readably *print-readably*) *print-readably*)
+                            ((:right-margin *print-right-margin*) *print-right-margin*)
                             (stream *standard-output*))
-  (declare (ignore array base gensym length level lines miser-width pprint-dispatch
-                   pretty radix right-margin))
-  (let ((*print-case* (if case-supplied-p case *print-case*))
-        (*print-readably* (if readably-supplied-p readably *print-readably*))
-        (*print-escape* (if (and readably-supplied-p readably)
-                            t
-                            *print-escape*)))
+  (let ((compound (cond ((consp object) t)
+                        ((arrayp object) (not (or (stringp object) (bit-vector-p object))))
+                        ((system:structure-p object) t))))
+    (when (and compound (not *print-readably*) *print-level* (>= *print-depth* *print-level*))
+      (write-char #\# stream)
+      (return-from write-1 object))
+  (let ((*print-depth* (if compound (1+ *print-depth*) *print-depth*)))
+  (when (and *print-circle* (not (consp object)))
+    (let ((label (cdr (assoc object *print-circle-table*))))
+      (when label
+        (when (member object *print-circle-seen*)
+          (print-label object stream)
+          (return-from write-1 object))
+        (push object *print-circle-seen*)
+        (write-char #\# stream)
+        (print-decimal-integer label stream)
+        (write-char #\= stream))))
+  (let ((*print-escape* (or *print-readably* *print-escape*)))
   (cond ((symbolp object)
          (print-symbol object stream))
         ((stringp object)
@@ -276,8 +331,12 @@
          (print-character object stream))
         ((consp object)
          (print-cons object stream))
+        ((and (arrayp object) (not *print-array*) (not *print-readably*))
+         (write-string "#<ARRAY>" stream))
         ((vectorp object)
          (print-vector object stream))
+        ((arrayp object)
+         (print-array object stream))
         ((functionp object)
          (print-function object stream))
         ((packagep object)
@@ -287,11 +346,13 @@
         (t
          (cl:print-unreadable-object (nil stream)
            (write-string (system:unknown-object-to-string object)
-                         stream))))))
+                         stream)))))
+  object)))
 
 (defun write (object &rest args)
-  (let ((*print-circle-table*
-          (when *print-circle*
+  (let ((*print-depth* 0)
+        (*print-circle-table*
+          (when (getf args :circle *print-circle*)
             (make-circle-table object)))
         (*print-circle-seen* nil))
     (apply #'write-1 object args)))
@@ -305,7 +366,7 @@
     (apply #'write object :stream stream args)))
 
 (defun princ (object &optional (stream *standard-output*))
-  (write object :escape nil :stream stream)
+  (write object :escape nil :readably nil :stream stream)
   object)
 
 (defun princ-to-string (object)

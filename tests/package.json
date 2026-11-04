@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "build": "valtan build tests.system && vite build",
-    "start": "node dist/tests.js"
+    "start": "node dist/tests.js",
+    "build:ansi": "../valtan build ansi.system && vite build --config vite.ansi.config.js",
+    "test:ansi": "node ansi/run.mjs",
+    "test:ansi:harness": "node --test ansi/integration.test.mjs ansi/check-conformance.test.mjs",
+    "test:ansi:check": "node ansi/check-conformance.mjs"
   },
   "keywords": [],
   "author": "",

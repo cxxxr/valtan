@@ -17,8 +17,11 @@
        (handler-case (progn ,@body)
          (throw-condition (e)
            (if (eq ,g-tag (throw-condition-tag e))
-               (throw-condition-value e)
+               (values-list (throw-condition-value e))
                (error e)))))))
 
-(defun throw (tag result)
+(defun system:throw-values (tag result)
   (error 'throw-condition :tag tag :value result))
+
+(defun throw (tag result)
+  (system:throw-values tag (list result)))

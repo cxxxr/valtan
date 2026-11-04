@@ -1,6 +1,16 @@
 name: SACLA Tests
 
 on:
+  workflow_dispatch:
+    inputs:
+      run_ansi:
+        description: Run upstream ANSI tests (full runs require complete coverage and 90% success)
+        type: boolean
+        default: false
+      ansi_category:
+        description: ANSI category; leave empty for all categories
+        type: string
+        default: ''
   push:
     branches: [master]
   pull_request:
@@ -51,12 +61,23 @@ jobs:
             npx vite build
           '
 
+      - name: Build and verify ANSI test adapter
+        run: |
+          nix develop --command bash -c '
+            set -e
+            cd tests
+            npm run build:ansi
+            npm run test:ansi:harness
+            sbcl --script ansi/generate-manifest.lisp > /tmp/ansi-manifest.json
+            cmp ansi/manifest.json /tmp/ansi-manifest.json
+          '
+
       - name: Run SACLA tests
         id: run-tests
         run: |
           nix develop --command bash -c '
             cd tests
-            node dist/tests.js --quiet 2>&1 | tee test-output.txt
+            node dist/tests.js 2>&1 | tee test-output.txt
 
             PASS=$(grep "TOTAL:" test-output.txt | sed "s/.*Pass=\([0-9]*\).*/\1/")
             FAIL=$(grep "TOTAL:" test-output.txt | sed "s/.*Fail=\([0-9]*\).*/\1/")
@@ -146,11 +167,27 @@ jobs:
             fi
           '
 
-      - name: Check for regressions
+      - name: Require complete SACLA coverage and 90 percent success
+        run: node tests/check-conformance.mjs tests/test-output.txt
+
+      - name: Run upstream ANSI tests on request
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_ansi }}
+        env:
+          ANSI_CATEGORY: ${{ inputs.ansi_category }}
         run: |
-          RATE=${{ steps.run-tests.outputs.rate }}
-          if [ "$RATE" -lt 85 ]; then
-            echo "Test pass rate ($RATE%) is below threshold (85%)"
-            exit 1
+          if [ -n "$ANSI_CATEGORY" ]; then
+            node tests/ansi/run.mjs --category "$ANSI_CATEGORY" --timeout 7200 --output tests/ansi-results.json
+          else
+            ansi_status=0
+            node tests/ansi/run.mjs --jobs 2 --timeout 7200 --output tests/ansi-results.json || ansi_status=$?
+            if [ "$ansi_status" -gt 1 ]; then exit "$ansi_status"; fi
+            node tests/ansi/check-conformance.mjs tests/ansi-results.json tests/dist-ansi/ansi.js
           fi
-          echo "Test pass rate: $RATE% (threshold: 85%)"
+
+      - name: Upload ANSI report
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.run_ansi }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ansi-test-results
+          path: tests/ansi-results.json
+          if-no-files-found: warn

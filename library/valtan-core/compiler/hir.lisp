@@ -53,9 +53,11 @@
   rest-var
   optionals
   keys
+  auxs
   min
   max
-  allow-other-keys)
+  allow-other-keys
+  keyp)
 
 (defun collect-variables (parsed-lambda-list)
   (append (parsed-lambda-list-vars parsed-lambda-list)
@@ -64,7 +66,8 @@
           (mapcar #'first (parsed-lambda-list-optionals parsed-lambda-list))
           (remove nil (mapcar #'third (parsed-lambda-list-optionals parsed-lambda-list)))
           (mapcar #'first (parsed-lambda-list-keys parsed-lambda-list))
-          (remove nil (mapcar #'third (parsed-lambda-list-keys parsed-lambda-list)))))
+          (remove nil (mapcar #'third (parsed-lambda-list-keys parsed-lambda-list)))
+          (mapcar #'first (parsed-lambda-list-auxs parsed-lambda-list))))
 
 (defstruct binding
   name

@@ -1,0 +1,986 @@
+{
+  "suite": "ansi-test",
+  "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+  "mode": "eval",
+  "bundleSha256": "8a67238baeb507044c3c542e3ca417612805c1863b73ecf5a5cb697ede8734bb",
+  "startedAt": "2026-11-03T22:26:32.823Z",
+  "selection": "selected",
+  "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+  "results": [
+    {
+      "name": "streams",
+      "files": [
+        "streams/input-stream-p.lsp",
+        "streams/output-stream-p.lsp",
+        "streams/interactive-stream-p.lsp",
+        "streams/open-stream-p.lsp",
+        "streams/stream-element-type.lsp",
+        "streams/streamp.lsp",
+        "streams/read-byte.lsp",
+        "streams/peek-char.lsp",
+        "streams/read-char.lsp",
+        "streams/read-char-no-hang.lsp",
+        "streams/terpri.lsp",
+        "streams/fresh-line.lsp",
+        "streams/unread-char.lsp",
+        "streams/write-char.lsp",
+        "streams/read-line.lsp",
+        "streams/write-string.lsp",
+        "streams/write-line.lsp",
+        "streams/read-sequence.lsp",
+        "streams/write-sequence.lsp",
+        "streams/file-length.lsp",
+        "streams/file-position.lsp",
+        "streams/file-string-length.lsp",
+        "streams/open.lsp",
+        "streams/stream-external-format.lsp",
+        "streams/with-open-file.lsp",
+        "streams/with-open-stream.lsp",
+        "streams/listen.lsp",
+        "streams/clear-input.lsp",
+        "streams/finish-output.lsp",
+        "streams/force-output.lsp",
+        "streams/clear-output.lsp",
+        "streams/make-synonym-stream.lsp",
+        "streams/synonym-stream-symbol.lsp",
+        "streams/make-broadcast-stream.lsp",
+        "streams/broadcast-stream-streams.lsp",
+        "streams/make-two-way-stream.lsp",
+        "streams/two-way-stream-input-stream.lsp",
+        "streams/two-way-stream-output-stream.lsp",
+        "streams/echo-stream-input-stream.lsp",
+        "streams/echo-stream-output-stream.lsp",
+        "streams/make-echo-stream.lsp",
+        "streams/concatenated-stream-streams.lsp",
+        "streams/make-concatenated-stream.lsp",
+        "streams/get-output-stream-string.lsp",
+        "streams/make-string-input-stream.lsp",
+        "streams/make-string-output-stream.lsp",
+        "streams/with-input-from-string.lsp",
+        "streams/with-output-to-string.lsp",
+        "streams/stream-error-stream.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 762,
+      "fail": 41,
+      "registered": 803,
+      "expectedRegistered": 803,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "streams/input-stream-p.lsp",
+        "streams/output-stream-p.lsp",
+        "streams/interactive-stream-p.lsp",
+        "streams/open-stream-p.lsp",
+        "streams/stream-element-type.lsp",
+        "streams/streamp.lsp",
+        "streams/read-byte.lsp",
+        "streams/peek-char.lsp",
+        "streams/read-char.lsp",
+        "streams/read-char-no-hang.lsp",
+        "streams/terpri.lsp",
+        "streams/fresh-line.lsp",
+        "streams/unread-char.lsp",
+        "streams/write-char.lsp",
+        "streams/read-line.lsp",
+        "streams/write-string.lsp",
+        "streams/write-line.lsp",
+        "streams/read-sequence.lsp",
+        "streams/write-sequence.lsp",
+        "streams/file-length.lsp",
+        "streams/file-position.lsp",
+        "streams/file-string-length.lsp",
+        "streams/open.lsp",
+        "streams/stream-external-format.lsp",
+        "streams/with-open-file.lsp",
+        "streams/with-open-stream.lsp",
+        "streams/listen.lsp",
+        "streams/clear-input.lsp",
+        "streams/finish-output.lsp",
+        "streams/force-output.lsp",
+        "streams/clear-output.lsp",
+        "streams/make-synonym-stream.lsp",
+        "streams/synonym-stream-symbol.lsp",
+        "streams/make-broadcast-stream.lsp",
+        "streams/broadcast-stream-streams.lsp",
+        "streams/make-two-way-stream.lsp",
+        "streams/two-way-stream-input-stream.lsp",
+        "streams/two-way-stream-output-stream.lsp",
+        "streams/echo-stream-input-stream.lsp",
+        "streams/echo-stream-output-stream.lsp",
+        "streams/make-echo-stream.lsp",
+        "streams/concatenated-stream-streams.lsp",
+        "streams/make-concatenated-stream.lsp",
+        "streams/get-output-stream-string.lsp",
+        "streams/make-string-input-stream.lsp",
+        "streams/make-string-output-stream.lsp",
+        "streams/with-input-from-string.lsp",
+        "streams/with-output-to-string.lsp",
+        "streams/stream-error-stream.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "INPUT-STREAM-P.3",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"input-stream-p\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "INPUT-STREAM-P.4",
+          "reason": "ENOENT: no such file or directory, open '/tmp/valtan-ansi-work-lWxYGW/scratch/foo.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\" \"scratch\") :NAME \"foo\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "OUTPUT-STREAM-P.3",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"output-stream-p\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "OUTPUT-STREAM-P.4",
+          "reason": "ENOENT: no such file or directory, open '/tmp/valtan-ansi-work-lWxYGW/scratch/foo.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\" \"scratch\") :NAME \"foo\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "OPEN-STREAM-P.2",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"open-stream-p\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "OPEN-STREAM-P.3",
+          "reason": "ENOENT: no such file or directory, open '/tmp/valtan-ansi-work-lWxYGW/scratch/foo.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\" \"scratch\") :NAME \"foo\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "OPEN-STREAM-P.4",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"open-stream-p\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "OPEN-STREAM-P.5",
+          "reason": "ENOENT: no such file or directory, open '/tmp/valtan-ansi-work-lWxYGW/scratch/foo.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\" \"scratch\") :NAME \"foo\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "PEEK-CHAR.17",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "PEEK-CHAR.18",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "PEEK-CHAR.19",
+          "reason": "The value NIL is not of the expected type NUMBER"
+        },
+        {
+          "test": "PEEK-CHAR.20",
+          "reason": "The function SET-SYNTAX-FROM-CHAR is undefined"
+        },
+        {
+          "test": "PEEK-CHAR.21",
+          "reason": "The function SET-SYNTAX-FROM-CHAR is undefined"
+        },
+        {
+          "test": "WRITE-STRING.2",
+          "reason": "The value #() is not of the expected type STRING"
+        },
+        {
+          "test": "WRITE-LINE.2",
+          "reason": "The value #() is not of the expected type STRING"
+        },
+        {
+          "test": "FILE-LENGTH.ERROR.2",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"file-length\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-LENGTH.ERROR.5",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"file-length\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-LENGTH.ERROR.6",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"file-length\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-LENGTH.ERROR.10",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"file-length\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-LENGTH.1",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"file-length\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-LENGTH.6",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"file-length\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-POSITION.1",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"file-position\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-POSITION.2",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"file-position\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-POSITION.3",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"file-position\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-POSITION.4",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"file-position\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "OPEN.64",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "OPEN.OUTPUT.3",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "OPEN.IO.3",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LISTEN.7",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"listen\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "MAKE-BROADCAST-STREAM.6",
+          "reason": "The value #S(BROADCAST-STREAM :STREAMS NIL) is not of the expected type STREAM"
+        },
+        {
+          "test": "MAKE-BROADCAST-STREAM.7",
+          "reason": "expected (1); actual (28)"
+        },
+        {
+          "test": "MAKE-BROADCAST-STREAM.8",
+          "reason": "expected (:DEFAULT); actual (:UTF-8)"
+        },
+        {
+          "test": "BROADCAST-STREAM-STREAMS.3",
+          "reason": "The value #S(BROADCAST-STREAM :STREAMS (#S(STRING-OUTPUT-STREAM :BUFFER \"\" :TARGET NIL :ELEMENT-TYPE CHARACTER) #S(FILE-STREAM :HANDLE #<[object Object]> :PATHNAME #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-lWxYGW\") :NAME \"bss-last\" :TYPE \"txt\" :VERSION :NEWEST) :ELEMENT-TYPE CHARACTER :DIRECTION :OUTPUT))) is not of the expected type STREAM"
+        },
+        {
+          "test": "BROADCAST-STREAM-STREAMS.4",
+          "reason": "The value #S(BROADCAST-STREAM :STREAMS NIL) is not of the expected type STREAM"
+        },
+        {
+          "test": "MAKE-STRING-INPUT-STREAM.10",
+          "reason": "The value #() is not of the expected type STRING"
+        },
+        {
+          "test": "MAKE-STRING-OUTPUT-STREAM.12",
+          "reason": "expected (NIL); actual (T)"
+        },
+        {
+          "test": "WITH-INPUT-FROM-STRING.10",
+          "reason": "The value #() is not of the expected type STRING"
+        },
+        {
+          "test": "WITH-INPUT-FROM-STRING.22",
+          "reason": "expected (#\\a NIL); actual (#\\a 1)"
+        },
+        {
+          "test": "WITH-OUTPUT-TO-STRING.4",
+          "reason": "The value #\\a is not of the expected type NIL"
+        },
+        {
+          "test": "STREAM-ERROR-STREAM.ERROR.1",
+          "reason": "Too few arguments to generic function #<STANDARD-GENERIC-FUNCTION STREAM-ERROR-STREAM (COMMON-LISP::OBJECT)>."
+        },
+        {
+          "test": "STREAM-ERROR-STREAM.ERROR.2",
+          "reason": "expected (T); actual (NIL #S(STRING-INPUT-STREAM :STRING \"\" :POSITION 0 :END 0))"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "",
+      "pendingTest": null,
+      "currentFile": "streams/stream-error-stream.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "files",
+      "files": [
+        "files/directory.lsp",
+        "files/probe-file.lsp",
+        "files/ensure-directories-exist.lsp",
+        "files/truename.lsp",
+        "files/file-author.lsp",
+        "files/file-write-date.lsp",
+        "files/rename-file.lsp",
+        "files/delete-file.lsp",
+        "files/file-error.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 42,
+      "fail": 45,
+      "registered": 87,
+      "expectedRegistered": 87,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "files/directory.lsp",
+        "files/probe-file.lsp",
+        "files/ensure-directories-exist.lsp",
+        "files/truename.lsp",
+        "files/file-author.lsp",
+        "files/file-write-date.lsp",
+        "files/rename-file.lsp",
+        "files/delete-file.lsp",
+        "files/file-error.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "DIRECTORY.6",
+          "reason": "expected (NIL NIL); actual (NIL (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \".dir-locals\" :TYPE \"el\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \".gitignore\" :TYPE NIL :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"ansi-test-common\" :TYPE \"asd\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"atom-errors\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"cl-symbol-names\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"cl-test-package\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"compile-and-load\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"compileit\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"doit\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"doit1\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"doit2\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"gclload\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"gclload1\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"gclload2\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"init\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"notes\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"packages\" :TYPE \"lisp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"pattern-match\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"regression-test\" :TYPE \"asd\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt-acl\" :TYPE \"system\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt-doc\" :TYPE \"txt\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt-package\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt-test\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt\" :TYPE \"system\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"universe\" :TYPE \"lsp\" :VERSION :NEWEST)))"
+        },
+        {
+          "test": "DIRECTORY.7",
+          "reason": "expected (NIL); actual ((#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \".dir-locals\" :TYPE \"el\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \".gitignore\" :TYPE NIL :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"ansi-test-common\" :TYPE \"asd\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"atom-errors\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"cl-symbol-names\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"cl-test-package\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"compile-and-load\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"compileit\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"doit\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"doit1\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"doit2\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"gclload\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"gclload1\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"gclload2\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"init\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"notes\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"packages\" :TYPE \"lisp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"pattern-match\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"regression-test\" :TYPE \"asd\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt-acl\" :TYPE \"system\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt-doc\" :TYPE \"txt\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt-package\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt-test\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt\" :TYPE \"lsp\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"rt\" :TYPE \"system\" :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"universe\" :TYPE \"lsp\" :VERSION :NEWEST)))"
+        },
+        {
+          "test": "DIRECTORY.8",
+          "reason": "expected (NIL); actual (0)"
+        },
+        {
+          "test": "PROBE-FILE.2",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"probe-file\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "PROBE-FILE.3",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"probe-file\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "PROBE-FILE.4",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/probe-file.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"probe-file\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "PROBE-FILE.5",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"probe-file\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "PROBE-FILE.ERROR.3",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "PROBE-FILE.ERROR.4",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "ENSURE-DIRECTORIES-EXIST.1",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/ensure-directories-exist.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"ensure-directories-exist.txt\" :TYPE NIL :VERSION :NEWEST)"
+        },
+        {
+          "test": "ENSURE-DIRECTORIES-EXIST.2",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"ensure-directories-exist\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "ENSURE-DIRECTORIES-EXIST.3",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"ensure-directories-exist\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "ENSURE-DIRECTORIES-EXIST.4",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/ensure-directories-exist.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"ensure-directories-exist.txt\" :TYPE NIL :VERSION :NEWEST)"
+        },
+        {
+          "test": "ENSURE-DIRECTORIES-EXIST.5",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/ensure-directories-exist.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"ensure-directories-exist.txt\" :TYPE NIL :VERSION :NEWEST)"
+        },
+        {
+          "test": "ENSURE-DIRECTORIES-EXIST.6",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/ensure-directories-exist.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"ensure-directories-exist.txt\" :TYPE NIL :VERSION :NEWEST)"
+        },
+        {
+          "test": "ENSURE-DIRECTORIES-EXIST.7",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/ensure-directories-exist.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"ensure-directories-exist.txt\" :TYPE NIL :VERSION :NEWEST)"
+        },
+        {
+          "test": "ENSURE-DIRECTORIES-EXIST.9",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/ensure-directories-exist.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"ensure-directories-exist\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "TRUENAME.1",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/truename.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"truename\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "TRUENAME.2",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/truename.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"truename\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "TRUENAME.3",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"truename\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "TRUENAME.4",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"truename\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "TRUENAME.5",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRUENAME.6",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/truename.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"truename\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "TRUENAME.ERROR.5",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "FILE-AUTHOR.4",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/file-author.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"file-author\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-AUTHOR.5",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"file-author\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-AUTHOR.6",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"file-author\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-AUTHOR.ERROR.3",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "FILE-AUTHOR.ERROR.4",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "FILE-WRITE-DATE.1",
+          "reason": "The function GET-UNIVERSAL-TIME is undefined"
+        },
+        {
+          "test": "FILE-WRITE-DATE.2",
+          "reason": "The function GET-UNIVERSAL-TIME is undefined"
+        },
+        {
+          "test": "FILE-WRITE-DATE.3",
+          "reason": "ENOENT: no such file or directory, lstat '/tmp/valtan-ansi-work-yq9yTA/file-write-date.txt': #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"file-write-date\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-WRITE-DATE.4",
+          "reason": "The function GET-UNIVERSAL-TIME is undefined"
+        },
+        {
+          "test": "FILE-WRITE-DATE.ERROR.3",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "FILE-WRITE-DATE.ERROR.4",
+          "reason": "expected (T T); actual (NIL NIL)"
+        },
+        {
+          "test": "RENAME-FILE.5",
+          "reason": "The assertion (TYPEP (PATHNAME CL-TEST::PN1) (QUOTE LOGICAL-PATHNAME)) failed."
+        },
+        {
+          "test": "DELETE-FILE.3",
+          "reason": "The assertion (TYPEP (PATHNAME CL-TEST::PN) (QUOTE LOGICAL-PATHNAME)) failed."
+        },
+        {
+          "test": "DELETE-FILE.4",
+          "reason": "The assertion (TYPEP (PATHNAME CL-TEST::PN) (QUOTE LOGICAL-PATHNAME)) failed."
+        },
+        {
+          "test": "FILE-ERROR.1",
+          "reason": "expected (T T); actual (NIL)"
+        },
+        {
+          "test": "FILE-ERROR-PATHNAME.2",
+          "reason": "expected (T T T); actual (T T NIL)"
+        },
+        {
+          "test": "FILE-ERROR-PATHNAME.4",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "FILE-ERROR-PATHNAME.5",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"file-error\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-ERROR-PATHNAME.6",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-yq9yTA\") :NAME \"file-error\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "FILE-ERROR-PATHNAME.ERROR.1",
+          "reason": "Too few arguments to generic function #<STANDARD-GENERIC-FUNCTION FILE-ERROR-PATHNAME (COMMON-LISP::OBJECT)>."
+        },
+        {
+          "test": "FILE-ERROR-PATHNAME.ERROR.2",
+          "reason": "expected (T); actual (NIL \"foo.txt\")"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "",
+      "pendingTest": null,
+      "currentFile": "files/file-error.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "pathnames",
+      "files": [
+        "auxiliary/pathnames-aux.lsp",
+        "pathnames/pathnames.lsp",
+        "pathnames/pathname.lsp",
+        "pathnames/pathnamep.lsp",
+        "pathnames/make-pathname.lsp",
+        "pathnames/pathname-host.lsp",
+        "pathnames/pathname-device.lsp",
+        "pathnames/pathname-directory.lsp",
+        "pathnames/pathname-name.lsp",
+        "pathnames/pathname-type.lsp",
+        "pathnames/pathname-version.lsp",
+        "pathnames/load-logical-pathname-translations.lsp",
+        "pathnames/logical-pathname.lsp",
+        "pathnames/logical-pathname-translations.lsp",
+        "pathnames/translate-logical-pathname.lsp",
+        "pathnames/namestring.lsp",
+        "pathnames/file-namestring.lsp",
+        "pathnames/directory-namestring.lsp",
+        "pathnames/host-namestring.lsp",
+        "pathnames/enough-namestring.lsp",
+        "pathnames/wild-pathname-p.lsp",
+        "pathnames/merge-pathnames.lsp",
+        "pathnames/pathname-match-p.lsp",
+        "pathnames/parse-namestring.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 126,
+      "fail": 89,
+      "registered": 215,
+      "expectedRegistered": 215,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/pathnames-aux.lsp",
+        "pathnames/pathnames.lsp",
+        "pathnames/pathname.lsp",
+        "pathnames/pathnamep.lsp",
+        "pathnames/make-pathname.lsp",
+        "pathnames/pathname-host.lsp",
+        "pathnames/pathname-device.lsp",
+        "pathnames/pathname-directory.lsp",
+        "pathnames/pathname-name.lsp",
+        "pathnames/pathname-type.lsp",
+        "pathnames/pathname-version.lsp",
+        "pathnames/load-logical-pathname-translations.lsp",
+        "pathnames/logical-pathname.lsp",
+        "pathnames/logical-pathname-translations.lsp",
+        "pathnames/translate-logical-pathname.lsp",
+        "pathnames/namestring.lsp",
+        "pathnames/file-namestring.lsp",
+        "pathnames/directory-namestring.lsp",
+        "pathnames/host-namestring.lsp",
+        "pathnames/enough-namestring.lsp",
+        "pathnames/wild-pathname-p.lsp",
+        "pathnames/merge-pathnames.lsp",
+        "pathnames/pathname-match-p.lsp",
+        "pathnames/parse-namestring.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "PATHNAMES-PRINT-AND-READ-PROPERLY",
+          "reason": "There is no class named PRINT-NOT-READABLE."
+        },
+        {
+          "test": "PATHNAME.2",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PATHNAME.3",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"pathname\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "PATHNAME.4",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"pathname\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "PATHNAME.6",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PATHNAME.7",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PATHNAME.8",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PATHNAME.9",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PATHNAME.10",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "PATHNAME.11",
+          "reason": "expected ((T T T)); actual ((NIL NIL NIL))"
+        },
+        {
+          "test": "MAKE-PATHNAME.5",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.14",
+          "reason": "expected (T); actual (NIL)"
+        },
+        {
+          "test": "MAKE-PATHNAME.REBUILD",
+          "reason": "expected (NIL); actual (((#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"foo\" :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"foo\" :TYPE NIL :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"FOO\" :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"FOO\" :TYPE NIL :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"bar\" :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"bar\" :TYPE NIL :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"foo\" :TYPE \"txt\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"foo\" :TYPE \"txt\" :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"bar\" :TYPE \"txt\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"bar\" :TYPE \"txt\" :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"XYZ\" :TYPE \"TXT\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"XYZ\" :TYPE \"TXT\" :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME NIL :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME NIL :TYPE NIL :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME :WILD :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME :WILD :TYPE NIL :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME NIL :TYPE \"txt\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME NIL :TYPE \"txt\" :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME :WILD :TYPE \"txt\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME :WILD :TYPE \"txt\" :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME :WILD :TYPE \"TXT\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME :WILD :TYPE \"TXT\" :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME :WILD :TYPE \"abc\" :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME :WILD :TYPE \"abc\" :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY :WILD :NAME NIL :TYPE NIL :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY :WILD :NAME NIL :TYPE NIL :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME NIL :TYPE :WILD :VERSION NIL) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME NIL :TYPE :WILD :VERSION NIL)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME NIL :TYPE NIL :VERSION :WILD) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME NIL :TYPE NIL :VERSION :WILD)) (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME NIL :TYPE NIL :VERSION :NEWEST) #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME NIL :TYPE NIL :VERSION :NEWEST))))"
+        },
+        {
+          "test": "MAKE-PATHNAME-ERROR-ABSOLUTE-UP",
+          "reason": "expected (T); actual (NIL (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE) :NAME NIL :TYPE NIL :VERSION NIL)))"
+        },
+        {
+          "test": "MAKE-PATHNAME-ERROR-ABSOLUTE-BACK",
+          "reason": "expected (T); actual (NIL (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE) :NAME NIL :TYPE NIL :VERSION NIL)))"
+        },
+        {
+          "test": "MAKE-PATHNAME-ERROR-RELATIVE-WILD-INFERIORS-UP",
+          "reason": "expected (T); actual (NIL 1)"
+        },
+        {
+          "test": "MAKE-PATHNAME-ERROR-ABSOLUTE-WILD-INFERIORS-BACK",
+          "reason": "expected (T); actual (NIL (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE) :NAME NIL :TYPE NIL :VERSION NIL)))"
+        },
+        {
+          "test": "MAKE-PATHNAME-ERROR-RELATIVE-WILD-INFERIORS-BACK",
+          "reason": "expected (T); actual (NIL (#S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME NIL :TYPE NIL :VERSION NIL)))"
+        },
+        {
+          "test": "PATHNAME-HOST.2",
+          "reason": "invalid number of arguments for PATHNAME-HOST: 3"
+        },
+        {
+          "test": "PATHNAME-HOST.3",
+          "reason": "invalid number of arguments for PATHNAME-HOST: 3"
+        },
+        {
+          "test": "PATHNAME-HOST.4",
+          "reason": "invalid number of arguments for PATHNAME-HOST: 3"
+        },
+        {
+          "test": "PATHNAME-HOST.5",
+          "reason": "invalid number of arguments for PATHNAME-HOST: 5"
+        },
+        {
+          "test": "PATHNAME-HOST.6",
+          "reason": "invalid number of arguments for PATHNAME-HOST: 7"
+        },
+        {
+          "test": "PATHNAME-HOST.8",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "PATHNAME-DEVICE.2",
+          "reason": "invalid number of arguments for PATHNAME-DEVICE: 3"
+        },
+        {
+          "test": "PATHNAME-DEVICE.3",
+          "reason": "invalid number of arguments for PATHNAME-DEVICE: 3"
+        },
+        {
+          "test": "PATHNAME-DEVICE.4",
+          "reason": "invalid number of arguments for PATHNAME-DEVICE: 3"
+        },
+        {
+          "test": "PATHNAME-DEVICE.5",
+          "reason": "invalid number of arguments for PATHNAME-DEVICE: 5"
+        },
+        {
+          "test": "PATHNAME-DEVICE.6",
+          "reason": "invalid number of arguments for PATHNAME-DEVICE: 7"
+        },
+        {
+          "test": "PATHNAME-DEVICE.8",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.2",
+          "reason": "invalid number of arguments for PATHNAME-DIRECTORY: 3"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.3",
+          "reason": "invalid number of arguments for PATHNAME-DIRECTORY: 3"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.4",
+          "reason": "invalid number of arguments for PATHNAME-DIRECTORY: 3"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.5",
+          "reason": "invalid number of arguments for PATHNAME-DIRECTORY: 5"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.6",
+          "reason": "invalid number of arguments for PATHNAME-DIRECTORY: 7"
+        },
+        {
+          "test": "PATHNAME-DIRECTORY.8",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "PATHNAME-NAME.2",
+          "reason": "invalid number of arguments for PATHNAME-NAME: 3"
+        },
+        {
+          "test": "PATHNAME-NAME.3",
+          "reason": "invalid number of arguments for PATHNAME-NAME: 3"
+        },
+        {
+          "test": "PATHNAME-NAME.4",
+          "reason": "invalid number of arguments for PATHNAME-NAME: 3"
+        },
+        {
+          "test": "PATHNAME-NAME.5",
+          "reason": "invalid number of arguments for PATHNAME-NAME: 5"
+        },
+        {
+          "test": "PATHNAME-NAME.6",
+          "reason": "invalid number of arguments for PATHNAME-NAME: 7"
+        },
+        {
+          "test": "PATHNAME-NAME.8",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "PATHNAME-TYPE.2",
+          "reason": "invalid number of arguments for PATHNAME-TYPE: 3"
+        },
+        {
+          "test": "PATHNAME-TYPE.3",
+          "reason": "invalid number of arguments for PATHNAME-TYPE: 3"
+        },
+        {
+          "test": "PATHNAME-TYPE.4",
+          "reason": "invalid number of arguments for PATHNAME-TYPE: 3"
+        },
+        {
+          "test": "PATHNAME-TYPE.5",
+          "reason": "invalid number of arguments for PATHNAME-TYPE: 5"
+        },
+        {
+          "test": "PATHNAME-TYPE.6",
+          "reason": "invalid number of arguments for PATHNAME-TYPE: 7"
+        },
+        {
+          "test": "PATHNAME-TYPE.8",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "PATHNAME-VERSION.3",
+          "reason": "The value \"\" is not of the expected type PATHNAME"
+        },
+        {
+          "test": "LOAD-LOGICAL-PATHNAME-TRANSLATIONS.1",
+          "reason": "The function LOAD-LOGICAL-PATHNAME-TRANSLATIONS is undefined"
+        },
+        {
+          "test": "LOAD-LOGICAL-PATHNAME-TRANSLATIONS.ERROR.2",
+          "reason": "The function LOAD-LOGICAL-PATHNAME-TRANSLATIONS is undefined"
+        },
+        {
+          "test": "LOAD-LOGICAL-PATHNAME-TRANSLATIONS.ERROR.3",
+          "reason": "The function LOAD-LOGICAL-PATHNAME-TRANSLATIONS is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.2",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.3",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.1",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.2",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.3",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"logical-pathname\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.4",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.5",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.6",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.7",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.8",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.9",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "LOGICAL-PATHNAME.ERROR.10",
+          "reason": "The function LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRANSLATE-LOGICAL-PATHNAME.1",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRANSLATE-LOGICAL-PATHNAME.2",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRANSLATE-LOGICAL-PATHNAME.3",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRANSLATE-LOGICAL-PATHNAME.4",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "TRANSLATE-LOGICAL-PATHNAME.ERROR.1",
+          "reason": "The function TRANSLATE-LOGICAL-PATHNAME is undefined"
+        },
+        {
+          "test": "FILE-NAMESTRING.3",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"file-namestring\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "DIRECTORY-NAMESTRING.3",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"directory-namestring\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "HOST-NAMESTRING.3",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"host-namestring\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "ENOUGH-NAMESTRING.4",
+          "reason": "File does not exist: #S(PATHNAME :HOST NIL :DEVICE NIL :DIRECTORY (:ABSOLUTE \"tmp\" \"valtan-ansi-work-gcXbml\") :NAME \"enough-namestring\" :TYPE \"txt\" :VERSION :NEWEST)"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.1",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.2",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.3",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.4",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.5",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.6",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.7",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.8",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.1",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.2",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.3",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.4",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.5",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.6",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PATHNAME-MATCH-P.ERROR.7",
+          "reason": "The function PATHNAME-MATCH-P is undefined"
+        },
+        {
+          "test": "PARSE-NAMESTRING.5",
+          "reason": "expected (T); actual (NIL)"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "",
+      "pendingTest": null,
+      "currentFile": "pathnames/parse-namestring.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "registrationMismatch": false
+    }
+  ],
+  "pass": 930,
+  "fail": 175,
+  "complete": true,
+  "passRate": 84.16289592760181,
+  "finishedAt": "2026-11-03T22:30:48.256Z",
+  "runtimeNote": "Complete three-category measurement after character and binary file I/O, composite streams and integer subtype ranges. Predates the RT sandbox/default-package correction, pathname equality and CLOS initialization fixes. The adapter used the copied suite root instead of its sandbox; missing fixture errors are retained as failures."
+}
