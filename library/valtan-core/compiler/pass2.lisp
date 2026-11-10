@@ -391,9 +391,23 @@
                           (format out "return ~A;~%" var)
                           (write-line "})()" out))))))
                (t
-                (format nil "lisp.makeCons(~A, ~A)"
-                        (p2-literal-1 (car x) circle seen)
-                        (p2-literal-1 (cdr x) circle seen)))))
+                ;; Emit a proper list as one flat array instead of nested
+                ;; makeCons calls: long quoted lists (e.g. a package's export
+                ;; list) otherwise nest deep enough to overflow the JS parser
+                ;; ("too much recursion" in Firefox).
+                (let ((elements '())
+                      (rest x))
+                  (loop :while (and (consp rest)
+                                    (or (eq rest x) (not (gethash rest circle))))
+                        :do (push (car rest) elements)
+                            (setq rest (cdr rest)))
+                  (if (null rest)
+                      (format nil "lisp.jsArrayToList([~{~A~^, ~}])"
+                              (mapcar (lambda (e) (p2-literal-1 e circle seen))
+                                      (nreverse elements)))
+                      (format nil "lisp.makeCons(~A, ~A)"
+                              (p2-literal-1 (car x) circle seen)
+                              (p2-literal-1 (cdr x) circle seen)))))))
         ((arrayp x)
          ;; Allocate before filling so references back to this array are valid.
          (let* ((var (genvar "LITERAL"))
