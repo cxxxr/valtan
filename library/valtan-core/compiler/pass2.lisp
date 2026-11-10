@@ -391,17 +391,20 @@
                           (format out "return ~A;~%" var)
                           (write-line "})()" out))))))
                (t
-                ;; Emit a proper list as one flat array instead of nested
+                ;; Emit a long proper list as one flat array instead of nested
                 ;; makeCons calls: long quoted lists (e.g. a package's export
                 ;; list) otherwise nest deep enough to overflow the JS parser
-                ;; ("too much recursion" in Firefox).
+                ;; ("too much recursion" in Firefox). Short lists keep the
+                ;; nested form, which avoids allocating a temporary array each
+                ;; time the literal is evaluated.
                 (let ((elements '())
+                      (length 0)
                       (rest x))
-                  (loop :while (and (consp rest)
-                                    (or (eq rest x) (not (gethash rest circle))))
+                  (loop :while (and (consp rest) (not (gethash rest circle)))
                         :do (push (car rest) elements)
+                            (incf length)
                             (setq rest (cdr rest)))
-                  (if (null rest)
+                  (if (and (null rest) (< 32 length))
                       (format nil "lisp.jsArrayToList([~{~A~^, ~}])"
                               (mapcar (lambda (e) (p2-literal-1 e circle seen))
                                       (nreverse elements)))
