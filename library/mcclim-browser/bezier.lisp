@@ -48,27 +48,47 @@
     (canvas-call medium "closePath")
     (canvas-call medium "fill")))
 
-(defun canvas-bezier-areas (medium positives negatives)
+(defmethod canvas-region-mask ((region mcclim-bezier:bezier-curve) width height)
+  ;; A path has no area, even though drawing it with a line style has coverage.
+  (host-call "createSurface" width height))
+
+(defmethod canvas-region-mask ((region mcclim-bezier:bezier-area) width height)
+  (let ((mask (host-call "createSurface" width height)))
+    (canvas-set mask "fillStyle" "white")
+    (canvas-bezier-path mask region)
+    (canvas-call mask "closePath")
+    (canvas-call mask "fill")
+    mask))
+
+(defun canvas-bezier-set-mask (positives negatives width height)
+  ;; Compose coverage, independently of winding and ink. Recursing through the
+  ;; region protocol also permits these designs inside ordinary region trees.
+  (let ((mask (host-call "createSurface" width height)))
+    (dolist (area positives)
+      (canvas-call mask "drawImage" (property (canvas-region-mask area width height) "canvas") 0 0))
+    (canvas-set mask "globalCompositeOperation" "destination-out")
+    (dolist (area negatives)
+      (canvas-call mask "drawImage" (property (canvas-region-mask area width height) "canvas") 0 0))
+    mask))
+
+(defmethod canvas-region-mask ((region mcclim-bezier:bezier-union) width height)
+  (canvas-bezier-set-mask (mcclim-bezier:areas region) nil width height))
+
+(defmethod canvas-region-mask ((region mcclim-bezier:bezier-difference) width height)
+  (canvas-bezier-set-mask (mcclim-bezier:positive-areas region)
+                         (mcclim-bezier:negative-areas region) width height))
+
+(defun canvas-bezier-areas (medium design)
   (with-canvas (medium)
     (let* ((destination (canvas-surface medium))
            (canvas (property destination "canvas"))
            (width (property canvas "width")) (height (property canvas "height"))
-           (mask (host-call "createSurface" width height))
+           (mask (canvas-region-mask
+                  (transform-region (medium-device-transformation medium) design) width height))
            (paint (host-call "createSurface" width height)))
       ;; Construct coverage independently of ink and the existing destination.
       ;; Opposite windings must not cancel a union; overlapping positives must
       ;; not apply translucent ink twice; holes must preserve prior drawing.
-      (canvas-transform mask (medium-device-transformation medium))
-      (canvas-set mask "fillStyle" "white")
-      (dolist (area positives)
-        (canvas-bezier-path mask area)
-        (canvas-call mask "closePath")
-        (canvas-call mask "fill"))
-      (canvas-set mask "globalCompositeOperation" "destination-out")
-      (dolist (area negatives)
-        (canvas-bezier-path mask area)
-        (canvas-call mask "closePath")
-        (canvas-call mask "fill"))
       ;; WITH-CANVAS supplies white coverage for composite or flipping inks.
       ;; Use its actual style rather than resolving MEDIUM-INK a second time.
       (canvas-set paint "fillStyle" (property (property destination "context") "fillStyle"))
@@ -84,9 +104,8 @@
 
 (defmethod mcclim-bezier:medium-draw-bezier-design*
     ((medium browser-medium) (design mcclim-bezier:bezier-union))
-  (canvas-bezier-areas medium (mcclim-bezier:areas design) nil))
+  (canvas-bezier-areas medium design))
 
 (defmethod mcclim-bezier:medium-draw-bezier-design*
     ((medium browser-medium) (design mcclim-bezier:bezier-difference))
-  (canvas-bezier-areas medium (mcclim-bezier:positive-areas design)
-                      (mcclim-bezier:negative-areas design)))
+  (canvas-bezier-areas medium design))

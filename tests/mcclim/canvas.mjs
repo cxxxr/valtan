@@ -16,8 +16,9 @@ const fixture=fs.readFileSync(path.join(here,'canvas-checks.lisp'),'utf8')+
   (flipping?'\n'+fs.readFileSync(path.join(here,'flipping-checks.lisp'),'utf8')+
     '\n(values :passed (+ valtan-canvas-checks::*checks* mcclim-flipping-checks::*checks*))\n':'')+
   (bezier?'\n'+fs.readFileSync(path.join(here,'bezier-canvas-checks.lisp'),'utf8')+
-    '\n(values :passed (+ valtan-canvas-checks::*checks* valtan-bezier-canvas-checks::*checks*))\n':'');
-const expectedChecks=flipping?84:bezier?117:72;
+    '\n'+fs.readFileSync(path.join(here,'bezier-region-checks.lisp'),'utf8')+
+    '\n(values :passed (+ valtan-canvas-checks::*checks* valtan-bezier-canvas-checks::*checks* valtan-bezier-canvas-checks::*region-checks*))\n':'');
+const expectedChecks=flipping?84:bezier?157:72;
 const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-canvas-checks-'));
 const fixtureFile=path.join(snapshot,'checks.lisp');fs.writeFileSync(fixtureFile,fixture);
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),

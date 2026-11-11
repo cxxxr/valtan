@@ -158,7 +158,9 @@
       (and (typep region 'climi::standard-region-intersection)
            (every #'canvas-direct-clip-p (region-set-regions region)))))
 
-(defun canvas-region-mask (region width height)
+(defgeneric canvas-region-mask (region width height))
+
+(defmethod canvas-region-mask (region width height)
   ;; Canvas paths can express a union of primitive contours, but cannot express
   ;; arbitrary unions of intersections and complements. Compose coverage masks
   ;; for those trees, in device coordinates, before compositing the drawing once.

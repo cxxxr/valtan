@@ -1,0 +1,118 @@
+{
+  "status": "passed",
+  "complete": true,
+  "scope": "Bezier regions as clipping regions and spatial inks, checked in real browser Canvas; not full McCLIM compatibility",
+  "expectedChecks": 157,
+  "checks": {
+    "canvas": 72,
+    "bezierDrawing": 45,
+    "bezierRegions": 40
+  },
+  "originalFailure": {
+    "status": "failed",
+    "complete": false,
+    "startedAt": "2026-11-11T08:01:36.254Z",
+    "scope": "Real upstream CLIM pattern, clipping and composite-design pixel assertions, plus Bezier curves, areas, unions, differences and output replay in Chrome; not full McCLIM compatibility",
+    "expectedChecks": 154,
+    "checksSha256": "fa82df0c06409942a9af1ddc60b8db282210af24c4677697dc1ff45a6635890b",
+    "work": "/tmp/valtan-mcclim-workbench-Zl5Uup",
+    "error": "Error: TypeError: The provided value is not of type '(CSSImageValue or HTMLCanvasElement or HTMLImageElement or HTMLVideoElement or ImageBitmap or OffscreenCanvas or SVGImageElement or VideoFrame)'.\n    at canvasCall (http://127.0.0.1:44867/library/mcclim-browser/host.mjs:76:47)\n    at CL_apply (http://127.0.0.1:44867/app.mjs:2902:14)\n    at F_APPLY_14 (http://127.0.0.1:44867/app.mjs:79981:21)\n    at callFunction (http://127.0.0.1:44867/app.mjs:2820:10)\n    at Object.callFunctionWithCallStack (http://127.0.0.1:44867/app.mjs:2887:14)\n    at F_HOST_CALL_1 (eval at F_JS_EVAL_86 (http://127.0.0.1:44867/app.mjs:3931:18), <anonymous>:28:12)\n    at callFunction (http://127.0.0.1:44867/app.mjs:2820:10)\n    at Object.callFunctionWithCallStack (http://127.0.0.1:44867/app.mjs:2887:14)\n    at F_CANVAS_CALL_1 (eval at F_JS_EVAL_86 (http://127.0.0.1:44867/app.mjs:3931:18), <anonymous>:62:13)\n    at callFunction (http://127.0.0.1:44867/app.mjs:2820:10)",
+    "result": {
+      "type": "test-result",
+      "id": 1,
+      "ok": false,
+      "error": "TypeError: The provided value is not of type '(CSSImageValue or HTMLCanvasElement or HTMLImageElement or HTMLVideoElement or ImageBitmap or OffscreenCanvas or SVGImageElement or VideoFrame)'.\n    at canvasCall (http://127.0.0.1:44867/library/mcclim-browser/host.mjs:76:47)\n    at CL_apply (http://127.0.0.1:44867/app.mjs:2902:14)\n    at F_APPLY_14 (http://127.0.0.1:44867/app.mjs:79981:21)\n    at callFunction (http://127.0.0.1:44867/app.mjs:2820:10)\n    at Object.callFunctionWithCallStack (http://127.0.0.1:44867/app.mjs:2887:14)\n    at F_HOST_CALL_1 (eval at F_JS_EVAL_86 (http://127.0.0.1:44867/app.mjs:3931:18), <anonymous>:28:12)\n    at callFunction (http://127.0.0.1:44867/app.mjs:2820:10)\n    at Object.callFunctionWithCallStack (http://127.0.0.1:44867/app.mjs:2887:14)\n    at F_CANVAS_CALL_1 (eval at F_JS_EVAL_86 (http://127.0.0.1:44867/app.mjs:3931:18), <anonymous>:62:13)\n    at callFunction (http://127.0.0.1:44867/app.mjs:2820:10)"
+    },
+    "workbench": {
+      "work": "/tmp/valtan-mcclim-workbench-Zl5Uup",
+      "status": "closed",
+      "complete": false,
+      "startedAt": "2026-11-11T08:01:36.293Z",
+      "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+      "bundleSha256": "2862fcf07221d0cd2288c9cc656f3b193e77202c0112a171ce6fa64dfe3690c5",
+      "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+      "readyAt": "2026-11-11T08:36:48.601Z",
+      "evaluations": [
+        {
+          "id": 1,
+          "commandId": "canvas",
+          "startedAt": "2026-11-11T08:36:48.603Z",
+          "sourceSha256": "fa82df0c06409942a9af1ddc60b8db282210af24c4677697dc1ff45a6635890b",
+          "file": "/tmp/valtan-canvas-checks-a2mAI5/checks.lisp",
+          "lastLog": "MCCLIM-BEZIER-REPLAY-PASS 45",
+          "result": {
+            "type": "test-result",
+            "id": 1,
+            "ok": false,
+            "error": "TypeError: The provided value is not of type '(CSSImageValue or HTMLCanvasElement or HTMLImageElement or HTMLVideoElement or ImageBitmap or OffscreenCanvas or SVGImageElement or VideoFrame)'.\n    at canvasCall (http://127.0.0.1:44867/library/mcclim-browser/host.mjs:76:47)\n    at CL_apply (http://127.0.0.1:44867/app.mjs:2902:14)\n    at F_APPLY_14 (http://127.0.0.1:44867/app.mjs:79981:21)\n    at callFunction (http://127.0.0.1:44867/app.mjs:2820:10)\n    at Object.callFunctionWithCallStack (http://127.0.0.1:44867/app.mjs:2887:14)\n    at F_HOST_CALL_1 (eval at F_JS_EVAL_86 (http://127.0.0.1:44867/app.mjs:3931:18), <anonymous>:28:12)\n    at callFunction (http://127.0.0.1:44867/app.mjs:2820:10)\n    at Object.callFunctionWithCallStack (http://127.0.0.1:44867/app.mjs:2887:14)\n    at F_CANVAS_CALL_1 (eval at F_JS_EVAL_86 (http://127.0.0.1:44867/app.mjs:3931:18), <anonymous>:62:13)\n    at callFunction (http://127.0.0.1:44867/app.mjs:2820:10)"
+          },
+          "finishedAt": "2026-11-11T08:37:02.861Z"
+        }
+      ],
+      "finishedAt": "2026-11-11T08:37:02.906Z"
+    },
+    "finishedAt": "2026-11-11T08:37:02.998Z"
+  },
+  "diagnostic": {
+    "file": "/tmp/valtan-bezier-regions-diagnostic.lisp",
+    "id": 9001,
+    "sourceSha256": "62cf522e562c6e47b474f2d28a82d3f75e081521936e05e810191919d29ca2c7",
+    "startedAt": "2026-11-11T08:38:00.805Z",
+    "status": "failed",
+    "evaluationStartedAt": "2026-11-11T08:45:35.134Z",
+    "lastLog": "MCCLIM-BEZIER-REGION-PROGRESS 32",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9001,
+      "ok": false,
+      "error": "TypeError: The provided value is not of type '(CSSImageValue or HTMLCanvasElement or HTMLImageElement or HTMLVideoElement or ImageBitmap or OffscreenCanvas or SVGImageElement or VideoFrame)'.\n    at canvasCall (http://127.0.0.1:42391/library/mcclim-browser/host.mjs:76:47)\n    at CL_apply (http://127.0.0.1:42391/app.mjs:2902:14)\n    at F_APPLY_14 (http://127.0.0.1:42391/app.mjs:79981:21)\n    at callFunction (http://127.0.0.1:42391/app.mjs:2820:10)\n    at Object.callFunctionWithCallStack (http://127.0.0.1:42391/app.mjs:2887:14)\n    at F_HOST_CALL_1 (eval at F_JS_EVAL_86 (http://127.0.0.1:42391/app.mjs:3931:18), <anonymous>:28:12)\n    at callFunction (http://127.0.0.1:42391/app.mjs:2820:10)\n    at Object.callFunctionWithCallStack (http://127.0.0.1:42391/app.mjs:2887:14)\n    at F_CANVAS_CALL_1 (eval at F_JS_EVAL_86 (http://127.0.0.1:42391/app.mjs:3931:18), <anonymous>:62:13)\n    at callFunction (http://127.0.0.1:42391/app.mjs:2820:10)"
+    },
+    "finishedAt": "2026-11-11T08:45:50.081Z"
+  },
+  "validated": {
+    "file": "/tmp/valtan-bezier-regions-host-values-fix.lisp",
+    "id": 9007,
+    "sourceSha256": "618b3cee4a03586d1fab4759ab52fd2ce193424f2aa6310bc26a085259add8c7",
+    "startedAt": "2026-11-11T08:49:17.722Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T08:49:17.774Z",
+    "lastLog": "MCCLIM-BEZIER-REGIONS-PASS 40",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9007,
+      "ok": true,
+      "value": "(:PASSED 157)"
+    },
+    "finishedAt": "2026-11-11T08:49:31.595Z"
+  },
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-iTQx4O",
+    "status": "ready",
+    "complete": false,
+    "startedAt": "2026-11-11T08:09:42.062Z",
+    "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+    "bundleSha256": "7b5ff76902c688cb87edab38ea050b0d0e78cd017f7b111de1f3b017daa3911e",
+    "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+    "readyAt": "2026-11-11T08:45:35.037Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "canvas",
+        "startedAt": "2026-11-11T08:50:52.956Z",
+        "sourceSha256": "e3b249fe33897af68d28d45edf8e52ab7efbcf45a1981985ddc7dcd0754849cb",
+        "file": "/tmp/valtan-canvas-checks-clcXPz/checks.lisp",
+        "lastLog": "MCCLIM-BEZIER-REGIONS-PASS 40"
+      }
+    ]
+  },
+  "revisionScope": "The retained 157-check worker was freshly built with the Bezier mask extension and zero-area fix. Its driver was held before the automatic evaluation. Diagnostic9001 reproduced failure after32 region checks; evaluation9007 redefined only HOST-CALL to establish its single JavaScript return value, then passed all157 checks plus the host-call multiple-value assertion. This is a production hot-reload result, not an unchanged fresh-start pass. A separate current-source fresh-start run is pending.",
+  "sourceHashes": {
+    "library/mcclim-browser/package.lisp": "86f21684e1d82b33301860b3c98f100bbcfbf4390eec43effc4507024f642236",
+    "library/mcclim-browser/medium.lisp": "5faeea957aca2b654e00fd90f883047ca6360634cb0176c7efcf2dd261ea3759",
+    "library/mcclim-browser/bezier.lisp": "1c86250cd3c2eeae8dbb61f07bf4f05965fd87bec09d3961749076ee280db8d6",
+    "tests/mcclim/bezier-region-checks.lisp": "3ed8df8e7a942f809bac85a9f628315558d980326473e0af13be5753cd4711fc"
+  },
+  "loadedHostCall": "(in-package #:mcclim-browser)\n(defun host-call (operation &rest arguments)\n  ;; Host functions return one JavaScript value. Establish that value explicitly:\n  ;; a tail FFI call otherwise leaves the Lisp multiple-value register unchanged,\n  ;; which method combination can observe instead of the returned surface.\n  (values (apply (ffi:aget (ffi:ref \"globalThis.valtanMcclim\") (ffi:cl->js operation))\n                 arguments)))\n\n;; Run through workbench.mjs after loading the current backend. These are real\n;; upstream CLIM drawing calls rendered by OffscreenCanvas in the browser.\n"
+}

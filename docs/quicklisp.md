@@ -298,13 +298,20 @@ The optional adapter draws cubic curves and filled areas with Canvas paths.
 Unions and differences use separate coverage masks so overlapping translucent
 areas paint once, and holes preserve existing drawing. The ordinary browser
 backend remains usable without these extension dependencies.
-Bezier regions used as clipping regions or spatial inks are not implemented by
-this adapter yet; the supported operation here is drawing the Bezier design.
+Bezier areas, unions and differences also provide coverage masks for clipping
+and spatial inks, including ordinary region intersections and complements.
+Curves have zero area as a mask while retaining their stroked drawing behavior.
 
 `npm run test:mcclim:bezier:canvas` starts a fresh browser, runs the existing
 72 Canvas checks, and adds 45 Bezier pixel checks for curves, dashes, areas,
 opposite-winding unions, differences, opacity, transforms, clipping, patterned
-and composite inks, flipping, and moved output-record replay.
+and composite inks, flipping, and moved output-record replay. Another 40 pixel
+checks cover Bezier clipping and spatial inks, for 157 checks in total.
+These [157 checks pass in a retained browser](../tests/mcclim/bezier-region-results.json)
+after reloading `HOST-CALL` to establish the single JavaScript return value.
+Without that boundary, CLOS method combination observed stale multiple values
+instead of the empty curve's Canvas surface. The report retains the original
+failure and the diagnostic run; a separate fresh-start run of this fix is pending.
 An earlier 114-check snapshot [passes](../tests/mcclim/bezier-canvas-results.json) in a fresh
 browser containing the adapter and FiveAM, before the upstream suite runs,
 without reloading production definitions. The first standalone attempt exposed
