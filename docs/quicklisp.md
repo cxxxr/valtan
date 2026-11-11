@@ -950,6 +950,15 @@ executed. The [type-definition checks](../tests/resumable/deftype-results.json)
 exercise ordinary and scheduled compilation and restore the definitions from
 an artifact after deleting the source. Full McCLIM staging is verified separately.
 
+File compilation also preserves top-level processing through `MACROLET` bodies.
+Compile-time and load-time `EVAL-WHEN` bodies retain the surrounding local macro
+and symbol-macro bindings. This fixes the missing compile-time presentation type
+definitions encountered in McCLIM's `standard-presentations.lisp`. The
+[macrolet file checks](../tests/resumable/macrolet-file-results.json) cover 21
+ordinary/scheduled assertions, including source-deleted loading and the absence
+of compile-time effects for nested forms. The related 91 upstream ANSI cases
+pass in both evaluation and compiled modes. Full McCLIM staging remains pending.
+
 Internal cooperative locks and condition variables now share the scheduler's
 task identity. Locks support recursive ownership, nonblocking/timed acquisition
 and FIFO handoff. Condition waits atomically enqueue and release the lock, then

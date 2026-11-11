@@ -1,0 +1,256 @@
+{
+  "status": "passed",
+  "complete": true,
+  "verifiedAt": "2026-11-11T21:59:06.495287+00:00",
+  "scope": "Top-level MACROLET and EVAL-WHEN local macro environments during target COMPILE-FILE; not a full McCLIM staging result.",
+  "compilerSha256": "465b09137a7c584c31000f2fa624945e3984c9a6081a9bb61528fff42b42d72a",
+  "dualBundleSha256": "3890e5706ffdcacfc20de0ed14f96f2a82ba1c1c32ec5ec3130ee6f665a3184b",
+  "sourceHashes": {
+    "library/valtan-core/compiler/pass1.lisp": "498b2eb42878982b0d854328d42364883acd41a9c643b140f29f25825e33e60a",
+    "tests/resumable/macrolet-file.mjs": "d20aaeaf40c4fb506e5111c6b804779bd09bb53dadee89e0ad34b16560d29b17"
+  },
+  "specification": "https://www.lispworks.com/documentation/HyperSpec/Body/03_bca.htm",
+  "reproducer": {
+    "before": "Compile-time :INSTALLED assertion fails when a local macro expands to a top-level PROGN/EVAL-WHEN definition.",
+    "beforeLogSha256": "4da7b088de62e1b02183d5c683d4510564b4ef0d063af3529ec6df07c0d878c5",
+    "afterLogSha256": "989d61c494eacfd743608dd1bd8bae07ea4cb951bfc6aabbe728c2b8fd1b2ff5",
+    "upstreamTrigger": "McCLIM Core/clim-core/presentations/standard-presentations.lisp: PTYPE-SPECIALIZER receives BUILT-IN-CLASS REAL because the preceding presentation definition was not evaluated during compilation."
+  },
+  "behaviorChecks": {
+    "count": 21,
+    "ordinaryAndScheduled": true,
+    "topLevelExpansion": true,
+    "localCompileAndLoadEnvironment": true,
+    "functionsNotInstalledDuringCompilation": true,
+    "nestedFormsDoNotExecuteCompileOrLoadEffects": true,
+    "sourceDeletedBeforeLoad": true
+  },
+  "ansi": {
+    "before": {
+      "eval": {
+        "complete": true,
+        "passed": 91,
+        "failed": 0,
+        "bundleSha256": "8839ef45d8eb22203e7d94bacf2a50dfbd07c8fa561e7580863bf754874421f3",
+        "reportSha256": "c72e0d809f79c672d7357372a5b20eea30b8133e8ea2c50182b9bae0bd903b95",
+        "files": [
+          {
+            "name": "eval-and-compile/eval-when.lsp",
+            "pass": 18,
+            "fail": 0,
+            "registered": 18,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "eval-and-compile/locally.lsp",
+            "pass": 8,
+            "fail": 0,
+            "registered": 8,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "eval-and-compile/symbol-macrolet.lsp",
+            "pass": 12,
+            "fail": 0,
+            "registered": 12,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "data-and-control-flow/macrolet.lsp",
+            "pass": 53,
+            "fail": 0,
+            "registered": 53,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          }
+        ]
+      },
+      "compiled": {
+        "complete": true,
+        "passed": 91,
+        "failed": 0,
+        "bundleSha256": "8839ef45d8eb22203e7d94bacf2a50dfbd07c8fa561e7580863bf754874421f3",
+        "reportSha256": "22a2bc3e8347fe903cdefdd51a25f8e4543b3c8c0188706fe49f9fd6eb65b5f7",
+        "files": [
+          {
+            "name": "eval-and-compile/eval-when.lsp",
+            "pass": 18,
+            "fail": 0,
+            "registered": 18,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "eval-and-compile/locally.lsp",
+            "pass": 8,
+            "fail": 0,
+            "registered": 8,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "eval-and-compile/symbol-macrolet.lsp",
+            "pass": 12,
+            "fail": 0,
+            "registered": 12,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "data-and-control-flow/macrolet.lsp",
+            "pass": 53,
+            "fail": 0,
+            "registered": 53,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          }
+        ]
+      }
+    },
+    "after": {
+      "eval": {
+        "complete": true,
+        "passed": 91,
+        "failed": 0,
+        "bundleSha256": "767512834d0da7e4a13206b492a915bb31be39ced2e08b777a3c764572af4bcc",
+        "reportSha256": "a5c2bbe418aa79059bbf7ea418a210c6fc914f458738f9b8c8681a9fc55933f7",
+        "files": [
+          {
+            "name": "eval-and-compile/eval-when.lsp",
+            "pass": 18,
+            "fail": 0,
+            "registered": 18,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "eval-and-compile/locally.lsp",
+            "pass": 8,
+            "fail": 0,
+            "registered": 8,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "eval-and-compile/symbol-macrolet.lsp",
+            "pass": 12,
+            "fail": 0,
+            "registered": 12,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "data-and-control-flow/macrolet.lsp",
+            "pass": 53,
+            "fail": 0,
+            "registered": 53,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          }
+        ]
+      },
+      "compiled": {
+        "complete": true,
+        "passed": 91,
+        "failed": 0,
+        "bundleSha256": "767512834d0da7e4a13206b492a915bb31be39ced2e08b777a3c764572af4bcc",
+        "reportSha256": "0bd2afb448a99007babcf673b756d98bac251a60072d17f2b01268f4ff7bc6e8",
+        "files": [
+          {
+            "name": "eval-and-compile/eval-when.lsp",
+            "pass": 18,
+            "fail": 0,
+            "registered": 18,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "eval-and-compile/locally.lsp",
+            "pass": 8,
+            "fail": 0,
+            "registered": 8,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "eval-and-compile/symbol-macrolet.lsp",
+            "pass": 12,
+            "fail": 0,
+            "registered": 12,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          },
+          {
+            "name": "data-and-control-flow/macrolet.lsp",
+            "pass": 53,
+            "fail": 0,
+            "registered": 53,
+            "complete": true,
+            "unexecuted": 0,
+            "referenceRegistrationMismatch": false,
+            "registrationNameMismatch": false
+          }
+        ]
+      }
+    }
+  },
+  "regressions": {
+    "command": "cd tests && npm run test:resumable",
+    "exitCode": 0,
+    "coreAndCallbacks": 117,
+    "checkpointChecks": 11,
+    "scheduledTasks": 64,
+    "evalLoad": 18,
+    "synchronization": 12,
+    "sleep": 10,
+    "interrupts": 13,
+    "nativeErrors": 27,
+    "defconstant": 29,
+    "deftype": 33,
+    "packageLookup": 38,
+    "macroletFile": 17,
+    "finalMacroletFileSeparateRun": 21,
+    "note": "The full regression ran the initial 17-check fixture; a separate passing final run adds four assertions that file compilation does not install functions. Compiler and bundles were unchanged.",
+    "artifactTests": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "ordinaryMs": 45655.574466,
+      "scheduledMs": 183022.724413
+    },
+    "logSha256": "2915157ca16b48c3830a51b384fcfbcea1b9a9c93d3f7eb5e1a4610e4b368fa0"
+  }
+}

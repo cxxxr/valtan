@@ -714,7 +714,7 @@
                  (*compile-level*
                    (if (member (first form)
                                '(progn
-                                 ;macrolet ;; macroletの本体をトップレベル扱いにするとなぜかエラーになる
+                                 macrolet
                                  symbol-macrolet
                                  locally
                                  eval-when))
@@ -1153,10 +1153,11 @@
   (cond ((and *file-compilation-p* (toplevel-p))
          (when (or (member :compile-toplevel situations)
                    (member 'compile situations))
-           (eval `(progn ,@body)))
+           (eval-local-macro `(progn ,@body)))
          (if (or (member :load-toplevel situations)
                    (member 'load situations))
-             (pass1-toplevel `(progn ,@body) return-value-p multiple-values-p)
+             ;; Keep the surrounding MACROLET and SYMBOL-MACROLET bindings.
+             (pass1 `(progn ,@body) return-value-p multiple-values-p)
              (pass1-const nil return-value-p)))
         ((or (member :execute situations)
              (member 'eval situations))
