@@ -1,0 +1,229 @@
+{
+  "status": "passed",
+  "complete": true,
+  "verifiedAt": "2026-11-11T21:35:17.168073+00:00",
+  "scope": "Target FIND-PACKAGE optimization, ordinary/scheduled semantic checks, focused timing, and regression comparison. ANSI packages retain nine pre-existing failures. New full McCLIM runs are still pending.",
+  "compilerSha256": "23616d896d26650aa1187b28fd2edcbc2d012e3759dad7ce8682a583021bf1fd",
+  "sourceHashes": {
+    "kernel/package.js": "1b823f913470668a13ee5b8d4f88e2989778bf0be0a0c5eb86e7d02146158f54",
+    "kernel/lisp.js": "30c80d461f5da1ebed2eab9ad1b76aba569f0014c4ea31683ad9e62bcfb45492",
+    "library/valtan-core/lisp/package.lisp": "db8ea1bbacfddc617b0d366559b5364ecafa2d82d3fdf9b8bd4977ee4842b4f8",
+    "library/valtan-core/lisp/valtan-package.lisp": "081b1d5a7089d48981880d7a097fb74fcb5c6184a7b896db13ddf8fbfb4112ec",
+    "tests/resumable/package-lookup.mjs": "cdbe11233b1992559b7751a070d3f03d6b8f9579c7e333253596046f43dbd37d",
+    "tests/resumable/package-lookup-benchmark.mjs": "f2088c1a46ca173f6b3e6c7ff8637adf62a36ec260fef64390d089e008d366d4"
+  },
+  "trigger": {
+    "profile": "Ten-second CPU profile during the corrected-feature McCLIM source-load startup, before this optimization. Frozen workbench zOQoZZ, compiler3b9a6d, snapshot9b0f666.",
+    "samples": 9488,
+    "findPackageInclusiveSamples": 4975,
+    "mapcarSelfSamples": 4129,
+    "profileSha256": "29e807a703f971261e8a20429fab225639c7e8371699ef6409981bcf661a78f7",
+    "summarySha256": "e7b2c6d66c408dbbf11c206eb2ef6d7d2c9ad1399035bb7006552f9a81ceeb12",
+    "interpretation": "Global lookup rebuilt names and nickname lists for every package. The new path retains local nickname precedence and uses the existing native registry for global lookup. No additional cache or invalidation scheme."
+  },
+  "semanticChecks": {
+    "command": "node tests/resumable/package-lookup.mjs",
+    "checks": 38,
+    "modes": [
+      "ordinary",
+      "scheduled"
+    ],
+    "beforeExitCode": 0,
+    "afterExitCode": 0,
+    "beforeLogSha256": "61a4c3fb94081bb5d9c9b368c8cc3afb95d10a17f1757d843fa41cb03baf4f9e",
+    "afterLogSha256": "61a4c3fb94081bb5d9c9b368c8cc3afb95d10a17f1757d843fa41cb03baf4f9e",
+    "coverage": [
+      "String, symbol, character and package-object designators",
+      "Exactly one return value and missing-name NIL",
+      "Fill-pointer and displaced strings",
+      "Local nickname shadows global CL after accepting the correctable nickname condition",
+      "Package objects bypass local nickname lookup",
+      "Rename preserves local nickname identity and removes old global names",
+      "Deletion removes global and local aliases; the package object remains a valid designator"
+    ]
+  },
+  "benchmark": {
+    "before": {
+      "status": "passed",
+      "startedAt": "2026-11-11T21:26:00.985Z",
+      "scope": "Ordinary and scheduled FIND-PACKAGE with 128 additional packages; two timed samples after warmup. Not an end-to-end McCLIM measurement.",
+      "bundleSha256": "766c6ab03eb9b73f0550c80a577abacc4b3cab8297ed60f99e47a492100e55d9",
+      "packages": 128,
+      "iterations": 200,
+      "results": [
+        {
+          "mode": "ordinary",
+          "name": "LOOKUP-BENCH-127",
+          "milliseconds": [
+            1615.697851,
+            1542.4961379999995
+          ]
+        },
+        {
+          "mode": "ordinary",
+          "name": "LOOKUP-NICK-127",
+          "milliseconds": [
+            1397.3142739999985,
+            1395.257654000001
+          ]
+        },
+        {
+          "mode": "scheduled",
+          "name": "LOOKUP-BENCH-127",
+          "milliseconds": [
+            28914.923437999998,
+            29198.661701999998
+          ]
+        },
+        {
+          "mode": "scheduled",
+          "name": "LOOKUP-NICK-127",
+          "milliseconds": [
+            28383.850055999996,
+            28872.430622
+          ]
+        }
+      ],
+      "sourceSha256": "adb9b762312a94cf044d43918591522b34ea5b8a5146008e3efa566bcfa21a8f",
+      "finishedAt": "2026-11-11T21:28:09.630Z"
+    },
+    "after": {
+      "status": "passed",
+      "startedAt": "2026-11-11T21:27:28.536Z",
+      "scope": "Ordinary and scheduled FIND-PACKAGE with 128 additional packages; two timed samples after warmup. Not an end-to-end McCLIM measurement.",
+      "bundleSha256": "6590fc08375f8530921289fc9353aed096dff8d1c9756bc2a2a01ff99178eaa7",
+      "packages": 128,
+      "iterations": 200,
+      "results": [
+        {
+          "mode": "ordinary",
+          "name": "LOOKUP-BENCH-127",
+          "milliseconds": [
+            0.7826740000000427,
+            0.7880129999994097
+          ]
+        },
+        {
+          "mode": "ordinary",
+          "name": "LOOKUP-NICK-127",
+          "milliseconds": [
+            0.7631840000003649,
+            0.7625450000005003
+          ]
+        },
+        {
+          "mode": "scheduled",
+          "name": "LOOKUP-BENCH-127",
+          "milliseconds": [
+            8.82092300000022,
+            9.293255999999928
+          ]
+        },
+        {
+          "mode": "scheduled",
+          "name": "LOOKUP-NICK-127",
+          "milliseconds": [
+            7.930032999999639,
+            8.176564000000326
+          ]
+        }
+      ],
+      "sourceSha256": "adb9b762312a94cf044d43918591522b34ea5b8a5146008e3efa566bcfa21a8f",
+      "finishedAt": "2026-11-11T21:27:33.581Z"
+    },
+    "limitation": "Two samples on a shared machine; lookup timings only, not full McCLIM startup or drawing speed."
+  },
+  "ansiPackages": [
+    {
+      "mode": "eval",
+      "before": {
+        "passed": 491,
+        "failed": 9,
+        "complete": true,
+        "bundleSha256": "9ae1f133a7bbc97e9e2395ed9e822d9fd9719fb2432aae441ef04075abd96d1a"
+      },
+      "after": {
+        "passed": 491,
+        "failed": 9,
+        "complete": true,
+        "bundleSha256": "8839ef45d8eb22203e7d94bacf2a50dfbd07c8fa561e7580863bf754874421f3"
+      },
+      "unchangedFailureNames": [
+        "PACKAGE-NAME.6",
+        "PACKAGE-NAME.6A",
+        "MAKE-PACKAGE.ERROR.1",
+        "MAKE-PACKAGE.ERROR.2",
+        "MAKE-PACKAGE.ERROR.3",
+        "MAKE-PACKAGE.ERROR.4",
+        "IN-PACKAGE.5",
+        "IMPORT.ERROR.4",
+        "IMPORT.ERROR.5"
+      ],
+      "beforeReportSha256": "647f95ec3e50448be38d79862174012b1661f9a1b3d866e090f1e6a7a5fc6d79",
+      "afterReportSha256": "c2996d36f2426f1d528dbadb868360ba6ec76f2cc651b9155483a41581558c69",
+      "exitCodes": {
+        "before": 1,
+        "after": 1
+      }
+    },
+    {
+      "mode": "compiled",
+      "before": {
+        "passed": 491,
+        "failed": 9,
+        "complete": true,
+        "bundleSha256": "9ae1f133a7bbc97e9e2395ed9e822d9fd9719fb2432aae441ef04075abd96d1a"
+      },
+      "after": {
+        "passed": 491,
+        "failed": 9,
+        "complete": true,
+        "bundleSha256": "8839ef45d8eb22203e7d94bacf2a50dfbd07c8fa561e7580863bf754874421f3"
+      },
+      "unchangedFailureNames": [
+        "PACKAGE-NAME.6",
+        "PACKAGE-NAME.6A",
+        "MAKE-PACKAGE.ERROR.1",
+        "MAKE-PACKAGE.ERROR.2",
+        "MAKE-PACKAGE.ERROR.3",
+        "MAKE-PACKAGE.ERROR.4",
+        "IN-PACKAGE.5",
+        "IMPORT.ERROR.4",
+        "IMPORT.ERROR.5"
+      ],
+      "beforeReportSha256": "1abe8cf17725a9273552a4ddb3702e2d3dbd8c94a775615c4595f244afe4b6fe",
+      "afterReportSha256": "b8a546b5aa89ec2b318154a6b5972a9cfe24ab5495e2668e6dd598a6791c0dca",
+      "exitCodes": {
+        "before": 1,
+        "after": 1
+      }
+    }
+  ],
+  "resumableRegression": {
+    "command": "cd tests && npm run test:resumable",
+    "exitCode": 0,
+    "bundleSha256": "6590fc08375f8530921289fc9353aed096dff8d1c9756bc2a2a01ff99178eaa7",
+    "logSha256": "b4a60d7c1382949f97b78c1a58f94141e96501e4470ff5e8c53983918d473e30",
+    "groups": {
+      "coreAndCallbacks": 117,
+      "checkpoints": 11,
+      "scheduledTasks": 64,
+      "eval": 18,
+      "synchronization": 12,
+      "sleep": 10,
+      "interrupts": 13,
+      "nativeErrors": 27,
+      "defconstant": 29,
+      "deftype": 33,
+      "packageLookup": 38
+    },
+    "compiledArtifactTests": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "sourceDeleted": true,
+      "fileLiteralsOrdinaryMilliseconds": 43540.904856,
+      "fileLiteralsScheduledMilliseconds": 180423.143919
+    }
+  }
+}

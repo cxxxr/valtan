@@ -12,11 +12,15 @@
 
 (defun find-package (name)
   #+valtan
-  (unless (packagep name)
-    (let ((local (system:package-local-op
-                  (*:array-to-raw-string "find") *package*
-                  (*:array-to-raw-string (string name)))))
-      (when local (return-from find-package local))))
+  (if (packagep name)
+      name
+      (let ((raw-name (*:array-to-raw-string (string name))))
+        ;; Keep local nickname precedence, then search the native registry
+        ;; without rebuilding every package's name and nickname strings.
+        (or (system:package-local-op
+              (*:array-to-raw-string "find") *package* raw-name)
+            (system:find-global-package raw-name))))
+  #-valtan
   (cond ((packagep name)
          name)
         ;; Handle raw strings from host environment (SBCL) - check if it's a CL string, not Valtan array

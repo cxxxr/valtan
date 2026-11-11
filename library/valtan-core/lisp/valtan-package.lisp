@@ -75,6 +75,7 @@
            :map-package-all-symbols
            :put
            :package-name
+           :find-global-package
            :package-nicknames
            :intern
            :find-symbol

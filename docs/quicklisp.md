@@ -1117,6 +1117,21 @@ Its timings cover synthetic assignment bodies on a shared machine, not McCLIM
 startup or drawing. To repeat it after building the dual runtime, run
 `node tests/resumable/compile-benchmark.mjs tests/dist-resumable/resumable.js /tmp/compile-results.json`.
 
+`FIND-PACKAGE` searches the native registry for global names and nicknames after
+checking package-local nicknames. It no longer allocates Lisp strings and lists
+for every package on each lookup. A ten-second profile during McCLIM startup
+found this lookup in 4,975 of 9,488 samples. The
+[lookup checks and benchmark](../tests/resumable/package-lookup-results.json)
+preserve local nickname precedence, renamed/deleted packages, package objects,
+and string designators in ordinary and scheduled calls. With 128 additional
+packages, 200 name lookups averaged 1.58 seconds before and 0.79 milliseconds
+after in ordinary calls; scheduled calls averaged 29.06 seconds before and
+9.06 milliseconds after. These are two-sample lookup measurements on a shared
+machine, not whole-application timings. The complete ANSI package category
+retains its previous 491 passes and nine known failures in both modes.
+To repeat the measurement after building the dual runtime, run
+`node tests/resumable/package-lookup-benchmark.mjs tests/dist-resumable/resumable.js /tmp/lookup-results.json`.
+
 Application drivers still need integration with the scheduler: blocking calls
 must originate in scheduled Lisp, and merely enabling `:valtan-resumable` does
 not schedule a synchronous application top-level. Other blocking host operations and remaining JavaScript callback

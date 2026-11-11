@@ -217,6 +217,11 @@ export function CL_packageName(pkg) {
     return values1(pkg.name);
 }
 
+export function CL_findGlobalPackage(name) {
+    checkString(name);
+    return values1(findPackage(name) ?? S_nil);
+}
+
 export function CL_packageNicknames(pkg) {
     checkPackage(pkg);
     return values1(pkg.nicknames);

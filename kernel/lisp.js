@@ -67,6 +67,7 @@ import {
     intern,
     CL_packagep,
     CL_packageName,
+    CL_findGlobalPackage,
     CL_packageNicknames,
     CL_listAllPackages,
     CL_intern,
@@ -314,6 +315,7 @@ registerFunction(system_package, 'SET-COMPILER-PROPERTY', CL_setCompilerProperty
 // package.js
 registerFunction(cl_package, 'PACKAGEP', CL_packagep, 1);
 registerFunction(system_package, 'PACKAGE-NAME', CL_packageName, 1);
+registerFunction(system_package, 'FIND-GLOBAL-PACKAGE', CL_findGlobalPackage, 1);
 registerFunction(system_package, 'PACKAGE-NICKNAMES', CL_packageNicknames, 1);
 registerFunction(cl_package, 'LIST-ALL-PACKAGES', CL_listAllPackages, 0);
 registerFunction(system_package, 'INTERN', CL_intern, 2);
