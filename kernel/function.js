@@ -1,7 +1,8 @@
 import {
     values1
 } from './values';
-import { getResumableImplementation, setResumableImplementation } from './resumable';
+import { getResumableImplementation, setResumableImplementation, getResumableNativeImplementation } from './resumable';
+import { NativeLispError } from './native-error';
 
 import {
     toLispBoolean,
@@ -224,6 +225,14 @@ export function* callResumable(function_, ...args) {
         if (arity && ((arity.min !== null && args.length < arity.min) ||
                       (arity.max !== null && args.length > arity.max))) {
             yield* argumentsErrorResumable(arity.name, args.length);
+        }
+        const native = getResumableNativeImplementation(function_);
+        if (native) {
+            try { return native(...args); }
+            catch (error) {
+                if (!(error instanceof NativeLispError)) throw error;
+                return yield* callResumable(error.function_, ...error.args);
+            }
         }
         return function_(...args);
     } finally { popCallStack(); }

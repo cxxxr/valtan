@@ -1,0 +1,964 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T16:30:45.922183+00:00",
+  "scope": "Native arithmetic conditions are delivered inside the calling resumable activation. Numerical implementations report requests without entering Lisp; ordinary public wrappers deliver synchronously. Includes nested complex/ratio operations and transcendental registrations.",
+  "compilerSha256": "02cfb2e0cee70e161ab3e3d3c6d979c4de8bb14af3bc82c8e90c04147df2a9c4",
+  "sourceHashes": {
+    "kernel/native-error.js": "70d176211c420f2834da77392c60db351a5e38c85b87f553ea61639cc28acdab",
+    "kernel/number.js": "34576ce8d79d63e66c61ba858b853f920ed4aa807c872c62b84ec9999ddf0002",
+    "kernel/number-operations.js": "7376bd3d302dbd16e1d28dd9780b7d3c011f01ee56d552a3082d1c1eb862140f",
+    "kernel/function.js": "4bac1018cf00807d3d4496b28e60740427f96a69fd4d5f335de2825ccc45c29e",
+    "kernel/lisp.js": "395d2ad74d7c4fe197538274081b003ecf1d6842f4a0f01bea5b39446348d7f6",
+    "kernel/resumable.js": "e0671f027c2738861263f8a1ed08f6d2e266c463418b0e1969435f4415a98a7e",
+    "tests/resumable/native-errors.lisp": "927c11fb2397ecb5ee551a3e3575ec513260d9505cf843a1fe87bc0bd14b294f",
+    "tests/resumable/native-error-checks.mjs": "120b6de51e82cf99f4d8858b24e41ae1f748720f1bef6f129a1354dd8d852471"
+  },
+  "arithmeticAlgorithmNote": "number-operations.js retains the previous arithmetic implementation, changing only type-error/ERROR delivery to NativeLispError requests. Public numeric types/predicates/helpers retain their exports.",
+  "baseline": {
+    "status": "failed",
+    "error": "Error: Cannot suspend across a synchronous JavaScript call boundary",
+    "stack": "Error: Cannot suspend across a synchronous JavaScript call boundary\n    at runSynchronously (file:///tmp/valtan-numeric-errors-before.mjs:410:21)\n    at function_ (file:///tmp/valtan-numeric-errors-before.mjs:418:12)\n    at CL_funcall (file:///tmp/valtan-numeric-errors-before.mjs:1338:12)\n    at LispSymbol.func (file:///tmp/valtan-numeric-errors-before.mjs:74949:23)\n    at file:///tmp/valtan-numeric-errors-before.mjs:75254:16\n    at divisionByZero (file:///tmp/valtan-numeric-errors-before.mjs:1532:44)\n    at makeRatio (file:///tmp/valtan-numeric-errors-before.mjs:1537:17)\n    at arithmetic (file:///tmp/valtan-numeric-errors-before.mjs:1763:12)\n    at CL_div (file:///tmp/valtan-numeric-errors-before.mjs:1805:18)\n    at intern.func (file:///tmp/valtan-numeric-errors-before.mjs:4126:14)"
+  },
+  "baselineBundleSha256": "c3f8bfdf82944034c9e4ed6940b362aab678d60d9277451895ffb30bdb9dbb55",
+  "baselineScope": "Frozen d552304 functionality; newly added numeric fixtures fail at synchronous division-by-zero delivery.",
+  "initialImplementationFailure": {
+    "node": {
+      "status": "failed",
+      "error": "Error: Cannot suspend across a synchronous JavaScript call boundary",
+      "stack": "Error: Cannot suspend across a synchronous JavaScript call boundary\n    at runSynchronously (file:///home/user/src/valtan/tests/dist-resumable/resumable.js:420:21)\n    at function_ (file:///home/user/src/valtan/tests/dist-resumable/resumable.js:428:12)\n    at CL_funcall (file:///home/user/src/valtan/tests/dist-resumable/resumable.js:1371:12)\n    at LispSymbol.func (file:///home/user/src/valtan/tests/dist-resumable/resumable.js:75040:23)\n    at file:///home/user/src/valtan/tests/dist-resumable/resumable.js:75345:16\n    at function_ (file:///home/user/src/valtan/tests/dist-resumable/resumable.js:450:43)\n    at file:///home/user/src/valtan/tests/dist-resumable/resumable.js:4311:57\n    at intern.func (file:///home/user/src/valtan/tests/dist-resumable/resumable.js:4215:14)\n    at Object.callResumable (file:///home/user/src/valtan/tests/dist-resumable/resumable.js:1405:12)\n    at callResumable.next (<anonymous>)"
+    },
+    "browser": {
+      "system": "alexandria",
+      "scope": "Load and supplied API assertions; GUI verification is separate",
+      "timestamp": "2026-11-11T16:22:22.917Z",
+      "complete": false,
+      "status": "failed",
+      "work": "/tmp/valtan-mcclim-C3JIgi",
+      "compilerSha256": "02cfb2e0cee70e161ab3e3d3c6d979c4de8bb14af3bc82c8e90c04147df2a9c4",
+      "target": "browser",
+      "extraSystems": [],
+      "targetFeatures": [
+        "valtan-resumable"
+      ],
+      "afterLoadSha256": "20064325585f27581f69ceff73ea63a96535c963d050cd3549c7cca32d1cb100",
+      "checksSha256": "0b3115e73f7b7bdf7d64c2e30e8f8d814cd473f82f456e984d2e0a37f2870b51",
+      "stage": "run",
+      "bundleSha256": "ee967dc57387b1d2971e7748fe0652ee4112837f49a47c2445385f6e2b9a97b5",
+      "error": "Error: Error: Cannot suspend across a synchronous JavaScript call boundary",
+      "finishedAt": "2026-11-11T16:24:55.407Z"
+    },
+    "cause": "EXP and other transcendental partial applications lost raw-native metadata. Fixed by wrapping the bound raw operation before registration. Final checks use a newly built bundle."
+  },
+  "node": {
+    "status": "passed",
+    "result": {
+      "cases": 27,
+      "asynchronousHandlers": true,
+      "restarts": true,
+      "asynchronousCleanup": true,
+      "ordinaryHandler": true,
+      "numericValues": true,
+      "synchronousNumericCallback": true
+    }
+  },
+  "nodeBundleSha256": "86e4150d5780ac367bdcdd7e74ff70cf9596c778b30f7416d8bdb7490b586354",
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T16:25:55.409Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-PmB0rP",
+    "compilerSha256": "02cfb2e0cee70e161ab3e3d3c6d979c4de8bb14af3bc82c8e90c04147df2a9c4",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "afterLoadSha256": "20064325585f27581f69ceff73ea63a96535c963d050cd3549c7cca32d1cb100",
+    "checksSha256": "0b3115e73f7b7bdf7d64c2e30e8f8d814cd473f82f456e984d2e0a37f2870b51",
+    "stage": "run",
+    "bundleSha256": "f66e137e8192f239127fa836ed2152ff836f1e0363f22a516225028e2ca6393e",
+    "finishedAt": "2026-11-11T16:28:24.977Z"
+  },
+  "newNumericCases": [
+    "integerDivide",
+    "ratioDivide",
+    "floatDivide",
+    "complexDivide",
+    "floorZero",
+    "roundZero",
+    "truncateZero",
+    "ceilingZero",
+    "remZero",
+    "floatPrototypeType",
+    "realType",
+    "overflow",
+    "underflow",
+    "expOverflow",
+    "scaleOverflow",
+    "rationalNonfinite",
+    "decodeNonfinite"
+  ],
+  "additionalInvariants": [
+    "Successful native FLOOR preserves both values.",
+    "A synchronous valueOf Lisp callback handles its own nested division-by-zero before unwinding, even inside scheduled outer arithmetic.",
+    "The existing ten symbol/call-condition cases continue to pass."
+  ],
+  "ansiBefore": {
+    "phase": "before",
+    "bundleSha256": "062b7186a627e28e00823e2e1eb6301c6e8dd7c3fa2e3a57dd2749122abd5f37",
+    "results": [
+      {
+        "name": "native-numeric",
+        "files": [
+          "number-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 29,
+        "fail": 0,
+        "registered": 29,
+        "expectedRegistered": 29,
+        "completedFiles": [
+          "number-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "number-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "numeric-type-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 8,
+        "fail": 0,
+        "registered": 8,
+        "expectedRegistered": 8,
+        "completedFiles": [
+          "numeric-type-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "numeric-type-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "transcendental-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 6,
+        "fail": 0,
+        "registered": 6,
+        "expectedRegistered": 6,
+        "completedFiles": [
+          "transcendental-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "transcendental-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "integer-field-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 5,
+        "fail": 0,
+        "registered": 5,
+        "expectedRegistered": 5,
+        "completedFiles": [
+          "integer-field-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "integer-field-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "number-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 29,
+        "fail": 0,
+        "registered": 29,
+        "expectedRegistered": 29,
+        "completedFiles": [
+          "number-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "number-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "numeric-type-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 8,
+        "fail": 0,
+        "registered": 8,
+        "expectedRegistered": 8,
+        "completedFiles": [
+          "numeric-type-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "numeric-type-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "transcendental-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 6,
+        "fail": 0,
+        "registered": 6,
+        "expectedRegistered": 6,
+        "completedFiles": [
+          "transcendental-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "transcendental-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "integer-field-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 5,
+        "fail": 0,
+        "registered": 5,
+        "expectedRegistered": 5,
+        "completedFiles": [
+          "integer-field-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "integer-field-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      }
+    ]
+  },
+  "ansiAfter": {
+    "phase": "after",
+    "bundleSha256": "50be513ca26de38d184ed08ae826bd9b51e0518cc491e4112f1d6d612d9789b5",
+    "results": [
+      {
+        "name": "native-numeric",
+        "files": [
+          "number-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 29,
+        "fail": 0,
+        "registered": 29,
+        "expectedRegistered": 29,
+        "completedFiles": [
+          "number-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "number-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "numeric-type-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 8,
+        "fail": 0,
+        "registered": 8,
+        "expectedRegistered": 8,
+        "completedFiles": [
+          "numeric-type-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "numeric-type-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "transcendental-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 6,
+        "fail": 0,
+        "registered": 6,
+        "expectedRegistered": 6,
+        "completedFiles": [
+          "transcendental-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "transcendental-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "integer-field-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 5,
+        "fail": 0,
+        "registered": 5,
+        "expectedRegistered": 5,
+        "completedFiles": [
+          "integer-field-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "integer-field-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "number-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 29,
+        "fail": 0,
+        "registered": 29,
+        "expectedRegistered": 29,
+        "completedFiles": [
+          "number-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "number-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "numeric-type-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 8,
+        "fail": 0,
+        "registered": 8,
+        "expectedRegistered": 8,
+        "completedFiles": [
+          "numeric-type-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "numeric-type-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "transcendental-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 6,
+        "fail": 0,
+        "registered": 6,
+        "expectedRegistered": 6,
+        "completedFiles": [
+          "transcendental-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "transcendental-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "native-numeric",
+        "files": [
+          "integer-field-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 5,
+        "fail": 0,
+        "registered": 5,
+        "expectedRegistered": 5,
+        "completedFiles": [
+          "integer-field-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "integer-field-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      }
+    ]
+  },
+  "regressions": {
+    "kernel": {
+      "passed": 41,
+      "failed": 0,
+      "log": "/tmp/valtan-numeric-errors-kernel2.log"
+    },
+    "ordinary": {
+      "resumableChecks": 43,
+      "compilerSemanticAssertions": "passed",
+      "workloads": 8,
+      "log": "/tmp/valtan-numeric-errors-ordinary2.log"
+    },
+    "dual": {
+      "resumableChecks": 43,
+      "dualChecks": 51,
+      "nativeCallbacks": 23,
+      "schedulerTasks": 64,
+      "checkpointOnlyLoops": 2,
+      "evalChecks": 18,
+      "synchronizationChecks": 12,
+      "sleepChecks": 10,
+      "interruptChecks": 13,
+      "nativeErrorCases": 27,
+      "sourceDeletedArtifact": "passed",
+      "log": "/tmp/valtan-numeric-errors-regressions2.log"
+    }
+  },
+  "performance": {
+    "scope": "Existing eight ordinary compiler workloads, separately built before/after Node bundles; seven measured samples after warmup. Other long-running workers remained active. This is not a full application or browser performance measurement.",
+    "comparison": [
+      {
+        "name": "sum",
+        "beforeMedianMs": 1.739018592592591,
+        "afterMedianMs": 1.6264300491803274,
+        "afterOverBefore": 0.9352574239908427
+      },
+      {
+        "name": "fib",
+        "beforeMedianMs": 0.5172853494623659,
+        "afterMedianMs": 0.5591255524861872,
+        "afterOverBefore": 1.0808841832990388
+      },
+      {
+        "name": "list",
+        "beforeMedianMs": 2.091626630434783,
+        "afterMedianMs": 2.088975869565215,
+        "afterOverBefore": 0.9987326797091808
+      },
+      {
+        "name": "vector",
+        "beforeMedianMs": 24.591429199999947,
+        "afterMedianMs": 23.1970236000001,
+        "afterOverBefore": 0.9432970898657712
+      },
+      {
+        "name": "closure",
+        "beforeMedianMs": 1.7259540444444308,
+        "afterMedianMs": 1.7419135087719264,
+        "afterOverBefore": 1.0092467492856294
+      },
+      {
+        "name": "hash",
+        "beforeMedianMs": 2.1441433617021293,
+        "afterMedianMs": 2.023032540000004,
+        "afterOverBefore": 0.9435155205265839
+      },
+      {
+        "name": "string",
+        "beforeMedianMs": 5.876881647058754,
+        "afterMedianMs": 5.641555722222216,
+        "afterOverBefore": 0.959957348306595
+      },
+      {
+        "name": "clos",
+        "beforeMedianMs": 1.2523316666666677,
+        "afterMedianMs": 1.1863109753086503,
+        "afterOverBefore": 0.9472817839592408
+      }
+    ],
+    "before": {
+      "node": "v24.21.0",
+      "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+      "date": "2026-11-11T16:23:30.522Z",
+      "bundleSha256": "cb91788a93bc6290df34f744513f7fbf77fbec1098dc1e084aa6579348bb2337",
+      "workloadsSha256": "77d02d3bd5cc7015d9749696b1aa8f886d003965e4fa9fa589ce1149b5102917",
+      "semanticsSha256": "33db454fb9f1ae3841c3fb44fe716895afb4e38756b6f6c70e8d2d3a021e378d",
+      "resumableSha256": "50d0587973fbde071db989d2d1727182a92a3c666109610c8fba07cc1532f12f",
+      "results": [
+        {
+          "name": "sum",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 54,
+          "medianMs": 1.739018592592591,
+          "samples": [
+            1.6947771481481462,
+            1.67843937037037,
+            2.579763962962964,
+            1.7346120740740734,
+            1.739018592592591,
+            1.7602332407407386,
+            2.600500481481483
+          ]
+        },
+        {
+          "name": "fib",
+          "input": 20,
+          "expected": 6765,
+          "batch": 186,
+          "medianMs": 0.5172853494623659,
+          "samples": [
+            0.5172853494623659,
+            0.5361417956989244,
+            0.5476670430107529,
+            0.5210270483870972,
+            0.5035506075268821,
+            0.5043565967741943,
+            0.49358513978494734
+          ]
+        },
+        {
+          "name": "list",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 46,
+          "medianMs": 2.091626630434783,
+          "samples": [
+            2.110488586956515,
+            2.078683369565209,
+            2.065491434782604,
+            2.0692180434782683,
+            2.142920304347824,
+            2.374261043478268,
+            2.091626630434783
+          ]
+        },
+        {
+          "name": "vector",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 5,
+          "medianMs": 24.591429199999947,
+          "samples": [
+            24.060449399999925,
+            24.626507999999923,
+            24.045469799999957,
+            24.4261050000001,
+            25.531846799999947,
+            24.591429199999947,
+            25.46288139999997
+          ]
+        },
+        {
+          "name": "closure",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 45,
+          "medianMs": 1.7259540444444308,
+          "samples": [
+            1.8822802222222283,
+            1.812466400000004,
+            1.7196989333333477,
+            1.7259540444444308,
+            1.8564151111111036,
+            1.7239852222222098,
+            1.7218668444444323
+          ]
+        },
+        {
+          "name": "hash",
+          "input": 1000,
+          "expected": 499500,
+          "batch": 47,
+          "medianMs": 2.1441433617021293,
+          "samples": [
+            2.123747893617021,
+            2.0672619574468123,
+            2.1441433617021293,
+            2.1180655319148887,
+            2.175763553191478,
+            2.156650382978714,
+            2.1656832765957588
+          ]
+        },
+        {
+          "name": "string",
+          "input": 10000,
+          "expected": 10000,
+          "batch": 17,
+          "medianMs": 5.876881647058754,
+          "samples": [
+            6.064421647058814,
+            5.876881647058754,
+            5.716118352941146,
+            5.930763882353002,
+            5.81555023529408,
+            5.7743698823529375,
+            5.895613352941141
+          ]
+        },
+        {
+          "name": "clos",
+          "input": 100,
+          "expected": 400,
+          "batch": 81,
+          "medianMs": 1.2523316666666677,
+          "samples": [
+            1.2354254567901395,
+            1.2653565308641932,
+            1.2523316666666677,
+            1.289333358024696,
+            1.2344353703703723,
+            1.287210975308645,
+            1.2402582592592493
+          ]
+        }
+      ]
+    },
+    "after": {
+      "node": "v24.21.0",
+      "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+      "date": "2026-11-11T16:26:43.079Z",
+      "bundleSha256": "193a8b04cf476a92c81150dda1166390197e73453f57fddccde500ad4779c29a",
+      "workloadsSha256": "77d02d3bd5cc7015d9749696b1aa8f886d003965e4fa9fa589ce1149b5102917",
+      "semanticsSha256": "33db454fb9f1ae3841c3fb44fe716895afb4e38756b6f6c70e8d2d3a021e378d",
+      "resumableSha256": "50d0587973fbde071db989d2d1727182a92a3c666109610c8fba07cc1532f12f",
+      "results": [
+        {
+          "name": "sum",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 61,
+          "medianMs": 1.6264300491803274,
+          "samples": [
+            1.6268372622950822,
+            1.6148511147540994,
+            1.6208674426229515,
+            1.6529981639344284,
+            1.6320928032786894,
+            1.6198894426229493,
+            1.6264300491803274
+          ]
+        },
+        {
+          "name": "fib",
+          "input": 20,
+          "expected": 6765,
+          "batch": 181,
+          "medianMs": 0.5591255524861872,
+          "samples": [
+            0.5500946464088411,
+            0.5556530165745872,
+            0.5581087403314925,
+            0.5591255524861872,
+            0.5601099944751369,
+            0.5647628176795594,
+            0.5650689944751366
+          ]
+        },
+        {
+          "name": "list",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 46,
+          "medianMs": 2.088975869565215,
+          "samples": [
+            2.0977362173913088,
+            2.088975869565215,
+            2.057015217391302,
+            2.060800521739131,
+            2.0736844347826047,
+            2.4534036086956603,
+            2.4795726956521635
+          ]
+        },
+        {
+          "name": "vector",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 5,
+          "medianMs": 23.1970236000001,
+          "samples": [
+            23.149541200000023,
+            23.203303600000073,
+            23.161555000000043,
+            23.1970236000001,
+            23.18098039999986,
+            23.223852799999985,
+            23.298956200000067
+          ]
+        },
+        {
+          "name": "closure",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 57,
+          "medianMs": 1.7419135087719264,
+          "samples": [
+            1.7497711403508667,
+            1.7491711578947313,
+            1.7419135087719264,
+            1.7393215087719287,
+            1.7333031052631556,
+            1.7379138245614103,
+            1.7423917543859588
+          ]
+        },
+        {
+          "name": "hash",
+          "input": 1000,
+          "expected": 499500,
+          "batch": 50,
+          "medianMs": 2.023032540000004,
+          "samples": [
+            2.0138392399999976,
+            2.015409380000001,
+            2.0158337799999937,
+            2.0256052600000114,
+            2.0259366200000115,
+            2.023032540000004,
+            2.025224640000015
+          ]
+        },
+        {
+          "name": "string",
+          "input": 10000,
+          "expected": 10000,
+          "batch": 18,
+          "medianMs": 5.641555722222216,
+          "samples": [
+            5.576405166666721,
+            5.5632950555555,
+            5.6027259444443995,
+            5.641555722222216,
+            5.6787072222222275,
+            5.671588055555629,
+            5.669433666666616
+          ]
+        },
+        {
+          "name": "clos",
+          "input": 100,
+          "expected": 400,
+          "batch": 81,
+          "medianMs": 1.1863109753086503,
+          "samples": [
+            1.1958494197530887,
+            1.1790696296296421,
+            1.1771845061728436,
+            1.174600160493827,
+            1.268687308641987,
+            1.1863109753086503,
+            1.3021081358024669
+          ]
+        }
+      ]
+    }
+  },
+  "remaining": [
+    "Other native modules and synchronous foreign-call boundaries are not made generally resumable by this change.",
+    "Threaded McCLIM integration and its upstream dynamic-variable tests still run on earlier frozen snapshots."
+  ]
+}

@@ -943,8 +943,18 @@ regressions also pass. Builtin argument-count errors now also signal through
 resumable calls, before native entry. The
 [expanded condition checks](../tests/resumable/native-arity-results.json)
 pass ten simultaneous cases in Node and Chrome, including builtins with and
-without resumable implementations. Numerical error paths still need
-resumable delivery; division by zero reproduces the remaining boundary.
+without resumable implementations.
+
+Numerical conditions now also reach resumable handlers, including division by
+zero, invalid numerical arguments, floating-point overflow and underflow.
+Native arithmetic reports conditions at its call boundary, preserving active
+Lisp handlers and restarts; ordinary callers retain synchronous delivery.
+The [expanded numerical condition checks](../tests/resumable/numeric-error-results.json)
+pass all 27 cases in Node and Chrome, including nested complex arithmetic and
+a synchronous callback handling its own numerical error. The 48 existing ANSI
+numeric regressions pass in both evaluated and compiled modes. Ordinary and
+dual compiler/runtime regressions, including source-deleted compiled artifacts,
+also pass.
 
 Application drivers still need integration with the scheduler: blocking calls
 must originate in scheduled Lisp, and merely enabling `:valtan-resumable` does

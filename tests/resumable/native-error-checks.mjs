@@ -12,6 +12,15 @@ export async function verifyNativeErrors(lisp, fixture) {
     ['symbolValueType', 'TYPE-ERROR', 17],
     ['symbolFunctionType', 'TYPE-ERROR', 17],
     ['functionType', 'TYPE-ERROR', 17],
+    ...['integerDivide', 'ratioDivide', 'floatDivide', 'complexDivide',
+      'floorZero', 'roundZero', 'truncateZero', 'ceilingZero', 'remZero']
+      .map(name => [name, 'DIVISION-BY-ZERO', lisp.S_nil]),
+    ['floatPrototypeType', 'TYPE-ERROR', 17],
+    ['realType', 'TYPE-ERROR', lisp.S_nil],
+    ...['overflow', 'expOverflow', 'scaleOverflow']
+      .map(name => [name, 'FLOATING-POINT-OVERFLOW', lisp.S_nil]),
+    ['underflow', 'FLOATING-POINT-UNDERFLOW', lisp.S_nil],
+    ...['rationalNonfinite', 'decodeNonfinite'].map(name => [name, 'ARITHMETIC-ERROR', lisp.S_nil]),
   ];
   globalThis.valtanNativeInvalidFunction = 17;
   let release;
@@ -34,6 +43,7 @@ export async function verifyNativeErrors(lisp, fixture) {
   check(fixture.cleanups() === 0, 'No protected form unwinds before its handler resumes');
   check(fixture.binding().name === 'GLOBAL', 'Suspended handlers restore the host dynamic context');
   check(fixture.ordinary().name === 'CAUGHT', 'Ordinary native error delivery remains synchronous');
+  check(fixture.ordinaryNumeric().name === 'CAUGHT', 'Ordinary numeric errors reach their Lisp handler');
   release();
   const values = await completion;
   values.forEach((result, index) => {
@@ -42,6 +52,12 @@ export async function verifyNativeErrors(lisp, fixture) {
   });
   check(fixture.cleanups() === cases.length, 'Every resumed condition runs asynchronous cleanup exactly once');
   check(scheduler.tasks.size === 0 && fixture.binding().name === 'GLOBAL', 'Tasks retire and restore bindings');
+  const numericValues = await scheduler.spawn(fixture.numericValues).completion;
+  check(numericValues.length === 2 && numericValues[0] === 2 && numericValues[1] === 1,
+    'Successful native arithmetic preserves multiple values');
+  check((await scheduler.spawn(fixture.foreignNumeric).completion)[0].name === 'PASSED',
+    'A synchronous callback handles its nested numeric condition in its own Lisp scope');
   delete globalThis.valtanNativeInvalidFunction;
-  return { cases: cases.length, asynchronousHandlers: true, restarts: true, asynchronousCleanup: true, ordinaryHandler: true };
+  return { cases: cases.length, asynchronousHandlers: true, restarts: true, asynchronousCleanup: true,
+    ordinaryHandler: true, numericValues: true, synchronousNumericCallback: true };
 }

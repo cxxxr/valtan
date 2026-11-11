@@ -5,7 +5,8 @@ import {
 export * from './values';
 export * from './dispatch';
 export * from './bindings';
-import { getResumableImplementation, setResumableImplementation } from './resumable';
+import { getResumableImplementation, setResumableImplementation,
+         getResumableNativeImplementation, setResumableNativeImplementation } from './resumable';
 export * from './resumable';
 
 import {
@@ -19,6 +20,7 @@ import {
 } from './error';
 export * from './error';
 import { setNativeFunctionArity } from './function';
+import { makeNativeFunction } from './native-error';
 
 export {
     S_t,
@@ -267,6 +269,8 @@ function registerFunction(pkg, name, fn, min = 0, max = min) {
         }
     }
     setNativeFunctionArity(intern(name, pkg).func, intern(name, pkg), min, max);
+    const native = getResumableNativeImplementation(fn);
+    if (native) setResumableNativeImplementation(intern(name, pkg).func, native);
     const implementation = getResumableImplementation(fn);
     if (implementation) {
         setResumableImplementation(intern(name, pkg).func, function*(...args) {
@@ -351,8 +355,9 @@ registerFunction(system_package, 'FLOAT-RANK', CL_floatRank, 2);
 registerFunction(cl_package, 'FLOAT', CL_float, 1, 2);
 registerFunction(cl_package, 'ABS', CL_abs, 1);
 registerFunction(cl_package, 'LOG', CL_log, 1, 2);
+const transcendental = getResumableNativeImplementation(CL_transcendental);
 for (const op of ['sqrt', 'exp', 'sin', 'cos', 'tan', 'asin', 'acos', 'sinh', 'cosh', 'tanh', 'asinh', 'acosh', 'atanh']) {
-    registerFunction(cl_package, op.toUpperCase(), x => CL_transcendental(op, x), 1);
+    registerFunction(cl_package, op.toUpperCase(), makeNativeFunction(x => transcendental(op, x)), 1);
 }
 registerFunction(cl_package, 'ATAN', CL_atan, 1, 2);
 registerFunction(cl_package, 'PHASE', CL_phase, 1);
