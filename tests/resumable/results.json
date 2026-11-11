@@ -1,0 +1,92 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "threadSupportComplete": false,
+  "recordedAt": "2026-11-11T13:19:09.828618+00:00",
+  "scope": "Optional dual ordinary/generator compilation of the core and subsequently loaded Lisp libraries. Real suspension through higher-order functions and CLOS is verified; no thread API, scheduler, or full McCLIM compatibility claim.",
+  "sourceHashes": {
+    "host-src/build.lisp": "91ddc7965568d408dfd17193270e7169df1b5f25ad9da66dccaffdeb0058eb5f",
+    "library/valtan-core/compiler/pass2.lisp": "528a9a6a23bbc5c02e7a5633fdb0f742607ef7b6bee0fb1dc9ec8a4cf39d6792",
+    "tests/performance/resumable.lisp": "50d0587973fbde071db989d2d1727182a92a3c666109610c8fba07cc1532f12f",
+    "tests/resumable.system": "d547a610e9e0e643f9103049d17b1014f48a037010d78d9566a9e3b67f7d3e02",
+    "tests/resumable/checks.lisp": "8cb2b4300d28e50cad7cbec80afb2f863c11870515ffdd2a83ea2118436abecc",
+    "tests/resumable/alexandria-checks.lisp": "2089c13deb08da24ffcb34724b7a0b5bc3087942a2441806a84baf56b364ebc1",
+    "tests/resumable/build.mjs": "0eeef19e3bdad78b9c588967e1c221dacae089e208cfa47da1862b46d4a09adf",
+    "tests/resumable/verify.mjs": "e894a66609b23a8641c1281c91c88b6a6bc48be5263a4c543dd34f0382b0e37d",
+    "tests/ansi/fixtures/dual-mode.lsp": "e1345f2330ad2fca34b91711a2ec968aac7b8a1b857c18523dc9da81bade17bc",
+    "tests/ansi/integration.test.mjs": "2df1e604017f7bf3a7ecdf07407872b5ba397fa5e6263f0b52acde9eec1a3dfa",
+    "tests/mcclim/canvas.mjs": "fe354381cbb846775ddf35c4a6fd3aa928ce638ad1fc8c00d3221d50fc8e9b00"
+  },
+  "compilerSha256": "e229d2968e85fff309fb83b9eec7ff7d501e2af7a61cec479b815fbd388a139a",
+  "configuration": {
+    "system": ":target-features (:valtan-resumable)",
+    "compiler": "COMPILER::*RESUMABLE-FUNCTIONS* = :dual; T remains generator-only facade mode; NIL remains the default ordinary mode",
+    "loadTimeValues": "One initialization per source HIR occurrence shared by both implementations; initializers execute synchronously",
+    "closures": "Ordinary and generator entries share lexical cells; nested generator bodies use generator facades to avoid exponential duplication",
+    "stringLiterals": "Retain direct FFI:CL->JS constant-string emission to avoid recursive ARRAY-TO-RAW-STRING bootstrap calls"
+  },
+  "node": {
+    "status": "passed",
+    "command": "npm --prefix tests run build:resumable && npm --prefix tests run test:resumable",
+    "existingSuspensionChecks": 43,
+    "dualChecks": 51,
+    "reportedErrors": 0,
+    "bundleSha256": "3a5acdcc51f390c423b3c8cff59e3aa8140382bd031f5dfd9522e8c737956c91",
+    "log": "/tmp/valtan-dual-verify6.log"
+  },
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T13:15:48.279Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-lhfxUD",
+    "compilerSha256": "e229d2968e85fff309fb83b9eec7ff7d501e2af7a61cec479b815fbd388a139a",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "checksSha256": "2f9c651e3a17f6159656594961969e7d0bdbafce3e9fe6e6142ce2cc5c89674a",
+    "stage": "run",
+    "bundleSha256": "420da2fddb31865aeaef47f3c9315a23bdbe5af89aa790e707aad4c1c98d9625",
+    "finishedAt": "2026-11-11T13:18:21.259Z"
+  },
+  "browserAssertions": {
+    "existingSuspensionChecks": 43,
+    "dualChecks": 51,
+    "alexandriaMappendChecks": 4,
+    "reportedErrors": 0,
+    "log": "/tmp/valtan-dual-browser-logs/run.log",
+    "reproduction": "Concatenate tests/performance/resumable.lisp, tests/resumable/checks.lisp and tests/resumable/alexandria-checks.lisp; pass that file to node tests/mcclim/probe.mjs alexandria REPORT CHECKS --browser valtan-resumable"
+  },
+  "compilerRegressions": {
+    "status": "passed",
+    "command": "npm --prefix tests run build:ansi && node --test --test-name-pattern='compiler-regressions|compiler control regressions' tests/ansi/integration.test.mjs",
+    "ordinary": 101,
+    "generatorEval": 104,
+    "generatorCompiled": 104,
+    "dualEval": 104,
+    "dualCompiled": 104,
+    "groups": 5,
+    "fail": 0,
+    "log": "/tmp/valtan-dual-ansi.log"
+  },
+  "ordinaryMode": {
+    "status": "passed",
+    "command": "npm --prefix tests run build:performance && node tests/performance/verify.mjs",
+    "existingSuspensionChecks": 43,
+    "workloads": 8,
+    "reportedErrors": 0,
+    "bundleSha256": "40bae22a156a1de2ee3b005cfed8af4b36491959c5bd62a1edb8e5cd028a5de7",
+    "log": "/tmp/valtan-dual-performance-verify.log"
+  },
+  "limitations": [
+    "No scheduler, locks or Bordeaux Threads backend.",
+    "Native JavaScript callback boundaries (including package iteration and native error delivery) are not generally resumable.",
+    "Blocking host operations and synchronous load-time initialization still require integration.",
+    "Dual builds emit more code; no end-to-end startup or scheduling performance improvement is claimed.",
+    "Fresh full McCLIM drawing checks against this dual build are running separately, not counted as passed here."
+  ]
+}

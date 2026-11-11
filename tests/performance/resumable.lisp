@@ -13,9 +13,18 @@
       (assert (not failure))
       function)))
 (defun make-resumable-test-task (function &rest args)
-  (ffi:new (ffi:ref "lisp" "ResumableTask") function (apply #'ffi:array args)))
-(defun resumable-test-step (task &optional (value (ffi:ref "undefined")) (budget 100))
-  ((ffi:ref task "resume") value budget))
+  (ffi:new (ffi:ref "lisp" "ResumableTask") function (system::list-to-raw-array args)))
+(defun resumable-test-step (task &optional (value (ffi:ref "undefined")) (budget 10000 budgetp))
+  ;; Tests of explicit yields should not depend on how many core functions
+  ;; expose checkpoints. Explicit budgets still return after exactly one slice.
+  (loop for step = ((ffi:ref task "resume") value budget)
+        then ((ffi:ref task "resume") (ffi:ref "undefined") budget)
+        repeat 1000
+        when (or budgetp
+                 (not (eq (ffi:ref step "value")
+                          (ffi:ref "lisp" "resumableCheckpoint"))))
+          do (return-from resumable-test-step step))
+  (error "Resumable test exceeded its checkpoint limit"))
 (defun resumable-test-done (step) (eq (ffi:ref step "done") (ffi:ref "true")))
 (defun resumable-test-yield (step) (ffi:ref (ffi:ref step "value") "value"))
 (defun resumable-test-values (task) (coerce (ffi:js->cl (ffi:ref task "values")) 'list))
@@ -107,7 +116,7 @@
        (step (resumable-test-step task (ffi:ref "undefined") 3))
        (intermediate nil))
   (resumable-check (not (resumable-test-done step)))
-  (loop repeat 100 until (resumable-test-done step)
+  (loop repeat 10000 until (resumable-test-done step)
         do (when (< 0 (aref shared 0) 20) (setf intermediate t))
            (setf step (resumable-test-step task (ffi:ref "undefined") 3)))
   (resumable-check intermediate)

@@ -25,3 +25,5 @@ result
 /tests/quicklisp/portability-results.log
 
 /tests/quicklisp/*.log
+
+/tests/dist-resumable/

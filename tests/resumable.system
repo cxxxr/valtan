@@ -1,0 +1,7 @@
+(defsystem "resumable"
+  :serial t
+  :components ((:file "performance/resumable")
+               (:file "resumable/checks"))
+  :target :node
+  :target-features (:valtan-resumable)
+  :compile-mode :runtime)

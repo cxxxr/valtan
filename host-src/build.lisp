@@ -378,7 +378,10 @@
            (eq (system-compile-mode system) :runtime))
          (valtan-core::*features*
            (union (system-target-features system) valtan-core::*features*))
-         (*features* (union (system-target-features system) *features*)))
+         (*features* (union (system-target-features system) *features*))
+         (compiler::*resumable-functions*
+           (if (member :valtan-resumable (system-target-features system))
+               :dual compiler::*resumable-functions*)))
     (pushnew :valtan valtan-core::*features*)
     (when (eql :node (system-target system))
       (pushnew :node valtan-core::*features*))

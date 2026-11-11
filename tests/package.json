@@ -49,7 +49,9 @@
     "test:mcclim:bezier:browser": "node mcclim/bezier.mjs --browser",
     "test:mcclim:bezier:canvas": "node mcclim/canvas.mjs --bezier",
     "test:mcclim:queues": "node mcclim/queue.mjs",
-    "demo:mcclim": "node mcclim/demo.mjs"
+    "demo:mcclim": "node mcclim/demo.mjs",
+    "build:resumable": "node resumable/build.mjs",
+    "test:resumable": "node resumable/verify.mjs"
   },
   "keywords": [],
   "author": "",

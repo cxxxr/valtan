@@ -790,10 +790,36 @@ record 43 real Lisp assertions passing in Node and a fresh Chrome worker,
 including recursion, shared mutable data, special parameters, nonlocal exits,
 conditions, cleanup that suspends, function redefinition and multiple values.
 The generator path also passes all 104 selected compiler/control regressions in
-both evaluation and compiled modes. This is not Bordeaux Threads support:
-scheduling, locks, blocking host operations, and resumable paths through ordinary
-runtime/library callbacks (including higher-order functions and CLOS dispatch)
-are still required. Load-time initializers also remain synchronous.
+both evaluation and compiled modes.
+
+A system can opt into dual compilation with
+`:target-features (:valtan-resumable)`. The build compiles the core with both an
+ordinary function body and a generator alternative; the target compiler defaults
+to the same `:dual` mode for subsequently loaded libraries and `COMPILE` calls.
+Ordinary calls use the direct body. Both implementations capture the same lexical
+cells, and each source `LOAD-TIME-VALUE` occurrence is initialized only once.
+Generator bodies retain direct JavaScript string literal generation, which is
+needed to avoid recursive string conversion during bootstrap.
+
+The [dual compilation checks](../tests/resumable/results.json) cover suspension
+through core `APPLY`, `MAPCAR`, `MAP`, `MAPHASH`, `REMOVE-IF`, `PROGV`, generic
+function dispatch, `:AROUND` methods and `CALL-NEXT-METHOD`, including cached
+dispatch. They also cover shared closures and load-time object identity. All 43
+existing suspension checks and 51 dual-core checks pass in Node and a fresh
+Chrome worker. Chrome also passes four assertions that suspend through the real
+Quicklisp Alexandria `MAPPEND` implementation. The 104 compiler/control
+regressions pass in both evaluation and compiled modes under `:dual`. Run
+`npm --prefix tests run build:resumable` followed by
+`npm --prefix tests run test:resumable` to build and check the dual core.
+The ordinary core remains the default. Dual builds contain more generated code;
+no end-to-end startup or scheduling performance improvement is claimed.
+
+This is not Bordeaux Threads support. Scheduling, locks, blocking host operations
+and native JavaScript callback boundaries still need integration. For example,
+package iteration callbacks and native error delivery are not yet generally
+resumable. Load-time initializers remain synchronous. The McCLIM Canvas driver
+accepts `--resumable` to check loading and ordinary drawing calls against a dual
+build; it does not by itself test suspension inside McCLIM operations.
 
 These results cover the checked API calls, not every feature in a passing library.
 The default ahead-of-time mode separately passed the `split-sequence` and

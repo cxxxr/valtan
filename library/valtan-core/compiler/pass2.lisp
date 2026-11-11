@@ -170,10 +170,12 @@
 (defvar *p2-toplevel-defun-stream*)
 (defvar *p2-load-time-value-stream*)
 (defvar *p2-load-time-value-vars*)
+(defvar *p2-load-time-value-cache*)
 (defvar *p2-defun-names*)
 (defvar *p2-temporary-variables*)
 (defvar *p2-in-simple-loop* nil)
-(defvar *resumable-functions* nil)
+;; :DUAL keeps the ordinary entry point and attaches a generator alternative.
+(defvar *resumable-functions* #+valtan-resumable :dual #-valtan-resumable nil)
 (defvar *p2-in-resumable-function* nil)
 
 (def-interface make-emitter-stream (base-stream)
@@ -709,21 +711,14 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
     (dolist (entry *p2-parameter-unwinds*)
       (p2-emit-unwind-var (first entry) finally-stream (second entry)))))
 
-(define-p2-emit lambda (hir)
+(defun p2-emit-lambda-body (hir resumable-p)
   (let ((name (hir-arg1 hir))
         (parsed-lambda-list (hir-arg2 hir))
         (body (hir-arg3 hir))
-        lambda-result
-        (*p2-in-resumable-function* *resumable-functions*))
-    (embed-source-map hir)
-    (when (hir-return-value-p hir)
-      (setq lambda-result
-            (if name
-                (p2-temporary-var (p2-local-function name))
-                (p2-temporary-var)))
-      (format *p2-emit-stream* "~A=" lambda-result))
-    (write-line (if *p2-in-resumable-function*
-                    "lisp.makeResumable(function*(){" "(function(){") *p2-emit-stream*)
+        (*p2-in-resumable-function* resumable-p)
+        ;; Nested functions in a generator need only the generator facade.
+        ;; This avoids recursively duplicating both branches at every depth.
+        (*resumable-functions* (if resumable-p t *resumable-functions*)))
     (p2-emit-check-arguments hir name parsed-lambda-list)
     (when *p2-in-resumable-function*
       (write-line "yield lisp.resumableCheckpoint;" *p2-emit-stream*))
@@ -745,21 +740,49 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
              finally-code)))
         (p2-emit-declare-temporary-variables)
         (join-emitter-stream base-stream emitter-stream)))
-    (write-line "});" *p2-emit-stream*)
-    (or lambda-result
-        (values))))
+    (write-string "}" *p2-emit-stream*)))
+
+(define-p2-emit lambda (hir)
+  (let ((name (hir-arg1 hir))
+        (mode *resumable-functions*)
+        lambda-result)
+    (embed-source-map hir)
+    (when (hir-return-value-p hir)
+      (setq lambda-result
+            (if name
+                (p2-temporary-var (p2-local-function name))
+                (p2-temporary-var)))
+      (format *p2-emit-stream* "~A=" lambda-result))
+    (case mode
+      (:dual
+       (write-line "lisp.setResumableImplementation(function(){" *p2-emit-stream*)
+       (p2-emit-lambda-body hir nil)
+       (write-line ",function*(){" *p2-emit-stream*)
+       (p2-emit-lambda-body hir t))
+      (otherwise
+       (write-line (if mode "lisp.makeResumable(function*(){" "(function(){")
+                   *p2-emit-stream*)
+       (p2-emit-lambda-body hir (not (null mode)))))
+    (write-line ");" *p2-emit-stream*)
+    (or lambda-result (values))))
 
 (define-p2-emit load-time-value (hir)
-  (let ((var (p2-genvar "LTV"))
-        (*p2-temporary-variables* nil)
-        (code (make-emitter-stream *p2-load-time-value-stream*)))
-    (push var *p2-load-time-value-vars*)
-    (let ((*p2-emit-stream* code))
-      (let ((initializer (p2-form (hir-arg1 hir))))
-        (format code "~A=lisp.values1(~A());~%" var initializer)))
-    (let ((*p2-emit-stream* *p2-load-time-value-stream*))
-      (p2-emit-declare-temporary-variables))
-    (join-emitter-stream *p2-load-time-value-stream* code)
+  ;; The two implementations of a lambda share each source LTV occurrence.
+  ;; Its initializer runs synchronously, once, outside either function body.
+  (let ((var (gethash hir *p2-load-time-value-cache*)))
+    (unless var
+      (setq var (p2-genvar "LTV"))
+      (setf (gethash hir *p2-load-time-value-cache*) var)
+      (push var *p2-load-time-value-vars*)
+      (let ((*p2-temporary-variables* nil)
+            (*p2-in-resumable-function* nil)
+            (code (make-emitter-stream *p2-load-time-value-stream*)))
+        (let ((*p2-emit-stream* code))
+          (let ((initializer (p2-form (hir-arg1 hir))))
+            (format code "~A=lisp.values1(~A());~%" var initializer)))
+        (let ((*p2-emit-stream* *p2-load-time-value-stream*))
+          (p2-emit-declare-temporary-variables))
+        (join-emitter-stream *p2-load-time-value-stream* code)))
     (if (hir-return-value-p hir) var (p2-no-return))))
 
 (define-p2-emit let (hir)
@@ -921,6 +944,9 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
     (cond (*p2-in-resumable-function*
            (cond ((eq symbol '*:multiple-value-call) (p2-multiple-value-call hir))
                  ((eq symbol 'funcall) (p2-funcall hir))
+                 ;; Raw string literals bootstrap ARRAY-TO-RAW-STRING itself.
+                 ;; Sending them through CL->JS recursively re-enters it.
+                 ((eq symbol 'ffi:cl->js) (p2-cl->js hir))
                  (t (p2-call-default hir))))
           ((null builtin)
            (p2-call-default hir))
@@ -1456,6 +1482,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
   (let ((*p2-literal-symbols* (make-hash-table))
         (*p2-defun-names* '())
         (*p2-load-time-value-vars* '())
+        (*p2-load-time-value-cache* (make-hash-table :test 'eq))
         (*p2-load-time-value-stream* (make-emitter-stream stream))
         (*p2-temporary-variables* '())
         (*p2-toplevel-defun-stream* (make-emitter-stream stream))
@@ -1478,6 +1505,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
   (let ((*p2-literal-symbols* (make-hash-table))
         (*p2-defun-names* '())
         (*p2-load-time-value-vars* '())
+        (*p2-load-time-value-cache* (make-hash-table :test 'eq))
         (*p2-load-time-value-stream* (make-emitter-stream stream))
         (*p2-temporary-variables* '())
         (*p2-toplevel-defun-stream* (make-emitter-stream stream))
