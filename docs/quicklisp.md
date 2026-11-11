@@ -218,6 +218,12 @@ unchanged. The [argument-class checks](../tests/mcclim/required-classes-results.
 cover optional/rest arguments, EQL fallback and zero-required-argument generics,
 alongside the existing MOP and CLOS regressions.
 
+Symbol calls with backtraces now invoke the current function directly, avoiding
+a redundant JavaScript argument forwarding step. [Validation](../tests/performance/call-forwarder-results.json)
+covers redefinition, multiple values, profiling and exception backtraces, plus
+the compiler semantic regressions. An isolated CLOS benchmark measured warm
+medians of 114 ms before and 101 ms after; full McCLIM timing is not established.
+
 An experimental Canvas backend lives in `library/mcclim-browser`, with a
 counter-frame example in `example/try-using-mcclim`. It runs Lisp in a worker;
 shared-memory input and transferred bitmap snapshots allow synchronous McCLIM

@@ -58,3 +58,25 @@ test('lazy backtrace frames preserve function/argument order and unwind on excep
   assert.deepEqual(printed, [[symbol, 7, 8]]);
   assert.equal(lisp.getBacktrace(), 'Backtrace:\n');
 });
+
+test('symbol calls observe redefinition and preserve multiple values with profiling', () => {
+  const symbol = lisp.intern('PERF-CALL-VALUES', lisp.cl_user_package);
+  symbol.func = (...args) => lisp.values(...args);
+  assert.equal(lisp.callFunctionWithCallStack(symbol, 7, 8), 7);
+  assert.deepEqual(lisp.currentValues(), [7, 8]);
+  symbol.func = () => lisp.values();
+  assert.equal(lisp.callFunctionWithCallStack(symbol, 7, 8), lisp.S_nil);
+  assert.deepEqual(lisp.currentValues(), []);
+  symbol.func = x => lisp.values(x, x + 1);
+  const lines = [], log = console.log;
+  console.log = (...args) => lines.push(args.map(String).join(' '));
+  lisp.startProfile();
+  try {
+    assert.equal(lisp.callFunctionWithCallStack(symbol, 9), 9);
+    assert.deepEqual(lisp.currentValues(), [9, 10]);
+  } finally {
+    try { lisp.finishProfile(); } finally { console.log = log; }
+  }
+  assert.match(lines.join('\n'), /PERF-CALL-VALUES\s+1\s/);
+  assert.equal(lisp.getBacktrace(), 'Backtrace:\n');
+});

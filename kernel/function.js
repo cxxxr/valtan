@@ -147,11 +147,11 @@ export function callFunctionWithCallStack(symbol, ...args) {
     try {
         if (enableProfiling) {
             profileEnter(symbol);
-            const result = callFunction(symbol, ...args);
+            const result = symbol.getFunction()(...args);
             profileExit(symbol);
             return result;
         } else {
-            return callFunction(symbol, ...args);
+            return symbol.getFunction()(...args);
         }
     } finally {
         popCallStack();

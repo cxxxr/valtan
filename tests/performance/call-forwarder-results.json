@@ -1,0 +1,113 @@
+{
+  "status": "verified",
+  "scope": "Remove a redundant JavaScript forwarding call while retaining function lookup, profiling and backtrace behavior. Focused CLOS benchmark, not end-to-end McCLIM timing.",
+  "recordedAt": "2026-11-11T10:51:26.264985+00:00",
+  "sourceHashes": {
+    "beforeFunction": "1c3259b763d3f8c347c1913ae66c09976fe403062862e47e3f2c5250255fdb6e",
+    "afterFunction": "39b8b14c0153a5e59d5fdeb08f1f8323e896e86b34f84ab85ab90a792f06cba4",
+    "kernelChecks": "c805edb06ab46d996f0590fa017120e2993af9858d44e5a05a294784f954bafc",
+    "semanticChecks": "4483e434afacfd439150a33b867d8c8e0887e1d0f10034a1b158575192907f91",
+    "performanceBundle": "4cb917f65121a28a56d329db9c3fcefc1e47c43e4fc5b0f3fa15eaff24625453"
+  },
+  "profile": {
+    "scope": "Two-second trace of fresh browser with5c2fb35 slot lookup optimization, executing unchanged Drei OBINSEQ-BUFFER-PERFORMANCE-TEST-1. Predates required-classes and call-forwarder changes.",
+    "sha256": "a2737765600883684b0e72fcf7d12c99f0d0d5d98054c6e3dac510f7a3ec9c9e",
+    "activeWorkerSamples": 5333,
+    "callFunctionSamples": 547,
+    "callFunctionWithCallStackSamples": 513
+  },
+  "benchmark": {
+    "comparison": {
+      "scope": "Temporary bundle comparison only; same 5c2fb35 slot benchmark, only kernel callFunctionWithCallStack forwarding changed. No repository kernel edit.",
+      "runs": [
+        {
+          "label": "before",
+          "status": 0,
+          "signal": null,
+          "times": [
+            126,
+            123,
+            115,
+            117
+          ]
+        },
+        {
+          "label": "after",
+          "status": 0,
+          "signal": null,
+          "times": [
+            120,
+            115,
+            114,
+            99
+          ]
+        },
+        {
+          "label": "after",
+          "status": 0,
+          "signal": null,
+          "times": [
+            117,
+            106,
+            98,
+            96
+          ]
+        },
+        {
+          "label": "before",
+          "status": 0,
+          "signal": null,
+          "times": [
+            117,
+            114,
+            105,
+            104
+          ]
+        },
+        {
+          "label": "before",
+          "status": 0,
+          "signal": null,
+          "times": [
+            121,
+            117,
+            111,
+            109
+          ]
+        },
+        {
+          "label": "after",
+          "status": 0,
+          "signal": null,
+          "times": [
+            111,
+            109,
+            101,
+            100
+          ]
+        }
+      ]
+    },
+    "warmMedianMs": {
+      "before": 114,
+      "after": 101
+    },
+    "ratioBeforeOverAfter": 1.1287128712871286,
+    "method": "Three fresh Node processes per variant, alternating before/after/after/before/before/after. Each process runs four checked 2000-update trials on the last slot of a16-slot CLOS object withcloser-mop; discard first warmup perprocess, compare medians of9samples pervariant.",
+    "source": "(in-package :cl-user)\n(defclass slot-benchmark () ((s0 :initform 0) (s1 :initform 0) (s2 :initform 0) (s3 :initform 0) (s4 :initform 0) (s5 :initform 0) (s6 :initform 0) (s7 :initform 0) (s8 :initform 0) (s9 :initform 0) (s10 :initform 0) (s11 :initform 0) (s12 :initform 0) (s13 :initform 0) (s14 :initform 0) (s15 :initform 0)))\n(let ((object (make-instance 'slot-benchmark)))\n (dotimes (trial 4)\n  (let ((start (get-internal-real-time)))\n   (dotimes (i 2000) (incf (slot-value object 's15)))\n   (assert (= (slot-value object 's15) (* 2000 (1+ trial))))\n   (format t \"SLOT-BENCH ~D ~D~%\" trial (- (get-internal-real-time) start))\n   (finish-output))))\n",
+    "beforeBundleSha256": "a08a6fda10c9bb47af93bbdf111ed96302e79f1be98485e65096760f9df1bfed",
+    "afterBundleSha256": "9d71773b7e076b2dc5f35180fecf513b0cf9d578ffba0e092fcd8fcf4d2af557",
+    "delta": "In the same baseline bundle, replace both callFunction(symbol,...args) expressions inside callFunctionWithCallStack with symbol.getFunction()(...args); no other bundle changes.",
+    "baselineRevisionScope": "Slot optimization5c2fb35, before61baebe required-only class lists. Benchmark therefore isolates the forwarding change, not combined later changes."
+  },
+  "kernelTests": {
+    "command": "npm run test:performance:kernel",
+    "output": "\n> tests@1.0.0 test:performance:kernel\n> node performance/kernel-tests.mjs\n\n\u2714 CLOS cache keys preserve class order, EQL matches and invalidation (0.625699ms)\n\u2714 single and multiple values yield stable snapshots across nested cleanup (0.485553ms)\n\u2714 lazy backtrace frames preserve function/argument order and unwind on exceptions (0.400166ms)\n\u2714 symbol calls observe redefinition and preserve multiple values with profiling (0.453364ms)\n\u2139 tests 4\n\u2139 suites 0\n\u2139 pass 4\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 43.532472\n",
+    "initialTestCorrection": "Profiling-log test collector originally captured only the first console.log argument. Changed collector to retain all arguments; no production change was needed for that test failure."
+  },
+  "compilerSemantics": {
+    "command": "npm run build:performance && node performance/verify.mjs",
+    "output": "Compiler semantic regressions and all 8 workload results passed\n"
+  },
+  "browserScope": "All current long-running browser snapshots predate this change; no full-browser speed or compatibility result claimed here."
+}
