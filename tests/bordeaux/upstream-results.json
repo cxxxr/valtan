@@ -1271,5 +1271,475 @@
     "earlier": "/tmp/valtan-bordeaux-fast-upstream.log",
     "native": "/tmp/valtan-bordeaux-host4.log"
   },
-  "otherRuns": "The original unoptimized rerun is still running and is not counted as completed. The first unoptimized run was killed by an inspector diagnostic error, preserved in atomic-results.json; it is not a test-suite failure."
+  "otherRuns": "The original unoptimized rerun is still running and is not counted as completed. The first unoptimized run was killed by an inspector diagnostic error, preserved in atomic-results.json; it is not a test-suite failure.",
+  "nativeNumericConditionRegression": {
+    "sourceCommit": "c600e77",
+    "sourceScope": "Includes resumable native symbol, arity and numeric condition delivery. Frozen before scheduled FUNCALL optimization 62aba8a. This is not a threaded McCLIM integration result.",
+    "publicApi": {
+      "status": "passed",
+      "complete": true,
+      "recordedAt": "2026-11-11T16:38:25.109949+00:00",
+      "sourceCommit": "c600e77",
+      "nodeBundleSha256": "93ebcf0ba60ced1adec39adeff03f7fe4ed015e6ee44ad22c9a7c3da02c5a675",
+      "groups": [
+        "v1",
+        "v2",
+        "bindings",
+        "counter",
+        "condition",
+        "semaphore",
+        "atomic",
+        "atomicValidation",
+        "selfInterrupt",
+        "interrupt",
+        "termination",
+        "timeout"
+      ],
+      "log": "/tmp/valtan-numeric-errors-bordeaux.log"
+    },
+    "upstream": {
+      "status": "passed",
+      "complete": true,
+      "startedAt": "2026-11-11T16:32:26.060Z",
+      "scope": "Both upstream Bordeaux Threads 0.9.4 suites, with unchanged atomic test bodies explicitly enabled for Valtan",
+      "bundleSha256": "667e98f92f6bc59868826e73f014b6e84bc43aae741b7cda76acf6c849e77dea",
+      "stage": "tests",
+      "results": {
+        "registered": 82,
+        "results": 130,
+        "passed": 130,
+        "skipped": 0,
+        "failed": 0,
+        "registeredNames": [
+          "BORDEAUX-THREADS/TEST::SHOULD-HAVE-CURRENT-THREAD",
+          "BORDEAUX-THREADS/TEST::CURRENT-THREAD-IDENTITY",
+          "BORDEAUX-THREADS/TEST::CURRENT-THREAD-EQL",
+          "BORDEAUX-THREADS/TEST::JOIN-THREAD-RETURN-VALUE",
+          "BORDEAUX-THREADS/TEST::SHOULD-IDENTIFY-THREADS-CORRECTLY",
+          "BORDEAUX-THREADS/TEST::SHOULD-RETRIEVE-THREAD-NAME",
+          "BORDEAUX-THREADS/TEST::SHOULD-LOCK-WITHOUT-CONTENTION",
+          "BORDEAUX-THREADS/TEST::DEFAULT-SPECIAL-BINDINGS",
+          "BORDEAUX-THREADS/TEST::SHOULD-HAVE-THREAD-INTERACTION",
+          "BORDEAUX-THREADS/TEST::SEMAPHORE-SIGNAL",
+          "BORDEAUX-THREADS/TEST::SEMAPHORE-SIGNAL-N-OF-M",
+          "BORDEAUX-THREADS/TEST::SEMAPHORE-WAIT-TIMEOUT",
+          "BORDEAUX-THREADS/TEST::SEMAPHORE-TYPED",
+          "BORDEAUX-THREADS/TEST::WITH-TIMEOUT-RETURN-VALUE",
+          "BORDEAUX-THREADS/TEST::WITH-TIMEOUT-SIGNALS",
+          "BORDEAUX-THREADS/TEST::WITH-TIMEOUT-NON-INTERFERENCE",
+          "BORDEAUX-THREADS-2/TEST::NOT-IMPLEMENTED.WHOLE-FUNCTION",
+          "BORDEAUX-THREADS-2/TEST::NOT-IMPLEMENTED.ONE-FEATURE",
+          "BORDEAUX-THREADS-2/TEST::MAKE-THREAD.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::JOIN-THREAD.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::THREAD-YIELD.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::ALL-THREADS.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::INTERRUPT-THREAD.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::DESTROY-THREAD.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::THREAD-ALIVE-P.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::MAKE-LOCK.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::ACQUIRE-LOCK.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::RELEASE-LOCK.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::WITH-LOCK-HELD.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::MAKE-RECURSIVE-LOCK.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::ACQUIRE-RECURSIVE-LOCK.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::RELEASE-RECURSIVE-LOCK.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::WITH-RECURSIVE-LOCK-HELD.NOT-IMPLEMENTED",
+          "BORDEAUX-THREADS-2/TEST::JOIN-THREAD.RETURN-VALUE",
+          "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.NOT-NULL",
+          "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.EQL",
+          "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.IDENTITY",
+          "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.SPECIAL",
+          "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.ERROR",
+          "BORDEAUX-THREADS-2/TEST::THREADP.SHOULD-IDENTIFY-THREADS",
+          "BORDEAUX-THREADS-2/TEST::THREAD-NAME.SHOULD-RETRIEVE-THREAD-NAME",
+          "BORDEAUX-THREADS-2/TEST::THREAD-NAME.ALL-STRINGS",
+          "BORDEAUX-THREADS-2/TEST::DEFAULT-SPECIAL-BINDINGS.SEES-GLOBAL-BINDINGS",
+          "BORDEAUX-THREADS-2/TEST::THREADS.INTERACTION",
+          "BORDEAUX-THREADS-2/TEST::ALL-THREADS.CONTAINS-THREADS",
+          "BORDEAUX-THREADS-2/TEST::ALL-THREADS.CONTAINS-NEW-THREAD",
+          "BORDEAUX-THREADS-2/TEST::INTERRUPT-THREAD.THROW",
+          "BORDEAUX-THREADS-2/TEST::THREAD-ALIVE-P.NEW-THREAD",
+          "BORDEAUX-THREADS-2/TEST::THREAD-TERMINATION.UNWIND-PROTECT",
+          "BORDEAUX-THREADS-2/TEST::THREAD-TERMINATION.HANDLE-CONDITION",
+          "BORDEAUX-THREADS-2/TEST::DESTROY-THREAD.TERMINATES",
+          "BORDEAUX-THREADS-2/TEST::JOIN-THREAD.ERROR-IF-DESTROYED",
+          "BORDEAUX-THREADS-2/TEST::DESTROY-THREAD.ERROR-IF-EXITED",
+          "BORDEAUX-THREADS-2/TEST::LOCK.CONSTRUCTOR",
+          "BORDEAUX-THREADS-2/TEST::ACQUIRE-LOCK.NO-CONTENTION",
+          "BORDEAUX-THREADS-2/TEST::ACQUIRE-LOCK.TRY-LOCK",
+          "BORDEAUX-THREADS-2/TEST::ACQUIRE-LOCK.TIMEOUT-EXPIRES",
+          "BORDEAUX-THREADS-2/TEST::WITH-LOCK-HELD.TIMEOUT-NO-CONTENTION-ACQUIRED",
+          "BORDEAUX-THREADS-2/TEST::WITH-LOCK-HELD.TIMEOUT-EXPIRES",
+          "BORDEAUX-THREADS-2/TEST::ACQUIRE-RECURSIVE-LOCK.NO-CONTENTION",
+          "BORDEAUX-THREADS-2/TEST::ACQUIRE-RECURSIVE-LOCK.TRY-LOCK",
+          "BORDEAUX-THREADS-2/TEST::ACQUIRE-RECURSIVE-LOCK.TIMEOUT-EXPIRES",
+          "BORDEAUX-THREADS-2/TEST::WITH-RECURSIVE-LOCK-HELD.TIMEOUT-NO-CONTENTION-ACQUIRED",
+          "BORDEAUX-THREADS-2/TEST::WITH-RECURSIVE-LOCK-HELD.TIMEOUT-EXPIRES",
+          "BORDEAUX-THREADS-2/TEST::SEMAPHORE.TYPED",
+          "BORDEAUX-THREADS-2/TEST::SEMAPHORE.SIGNAL",
+          "BORDEAUX-THREADS-2/TEST::SEMAPHORE.WAIT-ON-NONZERO-CREATION",
+          "BORDEAUX-THREADS-2/TEST::SEMAPHORE.WAIT.TIMEOUT",
+          "BORDEAUX-THREADS-2/TEST::SEMAPHORE.SIGNAL-N-OF-M",
+          "BORDEAUX-THREADS-2/TEST::CONDITION-VARIABLE.TYPED",
+          "BORDEAUX-THREADS-2/TEST::CONDITION-VARIABLE.CONCURRENCY",
+          "BORDEAUX-THREADS-2/TEST::CONDITION-WAIT.TIMEOUT",
+          "BORDEAUX-THREADS-2/TEST::CONDITION-WAIT.LOCK-HELD-ON-TIMEOUT",
+          "BORDEAUX-THREADS-2/TEST::CONDITION-NOTIFY.NO-WAITING-THREADS",
+          "BORDEAUX-THREADS-2/TEST::CONDITION-BROADCAST.RETURN-VALUE",
+          "BORDEAUX-THREADS-2/TEST::WITH-TIMEOUT.RETURN-VALUE",
+          "BORDEAUX-THREADS-2/TEST::WITH-TIMEOUT.SIGNALS",
+          "BORDEAUX-THREADS-2/TEST::WITH-TIMEOUT.NON-INTERFERENCE",
+          "BORDEAUX-THREADS-2/TEST::ATOMIC-INTEGER-INCF-DECF.RETURN-VALUE",
+          "BORDEAUX-THREADS-2/TEST::ATOMIC-INTEGER-COMPARE-AND-SWAP.RETURN-VALUE",
+          "BORDEAUX-THREADS-2/TEST::ATOMIC-INTEGER.CONCURRENCY"
+        ],
+        "resultCounts": [
+          {
+            "test": "BORDEAUX-THREADS/TEST::SHOULD-HAVE-CURRENT-THREAD",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::CURRENT-THREAD-IDENTITY",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::CURRENT-THREAD-EQL",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::JOIN-THREAD-RETURN-VALUE",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::SHOULD-IDENTIFY-THREADS-CORRECTLY",
+            "count": 3
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::SHOULD-RETRIEVE-THREAD-NAME",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::SHOULD-LOCK-WITHOUT-CONTENTION",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::DEFAULT-SPECIAL-BINDINGS",
+            "count": 4
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::SHOULD-HAVE-THREAD-INTERACTION",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::SEMAPHORE-SIGNAL",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::SEMAPHORE-SIGNAL-N-OF-M",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::SEMAPHORE-WAIT-TIMEOUT",
+            "count": 3
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::SEMAPHORE-TYPED",
+            "count": 3
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::WITH-TIMEOUT-RETURN-VALUE",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::WITH-TIMEOUT-SIGNALS",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS/TEST::WITH-TIMEOUT-NON-INTERFERENCE",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::NOT-IMPLEMENTED.WHOLE-FUNCTION",
+            "count": 4
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::NOT-IMPLEMENTED.ONE-FEATURE",
+            "count": 4
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::MAKE-THREAD.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::JOIN-THREAD.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::THREAD-YIELD.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ALL-THREADS.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::INTERRUPT-THREAD.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::DESTROY-THREAD.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::THREAD-ALIVE-P.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::MAKE-LOCK.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ACQUIRE-LOCK.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::RELEASE-LOCK.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::WITH-LOCK-HELD.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::MAKE-RECURSIVE-LOCK.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ACQUIRE-RECURSIVE-LOCK.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::RELEASE-RECURSIVE-LOCK.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::WITH-RECURSIVE-LOCK-HELD.NOT-IMPLEMENTED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::JOIN-THREAD.RETURN-VALUE",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.NOT-NULL",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.EQL",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.IDENTITY",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.SPECIAL",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CURRENT-THREAD.ERROR",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::THREADP.SHOULD-IDENTIFY-THREADS",
+            "count": 3
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::THREAD-NAME.SHOULD-RETRIEVE-THREAD-NAME",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::THREAD-NAME.ALL-STRINGS",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::DEFAULT-SPECIAL-BINDINGS.SEES-GLOBAL-BINDINGS",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::THREADS.INTERACTION",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ALL-THREADS.CONTAINS-THREADS",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ALL-THREADS.CONTAINS-NEW-THREAD",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::INTERRUPT-THREAD.THROW",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::THREAD-ALIVE-P.NEW-THREAD",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::THREAD-TERMINATION.UNWIND-PROTECT",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::THREAD-TERMINATION.HANDLE-CONDITION",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::DESTROY-THREAD.TERMINATES",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::JOIN-THREAD.ERROR-IF-DESTROYED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::DESTROY-THREAD.ERROR-IF-EXITED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::LOCK.CONSTRUCTOR",
+            "count": 3
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ACQUIRE-LOCK.NO-CONTENTION",
+            "count": 4
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ACQUIRE-LOCK.TRY-LOCK",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ACQUIRE-LOCK.TIMEOUT-EXPIRES",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::WITH-LOCK-HELD.TIMEOUT-NO-CONTENTION-ACQUIRED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::WITH-LOCK-HELD.TIMEOUT-EXPIRES",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ACQUIRE-RECURSIVE-LOCK.NO-CONTENTION",
+            "count": 4
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ACQUIRE-RECURSIVE-LOCK.TRY-LOCK",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ACQUIRE-RECURSIVE-LOCK.TIMEOUT-EXPIRES",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::WITH-RECURSIVE-LOCK-HELD.TIMEOUT-NO-CONTENTION-ACQUIRED",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::WITH-RECURSIVE-LOCK-HELD.TIMEOUT-EXPIRES",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::SEMAPHORE.TYPED",
+            "count": 3
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::SEMAPHORE.SIGNAL",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::SEMAPHORE.WAIT-ON-NONZERO-CREATION",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::SEMAPHORE.WAIT.TIMEOUT",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::SEMAPHORE.SIGNAL-N-OF-M",
+            "count": 3
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CONDITION-VARIABLE.TYPED",
+            "count": 3
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CONDITION-VARIABLE.CONCURRENCY",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CONDITION-WAIT.TIMEOUT",
+            "count": 3
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CONDITION-WAIT.LOCK-HELD-ON-TIMEOUT",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CONDITION-NOTIFY.NO-WAITING-THREADS",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::CONDITION-BROADCAST.RETURN-VALUE",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::WITH-TIMEOUT.RETURN-VALUE",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::WITH-TIMEOUT.SIGNALS",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::WITH-TIMEOUT.NON-INTERFERENCE",
+            "count": 1
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ATOMIC-INTEGER-INCF-DECF.RETURN-VALUE",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ATOMIC-INTEGER-COMPARE-AND-SWAP.RETURN-VALUE",
+            "count": 2
+          },
+          {
+            "test": "BORDEAUX-THREADS-2/TEST::ATOMIC-INTEGER.CONCURRENCY",
+            "count": 1
+          }
+        ],
+        "unexecuted": [],
+        "nonpassed": []
+      },
+      "teardown": [
+        {
+          "name": "Unknown thread 17",
+          "state": "waiting"
+        },
+        {
+          "name": "Waiting thread 2",
+          "state": "waiting"
+        }
+      ],
+      "consoleErrors": [],
+      "finishedAt": "2026-11-11T16:51:49.679Z"
+    },
+    "sameRegisteredCasesAsPriorRun": true
+  }
 }
