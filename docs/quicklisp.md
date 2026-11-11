@@ -1008,6 +1008,23 @@ An ordinary `GETF` scan over 64 property pairs in the dual runtime dropped from
 43 to 1.4 microseconds for a final-key hit, and from 47 to 1.4 microseconds for a
 miss. These local timings exclude startup and do not measure McCLIM as a whole.
 
+A [fresh image-enabled Drei run](../tests/mcclim/drei-image-upstream-before-results.json)
+executes all 19 previously image-skipped cases: 101 of their 102 assertions pass.
+The remaining failure exposes a `LOOP ... ON` issue: after exhausting a list,
+`FINALLY` sees the last cons instead of the terminal atom. Drei's `REST-FORMS`
+therefore treats `LIST` as an operand in the unfinished input `(list `.
+
+Simple `ON` variables now hold the iterator directly, including its initial value
+and terminal atom; destructuring variables still describe the last visited cons.
+[The fix checks](../tests/resumable/loop-on-results.json) pass 13 cases each in
+ordinary and scheduled execution and repair the focused case in a retained real
+Drei parser. The complete ANSI iteration category remains 839/843 in both modes,
+with exactly the same four arithmetic `FINALLY` failures as the recorded baseline.
+The separate fresh full Drei rerun is not covered by this focused repair report.
+Run `npm run build:resumable && npm run test:resumable:loop-on` from `tests` to
+repeat the focused checks. The iterator behavior follows the
+[CLHS description of `ON`](https://www.lispworks.com/documentation/HyperSpec/Body/06_abac.htm).
+
 The optional `mcclim-portability/image-support` system provides symbol completion,
 operator argument descriptions and CLOS initialization argument descriptions for
 editor integration. Completion respects package exports, internal access,

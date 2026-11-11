@@ -1,0 +1,328 @@
+{
+  "status": "passed",
+  "complete": true,
+  "scope": "13 focused LOOP ON cases in ordinary and scheduled execution, host SBCL comparison, unchanged ANSI iteration failure baseline, and targeted real Drei parser repair. Does not certify the pending fresh full Drei suite or full McCLIM.",
+  "baseRevision": "5badeaf",
+  "compilerSha256": "c6d156c39a993711a385a95f84933869538203f49a9da2b74b1b0774ff159351",
+  "sourceHashes": {
+    "library/valtan-core/lisp/loop.lisp": "aa728236a6faa2c1ee61b529cbf19b32e8ea04797035eac6b4c91b357aa2ae5f",
+    "tests/resumable/loop-on.lisp": "4daf81e4d465f929522e3d25edaa9282098021b86752887643bbdb1b0a415383",
+    "tests/resumable/loop-on.mjs": "c9e5ad648bafc7143a00df39ce1901cbe8dcf0f84645a2d3aed7dda461d78c58"
+  },
+  "focused": {
+    "ordinary": 13,
+    "scheduled": 13,
+    "hostSBCL": 13,
+    "command": "node tests/resumable/loop-on.mjs",
+    "output": "RESUMABLE-CHECKS-PASS 43\nDUAL-CHECKS-PASS 51\nNATIVE-CALLBACK-CHECKS-PASS 23\n13 ordinary and 13 scheduled LOOP ON assertions passed\n"
+  },
+  "ansi": {
+    "eval": {
+      "suite": "ansi-test",
+      "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+      "mode": "eval",
+      "bundleSha256": "0c81acb0327882e87241445396843ab304c38248f7ee8ef050d0b9eb63b83d5f",
+      "startedAt": "2026-11-11T18:17:18.519Z",
+      "selection": "selected",
+      "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+      "results": [
+        {
+          "name": "iteration",
+          "files": [
+            "iteration/do.lsp",
+            "iteration/dostar.lsp",
+            "iteration/dolist.lsp",
+            "iteration/dotimes.lsp",
+            "iteration/loop.lsp",
+            "iteration/loop1.lsp",
+            "iteration/loop2.lsp",
+            "iteration/loop3.lsp",
+            "iteration/loop4.lsp",
+            "iteration/loop5.lsp",
+            "iteration/loop6.lsp",
+            "iteration/loop7.lsp",
+            "iteration/loop8.lsp",
+            "iteration/loop9.lsp",
+            "iteration/loop10.lsp",
+            "iteration/loop11.lsp",
+            "iteration/loop12.lsp",
+            "iteration/loop13.lsp",
+            "iteration/loop14.lsp",
+            "iteration/loop15.lsp",
+            "iteration/loop16.lsp",
+            "iteration/loop17.lsp"
+          ],
+          "mode": "eval",
+          "status": "finished",
+          "pass": 839,
+          "fail": 4,
+          "registered": 843,
+          "expectedRegistered": 843,
+          "completedFiles": [
+            "cl-test-package.lsp",
+            "auxiliary/ansi-aux-macros.lsp",
+            "universe.lsp",
+            "auxiliary/random-aux.lsp",
+            "auxiliary/ansi-aux.lsp",
+            "cl-symbol-names.lsp",
+            "notes.lsp",
+            "iteration/do.lsp",
+            "iteration/dostar.lsp",
+            "iteration/dolist.lsp",
+            "iteration/dotimes.lsp",
+            "iteration/loop.lsp",
+            "iteration/loop1.lsp",
+            "iteration/loop2.lsp",
+            "iteration/loop3.lsp",
+            "iteration/loop4.lsp",
+            "iteration/loop5.lsp",
+            "iteration/loop6.lsp",
+            "iteration/loop7.lsp",
+            "iteration/loop8.lsp",
+            "iteration/loop9.lsp",
+            "iteration/loop10.lsp",
+            "iteration/loop11.lsp",
+            "iteration/loop12.lsp",
+            "iteration/loop13.lsp",
+            "iteration/loop14.lsp",
+            "iteration/loop15.lsp",
+            "iteration/loop16.lsp",
+            "iteration/loop17.lsp"
+          ],
+          "errors": [],
+          "failures": [
+            {
+              "test": "LOOP.1.40",
+              "reason": "expected (5); actual (6) [diagnostic display: length 10, depth 5]"
+            },
+            {
+              "test": "LOOP.1.41",
+              "reason": "expected (4); actual (5) [diagnostic display: length 10, depth 5]"
+            },
+            {
+              "test": "LOOP.1.42",
+              "reason": "expected (0); actual (-1) [diagnostic display: length 10, depth 5]"
+            },
+            {
+              "test": "LOOP.1.43",
+              "reason": "expected (1); actual (0) [diagnostic display: length 10, depth 5]"
+            }
+          ],
+          "complete": true,
+          "timedOut": false,
+          "unexecuted": 0,
+          "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "pendingTest": null,
+          "currentFile": "iteration/loop17.lsp",
+          "exitCode": 0,
+          "signal": null,
+          "unreadFiles": [],
+          "unregisteredTestsUnknown": false,
+          "fatalError": false,
+          "referenceRegistrationMismatch": false,
+          "effectiveExpectedRegistered": 843,
+          "referenceInventoryMismatch": false,
+          "missingReferenceTests": [],
+          "unexpectedTests": [],
+          "conditionalRegistrations": [],
+          "aliasedRegistrations": [],
+          "registrationNameMismatch": false,
+          "registrationMismatch": false
+        }
+      ],
+      "pass": 839,
+      "fail": 4,
+      "complete": true,
+      "passRate": 99.52550415183867,
+      "finishedAt": "2026-11-11T18:18:08.912Z"
+    },
+    "compiled": {
+      "suite": "ansi-test",
+      "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+      "mode": "compiled",
+      "bundleSha256": "0c81acb0327882e87241445396843ab304c38248f7ee8ef050d0b9eb63b83d5f",
+      "startedAt": "2026-11-11T18:17:18.521Z",
+      "selection": "selected",
+      "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+      "results": [
+        {
+          "name": "iteration",
+          "files": [
+            "iteration/do.lsp",
+            "iteration/dostar.lsp",
+            "iteration/dolist.lsp",
+            "iteration/dotimes.lsp",
+            "iteration/loop.lsp",
+            "iteration/loop1.lsp",
+            "iteration/loop2.lsp",
+            "iteration/loop3.lsp",
+            "iteration/loop4.lsp",
+            "iteration/loop5.lsp",
+            "iteration/loop6.lsp",
+            "iteration/loop7.lsp",
+            "iteration/loop8.lsp",
+            "iteration/loop9.lsp",
+            "iteration/loop10.lsp",
+            "iteration/loop11.lsp",
+            "iteration/loop12.lsp",
+            "iteration/loop13.lsp",
+            "iteration/loop14.lsp",
+            "iteration/loop15.lsp",
+            "iteration/loop16.lsp",
+            "iteration/loop17.lsp"
+          ],
+          "mode": "compiled",
+          "status": "finished",
+          "pass": 839,
+          "fail": 4,
+          "registered": 843,
+          "expectedRegistered": 843,
+          "completedFiles": [
+            "cl-test-package.lsp",
+            "auxiliary/ansi-aux-macros.lsp",
+            "universe.lsp",
+            "auxiliary/random-aux.lsp",
+            "auxiliary/ansi-aux.lsp",
+            "cl-symbol-names.lsp",
+            "notes.lsp",
+            "iteration/do.lsp",
+            "iteration/dostar.lsp",
+            "iteration/dolist.lsp",
+            "iteration/dotimes.lsp",
+            "iteration/loop.lsp",
+            "iteration/loop1.lsp",
+            "iteration/loop2.lsp",
+            "iteration/loop3.lsp",
+            "iteration/loop4.lsp",
+            "iteration/loop5.lsp",
+            "iteration/loop6.lsp",
+            "iteration/loop7.lsp",
+            "iteration/loop8.lsp",
+            "iteration/loop9.lsp",
+            "iteration/loop10.lsp",
+            "iteration/loop11.lsp",
+            "iteration/loop12.lsp",
+            "iteration/loop13.lsp",
+            "iteration/loop14.lsp",
+            "iteration/loop15.lsp",
+            "iteration/loop16.lsp",
+            "iteration/loop17.lsp"
+          ],
+          "errors": [],
+          "failures": [
+            {
+              "test": "LOOP.1.40",
+              "reason": "expected (5); actual (6) [diagnostic display: length 10, depth 5]"
+            },
+            {
+              "test": "LOOP.1.41",
+              "reason": "expected (4); actual (5) [diagnostic display: length 10, depth 5]"
+            },
+            {
+              "test": "LOOP.1.42",
+              "reason": "expected (0); actual (-1) [diagnostic display: length 10, depth 5]"
+            },
+            {
+              "test": "LOOP.1.43",
+              "reason": "expected (1); actual (0) [diagnostic display: length 10, depth 5]"
+            }
+          ],
+          "complete": true,
+          "timedOut": false,
+          "unexecuted": 0,
+          "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Duplicate binding for variable X\n\n\n; Compilation failed: Duplicate binding for variable X\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Duplicate binding for variable X\n\n\n; Compilation failed: Duplicate binding for variable X\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Duplicate binding for variable X\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Duplicate binding for variable E\n\n\n; Compilation failed: Duplicate binding for variable E\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Duplicate binding for variable K\n\n\n; Compilation failed: Duplicate binding for variable K\n\n\n; Compilation failed: Duplicate binding for variable K\n\n\n; Compilation failed: Duplicate binding for variable K\n\n\n; Compilation failed: Duplicate binding for variable K\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Duplicate binding for variable A\n\n\n; Compilation failed: Duplicate binding for variable A\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n; Compilation failed: Cannot use FOO as INTO variable - already bound\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n; Compilation failed: Cannot combine termination test clause with accumulation clause\n\n\n; Compilation failed: Cannot combine accumulation clause with termination test clause\n\n\n; Compilation failed: Cannot combine termination test clause with accumulation clause\n\n\n; Compilation failed: Cannot combine accumulation clause with termination test clause\n\n\n; Compilation failed: Cannot combine termination test clause with accumulation clause\n\n\n; Compilation failed: Cannot combine accumulation clause with termination test clause\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "pendingTest": null,
+          "currentFile": "iteration/loop17.lsp",
+          "exitCode": 0,
+          "signal": null,
+          "unreadFiles": [],
+          "unregisteredTestsUnknown": false,
+          "fatalError": false,
+          "referenceRegistrationMismatch": false,
+          "effectiveExpectedRegistered": 843,
+          "referenceInventoryMismatch": false,
+          "missingReferenceTests": [],
+          "unexpectedTests": [],
+          "conditionalRegistrations": [],
+          "aliasedRegistrations": [],
+          "registrationNameMismatch": false,
+          "registrationMismatch": false
+        }
+      ],
+      "pass": 839,
+      "fail": 4,
+      "complete": true,
+      "passRate": 99.52550415183867,
+      "finishedAt": "2026-11-11T18:18:11.017Z"
+    }
+  },
+  "ansiBaseline": {
+    "file": "tests/ansi/full-conformance-results.json",
+    "sha256": "c560311c64947a4f0318510223f0b854500638fa0a952308bc5d0fd2d83515c8",
+    "failures": [
+      {
+        "test": "LOOP.1.40",
+        "reason": "expected (5); actual (6) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "LOOP.1.41",
+        "reason": "expected (4); actual (5) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "LOOP.1.42",
+        "reason": "expected (0); actual (-1) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "LOOP.1.43",
+        "reason": "expected (1); actual (0) [diagnostic display: length 10, depth 5]"
+      }
+    ],
+    "note": "The four arithmetic FINALLY cases remain failures. Their names and actual/expected results exactly match the existing baseline; upstream marks them :ansi-spec-problem. No new failure was waived."
+  },
+  "regressions": {
+    "command": "node tests/resumable/verify.mjs",
+    "output": "RESUMABLE-CHECKS-PASS 43\nDUAL-CHECKS-PASS 51\nNATIVE-CALLBACK-CHECKS-PASS 23\n43 resumable, 51 dual core/library and 23 native callback checks passed\n64 scheduled Lisp tasks, 2 checkpoint-only loops, shared array, local bindings, await and asynchronous cleanup passed\nRESUMABLE-EVAL-CHECKS-PASS {\"checks\":18,\"sharedTopLevelInvocations\":2,\"sourceLoad\":true,\"compiledStreamLoad\":true,\"compileFileLoad\":true}\nSYNCHRONIZATION-CHECKS-PASS {\"checks\":12,\"counterTasks\":64,\"counterUpdates\":192,\"producers\":4,\"consumers\":4,\"transferredItems\":64,\"broadcastWaiters\":4,\"recursiveTasks\":8,\"cancelledWaiters\":1}\nSLEEP-CHECKS-PASS {\"checks\":10,\"rational\":true,\"float\":true,\"zero\":true,\"taskInterleaving\":true,\"hostProgress\":true,\"asynchronousCancellationCleanup\":true}\nINTERRUPT-CHECKS-PASS {\"checks\":13,\"targetDynamicBindings\":true,\"multipleValues\":true,\"handlerCase\":true,\"resumableHandlerBind\":true,\"catchThrow\":true,\"nonlocalGo\":true,\"asynchronousCancellationCleanup\":true}\nNATIVE-ERROR-CHECKS-PASS {\"cases\":27,\"asynchronousHandlers\":true,\"restarts\":true,\"asynchronousCleanup\":true,\"ordinaryHandler\":true,\"numericValues\":true,\"synchronousNumericCallback\":true}\n",
+    "artifactCommand": "node --test tests/resumable/artifact.test.mjs",
+    "artifactOutput": "\u2714 resumable compiled artifacts suspend after restart without their source (27090.773219ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 27129.807881\n"
+  },
+  "drei": {
+    "freshBefore": "tests/mcclim/drei-image-upstream-before-results.json",
+    "freshBeforeSha256": "a20a56fbb1a359e8f46954963b359f6c8b5740ae527150e68ce0c6cad8771cb8",
+    "diagnostic": {
+      "file": "/tmp/valtan-drei-insight-diagnostic.lisp",
+      "id": 9014,
+      "sourceSha256": "a4bd00034c8ed1f6103c0cba6ee04bcd1b7ea0efe7f0c0f25df071fef1b29be6",
+      "startedAt": "2026-11-11T18:11:51.954Z",
+      "status": "passed",
+      "evaluationStartedAt": "2026-11-11T18:11:51.997Z",
+      "lastLog": "Elapsed: 1471.605 seconds; CPU: 1471.605 seconds.",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9014,
+        "ok": true,
+        "value": "(((:ON-FINAL (A)) (:ON-EMPTY NIL) (:ON-TWO (B)) (:PARSED ((DREI-LISP-SYNTAX::LEFT-PARENTHESIS-LEXEME NIL) (DREI-LISP-SYNTAX::COMPLETE-TOKEN-FORM T)) :OPERANDS (LIST) :REST-FORMS (DREI-LISP-SYNTAX::COMPLETE-TOKEN-FORM))))"
+      },
+      "finishedAt": "2026-11-11T18:11:53.138Z"
+    },
+    "targetedRepair": {
+      "file": "/tmp/valtan-drei-loop-on-reload.lisp",
+      "id": 9015,
+      "sourceSha256": "b5594ee5c23d821383e021927cbd82c4cb95a43dddc10606e4e1d3edf78450dd",
+      "startedAt": "2026-11-11T18:15:15.204Z",
+      "status": "passed",
+      "evaluationStartedAt": "2026-11-11T18:15:15.261Z",
+      "lastLog": "Elapsed: 1471.605 seconds; CPU: 1471.605 seconds.",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9015,
+        "ok": true,
+        "value": "(:LOOP-ON-INSIGHT-FIXED 4)"
+      },
+      "finishedAt": "2026-11-11T18:15:16.440Z"
+    },
+    "repairScope": "Retained old worker: re-evaluated only parse-for-as-on-list and unchanged upstream REST-FORMS. Verified the terminal tail and all three code-insight values for the incomplete (list form; not a fresh full-suite pass."
+  },
+  "reference": "https://www.lispworks.com/documentation/HyperSpec/Body/06_abac.htm"
+}

@@ -413,14 +413,24 @@
 
 (defun parse-for-as-on-list (d-var)
   (let ((list-form (next-exp))
-        (by-form (parse-for-as-by-clause))
-        (temporary-var (gensym)))
-    (push (make-let-bindings :pairs (cons (list temporary-var list-form)
-                                          (gen-d-var-bindings d-var)))
-          *bindings*)
-    (add-after-update-form 'setq temporary-var (parse-by-form by-form temporary-var))
-    (add-loop-test-form `(consp ,temporary-var))
-    (add-before-update-form 'd-setq d-var temporary-var)))
+        (by-form (parse-for-as-by-clause)))
+    (if (and (symbolp d-var) d-var)
+        ;; The tail itself is the iteration variable. Initialize it before
+        ;; INITIALLY, and step it with the other AND variables before testing
+        ;; for termination, so FINALLY sees the terminal atom (usually NIL).
+        (progn
+          (push (make-let-bindings :pairs (list (list d-var list-form))) *bindings*)
+          (add-after-update-form 'setq d-var (parse-by-form by-form d-var))
+          (add-loop-test-form `(consp ,d-var)))
+        ;; Destructuring variables describe the last visited cons, rather than
+        ;; the terminal atom. Do not attempt to destructure an exhausted tail.
+        (let ((temporary-var (gensym)))
+          (push (make-let-bindings :pairs (cons (list temporary-var list-form)
+                                                (gen-d-var-bindings d-var)))
+                *bindings*)
+          (add-after-update-form 'setq temporary-var (parse-by-form by-form temporary-var))
+          (add-loop-test-form `(consp ,temporary-var))
+          (add-before-update-form 'd-setq d-var temporary-var)))))
 
 (defun parse-for-as-across (d-var)
   (let ((vector-form (next-exp))

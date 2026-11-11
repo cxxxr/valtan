@@ -54,6 +54,7 @@
     "test:resumable": "node resumable/verify.mjs && node --test resumable/artifact.test.mjs",
     "test:resumable:introspection": "node resumable/introspection.mjs",
     "test:resumable:psetq": "node resumable/psetq.mjs",
+    "test:resumable:loop-on": "node resumable/loop-on.mjs",
     "build:bordeaux": "node bordeaux/build.mjs",
     "test:bordeaux": "node bordeaux/verify.mjs",
     "build:bordeaux:upstream": "node bordeaux/build.mjs bordeaux-upstream",
