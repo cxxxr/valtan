@@ -15,6 +15,8 @@ const source = path.join(directory, 'literals.lisp');
 const artifact = path.join(directory, 'literals.fasl');
 const childSource = path.join(directory, 'child.lisp');
 const childArtifact = path.join(directory, 'child.fasl');
+const largeSource = path.join(directory, 'large.lisp');
+const largeArtifact = path.join(directory, 'large.fasl');
 if (phase === 'produce') {
   if (mode === 'ordinary') symbol('*RESUMABLE-FUNCTIONS*', 'COMPILER').value = lisp.S_nil;
   fs.copyFileSync(new URL('./file-literals.lisp', import.meta.url), source);
@@ -31,6 +33,14 @@ if (phase === 'produce') {
   assert.equal(evaluate('(length (remove-duplicates *literal-method-calls* :test #\'eq))'), 8);
   assert.equal(evaluate('(eq *literal-root* (eval (list \'quote *literal-root*)))'), lisp.S_t);
   assert.equal(evaluate('(length *literal-method-calls*)'), 8);
+  // The list is first encountered inside a load form, so this also exercises
+  // aggregate dependency traversal before emitting its 8192 cons cells.
+  fs.writeFileSync(largeSource, `(in-package :cl-user)
+    (eval-when (:compile-toplevel)
+      (defparameter *large-file-source* (loop for i below 8192 collect i)))
+    (defun large-file-node () '#.(make-instance 'file-literal-node :value *large-file-source* :next nil))
+    (defun large-file-list () '#.*large-file-source*)`);
+  call('COMPILE-FILE', string(largeSource));
   // A creation form quoting itself, even through a list, cannot be ordered.
   const badSource = path.join(directory, 'cycle.lisp');
   fs.writeFileSync(badSource, `(in-package :cl-user)
@@ -41,10 +51,11 @@ if (phase === 'produce') {
         \`(car ',(list x))))
     (defun bad-file-literal () '#.(make-instance 'bad-file-literal))`);
   assert.throws(() => call('COMPILE-FILE', string(badSource)), /Circular MAKE-LOAD-FORM creation dependency/);
-  fs.unlinkSync(source); fs.unlinkSync(childSource); fs.unlinkSync(badSource);
+  fs.unlinkSync(source); fs.unlinkSync(childSource); fs.unlinkSync(largeSource); fs.unlinkSync(badSource);
 } else if (phase === 'consume') {
   assert.equal(fs.existsSync(source), false);
   assert.equal(fs.existsSync(childSource), false);
+  assert.equal(fs.existsSync(largeSource), false);
   user('*LITERAL-NESTED-ARTIFACT*').value = string(childArtifact);
   const scheduler = new lisp.CooperativeScheduler({ checkpointBudget: 10000 });
   async function load() {
@@ -70,6 +81,12 @@ if (phase === 'produce') {
   }
   await load();
   assert.equal(user('CHECK-FILE-LITERALS').getFunction()(), 23);
+  // Large graph traversal is a compiler regression. Read this larger artifact
+  // synchronously; the main fixture separately tests scheduled LOAD and waits.
+  call('LOAD', string(largeArtifact));
+  assert.equal(evaluate('(length (large-file-list))'), 8192);
+  assert.equal(evaluate('(car (last (large-file-list)))'), 8191);
+  assert.equal(evaluate('(eq (large-file-list) (slot-value (large-file-node) \'value))'), lisp.S_t);
   const oldFunction = user('FILE-LITERAL-ROOT-BEFORE').getFunction();
   const oldRoot = oldFunction();
   if (mode !== 'ordinary') {

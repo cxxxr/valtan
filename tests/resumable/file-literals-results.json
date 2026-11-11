@@ -1,17 +1,17 @@
 {
   "status": "passed",
   "complete": true,
-  "verifiedAt": "2026-11-11T19:33:41.176061+00:00",
+  "verifiedAt": "2026-11-11T19:52:27.988991+00:00",
   "scope": "Target COMPILE-FILE and source-deleted artifact LOAD in separate Node processes, ordinary and scheduled execution. Not full McCLIM staging or browser GUI coverage.",
-  "compilerSha256": "a17e0496a2d618aef6cdf1c7cf84176513f440433b8c04989f484e57935c357b",
-  "bundleSha256": "aa6f69e863c846c826633a46a45c99a969afb7b4022271855770851e041cf9bd",
+  "compilerSha256": "13e68a2d08c4819039b96bd1715c76474ef836dc24e335628bd7f696160d573e",
+  "bundleSha256": "5cca67fbfe0ded8b04fffea65ba2eb296d7df57011a0671d95cb105399e49981",
   "sourceHashes": {
-    "library/valtan-core/compiler/file-literals.lisp": "3e6862f6af460b3a458c384b16bbe7965106a41cbeac072a7e3e2e7f4892cf6c",
+    "library/valtan-core/compiler/file-literals.lisp": "0a3885d64dbfa675beb6184936301727f3cf28c975393bf14e2a9e273a6f6f24",
     "library/valtan-core/compiler/pass2.lisp": "6ef1875a8f366a78a3224c3c0b5272a9de7087a18d33dba97a117b37e44dfb17",
     "library/valtan-core/lisp/compilation-files.lisp": "0208ce8ad501721df1904e488dfc7e32c6d065abcde1d4d1aa951416d644e34b",
     "library/valtan-core/valtan-core.asd": "5bd45cc03997f079aa61e0178627e0cd3a4e6d2cb78950ee4573d74fc107a0a5",
     "tests/resumable/file-literals.lisp": "05b1fe092aa36b4a125f16dad2834ac2d866e0961780064d5f3a755eebba2310",
-    "tests/resumable/file-literals-worker.mjs": "6282a317cfe220c2551851a756e737298208c5c07db2fdfe43bf44239eeb5561",
+    "tests/resumable/file-literals-worker.mjs": "a60fc641170a45cccdfa3d6372ced8c32d706b9f7a0ccb0b808f351b744c1279",
     "tests/resumable/file-literals.test.mjs": "eac114711fde8945ee521b88b6a7e5337ba9f62f43ade7a03a6494f57251c941"
   },
   "command": "cd tests && npm run test:resumable",
@@ -42,7 +42,9 @@
     "creationAndInitializationCanAwait": true,
     "evalPreservesLiveIdentity": true,
     "compilerDependencyCollectorDoesNotRetainGraph": true,
-    "stringStorageBeyondFillPointer": true
+    "stringStorageBeyondFillPointer": true,
+    "largeSharedListLength": 8192,
+    "largeGraphLoadMode": "Synchronous LOAD in each producer/consumer mode; the main graph fixture separately covers scheduled LOAD and asynchronous load forms."
   },
   "regressions": {
     "coreAndCallbacks": 117,
@@ -54,5 +56,47 @@
     "interrupts": 13,
     "nativeErrors": 27
   },
-  "logSha256": "634454c6d99e88b2312099a5204895a3bbe0ad79b66ec9066bafd43fb51138da"
+  "logSha256": "483c5596284cd5dccdef0670490a8d0c0c32ab35b3c68497d5606ed8a29e8b73",
+  "largeGraphRegression": {
+    "trigger": "McCLIM Core/system/packages.lisp target compilation exhausted the JavaScript stack. A 2048-element quoted list reproduced the error.",
+    "before": [
+      {
+        "size": 128,
+        "length": 128,
+        "durationMs": 443.0361350000003
+      },
+      {
+        "size": 512,
+        "length": 512,
+        "durationMs": 1746.1099559999993
+      },
+      {
+        "size": 2048,
+        "error": "RangeError: Maximum call stack size exceeded"
+      }
+    ],
+    "after": [
+      {
+        "size": 128,
+        "length": 128,
+        "durationMs": 481.8137919999999
+      },
+      {
+        "size": 512,
+        "length": 512,
+        "durationMs": 1729.9772670000002
+      },
+      {
+        "size": 2048,
+        "length": 2048,
+        "durationMs": 7086.401387
+      },
+      {
+        "size": 8192,
+        "length": 8192,
+        "durationMs": 27370.505802
+      }
+    ],
+    "scope": "Standalone quoted-list COMPILE-FILE/LOAD regression and the shared 8192-element list inside MAKE-LOAD-FORM in the two-process tests; not whole McCLIM staging."
+  }
 }

@@ -107,15 +107,32 @@
   ;; quotes a list containing the object being created is a creation cycle.
   ;; A MAKE-LOAD-FORM object's initialization dependencies are different: they
   ;; may refer back to that object and must not be expanded here.
-  (let ((seen (make-hash-table :test 'eq)) (result nil))
-    (labels ((visit (entry)
-               (unless (gethash entry seen)
-                 (setf (gethash entry seen) t)
-                 (push entry result)
-                 (when (file-literal-aggregate-p entry)
-                   (mapc #'visit (file-literal-init-dependencies entry))))))
-      (mapc #'visit entries))
+  (let ((seen (make-hash-table :test 'eq)) (result nil)
+        (pending (copy-list entries)))
+    (loop while pending for entry = (pop pending)
+          unless (gethash entry seen)
+            do (setf (gethash entry seen) t)
+               (push entry result)
+               (when (file-literal-aggregate-p entry)
+                 (dolist (dependency (reverse (file-literal-init-dependencies entry)))
+                   (push dependency pending))))
     (nreverse result)))
+
+(defun p2-file-literals-creatable-p (entries)
+  ;; Initialization may be deferred when a referenced object's creation is
+  ;; still in progress. Visit each dependency once without growing the host
+  ;; stack. Actual creation actions below diagnose creation cycles.
+  (let ((seen (make-hash-table :test 'eq)) (pending (copy-list entries)))
+    (loop while pending for entry = (pop pending)
+          do (case (file-literal-state entry)
+               (:creating (return-from p2-file-literals-creatable-p nil))
+               ((:created :initializing :initialized) nil)
+               (otherwise
+                (unless (gethash entry seen)
+                  (setf (gethash entry seen) t)
+                  (dolist (dependency (file-literal-creation-dependencies entry))
+                    (push dependency pending))))))
+    t))
 
 (defun p2-emit-file-literals (stream)
   (when (p2-file-literals-p)
@@ -131,38 +148,40 @@
         (unless (file-literal-aggregate-p entry)
           (setf (file-literal-init-dependencies entry)
                 (p2-file-literal-references (file-literal-init-dependencies entry)))))
-      (labels
-          ((can-create-p (entry seen)
-             (case (file-literal-state entry)
-               (:creating nil)
-               ((:created :initializing :initialized) t)
-               (otherwise
-                (when (member entry seen :test #'eq)
-                  (error "Circular MAKE-LOAD-FORM creation dependency"))
-                (every (lambda (dependency) (can-create-p dependency (cons entry seen)))
-                       (file-literal-creation-dependencies entry)))))
-           (initialize (entry)
-             (case (file-literal-state entry)
-               ((:initializing :initialized) t)
-               (:created
-                (let ((dependencies (file-literal-init-dependencies entry)))
-                  (when (every (lambda (dependency) (can-create-p dependency nil)) dependencies)
-                    (setf (file-literal-state entry) :initializing)
-                    (dolist (dependency dependencies)
-                      (create dependency) (initialize dependency))
-                    (when (file-literal-initialization entry)
-                      (write-string (file-literal-initialization entry) stream))
-                    (setf (file-literal-state entry) :initialized))))))
-           (create (entry)
-             (case (file-literal-state entry)
-               (:creating (error "Circular MAKE-LOAD-FORM creation dependency"))
-               ((:created :initializing :initialized) nil)
-               (otherwise
-                (setf (file-literal-state entry) :creating)
-                (dolist (dependency (file-literal-creation-dependencies entry))
-                  (create dependency) (initialize dependency))
-                (write-string (file-literal-creation entry) stream)
-                (setf (file-literal-state entry) :created)
-                (initialize entry)))))
-        (dolist (entry (reverse entries)) (create entry))
-        (dolist (entry entries) (initialize entry))))))
+      ;; Use an explicit stack for the depth-first creation/initialization
+      ;; order. Large quoted lists (such as McCLIM's package exports) must not
+      ;; consume a JavaScript stack frame for each cons cell.
+      (let ((actions nil))
+        (dolist (entry (reverse entries)) (push (cons :initialize entry) actions))
+        (dolist (entry entries) (push (cons :create entry) actions))
+        (labels ((dependencies (entries)
+                   (dolist (entry (reverse entries))
+                     (push (cons :initialize entry) actions)
+                     (push (cons :create entry) actions))))
+          (loop while actions
+                for action = (pop actions)
+                for entry = (cdr action)
+                do (case (car action)
+                     (:create
+                      (case (file-literal-state entry)
+                        (:creating (error "Circular MAKE-LOAD-FORM creation dependency"))
+                        ((:created :initializing :initialized) nil)
+                        (otherwise
+                         (setf (file-literal-state entry) :creating)
+                         (push (cons :finish-creation entry) actions)
+                         (dependencies (file-literal-creation-dependencies entry)))))
+                     (:finish-creation
+                      (write-string (file-literal-creation entry) stream)
+                      (setf (file-literal-state entry) :created)
+                      (push (cons :initialize entry) actions))
+                     (:initialize
+                      (when (and (eq (file-literal-state entry) :created)
+                                 (p2-file-literals-creatable-p
+                                  (file-literal-init-dependencies entry)))
+                        (setf (file-literal-state entry) :initializing)
+                        (push (cons :finish-initialization entry) actions)
+                        (dependencies (file-literal-init-dependencies entry))))
+                     (:finish-initialization
+                      (when (file-literal-initialization entry)
+                        (write-string (file-literal-initialization entry) stream))
+                      (setf (file-literal-state entry) :initialized)))))))))

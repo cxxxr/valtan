@@ -899,6 +899,10 @@ delete the source before loading, check 23 graph/slot assertions per load,
 verify one load-form call per object per compilation, and exercise suspension
 in both creation and initialization forms. These compiler tests do not establish
 that all McCLIM components can yet be precompiled and reloaded.
+Dependency traversal uses an explicit work stack, so large package export lists
+do not exhaust the JavaScript stack. The tests also restore an 8192-element list
+shared with an object's slot, exercising both aggregate references and load-form
+initialization dependencies.
 
 Internal cooperative locks and condition variables now share the scheduler's
 task identity. Locks support recursive ownership, nonblocking/timed acquisition
