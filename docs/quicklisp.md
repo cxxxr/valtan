@@ -305,13 +305,15 @@ this adapter yet; the supported operation here is drawing the Bezier design.
 72 Canvas checks, and adds 45 Bezier pixel checks for curves, dashes, areas,
 opposite-winding unions, differences, opacity, transforms, clipping, patterned
 and composite inks, flipping, and moved output-record replay.
-All 114 checks [pass](../tests/mcclim/bezier-canvas-results.json) in a fresh
+An earlier 114-check snapshot [passes](../tests/mcclim/bezier-canvas-results.json) in a fresh
 browser containing the adapter and FiveAM, before the upstream suite runs,
 without reloading production definitions. The first standalone attempt exposed
 a fixture error: recording was still enabled when it selected the drawing
 medium and replayed. The report preserves that failure and the corrected
-fixture's successful evaluation. A repeat through the standalone command is
-in progress.
+fixture's successful evaluation. The corrected standalone command also
+[passes all 114 checks after a fresh startup](../tests/mcclim/bezier-canvas-cold-results.json).
+That snapshot includes the original 69 Canvas checks and 45 Bezier checks;
+it predates the empty-region fix and Bezier region-mask extensions.
 
 Spatial `COMPOSE-IN`, `COMPOSE-OUT` and `COMPOSE-OVER` designs now render through
 separate Canvas layers. Masks can contain regions or patterns, and composition
