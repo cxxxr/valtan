@@ -774,7 +774,9 @@ bindings and target `PROGV` use this mechanism. Initializers are protected by
 cleanup as well as the body, fixing a pre-existing `LET*` leak when a later
 initializer exits. This is groundwork for resumable execution, not a thread API.
 See the [binding-context checks](../tests/performance/binding-context-results.json)
-for the verified scope and binding-cost measurement.
+for the verified scope and binding-cost measurement. A [fresh McCLIM browser run](../tests/mcclim/bindings-cold-results.json)
+also passes all 350 drawing assertions with the binding-context changes, without
+production reloads; that snapshot predates resumable execution.
 
 An optional generator-based compiler path now preserves nested Lisp calls across
 suspension. The internal `compiler::*resumable-functions*` flag selects it for

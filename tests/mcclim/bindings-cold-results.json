@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T12:36:41.262Z",
+  "scope": "Real upstream CLIM pattern, clipping, composite-design, pixmap-copy and multiline-text assertions, plus Bezier curves, areas, unions, differences and output replay, plus solid flipping designs in Chrome; not full McCLIM compatibility",
+  "expectedChecks": 350,
+  "checksSha256": "3403663c77ab7f36f0179f2af4fd06bf2cceaddb71905fa22a285a154ec0a699",
+  "work": "/tmp/valtan-mcclim-workbench-shpdoI",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-shpdoI",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T12:36:41.303Z",
+    "compilerSha256": "395c1dc2d70d2f782d8c2b3b8ec65fed0ea9b85b59e18b1e5754014be8f90b5d",
+    "bundleSha256": "d3e7e51a70dc35b4b7d1aacbca52db5ca4c5499fcf37bad65fe1a42ee5c61e27",
+    "browserAssetsSha256": "32ff8852e9d6a59d8d0e5e151d8e3183b7be13bc0c7b5fe6f9f501b94360c3d7",
+    "readyAt": "2026-11-11T13:05:45.683Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "canvas",
+        "startedAt": "2026-11-11T13:05:45.684Z",
+        "sourceSha256": "3403663c77ab7f36f0179f2af4fd06bf2cceaddb71905fa22a285a154ec0a699",
+        "file": "/tmp/valtan-canvas-checks-bYozeC/checks.lisp",
+        "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:PASSED 350)"
+        },
+        "finishedAt": "2026-11-11T13:06:10.374Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T13:06:10.429Z"
+  },
+  "result": {
+    "type": "test-result",
+    "id": 1,
+    "ok": true,
+    "value": "(:PASSED 350)"
+  },
+  "finishedAt": "2026-11-11T13:06:10.568Z",
+  "fullMcclimComplete": false,
+  "validationScope": "Fresh browser snapshot 5100ae2: all 350 Canvas/pixmap/text/Bezier/flipping assertions after dynamic binding context changes. Ordinary compilation mode, no production reload. Predates resumable compiler/kernel changes."
+}
