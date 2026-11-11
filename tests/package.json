@@ -20,7 +20,7 @@
     "test:dejavu:browser": "node mcclim/probe.mjs cl-dejavu quicklisp/dejavu-browser-results.json quicklisp/dejavu-checks.lisp --browser",
     "test:zpb-ttf:browser": "node mcclim/probe.mjs zpb-ttf quicklisp/zpb-ttf-browser-results.json quicklisp/zpb-ttf-checks.lisp --browser --depends-on=cl-dejavu",
     "test:systems": "sbcl --script quicklisp/system-tests.lisp",
-    "test:quicklisp:fixtures": "sbcl --script quicklisp/system-tests.lisp && node --test quicklisp/runtime.test.mjs quicklisp/portability.test.mjs quicklisp/portability-report.test.mjs",
+    "test:quicklisp:fixtures": "sbcl --script quicklisp/system-tests.lisp && node --test quicklisp/runtime.test.mjs quicklisp/portability.test.mjs quicklisp/portability-report.test.mjs quicklisp/dependency-feature-mode.test.mjs",
     "test:cl-ppcre": "node quicklisp/ppcre.mjs",
     "test:fiveam": "node mcclim/probe.mjs fiveam/test quicklisp/fiveam-results.json quicklisp/fiveam-checks.lisp",
     "test:portability": "node quicklisp/portability.mjs",

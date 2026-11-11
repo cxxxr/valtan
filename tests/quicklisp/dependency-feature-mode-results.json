@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "complete": true,
+  "verifiedAt": "2026-11-11T21:13:05.562343+00:00",
+  "scope": "A dependency-only :valtan-resumable declaration selects dual core compilation in ahead-of-time and runtime builds. This is not a full McCLIM validation.",
+  "compilerSha256": "da211199a422677f950b9f19e8c1b555dab81269b3ca65b239b8089dbc5ce3c1",
+  "sourceHashes": {
+    "host-src/build.lisp": "aee9c2858c4e04a728e56c6b941358d9a33eda35399e7e27ebe412ab1c52d533",
+    "tests/quicklisp/dependency-feature-mode.test.mjs": "a556775bf1d05eb8111d9fb1e4476ae041d087aee002a637424454ad9ff8734c",
+    "tests/package.json": "a0e06624c2d3bc115f190d2f1c282e0ad39d03f7aa8838ba4bea30277473f4c7"
+  },
+  "before": {
+    "runtimeFailure": "The dependency function had a resumable implementation, but CL:SLEEP did not; the core functions are dual assertion failed.",
+    "logSha256": "8ca4d0e5f8c2569d911d6dd5bf2f3dd52dd1fb9ca74152727d610cdd4d75a1a7",
+    "probeCorrection": "The initial ahead-of-time probe incorrectly required the compile-time feature in runtime CL:*FEATURES*. It was corrected to test the source reader branch; the runtime-mode feature assertion remains. The initial ahead-of-time failure is not evidence of the dual-core defect."
+  },
+  "verification": {
+    "command": "cd tests && npm run test:quicklisp:fixtures",
+    "exitCode": 0,
+    "systemLoaderChecks": 21,
+    "nodeTests": 12,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "logSha256": "38871b6d7df9e6ed3817b66e11149543ceb710e18e3c4cbef31552ec1861ac17",
+    "dependencyModes": [
+      "ahead-of-time",
+      "runtime"
+    ],
+    "checks": [
+      "Dependency feature reaches application source reader",
+      "Dependency function and core SLEEP both have resumable implementations",
+      "Ordinary call returns 41",
+      "Scheduled call through SLEEP completes with 42 and leaves no live tasks",
+      "Both modes run in a fresh process after deleting Lisp sources and system definitions",
+      "Runtime compilation also preserves the feature in CL:*FEATURES*"
+    ]
+  }
+}

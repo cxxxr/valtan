@@ -848,6 +848,14 @@ cells, and each source `LOAD-TIME-VALUE` occurrence is initialized only once.
 Generator bodies retain direct JavaScript string literal generation, which is
 needed to avoid recursive string conversion during bootstrap.
 
+The flag may also be declared by a dependency. The build selects dual compilation
+after collecting dependency features, so core functions such as `SLEEP` have
+resumable bodies in both ahead-of-time and runtime compilation modes. The
+[dependency feature checks](../tests/quicklisp/dependency-feature-mode.test.mjs)
+build each mode, delete the input sources, and verify ordinary calls and scheduled
+suspension in a fresh process. Ahead-of-time reader features do not imply that
+the same flags are present in the application's runtime `*FEATURES*` list.
+
 The [dual compilation checks](../tests/resumable/results.json) cover suspension
 through core `APPLY`, `MAPCAR`, `MAP`, `MAPHASH`, `REMOVE-IF`, `PROGV`, generic
 function dispatch, `:AROUND` methods and `CALL-NEXT-METHOD`, including cached

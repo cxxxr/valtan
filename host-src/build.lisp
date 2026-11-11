@@ -394,6 +394,8 @@
         (setf valtan-core::*features*
               (union (system-target-features dependency) valtan-core::*features*)
               *features* (union (system-target-features dependency) *features*)))
+      (when (member :valtan-resumable valtan-core::*features*)
+        (setf compiler::*resumable-functions* :dual))
       (dolist (dependency dependencies)
         (when (check-discarting-cache-system-file dependency)
           (setq *discard-cache* t))
