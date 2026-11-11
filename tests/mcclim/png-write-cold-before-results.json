@@ -1,0 +1,45 @@
+{
+  "status": "failed",
+  "complete": false,
+  "startedAt": "2026-11-11T11:33:51.179Z",
+  "checksSha256": "f341838f8a98320d63777500782cba7c5c2ca4db3b67bffbb49c6cac07167762",
+  "scope": "Real McCLIM PNG output to binary streams in a fresh browser, including upstream ZPNG and independent decoding; filesystem output is tested separately on Node",
+  "work": "/tmp/valtan-mcclim-workbench-zIxtwl",
+  "error": "AssertionError [ERR_ASSERTION]: Package FLEXI-STREAMS does not exist.\n\nfalse !== true\n",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-zIxtwl",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T11:33:51.218Z",
+    "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+    "bundleSha256": "b48ff04bcf16c57ace19d4e0344e7333653f76a32da678b44732833982ef12af",
+    "browserAssetsSha256": "27b102360c1bc80fe3c822f89e65280956364539a7f51961ee5506859d2e1ee5",
+    "readyAt": "2026-11-11T11:58:55.182Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "png-write",
+        "startedAt": "2026-11-11T11:58:55.183Z",
+        "sourceSha256": "f341838f8a98320d63777500782cba7c5c2ca4db3b67bffbb49c6cac07167762",
+        "file": "/tmp/valtan-png-write-checks-dyR2nN/checks.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": false,
+          "error": "Package FLEXI-STREAMS does not exist."
+        },
+        "finishedAt": "2026-11-11T11:58:55.390Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T11:58:55.434Z"
+  },
+  "finishedAt": "2026-11-11T11:58:55.478Z",
+  "initialChecksSha256": "f68ed61da70265338e3632c1fdd6f33c8ce7c9cad0010c4d73c8fdcd3c1e1895",
+  "fixtureCorrection": {
+    "file": "/tmp/valtan-png-write-checks-dyR2nN/checks.lisp",
+    "originalSha256": "f68ed61da70265338e3632c1fdd6f33c8ce7c9cad0010c4d73c8fdcd3c1e1895",
+    "correctedSha256": "f341838f8a98320d63777500782cba7c5c2ca4db3b67bffbb49c6cac07167762",
+    "reason": "Correct JSON serialization of nested Lisp lists using recursive FFI arrays. Fixture corrected during startup, before any test submission; production snapshot unchanged."
+  },
+  "diagnosis": "Test app omitted FLEXI-STREAMS, used by test fixtures for binary memory streams. Writer dependencies loaded successfully; no image assertions executed. Both browser and Node drivers now explicitly include FLEXI-STREAMS."
+}

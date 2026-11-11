@@ -23,7 +23,7 @@ if(node){
 (assert (= mcclim-png-write-checks::*checks* 51))
 `);
   const child=spawn(process.execPath,[path.join(here,'probe.mjs'),'mcclim-browser',output,fixture,
-    'clim-without-swank','use-salza2-zlib'],{stdio:'inherit'});
+    'clim-without-swank','use-salza2-zlib','--depends-on=flexi-streams'],{stdio:'inherit'});
   const code=await new Promise((resolve,reject)=>{child.on('error',reject);child.on('close',resolve);});
   if(code!==0)process.exitCode=1;
 } else {
@@ -31,10 +31,19 @@ const source=fs.readFileSync(path.join(here,'png-write-checks.lisp'),'utf8')+
   '\n(mcclim-png-write-checks::run)\n'+fs.readFileSync(path.join(here,'png-write-export.lisp'),'utf8');
 const directory=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-png-write-checks-'));
 const fixture=path.join(directory,'checks.lisp');fs.writeFileSync(fixture,source);
+// The test uses FLEXI-STREAMS for its binary memory streams. It is not a
+// dependency of the writer itself, so declare it explicitly in this test app.
+const example=path.resolve(here,'../../example/try-using-mcclim');
+for(const file of fs.readdirSync(example))
+  if(/\.(system|lisp|html)$/.test(file))fs.copyFileSync(path.join(example,file),path.join(directory,file));
+fs.writeFileSync(path.join(directory,'app.system'),`(defsystem "app"
+  :depends-on ("mcclim-load-trace" "mcclim-browser" "flexi-streams")
+  :components ((:file "main")) :target :browser
+  :target-features (:clim-without-swank) :compile-mode :runtime)`);
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),checksSha256:hash(source),
   scope:'Real McCLIM PNG output to binary streams in a fresh browser, including upstream ZPNG and independent decoding; filesystem output is tested separately on Node'};
 const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
-const child=spawn(process.execPath,[path.join(here,'workbench.mjs')],{stdio:['pipe','pipe','inherit']});
+const child=spawn(process.execPath,[path.join(here,'workbench.mjs'),'--source-directory',directory],{stdio:['pipe','pipe','inherit']});
 const terminal=new Promise(resolve=>child.on('close',(code,signal)=>resolve({code,signal})));
 const timer=setTimeout(()=>child.kill('SIGKILL'),70*60*1000);let result;
 try {

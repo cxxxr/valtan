@@ -522,7 +522,9 @@ use the host's file I/O; browsers can write to binary memory streams.
 All eight output images also pass independent CRC/zlib checks, exact RGBA
 comparison, and Chrome's native image decoder. SBCL passes the same checks plus
 seven pathname, readback and file-replacement assertions. The fresh Valtan
-browser and Node runs are still pending in this report.
+browser run [exposed a missing test dependency](../tests/mcclim/png-write-cold-before-results.json):
+FLEXI-STREAMS was absent from the test app. Both test commands now declare it
+explicitly. Corrected fresh browser and Node results are still pending.
 `npm run test:mcclim:png:write` runs the browser gate;
 `npm run test:mcclim:png:write:node` runs the stream and filesystem checks on Node.
 This adds static 8-bit RGBA PNG output, not APNG or other output formats.
