@@ -431,8 +431,10 @@ after loading the correction. These compare complete images against individually
 positioned lines, including scaling and rotation, and check substring ranges,
 blank lines, explicit styles and all four page directions. All 350 combined
 Canvas/Bezier/flipping assertions pass in that retained worker. The combined
-command now expects 350 checks (199 without Bezier or flipping); its fresh
-startup run is pending. This does not establish full McCLIM compatibility.
+command now expects 350 checks (199 without Bezier or flipping). The [fresh
+startup run also passes all 350](../tests/mcclim/text-cold-results.json), without
+production reloads. That snapshot predates the binding-context changes.
+This does not establish full McCLIM compatibility.
 
 `npm run test:mcclim:gadgets` exercises upstream text fields, toggles and sliders
 through Chrome input in a nested frame event loop. The browser queue drains
