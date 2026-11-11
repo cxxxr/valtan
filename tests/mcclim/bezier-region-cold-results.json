@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T08:49:32.811Z",
+  "scope": "Real upstream CLIM pattern, clipping and composite-design pixel assertions, plus Bezier curves, areas, unions, differences and output replay in Chrome; not full McCLIM compatibility",
+  "expectedChecks": 157,
+  "checksSha256": "f0ab782a40688d7b0903be6fdcf65074ee7ff4ac4fa5f14d447c259b0d132a68",
+  "work": "/tmp/valtan-mcclim-workbench-6jz7u5",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-6jz7u5",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T08:49:32.851Z",
+    "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+    "bundleSha256": "5083fc750152b3c1d655f6f8d51b15e1bd06d798f39cbbef47ba94ea216d86ae",
+    "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+    "readyAt": "2026-11-11T09:22:33.848Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "canvas",
+        "startedAt": "2026-11-11T09:22:33.850Z",
+        "sourceSha256": "f0ab782a40688d7b0903be6fdcf65074ee7ff4ac4fa5f14d447c259b0d132a68",
+        "file": "/tmp/valtan-canvas-checks-jKAE8E/checks.lisp",
+        "lastLog": "MCCLIM-BEZIER-REGIONS-PASS 40",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:PASSED 157)"
+        },
+        "finishedAt": "2026-11-11T09:22:46.842Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T09:22:46.892Z"
+  },
+  "result": {
+    "type": "test-result",
+    "id": 1,
+    "ok": true,
+    "value": "(:PASSED 157)"
+  },
+  "finishedAt": "2026-11-11T09:22:46.957Z",
+  "revisionScope": "Fresh standalone dfafa44 Bezier region-mask implementation, including HOST-CALL single-value normalization and ASDF component type support. No production reload. Predates e994401 TAGBODY activation compiler correction."
+}

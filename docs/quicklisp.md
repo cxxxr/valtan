@@ -311,7 +311,10 @@ These [157 checks pass in a retained browser](../tests/mcclim/bezier-region-resu
 after reloading `HOST-CALL` to establish the single JavaScript return value.
 Without that boundary, CLOS method combination observed stale multiple values
 instead of the empty curve's Canvas surface. The report retains the original
-failure and the diagnostic run; a separate fresh-start run of this fix is pending.
+failure and the diagnostic run. The same command also
+[passes all 157 checks after a fresh startup](../tests/mcclim/bezier-region-cold-results.json),
+without production reloads. That bundle includes the ASDF component type support
+and predates the later TAGBODY activation correction.
 An earlier 114-check snapshot [passes](../tests/mcclim/bezier-canvas-results.json) in a fresh
 browser containing the adapter and FiveAM, before the upstream suite runs,
 without reloading production definitions. The first standalone attempt exposed
