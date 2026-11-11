@@ -418,8 +418,11 @@ With the final definition reloaded, the complete default Drei suite returns
 3,563 passing checks, zero failures, the same 20 skips and 90 unexecuted cases.
 The one-check difference from SBCL is its extra `SB-INT:&MORE` lambda-list keyword;
 all other per-test result counts match after accounting for Gray stream package
-names. This is a retained-worker result; fresh startup with this final correction
-is still being validated. The report also includes native-only baselines for the
+names. A [fresh-start run](../tests/mcclim/drei-upstream-cold-results.json) now
+reproduces all per-test counts without manual runtime, compiler, or Drei reloads:
+all 13 sources load, 3,563 checks pass, zero fail, 20 skip, and 90 remain
+unexecuted. This snapshot includes the final subtype correction but predates the
+CLOS slot lookup optimization. The retained report also includes native-only baselines for the
 separate 90-case performance suite (all pass) and explicitly enabled
 self-compilation (fails upstream on SBCL with an illegal function call while
 re-evaluating a `FORM-TO-OBJECT` method). Neither is a Valtan result.
