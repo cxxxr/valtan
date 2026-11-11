@@ -1,0 +1,120 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "threadSupportComplete": false,
+  "recordedAt": "2026-11-11T14:37:30.094139+00:00",
+  "scope": "Nonblocking CL:SLEEP in scheduled dual-compiled Lisp; ordinary synchronous calls retain their blocking implementation.",
+  "sourceHashes": {
+    "kernel/environment.js": "2a9db0231d9ccb72dfaa75e653afbfeb7a0c81cd4771f35c33309b9bb262a752",
+    "tests/performance/kernel.test.mjs": "2cb9fcf1b2ff7ae58ecab5feb1339e0d6a733a18ced6d1b6798e1a3e7290cb4d",
+    "tests/performance/sleep.test.mjs": "38ddebe665c075b95e27192aeeaf9919c7fe74911fd6900472d5de368771695b",
+    "tests/resumable.system": "06b47b2b8ce56314aa3f336bc7cf070155dcc0cb4261954f140d7b23116c344d",
+    "tests/resumable/sleep.lisp": "6ad5cb91aca4cf216414be16af3b792a688fc10cedffeaf7b243eb6a568082f6",
+    "tests/resumable/sleep-checks.mjs": "87a99f6878de8019ddced2f1f24a769fa94ac15cf9338633e0fee123a478c6d6",
+    "tests/resumable/verify.mjs": "c1b21a382ff492cc552ea94faf5a92301141f0c7e7d700ee03c498b11b84fa16"
+  },
+  "compilerSha256": "d461ea22ead6be9158897915718a16b84f9ea76e371b1d958d2da75f648c5f62",
+  "implementation": {
+    "dispatch": "Resumable alternate for SYSTEM:ENVIRONMENT-OP intercepts SLEEP; other operations delegate unchanged, including multiple values.",
+    "wait": "Host timer parks the task; zero seconds also waits for a host turn. Re-check the deadline and chunk long timers at 2147483647ms.",
+    "cancellation": "Clear the timer in generator cleanup, then unwind Lisp callers; caller cleanup can itself sleep."
+  },
+  "reproduction": {
+    "probe": "/tmp/valtan-sleep-probe.mjs",
+    "before": {
+      "log": "/tmp/valtan-sleep-before.log",
+      "order": [
+        "sleep-start",
+        "sleep-finish",
+        "other-task"
+      ]
+    },
+    "after": {
+      "log": "/tmp/valtan-sleep-after.log",
+      "order": [
+        "sleep-start",
+        "other-task",
+        "sleep-finish"
+      ]
+    }
+  },
+  "kernel": {
+    "status": "passed",
+    "tests": 27,
+    "newTests": 3,
+    "command": "npm --prefix tests run test:performance:kernel",
+    "log": "/tmp/valtan-sleep-kernel.log",
+    "coverage": [
+      "Other tasks and host callback progress before a 30ms sleep finishes",
+      "Cancellation clears a long host timer and unwinds caller; fake timer verifies 2147483647ms chunk",
+      "Zero sleep yields; unrelated DECODE keeps all 9 multiple values; ordinary zero sleep still works"
+    ]
+  },
+  "node": {
+    "status": "passed",
+    "command": "npm --prefix tests run build:resumable && npm --prefix tests run test:resumable",
+    "log": "/tmp/valtan-sleep-verify.log",
+    "sleepChecks": 10,
+    "rationalFloatZero": true,
+    "taskInterleaving": true,
+    "hostProgress": true,
+    "asynchronousCancellationCleanup": true,
+    "existingChecks": {
+      "resumable": 43,
+      "dual": 51,
+      "nativeCallbacks": 23,
+      "schedulerTasks": 64,
+      "checkpointOnlyTasks": 2,
+      "eval": 18,
+      "synchronization": 12,
+      "sourceDeletedArtifactAcrossFreshProcesses": true
+    }
+  },
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T14:33:22.443Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-pCV63r",
+    "compilerSha256": "d461ea22ead6be9158897915718a16b84f9ea76e371b1d958d2da75f648c5f62",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "afterLoadSha256": "5d059e10ea42c02c4669f008f69b20960fef2d6f1a9e6ad9fa3a55abbe6d82e1",
+    "checksSha256": "f12c346c0c3da902e50e0bffd963e269ad519408c5b6a0f254ab1a4875eea1f0",
+    "stage": "run",
+    "bundleSha256": "bb614b00650b8e18f5ce38ac4572372690d7d8d1ee1915cbfcb3f572daf82446",
+    "finishedAt": "2026-11-11T14:36:51.033Z"
+  },
+  "browserReproduction": "Concatenate performance/resumable.lisp, resumable/checks.lisp, callbacks.lisp, scheduler.lisp, eval.lisp, synchronization.lisp, sleep.lisp and alexandria-checks.lisp. Run probe.mjs alexandria REPORT CHECKS --browser valtan-resumable --after-load=AFTER. AFTER concatenates the four portable scheduler/eval/synchronization/sleep check modules and awaits each verifier; disable fileCompilation for browser EVAL.",
+  "ordinaryPerformance": {
+    "status": "passed",
+    "log": "/tmp/valtan-sleep-performance-verify.log",
+    "resumableChecks": 43,
+    "semanticRegressions": true,
+    "workloads": 8
+  },
+  "remaining": [
+    "Public Bordeaux Threads APIs, lifecycle/join/interrupt and default bindings require an adapter.",
+    "Application drivers still need scheduled entry points.",
+    "Other blocking host operations, load-time initializers, native error delivery and arbitrary foreign callbacks remain synchronous boundaries.",
+    "Older live McCLIM/Drei snapshots do not verify this change."
+  ],
+  "browserAssertions": {
+    "sleepChecks": 10,
+    "existingResumable": 43,
+    "existingDual": 51,
+    "existingNativeCallbacks": 23,
+    "alexandria": 4,
+    "schedulerTasks": 64,
+    "checkpointOnlyTasks": 2,
+    "eval": 17,
+    "synchronization": 12,
+    "compileFile": false,
+    "log": "/tmp/valtan-sleep-browser-logs/run.log"
+  }
+}

@@ -20,3 +20,7 @@ console.log('RESUMABLE-EVAL-CHECKS-PASS ' + JSON.stringify(evalResult));
 const { verifySynchronization } = await import('./synchronization-checks.mjs');
 const synchronization = await verifySynchronization(globalThis.valtanSchedulerKernel, globalThis.valtanSynchronizationTestSetup());
 console.log('SYNCHRONIZATION-CHECKS-PASS ' + JSON.stringify(synchronization));
+
+const { verifySleep } = await import('./sleep-checks.mjs');
+const sleep = await verifySleep(globalThis.valtanSchedulerKernel, globalThis.valtanSleepTestSetup());
+console.log('SLEEP-CHECKS-PASS ' + JSON.stringify(sleep));

@@ -2,6 +2,7 @@ import { S_nil, toLispBoolean } from './header';
 import { values, values1 } from './values';
 import { normalizeInteger, numberValue } from './number';
 import { simpleError } from './error';
+import { setResumableImplementation } from './resumable';
 
 let hostOS;
 let subprocessHost, subprocessFS;
@@ -162,3 +163,26 @@ export function CL_environmentOperation(operation, ...args) {
     default: return simpleError(`Unknown environment operation: ${operation.name}`);
     }
 }
+
+setResumableImplementation(CL_environmentOperation, function*(operation, ...args) {
+    if (operation.name !== 'SLEEP') return CL_environmentOperation(operation, ...args);
+    const requested = Number(numberValue(args[0])) * 1000;
+    const duration = requested > 0 ? requested : 0;
+    const deadline = performance.now() + duration;
+    let timer = null;
+    try {
+        yield { kind: 'await', promise: new Promise(resolve => {
+            const finish = () => {
+                const remaining = deadline - performance.now();
+                if (remaining <= 0) resolve();
+                else timer = setTimeout(finish, Math.min(remaining, 2147483647));
+            };
+            // Even zero seconds yields a host turn. Chunk large durations so
+            // host timer overflow cannot turn a long sleep into a short one.
+            timer = setTimeout(finish, Math.min(duration, 2147483647));
+        }) };
+        return values1(S_nil);
+    } finally {
+        if (timer !== null) clearTimeout(timer);
+    }
+});

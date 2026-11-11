@@ -865,10 +865,19 @@ exercise shared counters, producer/consumer queues, notification/broadcast,
 timeouts and cancellation. The internal timeout unit is milliseconds; this is
 not yet the public Bordeaux Threads interface or its Lisp condition contract.
 
+`CL:SLEEP` in scheduled dual-compiled Lisp now parks on a host timer, allowing
+other Lisp tasks and browser events to proceed. Zero seconds also yields a host
+turn. Cancellation clears the timer and runs Lisp cleanup, which can itself
+sleep. Long timers are split at the host timer limit. The
+[sleep checks](../tests/resumable/sleep-results.json) cover rational, floating
+and zero durations, interleaving, cancellation and unchanged multiple values
+from other environment operations. Ordinary synchronous calls retain their
+blocking behavior.
+
 The Lisp thread API and application drivers still need integration with the
-scheduler. Blocking
-host operations and remaining JavaScript callback boundaries can still prevent
-suspension; native error delivery is not yet generally resumable. Load-time
+scheduler. Other blocking host operations and remaining JavaScript callback
+boundaries can still prevent suspension; native error delivery is not yet
+generally resumable. Load-time
 initializers remain synchronous. The McCLIM Canvas driver
 accepts `--resumable` to check loading and ordinary drawing calls against a dual
 build; it does not by itself test suspension inside McCLIM operations.
