@@ -252,5 +252,20 @@
       "scheduledMs": 183022.724413
     },
     "logSha256": "2915157ca16b48c3830a51b384fcfbcea1b9a9c93d3f7eb5e1a4610e4b368fa0"
+  },
+  "mcclimStagingProgress": {
+    "verifiedAt": "2026-11-11T22:43:05.152389+00:00",
+    "scope": "The actual previously failing component now compiles and loads in the producer; full 376-component staging and independent browser restoration remain pending.",
+    "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/standard-presentations.lisp",
+    "sourceSha256": "48320c93c084afcd5197a3395e118704d440087f98da6610500d6c4dace2f8a0",
+    "artifact": "/tmp/valtan-target-stage-mcclim-macrolet-f99y6c3b/artifacts/207.fasl",
+    "artifactSha256": "539742c14f16b70d8ff7dd5f33cf1c7cb6bddb81ae191081be2846a6f7cef24d",
+    "artifactBytes": 4462951,
+    "subsequentSourcesObserved": [
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/commands/parsers.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/commands/commands.lisp"
+    ],
+    "compilerSha256": "465b09137a7c584c31000f2fa624945e3984c9a6081a9bb61528fff42b42d72a",
+    "oldFailure": "standard-presentations.lisp was the 207th source; its failed output was absent. The old 206.fasl belongs to the preceding completed gadgets.lisp, not the failed source."
   }
 }

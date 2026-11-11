@@ -1,0 +1,1502 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T22:31:01.329Z",
+  "fullMcclim": false,
+  "scope": "Diagnostic replay of the 206-component compiled prefix before standard-presentations; geometry and scheduled BT join assertions, not full McCLIM or GUI proof.",
+  "producerManifest": {
+    "scope": "Diagnostic replay of 206 completed components preceding the old MACROLET compilation failure; not full McCLIM or GUI proof",
+    "fullMcclim": false,
+    "producerWork": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka",
+    "records": [
+      {
+        "source": "/home/user/src/valtan/library/portability/asdf-metadata.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/1.fasl",
+        "sourceSha256": "cbfa90900ecb5a663d7775b8299c975e4585c96dbce104c8e20778930ce54186",
+        "artifactSha256": "a3c4afdadaf3aa05f1ce98bb000b661d93113d9b265edd49d914e29f26630e82"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/package.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/2.fasl",
+        "sourceSha256": "215c06701daeaa456081632661d18801105fd3b0080042db07760802a7cb25bc",
+        "artifactSha256": "8970ef38c65eea6bc9cab94edf9334a783be7dd6e3dc4789d6f22649ed66f95d"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/definitions.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/3.fasl",
+        "sourceSha256": "e03d0a884d4e8e442a26be239f53d23ae6a7769d25178a269e478d125018adf9",
+        "artifactSha256": "d7fbdc575e25cb948cdf8eb89252471330f38e687992f2bf0a98bb69e68ac2b8"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/binding.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/4.fasl",
+        "sourceSha256": "ca57a1ed9ca48c64da65418fcad68f8eed67197bad0ab6ad36a711237df4d883",
+        "artifactSha256": "ad5c8236f600fc5449c9676c564fc758ea8d115483c3065d100ae7d7ffb1539c"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/strings.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/5.fasl",
+        "sourceSha256": "7052eb8cd067dfe9e687ed7c83b5321edaa04d5a5e8a130d5e7baae4500ac97f",
+        "artifactSha256": "18b1fab05764a6585fefcf248abfab03f09552513a1cf1025704d7f16c45eed1"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/conditions.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/6.fasl",
+        "sourceSha256": "1d19dfabd776eaaddbb0ef8c84dab3eb89a61cfde2fccd8d0a88c75cd38ea4f2",
+        "artifactSha256": "f8a1e3b7b8c06cea74e65b982bbdc9defc2a24d20150839a3e26c2e5bef3dad2"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/symbols.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/7.fasl",
+        "sourceSha256": "f093921f5776579dd276f2fb6d79c74749237e41982303d9e59c0133497535e0",
+        "artifactSha256": "0c8ed5b94ff4252c752e3013431d2cdde20eb78dce5f6aa13266ce37d75f79d0"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/macros.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/8.fasl",
+        "sourceSha256": "c67f777e67b652d46ba3f0d95d52e9494039e8c0d95cf137adfa749106c5aadd",
+        "artifactSha256": "1fceb29b35d7edeae732bb62a6df107a1477835568ee0350b3feac3156d6e4fe"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/functions.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/9.fasl",
+        "sourceSha256": "26d67543aaa74184f7988fd269e64ca6f57b1d4c969fc30fbd15ed9418d89b79",
+        "artifactSha256": "f66785cd50c2920b12947eb38fb130dd42910d05b42b78d3f02ffb906ba4c83b"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/lists.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/10.fasl",
+        "sourceSha256": "92a448eea5035ddef4fbebb2aa03c06ad24e381d2ba64fc18b84d501af0f9a63",
+        "artifactSha256": "c83b7291539bfd1e7676b8187b3ad937fce8442fc40f0da39da577370171a2d5"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/types.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/11.fasl",
+        "sourceSha256": "ffd85f93e64c6398e77fac7c1a6b314eb563194cd288b633fed2cc7a4437a13c",
+        "artifactSha256": "bba80f19007e2f8d79eb04274d4482f9099019e5dabc61118cfb5ee1bf92b3c5"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/io.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/12.fasl",
+        "sourceSha256": "7cf4dfc0d285833ad696cbb2a96b47ee63188bcf21bf3553f8f35f84e29e1693",
+        "artifactSha256": "22085f4c2068946ded672cee3cac7725e7c8406caec2a35344b8cb3fcdcf03f3"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/hash-tables.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/13.fasl",
+        "sourceSha256": "6354d9ae545c3520f6d8240cad2690cbaa0cf89ea380ff5608fab85b2899890b",
+        "artifactSha256": "ab03d09e41944f9df31b034ed995cde3bc5f37ca04deaa6d194f1f8c49f4e964"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/control-flow.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/14.fasl",
+        "sourceSha256": "67dd099f0c86bf0511107ec57ad8324efcd978027cd0140c264f5bcdb0cd4e02",
+        "artifactSha256": "644850732b3ae11fae503651db1223ba03bdc816e71f3ab87d5a1e3b36d5833d"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/arrays.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/15.fasl",
+        "sourceSha256": "bb9dd7d0a8b2c7c0f15c9c043d2fa99eac892805fd38badf6356232f428d36be",
+        "artifactSha256": "1dda9fa2ebc1a51756cf2fc4e1e9d2850a0a292585e426d2b1658dce7d430fab"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/sequences.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/16.fasl",
+        "sourceSha256": "504ce0b23772385be893be983de5dc89ba14880299019769a4111531c3046852",
+        "artifactSha256": "08000b037b98ec7039a412453041d47161d0697792eba8f1191213ce604913db"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/numbers.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/17.fasl",
+        "sourceSha256": "85779fb0a53258091998b6ef4be840d55d62ab7a18d7032e5addf8123b942b2c",
+        "artifactSha256": "54835f96d81fd1925bd83319e97cd1d1e3405d3a852d15f0359a0a9f1f224c0f"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/features.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/18.fasl",
+        "sourceSha256": "833c50b97d2d62b0f006709c37c483805e2452c12e83681a7c05f4e4a54e2eba",
+        "artifactSha256": "6a23f3c6745768a66202591356aea4316b5857c6bcdaca50a0397279a2fd0389"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/package.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/19.fasl",
+        "sourceSha256": "9ed376be378b141c99ce62497191c3b34f5e3440182ec6340334dda5931faf8c",
+        "artifactSha256": "85008bf895c721392ff5dea0f296ebacc917c5804c137dfb48080155170aced4"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/arrays.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/20.fasl",
+        "sourceSha256": "c9a64de1cb505af56e4c5d376ba9e9878de89d91a013fe25ed42b10ab7b73526",
+        "artifactSha256": "a9dfa287ca3088fb573820b0475a416fbcc9cee4b4f2d31f2e741e6ec9a91fa5"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/control-flow.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/21.fasl",
+        "sourceSha256": "1963658a3feb870b5894db126c4db30c6b8f88f236a45697cb777e1cda22be22",
+        "artifactSha256": "3e300e22a225c0a19d440c89a956406010740e0acbbb8cb39432fcdfbdd4a053"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/sequences.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/22.fasl",
+        "sourceSha256": "ec98a644e2caa87e21a34390f4dc5237db4be6f2aaa8037b4e94fcbfaa466c30",
+        "artifactSha256": "ca722c0388fa56c5a0b84df098243ed0d46469b7a91234593e8d36cc907fbf73"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/lists.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/23.fasl",
+        "sourceSha256": "41e7c077794438f26c8cfe634472a6422d9b9bb78321734399092f8181fc6cd9",
+        "artifactSha256": "bd7471ac8595b2f910733dc4828d46779102594f63939e7eab048582a4c6c043"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/global-vars-20141106-git/global-vars.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/24.fasl",
+        "sourceSha256": "5a4bf618b06c5065db92db1ba3774cd8f5768a0c21c262a32c2f3d4d2501577d",
+        "artifactSha256": "942db3dbb05af6a5756ef1fe23bd4a806da0acb1b48c3933fe6f8ad6ac791e5b"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/trivial-features.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/25.fasl",
+        "sourceSha256": "3b40b9343f686e4956d3d15eb6213b5865a79f00c88cebfbf36cbba55b84fbc1",
+        "artifactSha256": "053dca2e8a0123f64e6fd14f1bc96a9bb38e129fb01e2773eedeba7739715124"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/trivial-garbage.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/26.fasl",
+        "sourceSha256": "caae7f779bedd368787f0101048f81cf4f37431ca39c949ebc58088b5900ae50",
+        "artifactSha256": "21fca54d81589f37da04721a4b71bc79331bd3c36096b566d10e2c6d6cad3486"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/initialize.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/27.fasl",
+        "sourceSha256": "bb3c09e1e5830884e7ddf4e29deba7f45bc036dbcbcf54c17b4a2e6bcb3c30ed",
+        "artifactSha256": "1c35ccc8eab4699ed6bdfc0eb93cb892919cc9c0c0d6e84c9fe4ddf49fe934f4"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv1/pkgdcl.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/28.fasl",
+        "sourceSha256": "024445ec030e2b37b60b72057804e5140d85c3c3c4278b0deaf452e5b5b8844d",
+        "artifactSha256": "b8871ce97f87097bb3336840ea6b745da5616d59b8b0977217d3cbc9571349ff"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv1/bordeaux-threads.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/29.fasl",
+        "sourceSha256": "c97614722a509e0e4884277ec33bd9a048e0250a7b80c1462be681ffb207d596",
+        "artifactSha256": "5fb051014381033706dae15caa4a6a92b3626cbd2d7d5ace21b7ecc1739c1bd7"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/native-v1.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/30.fasl",
+        "sourceSha256": "7504d8e240ea1b8534198f830a4707bde18e7f098f3871685a0824b0e5869e71",
+        "artifactSha256": "7609b2d6a898982d45f963f61bddb3e6fdcabfe5a92eaf31c6f060eef7740349"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv1/default-implementations.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/31.fasl",
+        "sourceSha256": "5999451b8f373fb8adca12f1aa7bb307f4e42ce9c1bb8ecb6f64d4ed9abf6264",
+        "artifactSha256": "bdd641ecb931faa31e74dcadc6d83d76813b190db31c084f5d330a5384f2fd92"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/pkgdcl.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/32.fasl",
+        "sourceSha256": "5cd47c03c33ad0ef51e6b0f2706dbfa0f602b5d8ea0c39480a9119aa33df2323",
+        "artifactSha256": "4f2bb0294189f74f11406a900017527642a25068e9681a8e679ecc03bbbfc254"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/bordeaux-threads.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/33.fasl",
+        "sourceSha256": "8cbb2dea2ab2ce0ecd3b6fe17cbeb7c0702cbcd12b7290757525254296c041fc",
+        "artifactSha256": "79acbe79469458577e09604992ed2b13b26c67492bfb0a3e75d6264e9e55d4c5"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/timeout-interrupt.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/34.fasl",
+        "sourceSha256": "2c820f7fc611c440d537aa73e101865396c2e4bf60a0cb28ae87823edae5a9eb",
+        "artifactSha256": "f9098f7bae1dc918d63ca20e0d30fb82bb4f22baf5ac3efe2f3a85025c26af18"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/native-v2.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/35.fasl",
+        "sourceSha256": "448aff944e10be05ef72d249c6efa85d6d1459b6420ef24d6f051d6545cea0a5",
+        "artifactSha256": "32d62ef1b1e9c5802dd6a01aab459900257da6f5c40fcac83a29dd2792eedb80"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/atomics.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/36.fasl",
+        "sourceSha256": "62e0d53232750e3c4c3e893043518fcf24c49feab7315bd94c2b8fcedbc9195a",
+        "artifactSha256": "6dbf59aa20fedf945be0f5c0f9fb03b2514bfef303dc94345c6b3c63cefe0794"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/api-locks.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/37.fasl",
+        "sourceSha256": "d6c812189ecd9204e353831a4cfef0ab21a07352a77e240b55cc227095837528",
+        "artifactSha256": "5d80d6085ef53f8dc586ae6a53ac52d6d6a6d59899b1122b60895e6c5b772822"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/api-threads.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/38.fasl",
+        "sourceSha256": "16fdcbc700e1c47fd29bbef7b5e0760ea9120a6049909b44c2f0036a71eb6843",
+        "artifactSha256": "cbe92415c5b9d055f68aa1e902572c297335d438ca38704c51b4ec33a6999ed9"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/api-semaphores.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/39.fasl",
+        "sourceSha256": "fae3355ac7b3afec9ea5052735135dde1f25fa292c49578d8d72335e51780ac3",
+        "artifactSha256": "bec0676288cc69f0ca73866ac459d93adf81a6a2444648472a3d503a89df516b"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/api-condition-variables.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/40.fasl",
+        "sourceSha256": "30ec96d887216cae8a54e53f9a50ff10fe064cc4d30e425b742a0476e697430d",
+        "artifactSha256": "ab8ae15164dfde0a6d536c7c4b42c62b935aa6a8da493b904350ae89060359b1"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/trivial-gray-streams.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/41.fasl",
+        "sourceSha256": "785a9991d16fb43da0c6b4f48990337e4bbbea2e0f35446c7b63db860c1b6b7b",
+        "artifactSha256": "4dabe0664af4887f9e7d5783e1484bfe8248b662924695efc485ab33fe74d8ac"
+      },
+      {
+        "source": "/home/user/src/valtan/library/portability/closer-mop.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/42.fasl",
+        "sourceSha256": "a6c6c46607496c0cc7d257f808a6a2ad230ba18dd9bf2cdeefeb5aeae3232106",
+        "artifactSha256": "4659f585effd417f31b0bb9211fb9663c64543abe9e7b1e270fbce229dc199f4"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/packages.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/43.fasl",
+        "sourceSha256": "2eebc47e237273d0ccbeaf604a9ab6d6bd497b25679591d9df6589f53ca8a697",
+        "artifactSha256": "99d78a9b693f69fbf7457380fac8392aff90915c650dd61db0fa6af8eb28737b"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/locale.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/44.fasl",
+        "sourceSha256": "cba3033aaa106a0ba1957ed513a011cb0e3472b26dfe92fb8ba63ab7e7382a32",
+        "artifactSha256": "8efa976200ef7523af8512a0080f54b84004a24f4db7fdfd8e357f00a1d8b1ec"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/date.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/45.fasl",
+        "sourceSha256": "cd224984f1a5ae46f8ff8861ba7011490b42556db3b610de20c00ad44ffa6b85",
+        "artifactSha256": "22de9e50cc3665d0fc341cc4b18aef892ff86f32cc749d531ec964ae7e45bcab"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/46.fasl",
+        "sourceSha256": "555212f09426aec289f61379a2ed497d31eddce33a4f1db8ce8714ea17092292",
+        "artifactSha256": "68e2eba7d323375702509017cff23720423c719eed3d6bcad234c1ad97d72a7f"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-english.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/47.fasl",
+        "sourceSha256": "b9f18375a90a50044757b960bdb0e57d10023d12923b409501eafbc23df501de",
+        "artifactSha256": "9002a93313ed68d409366e7e3091de2c5f5bb1db06093b6e68db894a4348e286"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-french.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/48.fasl",
+        "sourceSha256": "478c00e4065ecbb75d8d8761ad82d4e962a8ec4d551babf9e8ac4f137ec300ef",
+        "artifactSha256": "1e8f4b192c3e566d7cf41495d9d4279cb6998942a9ac8c9c3967df3f1a4961a8"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-swedish.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/49.fasl",
+        "sourceSha256": "6b0e639de631345ea49730d68e95a11ccf362ad5206dded1035c402ec95ff883",
+        "artifactSha256": "ac1a4050b1f81a423d01089f51d9caed08a18ad55271403dd6fad0599fde3d16"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-vietnamese.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/50.fasl",
+        "sourceSha256": "8ea46c0f0bbf103f3e90601526ffda04270dbdba49b14c056707eb561c82867c",
+        "artifactSha256": "4a19ac667b1638c6c6349c75e98547060e3d3ac5b844b640614e1abefea039cb"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-japanese.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/51.fasl",
+        "sourceSha256": "31ac09c98e5877663bf190fca485b15e6325941b55f24441cea665498393187e",
+        "artifactSha256": "30cf8faa13427689d4b42fe50b55535c8d7e34da38cd810e0c24a1aa8d22e3dd"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-polish.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/52.fasl",
+        "sourceSha256": "037769e237af9c8faee850e77cd5393b62cfcccb95583e37d578ec3245657600",
+        "artifactSha256": "04ef68d6cedfc204fd99a6198da80faf0e888e9438977c8b11014bf6234e7032"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-german.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/53.fasl",
+        "sourceSha256": "32b11d71c81c4fabd28a0008cf09dfce47053f6f1548292ce2e7bf38b090f872",
+        "artifactSha256": "51ad275b5da3f79d01355a4024bb8e77db24b31d59f317645c870311e13b5e72"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-afrikaans.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/54.fasl",
+        "sourceSha256": "a7585bf06561ed4bd192d5d152d8b582ef35498b63d3b1ee12eb9f4745bd6e0c",
+        "artifactSha256": "5ca05b875c9d76321ee2d84973d1dd89be5d37e83ec354b3533b462d8434e846"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/condition.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/55.fasl",
+        "sourceSha256": "c8c570bdd5ccaf6097eb27b17f553035f944a490abc4a2b0f7cfaf05ffcc5476",
+        "artifactSha256": "586f8e7854ace4397a0360bdffc8d88c016783cb8c8e51db176390c3912c3ed2"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/restart.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/56.fasl",
+        "sourceSha256": "c009dc97960125eb537b2921025ce9388e6a3309e0530561f0d1eba73aa3e698",
+        "artifactSha256": "f00cfcfaa9c8cf94d7de4afaf1915035061a7db993374edb8ffb1f33211b04ae"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/documentation.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/57.fasl",
+        "sourceSha256": "4bc957313aa4d71a65adbfabd2d807b2087a908e83bb29f2b9263c737c36f066",
+        "artifactSha256": "16b845a02e06267b531bbd9be332437dfd9f51ea0005a08c1b78c428b6d16040"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/init.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/58.fasl",
+        "sourceSha256": "c5a97abae7cfee76f2646a09c59becb71025665a13e1993468bbae80fcde2363",
+        "artifactSha256": "914eacf72861c7036bb0f41022c7311808cad1541b87e330298d3f82d1cfdccc"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/packages.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/59.fasl",
+        "sourceSha256": "4367e16c6ec6ffac386cdb7ed633a428c744764d7d53c537e537f479164cfbec",
+        "artifactSha256": "0b2827506557a965b8ff083c80566f11b96006a32a5374b67c58a24e1e682c71"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/internal-protocol.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/60.fasl",
+        "sourceSha256": "b772c7aebb1dfe6996610c73f869e500fe303f1c58d4430ad4062d5c1b26bc2f",
+        "artifactSha256": "3699b1f85116b0b6193861a5386851954850fa6b539af5a5f9ce4cc612f73aa4"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/edit-protocol.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/61.fasl",
+        "sourceSha256": "f5964a21c0c5ba7b0907a7a2a7887c9a2ad6db4622b8c1e9242d2dd0a8f23d39",
+        "artifactSha256": "0284acfe4d6cf542bb0d7c014f7f16834b923af3577419f6ce2381cf49fc759e"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/update-protocol.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/62.fasl",
+        "sourceSha256": "6b45313094cdbea3566a130611c11daaca8c598aa705f37ec70307fa302601fc",
+        "artifactSha256": "9897f611a99fa3f53f7c75fde7bbade775f6f46032b86e94ba08224a0f6ef04d"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/conditions.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/63.fasl",
+        "sourceSha256": "e4b662307459bd5bd855c4304f6bfd16072bc207f5099b038a60f021ba409932",
+        "artifactSha256": "4002e091a3f00c6fffccf3d05f0991b6b14bc2d645273e489f45da569e154b64"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/condition-reporters-english.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/64.fasl",
+        "sourceSha256": "2adc01eeb435f960bc98d3deeb1d44c40ce5022f77eda8dbc10345a2e1670f1b",
+        "artifactSha256": "f03dfc4e65a3559b32f6ac96271ac2c5c6c82945f8971cd13e580bebc60feec5"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/check-cursor-attached.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/65.fasl",
+        "sourceSha256": "122287c5fd6a6dbb473f1a244365c0d0c580258c6888098999e75f77ba7eaf38",
+        "artifactSha256": "18cd1b42218c1dd6193c7b3f1de6851607cdf574d779281d432719dac86f886d"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/check-other-preconditions.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/66.fasl",
+        "sourceSha256": "7f4c49cb1b907a9ed8048ceb43739d9a5ff73e5628103f925e3c2933e12d9d0c",
+        "artifactSha256": "4b0b97f5ac0fbf3dca0c20d40337aafe305ea3f2708dd620c40ffcbabed3d544"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/default-methods.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/67.fasl",
+        "sourceSha256": "553a43fbb25c5c0637bc68ed63b170e973f7dbdd834708448fbc0165c2db54a9",
+        "artifactSha256": "cc034101818badb132caa3b246f2a7965724a239dad720000d6668528680e6db"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/default-internal-methods.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/68.fasl",
+        "sourceSha256": "1f1f16143c27d81bb228be820838f651b1e1834cb972da1f9818178a6b3f0b5b",
+        "artifactSha256": "26abfa332caae39160a520707400a88000203f59bd2007da251d134c055b8909"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/methods.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/69.fasl",
+        "sourceSha256": "bfb4d9018f8171b185eb4239bd57bed64cfc1abe541b39da4c714fd6c7e0b04d",
+        "artifactSha256": "81b8181956fe765f51f19bc158499c48188a6064b0f6e2cd5582c5173c99e371"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-line/packages.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/70.fasl",
+        "sourceSha256": "f723e59366e46f806529f3a8c98a051b4e9c578edea67144c55f5ad078b9285b",
+        "artifactSha256": "24b6710783a5285b5bbc5e85686bebe09d0017ccd9942b676511c8849ec2a471"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-line/classes.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/71.fasl",
+        "sourceSha256": "435123df406f57c3118f69b25fbc0fa0d04dbd42967a965cefb03c8c96fb9270",
+        "artifactSha256": "c1735ce2f80c9ff4c1231af2612e79304cf858594286c49c05b4f4bed92a3548"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-line/edit-protocol-implementation.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/72.fasl",
+        "sourceSha256": "ad3d2734454aabb12cad8658418dfcbf82b2e90b936c3eaecb48c6d3f3e38119",
+        "artifactSha256": "2b5802d0f41db0f55095e185139a0070312dd9363bc30992df0aea346dd9cd98"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/packages.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/73.fasl",
+        "sourceSha256": "4698dcc7858a0b1886de1d11baac744b01349ebb4eae0b7fc9d06e2dfb75ca55",
+        "artifactSha256": "186a494c03307e57699e44e71efb41c7a84dba26b7a9fdff05d42d237bd4c6c2"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/binary-tree.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/74.fasl",
+        "sourceSha256": "aaabc2779a2870d3aee53e9cf2ea7f0bb54e79e644dfe3477098a0584d188225",
+        "artifactSha256": "cd2a94acc13919dffb515d36d579cc7b5dac006b4c672096de2207a93b36a044"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/link-unlink.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/75.fasl",
+        "sourceSha256": "bfd410edf2f53dc7bd3c987a0dc1de9bc65d11a05bc88ce7e7ada44651cefc70",
+        "artifactSha256": "639612b0aad197eada4b1751a7e8c89457e73f067d0ebeb9962eacfaa27760c1"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/conditions.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/76.fasl",
+        "sourceSha256": "0a00d914cc0612b4a925c27a8e064eb0734e0a74d54a9c6d1c91109cc87fab49",
+        "artifactSha256": "f997fd07f389fdcb59f2fd03b6a086cbc3fa8c58fae5fbff44316d47b5784c1a"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/replace-child.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/77.fasl",
+        "sourceSha256": "873aef550e880ce533505fceb19809147f5a6fc65ac842411d06a0c3055dd5bf",
+        "artifactSha256": "771beada1548dbcaf9e4b2a0f233954ca8be0f7b416957d4ab5c8051a57a1691"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/rotation.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/78.fasl",
+        "sourceSha256": "9f0af62e1b940abe53458ca4cdcf75a7853c447a744658699465361de3097858",
+        "artifactSha256": "efb0d4c336f618e04210e5019a12fb27aad5c5d27886c20bceb2f1d240247820"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/recursive-traversal.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/79.fasl",
+        "sourceSha256": "99ed25864f499d7e9c8b625bb5a759d9d3c830b1d4685369426cbe6fe1f5015b",
+        "artifactSha256": "75b560c713b6eae638c7c4d8f4f480c5b181a42c1054fdc3a895512fe455e635"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/iterative-traversal.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/80.fasl",
+        "sourceSha256": "cbeae7ec2a6d7438cd874a5714098efcaf86592f8b4515d947103bdd896a17e9",
+        "artifactSha256": "202be8a1268770ec7731f5bf2d58e4cb4b9008d25b268901664a9e300d585fd5"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/splay.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/81.fasl",
+        "sourceSha256": "e9ebfc124d8c92b6e74325ce4080565edfc86408bdf2de18adf2299c0fc6c3d4",
+        "artifactSha256": "2cc53ee225b41eb832772700d85a2974a5f9b2e064be49d0b29cdc27993b6c27"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/docstrings-english.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/82.fasl",
+        "sourceSha256": "cdf4fd69dc3ee4a7c6b8c45c54e9ac4862f1a424ba20ec5d47b104b8578ffbeb",
+        "artifactSha256": "bf931526db81d4823eb5e66d593d3be0bb83a18deb8f601e4aea1ef2286d7826"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/condition-reporters-english.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/83.fasl",
+        "sourceSha256": "1ea4688681ace8abf0f14aed568a22f1006e0ac0d0693846ff35cf1c541839ad",
+        "artifactSha256": "ecaaa4293d422e57d3ec546ca3d3c5370552de67dba2e1dcaf451a07fb609485"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/packages.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/84.fasl",
+        "sourceSha256": "6b94f8ca5695f9032dbf09d83134ca63b85e3d6c812cb85e4e83d157daaff70d",
+        "artifactSha256": "9e1ffceef1c32a9f16c72436997e2767145fc17f2508a5b46a5fad0088ddf635"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/2-3-tree.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/85.fasl",
+        "sourceSha256": "6dc83ad121a447f368d219fa9d27ef60917a85835bd48fd777b076cff5e8d910",
+        "artifactSha256": "4b08671840ae04a6c96d4a84c2270a140e9fcdd23d2a063789553e4d054ae313"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/insertion.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/86.fasl",
+        "sourceSha256": "ff2349a5051df28bf6a68b7d3bec9606f3f4a94c8b9c489663325de6624642d2",
+        "artifactSha256": "bcf51a4408ddbb34a9ab70960675df6faceb3f4d2da97139a8bab8db59fe4be2"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/deletion.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/87.fasl",
+        "sourceSha256": "d7041759170e48a0ada17b0cfc8a12376e59b45eebe8bc710fa61fa9e35a89a8",
+        "artifactSha256": "a81fc5b47e72f230ebc2a20423db793e61bcce8ed0dab209f6c5a13af0abf5a5"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/conditions.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/88.fasl",
+        "sourceSha256": "ba9d930508fe6551293aa582793e47bde7b6715e3ec0e15cf3d58fe16552fce1",
+        "artifactSha256": "bfac7d9ed2714bfbeee120a8a9c6f551ebe04adbfd795c499820cd3b5513021a"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/docstrings-english.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/89.fasl",
+        "sourceSha256": "a72b6e7a222c5657c9c7fe9db5c59fa926a98f2cd807cb70a74ebd852c96b300",
+        "artifactSha256": "7b9369e15eda977cf5eabbe1a2264b31b2e3249f1a7010cea6ee0f4984b966f7"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/condition-reporters-english.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/90.fasl",
+        "sourceSha256": "981e364f867400d191a613932bc31989ce4ef34973969633a2d3ee8dd9fa1606",
+        "artifactSha256": "c1445145ecfc970ed4758261d1df3744b44de6ada98b7d287253f7c76c94536a"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/packages.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/91.fasl",
+        "sourceSha256": "af5ed9f6cbeaf1a4d9950ef64bb1d1a1f2a670eb33997da4cae2b62d5906cf5f",
+        "artifactSha256": "e087480d6b043f1d7020695555fea9c8fefae24a930c901b7ad8e378496de01c"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/classes.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/92.fasl",
+        "sourceSha256": "694191bf7506d4f93a0474ff7f50d9adb7bb7a6377380a2d18973b94c3c558d4",
+        "artifactSha256": "8378fb998f63bae50c6e10cbcc94390b00cf0dcdcd84d0e98ab8f14cee314808"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/edit-protocol-implementation.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/93.fasl",
+        "sourceSha256": "f3eabd2ff34793fe913aca65a125d449df8c28724ce87d5af2a202debd53d8e1",
+        "artifactSha256": "5a3abc24d0ee55e764056b754c8bf30e5c0a13042cd5192e9d19d5b1de096bd6"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/update-protocol-implementation.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/94.fasl",
+        "sourceSha256": "faca8c4e7e38ecde64747e595a579d7d4f9f1affb49d83522aab09c3d1e299f4",
+        "artifactSha256": "1c05447462fa14fdcb4809b361f6b826fca05edba41aef9dc2e8955ec6b64a3a"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/internal-protocol-implementation.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/95.fasl",
+        "sourceSha256": "de8c10c855e75a75207b53318f45fe97a97d6a310b10baf83fa5f44e8fdb8ac2",
+        "artifactSha256": "9328c912bda24ff36df16b321ca96783d33444463f54f2c2ed2e079a2ca897c4"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/safe-print-object-for-cursor.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/96.fasl",
+        "sourceSha256": "4615e4f67629734a00dd90693413a75172682940f60ba939ae7b4bbe2ebc6fbe",
+        "artifactSha256": "befc117781d54cc653fc7f25b06cf5db47d59b1f522bfc461467761002d41bbb"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-line/packages.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/97.fasl",
+        "sourceSha256": "935507c78d7e9d7ef034fed173174bd0a70b362972cb2a76b9da2461e427592e",
+        "artifactSha256": "ac5235194e141a186cf3d510298bbe84e959aeb5c439cf13fa6577169105bd91"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-line/classes.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/98.fasl",
+        "sourceSha256": "f05a00456b7b0a2886d848665eed99bd4eba0b649c868951b0c7cb006ec8ef65",
+        "artifactSha256": "2745810115d763bb05f645647ff3e7d39e8a1f2a5efada795d20125147269940"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-line/edit-protocol-implementation.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/99.fasl",
+        "sourceSha256": "6014cdc190eb16108280b016ed7654310ed947649889189c9a0d7a637313f708",
+        "artifactSha256": "40a8da1bea71fa7f460116e7aa27ba5c9abe45da72955352cfecfe23ea82de5c"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-buffer/packages.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/100.fasl",
+        "sourceSha256": "474a887c0f429b3a7b89e5f4a6daec846a8d410c65ec7cf989aefec44b7ab0b1",
+        "artifactSha256": "7bc5440e319d41e6ccdb3432a6b5cbd5b96cc615eac7cd24e55e0afc8c85a215"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-buffer/classes.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/101.fasl",
+        "sourceSha256": "f447bddb301be9719290c564c0d2374edd1291aa0f33db687abb46b1c559dada",
+        "artifactSha256": "ea17a092edcca4d2db2934dd3ba6f30848ffd0e31a20ea5d20cea520e3f47b68"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-buffer/edit-protocol-implementation.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/102.fasl",
+        "sourceSha256": "91d931659f39d48509ee5bc379839021ee68b935b82dca92799de64979536bc0",
+        "artifactSha256": "26706b3d5782e9eaa71157ec4ff1e3f0d60debd2192d66d6ba6fe590eda296df"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-buffer/update-protocol-implementation.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/103.fasl",
+        "sourceSha256": "6aae8765d97a10f477bd32f8645f49d707d9d7a5ad8350bf8a1b6347149c5109",
+        "artifactSha256": "653493f2ead9bc72b60751b23af21a742a08a7048c8d0ca9dfd5e29a89594963"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/patch.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/104.fasl",
+        "sourceSha256": "75467dc423ef74a348652cbbd66d37b2d6f101cd5c98b81818933a708487e8ad",
+        "artifactSha256": "949407b9253dbfc12e07665aef0977e0bfb310ed2eb95404293dad7cba6ec75f"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/packages.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/105.fasl",
+        "sourceSha256": "fe54fa7212fb5559b8cbff32f88735225edd2456289846f0254a84b69d148d8d",
+        "artifactSha256": "5cf9e82cad897c5682ac18c132bc9052644b07c65e6abe57f11071bb14899dff"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/multiprocessing.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/106.fasl",
+        "sourceSha256": "ed39e17398795b005009adea2f88d9e86d2e90f901c54478084d394198ac04d4",
+        "artifactSha256": "f3eb519e3e6ad240a15caa0ab140a64f6f31abff69f668492f621be009da9fa4"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/setf-star.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/107.fasl",
+        "sourceSha256": "1c45c9eb710354017fdd596c02d88f2cbf4e098b1145b57bb9c881cab1581fe3",
+        "artifactSha256": "3ec1894b1519b062701b3779cb702bd55169a168b65e05263c376330fff32db5"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/dynamic-vars.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/108.fasl",
+        "sourceSha256": "f9a1e6f92b8b53c803a3de9033117ed3cd856d6a0e9542573b97c7d068d890f6",
+        "artifactSha256": "cd0ad7705a048a7b32739969a67e9091917ea2d9a12b5174d91db3ad1e654f4e"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/os.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/109.fasl",
+        "sourceSha256": "b9f1a5caa00bed302ef3de1bfb7b11ba619e6139e014e6aa345e24b2e9aef13b",
+        "artifactSha256": "706a137aaf82cf4d9b87b2cd33de50c8756073dcfc4d187d4ae773076b536e0f"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/utilities.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/110.fasl",
+        "sourceSha256": "452c31b525c30065ed19b29da0f760d00d0000c4c90ec90504d39921cf568d16",
+        "artifactSha256": "9aeee26a83f7122dfa03e8639893bd3eb4c4bd7b0b44b56f719e5b329d64ed04"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/protocol.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/111.fasl",
+        "sourceSha256": "553e692e2d1455790c396e58010dc259975002ef7cd0b9823a87fe5f10fb91e4",
+        "artifactSha256": "8d8252c6a7faf5e6dd7d27c8049a3575d42a863c20cc1dbf2e37c82ad8040d36"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/resources.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/112.fasl",
+        "sourceSha256": "c4845f36d25ca9253fbf1c7c122210680ce5579adc3e1b8e9d536297bf1f0e07",
+        "artifactSha256": "ac4e9c89f12834bce3ed64f9b60db721837a05bd0920cb573259a219bf8134ff"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/cluffer-clim.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/113.fasl",
+        "sourceSha256": "c1d87f691ad27a91e461c5d47303b6252078c44230e1db37e3c4a44462bf873f",
+        "artifactSha256": "a0b7afa22bbfcf424dc8f9ce0df06ef999ea39d8f8fc9eeabb4823ff655164f3"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/internal-buffer.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/114.fasl",
+        "sourceSha256": "1f0355754cc4f598f2c717707b698f85ec61dcf123c2d514e2a878f0cb8596c8",
+        "artifactSha256": "4efefd17f605e5d62316de20a24d78ede98a06eae0e735487da8149e8609ed70"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/encapsulating-streams.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/115.fasl",
+        "sourceSha256": "2b8599b20c5737f4f58610964b63414435e45d67f4a0ef0aceec6a0d469c37fe",
+        "artifactSha256": "aab6a4d7dbf20e236972bc3a22f811957d6c3999e255a4f68201118c6cfb0981"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/protocol.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/116.fasl",
+        "sourceSha256": "65e0035418e2cec4cb936800b365fcd275566fdcf646b622deb8a9731c387bae",
+        "artifactSha256": "f791218e554ca2c8de2010bc3b7331ddf2641d51d288c8335089c8e6c71142ae"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/coordinates.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/117.fasl",
+        "sourceSha256": "4265557e7a22418f9e663a3151fc6a4f29f413c3d2940d13c500696df7bd89db",
+        "artifactSha256": "b8ada428ca119c218f9cb13b4e5f74fe31217ef5058ae7651000a615568ff3d1"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/transforms.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/118.fasl",
+        "sourceSha256": "4dcd2a3cde1852dffae1fd0d8e718d7b9fc49facc86ce6dc5bfa627ebaf44c0c",
+        "artifactSha256": "ad2569882a8db7fd8ec65ae1726d3353f861a6ddade6d88281f66b2b620a0a18"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/bounding-rectangle.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/119.fasl",
+        "sourceSha256": "95fceca683de245c4ff090e7b439922a9e0e915f430b98cb34aa2c2c089a2cdf",
+        "artifactSha256": "e630b315196aa03e9d62976b27b77b74b4b5abbb567adc040f0f43fbf97081d8"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/space-requirements.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/120.fasl",
+        "sourceSha256": "5e46e675dba8cc01f7250735a388b32e7bbb4bbe69c3ad13a930fae32b0d8cde",
+        "artifactSha256": "38fa71c353d8c5445224e4d2ea889c215281a2d8fa01a23c2abb34a945be44ed"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/regions.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/121.fasl",
+        "sourceSha256": "f763bb79705f1a3b3e07d29b4ab5c93a2116a9e66b45dbc3741a7e86338286c5",
+        "artifactSha256": "ef8a3f576c75d73038301630582edb3d51d5ebcb2ea6e0cbe8e3b22909a33ef5"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/region-utilities.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/122.fasl",
+        "sourceSha256": "9c78b1093da88d946a55420eac3ebcae80fe9a6079839f7d1def04b42263b324",
+        "artifactSha256": "6bdac48ed1f0b7844f5cc7f65c461433bb3e023f6379cece4c299d5f28b86622"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.1-points.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/123.fasl",
+        "sourceSha256": "b4f7796aa851258f9a4b6e56c10f13606fbd5bb14eeb43f01f051b1593e19fe5",
+        "artifactSha256": "26ae72d1f79394dea33be4ea0f846a84ca06c3293590ac7384a06811a8499d3b"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.2-polygons-and-polylines.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/124.fasl",
+        "sourceSha256": "498fffb778961bd0e1c62fd2af4ae19a7b34dfcfb07cb559c275912170859949",
+        "artifactSha256": "10403a8de4d1bf56efb41e69bede259cdf7321b28bafc2c3f15ba48916b7dfd2"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.3-lines.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/125.fasl",
+        "sourceSha256": "4ec5f930502bfec27764f9fc566675fea13b9e697a7a7f4b592a15941623da15",
+        "artifactSha256": "ff35f82e23e309e6a59c912947e38be9f25d8edc6d1df49f641efce7a53694f5"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.4-rectangles.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/126.fasl",
+        "sourceSha256": "06529c9dd47c9d35e5b06774cf1f6ae2ce31c2474b2f7cd7b8225540eebc6bc5",
+        "artifactSha256": "d59e6c2838ba63e4016d3cb00b18cc26b0142af2c7547b2d7f9bd36da8db5db5"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.5-ellipses-and-elliptical-arcs.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/127.fasl",
+        "sourceSha256": "e5d63183d2cc9d15fc70e1a0aac52ef0041ad43c0eda5503689ea7536f96bceb",
+        "artifactSha256": "ad23d4f23987b711b63247de8bd2a662d57339ac4f5e53049f1588ddb5e76509"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.6-bezigons-and-bezier-curves.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/128.fasl",
+        "sourceSha256": "3f447ee1b2641ff2f2f406ebae7d187ed8b8bc3cd47305bcb448cd91a5046c0e",
+        "artifactSha256": "3e60acb65aaa8e254baf15d5c352f5d637aee96957395534c465a9f88941488f"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/region-predicates.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/129.fasl",
+        "sourceSha256": "982fc9ad545642b7debe3ca51ee67e1490bb5716af406895b9159310da5ab007",
+        "artifactSha256": "af27069e7d6ba19c3a8e326005217a13effc6b7ab8415e4f8f48a0b3a71ca17c"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/region-composition.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/130.fasl",
+        "sourceSha256": "3e4b72fde9c67cf4a37f06e3ebddb729d53ede55b6db61d6cd6ae58934a57a40",
+        "artifactSha256": "269ac22460946d58aac852f088e3e60d3b2bfba7752cafb618e697f2e0387240"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/region-set-composition.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/131.fasl",
+        "sourceSha256": "af36560fc474dfa96ea6773f0a42ede919aec734099c058a87480f50369e52c2",
+        "artifactSha256": "ff14e93a0b055a86e69edda48cd37cd29e28cef88653926be602b155758a45cd"
+      },
+      {
+        "source": "/home/user/src/valtan/library/mcclim-portability/environment.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/132.fasl",
+        "sourceSha256": "61a02bda21b2487ab33331bc827447022df5e158d0f8a1ae5c1306a9259f833f",
+        "artifactSha256": "a3641795902f0f7db25a1c1da2492a455063d282359a8589826412521be84d4b"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/package.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/133.fasl",
+        "sourceSha256": "84aac5278487288381d2cbdb344b8608ea1cbb771d2e99c95d7b45b5f03d6747",
+        "artifactSha256": "3dccd245d1f4d206fe972ffe6669edf0193c4944cb7ae0fe245fef68d3a8b66e"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/basedefs.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/134.fasl",
+        "sourceSha256": "ca07341c533a2764f9b0a7964ae56651441768a4d2586b6fea0872a6c9ec5a2c",
+        "artifactSha256": "6c254beeeda342e29b60ed7aada93463693e860f6e74fe1735b3799b7bafbb48"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/rectangles.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/135.fasl",
+        "sourceSha256": "c09784c1e65f271ce91f43f56cd5f0da3964f4d58aea2774b2a9a33758b84bf4",
+        "artifactSha256": "e423b3f9083a1b97809a020b86a98a6238209da9eb2b170ed432f7747ea6219c"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/r-trees.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/136.fasl",
+        "sourceSha256": "96596437c071cff941fafaaf342aeb30ff5f61a2a111a14f559b02013aec3d33",
+        "artifactSha256": "cc9cfae34ce9ced56538582b25497334b6096bb1db39dbf3488b6ddb418ae2d8"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/greene-trees.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/137.fasl",
+        "sourceSha256": "f115df7b3100815f9ac1e9f17de2cec317009b95270249a3a1ecd8fc56405e71",
+        "artifactSha256": "e7871e66f30ebacbeb2912844198e247a0de79c2bab07b8a7a5899705e18bd38"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/rstar-trees.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/138.fasl",
+        "sourceSha256": "b259c187fb4b80d3eaf504f959edbba48d6bae850bdcf9c1fd0c32b565fc3629",
+        "artifactSha256": "a1af620125501afeaa81af89144f89792a1933b5d7716b76a3b38f0e6a4da128"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/rplus-trees.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/139.fasl",
+        "sourceSha256": "b6154d3f0b3efc3af66ca56b6b49f5fdef441ddb98969df6caf6710a7ea7a3b5",
+        "artifactSha256": "54a1286c8b9a8134594f7db87e9c267168002bc0f6fd37ce64da56c45efbec86"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/x-trees.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/140.fasl",
+        "sourceSha256": "92a26dc4165972d1e4851bbe7c5f3eba638eff168f4ed37a4617fd389e288bcd",
+        "artifactSha256": "4cb10db3c628acd541fd99ce9cdd1b602728e81fb8a395c67c4f80718b1a4866"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/protocol.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/141.fasl",
+        "sourceSha256": "791416c09aaf822f4148080530f28f37a1185a172ca4db022af7b30a8db1a4bd",
+        "artifactSha256": "03f536364bad7ddfbeb921df964e839df51c42b10b237deeccfba40484a7d74a"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/utilities.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/142.fasl",
+        "sourceSha256": "7f0ef80b62b2b6515e5ca5e451aacaf1798754b470f9a6a58597d50cd0957aaf",
+        "artifactSha256": "36b7f4700d81114aadf1aad9ea8766cc15a83517cac4f3aa52e5a22e947e57a6"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/design.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/143.fasl",
+        "sourceSha256": "eff5214d46b050fbec0215e7e06b846608c589f17fcd0fadc25f7669fdbcdddb",
+        "artifactSha256": "321d0db88a3ca69931f35ac0632ea9f28a8e8ea225bad91eddb202dee0a0d2ac"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/text-style.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/144.fasl",
+        "sourceSha256": "470be3e936538a3fdb7e5a51f3f042b8e9c6d2c16dfce36405f1a0cb795229e4",
+        "artifactSha256": "a4b2edda8f65994db264dc974ba75ee3921bb2e20ba2324d3923697f702cc7ac"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/line-style.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/145.fasl",
+        "sourceSha256": "73ef7bacff780bec8355a5d12adfb13a98cfc2aeddae5dea868cd1c1d79a2bb4",
+        "artifactSha256": "7ed3c2b8569bd4226dce3f95eefde46772431c8baedd96af46fb176787eba06e"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/colors.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/146.fasl",
+        "sourceSha256": "668161f62bd6736fbf6ae673425c23b2c3571f13036ea42e5d6c8622d1574467",
+        "artifactSha256": "4541f73f5c01b1a5bd002fa59b2a69648ab6bb95ec708cc304186782a953cfc9"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/pattern.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/147.fasl",
+        "sourceSha256": "012631cd7b35b9883f7d03ef03cc85653eba7727c9fab1beaf2bd1f435630ae4",
+        "artifactSha256": "14cad4f45a1619f525276c54c204c602c21c419d9b0b11f173b8ca3ee5d17830"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/medium.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/148.fasl",
+        "sourceSha256": "eb1c56bda77ceacd9da95c60759dc3c7b459141786345971392622faa6360999",
+        "artifactSha256": "37ef5113b0e5576844ffc65797e14a04a91860e5defd7dbc3ef8ab9631f480c2"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/graphics.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/149.fasl",
+        "sourceSha256": "26f2daef4984aa275c9c49b8ee09c4454364d7df74a2fa4286ef516f78d08b69",
+        "artifactSha256": "56ee21dd4f9ae6e46f018ea73ca926bbf86e32ab00df365ee6f720b0b24d35ba"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/protocol.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/150.fasl",
+        "sourceSha256": "c42f926cc4cc53cc4c29c93a62580e0afdbfb4f2f1ef5f8fe4e8ad59245bf3b9",
+        "artifactSha256": "768abb780df476413abc244ce3acb8dc419b8c7850b5f4ece1c52f901712cd16"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/standard-keys.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/151.fasl",
+        "sourceSha256": "f4bbfb1201ad17f5736b646394efc8271278a280846c4801a31d343d75009be0",
+        "artifactSha256": "941a616d358e3e3c81a9797a9c07eaae9685e99f55f96149ba86b0f05c6fabe8"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/queues.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/152.fasl",
+        "sourceSha256": "291ebc5c35a5cc24bf526f0f9639a13fac874b3450c295fd8c4cbf276776586d",
+        "artifactSha256": "a23b778fabbc1609962ace4ea87062e78af77ebf1b526ac6ac4abcbf89215925"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/events.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/153.fasl",
+        "sourceSha256": "5bff59ef4b7a3be3ae5c357f34baa498b4764450a4339a81b8e59a4198911b2e",
+        "artifactSha256": "59146096d39689c71d37a98f73cb10ec6916e7aa90c21e3b0eecc15b3a799a9f"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/output.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/154.fasl",
+        "sourceSha256": "b5ac0db7dfafcd7b435cbc3e9d69f56851e839f0b5bf62b964933a408b0bf4c2",
+        "artifactSha256": "bf6fa8f23d0ab5bed89428bdf5e9ee555e7e67f533ae79730102b11f3c573042"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/pointer.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/155.fasl",
+        "sourceSha256": "af46ca2a50ef9b26bf8ba0d43325fcf3ac6fa30308e85c83085196af72ff46e5",
+        "artifactSha256": "bc1c40e4813b63577a106ea495efec322d6566cc1f7a07c3eefa050ac7428746"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/sheets.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/156.fasl",
+        "sourceSha256": "49fb245b45f2567e62ebf7f104544f44612700d98a22bb4193a08b11bda30ce3",
+        "artifactSha256": "b20148cf78556a62d8b3f0e9e209a8ca7e4e834b23374dd5c066de4a49471ff2"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/pixmaps.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/157.fasl",
+        "sourceSha256": "87c905125c60980bd0d2e89cf92bd76da5c974c5a0bb54c587e679f0a3bdfde6",
+        "artifactSha256": "b01706b3baf38a2ea95e8bb32b511eaf7157d30f95f11a2f6442d7c56a17e756"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/mirrors.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/158.fasl",
+        "sourceSha256": "c4dc6bb20e909a93be46b37ae2da179f408644a4d56b15fcd5d58a96d625fa03",
+        "artifactSha256": "8727311faf540210cf1824c167c7bb02726d953e217e8a2d5fb9d8b9ebf55115"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/ports.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/159.fasl",
+        "sourceSha256": "bf35bdbe1bfb5b869971581e9337ceb8414a9360917db8ef5cad129148eb206a",
+        "artifactSha256": "7e92098196564d13b390090b14d437d6a20cecab586e55983d56ad7c04672d56"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/fonts.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/160.fasl",
+        "sourceSha256": "9ac0d4a242441743293cd801ef76b5fabeb361dec7e11ca4de535710a6f2bb43",
+        "artifactSha256": "6b756ec84f71307a875103e6bcb805fdd57d976752d2c38dd848062fc3b6fd88"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/input.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/161.fasl",
+        "sourceSha256": "2aea63996e1b4cf6b8a322581fae7ab1fb5f76fe82a5701066ab0e65324a3c71",
+        "artifactSha256": "fde455f891958227a62aa8153b26c2ac56a8a8a419f67de6eaf0c66022738e96"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/grafts.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/162.fasl",
+        "sourceSha256": "39ace067520d2589b265e6028422efe483b6793e28868866bbd37529f69f7448",
+        "artifactSha256": "56cd21829e18a3f32aec6ca131df2e73dbe7ff491d6b6203716423650c7e3b1f"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/repaint.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/163.fasl",
+        "sourceSha256": "28291ba6feb682392329c382c9201260b2b66f6f53a91a028954e0d03d3b1d35",
+        "artifactSha256": "3de7371a2616522443df820449fe152f2962b370b0f502fa66421cfc49eb053e"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/with-output-to-drawing-stream.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/164.fasl",
+        "sourceSha256": "30bb062449d111fd6828832282ab9e17a523fb00cbf49c7e3c8f8fb37b140a2e",
+        "artifactSha256": "660d74f8363808c8755520520c26e02a389072c5a2e5b22b72c330b7bb6a5296"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/protocol.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/165.fasl",
+        "sourceSha256": "a51729aa99fa94e372b9659d813f5c3790465b03b6e6f247897848b6ce63d5c7",
+        "artifactSha256": "2f0231f0cea810a299e5b9d21f064c8929555fb895688187303fa4c06c0db514"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/extra-colors.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/166.fasl",
+        "sourceSha256": "095c0268bbe2e083870225daadea000cf41bfebb6398c39404629da1e2178ecd",
+        "artifactSha256": "195ef1e798873dc82e6ff77d776149e0f93d933c6e4edfb6f2b1c605d17a9863"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/utilities.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/167.fasl",
+        "sourceSha256": "9d6df7d01d0c101e91b8eaad4caf18262dbd88da5d52e05fe942df59f8d90f60",
+        "artifactSha256": "f2418dcae8c0a706738389cc17da78188091aa233004327fe14084f1545d933e"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/views.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/168.fasl",
+        "sourceSha256": "70eb0275d0f49fd444facc1606c13ad111bdfba6a488d54b79e4aa92f9aca4ce",
+        "artifactSha256": "4ab58a0b3b9b9257dfb319ba0727f53956cdd5e29375cc0732a52eb4ccd4fbaa"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/text-cursor.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/169.fasl",
+        "sourceSha256": "33f0eb750343c7490742076d9bc114b3a9ffee7c0ac0456334af33b0c890df62",
+        "artifactSha256": "c14ba768db639df42e25f0b3ab0e74c9e2dead61977e1c1703da8665b0abc244"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/output-buffer.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/170.fasl",
+        "sourceSha256": "f2a5267d43f4cc5cbd9c205cfefbf98b53f2232aa1dfbf9d340e0d3fbd01c438",
+        "artifactSha256": "c096a7885ed691d032e9d113bd92863046e3514ddf8635e683092aaeacb7f8f2"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/output-record.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/171.fasl",
+        "sourceSha256": "2c3aa0c4f6b7f6cc027da2a93b30b6108fae5f3a543b52e8726e2f72dcad9218",
+        "artifactSha256": "8ca782fd51b4ef8d547b5cade8c7604f87a93bcea98bafc21c6fbc077db8a20f"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/record-stream.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/172.fasl",
+        "sourceSha256": "7dca4aba7674f4752015e03ee1d1c0e099f879cf62c72c9f309a278ba2515f4d",
+        "artifactSha256": "35712b4bb7ab0a5e91a9ac10b063afb62b5e6e522728f824a06aa7b54e3d5e62"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/redisplay.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/173.fasl",
+        "sourceSha256": "b05e14ecf2e698ea654529a7c37ad6626b7656c4e4e64a0f47a9ca278ae64253",
+        "artifactSha256": "dcb19bf39e4acbcbe9e0bc7f8e4f306c29e7f36ca03545dd85e3b1f89940a863"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/output-stream.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/174.fasl",
+        "sourceSha256": "87ac363c2d270e0e5369d556fe7ecbc04f1834907ea251878a05163f46cf32cb",
+        "artifactSha256": "40d4bdefb9698551dd8f3401568afb8db99c98854c9a574eb9765732d8bd6105"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/text-formatting.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/175.fasl",
+        "sourceSha256": "f802a1d8798fdfa6fcb4d876d24217d75ea2246b3b3f5ec77fe38302b9d28f04",
+        "artifactSha256": "866bdcff70b20120deb0e358dcaea854b52bd513bb912a51657679e56fb91516"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/graph-formatting.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/176.fasl",
+        "sourceSha256": "fcb4f5e4d356ec7361e975fb6e14f8e5d7c5478599cdeeef97b4181158121587",
+        "artifactSha256": "b25d468b4426b2316b419e882e1b0b976e3cfa91f4e99387086c6dff11a340c2"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/bordered-output.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/177.fasl",
+        "sourceSha256": "945183d9f417847b62dd2fe9827c194f2be3253f43d0e155865dc2b6153df767",
+        "artifactSha256": "ded7f3c3260af690f7f52cdaed1b0309d787bab17e65c997890215fb4378a3d0"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/table-formatting.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/178.fasl",
+        "sourceSha256": "5205e9899d6b8aba83b6ac0e0b95e8fe3a7c60f9186000c33cf4d18e320671d2",
+        "artifactSha256": "bc149c1d42c1d74342fbacf54b131b85a5e703f45136f1e1ed6a7f4648b035f2"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/protocol.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/179.fasl",
+        "sourceSha256": "eb8f7bb0b2cde23b43444735d1d2e1354404d85a1bb3d692729c0373add68ab9",
+        "artifactSha256": "70fbf21991d00947acdd9a5f9e1cf214cca8b46f985a97fe49554b2ed5f13761"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/gestures.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/180.fasl",
+        "sourceSha256": "7c242879073d93b14dbca5fb993b8a334f60f6878a00cd611718b5e2b59f655d",
+        "artifactSha256": "58f6285a97eacf9367b749589babf9b605f3ff16cc0d82a6e937d17102aae89d"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/standard-gestures.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/181.fasl",
+        "sourceSha256": "bf2d4e8c6546df7add1ccca85bed267f72b3ee72e75078b3ccc73c9671af139f",
+        "artifactSha256": "3a719be56afa098cd0e9a026bde87af4baa0557fd78a3ec41e8209c4fb84b617"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/dead-keys.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/182.fasl",
+        "sourceSha256": "2ec2a5526ad8ee22a65e262889b8982bbddc1e17a75eae651a407f59911c82b0",
+        "artifactSha256": "29c686bdec774348ba7c0703fcbefd01c75f02f06a43c82fbd11560488ebfc08"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/stream-input.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/183.fasl",
+        "sourceSha256": "b2c317c95f42864d3cd4381a500d6dbc5747933f0337ca5e7f1a9e9c360c7ca0",
+        "artifactSha256": "30a841d58c83945c81cdd38813d88423ecb518c8a6ae210bb6c2067e6fb91001"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/pointer-tracking.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/184.fasl",
+        "sourceSha256": "599decbfb368f2bd94189f2b53ee97c2f395a20ae1aa795cdbd4aa5d41a06e78",
+        "artifactSha256": "c0b7bf95ce7c473fc7bb6a9744595a368e90516a31ca7245e78f8177ae1e9655"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/system/protocol-classes.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/185.fasl",
+        "sourceSha256": "935872046c5f5bdaa5944d592972561202c3f6ace230fb9c420f6de389174f5f",
+        "artifactSha256": "3ef6214a8edbccffcda158373950db0827a81de238771a54081da4349404af5e"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/system/declarations.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/186.fasl",
+        "sourceSha256": "66b13430847d4ebe5a0f1eff2e79445f897810b9b06943264fb6d170beb98ebf",
+        "artifactSha256": "1f329b48e43e2e1d369c5b170ea8d9fc4277065aade6469b0150ccd8678cb82b"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/system/utilities.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/187.fasl",
+        "sourceSha256": "5a277fec1ba047c752bdddb8ef15bc6652fdfc4d494959da1e0b019f658fd3fd",
+        "artifactSha256": "5c95d77a82e02b629f0c3d89bbe55de7f27c0aa3a7863bf24415584b644d2ab8"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/system/describe.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/188.fasl",
+        "sourceSha256": "9ccf34af6e82b15028e7e8a334480360f744baacba1d3dd145237046fd2953fc",
+        "artifactSha256": "f3ee3f41b577300f156b06c5f7e212358537cb60d728a59fd90c3b2945ffbb64"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/system/encapsulate.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/189.fasl",
+        "sourceSha256": "f02ac350ea1745a8e16b1f7ebdc3f65bf752c174c25774fe93a8160baaa920c8",
+        "artifactSha256": "0a45b6f479ecc8fb73ea12feba0402c29b8f12482f2b79093b42ddf582f80975"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/presentation-types.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/190.fasl",
+        "sourceSha256": "854c6131f065c398c2d0534e3b849fa30c769e0ee0a468a5815c1b4b1c51ae38",
+        "artifactSha256": "99581714597e9c089a75725c1672f1bdf305b8eac1bc9875d660fa6dc2d51c81"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/presentation-functions.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/191.fasl",
+        "sourceSha256": "38eb64ffea25eae05a2ab30ee3da8f822005ea637a963b52449151ea783a7b73",
+        "artifactSha256": "64d312e4ab5ed72ed3f7852e3a6cafa52913cb6139e394e543b923c1ae00c6c9"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/presentation-type-functions.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/192.fasl",
+        "sourceSha256": "48a51ddb45371a9c2249bcb6acfc10a896323bc627da4300dcd3d6db0448c570",
+        "artifactSha256": "b25112fb37a2371baca67f22a568e9e5c5e2c262555bb52f6d9c63f12e2e25fd"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/presentation-histories.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/193.fasl",
+        "sourceSha256": "5ab6c3c714881b74583ad9ccd3774b56100fee92d006639ae44b406a563e6fa2",
+        "artifactSha256": "32c30bb701c4c3104099b6a8174941abe59029d4b8a3a0fb6842a8ee4d2b4759"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/typed-output.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/194.fasl",
+        "sourceSha256": "b5cd5976cc9057b9b9e09dc06161161ec1de78f82fece7f944caf62e2d0fa14d",
+        "artifactSha256": "9b1fd0ae7b43d5d7d7c605bd3c547d599c2c729e9af0a09d0a4ce8936fb0e542"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/typed-input.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/195.fasl",
+        "sourceSha256": "c85717c35223e8bd84cbb68fb036ef283996a1df37384e8380450d41adc95e74",
+        "artifactSha256": "39d596862bcb95b0dcb5b5e37f33f5b3d3d3a239983b8f384cead70496680143"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/translators.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/196.fasl",
+        "sourceSha256": "c3ca2a8698827e6675c28e826a5f44b4b39e0a3c57dc3bdc52cd2e2144e4d55d",
+        "artifactSha256": "1f8bd8b252599bf58276baeb6a048df2516267a6029d7a9ba6fd71821464ef53"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/drag-and-drop.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/197.fasl",
+        "sourceSha256": "84364e4123995061683d9910c6f31d38f096940d1755a83e2f3882712ff7597a",
+        "artifactSha256": "a1328c926c7312d8335a3f1440b46e6034cf3b30b44d18df24b0266331e58cf0"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/selection-object.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/198.fasl",
+        "sourceSha256": "8416229959aef4d9cb9f2c199822ff5dc518c97cf95648bd5b522ea996c95eaa",
+        "artifactSha256": "0b86820fbb554b3706b7958d26620110b90518025b401a0a4d224b7478d4baee"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/text-selection.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/199.fasl",
+        "sourceSha256": "d71ac516daaf4cf2e65dd5c7c2fe2adb516aa84af437d7c66cfc26ca1b73b1e0",
+        "artifactSha256": "769974326ca16ac6a372cd861eb7e76fc59bd5eea1f78178ade820a4a8ec6a3d"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/reading-and-writing-tokens.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/200.fasl",
+        "sourceSha256": "16dabeabf2aa8eea856ed591c120db231945226cc1a8e304d38fa85930fd2e05",
+        "artifactSha256": "6fac88af919070c1630d50f4b6e1f1b151d1084b4295ab86602eb4cb5e56a58c"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/parsing-conditions.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/201.fasl",
+        "sourceSha256": "b32eed137215fccd96a43d44c3ee792056783f17319817a88b9bbb7e13b3a4f6",
+        "artifactSha256": "1137566b4d4a0c984e02dbf2c732a3b9862b52a64e0c896716d999efd22aca67"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/input-editing.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/202.fasl",
+        "sourceSha256": "a5e8157a90bfb0061c7cdfb8b0240fa4f724767147255e549541a3e252471421",
+        "artifactSha256": "a2e8d87827871220cd276cbba6b5c006470bb725737e3f0496030379328ef762"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/completion.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/203.fasl",
+        "sourceSha256": "078c9da3e3677c3417490d8933c1a1327ab0a9e77d45f7de16715c3ca8e5551f",
+        "artifactSha256": "1e7f7767536ce803b7fcfe070f73b2fe1349f1ef545d2c5b075573de3036e499"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/editor.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/204.fasl",
+        "sourceSha256": "0b630df913af09f03b9c6616613826010590394be3e7aa40a539703ffcf5b5f2",
+        "artifactSha256": "71e11d79803f250aadf73e51f167aca22a1c7bb12a63d63158f8e0f27d5b83d5"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/edward.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/205.fasl",
+        "sourceSha256": "07262b056557f867ca9d9c7859f8bda41455bb0574d4338c15cc6542dba99415",
+        "artifactSha256": "67cd37746826c1ba1cf34ba91b46a2a3932fb69d358936998098f59721d44757"
+      },
+      {
+        "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/gadgets.lisp",
+        "artifact": "/tmp/valtan-target-stage-mcclim-deftype-4mcx27ka/artifacts/206.fasl",
+        "sourceSha256": "92f5d04899520a89de2b8326f7a5cb9c6ccd4fe34ec75f3403877dfa3520ff4c",
+        "artifactSha256": "de5b7cef370b42038639f522669a18d6ef6b121ef4fb8c46e0b242f7e876110f"
+      }
+    ]
+  },
+  "bundleSha256": "e75d51932cea806747fd6a11e45099f34457bc1e48f27ca5efd0f6e03c336f8a",
+  "done": true,
+  "lines": [
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/asdf-metadata.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/package.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/definitions.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/binding.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/strings.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/conditions.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/symbols.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/macros.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/functions.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/lists.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/types.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/io.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/hash-tables.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/control-flow.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/arrays.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/sequences.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/numbers.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/features.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/package.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/arrays.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/control-flow.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/sequences.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/lists.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/global-vars-20141106-git/global-vars.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/trivial-features.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/trivial-garbage.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/initialize.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv1/pkgdcl.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv1/bordeaux-threads.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/native-v1.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv1/default-implementations.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/pkgdcl.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/bordeaux-threads.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/timeout-interrupt.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/native-v2.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/atomics.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/api-locks.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/api-threads.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/api-semaphores.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/bordeaux-threads/upstream/apiv2/api-condition-variables.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/trivial-gray-streams.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/portability/closer-mop.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/packages.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/locale.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/date.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-english.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-french.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-swedish.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-vietnamese.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-japanese.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-polish.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-german.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/language-afrikaans.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/condition.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/restart.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/documentation.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/acclimation-20241012-git/init.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/packages.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/internal-protocol.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/edit-protocol.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/update-protocol.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/conditions.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/condition-reporters-english.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/check-cursor-attached.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/check-other-preconditions.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/default-methods.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/default-internal-methods.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Base/methods.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-line/packages.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-line/classes.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-line/edit-protocol-implementation.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/packages.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/binary-tree.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/link-unlink.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/conditions.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/replace-child.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/rotation.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/recursive-traversal.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/iterative-traversal.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/splay.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/docstrings-english.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/Binary-tree/condition-reporters-english.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/packages.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/2-3-tree.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/insertion.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/deletion.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/conditions.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/docstrings-english.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/clump-20160825-git/2-3-tree/condition-reporters-english.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/packages.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/classes.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/edit-protocol-implementation.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/update-protocol-implementation.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/internal-protocol-implementation.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Standard-buffer/safe-print-object-for-cursor.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-line/packages.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-line/classes.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-line/edit-protocol-implementation.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-buffer/packages.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-buffer/classes.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-buffer/edit-protocol-implementation.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/cluffer-20241012-git/Simple-buffer/update-protocol-implementation.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/patch.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/packages.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/multiprocessing.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/setf-star.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/dynamic-vars.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/system/os.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/utilities.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/protocol.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/resources.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/cluffer-clim.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/internal-buffer.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/utilities/encapsulating-streams.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/protocol.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/coordinates.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/transforms.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/bounding-rectangle.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/space-requirements.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/regions.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/region-utilities.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.1-points.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.2-polygons-and-polylines.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.3-lines.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.4-rectangles.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.5-ellipses-and-elliptical-arcs.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/3.2.6-bezigons-and-bezier-curves.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/region-predicates.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/region-composition.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/geometry/region-set-composition.lisp",
+    "TARGET-REPLAY /home/user/src/valtan/library/mcclim-portability/environment.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/package.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/basedefs.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/rectangles.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/r-trees.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/greene-trees.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/rstar-trees.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/rplus-trees.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/spatial-trees-20140826-git/x-trees.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/protocol.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/utilities.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/design.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/text-style.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/line-style.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/colors.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/pattern.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/medium.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/drawing/graphics.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/protocol.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/standard-keys.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/queues.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/events.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/output.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/pointer.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/sheets.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/pixmaps.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/mirrors.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/ports.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/fonts.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/input.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/grafts.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/repaint.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/windowing/with-output-to-drawing-stream.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/protocol.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/extra-colors.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/utilities.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/views.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/text-cursor.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/output-buffer.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/output-record.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/record-stream.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/redisplay.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/output-stream.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/text-formatting.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/graph-formatting.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/bordered-output.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-output/table-formatting.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/protocol.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/gestures.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/standard-gestures.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/dead-keys.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/stream-input.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/extended-input/pointer-tracking.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/system/protocol-classes.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/system/declarations.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/system/utilities.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/system/describe.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/system/encapsulate.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/presentation-types.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/presentation-functions.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/presentation-type-functions.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/presentation-histories.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/typed-output.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/typed-input.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/translators.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/drag-and-drop.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/presentations/selection-object.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/text-selection.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/reading-and-writing-tokens.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/parsing-conditions.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/input-editing.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/completion.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/editor.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/edward.lisp",
+    "TARGET-REPLAY /home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Core/clim-core/input-editor/gadgets.lisp",
+    "TARGET-PREFIX-RESTORED"
+  ],
+  "errors": [],
+  "loadMs": 79639.29999999702,
+  "apiAndThreadAssertions": true,
+  "sourceLoaderDisabled": true,
+  "liveTasks": 0,
+  "requests": [
+    "/",
+    "/favicon.ico",
+    "/worker.mjs",
+    "/app.mjs"
+  ],
+  "finishedAt": "2026-11-11T22:32:47.022Z",
+  "build": {
+    "status": "built",
+    "mode": "api",
+    "fullMcclim": false,
+    "scope": "Diagnostic replay of 206 completed components preceding the old MACROLET compilation failure; not full McCLIM or GUI proof",
+    "applicationSourceSha256": null,
+    "kernelSha256": "30c80d461f5da1ebed2eab9ad1b76aba569f0014c4ea31683ad9e62bcfb45492",
+    "producerManifestSha256": "41867b89dc841e5b2d8cdc2f6781062c69a2bb17bc7e12d3e30a0ed0f0a99b6e",
+    "librariesUseCompiledArtifacts": true,
+    "applicationUsesRuntimeSource": false,
+    "components": 206,
+    "forms": 7378,
+    "bytes": 157481331,
+    "bundleSha256": "e75d51932cea806747fd6a11e45099f34457bc1e48f27ca5efd0f6e03c336f8a",
+    "producerManifest": "/tmp/valtan-mcclim-prefix-replay-kmv_6n1q/prefix-manifest.json",
+    "cacheUnmodified": true
+  },
+  "producerPreflight": {
+    "status": "passed",
+    "embeddedComponents": 376,
+    "compilerSha256": "e15f12f60f5fe87b1815b9bb474ffa49326ecaae8b120d779c428f6f2c4c6c7a",
+    "deftypeSourceSha256": "36aceda8e71fdeb875097e2de4815dce13497fa761385aa8edf1b6dedbc7503c"
+  },
+  "diagnosticHarnessHashes": {
+    "/tmp/valtan-mcclim-prefix-build.mjs": "e1061e0635dd3135e117062d5ddd9c821a9d2d5543755573d62fc4008bc40436",
+    "/tmp/valtan-mcclim-prefix-consume.mjs": "0f8bc44cbbcf7fc6aefcf68d47489b238469adcc6a048c009529b7c7e332456f",
+    "/tmp/valtan-stage-fasl.mjs": "2e7de99990f68235365ac09286bc42b44b083a7ff8169cd79a372187e198020d"
+  },
+  "snapshotNotes": "The prefix was compiled by the older 7a9118b producer, before native package lookup and the MACROLET correction. Its frozen core was bundled with the current kernel, whose hash is in build. All 206 compiled modules replayed in order in a fresh browser; no source modules were loaded and no Lisp files were requested. This early diagnostic does not establish full McCLIM, restoration of the newly fixed 207th component, or GUI behavior. Full staging and GUI replay are separate pending gates."
+}

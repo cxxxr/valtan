@@ -968,7 +968,17 @@ definitions encountered in McCLIM's `standard-presentations.lisp`. The
 [macrolet file checks](../tests/resumable/macrolet-file-results.json) cover 21
 ordinary/scheduled assertions, including source-deleted loading and the absence
 of compile-time effects for nested forms. The related 91 upstream ANSI cases
-pass in both evaluation and compiled modes. Full McCLIM staging remains pending.
+pass in both evaluation and compiled modes. The real staging rerun now compiles
+and loads `standard-presentations.lisp` and proceeds to its command components.
+Full McCLIM staging remains pending.
+
+An independent [browser replay of 206 previously compiled components](../tests/mcclim/compiled-prefix-browser-results.json)
+passes geometry and scheduled thread-join checks with embedded source loading
+disabled. The loaded source inventory matches the compiled prefix in order,
+with zero errors and no remaining tasks. This diagnostic uses the older core
+snapshot that preceded the MACROLET fix; it does not cover the remaining
+components or a real application window. Full compiled-library restoration and
+GUI input still require their separate gates.
 
 Internal cooperative locks and condition variables now share the scheduler's
 task identity. Locks support recursive ownership, nonblocking/timed acquisition
