@@ -12,3 +12,7 @@ console.log('43 resumable, 51 dual core/library and 23 native callback checks pa
 const { verifyScheduledLisp } = await import('./scheduler-checks.mjs');
 await verifyScheduledLisp(globalThis.valtanSchedulerKernel, globalThis.valtanScheduledTestSetup());
 console.log('64 scheduled Lisp tasks, 2 checkpoint-only loops, shared array, local bindings, await and asynchronous cleanup passed');
+
+const { verifyResumableEval } = await import('./eval-checks.mjs');
+const evalResult = await verifyResumableEval(globalThis.valtanSchedulerKernel, globalThis.valtanEvalTestSetup());
+console.log('RESUMABLE-EVAL-CHECKS-PASS ' + JSON.stringify(evalResult));

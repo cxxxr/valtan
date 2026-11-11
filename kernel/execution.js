@@ -13,6 +13,7 @@ class ExecutionContext {
 }
 let currentContext = null;
 
+export function hasExecutionContext() { return currentContext !== null; }
 export function createExecutionContext() { return new ExecutionContext(); }
 export function withExecutionContext(context, function_) {
     if (!(context instanceof ExecutionContext)) throw new TypeError('Expected an execution context');

@@ -3,7 +3,8 @@
   :components ((:file "performance/resumable")
                (:file "resumable/checks")
                (:file "resumable/callbacks")
-               (:file "resumable/scheduler"))
+               (:file "resumable/scheduler")
+               (:file "resumable/eval"))
   :target :node
   :target-features (:valtan-resumable)
   :compile-mode :runtime)

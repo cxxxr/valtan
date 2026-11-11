@@ -133,11 +133,12 @@ test('native exceptions fail their test and allow subsequent tests to run', asyn
   assert.match(r.failures[0].reason, /Uncaught JavaScript exception: SyntaxError/);
 });
 
-test('compiled artifacts load in a fresh process without their source', () => {
+for (const compilerMode of ['ordinary', 'dual']) test(`compiled artifacts load in a fresh process without their source (${compilerMode})`, () => {
   const scratch = fs.mkdtempSync(path.join(os.tmpdir(), 'valtan-compiled-artifact-'));
   try {
     for (const file of ['compile-artifact-producer.lsp', 'compile-artifact-consumer.lsp']) {
-      const output = execFileSync(process.execPath, [new URL('./worker.mjs', import.meta.url).pathname, file], {
+      const output = execFileSync(process.execPath, [new URL('./worker.mjs', import.meta.url).pathname,
+        ...(compilerMode === 'dual' ? ['dual-mode.lsp'] : []), file], {
         cwd: scratch,
         env: { ...process.env, VALTAN_ANSI_FIXTURE: '1', VALTAN_ANSI_MODE: 'eval' },
         encoding: 'utf8', timeout: 30000, maxBuffer: 4 * 1024 * 1024,

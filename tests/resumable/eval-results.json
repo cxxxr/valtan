@@ -1,0 +1,122 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "threadSupportComplete": false,
+  "recordedAt": "2026-11-11T14:19:25.122068+00:00",
+  "scope": "Resumable EVAL, source LOAD and compiled artifact LOAD in an opt-in dual core. Application drivers and Bordeaux Threads remain separate work.",
+  "sourceHashes": {
+    "kernel/execution.js": "6c8d72c3f6ea965bceec34416dc27cc8acea5000bcdbf30cae0c95cc17a3099b",
+    "library/valtan-core/compiler/compiler.lisp": "2c13b8bc0b9019b05a59ac79b99b1267fecb075492c135b33ea1232f1fb555a8",
+    "library/valtan-core/compiler/pass2.lisp": "40765b84bfd55957ddfa9b2684db52e92b9050958cda9c6ae1b9f66eb4ba935c",
+    "library/valtan-core/lisp/compilation.lisp": "c2fba3dfd03b2c3c7cc04e8938eb20524fe45ffcb0427f1341f66e53a9f4885a",
+    "library/valtan-core/lisp/compilation-files.lisp": "c220b4bdfa3b42e1c888205c69d2cfd02524614f0bc7bfc516110689bd195cc5",
+    "tests/resumable.system": "1f596b8b9f2fdc6ed8757899a9934fdfb5849b4e430c19e9e536c503f437e5dd",
+    "tests/resumable/verify.mjs": "2a4b088ba5e28b77d621717db365a54ba26101c37159116839cf6fa8583d43ce",
+    "tests/resumable/eval.lisp": "2e7474026def2e9d934470abdd7cf70a0e0901352bbbdfb45d018315cf5d8897",
+    "tests/resumable/eval-checks.mjs": "195442f19f9432ad3f0c7e77aad74790c4a228dba3efde889ea33b4ad259466c",
+    "tests/resumable/artifact-worker.mjs": "a8faa6141df7ce58e808422b94ce314982622ed630f852a8c4e9aee240d4ea98",
+    "tests/resumable/artifact.test.mjs": "e7397895daa4a258b5b33bb2f9f6372605152e33488934dd8d194c44696785a5",
+    "tests/ansi/integration.test.mjs": "1b820c2e088a8f2e98ed5da4d79a18e0b7d8bd345aea78b7658c125ac649e365"
+  },
+  "compilerSha256": "d461ea22ead6be9158897915718a16b84f9ea76e371b1d958d2da75f648c5f62",
+  "implementation": {
+    "entry": "Inside an execution context, EVAL compiles the original top-level HIR into a resumable thunk and invokes it through Lisp FUNCALL. Ordinary startup stays synchronous.",
+    "semantics": "Keep EVAL-WHEN, sequential top-level macro expansion, local macro/declaration environments and the null lexical EVAL environment. Invocation temporaries are private; load-time values initialize once per generated entry.",
+    "artifacts": "Opt-in COMPILE-FILE serializes FUNCALL around the generated JS entry. LOAD can suspend without process-local handles or the original source."
+  },
+  "node": {
+    "status": "passed",
+    "command": "npm --prefix tests run build:resumable && npm --prefix tests run test:resumable",
+    "log": "/tmp/valtan-resumable-eval-verify4.log",
+    "evalChecks": 18,
+    "existingChecks": {
+      "resumable": 43,
+      "dual": 51,
+      "nativeCallbacks": 23,
+      "scheduledTasks": 64,
+      "checkpointOnlyTasks": 2
+    },
+    "artifactRestart": {
+      "status": "passed",
+      "processes": 2,
+      "sourceDeletedBeforeConsumer": true,
+      "suspendedBeforeRemainingDefinition": true,
+      "resumedValue": 73
+    }
+  },
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T14:07:13.779Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-YGpMJ3",
+    "compilerSha256": "d461ea22ead6be9158897915718a16b84f9ea76e371b1d958d2da75f648c5f62",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "afterLoadSha256": "69a75576b21107fed1f6413974ae5b081b7df5bc3801f153e71ac6042c02ffb3",
+    "checksSha256": "8d00855bb5a1573ec3aa56c130c91ba1ee869519bd34bc530a4c97edbbf30552",
+    "stage": "run",
+    "bundleSha256": "91c99438beb5a418cf6eef62eb5f921ba336d0d5ef6c1043ffe05f8879b6ea77",
+    "finishedAt": "2026-11-11T14:10:28.157Z"
+  },
+  "browserAssertions": {
+    "evalChecks": 17,
+    "sourceLoad": true,
+    "compiledStreamLoad": true,
+    "compileFileLoad": false,
+    "existingChecks": {
+      "resumable": 43,
+      "dual": 51,
+      "nativeCallbacks": 23,
+      "alexandria": 4,
+      "scheduledTasks": 64,
+      "checkpointOnlyTasks": 2
+    },
+    "log": "/tmp/valtan-resumable-eval-browser2-logs/run.log",
+    "reproduction": "Concatenate performance/resumable.lisp, resumable/checks.lisp, callbacks.lisp, scheduler.lisp, eval.lisp and alexandria-checks.lisp. Run probe.mjs alexandria REPORT CHECKS --browser valtan-resumable --after-load=AFTER. AFTER concatenates scheduler-checks.mjs and eval-checks.mjs and awaits both verifiers; pass {fileCompilation:false} to verifyResumableEval."
+  },
+  "initialBrowserFailure": {
+    "report": "/tmp/valtan-resumable-eval-browser.json",
+    "status": "failed",
+    "reason": "Browser file output unavailable for /tmp/resumable-eval-2140.lisp. Final browser test exercises compiled stream loading separately and explicitly does not claim COMPILE-FILE."
+  },
+  "ansi": {
+    "status": "passed",
+    "groups": 9,
+    "log": "/tmp/valtan-resumable-eval-ansi.log",
+    "coverage": [
+      "ordinary compiler 101",
+      "compilation files 5",
+      "environment 20",
+      "T compiler/control 104 evaluated and 104 compiled",
+      ":dual compiler/control 104 evaluated and 104 compiled",
+      "ordinary and dual compiled artifacts after restart without source"
+    ]
+  },
+  "ordinaryPerformance": {
+    "status": "passed",
+    "log": "/tmp/valtan-resumable-eval-performance-verify.log",
+    "resumableChecks": 43,
+    "semanticRegressions": true,
+    "workloads": 8
+  },
+  "remaining": [
+    "Browser file output is unavailable; compiled stream loading is verified separately.",
+    "Application drivers must explicitly enter the scheduler; asynchronous UI/CLI integration remains.",
+    "Locks, condition variables and the Bordeaux Threads API remain unimplemented.",
+    "Load-time initializers, blocking native operations, native error delivery and arbitrary foreign callbacks remain synchronous boundaries.",
+    "Long-running McCLIM and Drei workers have older snapshots and do not verify these EVAL changes."
+  ],
+  "kernel": {
+    "status": "passed",
+    "tests": 17,
+    "command": "npm --prefix tests run test:performance:kernel",
+    "log": "/tmp/valtan-resumable-eval-kernel2.log",
+    "invocationCorrection": "Direct node --test could not resolve extensionless kernel imports; the repository bundling runner was then used successfully."
+  }
+}

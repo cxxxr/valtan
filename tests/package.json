@@ -51,7 +51,7 @@
     "test:mcclim:queues": "node mcclim/queue.mjs",
     "demo:mcclim": "node mcclim/demo.mjs",
     "build:resumable": "node resumable/build.mjs",
-    "test:resumable": "node resumable/verify.mjs"
+    "test:resumable": "node resumable/verify.mjs && node --test resumable/artifact.test.mjs"
   },
   "keywords": [],
   "author": "",

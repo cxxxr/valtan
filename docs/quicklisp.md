@@ -843,8 +843,19 @@ interleaving without explicit yields, multiple values across asynchronous
 cleanup, and host event-loop progress. The Lisp checks pass in Node and a fresh
 Chrome worker; the kernel suite has 17 passing tests.
 
+Scheduled `CL:EVAL` and `CL:LOAD` can now suspend through evaluated source and
+opt-in compiled artifacts. The generated execution entry retains the original
+top-level compiler environment; temporaries belong to each invocation, while
+load-time values initialize once. Local macro expansion and definition order
+survive waits. [The EVAL/LOAD checks](../tests/resumable/eval-results.json) pass
+18 assertions in Node and 17 in a fresh Chrome worker, including source and
+compiled-stream loading. A separate two-process Node test deletes the source
+before loading its compiled artifact, suspends during loading, and resumes to
+install the remaining definition. Browser file output remains unavailable, so
+browser COMPILE-FILE is not covered by the passing compiled-stream checks.
+
 This is not Bordeaux Threads support. Locks, condition variables, the Lisp thread
-API and asynchronous application entry points still need integration. Blocking
+API and application drivers still need integration with the scheduler. Blocking
 host operations and remaining JavaScript callback boundaries can still prevent
 suspension; native error delivery is not yet generally resumable. Load-time
 initializers remain synchronous. The McCLIM Canvas driver

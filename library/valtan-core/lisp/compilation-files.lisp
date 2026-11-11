@@ -85,13 +85,16 @@
         (with-open-file (stream *load-truename* :external-format external-format)
           (%load-stream stream print)))))
 
-(defun %write-compiled-form (code output)
+(defun %write-compiled-form (code output &optional resumable-p)
   ;; The artifact contains compiled JavaScript, not the source form or a process
   ;; local function handle. It can be loaded after restarting the runtime.
   (let ((*package* (find-package :cl-user)) (*print-readably* t)
         (*print-escape* t) (*print-pretty* nil) (*print-base* 10)
         (*print-radix* nil) (*print-circle* nil) (*readtable* (copy-readtable nil)))
-    (write (list 'ffi:js-eval code) :stream output)
+    (write (if resumable-p
+               (list 'funcall (list 'ffi:js-eval code))
+               (list 'ffi:js-eval code))
+           :stream output)
     (terpri output)))
 
 (defun compile-file (input-file &key output-file (verbose *compile-verbose*)
@@ -113,7 +116,13 @@
           (loop for form = (read input nil eof) until (eq form eof)
                 do (when print (write form :readably nil) (terpri))
                    (let ((compiler::*macro-definitions* nil))
-                     (%write-compiled-form (compiler:compile-toplevel form t nil) output)
+                     ;; Opt-in artifacts call the generated entry through Lisp,
+                     ;; so LOAD can suspend instead of running inside JS eval.
+                     ;; Ordinary loads can still call its synchronous facade.
+                     (let ((resumable-p (not (null compiler::*resumable-functions*))))
+                       (%write-compiled-form
+                        (compiler:compile-toplevel form t nil resumable-p)
+                        output resumable-p))
                      (when compiler::*macro-definitions*
                        (%write-compiled-form
                         (with-output-to-string (code)

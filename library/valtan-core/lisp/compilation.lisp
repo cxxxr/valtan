@@ -29,10 +29,15 @@
         (if (null (cdr forms))
             (return-from %eval-in-environment (%eval-in-environment (car forms) environment))
             (%eval-in-environment (car forms) environment))))
-    (multiple-value-bind (code constants)
-        (let ((compiler::*local-macro-compilation-environment* environment))
-          (compiler:compile-toplevel x t t))
-      (ffi:js-eval code constants))))
+    (let ((resumable-p (eq ((ffi:ref "lisp" "hasExecutionContext")) (ffi:ref "true"))))
+      (multiple-value-bind (code constants)
+          (let ((compiler::*local-macro-compilation-environment* environment))
+            (compiler:compile-toplevel x t t resumable-p))
+        (if resumable-p
+            ;; The foreign call only creates the thunk. FUNCALL then delegates
+            ;; its execution through the resumable Lisp calling convention.
+            (funcall (ffi:js-eval code constants))
+            (ffi:js-eval code constants))))))
 
 (defun eval (x)
   ;; Only the compiler's explicit, one-shot expander environment is inherited.
