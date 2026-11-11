@@ -390,13 +390,29 @@ This is a focused input-editing check, not full Drei coverage.
 `drei-mcclim/test` ASDF plan and runs its default suite in the browser.
 `npm run test:mcclim:drei:upstream:host` provides the native SBCL baseline.
 Both retain skipped and unexecuted tests as nonpassing coverage. The installed
-baseline registers 615 cases: 3,564 checks pass, 20 checks skip under the default
-settings, and 90 separately registered performance cases remain unexecuted.
+baseline has 615 registration entries for 596 unique test cases: 3,564 checks
+pass, 20 checks skip under the default settings, and 90 separately registered
+performance cases remain unexecuted. The diagnostics report both registration
+counts and per-test result counts so duplicate FiveAM entries are visible.
 The [initial browser diagnostic](../tests/mcclim/drei-upstream-before-results.json)
 did not finish `FORM-TO-OBJECT-17`: recursive condition resignal exposed a
 nonlocal GO activation bug. The compiler correction and its bounded regressions
 are recorded in [the TAGBODY checks](../tests/ansi/tagbody-activation-results.json).
-The full browser diagnostic is being rerun after that correction.
+The [completed retained-browser diagnostic](../tests/mcclim/drei-upstream-results.json)
+then exposed five lambda-list construction failures. `SUBTYPEP` now reasons about
+class types inside `AND` and `OR`, preserves uncertainty for unresolved compound
+types, and compares compound array element types structurally. Its
+[regressions](../tests/ansi/boolean-class-subtype-results.json) pass in both evaluation
+and compiled modes, alongside all 390 selected upstream subtype tests.
+With the final definition reloaded, the complete default Drei suite returns
+3,563 passing checks, zero failures, the same 20 skips and 90 unexecuted cases.
+The one-check difference from SBCL is its extra `SB-INT:&MORE` lambda-list keyword;
+all other per-test result counts match after accounting for Gray stream package
+names. This is a retained-worker result; fresh startup with this final correction
+is still being validated. The report also includes native-only baselines for the
+separate 90-case performance suite (all pass) and explicitly enabled
+self-compilation (fails upstream on SBCL with an illegal function call while
+re-evaluating a `FORM-TO-OBJECT` method). Neither is a Valtan result.
 
 The browser backend reads static PNG files with the upstream pure-Lisp
 `png-read` decoder. Install `png-read` alongside McCLIM in the host Quicklisp;

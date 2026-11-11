@@ -17,17 +17,21 @@
 (let* ((output (or (first (remove "--drei" (uiop:command-line-arguments) :test #'equal))
                    (if *drei-tests-p* "/tmp/valtan-drei-upstream-host.json"
                        "/tmp/valtan-mcclim-upstream-host.json")))
-       (cases (loop for name in (fiveam::test-names)
+       (entries (loop for name in (fiveam::test-names)
                     for test = (fiveam:get-test name)
                     when (typep test 'fiveam::test-case) collect test))
+       (cases (remove-duplicates entries :test #'eq))
        (fiveam:*on-error* nil) (fiveam:*on-failure* nil)
        (results (fiveam:run (if *drei-tests-p* (find-symbol "DREI-TESTS" "DREI-TESTS") :mcclim)
                             :print-names nil))
+       (counts (make-hash-table :test #'eq))
        (passed (count-if #'fiveam::test-passed-p results))
        (skipped (count-if (lambda (result) (typep result 'fiveam::test-skipped)) results))
        (failed (- (length results) passed skipped))
        (unexecuted (remove-if-not (lambda (test) (eq (fiveam::status test) :unknown)) cases))
        (success (and cases results (zerop failed) (zerop skipped) (null unexecuted))))
+  (dolist (result results)
+    (incf (gethash (fiveam::test-case result) counts 0)))
   (with-open-file (out output :direction :output :if-exists :supersede)
     (st-json:write-json
      (st-json:jso
@@ -38,6 +42,10 @@
       "asdfVersion" (asdf:asdf-version)
       "upstreamDefinition" (namestring (asdf:system-source-file *upstream-test-system*))
       "features" (mapcar #'symbol-name *features*)
+      "registrationEntries" (length entries)
+      "resultCounts" (loop for test being the hash-keys of counts using (hash-value count)
+                           collect (st-json:jso "test" (prin1-to-string (fiveam::name test))
+                                                "count" count))
       "registered" (length cases) "results" (length results)
       "passed" passed "failed" failed "skipped" skipped
       "unexecuted" (mapcar (lambda (test) (prin1-to-string (fiveam::name test))) unexecuted)

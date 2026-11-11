@@ -39,6 +39,7 @@
          (fiveam:*test-dribble* (make-string-output-stream))
          (fiveam:*on-error* nil) (fiveam:*on-failure* nil)
          (results (fiveam:run suite :print-names nil))
+         (counts (make-hash-table :test #'eq))
          (passed (count-if #'fiveam::test-passed-p results))
          (skipped (count-if (lambda (result) (typep result 'fiveam::test-skipped)) results))
          (failed (- (length results) passed skipped))
@@ -46,6 +47,8 @@
          (load-errors (count-if #'second *files*))
          (success (and (plusp (length cases)) (plusp (length results))
                        (zerop load-errors) (zerop failed) (zerop skipped) (null unexecuted))))
+    (dolist (result results)
+      (incf (gethash (fiveam::test-case result) counts 0)))
     (ffi:js->cl
      ((ffi:ref "JSON" "stringify")
       (ffi:object
@@ -56,6 +59,13 @@
                                       :error (if (second entry) (ffi:cl->js (second entry)) (ffi:ref "null"))
                                       :registered (js-array (third entry)
                                                             (lambda (test) (ffi:cl->js (name-string test)))))))
+       :registration-entries (reduce #'+ *files* :key (lambda (entry) (length (third entry))) :initial-value 0)
+       :result-counts (js-array
+                       (loop for test being the hash-keys of counts using (hash-value count)
+                             collect (cons test count))
+                       (lambda (entry)
+                         (ffi:object :test (ffi:cl->js (name-string (car entry)))
+                                     :count (cdr entry))))
        :registered (length cases) :results (length results) :passed passed :failed failed :skipped skipped
        :unexecuted (js-array unexecuted (lambda (test) (ffi:cl->js (name-string test))))
        :nonpassed (js-array (remove-if #'fiveam::test-passed-p results)
