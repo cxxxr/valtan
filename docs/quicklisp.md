@@ -997,6 +997,26 @@ counter values in FINALLY and are marked as specification issues by the upstream
 suite. Valtan's values agree with SBCL for those cases. The full ANSI and SACLA
 suites were not remeasured for this change.
 
+The optional `mcclim-portability/image-support` system provides symbol completion,
+operator argument descriptions and CLOS initialization argument descriptions for
+editor integration. Completion respects package exports, internal access,
+package-local nicknames and escaped names; hyphen-separated abbreviations such
+as `m-v-b` match `multiple-value-bind`. It does not intern completion requests.
+Class descriptions include inherited slots and applicable initialization methods,
+without evaluating slot or default-initarg forms. Argument descriptions use
+retained compiler metadata and editor descriptions for standard body forms;
+unknown native function signatures remain unavailable.
+
+[The helper checks](../tests/mcclim/image-support-results.json) pass 33 assertions
+each in fresh Node and Chrome runtimes. Run them from the repository root with:
+
+```sh
+node tests/mcclim/probe.mjs mcclim-portability/image-support /tmp/image-support-node.json tests/mcclim/image-support-checks.lisp
+node tests/mcclim/probe.mjs mcclim-portability/image-support /tmp/image-support-browser.json tests/mcclim/image-support-checks.lisp --browser
+```
+
+These are helper API checks; they do not establish Drei adapter or GUI coverage.
+
 ## Verification
 
 Rebuild the `valtan` executable after compiler/loader changes, then:

@@ -1,3 +1,7 @@
 (defsystem "mcclim-portability"
   :depends-on ("clim-core/system")
   :components ((:file "environment")))
+
+(defsystem "mcclim-portability/image-support"
+  :depends-on ("closer-mop")
+  :components ((:file "image-support")))

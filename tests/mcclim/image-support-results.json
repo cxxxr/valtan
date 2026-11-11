@@ -1,0 +1,49 @@
+{
+  "status": "passed",
+  "complete": true,
+  "scope": "33 image-support helper assertions in each fresh Node and Chrome runtime. This does not verify the Drei adapter, GUI integration, scheduled execution or full McCLIM compatibility.",
+  "runtimeRevision": "dc02e32",
+  "sourceHashes": {
+    "library/mcclim-portability/image-support.lisp": "b5c34f39c9a49c4822da19cdcf475170802ee3ce410384bdad90559e58d774fe",
+    "tests/mcclim/image-support-checks.lisp": "7b69c193fe4aadbb08a649941836b68547f6a958a5f22065a9e4083eae9eea95"
+  },
+  "commands": [
+    "node tests/mcclim/probe.mjs mcclim-portability/image-support /tmp/valtan-image-support-node3.json tests/mcclim/image-support-checks.lisp",
+    "node tests/mcclim/probe.mjs mcclim-portability/image-support /tmp/valtan-image-support-browser.json tests/mcclim/image-support-checks.lisp --browser"
+  ],
+  "checksPerRun": 33,
+  "runs": [
+    {
+      "system": "mcclim-portability/image-support",
+      "scope": "Load and supplied API assertions; GUI verification is separate",
+      "timestamp": "2026-11-11T17:36:44.875Z",
+      "complete": true,
+      "status": "passed",
+      "work": "/tmp/valtan-mcclim-M36kvm",
+      "compilerSha256": "a3e3ea9483a2546c1f87ae6d399f029232bacb13e3146918c2a3ac3cfdcd386a",
+      "target": "node",
+      "extraSystems": [],
+      "targetFeatures": [],
+      "checksSha256": "7b69c193fe4aadbb08a649941836b68547f6a958a5f22065a9e4083eae9eea95",
+      "stage": "run",
+      "bundleSha256": "2e489ece55095557e789f847086aa3a52adf91170e30c1683d2361bd105a4c30",
+      "finishedAt": "2026-11-11T17:37:20.647Z"
+    },
+    {
+      "system": "mcclim-portability/image-support",
+      "scope": "Load and supplied API assertions; GUI verification is separate",
+      "timestamp": "2026-11-11T17:38:28.714Z",
+      "complete": true,
+      "status": "passed",
+      "work": "/tmp/valtan-mcclim-ae0qnM",
+      "compilerSha256": "a3e3ea9483a2546c1f87ae6d399f029232bacb13e3146918c2a3ac3cfdcd386a",
+      "target": "browser",
+      "extraSystems": [],
+      "targetFeatures": [],
+      "checksSha256": "7b69c193fe4aadbb08a649941836b68547f6a958a5f22065a9e4083eae9eea95",
+      "stage": "run",
+      "bundleSha256": "5034340a22725cbf15c70d11d492b8ebb76a641695832141060325138bf2184e",
+      "finishedAt": "2026-11-11T17:39:28.844Z"
+    }
+  ]
+}
