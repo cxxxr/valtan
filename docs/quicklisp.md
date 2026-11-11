@@ -340,7 +340,8 @@ Curves have zero area as a mask while retaining their stroked drawing behavior.
 86 Canvas checks, and adds 45 Bezier pixel checks for curves, dashes, areas,
 opposite-winding unions, differences, opacity, transforms, clipping, patterned
 and composite inks, flipping, and moved output-record replay. Another 40 pixel
-checks cover Bezier clipping and spatial inks, for 224 checks in total including the 53 pixmap-copy checks below.
+checks cover Bezier clipping and spatial inks, for 284 checks in total including
+the 53 pixmap-copy and 60 text checks below.
 The earlier [157-check gate passes in a retained browser](../tests/mcclim/bezier-region-results.json)
 after reloading `HOST-CALL` to establish the single JavaScript return value.
 Without that boundary, CLOS method combination observed stale multiple values
@@ -389,7 +390,7 @@ transparent destination pixels and nonsolid design samples are left unchanged.
 The real CLIM gate checks foreground/background inks, explicit colors, tiled
 designs and Boolean clipping. Its 12 new checks and all 69 existing Canvas checks
 [pass after backend reloads](../tests/mcclim/flipping-live-results.json).
-`npm run test:mcclim:flipping` now runs 205 checks from a fresh startup. The earlier
+`npm run test:mcclim:flipping` now runs 265 checks from a fresh startup. The earlier
 81-check snapshot [passes in that gate](../tests/mcclim/flipping-cold-results.json). That snapshot
 predates the subsequent queue-order and editing-key fixes. The separate host/transport gate also
 [passes all seven tests](../tests/mcclim/input-flipping-transport-results.json).
@@ -416,8 +417,20 @@ source snapshot. Allocation reports the actual rounded surface dimensions, and
 deallocation releases the backing pixels. The [pixmap report](../tests/mcclim/pixmap-results.json)
 records 53 new checks and all 290 combined Canvas/Bezier/flipping checks passing
 in the retained worker, plus a fresh host-module test of fractional clipping and
-Canvas-state independence. The combined Canvas command now expects 290 checks;
-its fresh full McCLIM startup result is still pending.
+Canvas-state independence. The fresh 290-check snapshot is still running.
+
+Multiline text bounds now use the same font line advance as drawing, including
+blank lines and reversed page directions. They also report the final cursor's
+vertical displacement and accept a character argument. Previously, 20px fixed
+text advanced 24px when drawn but only 14px when measured, which displaced
+bottom- and center-aligned blocks. The [text report](../tests/mcclim/text-results.json)
+records the failing bottom-alignment pixel comparison and 60 passing assertions
+after loading the correction. These compare complete images against individually
+positioned lines, including scaling and rotation, and check substring ranges,
+blank lines, explicit styles and all four page directions. All 350 combined
+Canvas/Bezier/flipping assertions pass in that retained worker. The combined
+command now expects 350 checks (199 without Bezier or flipping); its fresh
+startup run is pending. This does not establish full McCLIM compatibility.
 
 `npm run test:mcclim:gadgets` exercises upstream text fields, toggles and sliders
 through Chrome input in a nested frame event loop. The browser queue drains

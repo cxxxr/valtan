@@ -58,6 +58,28 @@
     (values (- (property metrics "left")) (- (property metrics "actualAscent"))
             (property metrics "right") (property metrics "actualDescent")
             (property metrics "width") 0)))
+(defmethod text-bounding-rectangle* :around ((medium browser-medium) string
+                                          &key text-style (start 0) end)
+  (setf string (string string) start (or start 0) end (or end (length string)))
+  (if (not (position #\Newline string :start start :end end))
+      (call-next-method medium string :text-style text-style :start start :end end)
+      ;; The inherited multiline method advances by each line's ink height.
+      ;; Canvas ink bounds exclude leading and blank lines, whereas drawing
+      ;; advances by the font's line height. Use the drawing method's advance
+      ;; (including page direction), and return the accumulated cursor offset.
+      (let ((advance (nth-value 3 (text-size medium #.(format nil " ~%")
+                                            :text-style text-style)))
+            (y 0) (left 0) (top 0) (right 0) (bottom 0))
+        (loop for from = start then (1+ newline)
+              for newline = (position #\Newline string :start from :end end)
+              do (multiple-value-bind (xmin ymin xmax ymax dx dy)
+                     (call-next-method medium string :text-style text-style
+                                                     :start from :end (or newline end))
+                   (setf left (min left xmin) top (min top (+ y ymin))
+                         right (max right xmax) bottom (max bottom (+ y ymax)))
+                   (unless newline
+                     (return (values left top right bottom dx (+ y dy)))))
+                 (incf y advance)))))
 
 (defun canvas-pattern (medium ink &optional (outer-transformation +identity-transformation+))
   (let* ((source (climi::transformed-design-design ink))

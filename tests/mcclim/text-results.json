@@ -1,0 +1,133 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T12:17:41.018524+00:00",
+  "scope": "Real McCLIM text metrics and full Canvas pixel comparisons in retained Chrome after loading the browser-specific text-bounds around method. 60 new checks and all 350 combined drawing checks. Fresh 350-check startup still pending.",
+  "sourceHashes": {
+    "library/mcclim-browser/medium.lisp": "732b321618577ae4fb51071351c7079fc90c02513ba86740736588e6484d9fe2",
+    "tests/mcclim/text-checks.lisp": "3c43d70d6417b68b75ff37d7c57973d1dadd273294c9b0f3db6d67387074167d",
+    "tests/mcclim/canvas.mjs": "6c3f714e36b4318b2beb5875288a89a1bfc8dec286cd358bfdce192f655dc952"
+  },
+  "baseline": {
+    "metrics": {
+      "file": "/tmp/valtan-text-extents-probe.lisp",
+      "id": 9025,
+      "sourceSha256": "24ca1652c13d15ee56ddeb7963fa30baad6dfa254274dd5ee820b02c5d79d27b",
+      "startedAt": "2026-11-11T12:12:24.925Z",
+      "status": "passed",
+      "evaluationStartedAt": "2026-11-11T12:12:24.979Z",
+      "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9025,
+        "ok": true,
+        "value": "((:LINE-SIZE (12.041015625 24 12.041015625 0 19) :LINE-BOUNDS (0 -14 12 0 12.041015625 0) :BLOCK-SIZE (12.041015625 48 12.041015625 24 19) :BLOCK-BOUNDS (0 -14 12 14 12.041015625 0) :LEADING-NEWLINE (0 -14 12 0 12.041015625 0) :CHARACTER \"The value #\\\\M is not of the expected type SEQUENCE\"))"
+      },
+      "finishedAt": "2026-11-11T12:12:26.134Z"
+    },
+    "pixelFailure": {
+      "file": "tests/mcclim/text-checks.lisp",
+      "id": 9028,
+      "sourceSha256": "6be26cdddfb378c2b0dea02823d48fd19336a39b607dfddd1ea50b0c30d3e60f",
+      "startedAt": "2026-11-11T12:15:24.656Z",
+      "status": "failed",
+      "evaluationStartedAt": "2026-11-11T12:15:24.709Z",
+      "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9028,
+        "ok": false,
+        "error": "Text assertion 1 failed: (:PIXELS :LEFT :BOTTOM NIL #<STANDARD-IDENTITY-TRANSFORMATION 1>)"
+      },
+      "finishedAt": "2026-11-11T12:15:27.992Z"
+    },
+    "diagnosis": "Inherited multiline bounds advance by actual glyph ink height, unlike drawing which uses font line height. At 20px fixed font, advance was14 instead of24; leading blank lines added0; final cursor y stayed0. Character arguments reached LENGTH before coercion."
+  },
+  "initialReload": {
+    "file": "/tmp/valtan-text-reload.lisp",
+    "id": 9029,
+    "sourceSha256": "8aeb0c7194cdcea9361323be87d352b024bc135f78ed52af0674aef2834c83c4",
+    "startedAt": "2026-11-11T12:15:32.935Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T12:15:32.991Z",
+    "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9029,
+      "ok": true,
+      "value": "((:LINE-SIZE (12.041015625 24 12.041015625 0 19) :LINE-BOUNDS (0 -14 12 0 12.041015625 0) :BLOCK-SIZE (12.041015625 48 12.041015625 24 19) :BLOCK-BOUNDS (0 -14 12 24 12.041015625 24) :LEADING-NEWLINE (0 0 12 24 12.041015625 24) :CHARACTER (0 -14 12 0 12.041015625 0)))"
+    },
+    "finishedAt": "2026-11-11T12:15:34.170Z"
+  },
+  "finalReloadAndNewChecks": {
+    "file": "/tmp/valtan-text-final-reload.lisp",
+    "id": 9031,
+    "sourceSha256": "04c97a271232c2a5362f7a8d8f903bb494dca4c9aa7a377d734bf17f9084775d",
+    "startedAt": "2026-11-11T12:16:21.547Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T12:16:21.601Z",
+    "lastLog": "MCCLIM-TEXT-CHECKS-PASS 60",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9031,
+      "ok": true,
+      "value": "(:PASSED 60)"
+    },
+    "finishedAt": "2026-11-11T12:16:25.942Z"
+  },
+  "combined": {
+    "file": "/tmp/valtan-text-all-checks.lisp",
+    "id": 9032,
+    "sourceSha256": "3403663c77ab7f36f0179f2af4fd06bf2cceaddb71905fa22a285a154ec0a699",
+    "startedAt": "2026-11-11T12:16:34.424Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T12:16:34.478Z",
+    "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9032,
+      "ok": true,
+      "value": "(:PASSED 350)"
+    },
+    "finishedAt": "2026-11-11T12:17:04.351Z"
+  },
+  "fixtureRefinement": "Initial pixel helper used FFI:JS->CL on JavaScript booleans, which leaves false as a non-NIL object. That initial29-count run is not valid pixel evidence. Final helper explicitly compares with JavaScript true; evaluation9028 then reproduces the expected first pixel failure before any production reload.",
+  "coverage": [
+    "29 full-image comparisons against independent single-line draws: baseline/top/bottom/center, left/right/center, scale1.5 and rotated text; nonempty reference required",
+    "31 metric and state assertions: character/empty string, NIL/default/partial ranges, leading/trailing/multiple blank lines, all four page directions, final cursor offset, explicit style and medium style preservation"
+  ],
+  "runtimeScope": "Retained5c2fb35 core with earlier composite-flipping/PNG/copy backend reloads and85f16ce native VALUES-LIST. Text around method first installed9029, final NIL-range handling9031. No fresh current-runtime claim.",
+  "driver": {
+    "command": "cd tests && npm run test:mcclim:bezier:canvas -- --flipping",
+    "expectedCounts": {
+      "default": 199,
+      "flipping": 265,
+      "bezier": 284,
+      "bezierAndFlipping": 350
+    },
+    "freshRun": {
+      "status": "running",
+      "complete": false,
+      "startedAt": "2026-11-11T12:16:35.612Z",
+      "scope": "Real upstream CLIM pattern, clipping, composite-design, pixmap-copy and multiline-text assertions, plus Bezier curves, areas, unions, differences and output replay, plus solid flipping designs in Chrome; not full McCLIM compatibility",
+      "expectedChecks": 350,
+      "checksSha256": "3403663c77ab7f36f0179f2af4fd06bf2cceaddb71905fa22a285a154ec0a699",
+      "work": "/tmp/valtan-mcclim-workbench-zUC9EE"
+    }
+  },
+  "checks": [
+    "node --check tests/mcclim/canvas.mjs",
+    "git diff --check"
+  ],
+  "limitations": [
+    "Fresh startup validation remains pending.",
+    "Pixel comparisons cover transform-glyphs T; existing nontransforming text path is unchanged.",
+    "Full McCLIM support, including thread-dependent tests and long-running Drei diagnostics, remains incomplete."
+  ]
+}
