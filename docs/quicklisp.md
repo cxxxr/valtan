@@ -502,7 +502,13 @@ unexecuted. This snapshot includes the final subtype correction but predates the
 CLOS slot lookup optimization. The retained report also includes native-only baselines for the
 separate 90-case performance suite (all pass) and explicitly enabled
 self-compilation (fails upstream on SBCL with an illegal function call while
-re-evaluating a `FORM-TO-OBJECT` method). Neither is a Valtan result.
+re-evaluating a `FORM-TO-OBJECT` method). Those baseline results are native only.
+A separate [fresh Valtan browser performance run](../tests/mcclim/drei-performance-cold-results.json)
+now completes all 90 unchanged performance cases with 90 passing checks, no
+failures and no skips. Its source and result name sets match. The report retains
+its overall failure status because 506 other registered cases were not selected.
+This snapshot includes the slot lookup optimization and predates the later
+resumable compiler/runtime work.
 
 `npm run test:mcclim:drei:performance` selects the complete, unchanged
 `BUFFER-PERFORMANCE-TESTS` suite. `npm run test:mcclim:drei:self-compilation`
