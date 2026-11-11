@@ -267,8 +267,17 @@
     (funcall fn hir)))
 
 (defun p2-emit-declare-temporary-variables ()
-  (dolist (var (remove-duplicates *p2-temporary-variables* :test #'equal))
-    (format *p2-emit-stream* "let ~A;~%" var)))
+  ;; Large bodies have thousands of temporaries. Pairwise REMOVE-DUPLICATES
+  ;; makes their compilation quadratic, especially in scheduled execution.
+  ;; Retain the last occurrence, in the same order as REMOVE-DUPLICATES.
+  (when *p2-temporary-variables*
+    (let ((seen (make-hash-table :test 'equal)) (variables nil))
+      (dolist (var (reverse *p2-temporary-variables*))
+        (unless (gethash var seen)
+          (setf (gethash var seen) t)
+          (push var variables)))
+      (dolist (var variables)
+        (format *p2-emit-stream* "let ~A;~%" var)))))
 
 (defun p2-genvar (&optional (prefix "TMP"))
   (genvar prefix))

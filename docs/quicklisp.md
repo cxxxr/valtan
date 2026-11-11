@@ -1057,6 +1057,16 @@ The existing 2,000-update CLOS benchmark changes from 3.89 to 1.12 seconds, and
 the closure workload from 701 to 377 ms. These Node measurements exclude startup
 and do not establish full McCLIM performance or GUI compatibility.
 
+Temporary declarations use an `EQUAL` hash table to remove duplicate names while
+preserving their previous order. This avoids pairwise string comparisons in
+large compiled bodies, observed during the scheduled McCLIM Canvas checks.
+The [compilation benchmark](../tests/resumable/compile-benchmark-results.json)
+compares actual scheduled `COMPILE` calls before and after this change, verifies
+both execution entries, and compares their generated JavaScript hashes.
+Its timings cover synthetic assignment bodies on a shared machine, not McCLIM
+startup or drawing. To repeat it after building the dual runtime, run
+`node tests/resumable/compile-benchmark.mjs tests/dist-resumable/resumable.js /tmp/compile-results.json`.
+
 Application drivers still need integration with the scheduler: blocking calls
 must originate in scheduled Lisp, and merely enabling `:valtan-resumable` does
 not schedule a synchronous application top-level. Other blocking host operations and remaining JavaScript callback

@@ -1,0 +1,134 @@
+{
+  "status": "passed",
+  "complete": true,
+  "verifiedAt": "2026-11-11T20:29:12.198333+00:00",
+  "scope": "Compiler temporary declaration deduplication. Synthetic scheduled COMPILE of assignment bodies, ordinary and scheduled result verification, and complete resumable regression command. Not a whole McCLIM performance measurement.",
+  "trigger": "Read-only stack samples from the running scheduled McCLIM Canvas evaluation repeatedly showed P2-EMIT-DECLARE-TEMPORARY-VARIABLES / REMOVE-DUPLICATES / STRING=.",
+  "change": "EQUAL hash table deduplication preserving the previous last-occurrence order.",
+  "beforeRevision": "6076de5f20ce26c52f1c446bdb35b109609b7afc",
+  "compilerSha256": "537b304160b87b84f2f3a17f468277399d0d102f89ebb4b315f3073e9ad9fcef",
+  "sourceHashes": {
+    "library/valtan-core/compiler/pass2.lisp": "00a2559e077f82cfb6a00a0a6f94ced200e23c8a604cd7b3e74a767085946097",
+    "tests/resumable/compile-benchmark.mjs": "9d20e290bf6f4209fdac581cff0e67220097540977ba4e5e6ed4c89688e28895"
+  },
+  "measurementNotes": [
+    "Two samples per measured size, with one 16-assignment warmup in each fresh process.",
+    "Shared machine with other McCLIM jobs; timings are observations, not a stable speedup guarantee.",
+    "The pre-change run used the same workload and assertions; report formatting and error recording were cleaned up before the post-change run. Per-workload source hashes and all generated function hashes match."
+  ],
+  "before": {
+    "status": "passed",
+    "startedAt": "2026-11-11T20:19:52.632Z",
+    "bundleSha256": "016efcf1467ffdd56e488252303fd9f49cde2bde1798b55cd4a77ac849f46d92",
+    "scope": "Scheduled COMPILE of actual Lisp assignment bodies; two timed samples per size, after one small warmup. Not an end-to-end McCLIM benchmark.",
+    "results": [
+      {
+        "size": 64,
+        "sourceSha256": "b1da106542f321ff1231e487cb65cf2e7e4b8a2c57c860aa8a66cf0ef29540fa",
+        "samples": [
+          {
+            "milliseconds": 14248.360356000001,
+            "ordinaryCodeSha256": "82af668edac8dcf873455bbb67d670cb476b788ac3e8c7506addd0f3e5973b91",
+            "resumableCodeSha256": "35e24fc6801563393518088765b398f8f7c9736c68f316d1380833451df0feb1"
+          },
+          {
+            "milliseconds": 13119.152121000003,
+            "ordinaryCodeSha256": "ad2834e490c3eae6d5e0711bd923c234c66d86cf4beb9e13fe007c11cfa869d8",
+            "resumableCodeSha256": "da27e8dedb1d4d18cb79ea6de2ccd5145e0351e74627fbc84697d4a9a3217581"
+          }
+        ]
+      },
+      {
+        "size": 256,
+        "sourceSha256": "3b8a3f83ef96f205c1f32047958dcec2edec44fc9f4cb14279a0fea81ed43899",
+        "samples": [
+          {
+            "milliseconds": 177237.533084,
+            "ordinaryCodeSha256": "55df54194b5766f9563585aa75a995dd1be30cb62e0f48119681661d96afaf56",
+            "resumableCodeSha256": "9691024924097e4c745cbfbe3af97a4d601f84bebbd9b101cc42fbc1812fa658"
+          },
+          {
+            "milliseconds": 185979.192428,
+            "ordinaryCodeSha256": "dbef970c95263d7a3ae728734ebfd7bf5fe4e25941bdcdab00736e711e474385",
+            "resumableCodeSha256": "38aa7b487fc919f31859ed5883137aaac25062bec22fc1b6081854b31e877d99"
+          }
+        ]
+      }
+    ],
+    "finishedAt": "2026-11-11T20:26:25.048Z"
+  },
+  "after": {
+    "status": "passed",
+    "startedAt": "2026-11-11T20:23:39.778Z",
+    "bundleSha256": "1e1ebbc3e9b8a7fd40ec2e5e463d5fa5f5616f11f1a20e09b307ad04d7dd0fb8",
+    "scope": "Scheduled COMPILE of actual Lisp assignment bodies; two timed samples per size, after one small warmup. Not an end-to-end McCLIM benchmark.",
+    "results": [
+      {
+        "size": 64,
+        "sourceSha256": "b1da106542f321ff1231e487cb65cf2e7e4b8a2c57c860aa8a66cf0ef29540fa",
+        "samples": [
+          {
+            "milliseconds": 4354.008505,
+            "ordinaryCodeSha256": "82af668edac8dcf873455bbb67d670cb476b788ac3e8c7506addd0f3e5973b91",
+            "resumableCodeSha256": "35e24fc6801563393518088765b398f8f7c9736c68f316d1380833451df0feb1"
+          },
+          {
+            "milliseconds": 4276.030316,
+            "ordinaryCodeSha256": "ad2834e490c3eae6d5e0711bd923c234c66d86cf4beb9e13fe007c11cfa869d8",
+            "resumableCodeSha256": "da27e8dedb1d4d18cb79ea6de2ccd5145e0351e74627fbc84697d4a9a3217581"
+          }
+        ]
+      },
+      {
+        "size": 256,
+        "sourceSha256": "3b8a3f83ef96f205c1f32047958dcec2edec44fc9f4cb14279a0fea81ed43899",
+        "samples": [
+          {
+            "milliseconds": 19507.993090999997,
+            "ordinaryCodeSha256": "55df54194b5766f9563585aa75a995dd1be30cb62e0f48119681661d96afaf56",
+            "resumableCodeSha256": "9691024924097e4c745cbfbe3af97a4d601f84bebbd9b101cc42fbc1812fa658"
+          },
+          {
+            "milliseconds": 19035.593008999997,
+            "ordinaryCodeSha256": "dbef970c95263d7a3ae728734ebfd7bf5fe4e25941bdcdab00736e711e474385",
+            "resumableCodeSha256": "38aa7b487fc919f31859ed5883137aaac25062bec22fc1b6081854b31e877d99"
+          }
+        ]
+      }
+    ],
+    "finishedAt": "2026-11-11T20:24:34.105Z"
+  },
+  "comparisons": [
+    {
+      "size": 64,
+      "beforeMeanMs": 13683.756238500002,
+      "afterMeanMs": 4315.0194105,
+      "ordinaryAndResumableCodeIdentical": true
+    },
+    {
+      "size": 256,
+      "beforeMeanMs": 181608.36275600002,
+      "afterMeanMs": 19271.793049999997,
+      "ordinaryAndResumableCodeIdentical": true
+    }
+  ],
+  "regressions": {
+    "command": "cd tests && npm run test:resumable",
+    "exitCode": 0,
+    "coreAndCallbacks": 117,
+    "checkpointChecks": 11,
+    "scheduledTasks": 64,
+    "evalLoad": 18,
+    "synchronization": 12,
+    "sleep": 10,
+    "interrupts": 13,
+    "nativeErrors": 27,
+    "defconstant": 29,
+    "artifactTests": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "logSha256": "56e341818635356ef8dcf58ef65160781831a2ea6d8be3e8367a94bd6e4a723c"
+  }
+}
