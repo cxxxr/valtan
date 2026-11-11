@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as lisp from '../../kernel/lisp.js';
+import './synchronization.test.mjs';
 
 test('suspended dynamic bindings isolate local writes and retain shared global writes', () => {
   const a = lisp.createBindingContext(), b = lisp.createBindingContext();

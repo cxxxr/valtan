@@ -432,3 +432,17 @@ registerFunction(ffi_package, 'INSTANCEOF', CL_instanceof, null);
 export * from './execution';
 
 export * from './scheduler';
+
+import {
+    CL_makeCooperativeLock, CL_acquireCooperativeLock, CL_releaseCooperativeLock,
+    CL_makeCooperativeCondition, CL_cooperativeConditionWait, CL_cooperativeConditionNotify,
+} from './synchronization';
+export * from './synchronization';
+// Internal primitives use milliseconds; public thread APIs supply their own
+// argument/condition contracts and convert seconds at their Lisp boundary.
+registerFunction(system_package, '%MAKE-COOPERATIVE-LOCK', CL_makeCooperativeLock, 2);
+registerFunction(system_package, '%ACQUIRE-COOPERATIVE-LOCK', CL_acquireCooperativeLock, 3);
+registerFunction(system_package, '%RELEASE-COOPERATIVE-LOCK', CL_releaseCooperativeLock, 1);
+registerFunction(system_package, '%MAKE-COOPERATIVE-CONDITION', CL_makeCooperativeCondition, 1);
+registerFunction(system_package, '%COOPERATIVE-CONDITION-WAIT', CL_cooperativeConditionWait, 3);
+registerFunction(system_package, '%COOPERATIVE-CONDITION-NOTIFY', CL_cooperativeConditionNotify, 2);

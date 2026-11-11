@@ -854,8 +854,19 @@ before loading its compiled artifact, suspends during loading, and resumes to
 install the remaining definition. Browser file output remains unavailable, so
 browser COMPILE-FILE is not covered by the passing compiled-stream checks.
 
-This is not Bordeaux Threads support. Locks, condition variables, the Lisp thread
-API and application drivers still need integration with the scheduler. Blocking
+Internal cooperative locks and condition variables now share the scheduler's
+task identity. Locks support recursive ownership, nonblocking/timed acquisition
+and FIFO handoff. Condition waits atomically enqueue and release the lock, then
+reacquire it before returning or unwinding; cancellation after a grant cannot
+leave an abandoned owner. Repeated cancellation during condition reacquisition
+preserves the first interruption until protected cleanup can run with its lock.
+The [synchronization checks](../tests/resumable/synchronization-results.json)
+exercise shared counters, producer/consumer queues, notification/broadcast,
+timeouts and cancellation. The internal timeout unit is milliseconds; this is
+not yet the public Bordeaux Threads interface or its Lisp condition contract.
+
+The Lisp thread API and application drivers still need integration with the
+scheduler. Blocking
 host operations and remaining JavaScript callback boundaries can still prevent
 suspension; native error delivery is not yet generally resumable. Load-time
 initializers remain synchronous. The McCLIM Canvas driver

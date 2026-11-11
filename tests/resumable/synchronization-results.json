@@ -1,0 +1,122 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "threadSupportComplete": false,
+  "recordedAt": "2026-11-11T14:30:56.939878+00:00",
+  "scope": "Internal same-heap cooperative locks and condition variables. Public Bordeaux Threads APIs and application scheduler entry points remain separate work.",
+  "sourceHashes": {
+    "kernel/synchronization.js": "680a6eb663ec193d2328f450d5d9bf93b81e6fc440abfbf9543cdcfc0ff15082",
+    "kernel/lisp.js": "a065759c76ffe1246c11d725e0b54e8a5277c53f62ea3b9222ff02dc9ae5913e",
+    "tests/performance/kernel.test.mjs": "45f5e2247d0d7cf562b516cb50fb7fa684750407cfd2e435f5b31e23e19f0c67",
+    "tests/performance/synchronization.test.mjs": "8220e8d05611bdf2a135753354038f0017391d8b52401e187d443c87fc0349df",
+    "tests/resumable.system": "26f67d8ad3832b0a8117df216691a64d6817ef00908a7a1dd1bc40c97ae2c262",
+    "tests/resumable/synchronization.lisp": "106a2bef9c321819f94d6f85fad16157898d5aa94f6b0685dd21f7b6154cae54",
+    "tests/resumable/synchronization-checks.mjs": "5f3e16c465b994f60defa7734e86b5aa853f625c6974daffd5cd7b813f7cc744",
+    "tests/resumable/verify.mjs": "1bf3de534148cc00f87f1ceace01249e1adac0a412cd228c13496e0875b5c393"
+  },
+  "compilerSha256": "d461ea22ead6be9158897915718a16b84f9ea76e371b1d958d2da75f648c5f62",
+  "implementation": {
+    "locks": "Task identity ownership, recursive depth, FIFO handoff, nonblocking/timed acquisition, waiter removal and timer cleanup. A cancelled waiter relinquishes ownership even if granted before its promise continuation ran.",
+    "conditions": "Atomically enqueue and release without a suspension between them. Notify one or broadcast. Reacquire the lock and original recursive depth before normal return, timeout or exceptional unwinding. Repeated cancellation while reacquiring preserves the first interruption.",
+    "synchronous": "Ordinary startup may acquire/release uncontended locks. Ordinary condition calls fail before releasing ownership. Manually stepped unscheduled execution contexts cannot silently share an owner token.",
+    "timeouts": "Internal milliseconds; chunk long timers to avoid the host signed 32-bit timeout limit. Condition timeout does not bypass reacquisition: it can return later while another owner still holds the lock."
+  },
+  "kernel": {
+    "status": "passed",
+    "tests": 24,
+    "newTests": 7,
+    "command": "npm --prefix tests run test:performance:kernel",
+    "log": "/tmp/valtan-lock-kernel.log",
+    "coverage": [
+      "64 tasks protect 192 interleaved shared read-modify-write operations",
+      "recursive depth, nonblocking acquisition, zero/finite timeouts and ownership errors",
+      "cancel queued and granted-but-not-resumed waiters; clear long timer",
+      "notify one of 64 condition waiters, broadcast remaining 63",
+      "timeout waits for lock reacquisition",
+      "repeated cancellation restores recursive depth before unwind",
+      "ordinary condition and unscheduled task rejection leave ownership intact"
+    ]
+  },
+  "node": {
+    "status": "passed",
+    "command": "npm --prefix tests run build:resumable && npm --prefix tests run test:resumable",
+    "log": "/tmp/valtan-lock-verify.log",
+    "synchronization": {
+      "checks": 12,
+      "counterTasks": 64,
+      "counterUpdates": 192,
+      "producers": 4,
+      "consumers": 4,
+      "transferredItems": 64,
+      "broadcastWaiters": 4,
+      "recursiveTasks": 8,
+      "cancelledWaiters": 1
+    },
+    "existingChecks": {
+      "resumable": 43,
+      "dual": 51,
+      "nativeCallbacks": 23,
+      "schedulerTasks": 64,
+      "checkpointOnlyTasks": 2,
+      "eval": 18,
+      "sourceDeletedArtifactAcrossFreshProcesses": true
+    }
+  },
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T14:26:53.001Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-s5UdJd",
+    "compilerSha256": "d461ea22ead6be9158897915718a16b84f9ea76e371b1d958d2da75f648c5f62",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "afterLoadSha256": "99eb36125074f14e1d0880bcc3709c182e053dd072bc8e7b64285fc917125aa2",
+    "checksSha256": "51e434f32eb7d624b71616c71980a79f4fd8c3a213f4781b503776c9eee6c0ef",
+    "stage": "run",
+    "bundleSha256": "7a073a11607abf33237bb19e9935c4a71df5aa14b43d49d7ebc98d164adb9fd9",
+    "finishedAt": "2026-11-11T14:30:16.443Z"
+  },
+  "browserReproduction": "Concatenate performance/resumable.lisp, resumable/checks.lisp, callbacks.lisp, scheduler.lisp, eval.lisp, synchronization.lisp and alexandria-checks.lisp. Run probe.mjs alexandria REPORT CHECKS --browser valtan-resumable --after-load=AFTER. AFTER concatenates scheduler-checks.mjs, eval-checks.mjs and synchronization-checks.mjs and awaits all three verifiers; disable fileCompilation in the browser EVAL verifier.",
+  "ordinaryPerformance": {
+    "status": "passed",
+    "log": "/tmp/valtan-lock-performance-verify.log",
+    "resumableChecks": 43,
+    "semanticRegressions": true,
+    "workloads": 8
+  },
+  "remaining": [
+    "These internal primitives do not yet expose the Bordeaux Threads v1/v2 APIs or Lisp condition types.",
+    "Thread lifecycle, join/interrupt and default special bindings need their public adapter.",
+    "SLEEP still blocks the host; scheduled sleep and other blocking host operations require resumable paths.",
+    "Application drivers require scheduler entry integration.",
+    "Existing long McCLIM/Drei workers have earlier snapshots; no full McCLIM verification is claimed."
+  ],
+  "browserAssertions": {
+    "synchronization": {
+      "checks": 12,
+      "counterTasks": 64,
+      "counterUpdates": 192,
+      "producers": 4,
+      "consumers": 4,
+      "transferredItems": 64,
+      "broadcastWaiters": 4,
+      "recursiveTasks": 8,
+      "cancelledWaiters": 1
+    },
+    "existingResumable": 43,
+    "existingDual": 51,
+    "existingNativeCallbacks": 23,
+    "alexandria": 4,
+    "schedulerTasks": 64,
+    "checkpointOnlyTasks": 2,
+    "eval": 17,
+    "compileFile": false,
+    "log": "/tmp/valtan-lock-browser-logs/run.log"
+  }
+}

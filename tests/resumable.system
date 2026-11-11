@@ -4,7 +4,8 @@
                (:file "resumable/checks")
                (:file "resumable/callbacks")
                (:file "resumable/scheduler")
-               (:file "resumable/eval"))
+               (:file "resumable/eval")
+               (:file "resumable/synchronization"))
   :target :node
   :target-features (:valtan-resumable)
   :compile-mode :runtime)

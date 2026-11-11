@@ -16,3 +16,7 @@ console.log('64 scheduled Lisp tasks, 2 checkpoint-only loops, shared array, loc
 const { verifyResumableEval } = await import('./eval-checks.mjs');
 const evalResult = await verifyResumableEval(globalThis.valtanSchedulerKernel, globalThis.valtanEvalTestSetup());
 console.log('RESUMABLE-EVAL-CHECKS-PASS ' + JSON.stringify(evalResult));
+
+const { verifySynchronization } = await import('./synchronization-checks.mjs');
+const synchronization = await verifySynchronization(globalThis.valtanSchedulerKernel, globalThis.valtanSynchronizationTestSetup());
+console.log('SYNCHRONIZATION-CHECKS-PASS ' + JSON.stringify(synchronization));
