@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T12:57:16.132Z",
+  "scope": "Real upstream CLIM pattern, clipping, composite-design, pixmap-copy and multiline-text assertions, plus Bezier curves, areas, unions, differences and output replay, plus solid flipping designs in Chrome; not full McCLIM compatibility",
+  "expectedChecks": 350,
+  "checksSha256": "3403663c77ab7f36f0179f2af4fd06bf2cceaddb71905fa22a285a154ec0a699",
+  "work": "/tmp/valtan-mcclim-workbench-AmCDvp",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-AmCDvp",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T12:57:16.175Z",
+    "compilerSha256": "8de5fde9414d544fe919251e615f650b351d34fbe1b8d44d68200665185706d5",
+    "bundleSha256": "88f79385c0c699e389733918d0aa87b6ccd3bae0dd22a70348eb9fb325ba4e2f",
+    "browserAssetsSha256": "32ff8852e9d6a59d8d0e5e151d8e3183b7be13bc0c7b5fe6f9f501b94360c3d7",
+    "readyAt": "2026-11-11T13:26:28.908Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "canvas",
+        "startedAt": "2026-11-11T13:26:28.910Z",
+        "sourceSha256": "3403663c77ab7f36f0179f2af4fd06bf2cceaddb71905fa22a285a154ec0a699",
+        "file": "/tmp/valtan-canvas-checks-6ftFOC/checks.lisp",
+        "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:PASSED 350)"
+        },
+        "finishedAt": "2026-11-11T13:26:54.397Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T13:26:54.445Z"
+  },
+  "result": {
+    "type": "test-result",
+    "id": 1,
+    "ok": true,
+    "value": "(:PASSED 350)"
+  },
+  "finishedAt": "2026-11-11T13:26:54.585Z",
+  "fullMcclimComplete": false,
+  "validationScope": "Fresh browser snapshot 5f86780: all 350 Canvas/pixmap/text/Bezier/flipping assertions after resumable execution-context/kernel/compiler additions. Ordinary compilation mode, no production reload. Predates ddc40da dual compilation and native callback changes; does not test suspension within McCLIM."
+}

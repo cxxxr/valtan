@@ -790,7 +790,10 @@ record 43 real Lisp assertions passing in Node and a fresh Chrome worker,
 including recursion, shared mutable data, special parameters, nonlocal exits,
 conditions, cleanup that suspends, function redefinition and multiple values.
 The generator path also passes all 104 selected compiler/control regressions in
-both evaluation and compiled modes.
+both evaluation and compiled modes. A [fresh McCLIM browser run](../tests/mcclim/resumable-kernel-cold-results.json)
+also passes all 350 drawing checks using the ordinary compilation mode with
+this runtime/compiler snapshot. It predates dual compilation and does not test
+suspension within McCLIM.
 
 A system can opt into dual compilation with
 `:target-features (:valtan-resumable)`. The build compiles the core with both an
