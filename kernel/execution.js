@@ -34,8 +34,10 @@ export function withExecutionContext(context, function_) {
 // A scheduler can advance tasks without owning Lisp values or binding stacks.
 // Tasks run in one JS heap, so closures and ordinary mutable objects are shared.
 export class ResumableTask {
-    constructor(function_, args = []) {
-        this.context = createExecutionContext();
+    // Interrupt activations share their parent's context and execute as a stack;
+    // unrelated tasks use the default, independent execution context.
+    constructor(function_, args = [], context = createExecutionContext()) {
+        this.context = context;
         this.iterator = callResumable(function_, ...args);
         this.done = false;
         this.values = null;

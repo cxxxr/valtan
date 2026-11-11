@@ -24,3 +24,7 @@ console.log('SYNCHRONIZATION-CHECKS-PASS ' + JSON.stringify(synchronization));
 const { verifySleep } = await import('./sleep-checks.mjs');
 const sleep = await verifySleep(globalThis.valtanSchedulerKernel, globalThis.valtanSleepTestSetup());
 console.log('SLEEP-CHECKS-PASS ' + JSON.stringify(sleep));
+
+const { verifyInterrupts } = await import('./interrupt-checks.mjs');
+const interrupts = await verifyInterrupts(globalThis.valtanSchedulerKernel, globalThis.valtanInterruptTestSetup());
+console.log('INTERRUPT-CHECKS-PASS ' + JSON.stringify(interrupts));

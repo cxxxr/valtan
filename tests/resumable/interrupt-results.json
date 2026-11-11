@@ -1,0 +1,143 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "threadSupportComplete": false,
+  "recordedAt": "2026-11-11T14:53:00.939326+00:00",
+  "scope": "Internal scheduler callback interruption in the target execution context. Public Bordeaux Threads thread lifecycle/identity/join/interrupt adapters remain separate work.",
+  "sourceHashes": {
+    "kernel/execution.js": "4e1f86ceec84cb16ff0d26d08b7b180d26615a1bb79613bbd5c09116f47f880e",
+    "kernel/scheduler.js": "dc4530987ffe4df5fecab675c7e6699ab1cf69b877502d6423f4be7a96c36153",
+    "tests/performance/kernel.test.mjs": "fc254c97290a46a9fa755edf305583105adfef443abd0347a5786da76f8b8ae3",
+    "tests/performance/interrupt.test.mjs": "96f0809ebe9aa9969e588d080b6b2995999ce6bb30197155b9de5a98c51b92b8",
+    "tests/resumable.system": "788ad044eb3c34a5a5c7232480d3110af6d8ac637b46ca420cdb199e23993c73",
+    "tests/resumable/interrupt.lisp": "016f9797962cc3958829ed7d069daadd3258bb7b7418f35f39f2eb70e4f59e12",
+    "tests/resumable/interrupt-checks.mjs": "22c179e6580bfed42b1dc84f6959455f1e88b2e1cd645a323ee8540b4117a1f9",
+    "tests/resumable/verify.mjs": "6accc52876a7b68e485d486605131e829724552ccc5810240d200f4a74768423"
+  },
+  "compilerSha256": "d461ea22ead6be9158897915718a16b84f9ea76e371b1d958d2da75f648c5f62",
+  "implementation": {
+    "activations": "Each scheduler handle has a stack of ResumableTask activations sharing its execution context and a queue of callbacks. The target retains its dynamic bindings/call stack while callbacks run and may suspend.",
+    "waits": "Each activation tracks pending operations, state and wait version independently. Original promise completion during a callback is saved until that activation resumes. Callback failure invalidates the parent wait and throws through the parent iterator.",
+    "values": "Normal callbacks restore saved values. Exceptional callbacks retain the current transferred values for RETURN-FROM/THROW while parent cleanup runs.",
+    "cancellation": "Discard queued callbacks; schedule cancellation through all existing activations. Unwind active callbacks first, then parents; asynchronous cleanup can await.",
+    "self": "The JavaScript scheduler interrupt method queues delivery at the next suspension. Public Lisp self-interrupt needs a direct resumable call path to run before its caller continues."
+  },
+  "kernel": {
+    "status": "passed",
+    "tests": 36,
+    "newTests": 9,
+    "command": "npm --prefix tests run test:performance:kernel",
+    "log": "/tmp/valtan-interrupt-kernel2.log",
+    "coverage": [
+      "Target bindings and multiple values; original wait fulfilled during a suspended callback",
+      "Original unresolved wait remains parked after normal callback return",
+      "Transferred multiple values on a nonlocal callback exit",
+      "Nested callback error reaches its parent callback handler",
+      "Callback failure enters original handler and abandons old wait",
+      "Original promise rejection retained during suspended callback",
+      "Cancellation unwinds callback and parent asynchronous cleanup in order",
+      "Self-queued callback retains recursive lock ownership",
+      "Checkpoint-only computation resumes at original position"
+    ]
+  },
+  "node": {
+    "status": "passed",
+    "command": "npm --prefix tests run build:resumable && npm --prefix tests run test:resumable",
+    "log": "/tmp/valtan-interrupt-verify2.log",
+    "interruptChecks": 13,
+    "coverage": [
+      "Dynamic binding mutation and isolation",
+      "Callback results discarded, original multiple values preserved",
+      "HANDLER-CASE in target handles callback ERROR",
+      "Target CATCH receives callback THROW with multiple values",
+      "HANDLER-BIND handler can sleep and return without leaving original wait",
+      "Captured nonlocal GO enters original active TAGBODY",
+      "Cancelling target unwinds callback then original Lisp cleanup with SLEEP"
+    ],
+    "existingChecks": {
+      "resumable": 43,
+      "dual": 51,
+      "nativeCallbacks": 23,
+      "schedulerTasks": 64,
+      "checkpointOnlyTasks": 2,
+      "eval": 18,
+      "synchronization": 12,
+      "sleep": 10,
+      "sourceDeletedArtifactAcrossFreshProcesses": true
+    }
+  },
+  "initialFailures": {
+    "nodeLog": "/tmp/valtan-interrupt-verify.log",
+    "browser": {
+      "system": "alexandria",
+      "scope": "Load and supplied API assertions; GUI verification is separate",
+      "timestamp": "2026-11-11T14:45:37.350Z",
+      "complete": false,
+      "status": "failed",
+      "work": "/tmp/valtan-mcclim-sHnNIG",
+      "compilerSha256": "d461ea22ead6be9158897915718a16b84f9ea76e371b1d958d2da75f648c5f62",
+      "target": "browser",
+      "extraSystems": [],
+      "targetFeatures": [
+        "valtan-resumable"
+      ],
+      "afterLoadSha256": "03dc1680890cf783ee351f7c97f19b48c0345e617c49db257931b2070a141e19",
+      "checksSha256": "9933bd345e55a5c22919ad7e8f8bd83a458f282aeb8c3ebd6976179c2588d3af",
+      "stage": "run",
+      "bundleSha256": "4738cb06601d00fa415745bac5fffc9e5599bd0b14e012b2c6b1eeb26f8d788f",
+      "error": "Error: Error: THROW did not reach the target CATCH",
+      "finishedAt": "2026-11-11T14:49:01.707Z"
+    },
+    "diagnostic": "/tmp/valtan-interrupt-diagnostic.log",
+    "cause": "Restoring pre-callback values on an exceptional callback exit overwrote THROW values before the target UNWIND-PROTECT cleanup. Restore only on normal callback completion."
+  },
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T14:49:10.080Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-zMuPe4",
+    "compilerSha256": "d461ea22ead6be9158897915718a16b84f9ea76e371b1d958d2da75f648c5f62",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "afterLoadSha256": "03dc1680890cf783ee351f7c97f19b48c0345e617c49db257931b2070a141e19",
+    "checksSha256": "9933bd345e55a5c22919ad7e8f8bd83a458f282aeb8c3ebd6976179c2588d3af",
+    "stage": "run",
+    "bundleSha256": "f2101fbfc66d65ca59fea6bb86cb00a2e6ad85a9b2e2eca011bb656ec97af559",
+    "finishedAt": "2026-11-11T14:52:35.234Z"
+  },
+  "browserReproduction": "Use the eight existing Lisp resumable/scheduler/EVAL/synchronization/sleep/Alexandria fixtures plus resumable/interrupt.lisp. Run probe.mjs alexandria REPORT CHECKS --browser valtan-resumable --after-load=AFTER. AFTER concatenates all five portable verifier modules and awaits each; disable fileCompilation for browser EVAL.",
+  "ordinaryPerformance": {
+    "status": "passed",
+    "log": "/tmp/valtan-interrupt-performance-verify.log",
+    "resumableChecks": 43,
+    "semanticRegressions": true,
+    "workloads": 8
+  },
+  "remaining": [
+    "Public Bordeaux Threads v1/v2 APIs, thread identity/lifecycle/join, self-interrupt and default bindings require an adapter.",
+    "Semaphores/atomics/timeouts and application scheduler entry integration remain.",
+    "Native error delivery and arbitrary foreign callbacks remain synchronous boundaries.",
+    "Old live McCLIM/Drei snapshots do not verify this change."
+  ],
+  "browserAssertions": {
+    "interruptChecks": 13,
+    "existingResumable": 43,
+    "existingDual": 51,
+    "existingNativeCallbacks": 23,
+    "alexandria": 4,
+    "schedulerTasks": 64,
+    "checkpointOnlyTasks": 2,
+    "eval": 17,
+    "synchronization": 12,
+    "sleep": 10,
+    "compileFile": false,
+    "log": "/tmp/valtan-interrupt-browser2-logs/run.log"
+  },
+  "postVerificationChanges": "Only a constructor comment documenting shared interrupt execution contexts; source hashes above identify the tested implementation."
+}

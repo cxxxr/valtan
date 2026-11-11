@@ -874,6 +874,18 @@ and zero durations, interleaving, cancellation and unchanged multiple values
 from other environment operations. Ordinary synchronous calls retain their
 blocking behavior.
 
+The scheduler's `interrupt(handle, function, args)` now runs a callback in the
+target task's dynamic context before resuming its suspended computation. Each
+interrupted activation retains its own pending wait, so a promise fulfilled or
+rejected during a callback is delivered afterward. Callbacks can suspend or be
+interrupted themselves. Cancellation unwinds callback cleanup before the original
+task's cleanup. Normal callback results are discarded; nonlocal exits retain the
+values transferred through `THROW`/`RETURN-FROM`. The
+[interrupt checks](../tests/resumable/interrupt-results.json) cover target Lisp
+handlers, CATCH/THROW, nonlocal GO, asynchronous cleanup and binding isolation.
+This is the internal scheduler interface; public thread identity, joining and
+Bordeaux Threads argument/condition contracts still need their adapter.
+
 The Lisp thread API and application drivers still need integration with the
 scheduler. Other blocking host operations and remaining JavaScript callback
 boundaries can still prevent suspension; native error delivery is not yet
