@@ -2,7 +2,8 @@
   :serial t
   :components ((:file "performance/resumable")
                (:file "resumable/checks")
-               (:file "resumable/callbacks"))
+               (:file "resumable/callbacks")
+               (:file "resumable/scheduler"))
   :target :node
   :target-features (:valtan-resumable)
   :compile-mode :runtime)

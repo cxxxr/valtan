@@ -318,3 +318,119 @@ test('native enumeration bounds private-symbol scans and unwinds interrupted cal
     assert.equal(lisp.getBacktrace(), 'Backtrace:\n');
   } finally { lisp.CL_deletePackage(pkg); }
 });
+
+test('scheduler interleaves 64 same-heap tasks and gives the host event loop time', async () => {
+  const scheduler = new lisp.CooperativeScheduler({ checkpointBudget: 1, slicesPerTurn: 4 });
+  const x = lisp.makeSymbol('SCHEDULED-X'); x.value = 'global';
+  const log = [], shared = { count: 0 };
+  const run = lisp.makeResumable(function*(id) {
+    const frame = lisp.bindSpecial(x); x.value = id;
+    try {
+      for (let round = 0; round < 3; round++) {
+        assert.equal(x.value, id);
+        assert.equal(lisp.currentScheduledTask().task.context.bindings !== null, true);
+        log.push([round, id]); shared.count++;
+        yield lisp.resumableCheckpoint;
+      }
+      return lisp.values(id, shared.count);
+    } finally { lisp.unbindSpecial(frame); }
+  });
+  const handles = Array.from({ length: 64 }, (_, id) => scheduler.spawn(run, [id]));
+  assert.equal(log.length, 0, 'spawn must not execute the closure synchronously');
+  let hostObserved;
+  const host = new Promise(resolve => setTimeout(() => { hostObserved = shared.count; resolve(); }, 0));
+  const values = await Promise.all(handles.map(h => h.completion));
+  await host;
+  assert.ok(hostObserved > 0 && hostObserved < 192);
+  assert.deepEqual(log, Array.from({ length: 192 }, (_, i) => [Math.floor(i / 64), i % 64]));
+  assert.deepEqual(values, Array.from({ length: 64 }, (_, id) => [id, 192]));
+  assert.equal(x.value, 'global');
+  assert.equal(lisp.currentScheduledTask(), null);
+  assert.equal(scheduler.tasks.size, 0);
+});
+
+test('scheduler parks on promises, resumes values and throws rejected waits through cleanup', async () => {
+  const scheduler = new lisp.CooperativeScheduler();
+  let release;
+  const gate = new Promise(resolve => { release = resolve; });
+  const error = new Error('rejected wait');
+  let cleaned = false;
+  const waiting = scheduler.spawn(lisp.makeResumable(function*() {
+    const value = yield { kind: 'await', promise: gate };
+    try {
+      yield { kind: 'await', promise: Promise.reject(error) };
+    } catch (caught) {
+      assert.equal(caught, error);
+      return lisp.values(value, 'caught');
+    } finally { cleaned = true; }
+  }));
+  const other = scheduler.spawn(lisp.makeResumable(function*() {
+    yield { kind: 'yield' };
+    assert.equal(waiting.state, 'waiting');
+    release(42);
+    return lisp.values();
+  }));
+  assert.deepEqual(await waiting.completion, [42, 'caught']);
+  assert.deepEqual(await other.completion, []);
+  assert.equal(cleaned, true);
+});
+
+test('cancelled waits cannot resume a newer cleanup wait', async () => {
+  const scheduler = new lisp.CooperativeScheduler();
+  let oldRelease, cleanupRelease, entered;
+  const oldGate = new Promise(resolve => { oldRelease = resolve; });
+  const cleanupGate = new Promise(resolve => { cleanupRelease = resolve; });
+  const cleanupEntered = new Promise(resolve => { entered = resolve; });
+  const error = new Error('cancel waiting task');
+  let cleaned = false;
+  const handle = scheduler.spawn(lisp.makeResumable(function*() {
+    try { yield { kind: 'await', promise: oldGate }; }
+    finally {
+      entered();
+      assert.equal(yield { kind: 'await', promise: cleanupGate }, 'cleanup');
+      cleaned = true;
+    }
+  }));
+  // A second queued task observes the first task parked and cancels it.
+  const canceller = scheduler.spawn(lisp.makeResumable(function*() {
+    assert.equal(handle.state, 'waiting');
+    assert.equal(scheduler.cancel(handle, error), true);
+    return lisp.values();
+  }));
+  await canceller.completion;
+  await cleanupEntered;
+  oldRelease('obsolete');
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(handle.state, 'waiting');
+  assert.equal(cleaned, false);
+  cleanupRelease('cleanup');
+  await assert.rejects(handle.completion, e => e === error);
+  assert.equal(cleaned, true);
+  assert.equal(scheduler.cancel(handle), false);
+});
+
+test('scheduler preserves self-cancellation and delivers unsupported requests through unwind', async () => {
+  const scheduler = new lisp.CooperativeScheduler();
+  const error = new Error('self cancel');
+  let cleaned = 0;
+  const handle = scheduler.spawn(lisp.makeResumable(function*() {
+    try {
+      scheduler.cancel(lisp.currentScheduledTask(), error);
+      yield { kind: 'await', promise: new Promise(() => {}) };
+    } finally { cleaned++; }
+  }));
+  await assert.rejects(handle.completion, e => e === error);
+  const invalid = scheduler.spawn(lisp.makeResumable(function*() {
+    try { yield { kind: 'unsupported' }; }
+    finally { cleaned++; }
+  }));
+  await assert.rejects(invalid.completion, /Unknown scheduler suspension request/);
+  const malformed = scheduler.spawn(lisp.makeResumable(function*() {
+    try { yield { kind: 'await', get promise() { throw error; } }; }
+    finally { cleaned++; }
+  }));
+  await assert.rejects(malformed.completion, e => e === error);
+  assert.equal(cleaned, 3);
+  assert.equal(scheduler.tasks.size, 0);
+  assert.equal(lisp.getBacktrace(), 'Backtrace:\n');
+});

@@ -15,6 +15,11 @@ const [system = 'clim-core/system', outputName = '/tmp/valtan-mcclim-load.json',
 const browserOption = features.indexOf('--browser');
 const target = browserOption < 0 ? 'node' : 'browser';
 if (browserOption >= 0) features.splice(browserOption, 1);
+const afterLoadOptions = features.filter(feature => feature.startsWith('--after-load='));
+if (afterLoadOptions.length > 1 || (afterLoadOptions.length && target !== 'browser'))
+  throw new Error('--after-load=FILE is supported once, with --browser');
+const afterLoad = afterLoadOptions.length ? fs.readFileSync(path.resolve(afterLoadOptions[0].slice(13)), 'utf8') : null;
+for (let i = features.length - 1; i >= 0; i--) if (features[i].startsWith('--after-load=')) features.splice(i, 1);
 const extraSystems = features.filter(feature => feature.startsWith('--depends-on=')).map(feature => feature.slice(13));
 for (let i = features.length - 1; i >= 0; i--) if (features[i].startsWith('--depends-on=')) features.splice(i, 1);
 if (!/^[a-z0-9/-]+$/.test(system)) throw new Error('Invalid system name');
@@ -28,6 +33,7 @@ const hash = data => createHash('sha256').update(data).digest('hex');
 const report = {system, scope: checkFile ? 'Load and supplied API assertions; GUI verification is separate' : 'Load gate only; GUI verification is separate',
   timestamp: new Date().toISOString(), complete: false, status: 'running', work,
   compilerSha256: hash(fs.readFileSync(path.join(root, 'valtan'))), target, extraSystems, targetFeatures: features};
+if (afterLoad !== null) report.afterLoadSha256 = hash(afterLoad);
 const save = () => fs.writeFileSync(output, JSON.stringify(report, null, 2) + '\n');
 async function run(command, args, logName, timeout) {
   return new Promise((resolve, reject) => {
@@ -51,10 +57,11 @@ save();
 async function runBrowser(bundle) {
   const worker = `console.log = (...args) => postMessage({line: args.join(' ')});
     console.error = (...args) => postMessage({error: args.join(' ')});
-    try {await import('/app.mjs'); postMessage({done: true});}
+    try {await import('/app.mjs'); ${afterLoad !== null ? "await import('/after-load.mjs');" : ''} postMessage({done: true});}
     catch(error) {postMessage({error: String(error), done: true});}`;
   const server = http.createServer((request, response) => {
     if (request.url === '/app.mjs') {response.setHeader('Content-Type', 'text/javascript'); response.end(fs.readFileSync(bundle));}
+    else if (request.url === '/after-load.mjs' && afterLoad !== null) {response.setHeader('Content-Type', 'text/javascript'); response.end(afterLoad);}
     else if (request.url === '/worker.mjs') {response.setHeader('Content-Type', 'text/javascript'); response.end(worker);}
     else {response.setHeader('Content-Type', 'text/html'); response.end(`<script>
       window.probe = {lines: [], errors: [], done: false};

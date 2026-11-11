@@ -831,9 +831,23 @@ normal completion. [The native callback checks](../tests/resumable/callback-resu
 record 23 new Lisp assertions in Node and fresh Chrome, plus visibility,
 shadowing, bounded traversal and interrupted cleanup checks in the kernel.
 
-This is not Bordeaux Threads support. Scheduling, locks, blocking host operations
-and remaining JavaScript callback boundaries still need integration; native error
-delivery is not yet generally resumable. Load-time initializers remain synchronous. The McCLIM Canvas driver
+The internal `CooperativeScheduler` now automatically advances tasks in the same
+JavaScript heap. It rotates checkpoint/explicit-yield slices, bounds each host
+turn by slice count and elapsed time, and parks tasks on promises through
+`SYSTEM::%RESUMABLE-AWAIT`. Promise rejection and cancellation are thrown through
+the suspended stack, so cleanup can itself await. An obsolete wait cannot resume
+a newer cleanup wait. Cancellation does not abort the underlying host promise.
+The [scheduler checks](../tests/resumable/scheduler-results.json) verify 64 real
+Lisp tasks sharing an array while retaining separate special bindings, two loops
+interleaving without explicit yields, multiple values across asynchronous
+cleanup, and host event-loop progress. The Lisp checks pass in Node and a fresh
+Chrome worker; the kernel suite has 17 passing tests.
+
+This is not Bordeaux Threads support. Locks, condition variables, the Lisp thread
+API and asynchronous application entry points still need integration. Blocking
+host operations and remaining JavaScript callback boundaries can still prevent
+suspension; native error delivery is not yet generally resumable. Load-time
+initializers remain synchronous. The McCLIM Canvas driver
 accepts `--resumable` to check loading and ordinary drawing calls against a dual
 build; it does not by itself test suspension inside McCLIM operations.
 

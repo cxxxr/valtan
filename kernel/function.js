@@ -222,3 +222,11 @@ setResumableImplementation(CL_resumableYield, function*(value) {
     const resumed = yield { kind: 'yield', value };
     return values1(resumed === undefined ? S_nil : resumed);
 });
+
+export function CL_resumableAwait() {
+    throw new Error('A resumable await requires a resumable Lisp call');
+}
+setResumableImplementation(CL_resumableAwait, function*(promise) {
+    const value = yield { kind: 'await', promise };
+    return values1(value === undefined ? S_nil : value);
+});

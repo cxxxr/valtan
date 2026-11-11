@@ -1,0 +1,94 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "threadSupportComplete": false,
+  "recordedAt": "2026-11-11T13:43:49.300404+00:00",
+  "scope": "Automatic same-heap cooperative scheduling of resumable Lisp functions; promise waits, cancellation and cleanup. Not a Bordeaux Threads backend or full McCLIM verification.",
+  "sourceHashes": {
+    "kernel/scheduler.js": "494096a7a600b29198e055e09ef20c29d4805cefbf217ecd0baffe3656edf969",
+    "kernel/execution.js": "93d0bd2ab2eeeb7079ac5f233e2a6a816dfda08c6944c9a499a8743361c348bb",
+    "kernel/function.js": "80c8c6a351e9c635444e8a0c49db6e17d7f27c26b6b10150f089b5f6b2a31264",
+    "kernel/lisp.js": "f1ae986eb43b82817b0579c62a58f58a36ac3069397acdbed6930eb5f07ec011",
+    "tests/performance/kernel.test.mjs": "bba96df61ab7de6fd80b4323ca16a8d80575fc6a24524da58c764b886420f62b",
+    "tests/resumable.system": "5173c8f7d2d1faa45e8d2d7c7c2fe8b98a41ca4397f65a63cfeb945bdeadf09e",
+    "tests/resumable/scheduler.lisp": "a73bebd3ea73caa66f5e88cd8a3b0ab30c0419494a26d47f2c8e34b634827e87",
+    "tests/resumable/scheduler-checks.mjs": "fafd5fa6070bcb931108bb4fcff60c5fad4746de5e93f258fcd340296a11921b",
+    "tests/resumable/verify.mjs": "cf67b06148f44d4aed8a35692c057db45ebc22e4fa02e92c272a82dfc486d2e7",
+    "tests/mcclim/probe.mjs": "fe0abab274a66bd7542dd5cc3bf22850c0ae8dea5a8dd1933f863d566fcea133"
+  },
+  "compilerSha256": "e229d2968e85fff309fb83b9eec7ff7d501e2af7a61cec479b815fbd388a139a",
+  "implementation": {
+    "scheduler": "FIFO runnable queue, checkpoint slices and explicit yields, finite slices/time per host turn via setTimeout. Completed/failed tasks retire; callers can join completion promises carrying multiple-value arrays.",
+    "defaults": {
+      "checkpointBudget": 1000,
+      "slicesPerTurn": 64,
+      "turnMilliseconds": 8
+    },
+    "wait": "SYSTEM::%RESUMABLE-AWAIT emits an await request; promise fulfillment resumes a value, rejection throws through suspended Lisp.",
+    "cancellation": "Invalidate old wait version and throw on next slice. Cleanup may yield/await. Self-cancellation is preserved. Unknown or malformed host requests are delivered through the generator for cleanup.",
+    "entryPoints": "Explicit scheduler.spawn(function,args) JS API; existing ordinary EVAL and application entry points do not automatically become asynchronous."
+  },
+  "kernel": {
+    "status": "passed",
+    "tests": 17,
+    "newTests": 4,
+    "command": "node tests/performance/kernel-tests.mjs",
+    "log": "/tmp/valtan-scheduler-kernel2.log",
+    "scope": "64native-generator tasks, FIFO fairness and host-event progress, isolated bindings, promise fulfill/reject, cancelled obsolete wait versus newer cleanup wait, self-cancellation, unsupported/malformed requests and cleanup."
+  },
+  "lisp": {
+    "tasks": 64,
+    "sharedArrayWrites": 192,
+    "checkpointOnlyTasks": 2,
+    "checkpointOnlyIterationsPerTask": 8,
+    "scope": "Actual dual-compiled Lisp closures, same shared Lisp array with disjoint per-task cells, per-task special bindings, multiple values, generated checkpoints without explicit yield, await and cleanup that awaits. No lock-free shared read-modify-write counter claim.",
+    "node": {
+      "status": "passed",
+      "command": "npm --prefix tests run build:resumable && npm --prefix tests run test:resumable",
+      "existingChecks": 117,
+      "log": "/tmp/valtan-scheduler-verify3.log",
+      "bundleSha256": "c3658b60ebac20902e2d6c458e55eafa203926341a518a771fc551a56c94b4d1"
+    },
+    "browser": {
+      "system": "alexandria",
+      "scope": "Load and supplied API assertions; GUI verification is separate",
+      "timestamp": "2026-11-11T13:38:13.842Z",
+      "complete": true,
+      "status": "passed",
+      "work": "/tmp/valtan-mcclim-IyXRsB",
+      "compilerSha256": "e229d2968e85fff309fb83b9eec7ff7d501e2af7a61cec479b815fbd388a139a",
+      "target": "browser",
+      "extraSystems": [],
+      "targetFeatures": [
+        "valtan-resumable"
+      ],
+      "afterLoadSha256": "2b183a362d7c961f62737d13af3fb89c5b46a9d48a6c87b4a9e6e54c68d8254a",
+      "checksSha256": "a0d6cdbd1c8b9019f7b7875c99cf0c2dc7515355c624861ffa4817b807e6eed9",
+      "stage": "run",
+      "bundleSha256": "5da0dfb7f1e71d7eb6a975645fe8aa58a37fc15cc8c7b620745e5f4f5fccccd0",
+      "finishedAt": "2026-11-11T13:40:38.546Z"
+    },
+    "browserLog": "/tmp/valtan-scheduler-browser-logs/run.log",
+    "browserExistingChecks": 121,
+    "browserMarker": "SCHEDULER-CHECKS-PASS {\"tasks\":64,\"sharedArrayWrites\":192,\"checkpointOnlyTasks\":2,\"asynchronousCleanup\":true}"
+  },
+  "browserReproduction": "Concatenate performance/resumable.lisp, resumable/checks.lisp, resumable/callbacks.lisp, resumable/scheduler.lisp, resumable/alexandria-checks.lisp. Pass to probe.mjs alexandria REPORT CHECKS --browser valtan-resumable --after-load=AFTER. AFTER contains scheduler-checks.mjs plus an awaited call to verifyScheduledLisp(globalThis.valtanSchedulerKernel, globalThis.valtanScheduledTestSetup()). Probe awaits this module and hashes it.",
+  "ordinaryMode": {
+    "status": "passed",
+    "command": "npm --prefix tests run build:performance && node tests/performance/verify.mjs",
+    "existingSuspensionChecks": 43,
+    "workloads": 8,
+    "reportedErrors": 0,
+    "bundleSha256": "4dedad2179dcaa082ccb0af3fc8127b2cb2a5a40d8136fc26fe14588cb48154c",
+    "log": "/tmp/valtan-scheduler-performance-verify.log"
+  },
+  "limitations": [
+    "No locks, condition variables or Bordeaux Threads adapter.",
+    "Ordinary top-level EVAL/load/application entry points remain synchronous; asynchronous thread joins require integration at entry boundaries.",
+    "A single blocking native operation can exceed the scheduler turn budget; scheduling is cooperative, not a hard real-time guarantee.",
+    "Cancelling an await ignores its eventual completion but does not abort the underlying host promise.",
+    "Native error delivery and arbitrary foreign callbacks are not generally resumable.",
+    "Ongoing full McCLIM dual build and old Drei jobs predate this scheduler; not counted as scheduler verification."
+  ]
+}

@@ -171,6 +171,7 @@ import {
     CL_functionp,
     CL_funcall,
     CL_resumableYield,
+    CL_resumableAwait,
     startProfile,
     finishProfile,
 } from './function';
@@ -387,6 +388,7 @@ registerFunction(system_package, '%CEILING', CL_ceiling, 2);
 // function.js
 registerFunction(system_package, 'APPLY', CL_apply, 2, null);
 registerFunction(system_package, '%RESUMABLE-YIELD', CL_resumableYield, 1);
+registerFunction(system_package, '%RESUMABLE-AWAIT', CL_resumableAwait, 1);
 registerFunction(cl_package, 'FUNCTIONP', CL_functionp, 1);
 
 // cons.js
@@ -428,3 +430,5 @@ registerFunction(system_package, '%CHAR-CODE', CL_charCode, 1);
 registerFunction(ffi_package, 'INSTANCEOF', CL_instanceof, null);
 
 export * from './execution';
+
+export * from './scheduler';
