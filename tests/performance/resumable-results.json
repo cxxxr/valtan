@@ -1,0 +1,104 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "threadSupportComplete": false,
+  "recordedAt": "2026-11-11T12:59:53.263112+00:00",
+  "scope": "Opt-in resumable Lisp function compilation and execution-context/task infrastructure; not a Lisp thread API or a scheduler. Actual generator suspension is tested with compiled Lisp in Node and Chrome.",
+  "sourceHashes": {
+    "kernel/resumable.js": "a02fec50e2a1bf3b78377b886a20e53afb55deb419d058c144795de3b8f0a198",
+    "kernel/execution.js": "93d0bd2ab2eeeb7079ac5f233e2a6a816dfda08c6944c9a499a8743361c348bb",
+    "kernel/callstack.js": "6fc6e32a5e1b07092c0b954847735bdeff2980ba6a8579a9ee8a8910d6b608e8",
+    "kernel/function.js": "4c21b6e111e9c20c716eef15a6c9117968b562f262bf2c55eee7f9f4bb5117e5",
+    "kernel/lisp.js": "6b27373f1accf535c3b507d7b7516b069ae19cb039e626fb4fa28b9709711e71",
+    "library/valtan-core/compiler/pass2.lisp": "6fd36fbaf9d1e8f25ef47e4b3505f3ead562ebd17a9c170c9d3ef473aaf05ca5",
+    "tests/performance/resumable.lisp": "119fffd8206a32b96adb135236977b64eb48c9e700ae54841995f47169149527",
+    "tests/performance/kernel.test.mjs": "5d801c95a545ad8e96fbefe6fed36e06e7267920c038e6f190a17d3f783a4088",
+    "tests/performance/verify.mjs": "a8a4f52177aae2cc0506ac6189f7446863ea2578e6fe57af6328bf5de7247193",
+    "tests/performance.system": "a678909e8a6466dcbd092d56d6164da44cf3cfcf943270ef5e9c128448e6f043",
+    "tests/vite.performance.config.js": "6d134ce92213a413063cd441b20830602ba1022ece47b124e5faa0e1e3bebd3a",
+    "tests/ansi/fixtures/resumable-mode.lsp": "6e878a332a6b8aa9c6ad68551736f015147be71bc83230a3b4f8bded9fe24bc7",
+    "tests/ansi/integration.test.mjs": "0028cc2083f8fbacae1dca058f956e0ffd6e9aaeb8701acacd78dc3cf13ad812"
+  },
+  "compilerSha256": "8de5fde9414d544fe919251e615f650b351d34fbe1b8d44d68200665185706d5",
+  "implementation": {
+    "compiler": "Internal COMPILER::*RESUMABLE-FUNCTIONS* flag emits generator-backed functions and delegated named/local/FUNCALL/MULTIPLE-VALUE-CALL calls. Function entries and loop backedges yield checkpoints. Ordinary compilation remains the default.",
+    "runtime": "WeakMap alternate implementations preserve ordinary JS function identity. Execution contexts save bindings, multiple values and call-stack arrays. ResumableTask advances within a checkpoint budget and propagates exceptions through suspended cleanup.",
+    "synchronousBoundary": "Ordinary callbacks ignore checkpoints but reject explicit suspension by throwing through the generator, so UNWIND-PROTECT and dynamic bindings clean up."
+  },
+  "kernel": {
+    "command": "node tests/performance/kernel-tests.mjs",
+    "tests": 11,
+    "newTests": 3,
+    "status": "passed",
+    "scope": "Existing8kernel tests plus interleaved values/backtraces/global writes, bounded checkpoints, interrupted cleanup that itself suspends, synchronous callback use and rejection cleanup."
+  },
+  "lisp": {
+    "checks": 43,
+    "node": {
+      "command": "npm --prefix tests run build:performance && node tests/performance/verify.mjs",
+      "status": "passed",
+      "bundleSha256": "20165a8cfe991189633db1aaccc7cbcbac2174e9f0787d923b9fa65c010de304",
+      "reportedErrors": 0,
+      "otherWorkloads": 8
+    },
+    "browser": {
+      "system": "alexandria",
+      "scope": "Load and supplied API assertions; GUI verification is separate",
+      "timestamp": "2026-11-11T12:54:22.174Z",
+      "complete": true,
+      "status": "passed",
+      "work": "/tmp/valtan-mcclim-8aUaha",
+      "compilerSha256": "8de5fde9414d544fe919251e615f650b351d34fbe1b8d44d68200665185706d5",
+      "target": "browser",
+      "extraSystems": [],
+      "targetFeatures": [],
+      "checksSha256": "119fffd8206a32b96adb135236977b64eb48c9e700ae54841995f47169149527",
+      "stage": "run",
+      "bundleSha256": "731e648c2b4b573c6190ddc6677c1415667861227ef6d5a27aff862ad2534b3f",
+      "finishedAt": "2026-11-11T12:55:41.022Z"
+    },
+    "browserCommand": "node tests/mcclim/probe.mjs alexandria /tmp/valtan-resumable-browser.json tests/performance/resumable.lisp --browser",
+    "browserRunLogSha256": "2cb3869dc25da33260aa87efe445fe840b9488817d9e3d47b3a0b1a93299275d",
+    "browserScope": "Fresh Chrome module worker; core and test fixture compiled for browser, Alexandria loaded in ordinary mode. This is not a claim that arbitrary Alexandria callbacks can suspend.",
+    "coverage": [
+      "Nested/local/FUNCALL calls and shared mutable arrays across interleaved tasks",
+      "Special parameters, optional initializer suspension, caller binding restoration",
+      "Recursive nonlocal RETURN-FROM, CATCH/THROW and HANDLER-CASE",
+      "Cleanup that suspends while retaining protected multiple values",
+      "MULTIPLE-VALUE-CALL, zero-value completion and ordinary synchronous calls",
+      "Budget-limited loop progress and named function redefinition across suspension"
+    ]
+  },
+  "controlRegressions": {
+    "command": "node --test --test-name-pattern='^(compiler-regressions.lsp|resumable compiler control regressions)' tests/ansi/integration.test.mjs",
+    "status": "passed",
+    "groups": 3,
+    "ordinary": 101,
+    "resumable": {
+      "eval": 104,
+      "compiled": 104
+    },
+    "preparation": "Prelude asserts that COMPILE returns a function with a registered generator implementation. All104registered cases execute and pass in eachmode.",
+    "scope": "Existing compiler/control cases run with generator lowering and synchronous facades; explicit interleaving is covered separately by43Lisp checks."
+  },
+  "fixtureCorrections": [
+    "Initial loop test assumed that3checkpoints implied the first loop iteration had completed. Final bounded test requires an observable intermediate counter and full completion, without assuming the number of entry checkpoints.",
+    "The completion marker uses FFI:SET on GLOBALTHIS; SETF FFI:REF is unsupported and assigning a new bare global identifier fails in strict ES modules. Both initial fixture failures were rejected by the strict verifier."
+  ],
+  "freshMcclim": {
+    "status": "running",
+    "complete": false,
+    "startedAt": "2026-11-11T12:57:16.132Z",
+    "scope": "Real upstream CLIM pattern, clipping, composite-design, pixmap-copy and multiline-text assertions, plus Bezier curves, areas, unions, differences and output replay, plus solid flipping designs in Chrome; not full McCLIM compatibility",
+    "expectedChecks": 350,
+    "checksSha256": "3403663c77ab7f36f0179f2af4fd06bf2cceaddb71905fa22a285a154ec0a699",
+    "work": "/tmp/valtan-mcclim-workbench-AmCDvp"
+  },
+  "limitations": [
+    "No Bordeaux Threads implementation, automatic runnable-task scheduler, locks, or blocking host-operation integration yet.",
+    "Calls into ordinary runtime/library code remain synchronous; suspension through such callbacks (including higher-order functions and CLOS dispatch) requires resumable implementations.",
+    "Load-time initialization remains synchronous.",
+    "Normal-mode full McCLIM350 startup validation is running; no fullMcCLIM or fullANSI conformance claim."
+  ]
+}

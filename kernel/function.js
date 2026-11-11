@@ -1,10 +1,12 @@
 import {
     values1
 } from './values';
+import { getResumableImplementation, setResumableImplementation } from './resumable';
 
 import {
     toLispBoolean,
-    S_function
+    S_function,
+    S_nil
 } from './header';
 
 import {
@@ -194,3 +196,29 @@ export function CL_funcall(fn, ...args) {
 export function CL_functionp(x) {
     return values1(toLispBoolean(typeof x === 'function'));
 }
+
+export function* callResumable(function_, ...args) {
+    const name = function_;
+    if (isSymbol(function_)) function_ = function_.getFunction();
+    else if (typeof function_ !== 'function') typeError(function_, S_function);
+    pushCallStack({ function: name, args });
+    try {
+        const implementation = getResumableImplementation(function_);
+        return implementation ? yield* implementation(...args) : function_(...args);
+    } finally { popCallStack(); }
+}
+
+setResumableImplementation(CL_funcall, function*(fn, ...args) {
+    return yield* callResumable(fn, ...args);
+});
+setResumableImplementation(CL_apply, function*(fn, args) {
+    return yield* callResumable(fn, ...args);
+});
+
+export function CL_resumableYield() {
+    throw new Error('A resumable yield requires a resumable Lisp call');
+}
+setResumableImplementation(CL_resumableYield, function*(value) {
+    const resumed = yield { kind: 'yield', value };
+    return values1(resumed === undefined ? S_nil : resumed);
+});

@@ -173,6 +173,8 @@
 (defvar *p2-defun-names*)
 (defvar *p2-temporary-variables*)
 (defvar *p2-in-simple-loop* nil)
+(defvar *resumable-functions* nil)
+(defvar *p2-in-resumable-function* nil)
 
 (def-interface make-emitter-stream (base-stream)
   (declare (ignore base-stream))
@@ -711,7 +713,8 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
   (let ((name (hir-arg1 hir))
         (parsed-lambda-list (hir-arg2 hir))
         (body (hir-arg3 hir))
-        lambda-result)
+        lambda-result
+        (*p2-in-resumable-function* *resumable-functions*))
     (embed-source-map hir)
     (when (hir-return-value-p hir)
       (setq lambda-result
@@ -719,8 +722,11 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                 (p2-temporary-var (p2-local-function name))
                 (p2-temporary-var)))
       (format *p2-emit-stream* "~A=" lambda-result))
-    (write-line "(function(){" *p2-emit-stream*)
+    (write-line (if *p2-in-resumable-function*
+                    "lisp.makeResumable(function*(){" "(function(){") *p2-emit-stream*)
     (p2-emit-check-arguments hir name parsed-lambda-list)
+    (when *p2-in-resumable-function*
+      (write-line "yield lisp.resumableCheckpoint;" *p2-emit-stream*))
     (let ((*p2-temporary-variables* '()))
       ;; !!!
       (let* ((base-stream *p2-emit-stream*)
@@ -808,7 +814,11 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
     (when (hir-return-value-p hir)
       (setq result (p2-temporary-var))
       (format *p2-emit-stream* "~A=" result))
-    (format *p2-emit-stream* "~A(" (p2-local-function (binding-id (hir-arg1 hir))))
+    (if *p2-in-resumable-function*
+        (progn
+          (format *p2-emit-stream* "yield* lisp.callResumable(~A" (p2-local-function (binding-id (hir-arg1 hir))))
+          (when args (write-char #\, *p2-emit-stream*)))
+        (format *p2-emit-stream* "~A(" (p2-local-function (binding-id (hir-arg1 hir)))))
     (p2-emit-args args)
     result))
 
@@ -821,7 +831,10 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
       (setq result (p2-temporary-var))
       (format *p2-emit-stream* "~A=" result))
     (let (elt)
-      (cond ((and (not *enable-profiling*)
+      (cond (*p2-in-resumable-function*
+             (format *p2-emit-stream* "yield* lisp.callResumable(~A" (p2-symbol-to-js-value symbol))
+             (when args (write-char #\, *p2-emit-stream*)))
+            ((and (not *enable-profiling*)
                   *in-host-runtime*
                   (setq elt (assoc symbol *known-toplevel-functions*))
                   (let ((min (parsed-lambda-list-min (lambda-hir-parsed-lambda-list (cdr elt))))
@@ -905,7 +918,11 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 (define-p2-emit call (hir)
   (let* ((symbol (hir-arg1 hir))
          (builtin (gethash symbol *builtin-function-table*)))
-    (cond ((null builtin)
+    (cond (*p2-in-resumable-function*
+           (cond ((eq symbol '*:multiple-value-call) (p2-multiple-value-call hir))
+                 ((eq symbol 'funcall) (p2-funcall hir))
+                 (t (p2-call-default hir))))
+          ((null builtin)
            (p2-call-default hir))
           ((consp builtin)
            (p2-call-builtin-using-list-spec hir builtin))
@@ -1007,6 +1024,8 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
   (let ((body (hir-arg1 hir))
         (*p2-in-simple-loop* t))
     (write-line "for(;;){" *p2-emit-stream*)
+    (when *p2-in-resumable-function*
+      (write-line "yield lisp.resumableCheckpoint;" *p2-emit-stream*))
     (p2 body :stmt)
     (write-line "break;" *p2-emit-stream*)
     (write-line "}" *p2-emit-stream*)
@@ -1053,6 +1072,8 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
       (format *p2-emit-stream* "let ~A = '~A';~%" state-var (tagbody-tag-name (car (first tag-body-pairs))))
       (progn
         (format *p2-emit-stream* "~A: for(;;){~%" tagbody-name)
+        (when *p2-in-resumable-function*
+          (write-line "yield lisp.resumableCheckpoint;" *p2-emit-stream*))
         (progn
           (when exist-escape-p
             (write-line "try{" *p2-emit-stream*))
@@ -1301,14 +1322,14 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 (define-p2-emit system::form-time (hir)
   (let ((hir2 (hir-arg1 hir))
         (form (hir-arg2 hir)))
-    (write-line "(function () {" *p2-emit-stream*)
+    (write-line "{" *p2-emit-stream*)
     (write-line "const __start = Date.now();" *p2-emit-stream*)
     (p2-form hir2)
     (write-line "const __end = Date.now();" *p2-emit-stream*)
     (format *p2-emit-stream*
             "if (__end - __start > 1) console.log(__end - __start, '~A');~%"
             (escape form))
-    (write-line "})();" *p2-emit-stream*)))
+    (write-line "}" *p2-emit-stream*)))
 
 
 ;;; builtin function emitter
@@ -1327,7 +1348,9 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                (when (hir-return-value-p hir)
                  (setq result (p2-temporary-var))
                  (format *p2-emit-stream* "~A=" result))
-               (format *p2-emit-stream* "lisp.CL_funcall(~A" fn)
+               (format *p2-emit-stream* "~Alisp.CL_funcall~A~A"
+                       (if *p2-in-resumable-function* "yield* lisp.callResumable(" "")
+                       (if *p2-in-resumable-function* "," "(") fn)
                (when args
                  (write-char #\, *p2-emit-stream*))
                (p2-emit-args args)
@@ -1364,9 +1387,10 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                ;; Call the function and assign result
                (when (hir-return-value-p hir)
                  (setq result (p2-temporary-var))
-                 (format *p2-emit-stream* "~A=~A(...~A);~%" result fn-var mv-array))
-               (unless (hir-return-value-p hir)
-                 (format *p2-emit-stream* "~A(...~A);~%" fn-var mv-array))
+                 (format *p2-emit-stream* "~A=" result))
+               (if *p2-in-resumable-function*
+                   (format *p2-emit-stream* "yield* lisp.callResumable(~A,...~A);~%" fn-var mv-array)
+                   (format *p2-emit-stream* "~A(...~A);~%" fn-var mv-array))
                (format *p2-emit-stream* "}~%")
                result)))
           (t

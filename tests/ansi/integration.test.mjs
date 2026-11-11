@@ -113,6 +113,17 @@ for (const [file, count] of [['type-regressions.lsp', 17], ['boolean-class-subty
   });
 }
 
+for (const mode of ['eval', 'compiled']) {
+  test(`resumable compiler control regressions (${mode})`, async () => {
+    const r = await runWorker('resumable-control',
+      ['resumable-mode.lsp', 'compiler-regressions.lsp', 'tagbody-activation-regressions.lsp'],
+      { mode, fixture: true, timeout: 180000, expectedRegistered: 104 });
+    assert.equal(r.complete, true, JSON.stringify(r));
+    assert.equal(r.pass, 104, JSON.stringify(r.failures));
+    assert.equal(r.fail, 0);
+  });
+}
+
 test('native exceptions fail their test and allow subsequent tests to run', async () => {
   const r = await runWorker('native-error', ['native-error.lsp'], { fixture: true, timeout: 15000 });
   assert.equal(r.complete, true, JSON.stringify(r));

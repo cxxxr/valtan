@@ -170,3 +170,86 @@ test('symbol calls observe redefinition and preserve multiple values with profil
   assert.match(lines.join('\n'), /PERF-CALL-VALUES\s+1\s/);
   assert.equal(lisp.getBacktrace(), 'Backtrace:\n');
 });
+
+test('execution contexts isolate values and suspended backtraces while sharing globals', () => {
+  const printed = [];
+  lisp.setLispFormatFunction((control, frame) => {
+    printed.push(lisp.listToJsArray(frame)[0]);
+    return 'frame';
+  });
+  const x = lisp.makeSymbol('TASK-X'); x.value = 'global';
+  const a = lisp.makeResumable(function*() {
+    const binding = lisp.bindSpecial(x); x.value = 'a';
+    try {
+      lisp.values('a', 1);
+      yield { kind: 'yield', value: 'a' };
+      assert.deepEqual(lisp.currentValues(), ['a', 1]);
+      assert.equal(x.value, 'a');
+      lisp.getBacktrace();
+      return lisp.values('a', 2);
+    } finally { lisp.unbindSpecial(binding); }
+  });
+  const b = lisp.makeResumable(function*() {
+    assert.equal(x.value, 'global'); x.value = 'changed';
+    lisp.values('b', 3);
+    yield { kind: 'yield', value: 'b' };
+    assert.deepEqual(lisp.currentValues(), ['b', 3]);
+    lisp.getBacktrace();
+    return lisp.values();
+  });
+  const one = new lisp.ResumableTask(a), two = new lisp.ResumableTask(b);
+  lisp.values('caller', 9);
+  assert.equal(one.resume().value.value, 'a');
+  assert.equal(two.resume().value.value, 'b');
+  assert.deepEqual(lisp.currentValues(), ['caller', 9]);
+  assert.equal(lisp.getBacktrace(), 'Backtrace:\n');
+  assert.equal(one.resume().done, true);
+  assert.equal(two.resume().done, true);
+  assert.deepEqual(one.values, ['a', 2]);
+  assert.deepEqual(two.values, []);
+  assert.deepEqual(printed, [a, b]);
+  assert.equal(x.value, 'changed');
+  assert.deepEqual(lisp.currentValues(), ['caller', 9]);
+  assert.throws(() => one.resume(), /completed task/);
+});
+
+test('task checkpoints bound work and interrupts run suspended cleanup', () => {
+  let steps = 0, cleaned = 0;
+  const fn = lisp.makeResumable(function*() {
+    try {
+      for (;;) { steps++; yield lisp.resumableCheckpoint; }
+    } finally {
+      yield { kind: 'yield', value: 'cleanup' };
+      cleaned++;
+    }
+  });
+  const task = new lisp.ResumableTask(fn);
+  assert.equal(task.resume(undefined, 3).value, lisp.resumableCheckpoint);
+  assert.equal(steps, 3);
+  const error = new Error('interrupt');
+  assert.equal(task.interrupt(error).value.value, 'cleanup');
+  assert.equal(task.done, false);
+  assert.throws(() => task.resume(), e => e === error);
+  assert.equal(task.done, true);
+  assert.equal(cleaned, 1);
+  assert.equal(lisp.getBacktrace(), 'Backtrace:\n');
+});
+
+test('synchronous resumable callbacks ignore checkpoints but reject suspension with cleanup', () => {
+  const plain = lisp.makeResumable(function*() {
+    yield lisp.resumableCheckpoint;
+    return lisp.values(1, 2);
+  });
+  assert.equal(plain(), 1);
+  assert.deepEqual(lisp.currentValues(), [1, 2]);
+  const x = lisp.makeSymbol('SYNC-X'); x.value = 1;
+  let cleaned = false;
+  const yielding = lisp.makeResumable(function*() {
+    const binding = lisp.bindSpecial(x); x.value = 2;
+    try { yield { kind: 'yield' }; }
+    finally { lisp.unbindSpecial(binding); cleaned = true; }
+  });
+  assert.throws(() => yielding(), /synchronous JavaScript call boundary/);
+  assert.equal(cleaned, true);
+  assert.equal(x.value, 1);
+});

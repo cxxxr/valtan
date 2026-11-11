@@ -9,6 +9,7 @@ const sourceHash = name => createHash('sha256')
 const sources = {
   workloadsSha256: sourceHash('workloads.lisp'),
   semanticsSha256: sourceHash('semantics.lisp'),
+  resumableSha256: sourceHash('resumable.lisp'),
 };
 export default defineConfig({
   resolve: { alias: { lisp: path.resolve(root, '../kernel/lisp.js') } },

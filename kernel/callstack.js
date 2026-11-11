@@ -1,6 +1,12 @@
 import { makeCons, jsArrayToList } from './cons';
 
-const callStack = [];
+let callStack = [];
+
+export function swapCallStack(stack) {
+    const previous = callStack;
+    callStack = stack;
+    return previous;
+}
 
 var lispFormatFunction = null;
 

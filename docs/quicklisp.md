@@ -772,10 +772,26 @@ binding context preserves its local values while exposing shared global values;
 global changes made in another context survive restoration. Generated special
 bindings and target `PROGV` use this mechanism. Initializers are protected by
 cleanup as well as the body, fixing a pre-existing `LET*` leak when a later
-initializer exits. This is groundwork for resumable execution, not a thread API:
-scheduling, resumable Lisp calls, locks, and per-thread multiple-value/backtrace
-state are still required. See the [binding-context checks](../tests/performance/binding-context-results.json)
+initializer exits. This is groundwork for resumable execution, not a thread API.
+See the [binding-context checks](../tests/performance/binding-context-results.json)
 for the verified scope and binding-cost measurement.
+
+An optional generator-based compiler path now preserves nested Lisp calls across
+suspension. The internal `compiler::*resumable-functions*` flag selects it for
+newly compiled functions; ordinary compilation remains the default. Execution
+contexts also retain multiple values and backtraces. Tasks expose bounded
+checkpoint advancement at function entries and loop backedges, plus explicit
+yield/resume and exceptional interruption. Synchronous JavaScript callers can
+use these functions when they do not suspend; an attempted suspension raises an
+error while running cleanup. [The resumable-execution checks](../tests/performance/resumable-results.json)
+record 43 real Lisp assertions passing in Node and a fresh Chrome worker,
+including recursion, shared mutable data, special parameters, nonlocal exits,
+conditions, cleanup that suspends, function redefinition and multiple values.
+The generator path also passes all 104 selected compiler/control regressions in
+both evaluation and compiled modes. This is not Bordeaux Threads support:
+scheduling, locks, blocking host operations, and resumable paths through ordinary
+runtime/library callbacks (including higher-order functions and CLOS dispatch)
+are still required. Load-time initializers also remain synchronous.
 
 These results cover the checked API calls, not every feature in a passing library.
 The default ahead-of-time mode separately passed the `split-sequence` and

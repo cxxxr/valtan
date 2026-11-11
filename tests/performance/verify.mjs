@@ -9,6 +9,7 @@ console.error = (...args) => { errors.push(args); originalError(...args); };
 try { await import('../dist-performance/performance.js'); }
 finally { console.error = originalError; }
 assert.equal(errors.length, 0, 'Compiler semantic regression errors were reported');
+assert.equal(globalThis.valtanResumableChecksPassed, 43, 'Resumable Lisp checks must complete');
 assert.equal(workloads.length, 8);
 for (const { name, fn, input, expected } of workloads) assert.equal(fn(input), expected, name);
 console.log('Compiler semantic regressions and all 8 workload results passed');

@@ -5,6 +5,8 @@ import {
 export * from './values';
 export * from './dispatch';
 export * from './bindings';
+import { getResumableImplementation, setResumableImplementation } from './resumable';
+export * from './resumable';
 
 import {
     initSymbols,
@@ -168,6 +170,7 @@ import {
     CL_apply,
     CL_functionp,
     CL_funcall,
+    CL_resumableYield,
     startProfile,
     finishProfile,
 } from './function';
@@ -259,6 +262,14 @@ function registerFunction(pkg, name, fn, min = 0, max = min) {
             }
             return fn(...arguments);
         }
+    }
+    const implementation = getResumableImplementation(fn);
+    if (implementation) {
+        setResumableImplementation(intern(name, pkg).func, function*(...args) {
+            if ((min !== null && args.length < min) || (max !== null && args.length > max))
+                argumentsError(intern(name, pkg), args.length);
+            return yield* implementation(...args);
+        });
     }
 }
 
@@ -375,6 +386,7 @@ registerFunction(system_package, '%CEILING', CL_ceiling, 2);
 
 // function.js
 registerFunction(system_package, 'APPLY', CL_apply, 2, null);
+registerFunction(system_package, '%RESUMABLE-YIELD', CL_resumableYield, 1);
 registerFunction(cl_package, 'FUNCTIONP', CL_functionp, 1);
 
 // cons.js
@@ -414,3 +426,5 @@ registerFunction(system_package, '%CHAR-CODE', CL_charCode, 1);
 
 // ffi.js
 registerFunction(ffi_package, 'INSTANCEOF', CL_instanceof, null);
+
+export * from './execution';
