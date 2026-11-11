@@ -56,7 +56,7 @@ export function compareUpstream(target, reference) {
   });
   const referenceNames = array(reference.registeredTests, 'Reference registrations');
   for (const [label, names, run, entries] of [
-    ['Target', targetNames, checks, checks['registration-entries']],
+    ['Target', targetNames, checks, checks.registrationEntries],
     ['Reference', referenceNames, reference, reference.registrationEntries],
   ]) {
     unique(names, `${label} registrations`);
@@ -78,7 +78,8 @@ export function compareUpstream(target, reference) {
     require(sum === total, `${label} per-test counts do not match the total`);
     return map;
   };
-  const targetCounts = counts(checks['result-counts'], actual, 'Target', checks.results);
+  // FFI:OBJECT converts Lisp keyword keys to lower camel case in JSON.
+  const targetCounts = counts(checks.resultCounts, actual, 'Target', checks.results);
   const referenceCounts = counts(reference.resultCounts, expected, 'Reference', reference.results);
   for (const test of referenceNames) {
     const native = referenceCounts.get(test) ?? 0, valtan = targetCounts.get(test) ?? 0;
