@@ -38,6 +38,7 @@
     "test:mcclim:upstream:host": "sbcl --script mcclim/upstream-host.lisp",
     "test:mcclim:bezier": "node mcclim/bezier.mjs",
     "test:mcclim:bezier:browser": "node mcclim/bezier.mjs --browser",
+    "test:mcclim:bezier:canvas": "node mcclim/canvas.mjs --bezier",
     "test:mcclim:queues": "node mcclim/queue.mjs",
     "demo:mcclim": "node mcclim/demo.mjs"
   },

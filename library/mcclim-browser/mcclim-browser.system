@@ -3,3 +3,9 @@
   :serial t
   :components ((:file "package") (:file "queues") (:file "port") (:file "medium")
                (:file "png")))
+
+;; Keep the extension's render, PDF and PostScript dependencies optional.
+;; Runtime applications must enable :USE-SALZA2-ZLIB in their target features.
+(defsystem "mcclim-browser/bezier"
+  :depends-on ("mcclim-browser" "uiop" "mcclim-bezier/core")
+  :components ((:file "bezier")))

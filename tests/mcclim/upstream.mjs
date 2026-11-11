@@ -13,6 +13,8 @@ const output=path.resolve(process.argv[2]??'/tmp/valtan-mcclim-upstream.json');
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-mcclim-upstream-'));
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),
   scope:'All sources in the installed mcclim/test and mcclim/test-util ASDF plan, read with target features in real browser McCLIM; not GUI integration or complete extension coverage',
+  targetSystems:['mcclim-browser/bezier','fiveam'],
+  targetFeatures:['clim-without-swank','use-salza2-zlib'],
   workbenchSourceHashes:Object.fromEntries(['upstream-plan.lisp','upstream-checks.lisp','upstream.mjs']
     .map(name=>[name,hash(fs.readFileSync(path.join(here,name)))]))};
 const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
@@ -43,8 +45,9 @@ try {
   for(const file of fs.readdirSync(path.join(root,'example/try-using-mcclim')))
     if(/\.(system|lisp|html)$/.test(file))fs.copyFileSync(path.join(root,'example/try-using-mcclim',file),path.join(dir,file));
   fs.writeFileSync(path.join(dir,'app.system'),`(defsystem "app"
-    :depends-on ("mcclim-load-trace" "mcclim-browser" "fiveam" "mcclim-upstream-data")
-    :components ((:file "main")) :target :browser :target-features (:clim-without-swank) :compile-mode :runtime)`);
+    :depends-on ("mcclim-load-trace" "mcclim-browser/bezier" "fiveam" "mcclim-upstream-data")
+    :components ((:file "main")) :target :browser
+    :target-features (:clim-without-swank :use-salza2-zlib) :compile-mode :runtime)`);
   const fixture=fs.readFileSync(path.join(here,'upstream-checks.lisp'),'utf8')+
     '\n(setf mcclim-upstream-checks::*files* nil)\n'+
     snapshots.map(({file,source})=>`(mcclim-upstream-checks::load-test-source ${quote(file)} ${quote(source)})`).join('\n')+

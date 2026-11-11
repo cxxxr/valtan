@@ -7,22 +7,36 @@ import {spawn} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {hash} from './bundle.mjs';
 const here=path.dirname(fileURLToPath(import.meta.url));
-const args=process.argv.slice(2),flipping=args.includes('--flipping');
+const args=process.argv.slice(2),flipping=args.includes('--flipping'),bezier=args.includes('--bezier');
 if(flipping)args.splice(args.indexOf('--flipping'),1);
-if(args.length>1)throw Error('Usage: canvas.mjs [--flipping] [report.json]');
-const output=path.resolve(args[0]??`/tmp/valtan-mcclim-${flipping?'flipping':'canvas'}.json`);
+if(bezier)args.splice(args.indexOf('--bezier'),1);
+if(args.length>1 || (flipping && bezier))throw Error('Usage: canvas.mjs [--flipping | --bezier] [report.json]');
+const output=path.resolve(args[0]??`/tmp/valtan-mcclim-${flipping?'flipping':bezier?'bezier-canvas':'canvas'}.json`);
 const fixture=fs.readFileSync(path.join(here,'canvas-checks.lisp'),'utf8')+
   (flipping?'\n'+fs.readFileSync(path.join(here,'flipping-checks.lisp'),'utf8')+
-    '\n(values :passed (+ valtan-canvas-checks::*checks* mcclim-flipping-checks::*checks*))\n':'');
-const expectedChecks=flipping?81:69;
+    '\n(values :passed (+ valtan-canvas-checks::*checks* mcclim-flipping-checks::*checks*))\n':'')+
+  (bezier?'\n'+fs.readFileSync(path.join(here,'bezier-canvas-checks.lisp'),'utf8')+
+    '\n(values :passed (+ valtan-canvas-checks::*checks* valtan-bezier-canvas-checks::*checks*))\n':'');
+const expectedChecks=flipping?81:bezier?114:69;
 const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-canvas-checks-'));
 const fixtureFile=path.join(snapshot,'checks.lisp');fs.writeFileSync(fixtureFile,fixture);
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),
-  scope:`Real upstream CLIM pattern, clipping and composite-design pixel assertions${flipping?', plus solid flipping designs':''} in Chrome; not full McCLIM compatibility`,
+  scope:`Real upstream CLIM pattern, clipping and composite-design pixel assertions${flipping?', plus solid flipping designs':bezier?', plus Bezier curves, areas, unions, differences and output replay':''} in Chrome; not full McCLIM compatibility`,
   expectedChecks,
   checksSha256:hash(fixture)};
 const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
-const child=spawn(process.execPath,[path.join(here,'workbench.mjs')],{stdio:['pipe','pipe','inherit']});
+const workbenchArgs=[path.join(here,'workbench.mjs')];
+if(bezier){
+  const source=path.resolve(here,'../../example/try-using-mcclim');
+  for(const file of fs.readdirSync(source))
+    if(/\.(system|lisp|html)$/.test(file))fs.copyFileSync(path.join(source,file),path.join(snapshot,file));
+  fs.writeFileSync(path.join(snapshot,'app.system'),`(defsystem "app"
+    :depends-on ("mcclim-load-trace" "mcclim-browser/bezier")
+    :components ((:file "main")) :target :browser
+    :target-features (:clim-without-swank :use-salza2-zlib) :compile-mode :runtime)`);
+  workbenchArgs.push('--source-directory',snapshot);
+}
+const child=spawn(process.execPath,workbenchArgs,{stdio:['pipe','pipe','inherit']});
 const exit=new Promise(resolve=>child.on('close',(code,signal)=>resolve({code,signal})));
 const timer=setTimeout(()=>child.kill('SIGKILL'),70*60*1000);
 let result;
@@ -48,5 +62,11 @@ try {
 } catch(error){
   report.status='failed';report.error=String(error);process.exitCode=1;
   child.kill('SIGTERM');
-} finally {clearTimeout(timer);report.finishedAt=new Date().toISOString();save();}
+} finally {
+  clearTimeout(timer);
+  if(result?.result)report.result=result.result;
+  if(report.work && fs.existsSync(path.join(report.work,'report.json')))
+    report.workbench=JSON.parse(fs.readFileSync(path.join(report.work,'report.json'),'utf8'));
+  report.finishedAt=new Date().toISOString();save();
+}
 console.log(`McCLIM Canvas: ${report.status}; report: ${output}`);

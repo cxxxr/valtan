@@ -290,6 +290,29 @@ degenerate tiny-area cases. The same API checks also
 the real extension dependencies; rerun with `npm run test:mcclim:bezier:browser`.
 These API checks do not verify Bezier drawing.
 
+Browser applications can opt into `mcclim-browser/bezier`, which depends on the
+real `mcclim-bezier/core` system, including its Render, PostScript and PDF
+dependencies. Add `:use-salza2-zlib` to the application's `:target-features`
+alongside `:clim-without-swank` to select the portable PDF compression backend.
+The optional adapter draws cubic curves and filled areas with Canvas paths.
+Unions and differences use separate coverage masks so overlapping translucent
+areas paint once, and holes preserve existing drawing. The ordinary browser
+backend remains usable without these extension dependencies.
+Bezier regions used as clipping regions or spatial inks are not implemented by
+this adapter yet; the supported operation here is drawing the Bezier design.
+
+`npm run test:mcclim:bezier:canvas` starts a fresh browser, runs the existing
+69 Canvas checks, and adds 45 Bezier pixel checks for curves, dashes, areas,
+opposite-winding unions, differences, opacity, transforms, clipping, patterned
+and composite inks, flipping, and moved output-record replay.
+All 114 checks [pass](../tests/mcclim/bezier-canvas-results.json) in a fresh
+browser containing the adapter and FiveAM, before the upstream suite runs,
+without reloading production definitions. The first standalone attempt exposed
+a fixture error: recording was still enabled when it selected the drawing
+medium and replayed. The report preserves that failure and the corrected
+fixture's successful evaluation. A repeat through the standalone command is
+in progress.
+
 Spatial `COMPOSE-IN`, `COMPOSE-OUT` and `COMPOSE-OVER` designs now render through
 separate Canvas layers. Masks can contain regions or patterns, and composition
 can be nested or explicitly transformed. Applying an OUT mask does not erase
@@ -393,7 +416,7 @@ tests. It loads McCLIM's normal native dependencies, including threading and
 extensions. These host results do not establish Valtan compatibility.
 
 `npm run test:mcclim:upstream` attempts every test source in the installed host
-ASDF plan in a real browser containing `mcclim-browser` and FiveAM. It records
+ASDF plan in a real browser containing `mcclim-browser/bezier` and FiveAM. It records
 source-load failures, skipped checks and unexecuted cases as failures. Its
 source snapshots are also ASDF static resources, supplying the files expected
 by the upstream pathname tests. Build, source and compiler hashes identify each

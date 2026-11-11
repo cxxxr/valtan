@@ -1,0 +1,85 @@
+{
+  "status": "passed",
+  "complete": true,
+  "scope": "69 existing Canvas checks and 45 Bezier pixel checks in a fresh browser bundle with real Bezier dependencies and FiveAM. Corrected fixture sent through the workbench queue before the upstream suite; no production definitions reloaded. This is not a successful run of the original standalone driver or full McCLIM compatibility.",
+  "recordedAt": "2026-11-11T07:55:52.163015+00:00",
+  "checks": 114,
+  "canvasChecks": 69,
+  "bezierPixelChecks": 45,
+  "sourceHashes": {
+    "library/mcclim-browser/bezier.lisp": "1d18c2afe68f221ef8a47f4dc5d71527ec5a3221c69c8d68041198dd4a80a118",
+    "library/mcclim-browser/mcclim-browser.system": "c3ae6802d985efd820998222121f220f0932f0289c6358d2e39cd61b7ed42efe",
+    "tests/mcclim/canvas-checks.lisp": "3437e345f9ac1ddce6b5ef8d53de2c46199a230c8ec4915a6e2895d470f1cd25",
+    "tests/mcclim/bezier-canvas-checks.lisp": "ec44e2749292dee979b01426795a777cf1d454553ac832fdb6c5d63e6f0c92bb"
+  },
+  "startup": {
+    "work": "/tmp/valtan-mcclim-workbench-A7Egp6",
+    "status": "ready",
+    "complete": false,
+    "startedAt": "2026-11-11T07:20:49.657Z",
+    "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+    "bundleSha256": "a0e4d322bd4b65bb1a487e38b0a6b048116abd29eb983c9e0cb806a1a5d01013",
+    "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+    "readyAt": "2026-11-11T07:54:39.888Z"
+  },
+  "evaluation": {
+    "file": "/tmp/valtan-bezier-canvas-corrected.lisp",
+    "id": 9001,
+    "sourceSha256": "4d2c388312eacd7863e361a681f56f9c81fcc24753080a04fba0daf9141a1ba0",
+    "startedAt": "2026-11-11T07:52:29.672Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T07:54:40.753Z",
+    "lastLog": "MCCLIM-BEZIER-REPLAY-PASS 45",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9001,
+      "ok": true,
+      "value": "(:PASSED 114)"
+    },
+    "finishedAt": "2026-11-11T07:54:51.396Z"
+  },
+  "productionHotReloads": [],
+  "initialStandaloneAttempt": {
+    "report": {
+      "status": "failed",
+      "complete": false,
+      "startedAt": "2026-11-11T07:12:26.599Z",
+      "scope": "Real upstream CLIM pattern, clipping and composite-design pixel assertions, plus Bezier curves, areas, unions, differences and output replay in Chrome; not full McCLIM compatibility",
+      "expectedChecks": 114,
+      "checksSha256": "39fab18071d40d8b6dc52f40c96bcd2fa400ae85140251e34604b7e955587bde",
+      "work": "/tmp/valtan-mcclim-workbench-HjgvKC",
+      "error": "Error: No applicable method for #<Function INVOKE-WITH-OUTPUT-TO-PIXMAP> with arguments (NIL #<Function> :WIDTH 8 :HEIGHT 8).",
+      "finishedAt": "2026-11-11T07:46:53.257Z"
+    },
+    "workbench": {
+      "work": "/tmp/valtan-mcclim-workbench-HjgvKC",
+      "status": "closed",
+      "complete": false,
+      "startedAt": "2026-11-11T07:12:26.640Z",
+      "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+      "bundleSha256": "dfa9c838c9435f78e0504526897274602ef252d6e4ad81b2a524afb7f0d1c14b",
+      "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+      "readyAt": "2026-11-11T07:46:41.920Z",
+      "evaluations": [
+        {
+          "id": 1,
+          "commandId": "canvas",
+          "startedAt": "2026-11-11T07:46:41.922Z",
+          "sourceSha256": "39fab18071d40d8b6dc52f40c96bcd2fa400ae85140251e34604b7e955587bde",
+          "file": "/tmp/valtan-canvas-checks-J1Z1SZ/checks.lisp",
+          "lastLog": "MCCLIM-CANVAS-CHECKS-PASS 69",
+          "result": {
+            "type": "test-result",
+            "id": 1,
+            "ok": false,
+            "error": "No applicable method for #<Function INVOKE-WITH-OUTPUT-TO-PIXMAP> with arguments (NIL #<Function> :WIDTH 8 :HEIGHT 8)."
+          },
+          "finishedAt": "2026-11-11T07:46:53.141Z"
+        }
+      ],
+      "finishedAt": "2026-11-11T07:46:53.189Z"
+    },
+    "diagnosis": "The fixture selected the recording stream faux BASIC-MEDIUM and replayed while recording was enabled. Corrected fixture selects the actual browser medium and replays under :record NIL :draw T. The production Bezier implementation is unchanged."
+  }
+}
