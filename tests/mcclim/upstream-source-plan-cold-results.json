@@ -1,0 +1,729 @@
+{
+  "status": "failed",
+  "complete": true,
+  "scope": "Fresh browser bundle, every upstream test source attempted; manual continuation after the driver observation timeout. Two source-load errors prevent a full pass. This compiler predates the keyword-policy cache.",
+  "observedAt": "2026-11-11T07:18:58.159856+00:00",
+  "driverBeforeCleanup": {
+    "status": "running",
+    "complete": false,
+    "startedAt": "2026-11-11T06:14:06.943Z",
+    "scope": "All sources in the installed mcclim/test and mcclim/test-util ASDF plan, read with target features in real browser McCLIM; not GUI integration or complete extension coverage",
+    "workbenchSourceHashes": {
+      "upstream-plan.lisp": "1d3b6f306eaed23ea3ef7688b63f37f2d9936c10733afba80891ddb8ae73a7a7",
+      "upstream-checks.lisp": "b1c0ac5af3243397180e5a3941f2a78ec017eb54ec856c6efc698004df7f8e37",
+      "upstream.mjs": "fbaf21ed41aca5c17e044956e63a21b88185b336115653108bc092ae59b21e05"
+    },
+    "asdfVersion": "3.3.1",
+    "upstreamDefinition": {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/mcclim.asd",
+      "sha256": "c656f4107f9bc4cf3546ffe51cd034d1e0f56c5246684a0c82cbe04e0c2058c4"
+    },
+    "sources": [
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/util/package.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/util/package.lisp",
+        "sha256": "bf75e8d160516bd3afe7373e541ca4cae0233ea5ebfc8cfa90dd520e8047ebe8"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/util/test-page.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/util/test-page.lisp",
+        "sha256": "f277401f97abd836ee15726a9c85f644eeecb331d6dec79af6ae605d1cd7fe83"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/package.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/package.lisp",
+        "sha256": "f68a524bbccfd19ba42e83dbe2f9a6f55957bbbe88aae78cef1437c35d519627"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/utils.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/utils.lisp",
+        "sha256": "387fa6a5734754ffac637f529d6519b37ab805cd28b53574c71af4339da5b837"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/input-editing.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/input-editing.lisp",
+        "sha256": "b49ad5c58d4bf3ed0d9cadadf289500f33b452c6586023cf1f12bd9c398cbba0"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/commands.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/commands.lisp",
+        "sha256": "aabcd83528ed1801fa0d5b9411c82d94c7bca707a9892c1bd89e45c221461af9"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/text-selection.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-selection.lisp",
+        "sha256": "25bf24a9f8e6a1806a3d8d36f5052fda1df5706b3410d2c242b60be65f0be6bd"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/text-formatting.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-formatting.lisp",
+        "sha256": "53f778fd38035c08ce5917057be04b35c016a819a1403bb8a3eb6d0ca59eeb4c"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/text-styles.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-styles.lisp",
+        "sha256": "970b2ad7127ccab3d0dad63ac9fd86fd4a88f2949cf33dc21e44d3c2d39f37f5"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/setf-star.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/setf-star.lisp",
+        "sha256": "69739e85f5c7a06a737140ad5f206dff03265a5ec8bd7f83e1c9d69c06acc0e8"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/dynamic-vars.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/dynamic-vars.lisp",
+        "sha256": "51a722552557d1e2d1958bf39c3230d0d51debb65ead598c66323e8055758bb9"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/transforms.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/transforms.lisp",
+        "sha256": "3a261ce10b7905f5d172f4e0050f1a546c9a20c831843f9813e6fa513ce846b1"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/regions.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/regions.lisp",
+        "sha256": "bf0581c44b27ea7d46c908a49376495ffbb5856b943543dd6c8652ef00e55a75"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/bounding-rectangles.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/bounding-rectangles.lisp",
+        "sha256": "1a83e87c6ef02526b2def4b0522644cdc50462e358a83765d1ecd0ced91ab956"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/algebra.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/algebra.lisp",
+        "sha256": "d9160d5b082db0fc6ab6c7a7e58ef0fdf62d9d5ebf3e59e85f12a24390ab2983"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/drawing/medium.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/medium.lisp",
+        "sha256": "7d14065608bf2e27a7dddb976192283af1c1bfb7c2515031be10701d626245e0"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/drawing/design.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/design.lisp",
+        "sha256": "8658e579ea43e53123be03136559a54d0e92009d7e2daf9cc6f55cd22ac66792"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/drawing/bezier.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/bezier.lisp",
+        "sha256": "ff2d17057b5226f763a5a02833e11adabcf051985898b8435a128a842cb41213"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/extended-streams/stream-input.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/stream-input.lisp",
+        "sha256": "2f604dadd352620b50ba23bc9e168ea3a9dfeb0608ff557d26919181dfba2678"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/extended-streams/gestures.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/gestures.lisp",
+        "sha256": "5b10fb37c778f9dd8ee3cb97b03ec9cfe029ea03b0b5f07b83c09a0fb315d08c"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/extended-streams/recording.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/recording.lisp",
+        "sha256": "6d934afb4437106f53f97d0570956878396a03541a96f0ccb3853a72e7ac446a"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/presentation-types.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-types.lisp",
+        "sha256": "157bfc16c424e1375368807ea86e2ee4c52a94a2595f6240b12af206d1cb7be6"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/presentation-functions.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-functions.lisp",
+        "sha256": "f0027aa0553057edc499916f47d92f7a636c35740adfc8974a53dd014b041cfd"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/presentation-inheritance.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-inheritance.lisp",
+        "sha256": "5ae599596626d07d943fe63e9f262b05fa82f0c75b2e83aa9d6e56d856902e33"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/translators.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/translators.lisp",
+        "sha256": "47e3d4b5a8e7cdccd3b23838fa79c5f97588049b4b41147e4e9ae7cebb97dd59"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/standard-presentations.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/standard-presentations.lisp",
+        "sha256": "334309d32dbbfa19ef45d7da5ffc6ba195fc5d70b012e2885a9a5f4afc8265bf"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/frames/define-application-frame.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/frames/define-application-frame.lisp",
+        "sha256": "5acfb609f2cede3965bd4cf0bf542fafd3a957fe964dbc60d7d7089b7af343c2"
+      }
+    ],
+    "checksSha256": "a10364e654f15112fa27c697bbd639cb13f232ff78463b3936dbaea294165c5e",
+    "work": "/tmp/valtan-mcclim-workbench-k0LP4C"
+  },
+  "workbenchAtCollection": {
+    "work": "/tmp/valtan-mcclim-workbench-k0LP4C",
+    "status": "ready",
+    "complete": false,
+    "startedAt": "2026-11-11T06:14:07.254Z",
+    "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "bundleSha256": "33f67a179754f05e0f945048a9f82eaa4fb54e4869eb76f9297204ba8018ef8c",
+    "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+    "readyAt": "2026-11-11T06:41:10.111Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "upstream",
+        "startedAt": "2026-11-11T06:41:10.114Z",
+        "sourceSha256": "a10364e654f15112fa27c697bbd639cb13f232ff78463b3936dbaea294165c5e",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/checks.lisp",
+        "error": "Error: Evaluation timed out (the worker is retained for diagnosis)",
+        "finishedAt": "2026-11-11T06:51:10.218Z"
+      }
+    ]
+  },
+  "retention": {
+    "driverPid": 116852,
+    "workbenchPid": 116861,
+    "work": "/tmp/valtan-mcclim-workbench-k0LP4C",
+    "profile": "/tmp/valtan-chrome-RdLdC9",
+    "evaluationId": 1,
+    "retainedAt": "2026-11-11T06:42:57.276267+00:00",
+    "reason": "The isolated algebra probe proves expensive computation is progressing. Pause only the orchestration process so its 10-minute observation timeout cannot close the independently running workbench; retain this exact execution for later result collection. No Lisp test changes."
+  },
+  "result": {
+    "type": "test-result",
+    "id": 1,
+    "ok": true,
+    "value": "(\"{\\\"status\\\":\\\"failed\\\",\\\"files\\\":[{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/util/package.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/util/test-page.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/package.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/utils.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::VALIDATE-PARSE-SPACE\\\",\\\"CLIM-TESTS::NORMALIZE-MARGIN-SPEC.VALIDATION\\\",\\\"CLIM-TESTS::NORMALIZE-MARGIN-SPEC\\\",\\\"CLIM-TESTS::LINE-BREAKS.RANDOM\\\",\\\"CLIM-TESTS::LINE-BREAKS.SMOKE\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/input-editing.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::ACCEPT.SMOKE\\\",\\\"CLIM-TESTS::INPUT-EDITING.INPUT-NOT-OF-REQUIRED-TYPE\\\",\\\"CLIM-TESTS::INPUT-EDITING.SIMPLE-PARSE-ERROR\\\",\\\"CLIM-TESTS::INPUT-EDITING.*ACTIVATION-GESTURES*\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/commands.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::COMMANDS.REMOVE-PRESENTATION-TRANSLATOR-FROM-COMMAND-TABLE.SMOKE\\\",\\\"CLIM-TESTS::COMMANDS.ADD-PRESENTATION-TRANSLATOR-TO-COMMAND-TABLE.SMOKE\\\",\\\"CLIM-TESTS::COMMANDS.FIND-PRESENTATION-TRANSLATOR.SMOKE\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-NO-PRESENT.PRINT\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE-ERRORS\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.5\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.4\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.3\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.2\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.1\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE-INHERITANCE.SMOKE\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE.ADD-MENU-NAME-WITH-KEYSTROKE\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE.ADD-COMMAND-WITH-EXISTING-MENU\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-KEYSTROKES*\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-KEYSTROKES\\\",\\\"CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-MENU\\\",\\\"CLIM-TESTS::COMMANDS.ADD-AND-REMOVE-COMMAND\\\",\\\"CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.MENU\\\",\\\"CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.NO-MENU\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-selection.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::TEXT-SELECTION.SMOKE\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-formatting.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-styles.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::PARSE-TEXT-STYLE*.SMOKE\\\",\\\"CLIM-TESTS::PARSE-TEXT-STYLE.SMOKE\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/setf-star.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::OPTIONAL-ARGUMENTS-TEST\\\",\\\"CLIM-TESTS::KEY-ARGS\\\",\\\"CLIM-TESTS::OPTIONAL-ARGS\\\",\\\"CLIM-TESTS::REQUIRED-ARGS\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/dynamic-vars.lisp\\\",\\\"error\\\":\\\"Package BT does not exist.\\\",\\\"registered\\\":[]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/transforms.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::TRANSFORMS.ORDER-OF-COMPOSITION\\\",\\\"CLIM-TESTS::TRANSFORMS.PROTOCOL\\\",\\\"CLIM-TESTS::TRANSFORMS.CLASSES\\\",\\\"CLIM-TESTS::TRANSFORMS.CONDITION-TYPE-RELATIONS\\\",\\\"CLIM-TESTS::TRANSFORMS.+IDENTITY-TRANSFORMATION+\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/regions.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::REGIONS.ELLIPTICAL-ARC\\\",\\\"CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.LINE-SEGMENT-INTERSECTION\\\",\\\"CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.NEARLY-COINCIDENT\\\",\\\"CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.ALMOST-POINT\\\",\\\"CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.ISSUE-1411\\\",\\\"CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS\\\",\\\"CLIM-TESTS::REGIONS.ELLIPSE\\\",\\\"CLIM-TESTS::REGIONS.RECTANGLE\\\",\\\"CLIM-TESTS::REGIONS.LINE\\\",\\\"CLIM-TESTS::REGIONS.POLYGON\\\",\\\"CLIM-TESTS::REGIONS.POLYLINE\\\",\\\"CLIM-TESTS::REGIONS.REGION-DIFFERENCE/REGRESSION-2\\\",\\\"CLIM-TESTS::REGIONS.REGION-DIFFERENCE/REGRESSION-1\\\",\\\"CLIM-TESTS::REGIONS.STANDARD-RECTANGLE-SET\\\",\\\"CLIM-TESTS::REGIONS.DIFFERENCE\\\",\\\"CLIM-TESTS::REGIONS.INTERSECTION\\\",\\\"CLIM-TESTS::REGIONS.UNION.STANDARD-REGION-INTERSECTION\\\",\\\"CLIM-TESTS::REGIONS.UNION\\\",\\\"CLIM-TESTS::REGIONS.REGION-SET\\\",\\\"CLIM-TESTS::REGIONS.+EVERYWHERE+-AND-+NOWHERE+\\\",\\\"CLIM-TESTS::REGIONS.POINT\\\",\\\"CLIM-TESTS::REGIONS.COORDINATE\\\",\\\"CLIM-TESTS::REGIONS.AREA\\\",\\\"CLIM-TESTS::REGIONS.PATH\\\",\\\"CLIM-TESTS::REGIONS.REGION\\\",\\\"CLIM-TESTS::REGIONS.BOUNDING-RECTANGLES\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/bounding-rectangles.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::BOUNDING-RECTANGLE.REGION-SETS\\\",\\\"CLIM-TESTS::BOUNDING-RECTANGLE.ELLIPSE\\\",\\\"CLIM-TESTS::BOUNDING-RECTANGLE.RECTANGLE\\\",\\\"CLIM-TESTS::BOUNDING-RECTANGLE.POLYGON\\\",\\\"CLIM-TESTS::BOUNDING-RECTANGLE.ELLIPTICAL-ARC\\\",\\\"CLIM-TESTS::BOUNDING-RECTANGLE.LINE\\\",\\\"CLIM-TESTS::BOUNDING-RECTANGLE.POLYLINE\\\",\\\"CLIM-TESTS::BOUNDING-RECTANGLE.POINT\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/algebra.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-MEETS\\\",\\\"CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-JOINS\\\",\\\"CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-LEAST-GREATEST\\\",\\\"CLIM-TESTS::ALGEBRA.INCLUSION.TRANSITIVITY\\\",\\\"CLIM-TESTS::ALGEBRA.INCLUSION.ASSYMETRY\\\",\\\"CLIM-TESTS::ALGEBRA.INCLUSION.REFLEXIVITY\\\",\\\"CLIM-TESTS::ALGEBRA.EXTRA/UNIQUENESS-OF-COMPLEMENTS\\\",\\\"CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.UNIVERSAL-AND-EMPTY\\\",\\\"CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.INVOLUTION\\\",\\\"CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.DE-MORGAN\\\",\\\"CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.ABSORPTION\\\",\\\"CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.DOMINATION\\\",\\\"CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.IDEMPOTENT\\\",\\\"CLIM-TESTS::ALGEBRA.FUNDAMENTAL.DISTRIBUTIVITY\\\",\\\"CLIM-TESTS::ALGEBRA.FUNDAMENTAL.ASSOCIATIVITY\\\",\\\"CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMMUTATIVITY\\\",\\\"CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMPLEMENT\\\",\\\"CLIM-TESTS::ALGEBRA.FUNDAMENTAL.IDENTITY\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/medium.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::MAKE-TEXT-STYLE.CACHE\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/design.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::DESIGN-INK.REGION\\\",\\\"CLIM-TESTS::DESIGN-INK.STANDARD-COLOR\\\",\\\"CLIM-TESTS::COLOR-RGBA.INDIRECT-INK\\\",\\\"CLIM-TESTS::COLOR-RGBA.STANDARD-COLOR\\\",\\\"CLIM-TESTS::COLOR-RGB.STANDARD-COLOR\\\",\\\"CLIM-TESTS::OPACITY-VALUE.STANDARD-COLOR\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/bezier.lisp\\\",\\\"error\\\":\\\"Package MCCLIM-BEZIER does not exist.\\\",\\\"registered\\\":[]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/stream-input.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::STREAM-READ-GESTURE.SMOKE\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/gestures.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::GESTURES.4.INDIRECT-GESTURES.SMOKE\\\",\\\"CLIM-TESTS::GESTURES.3.EVENT-DATA-MATCHES-GESTURE-P.SMOKE\\\",\\\"CLIM-TESTS::GESTURES.2.ENSURE-PHYSICAL-GESTURE.SMOKE\\\",\\\"CLIM-TESTS::GESTURES.1.ADD-GESTURE-NAME.SMOKE\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/recording.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::RECORDING.PARENT-UPDATES-ITS-STRUCTURE\\\",\\\"CLIM-TESTS::RECORDING.MAP-OVER-OUTPUT-RECORDS.OUTSIDE-TREE\\\",\\\"CLIM-TESTS::RECORDING.RECOMPUTE-EXTENT-FOR-NEW/CHANGED-CHILD\\\",\\\"CLIM-TESTS::RECORDING.PARENT-TRIGGERS-ADD-OUTPUT-RECORD\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-types.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::PRESENTATIONS.FORWARD-REFERENCED-CLASS\\\",\\\"CLIM-TESTS::PRESENTATIONS.TYPE-OPTIONS.SMOKE\\\",\\\"CLIM-TESTS::PRESENTATIONS.TYPE-PARAMETERS.SMOKE\\\",\\\"CLIM-TESTS::PRESENTATIONS.TYPEP.1\\\",\\\"CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.SEQUENCE-ENUMERATED\\\",\\\"CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.7\\\",\\\"CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.6\\\",\\\"CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.5\\\",\\\"CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.4\\\",\\\"CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.3\\\",\\\"CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.2\\\",\\\"CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.1\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-functions.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::PGF-REGRESSION-TEST.1\\\",\\\"CLIM-TESTS::PGF-WARNING\\\",\\\"CLIM-TESTS::PGF-SPECIALIZERS\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-inheritance.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::PTI.0003.INHERITANCE-VALIDITY\\\",\\\"CLIM-TESTS::PTI.0002.INHERIT-CLASS\\\",\\\"CLIM-TESTS::PTI.0001.INHERIT-EXPRESSION\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/translators.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::PRESENTATION-TRANSLATORS.META\\\",\\\"CLIM-TESTS::PRESENTATION-TRANSLATORS.SMOKE\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/standard-presentations.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.AND.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.AND.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.AND.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.OR.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.OR.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.OR.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.SUBSET-COMPLETION.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.SUBSET-COMPLETION.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.CHARACTER.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.CHARACTER.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.TYPEP\\\",\\\"CLIM-TESTS::NUMBER-SUBTYPEP.RANDOM\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.TYPEP\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.ACCEPT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.PRESENT\\\",\\\"CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.TYPEP\\\"]},{\\\"file\\\":\\\"/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/frames/define-application-frame.lisp\\\",\\\"error\\\":null,\\\"registered\\\":[\\\"CLIM-TESTS::PARSE-DEFINE-APPLICATION.SMOKE\\\"]}],\\\"registered\\\":179,\\\"results\\\":1642,\\\"passed\\\":1642,\\\"failed\\\":0,\\\"skipped\\\":0,\\\"unexecuted\\\":[],\\\"nonpassed\\\":[],\\\"output\\\":\\\"...........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................e................................................................................................................................................................................................e........e......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................ee...e...................................................................e..e.............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................\\\"}\")"
+  },
+  "checks": {
+    "status": "failed",
+    "files": [
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/util/package.lisp",
+        "error": null,
+        "registered": []
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/util/test-page.lisp",
+        "error": null,
+        "registered": []
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/package.lisp",
+        "error": null,
+        "registered": []
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/utils.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::VALIDATE-PARSE-SPACE",
+          "CLIM-TESTS::NORMALIZE-MARGIN-SPEC.VALIDATION",
+          "CLIM-TESTS::NORMALIZE-MARGIN-SPEC",
+          "CLIM-TESTS::LINE-BREAKS.RANDOM",
+          "CLIM-TESTS::LINE-BREAKS.SMOKE"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/input-editing.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::ACCEPT.SMOKE",
+          "CLIM-TESTS::INPUT-EDITING.INPUT-NOT-OF-REQUIRED-TYPE",
+          "CLIM-TESTS::INPUT-EDITING.SIMPLE-PARSE-ERROR",
+          "CLIM-TESTS::INPUT-EDITING.*ACTIVATION-GESTURES*"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/commands.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::COMMANDS.REMOVE-PRESENTATION-TRANSLATOR-FROM-COMMAND-TABLE.SMOKE",
+          "CLIM-TESTS::COMMANDS.ADD-PRESENTATION-TRANSLATOR-TO-COMMAND-TABLE.SMOKE",
+          "CLIM-TESTS::COMMANDS.FIND-PRESENTATION-TRANSLATOR.SMOKE",
+          "CLIM-TESTS::COMMANDS.COMMAND-NO-PRESENT.PRINT",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE-ERRORS",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.5",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.4",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.3",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.2",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.1",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE-INHERITANCE.SMOKE",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE.ADD-MENU-NAME-WITH-KEYSTROKE",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE.ADD-COMMAND-WITH-EXISTING-MENU",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-KEYSTROKES*",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-KEYSTROKES",
+          "CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-MENU",
+          "CLIM-TESTS::COMMANDS.ADD-AND-REMOVE-COMMAND",
+          "CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.MENU",
+          "CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.NO-MENU"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-selection.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::TEXT-SELECTION.SMOKE"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-formatting.lisp",
+        "error": null,
+        "registered": []
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-styles.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::PARSE-TEXT-STYLE*.SMOKE",
+          "CLIM-TESTS::PARSE-TEXT-STYLE.SMOKE"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/setf-star.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::OPTIONAL-ARGUMENTS-TEST",
+          "CLIM-TESTS::KEY-ARGS",
+          "CLIM-TESTS::OPTIONAL-ARGS",
+          "CLIM-TESTS::REQUIRED-ARGS"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/dynamic-vars.lisp",
+        "error": "Package BT does not exist.",
+        "registered": []
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/transforms.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::TRANSFORMS.ORDER-OF-COMPOSITION",
+          "CLIM-TESTS::TRANSFORMS.PROTOCOL",
+          "CLIM-TESTS::TRANSFORMS.CLASSES",
+          "CLIM-TESTS::TRANSFORMS.CONDITION-TYPE-RELATIONS",
+          "CLIM-TESTS::TRANSFORMS.+IDENTITY-TRANSFORMATION+"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/regions.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::REGIONS.ELLIPTICAL-ARC",
+          "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.LINE-SEGMENT-INTERSECTION",
+          "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.NEARLY-COINCIDENT",
+          "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.ALMOST-POINT",
+          "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.ISSUE-1411",
+          "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS",
+          "CLIM-TESTS::REGIONS.ELLIPSE",
+          "CLIM-TESTS::REGIONS.RECTANGLE",
+          "CLIM-TESTS::REGIONS.LINE",
+          "CLIM-TESTS::REGIONS.POLYGON",
+          "CLIM-TESTS::REGIONS.POLYLINE",
+          "CLIM-TESTS::REGIONS.REGION-DIFFERENCE/REGRESSION-2",
+          "CLIM-TESTS::REGIONS.REGION-DIFFERENCE/REGRESSION-1",
+          "CLIM-TESTS::REGIONS.STANDARD-RECTANGLE-SET",
+          "CLIM-TESTS::REGIONS.DIFFERENCE",
+          "CLIM-TESTS::REGIONS.INTERSECTION",
+          "CLIM-TESTS::REGIONS.UNION.STANDARD-REGION-INTERSECTION",
+          "CLIM-TESTS::REGIONS.UNION",
+          "CLIM-TESTS::REGIONS.REGION-SET",
+          "CLIM-TESTS::REGIONS.+EVERYWHERE+-AND-+NOWHERE+",
+          "CLIM-TESTS::REGIONS.POINT",
+          "CLIM-TESTS::REGIONS.COORDINATE",
+          "CLIM-TESTS::REGIONS.AREA",
+          "CLIM-TESTS::REGIONS.PATH",
+          "CLIM-TESTS::REGIONS.REGION",
+          "CLIM-TESTS::REGIONS.BOUNDING-RECTANGLES"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/bounding-rectangles.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::BOUNDING-RECTANGLE.REGION-SETS",
+          "CLIM-TESTS::BOUNDING-RECTANGLE.ELLIPSE",
+          "CLIM-TESTS::BOUNDING-RECTANGLE.RECTANGLE",
+          "CLIM-TESTS::BOUNDING-RECTANGLE.POLYGON",
+          "CLIM-TESTS::BOUNDING-RECTANGLE.ELLIPTICAL-ARC",
+          "CLIM-TESTS::BOUNDING-RECTANGLE.LINE",
+          "CLIM-TESTS::BOUNDING-RECTANGLE.POLYLINE",
+          "CLIM-TESTS::BOUNDING-RECTANGLE.POINT"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/algebra.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-MEETS",
+          "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-JOINS",
+          "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-LEAST-GREATEST",
+          "CLIM-TESTS::ALGEBRA.INCLUSION.TRANSITIVITY",
+          "CLIM-TESTS::ALGEBRA.INCLUSION.ASSYMETRY",
+          "CLIM-TESTS::ALGEBRA.INCLUSION.REFLEXIVITY",
+          "CLIM-TESTS::ALGEBRA.EXTRA/UNIQUENESS-OF-COMPLEMENTS",
+          "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.UNIVERSAL-AND-EMPTY",
+          "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.INVOLUTION",
+          "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.DE-MORGAN",
+          "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.ABSORPTION",
+          "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.DOMINATION",
+          "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.IDEMPOTENT",
+          "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.DISTRIBUTIVITY",
+          "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.ASSOCIATIVITY",
+          "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMMUTATIVITY",
+          "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMPLEMENT",
+          "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.IDENTITY"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/medium.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::MAKE-TEXT-STYLE.CACHE"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/design.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::DESIGN-INK.REGION",
+          "CLIM-TESTS::DESIGN-INK.STANDARD-COLOR",
+          "CLIM-TESTS::COLOR-RGBA.INDIRECT-INK",
+          "CLIM-TESTS::COLOR-RGBA.STANDARD-COLOR",
+          "CLIM-TESTS::COLOR-RGB.STANDARD-COLOR",
+          "CLIM-TESTS::OPACITY-VALUE.STANDARD-COLOR"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/bezier.lisp",
+        "error": "Package MCCLIM-BEZIER does not exist.",
+        "registered": []
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/stream-input.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::STREAM-READ-GESTURE.SMOKE"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/gestures.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::GESTURES.4.INDIRECT-GESTURES.SMOKE",
+          "CLIM-TESTS::GESTURES.3.EVENT-DATA-MATCHES-GESTURE-P.SMOKE",
+          "CLIM-TESTS::GESTURES.2.ENSURE-PHYSICAL-GESTURE.SMOKE",
+          "CLIM-TESTS::GESTURES.1.ADD-GESTURE-NAME.SMOKE"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/recording.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::RECORDING.PARENT-UPDATES-ITS-STRUCTURE",
+          "CLIM-TESTS::RECORDING.MAP-OVER-OUTPUT-RECORDS.OUTSIDE-TREE",
+          "CLIM-TESTS::RECORDING.RECOMPUTE-EXTENT-FOR-NEW/CHANGED-CHILD",
+          "CLIM-TESTS::RECORDING.PARENT-TRIGGERS-ADD-OUTPUT-RECORD"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-types.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::PRESENTATIONS.FORWARD-REFERENCED-CLASS",
+          "CLIM-TESTS::PRESENTATIONS.TYPE-OPTIONS.SMOKE",
+          "CLIM-TESTS::PRESENTATIONS.TYPE-PARAMETERS.SMOKE",
+          "CLIM-TESTS::PRESENTATIONS.TYPEP.1",
+          "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.SEQUENCE-ENUMERATED",
+          "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.7",
+          "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.6",
+          "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.5",
+          "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.4",
+          "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.3",
+          "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.2",
+          "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.1"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-functions.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::PGF-REGRESSION-TEST.1",
+          "CLIM-TESTS::PGF-WARNING",
+          "CLIM-TESTS::PGF-SPECIALIZERS"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-inheritance.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::PTI.0003.INHERITANCE-VALIDITY",
+          "CLIM-TESTS::PTI.0002.INHERIT-CLASS",
+          "CLIM-TESTS::PTI.0001.INHERIT-EXPRESSION"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/translators.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::PRESENTATION-TRANSLATORS.META",
+          "CLIM-TESTS::PRESENTATION-TRANSLATORS.SMOKE"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/standard-presentations.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.AND.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.AND.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.AND.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.OR.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.OR.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.OR.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.SUBSET-COMPLETION.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.SUBSET-COMPLETION.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.CHARACTER.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.CHARACTER.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.TYPEP",
+          "CLIM-TESTS::NUMBER-SUBTYPEP.RANDOM",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.TYPEP",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.ACCEPT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.PRESENT",
+          "CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.TYPEP"
+        ]
+      },
+      {
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/frames/define-application-frame.lisp",
+        "error": null,
+        "registered": [
+          "CLIM-TESTS::PARSE-DEFINE-APPLICATION.SMOKE"
+        ]
+      }
+    ],
+    "registered": 179,
+    "results": 1642,
+    "passed": 1642,
+    "failed": 0,
+    "skipped": 0,
+    "unexecuted": [],
+    "nonpassed": [],
+    "output": "...........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................e................................................................................................................................................................................................e........e......................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................ee...e...................................................................e..e............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................."
+  },
+  "driverAfterCleanup": {
+    "status": "failed",
+    "complete": false,
+    "startedAt": "2026-11-11T06:14:06.943Z",
+    "scope": "All sources in the installed mcclim/test and mcclim/test-util ASDF plan, read with target features in real browser McCLIM; not GUI integration or complete extension coverage",
+    "workbenchSourceHashes": {
+      "upstream-plan.lisp": "1d3b6f306eaed23ea3ef7688b63f37f2d9936c10733afba80891ddb8ae73a7a7",
+      "upstream-checks.lisp": "b1c0ac5af3243397180e5a3941f2a78ec017eb54ec856c6efc698004df7f8e37",
+      "upstream.mjs": "fbaf21ed41aca5c17e044956e63a21b88185b336115653108bc092ae59b21e05"
+    },
+    "asdfVersion": "3.3.1",
+    "upstreamDefinition": {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/mcclim.asd",
+      "sha256": "c656f4107f9bc4cf3546ffe51cd034d1e0f56c5246684a0c82cbe04e0c2058c4"
+    },
+    "sources": [
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/util/package.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/util/package.lisp",
+        "sha256": "bf75e8d160516bd3afe7373e541ca4cae0233ea5ebfc8cfa90dd520e8047ebe8"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/util/test-page.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/util/test-page.lisp",
+        "sha256": "f277401f97abd836ee15726a9c85f644eeecb331d6dec79af6ae605d1cd7fe83"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/package.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/package.lisp",
+        "sha256": "f68a524bbccfd19ba42e83dbe2f9a6f55957bbbe88aae78cef1437c35d519627"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/utils.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/utils.lisp",
+        "sha256": "387fa6a5734754ffac637f529d6519b37ab805cd28b53574c71af4339da5b837"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/input-editing.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/input-editing.lisp",
+        "sha256": "b49ad5c58d4bf3ed0d9cadadf289500f33b452c6586023cf1f12bd9c398cbba0"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/commands.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/commands.lisp",
+        "sha256": "aabcd83528ed1801fa0d5b9411c82d94c7bca707a9892c1bd89e45c221461af9"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/text-selection.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-selection.lisp",
+        "sha256": "25bf24a9f8e6a1806a3d8d36f5052fda1df5706b3410d2c242b60be65f0be6bd"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/text-formatting.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-formatting.lisp",
+        "sha256": "53f778fd38035c08ce5917057be04b35c016a819a1403bb8a3eb6d0ca59eeb4c"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/text-styles.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/text-styles.lisp",
+        "sha256": "970b2ad7127ccab3d0dad63ac9fd86fd4a88f2949cf33dc21e44d3c2d39f37f5"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/setf-star.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/setf-star.lisp",
+        "sha256": "69739e85f5c7a06a737140ad5f206dff03265a5ec8bd7f83e1c9d69c06acc0e8"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/dynamic-vars.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/dynamic-vars.lisp",
+        "sha256": "51a722552557d1e2d1958bf39c3230d0d51debb65ead598c66323e8055758bb9"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/transforms.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/transforms.lisp",
+        "sha256": "3a261ce10b7905f5d172f4e0050f1a546c9a20c831843f9813e6fa513ce846b1"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/regions.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/regions.lisp",
+        "sha256": "bf0581c44b27ea7d46c908a49376495ffbb5856b943543dd6c8652ef00e55a75"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/bounding-rectangles.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/bounding-rectangles.lisp",
+        "sha256": "1a83e87c6ef02526b2def4b0522644cdc50462e358a83765d1ecd0ced91ab956"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/algebra.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/geometry/algebra.lisp",
+        "sha256": "d9160d5b082db0fc6ab6c7a7e58ef0fdf62d9d5ebf3e59e85f12a24390ab2983"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/drawing/medium.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/medium.lisp",
+        "sha256": "7d14065608bf2e27a7dddb976192283af1c1bfb7c2515031be10701d626245e0"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/drawing/design.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/design.lisp",
+        "sha256": "8658e579ea43e53123be03136559a54d0e92009d7e2daf9cc6f55cd22ac66792"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/drawing/bezier.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/drawing/bezier.lisp",
+        "sha256": "ff2d17057b5226f763a5a02833e11adabcf051985898b8435a128a842cb41213"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/extended-streams/stream-input.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/stream-input.lisp",
+        "sha256": "2f604dadd352620b50ba23bc9e168ea3a9dfeb0608ff557d26919181dfba2678"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/extended-streams/gestures.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/gestures.lisp",
+        "sha256": "5b10fb37c778f9dd8ee3cb97b03ec9cfe029ea03b0b5f07b83c09a0fb315d08c"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/extended-streams/recording.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/extended-streams/recording.lisp",
+        "sha256": "6d934afb4437106f53f97d0570956878396a03541a96f0ccb3853a72e7ac446a"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/presentation-types.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-types.lisp",
+        "sha256": "157bfc16c424e1375368807ea86e2ee4c52a94a2595f6240b12af206d1cb7be6"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/presentation-functions.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-functions.lisp",
+        "sha256": "f0027aa0553057edc499916f47d92f7a636c35740adfc8974a53dd014b041cfd"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/presentation-inheritance.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/presentation-inheritance.lisp",
+        "sha256": "5ae599596626d07d943fe63e9f262b05fa82f0c75b2e83aa9d6e56d856902e33"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/translators.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/translators.lisp",
+        "sha256": "47e3d4b5a8e7cdccd3b23838fa79c5f97588049b4b41147e4e9ae7cebb97dd59"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/standard-presentations.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/presentations/standard-presentations.lisp",
+        "sha256": "334309d32dbbfa19ef45d7da5ffc6ba195fc5d70b012e2885a9a5f4afc8265bf"
+      },
+      {
+        "original": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/frames/define-application-frame.lisp",
+        "file": "/tmp/valtan-mcclim-upstream-GnIijV/test-sources/Tests/frames/define-application-frame.lisp",
+        "sha256": "5acfb609f2cede3965bd4cf0bf542fafd3a957fe964dbc60d7d7089b7af343c2"
+      }
+    ],
+    "checksSha256": "a10364e654f15112fa27c697bbd639cb13f232ff78463b3936dbaea294165c5e",
+    "work": "/tmp/valtan-mcclim-workbench-k0LP4C",
+    "error": "AssertionError [ERR_ASSERTION]: Error: Evaluation timed out (the worker is retained for diagnosis)\n+ actual - expected\n\n+ undefined\n- true\n",
+    "workbench": {
+      "work": "/tmp/valtan-mcclim-workbench-k0LP4C",
+      "status": "closed",
+      "complete": false,
+      "startedAt": "2026-11-11T06:14:07.254Z",
+      "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+      "bundleSha256": "33f67a179754f05e0f945048a9f82eaa4fb54e4869eb76f9297204ba8018ef8c",
+      "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+      "readyAt": "2026-11-11T06:41:10.111Z",
+      "evaluations": [
+        {
+          "id": 1,
+          "commandId": "upstream",
+          "startedAt": "2026-11-11T06:41:10.114Z",
+          "sourceSha256": "a10364e654f15112fa27c697bbd639cb13f232ff78463b3936dbaea294165c5e",
+          "file": "/tmp/valtan-mcclim-upstream-GnIijV/checks.lisp",
+          "error": "Error: Evaluation timed out (the worker is retained for diagnosis)",
+          "finishedAt": "2026-11-11T06:51:10.218Z"
+        }
+      ],
+      "finishedAt": "2026-11-11T07:18:58.208Z"
+    },
+    "finishedAt": "2026-11-11T07:18:58.279Z"
+  },
+  "cleanup": {
+    "driverResumedAfterResultSaved": true,
+    "driverExitCode": 1,
+    "reason": "The original driver received its earlier 10-minute observer timeout and closed the retained workbench. Its failed incomplete report is preserved separately from the completed Lisp evaluation."
+  }
+}

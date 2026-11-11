@@ -400,8 +400,14 @@ attempted all 27 files: 179 tests registered and executed, with 1,640 of 1,642
 checks passing. Two pathname checks failed because their inline-loaded source
 file was absent from that worker's filesystem. Two source files could not load
 because the BT and MCCLIM-BEZIER packages were absent. The cold run with embedded
-source resources remains in progress; neither result establishes full McCLIM
-compatibility.
+source resources [finished](../tests/mcclim/upstream-source-plan-cold-results.json):
+all 1,642 checks from 179 registered tests pass, including the pathname checks.
+The same two source-load errors remain, so the overall diagnostic still fails.
+This run used the compiler before the keyword-policy optimization. Its original
+driver hit a ten-minute observation timeout; the worker was retained unchanged
+and its completed result collected separately. Both the observer failure and
+the completed evaluation are preserved in the report. Neither result establishes
+full McCLIM compatibility.
 
 Two failures from the earlier run now pass focused checks in the existing browser worker:
 the presentation inheritance compilation test and `STREAM-READ-GESTURE.SMOKE`
