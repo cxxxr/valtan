@@ -895,7 +895,7 @@ circular creation dependencies signal an error, while circular initialization
 references are supported. Each `LOAD` owns a fresh pool, retained by the
 functions it installs and isolated from nested loads. `EVAL` continues to use
 the original live objects. The [two-process tests](../tests/resumable/file-literals.test.mjs)
-delete the source before loading, check 23 graph/slot assertions per load,
+delete the source before loading, check 25 graph/slot assertions per load,
 verify one load-form call per object per compilation, and exercise suspension
 in both creation and initialization forms. These compiler tests do not establish
 that all McCLIM components can yet be precompiled and reloaded.
@@ -903,6 +903,14 @@ Dependency traversal uses an explicit work stack, so large package export lists
 do not exhaust the JavaScript stack. The tests also restore an 8192-element list
 shared with an object's slot, exercising both aggregate references and load-form
 initialization dependencies.
+
+Nested `DEFCONSTANT` forms evaluate their initializers at execution time, so a
+load form can define a constant using a lexical value. `EVAL` evaluates a
+constant initializer once; top-level file compilation still recognizes constants
+for later forms. The [constant-definition checks](../tests/resumable/defconstant-results.json)
+pass 29 ordinary/scheduled assertions and all eight upstream ANSI cases in both
+evaluation and compiled modes. The file-literal tests also exercise a nested
+constant definition in a `MAKE-LOAD-FORM` creation form after restarting.
 
 Internal cooperative locks and condition variables now share the scheduler's
 task identity. Locks support recursive ownership, nonblocking/timed acquisition

@@ -1,18 +1,19 @@
 {
   "status": "passed",
   "complete": true,
-  "verifiedAt": "2026-11-11T19:52:27.988991+00:00",
+  "verifiedAt": "2026-11-11T20:09:48.295856+00:00",
   "scope": "Target COMPILE-FILE and source-deleted artifact LOAD in separate Node processes, ordinary and scheduled execution. Not full McCLIM staging or browser GUI coverage.",
-  "compilerSha256": "13e68a2d08c4819039b96bd1715c76474ef836dc24e335628bd7f696160d573e",
-  "bundleSha256": "5cca67fbfe0ded8b04fffea65ba2eb296d7df57011a0671d95cb105399e49981",
+  "compilerSha256": "88e3f5a978cc8295c7f95e39f7fb932ecce2cca25d949335d4923d353e8b3c23",
+  "bundleSha256": "016efcf1467ffdd56e488252303fd9f49cde2bde1798b55cd4a77ac849f46d92",
   "sourceHashes": {
     "library/valtan-core/compiler/file-literals.lisp": "0a3885d64dbfa675beb6184936301727f3cf28c975393bf14e2a9e273a6f6f24",
     "library/valtan-core/compiler/pass2.lisp": "6ef1875a8f366a78a3224c3c0b5272a9de7087a18d33dba97a117b37e44dfb17",
     "library/valtan-core/lisp/compilation-files.lisp": "0208ce8ad501721df1904e488dfc7e32c6d065abcde1d4d1aa951416d644e34b",
     "library/valtan-core/valtan-core.asd": "5bd45cc03997f079aa61e0178627e0cd3a4e6d2cb78950ee4573d74fc107a0a5",
-    "tests/resumable/file-literals.lisp": "05b1fe092aa36b4a125f16dad2834ac2d866e0961780064d5f3a755eebba2310",
-    "tests/resumable/file-literals-worker.mjs": "a60fc641170a45cccdfa3d6372ced8c32d706b9f7a0ccb0b808f351b744c1279",
-    "tests/resumable/file-literals.test.mjs": "eac114711fde8945ee521b88b6a7e5337ba9f62f43ade7a03a6494f57251c941"
+    "tests/resumable/file-literals.lisp": "cf90d5e7f69a3b2194cf9d392ec213e4354bb14debd0d676fe8d423b62c17bed",
+    "tests/resumable/file-literals-worker.mjs": "dff7dbb449a1c215ad266687486c454c47359d745a2dbe04c5ae4a79fdd8f7d7",
+    "tests/resumable/file-literals.test.mjs": "eac114711fde8945ee521b88b6a7e5337ba9f62f43ade7a03a6494f57251c941",
+    "library/valtan-core/compiler/pass1.lisp": "79d2da5da327c3b914a69c3020c1b4169c2b926e87603eea2f69b1795f689d73"
   },
   "command": "cd tests && npm run test:resumable",
   "exitCode": 0,
@@ -25,8 +26,8 @@
       "scheduled"
     ],
     "loadsPerMode": 2,
-    "graphAssertionsPerLoad": 23,
-    "loadFormObjectsPerCompilation": 8,
+    "graphAssertionsPerLoad": 25,
+    "loadFormObjectsPerCompilation": 9,
     "loadFormCallsPerObject": 1,
     "sourceDeletedBeforeSeparateProcessLoad": true,
     "sharedIdentityAcrossTopLevelForms": true,
@@ -44,7 +45,8 @@
     "compilerDependencyCollectorDoesNotRetainGraph": true,
     "stringStorageBeyondFillPointer": true,
     "largeSharedListLength": 8192,
-    "largeGraphLoadMode": "Synchronous LOAD in each producer/consumer mode; the main graph fixture separately covers scheduled LOAD and asynchronous load forms."
+    "largeGraphLoadMode": "Synchronous LOAD in each producer/consumer mode; the main graph fixture separately covers scheduled LOAD and asynchronous load forms.",
+    "nestedDefconstantInCreationForm": true
   },
   "regressions": {
     "coreAndCallbacks": 117,
@@ -54,9 +56,10 @@
     "synchronization": 12,
     "sleep": 10,
     "interrupts": 13,
-    "nativeErrors": 27
+    "nativeErrors": 27,
+    "defconstant": 29
   },
-  "logSha256": "483c5596284cd5dccdef0670490a8d0c0c32ab35b3c68497d5606ed8a29e8b73",
+  "logSha256": "83e6e0ad838e0f0e96f6ca5265f09b693984aba22fdee94bf03bded38049b67d",
   "largeGraphRegression": {
     "trigger": "McCLIM Core/system/packages.lisp target compilation exhausted the JavaScript stack. A 2048-element quoted list reproduced the error.",
     "before": [
@@ -97,6 +100,8 @@
         "durationMs": 27370.505802
       }
     ],
-    "scope": "Standalone quoted-list COMPILE-FILE/LOAD regression and the shared 8192-element list inside MAKE-LOAD-FORM in the two-process tests; not whole McCLIM staging."
+    "scope": "Standalone quoted-list COMPILE-FILE/LOAD regression and the shared 8192-element list inside MAKE-LOAD-FORM in the two-process tests; not whole McCLIM staging.",
+    "fixedReproducerCompilerSha256": "13e68a2d08c4819039b96bd1715c76474ef836dc24e335628bd7f696160d573e",
+    "fixedReproducerBundleSha256": "5cca67fbfe0ded8b04fffea65ba2eb296d7df57011a0671d95cb105399e49981"
   }
 }

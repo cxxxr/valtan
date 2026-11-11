@@ -25,14 +25,16 @@ if (phase === 'produce') {
   call('COMPILE-FILE', string(source));
   assert.equal(lisp.currentValues()[2], lisp.S_nil);
   assert.equal(user('FILE-LITERAL-ROOT-BEFORE').isFBound(), false);
-  // Eight user objects, each externalized once despite two functions, dual
+  // Nine user objects, each externalized once despite two functions, dual
   // function bodies, shared slots and circular initialization references.
-  assert.equal(evaluate('(length *literal-method-calls*)'), 8);
+  assert.equal(evaluate('(length *literal-method-calls*)'), 9);
+  assert.equal(evaluate('(boundp \'+file-literal-value+)'), lisp.S_nil,
+    'A DEFCONSTANT in a load form must not execute at compilation time');
   assert.equal(evaluate('(null compiler::*p2-file-literal-dependencies*)'), lisp.S_t,
     'Compilation must not retain its literal graph in the compiler dependency collector');
-  assert.equal(evaluate('(length (remove-duplicates *literal-method-calls* :test #\'eq))'), 8);
+  assert.equal(evaluate('(length (remove-duplicates *literal-method-calls* :test #\'eq))'), 9);
   assert.equal(evaluate('(eq *literal-root* (eval (list \'quote *literal-root*)))'), lisp.S_t);
-  assert.equal(evaluate('(length *literal-method-calls*)'), 8);
+  assert.equal(evaluate('(length *literal-method-calls*)'), 9);
   // The list is first encountered inside a load form, so this also exercises
   // aggregate dependency traversal before emitting its 8192 cons cells.
   fs.writeFileSync(largeSource, `(in-package :cl-user)
@@ -80,7 +82,7 @@ if (phase === 'produce') {
     assert.deepEqual(await task.completion, [lisp.S_t]);
   }
   await load();
-  assert.equal(user('CHECK-FILE-LITERALS').getFunction()(), 23);
+  assert.equal(user('CHECK-FILE-LITERALS').getFunction()(), 25);
   // Large graph traversal is a compiler regression. Read this larger artifact
   // synchronously; the main fixture separately tests scheduled LOAD and waits.
   call('LOAD', string(largeArtifact));
@@ -94,7 +96,7 @@ if (phase === 'produce') {
     assert.equal(result[0], oldRoot, 'Ordinary and scheduled entries share literals');
   }
   await load();
-  assert.equal(user('CHECK-FILE-LITERALS').getFunction()(), 23);
+  assert.equal(user('CHECK-FILE-LITERALS').getFunction()(), 25);
   assert.equal(oldFunction(), oldRoot, 'Old closures retain their own LOAD pool');
   assert.notEqual(user('FILE-LITERAL-ROOT-BEFORE').getFunction()(), oldRoot);
   assert.equal(symbol('*COMPILED-FILE-LITERALS*', 'SYSTEM').value, lisp.S_nil);

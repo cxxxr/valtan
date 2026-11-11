@@ -16,6 +16,13 @@
     (push object *literal-method-calls*)
     (make-load-form-saving-slots object :environment environment))
   (defclass file-literal-async () ((value :initarg :value) (ready)))
+  (defclass file-literal-constant () ((value :initarg :value)))
+  (defmethod make-load-form ((object file-literal-constant) &optional environment)
+    (declare (ignore environment))
+    (push object *literal-method-calls*)
+    '(let ((value 53))
+       (defconstant +file-literal-value+ value)
+       (make-instance 'file-literal-constant :value value)))
   (defmethod make-load-form ((object file-literal-async) &optional environment)
     (declare (ignore environment))
     (push object *literal-method-calls*)
@@ -63,7 +70,8 @@
                              :next (make-instance 'file-literal-ordered :value :second :next nil))
               outer
               (make-array 3 :element-type 'character :initial-contents "xyz"
-                            :adjustable t :fill-pointer 1)))))
+                            :adjustable t :fill-pointer 1)
+              (make-instance 'file-literal-constant)))))
 
 (defun file-literal-root-before () '#.*literal-root*)
 (when *literal-nested-artifact* (load *literal-nested-artifact*))
@@ -96,4 +104,6 @@
     (assert (= 3 (array-total-size (aref root 12))))
     (assert (char= #\z (row-major-aref (aref root 12) 2)))
     (assert (eq 'character (array-element-type (aref root 12))))
-    23))
+    (assert (= 53 (slot-value (aref root 13) 'value)))
+    (assert (= 53 (symbol-value '+file-literal-value+)))
+    25))

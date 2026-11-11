@@ -418,7 +418,11 @@
      ',var))
 
 (def-transform defconstant (name value &optional (doc nil docp))
-  (setf (constant-p name) (make-variable-binding name :init-value (eval value)))
+  ;; Only top-level file definitions have compile-time side effects. A nested
+  ;; definition can use lexical variables, including in a MAKE-LOAD-FORM
+  ;; creation form. EVAL must execute its initializer once, at runtime.
+  (when (and *file-compilation-p* (toplevel-p))
+    (setf (constant-p name) (make-variable-binding name :init-value (eval value))))
   `(progn
      (*:%set ',name ,value)
      ,(when docp

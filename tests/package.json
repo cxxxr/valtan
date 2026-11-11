@@ -53,7 +53,7 @@
     "test:mcclim:queues": "node mcclim/queue.mjs",
     "demo:mcclim": "node mcclim/demo.mjs",
     "build:resumable": "node resumable/build.mjs",
-    "test:resumable": "node resumable/verify.mjs && node --test resumable/artifact.test.mjs resumable/file-literals.test.mjs",
+    "test:resumable": "node resumable/verify.mjs && node resumable/defconstant.mjs && node --test resumable/artifact.test.mjs resumable/file-literals.test.mjs",
     "test:resumable:introspection": "node resumable/introspection.mjs",
     "test:resumable:psetq": "node resumable/psetq.mjs",
     "test:resumable:loop-on": "node resumable/loop-on.mjs",
