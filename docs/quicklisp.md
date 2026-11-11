@@ -1202,6 +1202,16 @@ status because 90 separately selected performance cases remain unexecuted and
 self-compilation is skipped in this default-suite invocation. The separate
 performance and self-compilation reports above used earlier runtime versions;
 these runs do not establish complete current-version or threaded GUI coverage.
+`npm run test:mcclim:drei:all` combines the default suite and all 90 performance
+cases in one fresh browser, enables self-compilation, and bundles its unchanged
+source resources. Missing, skipped or failed cases still prevent a passing
+report. It allows 12 hours for evaluation; `upstream.mjs --threaded --drei-all`
+allows 24 hours. The current combined Valtan run is pending.
+`npm run test:mcclim:drei:all:host` uses upstream's native Swank image backend
+without starting a server. Its [native reference](../tests/mcclim/drei-all-host-results.json)
+executes all 596 cases with zero skips, but records 11 failures: one upstream
+self-compilation reader failure and ten Swank completion-protocol failures.
+These native failures remain in the report and are not Valtan results.
 Run `npm run build:resumable && npm run test:resumable:loop-on` from `tests` to
 repeat the focused checks. The iterator behavior follows the
 [CLHS description of `ON`](https://www.lispworks.com/documentation/HyperSpec/Body/06_abac.htm).

@@ -4,10 +4,9 @@
 (let ((setup (or (uiop:getenv "QUICKLISP_SETUP")
                  (merge-pathnames #p"quicklisp/setup.lisp" (user-homedir-pathname)))))
   (when (probe-file setup) (load setup)))
-(pushnew :clim-without-swank *features*)
 (defparameter *diagnostic-arguments* (uiop:command-line-arguments))
 (defparameter *diagnostic-modes*
-  (remove-if-not (lambda (arg) (member arg '("--drei" "--drei-performance" "--drei-self-compilation")
+  (remove-if-not (lambda (arg) (member arg '("--drei" "--drei-performance" "--drei-self-compilation" "--drei-all")
                                      :test #'equal)) *diagnostic-arguments*))
 (assert (<= (length *diagnostic-modes*) 1) () "Choose one Drei suite")
 (defparameter *diagnostic-mode* (first *diagnostic-modes*))
@@ -17,15 +16,22 @@
              (notany (lambda (arg) (uiop:string-prefix-p "--" arg)) *diagnostic-output-arguments*))
         () "Expected one report pathname after the suite option")
 (defparameter *drei-tests-p* (not (null *diagnostic-mode*)))
-(defparameter *self-compilation-p* (equal *diagnostic-mode* "--drei-self-compilation"))
+(defparameter *all-drei-p* (equal *diagnostic-mode* "--drei-all"))
+;; The combined suite must exercise the image-link assertions. Use upstream's
+;; normal Swank image backend on the native host; loading it starts no server.
+(unless *all-drei-p* (pushnew :clim-without-swank *features*))
+(defparameter *self-compilation-p* (or *all-drei-p* (equal *diagnostic-mode* "--drei-self-compilation")))
 (defparameter *upstream-test-system* (if *drei-tests-p* "drei-mcclim/test" "mcclim/test"))
 (asdf:load-system "st-json")
 (asdf:load-system *upstream-test-system*)
 (defparameter *upstream-suite*
   (if *drei-tests-p*
-      (find-symbol (cond (*self-compilation-p* "SELF-COMPILATION-TEST")
+      (if *all-drei-p*
+          (list (find-symbol "DREI-TESTS" "DREI-TESTS")
+                (find-symbol "BUFFER-PERFORMANCE-TESTS" "DREI-TESTS"))
+          (find-symbol (cond (*self-compilation-p* "SELF-COMPILATION-TEST")
                          ((equal *diagnostic-mode* "--drei-performance") "BUFFER-PERFORMANCE-TESTS")
-                         (t "DREI-TESTS")) "DREI-TESTS")
+                         (t "DREI-TESTS")) "DREI-TESTS"))
       :mcclim))
 (when *self-compilation-p*
   (setf (symbol-value (find-symbol "*RUN-SELF-COMPILATION-TEST*" "DREI-TESTS")) t))
@@ -56,7 +62,7 @@
      (st-json:jso
       "status" (if success "passed" "failed") "complete" :true
       "scope" (format nil "Native host ~A, selected suite ~S, with its normal dependencies; not a Valtan result" *upstream-test-system* *upstream-suite*)
-      "suite" (symbol-name *upstream-suite*)
+      "suite" (if *all-drei-p* "DREI-ALL" (symbol-name *upstream-suite*))
       "selfCompilation" (if *self-compilation-p* :true :false)
       "implementation" (lisp-implementation-type)
       "implementationVersion" (lisp-implementation-version)

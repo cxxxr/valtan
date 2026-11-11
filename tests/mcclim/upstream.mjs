@@ -10,23 +10,29 @@ import {fileURLToPath} from 'node:url';
 import {hash} from './bundle.mjs';
 const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'../..');
 const args=process.argv.slice(2);
-const modes=['--drei','--drei-performance','--drei-self-compilation'].filter(flag=>args.includes(flag));
+const threaded=args.includes('--threaded');
+if(threaded)args.splice(args.indexOf('--threaded'),1);
+const modes=['--drei','--drei-performance','--drei-self-compilation','--drei-all'].filter(flag=>args.includes(flag));
 if(modes.length>1)throw Error('Choose one Drei suite');
 const mode=modes[0];
 if(mode)args.splice(args.indexOf(mode),1);
 if(args.length>1 || args.some(arg=>arg.startsWith('--')))
-  throw Error('Usage: upstream.mjs [--drei | --drei-performance | --drei-self-compilation] [report.json]');
-const drei=!!mode,selfCompilation=mode==='--drei-self-compilation';
-const suite=mode==='--drei-performance'?'BUFFER-PERFORMANCE-TESTS':selfCompilation?'SELF-COMPILATION-TEST':drei?'DREI-TESTS':'MCCLIM';
-const output=path.resolve(args[0]??`/tmp/valtan-${mode?.slice(2)??'mcclim'}-upstream.json`);
+  throw Error('Usage: upstream.mjs [--threaded] [--drei | --drei-performance | --drei-self-compilation | --drei-all] [report.json]');
+const drei=!!mode,allDrei=mode==='--drei-all',selfCompilation=allDrei || mode==='--drei-self-compilation';
+const suite=allDrei?'DREI-ALL':mode==='--drei-performance'?'BUFFER-PERFORMANCE-TESTS':selfCompilation?'SELF-COMPILATION-TEST':drei?'DREI-TESTS':'MCCLIM';
+const output=path.resolve(args[0]??`/tmp/valtan-${mode?.slice(2)??'mcclim'}-upstream${threaded?'-threaded':''}.json`);
 const testSystem=drei?'drei-mcclim/test':'mcclim/test';
 const targetSystems=drei?['mcclim-browser','fiveam','automaton']:['mcclim-browser/bezier','fiveam'];
 const targetFeatures=drei?['clim-without-swank']:['clim-without-swank','use-salza2-zlib'];
-const evaluationTimeout=(mode && mode!=='--drei'?4:1)*60*60*1000;
+if(threaded)targetFeatures.push('valtan-resumable','clim-mp');
+const startupTimeout=(threaded?3:1)*60*60*1000;
+// The unchanged performance and self-compilation suites each took hours in
+// earlier standalone runs. Allow both to finish in this combined invocation.
+const evaluationTimeout=(allDrei?(threaded?24:12):threaded?6:mode && mode!=='--drei'?4:1)*60*60*1000;
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-mcclim-upstream-'));
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),
   scope:`All sources in the installed ${drei?'drei-mcclim/test':'mcclim/test and mcclim/test-util'} ASDF plan, read with target features in real browser McCLIM; not GUI integration or complete extension coverage`,
-  testSystem,suite,selfCompilation,evaluationTimeout,targetSystems,targetFeatures,
+  testSystem,suite,selfCompilation,threaded,startupTimeout,evaluationTimeout,targetSystems,targetFeatures,
   workbenchSourceHashes:Object.fromEntries(['upstream-plan.lisp','upstream-checks.lisp','upstream.mjs']
     .map(name=>[name,hash(fs.readFileSync(path.join(here,name)))]))};
 const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
@@ -67,15 +73,18 @@ try {
     :depends-on ("mcclim-load-trace" ${targetSystems.map(quote).join(' ')} "mcclim-upstream-data")
     :components ((:file "main")) :target :browser
     :target-features (${targetFeatures.map(name=>':'+name).join(' ')}) :compile-mode :runtime)`);
-  const fixture=fs.readFileSync(path.join(here,'upstream-checks.lisp'),'utf8')+
+  const fixture=(threaded?`(assert (member :clim-mp *features*))
+    (assert (eq ((ffi:ref "lisp" "hasExecutionContext")) (ffi:ref "true")))
+    `:'')+fs.readFileSync(path.join(here,'upstream-checks.lisp'),'utf8')+
     '\n(setf mcclim-upstream-checks::*files* nil)\n'+
     snapshots.map(({file,source})=>`(mcclim-upstream-checks::load-test-source ${quote(file)} ${quote(source)})`).join('\n')+
     (selfCompilation?'\n(setf (symbol-value (find-symbol "*RUN-SELF-COMPILATION-TEST*" "DREI-TESTS")) t)\n':'')+
-    `\n(mcclim-upstream-checks::run ${drei?`(find-symbol "${suite}" "DREI-TESTS")`:':mcclim'})\n`;
+    `\n(mcclim-upstream-checks::run ${allDrei?'(list (find-symbol "DREI-TESTS" "DREI-TESTS") (find-symbol "BUFFER-PERFORMANCE-TESTS" "DREI-TESTS"))':drei?`(find-symbol "${suite}" "DREI-TESTS")`:':mcclim'})\n`;
   const checkFile=path.join(dir,'checks.lisp');fs.writeFileSync(checkFile,fixture);report.checksSha256=hash(fixture);save();
-  child=spawn(process.execPath,[path.join(here,'workbench.mjs'),'--source-directory',dir],{stdio:['pipe','pipe','inherit']});
+  child=spawn(process.execPath,[path.join(here,'workbench.mjs'),'--source-directory',dir,
+    '--startup-timeout',String(startupTimeout)],{stdio:['pipe','pipe','inherit']});
   const terminal=new Promise(resolve=>child.on('close',(code,signal)=>resolve({code,signal})));
-  const timer=setTimeout(()=>child.kill('SIGKILL'),evaluationTimeout+70*60*1000);let result;
+  const timer=setTimeout(()=>child.kill('SIGKILL'),startupTimeout+evaluationTimeout+10*60*1000);let result;
   try {
     for await(const line of readline.createInterface({input:child.stdout})){
       const message=JSON.parse(line);
