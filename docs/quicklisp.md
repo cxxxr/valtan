@@ -435,6 +435,15 @@ and its completed result collected separately. Both the observer failure and
 the completed evaluation are preserved in the report. Neither result establishes
 full McCLIM compatibility.
 
+The [newer browser run with Bezier](../tests/mcclim/upstream-bezier-results.json)
+uses the keyword-policy cache and loads the real Bezier dependencies. All
+1,644 checks from 180 registered tests pass; the only remaining source-load
+failure is `Tests/dynamic-vars.lisp`, which needs BT. The diagnostic therefore
+still reports failure. The same fresh worker first passed the 114 Canvas/Bezier
+checks; this preflight is recorded, and no production definitions were reloaded.
+This snapshot predates the Bezier region-mask extensions and the empty-region
+clipping fix.
+
 Two failures from the earlier run now pass focused checks in the existing browser worker:
 the presentation inheritance compilation test and `STREAM-READ-GESTURE.SMOKE`
 each execute all 16 assertions. `COMPILE` records warning/failure return values
