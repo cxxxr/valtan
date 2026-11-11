@@ -211,6 +211,13 @@ A focused Node/closer-mop benchmark measured 401 ms versus 107 ms warm medians
 for 2,000 slot updates. The complete browser Drei performance suite with this
 optimization is still running; that workload's timing is not yet established.
 
+Generic dispatch passes only the required argument classes to the MOP's
+`compute-applicable-methods-using-classes` protocol and dispatch caches. Optional,
+rest and keyword arguments still reach the methods and EQL-dependent fallback
+unchanged. The [argument-class checks](../tests/mcclim/required-classes-results.json)
+cover optional/rest arguments, EQL fallback and zero-required-argument generics,
+alongside the existing MOP and CLOS regressions.
+
 An experimental Canvas backend lives in `library/mcclim-browser`, with a
 counter-frame example in `example/try-using-mcclim`. It runs Lisp in a worker;
 shared-memory input and transferred bitmap snapshots allow synchronous McCLIM

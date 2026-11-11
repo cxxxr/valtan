@@ -1,0 +1,407 @@
+{
+  "status": "verified",
+  "scope": "Required argument class lists for generic dispatch and MOP lookup; complete existing CLOS/objects regression comparison, not full McCLIM coverage or a performance measurement",
+  "recordedAt": "2026-11-11T10:46:38.880724+00:00",
+  "sourceHashes": {
+    "beforeClos": "aa292d831bc8521517ec8cbcb718127a76e552b984beec23f13f3e79b8825546",
+    "afterClos": "30b70f4f79ffe1885a7933d0850dc8715248f8e7e328dcfb70e31a0e741ec566",
+    "finalMopFixture": "e8f38c42628ae4d1607fb493845efc9747687fe951b74dabe3cadac560ac25b3",
+    "ansiBundle": "f2f247464fa8bad19e17ee08307094a38d134545cb13a2ad8de9c55416448a8b"
+  },
+  "contract": "Only required argument classes participate in method applicability. Optional/rest/keyword arguments remain in the original argument list used for method invocation and EQL-dependent COMPUTE-APPLICABLE-METHODS fallback. Argument-count and keyword checks remain enabled.",
+  "references": [
+    "https://www.lispworks.com/documentation/HyperSpec/Body/07_fb.htm",
+    "https://metamodular.com/SICL/sicl-specification.pdf"
+  ],
+  "baseline": {
+    "scope": "Fresh pre-fix Node MOP bundle, retained after the initial regression assertion failure; same bundle rerun with only an uncaught-exception observer to read the class list",
+    "fixtureSha256": "63561299c548bede3b9b3b473d1f3bd4b963cafe1a60964351082b1f22e7db8b",
+    "bundleSha256": "da892266db951c8416c0cf2e9658f8ea0041b68017673a36fd3a6b0b2870032f",
+    "observation": {
+      "classes": 4,
+      "error": "Error: The assertion (EQUAL (LIST (CLASS-OF \"x\")) *OBSERVED-CLASSES*) failed.\n\nBacktrace:\n0: (ERROR \"The assertion ~S failed.\" (EQUAL (LIST (CLASS-OF \"x\")) *OBSERVED-CLASSES*))\n1: (FFI:JS-EVAL \"// ini"
+    },
+    "requiredCount": 1,
+    "passedClassCount": 4,
+    "note": "Initial fixture compared exact class identities as well as list size. Native SBCL demonstrated a permitted memoized superclass T. Final fixture checks protocol arity rather than forbidding that memoization; baseline observer independently confirms the four-versus-one arity error."
+  },
+  "mop": {
+    "command": "node --test tests/mcclim/mop.test.mjs",
+    "output": "\u2714 MOP metaclasses, custom slot storage and forward references (41263.18918ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 41312.375485\n",
+    "addedAssertions": 7,
+    "covers": [
+      "optional and rest argument values",
+      "required-only class lists",
+      "EQL-dependent full-argument fallback",
+      "zero-required-argument keyword generic"
+    ],
+    "existingCoverage": "Custom metaclasses, slot storage, forward references, class-only and EQL lookup, class redefinition, generic keyword cache invalidation"
+  },
+  "native": {
+    "implementation": "SBCL",
+    "source": "(require :asdf)\n(load (merge-pathnames #p\"quicklisp/setup.lisp\" (user-homedir-pathname)))\n(ql:quickload :closer-mop :silent t)\n(defpackage :required-classes-checks (:use :cl) (:local-nicknames (:mop :closer-mop)))\n(in-package :required-classes-checks)\n;; Class-only lookup receives only required argument classes. Optional/rest\n;; arguments must still reach the methods and the EQL-dependent fallback.\n(defclass observed-generic (standard-generic-function) ()\n  (:metaclass mop:funcallable-standard-class))\n(defvar *observed-classes* :unset)\n(defvar *observed-arguments* :unset)\n(defmethod mop:compute-applicable-methods-using-classes :around ((gf observed-generic) classes)\n  (setf *observed-classes* (copy-list classes))\n  (call-next-method))\n(defmethod compute-applicable-methods :around ((gf observed-generic) args)\n  (setf *observed-arguments* (copy-list args))\n  (call-next-method))\n(defgeneric observed-call (x &optional optional &rest rest)\n  (:generic-function-class observed-generic))\n(defmethod observed-call ((x t) &optional optional &rest rest)\n  (list x optional rest))\n(assert (equal '(\"x\" 4 (:extra t)) (observed-call \"x\" 4 :extra t)))\n(assert (= 1 (length *observed-classes*)))\n(defmethod observed-call ((x (eql :special)) &optional optional &rest rest)\n  (list x optional rest))\n(assert (equal '(:special 7 (:extra nil)) (observed-call :special 7 :extra nil)))\n(assert (= 1 (length *observed-classes*)))\n(assert (equal '(:special 7 :extra nil) *observed-arguments*))\n(defgeneric observed-zero (&key option) (:generic-function-class observed-generic))\n(defmethod observed-zero (&key option) option)\n(assert (= 42 (observed-zero :option 42)))\n(assert (null *observed-classes*))\n\n(format t \"REQUIRED-CLASSES-NATIVE-PASS~%\")\n",
+    "output": "REQUIRED-CLASSES-NATIVE-PASS\n",
+    "passedAssertions": 7
+  },
+  "ansi": {
+    "fixtures": [
+      {
+        "name": "required-classes-eval",
+        "files": [
+          "clos-regressions.lsp",
+          "class-change-regressions.lsp",
+          "generic-keyword-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 50,
+        "fail": 0,
+        "registered": 50,
+        "expectedRegistered": null,
+        "completedFiles": [
+          "clos-regressions.lsp",
+          "class-change-regressions.lsp",
+          "generic-keyword-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "generic-keyword-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "required-classes-compiled",
+        "files": [
+          "clos-regressions.lsp",
+          "class-change-regressions.lsp",
+          "generic-keyword-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 50,
+        "fail": 0,
+        "registered": 50,
+        "expectedRegistered": null,
+        "completedFiles": [
+          "clos-regressions.lsp",
+          "class-change-regressions.lsp",
+          "generic-keyword-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "generic-keyword-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      }
+    ],
+    "objects": {
+      "name": "required-classes-objects",
+      "files": [
+        "auxiliary/defclass-aux.lsp",
+        "objects/defclass.lsp",
+        "objects/defclass-01.lsp",
+        "objects/defclass-02.lsp",
+        "objects/defclass-03.lsp",
+        "objects/defclass-errors.lsp",
+        "objects/defclass-forward-reference.lsp",
+        "objects/ensure-generic-function.lsp",
+        "objects/allocate-instance.lsp",
+        "objects/reinitialize-instance.lsp",
+        "objects/shared-initialize.lsp",
+        "objects/change-class.lsp",
+        "objects/update-instance-for-different-class.lsp",
+        "objects/slot-boundp.lsp",
+        "objects/slot-exists-p.lsp",
+        "objects/slot-makunbound.lsp",
+        "objects/slot-missing.lsp",
+        "objects/slot-unbound.lsp",
+        "objects/slot-value.lsp",
+        "objects/method-qualifiers.lsp",
+        "objects/no-applicable-method.lsp",
+        "objects/no-next-method.lsp",
+        "objects/remove-method.lsp",
+        "objects/make-instance.lsp",
+        "objects/make-instances-obsolete.lsp",
+        "objects/make-load-form.lsp",
+        "objects/make-load-form-order.lsp",
+        "objects/make-load-form-saving-slots.lsp",
+        "objects/with-accessors.lsp",
+        "objects/with-slots.lsp",
+        "objects/defgeneric.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-plus.lsp",
+        "objects/defgeneric-method-combination-append.lsp",
+        "objects/defgeneric-method-combination-nconc.lsp",
+        "objects/defgeneric-method-combination-list.lsp",
+        "objects/defgeneric-method-combination-max.lsp",
+        "objects/defgeneric-method-combination-min.lsp",
+        "objects/defgeneric-method-combination-and.lsp",
+        "objects/defgeneric-method-combination-or.lsp",
+        "objects/defgeneric-method-combination-progn.lsp",
+        "objects/find-class.lsp",
+        "objects/next-method-p.lsp",
+        "objects/call-next-method.lsp",
+        "objects/compute-applicable-methods.lsp",
+        "objects/define-method-combination.lsp",
+        "objects/define-method-combination-long-form.lsp",
+        "objects/find-method.lsp",
+        "objects/add-method.lsp",
+        "objects/class-name.lsp",
+        "objects/class-of.lsp",
+        "objects/unbound-slot.lsp",
+        "objects/defmethod.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 829,
+      "fail": 34,
+      "registered": 863,
+      "expectedRegistered": null,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/defclass-aux.lsp",
+        "objects/defclass.lsp",
+        "objects/defclass-01.lsp",
+        "objects/defclass-02.lsp",
+        "objects/defclass-03.lsp",
+        "objects/defclass-errors.lsp",
+        "objects/defclass-forward-reference.lsp",
+        "objects/ensure-generic-function.lsp",
+        "objects/allocate-instance.lsp",
+        "objects/reinitialize-instance.lsp",
+        "objects/shared-initialize.lsp",
+        "objects/change-class.lsp",
+        "objects/update-instance-for-different-class.lsp",
+        "objects/slot-boundp.lsp",
+        "objects/slot-exists-p.lsp",
+        "objects/slot-makunbound.lsp",
+        "objects/slot-missing.lsp",
+        "objects/slot-unbound.lsp",
+        "objects/slot-value.lsp",
+        "objects/method-qualifiers.lsp",
+        "objects/no-applicable-method.lsp",
+        "objects/no-next-method.lsp",
+        "objects/remove-method.lsp",
+        "objects/make-instance.lsp",
+        "objects/make-instances-obsolete.lsp",
+        "objects/make-load-form.lsp",
+        "objects/make-load-form-order.lsp",
+        "objects/make-load-form-saving-slots.lsp",
+        "objects/with-accessors.lsp",
+        "objects/with-slots.lsp",
+        "objects/defgeneric.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-plus.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-append.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-nconc.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-list.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-max.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-min.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-and.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-or.lsp",
+        "objects/defgeneric-method-combination-aux.lsp",
+        "objects/defgeneric-method-combination-progn.lsp",
+        "objects/find-class.lsp",
+        "objects/next-method-p.lsp",
+        "objects/call-next-method.lsp",
+        "objects/compute-applicable-methods.lsp",
+        "objects/define-method-combination.lsp",
+        "objects/define-method-combination-long-form.lsp",
+        "objects/find-method.lsp",
+        "objects/add-method.lsp",
+        "objects/class-name.lsp",
+        "objects/class-of.lsp",
+        "objects/unbound-slot.lsp",
+        "objects/defmethod.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "CLASS-0309.1",
+          "reason": "expected (T NIL T NIL); actual (T T T T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CLASS-0310.1",
+          "reason": "expected (T NIL T NIL CLASS-0310B CLASS-0310A); actual (T T T T CLASS-0310B CLASS-0310B) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "DEFCLASS.FORWARD-REF.1",
+          "reason": "There is no class named #:G4518."
+        },
+        {
+          "test": "DEFCLASS.FORWARD-REF.2",
+          "reason": "There is no class named #:G4539."
+        },
+        {
+          "test": "DEFCLASS.FORWARD-REF.3",
+          "reason": "There is no class named #:G4561."
+        },
+        {
+          "test": "DEFCLASS.FORWARD-REF.4",
+          "reason": "There is no class named #:G4573."
+        },
+        {
+          "test": "SHARED-INITIALIZE.ERROR.4",
+          "reason": "<unprintable>"
+        },
+        {
+          "test": "SLOT-BOUNDP.ERROR.5",
+          "reason": "expected (NIL); actual ((\"\u0000\" #(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :ENTRY-COUNT ...) #P\"foo\" #P\"CLTESTROOT:\" #S(COMMON-LISP::STANDARD-OUTPUT-STREAM :BUFFER \"\") #S(READTABLE :%CASE :UPCASE :SYNTAX #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :ENTRY-COUNT ...) :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :ENTRY-COUNT ...) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :ENTRY-COUNT ...)) #S(RANDOM-STATE :SEED 8008048336452476))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-INSTANCE.ERROR.3",
+          "reason": "expected (:GOOD); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-INSTANCE.ERROR.4",
+          "reason": "expected (:GOOD); actual (T) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "MAKE-INSTANCES-OBSOLETE.1",
+          "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+        },
+        {
+          "test": "MAKE-INSTANCES-OBSOLETE.2",
+          "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+        },
+        {
+          "test": "MAKE-INSTANCES-OBSOLETE.ERROR.1",
+          "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+        },
+        {
+          "test": "MAKE-INSTANCES-OBSOLETE.ERROR.2",
+          "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.1",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.2",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.3",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.4",
+          "reason": "unexpected literal: B"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.5",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.6",
+          "reason": "unexpected literal: B"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.7",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.8",
+          "reason": "unexpected literal: B"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.9",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.10",
+          "reason": "unexpected literal: C"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.11",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.12",
+          "reason": "unexpected literal: C"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.13",
+          "reason": "unexpected literal: A"
+        },
+        {
+          "test": "MAKE-LOAD-FORM.ORDER.14",
+          "reason": "unexpected literal: C"
+        },
+        {
+          "test": "DEFGENERIC.30",
+          "reason": "expected (T T T T 1 2 1 2); actual (NIL T T T 1 2 1 2) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "FIND-CLASS.24",
+          "reason": "expected (((T T T) (T T T))); actual (((NIL NIL T) (T T T))) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CALL-NEXT-METHOD.ERROR.1",
+          "reason": "expected (:ERROR); actual (NIL) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CALL-NEXT-METHOD.ERROR.2",
+          "reason": "expected (:ERROR); actual (:BAD) [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "CLASS-NAME.2",
+          "reason": "expected (SILLY); actual (\"{2173}\") [diagnostic display: length 10, depth 5]"
+        },
+        {
+          "test": "SETF-CLASS-NAME.1",
+          "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCLASS-NAME already names an ordinary function, macro or special operator.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "objects/defmethod.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "registrationMismatch": false
+    },
+    "objectsMatchBaseline": true
+  },
+  "browserScope": "Existing running Drei and stencil browser snapshots predate this required-classes correction; their results must not be attributed to it."
+}

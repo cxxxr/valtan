@@ -879,13 +879,16 @@
     (when cache (clrhash cache))))
 
 (defun required-classes (gf args)
-  (let ((argc (length args)))
-    (when (< argc (generic-function-min-argc gf))
+  (let ((argc (length args))
+        (required (generic-function-min-argc gf)))
+    (when (< argc required)
       (error 'program-error))
     (let ((maximum (%slot-value gf 'max-argc)))
       (when (and maximum (> argc maximum)) (error 'program-error)))
     (let ((classes '()))
-      (dotimes (i argc)
+      ;; Only required arguments specialize methods. The MOP class protocol
+      ;; and dispatch caches must not include optional or keyword arguments.
+      (dotimes (i required)
         (push (class-of (pop args)) classes))
       (nreverse classes))))
 
