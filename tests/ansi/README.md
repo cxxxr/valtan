@@ -625,3 +625,14 @@ failures involve EQL specializers on class objects. SET-SYNTAX-FROM-CHAR
 also completes its registration audit with all 101 tests executed and all 101
 failures retained; 82 character-name aliases are recorded without changing the
 count or outcomes. This selection is not a full-suite conformance percentage.
+## Nonlocal GO under recursion
+
+`tagbody-activation-regressions.lsp` checks that closures transfer to the
+lexical TAGBODY activation, including recursive HANDLER-CASE resignal and
+dynamic-binding cleanup. The compiler uses a fresh token for each activation;
+matching a static label name incorrectly caught outer transfers in inner calls.
+The [recorded checks](tagbody-activation-results.json) include two failing
+regressions before the fix, all three passing in eval and compiled modes after
+it, and 62 passing upstream TAGBODY/HANDLER-CASE/HANDLER-BIND checks. The broader
+conditions category retains its previous 32 failures. The broader control-flow
+attempt timed out at FLET.20 and is explicitly incomplete.

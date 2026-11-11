@@ -1026,6 +1026,9 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 (defun tagbody-state-name (tagbody-name)
   (format nil "~A_STATE" tagbody-name))
 
+(defun tagbody-token-name (tagbody-name)
+  (format nil "~A_TOKEN" tagbody-name))
+
 (defun tagbody-tag-name (tag)
   (tagbody-value-index (binding-id tag)))
 
@@ -1036,6 +1039,11 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
          (exist-escape-p (not (hir-arg3 hir)))
          (error-var (when exist-escape-p (p2-genvar "ERR"))))
     (let ((state-var (tagbody-state-name tagbody-name)))
+      ;; A nonlocal GO closes over a particular dynamic activation. A static
+      ;; label name lets recursive invocations catch transfers meant for an
+      ;; outer invocation, including HANDLER-CASE's generated GO transfers.
+      (when exist-escape-p
+        (format *p2-emit-stream* "let ~A = {};~%" (tagbody-token-name tagbody-name)))
       (format *p2-emit-stream* "let ~A = '~A';~%" state-var (tagbody-tag-name (car (first tag-body-pairs))))
       (progn
         (format *p2-emit-stream* "~A: for(;;){~%" tagbody-name)
@@ -1053,10 +1061,10 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
           (when exist-escape-p
             (format *p2-emit-stream* "}catch(~A){~%" error-var)
             (format *p2-emit-stream*
-                    "if(~A instanceof lisp.TagValue && ~A.id==='~A'){~A=~A.index;}~%"
+                    "if(~A instanceof lisp.TagValue && ~A.id===~A){~A=~A.index;}~%"
                     error-var
                     error-var
-                    tagbody-name
+                    (tagbody-token-name tagbody-name)
                     state-var
                     error-var)
             (format *p2-emit-stream* "else{throw ~A;}" error-var)
@@ -1076,8 +1084,8 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
           (t
            (let ((tagbody-value (binding-id tag)))
              (format *p2-emit-stream*
-                     "throw new lisp.TagValue('~A', '~A');~%"
-                     (tagbody-value-id tagbody-value)
+                     "throw new lisp.TagValue(~A, '~A');~%"
+                     (tagbody-token-name (tagbody-value-id tagbody-value))
                      (tagbody-value-index tagbody-value))))))
   (p2-no-return))
 
