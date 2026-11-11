@@ -7,6 +7,8 @@ export async function verifyNativeErrors(lisp, fixture) {
     ['undefinedFunction', 'UNDEFINED-FUNCTION', fixture.missing],
     ['symbolFunction', 'UNDEFINED-FUNCTION', fixture.missing],
     ['arity', 'PROGRAM-ERROR', lisp.S_nil],
+    ['nativeArity', 'PROGRAM-ERROR', lisp.S_nil],
+    ['resumableNativeArity', 'PROGRAM-ERROR', lisp.S_nil],
     ['symbolValueType', 'TYPE-ERROR', 17],
     ['symbolFunctionType', 'TYPE-ERROR', 17],
     ['functionType', 'TYPE-ERROR', 17],

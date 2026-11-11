@@ -21,7 +21,8 @@ import {
 
 import {
     typeError,
-    typeErrorResumable
+    typeErrorResumable,
+    argumentsErrorResumable
 } from './error';
 
 export function callFunction(symbol, ...args) {
@@ -199,6 +200,11 @@ export function CL_functionp(x) {
     return values1(toLispBoolean(typeof x === 'function'));
 }
 
+const nativeFunctionArities = new WeakMap();
+export function setNativeFunctionArity(function_, name, min, max) {
+    nativeFunctionArities.set(function_, { name, min, max });
+}
+
 export function* callResumable(function_, ...args) {
     const name = function_;
     if (isSymbol(function_)) {
@@ -211,7 +217,15 @@ export function* callResumable(function_, ...args) {
     pushCallStack({ function: name, args });
     try {
         const implementation = getResumableImplementation(function_);
-        return implementation ? yield* implementation(...args) : function_(...args);
+        if (implementation) return yield* implementation(...args);
+        // Native functions retain ordinary wrappers for direct JS calls. Check
+        // their arity here so a Lisp error handler can suspend before entry.
+        const arity = nativeFunctionArities.get(function_);
+        if (arity && ((arity.min !== null && args.length < arity.min) ||
+                      (arity.max !== null && args.length > arity.max))) {
+            yield* argumentsErrorResumable(arity.name, args.length);
+        }
+        return function_(...args);
     } finally { popCallStack(); }
 }
 

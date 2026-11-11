@@ -1,0 +1,126 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T16:15:12.965594+00:00",
+  "scope": "Builtin argument-count errors signal resumably before native entry; covers builtin functions with and without generator implementations. Ten simultaneous condition/restart cases pass.",
+  "compilerSha256": "02cfb2e0cee70e161ab3e3d3c6d979c4de8bb14af3bc82c8e90c04147df2a9c4",
+  "sourceHashes": {
+    "kernel/function.js": "b33e557a6135dfef3432a781fed8d11d65b1429714627bebccc2b878764aaa91",
+    "kernel/lisp.js": "14062ac3aaad0bf9942a6309bd0226d82b4db1725245b08611f63cc5da7b5c48",
+    "tests/resumable/native-errors.lisp": "2b1f3234929e94e47ec3a3a89d61b66caf187118c5c4548f4e324608251b2ae6",
+    "tests/resumable/native-error-checks.mjs": "7534839cace7f3cc5ef97b6db06f0aacc776ed5b98eac01093f7fc37ec051925"
+  },
+  "baseline": {
+    "status": "failed",
+    "error": "Error: Cannot suspend across a synchronous JavaScript call boundary",
+    "stack": "Error: Cannot suspend across a synchronous JavaScript call boundary\n    at runSynchronously (file:///tmp/valtan-native-arity-before.mjs:409:21)\n    at function_ (file:///tmp/valtan-native-arity-before.mjs:417:12)\n    at CL_funcall (file:///tmp/valtan-native-arity-before.mjs:1337:12)\n    at LispSymbol.func (file:///tmp/valtan-native-arity-before.mjs:74938:23)\n    at LispSymbol.func (file:///tmp/valtan-native-arity-before.mjs:75243:16)\n    at LispSymbol.func (file:///tmp/valtan-native-arity-before.mjs:75524:21)\n    at argumentsError (file:///tmp/valtan-native-arity-before.mjs:1381:21)\n    at intern.func (file:///tmp/valtan-native-arity-before.mjs:4115:37)\n    at callResumable (file:///tmp/valtan-native-arity-before.mjs:1353:62)\n    at callResumable.next (<anonymous>)"
+  },
+  "baselineScope": "Frozen f5ea790 functionality, new ten-case fixture loaded; builtin arity error still crossed a synchronous boundary.",
+  "baselineBundleSha256": "d18cbc6512235dc80462171bcaade106c7a6e18df3b9b5d34fdca7eacff00f6d",
+  "node": {
+    "status": "passed",
+    "result": {
+      "cases": 10,
+      "asynchronousHandlers": true,
+      "restarts": true,
+      "asynchronousCleanup": true,
+      "ordinaryHandler": true
+    }
+  },
+  "nodeBundleSha256": "c3f8bfdf82944034c9e4ed6940b362aab678d60d9277451895ffb30bdb9dbb55",
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T16:10:34.016Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-PnlaaL",
+    "compilerSha256": "02cfb2e0cee70e161ab3e3d3c6d979c4de8bb14af3bc82c8e90c04147df2a9c4",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "afterLoadSha256": "d3f4a8a2f26a9682028791e716aa5c10bd82633ae273907f927b2b5d5fb550be",
+    "checksSha256": "f1f27ae3f5300d9bf915b20b8cec97b1976981f8453d6e53aec5f8cf6bfa6a85",
+    "stage": "run",
+    "bundleSha256": "4be15cad8abdc772edf9d4e97011c72bf45d7d3a367f159ddff76f4c3dc69dc0",
+    "finishedAt": "2026-11-11T16:13:05.122Z"
+  },
+  "regressions": {
+    "kernel": {
+      "passed": 41,
+      "failed": 0,
+      "log": "/tmp/valtan-native-arity-kernel.log"
+    },
+    "ordinary": {
+      "resumableChecks": 43,
+      "compilerSemanticAssertions": "passed",
+      "workloads": 8,
+      "log": "/tmp/valtan-native-arity-ordinary.log"
+    },
+    "dual": {
+      "resumableChecks": 43,
+      "dualChecks": 51,
+      "nativeCallbacks": 23,
+      "schedulerTasks": 64,
+      "checkpointOnlyLoops": 2,
+      "evalChecks": 18,
+      "synchronizationChecks": 12,
+      "sleepChecks": 10,
+      "interruptChecks": 13,
+      "nativeErrorCases": 10,
+      "sourceDeletedArtifact": "passed",
+      "log": "/tmp/valtan-native-arity-regressions.log"
+    }
+  },
+  "diagnostic": [
+    {
+      "name": "lisp",
+      "values": [
+        "CAUGHT"
+      ],
+      "status": "passed"
+    },
+    {
+      "name": "symbolValue",
+      "values": [
+        "CAUGHT"
+      ],
+      "status": "passed"
+    },
+    {
+      "name": "globalValue",
+      "values": [
+        "CAUGHT"
+      ],
+      "status": "passed"
+    },
+    {
+      "name": "undefinedFunction",
+      "values": [
+        "CAUGHT"
+      ],
+      "status": "passed"
+    },
+    {
+      "name": "arity",
+      "values": [
+        "CAUGHT"
+      ],
+      "status": "passed"
+    },
+    {
+      "name": "divideByZero",
+      "status": "failed",
+      "error": "Error: Cannot suspend across a synchronous JavaScript call boundary"
+    }
+  ],
+  "diagnosticScope": "Focused read/evaluate checks, not extra regression counts. Unlike the initial unused-global expression, this diagnostic consumes the global variable value. Division-by-zero still fails to suspend its handler.",
+  "remaining": [
+    "Other native errors, including numerical condition delivery, still need resumable handling.",
+    "Ordinary foreign callbacks cannot suspend.",
+    "Full McCLIM threaded browser verification is still in progress on an earlier frozen build."
+  ]
+}

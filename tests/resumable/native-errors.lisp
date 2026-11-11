@@ -46,6 +46,8 @@
       "undefinedFunction" (lambda () (funcall missing))
       "symbolFunction" (lambda () (symbol-function missing))
       "arity" (lambda () (funcall (symbol-function 'identity) 1 2))
+      "nativeArity" (lambda () (funcall (symbol-function 'symbolp)))
+      "resumableNativeArity" (lambda () (funcall (symbol-function 'symbol-value)))
       "symbolValueType" (lambda () (symbol-value 17))
       "symbolFunctionType" (lambda () (symbol-function 17))
       "functionType" (lambda () (funcall (ffi:ref "globalThis" "valtanNativeInvalidFunction")))

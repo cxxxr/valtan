@@ -932,8 +932,12 @@ The [native condition checks](../tests/resumable/native-error-results.json)
 pass eight simultaneous cases in Node and Chrome: handlers await while their
 dynamic bindings and restarts remain active, then run asynchronous cleanup.
 The ordinary compiler, dual compiler/runtime, callback and compiled-artifact
-regressions also pass. Numerical error paths and JavaScript builtin
-argument-count checks still need resumable delivery.
+regressions also pass. Builtin argument-count errors now also signal through
+resumable calls, before native entry. The
+[expanded condition checks](../tests/resumable/native-arity-results.json)
+pass ten simultaneous cases in Node and Chrome, including builtins with and
+without resumable implementations. Numerical error paths still need
+resumable delivery; division by zero reproduces the remaining boundary.
 
 Application drivers still need integration with the scheduler: blocking calls
 must originate in scheduled Lisp, and merely enabling `:valtan-resumable` does
