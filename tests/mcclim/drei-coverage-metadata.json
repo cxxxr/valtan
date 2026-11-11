@@ -1,0 +1,275 @@
+{
+  "scope": "Observed protocol-symbol identities and implementation-dependent assertion counts for Drei coverage comparison; not a complete target test result",
+  "recordedAt": "2026-11-11T23:44:11.210502+00:00",
+  "nativeReference": "tests/mcclim/drei-all-host-results.json",
+  "nativeReferenceSha256": "1fe6c071e64082d5adbb1f37351144950ea958900daf9added44b9f4716b8fa1",
+  "retainedTarget": "tests/mcclim/drei-image-upstream-results.json",
+  "retainedTargetSha256": "82439f53a4bd6188a763b3e8f01fbd6554b2bf34f12e8babce5446b73485c548",
+  "nativeIdentityInspection": {
+    "scope": "Native registration identity inspection only; no tests were run",
+    "implementation": "SBCL",
+    "version": "2.6.0.debian",
+    "tests": [
+      {
+        "printed": "DREI-TESTS::STREAM-CREATION",
+        "name": "STREAM-CREATION",
+        "package": "DREI-TESTS"
+      },
+      {
+        "printed": "STREAM-READ-CHAR",
+        "name": "STREAM-READ-CHAR",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-READ-CHAR",
+        "nativeCount": 18,
+        "retainedTargetCount": 18
+      },
+      {
+        "printed": "STREAM-UNREAD-CHAR",
+        "name": "STREAM-UNREAD-CHAR",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-UNREAD-CHAR",
+        "nativeCount": 11,
+        "retainedTargetCount": 11
+      },
+      {
+        "printed": "STREAM-READ-CHAR-NO-HANG",
+        "name": "STREAM-READ-CHAR-NO-HANG",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-READ-CHAR-NO-HANG",
+        "nativeCount": 18,
+        "retainedTargetCount": 18
+      },
+      {
+        "printed": "STREAM-PEEK-CHAR",
+        "name": "STREAM-PEEK-CHAR",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-PEEK-CHAR",
+        "nativeCount": 8,
+        "retainedTargetCount": 8
+      },
+      {
+        "printed": "STREAM-LISTEN",
+        "name": "STREAM-LISTEN",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-LISTEN",
+        "nativeCount": 21,
+        "retainedTargetCount": 21
+      },
+      {
+        "printed": "STREAM-READ-LINE",
+        "name": "STREAM-READ-LINE",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-READ-LINE",
+        "nativeCount": 6,
+        "retainedTargetCount": 6
+      },
+      {
+        "printed": "STREAM-WRITE-CHAR",
+        "name": "STREAM-WRITE-CHAR",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-WRITE-CHAR",
+        "nativeCount": 8,
+        "retainedTargetCount": 8
+      },
+      {
+        "printed": "STREAM-LINE-COLUMN",
+        "name": "STREAM-LINE-COLUMN",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-LINE-COLUMN",
+        "nativeCount": 14,
+        "retainedTargetCount": 14
+      },
+      {
+        "printed": "STREAM-START-LINE-P",
+        "name": "STREAM-START-LINE-P",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-START-LINE-P",
+        "nativeCount": 8,
+        "retainedTargetCount": 8
+      },
+      {
+        "printed": "STREAM-WRITE-STRING",
+        "name": "STREAM-WRITE-STRING",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-WRITE-STRING",
+        "nativeCount": 5,
+        "retainedTargetCount": 5
+      },
+      {
+        "printed": "STREAM-TERPRI",
+        "name": "STREAM-TERPRI",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-TERPRI",
+        "nativeCount": 6,
+        "retainedTargetCount": 6
+      },
+      {
+        "printed": "STREAM-FRESH-LINE",
+        "name": "STREAM-FRESH-LINE",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-FRESH-LINE",
+        "nativeCount": 6,
+        "retainedTargetCount": 6
+      },
+      {
+        "printed": "STREAM-ADVANCE-TO-COLUMN",
+        "name": "STREAM-ADVANCE-TO-COLUMN",
+        "package": "SB-GRAY",
+        "target": "VALTAN-GRAY:STREAM-ADVANCE-TO-COLUMN",
+        "nativeCount": 2,
+        "retainedTargetCount": 2
+      }
+    ]
+  },
+  "grayProtocolMappings": [
+    {
+      "printed": "STREAM-READ-CHAR",
+      "name": "STREAM-READ-CHAR",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-READ-CHAR",
+      "nativeCount": 18,
+      "retainedTargetCount": 18
+    },
+    {
+      "printed": "STREAM-UNREAD-CHAR",
+      "name": "STREAM-UNREAD-CHAR",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-UNREAD-CHAR",
+      "nativeCount": 11,
+      "retainedTargetCount": 11
+    },
+    {
+      "printed": "STREAM-READ-CHAR-NO-HANG",
+      "name": "STREAM-READ-CHAR-NO-HANG",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-READ-CHAR-NO-HANG",
+      "nativeCount": 18,
+      "retainedTargetCount": 18
+    },
+    {
+      "printed": "STREAM-PEEK-CHAR",
+      "name": "STREAM-PEEK-CHAR",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-PEEK-CHAR",
+      "nativeCount": 8,
+      "retainedTargetCount": 8
+    },
+    {
+      "printed": "STREAM-LISTEN",
+      "name": "STREAM-LISTEN",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-LISTEN",
+      "nativeCount": 21,
+      "retainedTargetCount": 21
+    },
+    {
+      "printed": "STREAM-READ-LINE",
+      "name": "STREAM-READ-LINE",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-READ-LINE",
+      "nativeCount": 6,
+      "retainedTargetCount": 6
+    },
+    {
+      "printed": "STREAM-WRITE-CHAR",
+      "name": "STREAM-WRITE-CHAR",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-WRITE-CHAR",
+      "nativeCount": 8,
+      "retainedTargetCount": 8
+    },
+    {
+      "printed": "STREAM-LINE-COLUMN",
+      "name": "STREAM-LINE-COLUMN",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-LINE-COLUMN",
+      "nativeCount": 14,
+      "retainedTargetCount": 14
+    },
+    {
+      "printed": "STREAM-START-LINE-P",
+      "name": "STREAM-START-LINE-P",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-START-LINE-P",
+      "nativeCount": 8,
+      "retainedTargetCount": 8
+    },
+    {
+      "printed": "STREAM-WRITE-STRING",
+      "name": "STREAM-WRITE-STRING",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-WRITE-STRING",
+      "nativeCount": 5,
+      "retainedTargetCount": 5
+    },
+    {
+      "printed": "STREAM-TERPRI",
+      "name": "STREAM-TERPRI",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-TERPRI",
+      "nativeCount": 6,
+      "retainedTargetCount": 6
+    },
+    {
+      "printed": "STREAM-FRESH-LINE",
+      "name": "STREAM-FRESH-LINE",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-FRESH-LINE",
+      "nativeCount": 6,
+      "retainedTargetCount": 6
+    },
+    {
+      "printed": "STREAM-ADVANCE-TO-COLUMN",
+      "name": "STREAM-ADVANCE-TO-COLUMN",
+      "package": "SB-GRAY",
+      "target": "VALTAN-GRAY:STREAM-ADVANCE-TO-COLUMN",
+      "nativeCount": 2,
+      "retainedTargetCount": 2
+    }
+  ],
+  "lambdaListKeywordDifference": {
+    "observedAt": "2026-11-11T23:07:37.760855+00:00",
+    "status": "coverage-analysis-only",
+    "completeTargetResult": false,
+    "native": {
+      "registered": 596,
+      "registrationEntries": 615,
+      "results": 3757,
+      "failed": 11,
+      "skipped": 0
+    },
+    "sharedTestCountDifferences": [
+      {
+        "test": "DREI-TESTS::ARGLIST-KEYWORD-P",
+        "native": 10,
+        "previousTarget": 9
+      }
+    ],
+    "nativeKeywords": "(&ALLOW-OTHER-KEYS &AUX &BODY &ENVIRONMENT &KEY SB-INT:&MORE &OPTIONAL &REST\n &WHOLE)",
+    "targetKeywords": {
+      "status": "observed",
+      "scope": "Separate compiled Valtan core; not an observation of the currently running Drei browser",
+      "keywords": [
+        "&ALLOW-OTHER-KEYS",
+        "&AUX",
+        "&BODY",
+        "&ENVIRONMENT",
+        "&KEY",
+        "&OPTIONAL",
+        "&REST",
+        "&WHOLE"
+      ],
+      "bundle": "tests/dist-resumable/resumable.js",
+      "bundleSha256": "3890e5706ffdcacfc20de0ed14f96f2a82ba1c1c32ec5ec3130ee6f665a3184b"
+    },
+    "explanation": "ARGLIST-KEYWORD-P checks each implementation lambda-list keyword plus one negative assertion. Native SBCL has extra SB-INT:&MORE:9+1=10. Valtan has8+1=9. The actual all-Drei target result remains pending;3756 is a projection, not an observed pass.",
+    "testSource": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/lisp-syntax-swine-tests.lisp",
+    "testSourceSha256": "be021f7ed39ebf2931d55b376d2c37822e4b853e1b8dc20450dfa50548531f3f",
+    "browserObservation": "/tmp/valtan-drei-lambda-keywords-live.json is INCONCLUSIVE:20s observation deadline. Did not stop or restart live worker. Separate compiledcore observation succeeded."
+  },
+  "limitations": [
+    "The retained target run skipped self-compilation and did not run the performance suite; it is used only for report shape and shared per-case counts.",
+    "The running combined target suite must still finish with zero failures, skips and unexecuted cases.",
+    "The total of 3,756 assertions in verifier fixtures is synthetic, not an observed complete target pass."
+  ]
+}

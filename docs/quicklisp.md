@@ -1268,6 +1268,23 @@ without starting a server. Its [native reference](../tests/mcclim/drei-all-host-
 executes all 596 cases with zero skips, but records 11 failures: one upstream
 self-compilation reader failure and ten Swank completion-protocol failures.
 These native failures remain in the report and are not Valtan results.
+For a completed combined target run, compare coverage from the repository root:
+
+```sh
+node tests/mcclim/compare-drei.mjs target.json tests/mcclim/drei-all-host-results.json comparison.json
+```
+
+The comparison requires successful target execution, all 596 unique tests,
+615 registration entries, matching test/resource hashes and per-test assertion
+counts. Native failures remain visible and never excuse a target failure.
+The [coverage metadata](../tests/mcclim/drei-coverage-metadata.json) records two
+implementation differences: 13 Gray protocol test names use `SB-GRAY` symbols
+on SBCL and `VALTAN-GRAY` symbols on Valtan; the lambda-list-keyword test makes
+one additional check on SBCL because of `SB-INT:&MORE`. Only these named
+differences are accepted. The verifier tests include actual incomplete browser
+output and synthetic complete fixtures; they do not establish that the pending
+combined target run has passed.
+
 Run `npm run build:resumable && npm run test:resumable:loop-on` from `tests` to
 repeat the focused checks. The iterator behavior follows the
 [CLHS description of `ON`](https://www.lispworks.com/documentation/HyperSpec/Body/06_abac.htm).
