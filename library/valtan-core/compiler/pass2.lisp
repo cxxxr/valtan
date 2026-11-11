@@ -749,6 +749,18 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
         (join-emitter-stream base-stream emitter-stream)))
     (write-string "}" *p2-emit-stream*)))
 
+(defvar *p2-lambda-list-readers*)
+
+(defun p2-lambda-list-reader (hir)
+  (or (gethash hir *p2-lambda-list-readers*)
+      (let ((name (p2-genvar "lambdaList")))
+        (setf (gethash hir *p2-lambda-list-readers*) name)
+        ;; All closures from this source lambda share a reader. It references
+        ;; only literal symbols/forms, never the closure's lexical values.
+        (format *p2-toplevel-defun-stream* "function ~A(){return ~A;}~%"
+                name (p2-literal (parsed-lambda-list-source (hir-arg2 hir))))
+        name)))
+
 (define-p2-emit lambda (hir)
   (let ((name (hir-arg1 hir))
         (mode *resumable-functions*)
@@ -771,6 +783,12 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                    *p2-emit-stream*)
        (p2-emit-lambda-body hir (not (null mode)))))
     (write-line ");" *p2-emit-stream*)
+    (when lambda-result
+      ;; Keep only the original lambda list, not the body or lexical values.
+      ;; Construct static literals on inspection, never on each function call.
+      ;; The thunk also permits top-level functions to precede symbol setup.
+      (format *p2-emit-stream* "~A.lisp_lambda_list=~A;~%"
+              lambda-result (p2-lambda-list-reader hir)))
     (or lambda-result (values))))
 
 (define-p2-emit load-time-value (hir)
@@ -1493,6 +1511,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 
 (defun p2-toplevel (hir &optional (stream *standard-output*) (return-value-p t) resumable-p)
   (let ((*p2-literal-symbols* (make-hash-table))
+        (*p2-lambda-list-readers* (make-hash-table :test 'eq))
         (*p2-defun-names* '())
         (*p2-load-time-value-vars* '())
         (*p2-load-time-value-cache* (make-hash-table :test 'eq))
@@ -1525,6 +1544,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 
 (defun p2-toplevel-forms (hir-forms &optional (stream *standard-output*))
   (let ((*p2-literal-symbols* (make-hash-table))
+        (*p2-lambda-list-readers* (make-hash-table :test 'eq))
         (*p2-defun-names* '())
         (*p2-load-time-value-vars* '())
         (*p2-load-time-value-cache* (make-hash-table :test 'eq))

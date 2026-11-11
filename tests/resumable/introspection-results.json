@@ -1,0 +1,407 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T17:25:53.366629+00:00",
+  "scope": "Compiler-retained original lambda lists and compile-time package setup; not a Drei local-image adapter or resolution of its 19 skipped image-link tests.",
+  "compilerSha256": "a3e3ea9483a2546c1f87ae6d399f029232bacb13e3146918c2a3ac3cfdcd386a",
+  "sourceHashes": {
+    "library/valtan-core/compiler/hir.lisp": "148f0207282c2eeca2e6d495b661d35033326dce5e62b57030c5f70b62a3c6b1",
+    "library/valtan-core/compiler/pass1.lisp": "fa4f488ee1e906ba55a61aa6487d34185fcc65ace57e21a947c2c5a28586c163",
+    "library/valtan-core/compiler/pass2.lisp": "d6cfb0f1f06ee115462ea50103275fc1b121ea29a3825073235d9e6dd26ca36e",
+    "library/valtan-core/lisp/compilation.lisp": "6c9b2e8a559b03043662fc5468376ad0842fb6b829e25a54d8f119f6b47d8875",
+    "library/valtan-core/lisp/clos.lisp": "e0cef67c45151256844bf25b7cde127109341af3eb0f0c21bca783ab8d11d0bf",
+    "library/valtan-core/lisp/environment.lisp": "4dae35b8432997a09632ac56327f39aa28b3f0997590081c9fc99ee6a87ec94d",
+    "library/valtan-core/lisp/package.lisp": "7b2114ab764037c2ce403425868bf3261ccaf0e66cdf59cda1732f9ff9203487",
+    "tests/resumable/introspection.lisp": "57602e1006ec5b536b0c965a48169c7fd4662fb41a53c6fcdbc9f9f153c7ccb0",
+    "tests/resumable/introspection.mjs": "7f26b46eb8ef5b074e602ad4b112bc2d1e45d09589fed299915c1a82b8d49cf5"
+  },
+  "contract": [
+    "Internal SYSTEM::FUNCTION-LAMBDA-LIST and SYSTEM::OPERATOR-LAMBDA-LIST return a copied list and a separate availability flag. NIL,T means no arguments; NIL,NIL means unavailable.",
+    "Retains lambda lists only. Default forms are not evaluated; lexical values and function bodies are not exposed. One generated reader is shared across closures from each source lambda.",
+    "Function aliases retain their own definition metadata after redefinition. Macro source lists survive expansion, COMPILE and compiled-file reload; replacing a macro expander clears stale metadata.",
+    "Generic-function readers reflect its declared signature, including changes after creation. TRACE wrappers preserve underlying metadata.",
+    "Native functions, special operators and compiler transforms without recorded information remain unavailable; their signatures are not guessed.",
+    "Target DEFPACKAGE establishes its package and options at compile time and reload. IN-PACKAGE resolves before assigning either package variable, so a missing package does not corrupt compiler state."
+  ],
+  "node": {
+    "status": "passed",
+    "exitCode": 0,
+    "phases": [
+      "eval",
+      "produce",
+      "consume"
+    ],
+    "eval": {
+      "ordinaryChecks": 38,
+      "scheduledChecks": 38
+    },
+    "sourceDeletedArtifact": {
+      "ordinaryChecks": 38,
+      "scheduledChecks": 38,
+      "freshProcess": true,
+      "sourceDeletedBeforeConsume": true
+    },
+    "compileTimeAssertions": [
+      "package exists",
+      "ORIGINAL is external",
+      "ordinary ORIGINAL function remains undefined before loading artifact"
+    ],
+    "log": "/tmp/valtan-introspection-checks3.log",
+    "logSha256": "81a417db37d8e5ae5e6f011010563588d0f338c735d501b0a9451a6cbc4cbe4a"
+  },
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T17:22:25.690Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-MA50VB",
+    "compilerSha256": "a3e3ea9483a2546c1f87ae6d399f029232bacb13e3146918c2a3ac3cfdcd386a",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "afterLoadSha256": "3209e32f3d91e053759458ff4d07bd6457be455a168a5620db4e2aa5e0a8caa3",
+    "checksSha256": "819016e8c80ce0fe21b70937e7cea668861a81297ddc064d89db30be18d1002b",
+    "stage": "run",
+    "bundleSha256": "68fbbc5751a964810157899061a0460d5a0df3b6e90ed3b6bab54aeb2e43a685",
+    "finishedAt": "2026-11-11T17:25:09.828Z"
+  },
+  "browserChecks": {
+    "ordinary": 38,
+    "scheduled": 38,
+    "log": "/tmp/valtan-introspection-browser2-logs/run.log",
+    "logSha256": "a81b87bba3c200045d0642025f5588942140397978bd202046b1b4cb8a9b2622"
+  },
+  "regressions": {
+    "ordinary": {
+      "kernelPassed": 41,
+      "resumableChecks": 43,
+      "workloadsPassed": 8,
+      "compilerSemantics": "passed",
+      "log": "/tmp/valtan-introspection-ordinary2.log",
+      "logSha256": "4a9cf214ce7d9887482da3594c6a6581a5447624c4a90251de96da54b924e4b3"
+    },
+    "dual": {
+      "resumable": 43,
+      "dualCore": 51,
+      "nativeCallbacks": 23,
+      "scheduledTasks": 64,
+      "evalChecks": 18,
+      "synchronizationChecks": 12,
+      "sleepChecks": 10,
+      "interruptChecks": 13,
+      "nativeConditionCases": 27,
+      "sourceDeletedResumableArtifact": "passed",
+      "log": "/tmp/valtan-introspection-regressions2.log",
+      "logSha256": "fe9506d1a57cdfa039aac5148729f80b6c7b48f5f0ed11807a89bed2938210f0"
+    }
+  },
+  "performanceObservation": {
+    "scope": "Ordinary workloads, metadata implementation before final DEFPACKAGE/IN-PACKAGE correction; concurrent long-running jobs remained active. No whole-McCLIM speed claim.",
+    "before": {
+      "node": "v24.21.0",
+      "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+      "date": "2026-11-11T17:12:33.957Z",
+      "bundleSha256": "eb5051fd7f30922ba91eeefaef221fb5896dd936b8d24bb72bac17380edadc7c",
+      "workloadsSha256": "77d02d3bd5cc7015d9749696b1aa8f886d003965e4fa9fa589ce1149b5102917",
+      "semanticsSha256": "33db454fb9f1ae3841c3fb44fe716895afb4e38756b6f6c70e8d2d3a021e378d",
+      "resumableSha256": "50d0587973fbde071db989d2d1727182a92a3c666109610c8fba07cc1532f12f",
+      "results": [
+        {
+          "name": "sum",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 58,
+          "medianMs": 1.7463329999999986,
+          "samples": [
+            1.7345447758620656,
+            1.7460138793103437,
+            1.7463329999999986,
+            1.7562776551724137,
+            1.7274588275862077,
+            1.76752606896552,
+            1.7646033965517258
+          ]
+        },
+        {
+          "name": "fib",
+          "input": 20,
+          "expected": 6765,
+          "batch": 159,
+          "medianMs": 0.598405685534593,
+          "samples": [
+            0.598405685534593,
+            0.5738016226415088,
+            0.6245189433962255,
+            0.588392257861635,
+            0.5723302264150935,
+            0.7136231257861638,
+            0.5992706226415089
+          ]
+        },
+        {
+          "name": "list",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 42,
+          "medianMs": 2.3231631190476167,
+          "samples": [
+            2.2703206428571407,
+            2.2448891428571405,
+            2.2872969523809625,
+            2.361695619047623,
+            2.327265357142854,
+            2.3231631190476167,
+            2.5190578571428626
+          ]
+        },
+        {
+          "name": "vector",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 5,
+          "medianMs": 23.67317400000011,
+          "samples": [
+            23.515281200000025,
+            23.617783799999962,
+            24.3503388000001,
+            24.27873120000004,
+            23.547618200000034,
+            23.67317400000011,
+            23.974467600000025
+          ]
+        },
+        {
+          "name": "closure",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 52,
+          "medianMs": 1.8973298846153739,
+          "samples": [
+            1.873417999999989,
+            1.8895990000000018,
+            1.8973298846153739,
+            1.957304173076916,
+            1.8947557307692302,
+            1.9036446730769268,
+            1.9068924423076903
+          ]
+        },
+        {
+          "name": "hash",
+          "input": 1000,
+          "expected": 499500,
+          "batch": 47,
+          "medianMs": 2.106477510638294,
+          "samples": [
+            2.1217375957446767,
+            2.106477510638294,
+            2.1491785744680802,
+            2.1338788936170223,
+            2.0823747021276504,
+            2.067757531914894,
+            2.0861613829787182
+          ]
+        },
+        {
+          "name": "string",
+          "input": 10000,
+          "expected": 10000,
+          "batch": 18,
+          "medianMs": 5.759251222222196,
+          "samples": [
+            5.759251222222196,
+            5.747316666666645,
+            5.763407777777805,
+            5.841646222222153,
+            5.766342111111044,
+            5.7563280555555645,
+            5.748565499999939
+          ]
+        },
+        {
+          "name": "clos",
+          "input": 100,
+          "expected": 400,
+          "batch": 81,
+          "medianMs": 1.1948183703703694,
+          "samples": [
+            1.2000241234567914,
+            1.1948183703703694,
+            1.1909512222222092,
+            1.1913507160493788,
+            1.1978992469135668,
+            1.2072001728394954,
+            1.185821654321006
+          ]
+        }
+      ]
+    },
+    "after": {
+      "node": "v24.21.0",
+      "cpu": "AMD RYZEN AI MAX+ 395 w/ Radeon 8060S",
+      "date": "2026-11-11T17:13:39.136Z",
+      "bundleSha256": "98b98360a79d695ca341443a2fc4b06710d60ba4692a9367a032f0da32566ee8",
+      "workloadsSha256": "77d02d3bd5cc7015d9749696b1aa8f886d003965e4fa9fa589ce1149b5102917",
+      "semanticsSha256": "33db454fb9f1ae3841c3fb44fe716895afb4e38756b6f6c70e8d2d3a021e378d",
+      "resumableSha256": "50d0587973fbde071db989d2d1727182a92a3c666109610c8fba07cc1532f12f",
+      "results": [
+        {
+          "name": "sum",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 55,
+          "medianMs": 1.7995362545454514,
+          "samples": [
+            1.7919803090909103,
+            1.7468629454545448,
+            1.8970370909090888,
+            1.7457070000000012,
+            1.7995362545454514,
+            1.9519430181818156,
+            1.849847418181819
+          ]
+        },
+        {
+          "name": "fib",
+          "input": 20,
+          "expected": 6765,
+          "batch": 163,
+          "medianMs": 0.5804094662576704,
+          "samples": [
+            0.55662537423313,
+            0.6108528343558278,
+            0.5951079815950929,
+            0.5712526012269927,
+            0.5605859693251531,
+            0.5863924478527598,
+            0.5804094662576704
+          ]
+        },
+        {
+          "name": "list",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 43,
+          "medianMs": 2.2445064418604677,
+          "samples": [
+            2.2425528139534903,
+            2.2445064418604677,
+            2.250251837209309,
+            2.2423800000000016,
+            2.218182697674418,
+            2.510435046511628,
+            2.2981964883720987
+          ]
+        },
+        {
+          "name": "vector",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 5,
+          "medianMs": 23.71545839999999,
+          "samples": [
+            23.15716759999996,
+            25.852703399999882,
+            23.45051339999991,
+            23.078370399999947,
+            23.71545839999999,
+            24.726319800000056,
+            24.79548960000011
+          ]
+        },
+        {
+          "name": "closure",
+          "input": 10000,
+          "expected": 49995000,
+          "batch": 55,
+          "medianMs": 1.8325380181818136,
+          "samples": [
+            1.8408346545454564,
+            1.7784635090909102,
+            1.7825911818181834,
+            1.78049598181819,
+            2.017850600000003,
+            1.9278183818181953,
+            1.8325380181818136
+          ]
+        },
+        {
+          "name": "hash",
+          "input": 1000,
+          "expected": 499500,
+          "batch": 45,
+          "medianMs": 2.04908988888888,
+          "samples": [
+            2.1395274444444414,
+            2.04880388888889,
+            2.01880402222222,
+            2.04908988888888,
+            2.1110804222222415,
+            2.013176888888888,
+            2.1068383555555554
+          ]
+        },
+        {
+          "name": "string",
+          "input": 10000,
+          "expected": 10000,
+          "batch": 18,
+          "medianMs": 5.657426388888881,
+          "samples": [
+            5.660168555555578,
+            5.659191333333284,
+            5.631529555555567,
+            5.644345166666628,
+            5.683189444444502,
+            5.657426388888881,
+            5.640750888888963
+          ]
+        },
+        {
+          "name": "clos",
+          "input": 100,
+          "expected": 400,
+          "batch": 82,
+          "medianMs": 1.1778059146341415,
+          "samples": [
+            1.1905658414634006,
+            1.180784719512192,
+            1.211808292682934,
+            1.1778059146341415,
+            1.17484662195123,
+            1.1686728170731684,
+            1.1608094268292517
+          ]
+        }
+      ]
+    },
+    "sameWorkloadSource": true,
+    "afterBeforeMedianRatios": {
+      "sum": 1.0304656984352085,
+      "fib": 0.9699263898857422,
+      "list": 0.9661424217084703,
+      "vector": 1.001786173666441,
+      "closure": 0.9658510272995068,
+      "hash": 0.972756594143735,
+      "string": 0.9823197791858043,
+      "clos": 0.9857614712343648
+    }
+  },
+  "diagnosticHistory": [
+    {
+      "log": "/tmp/valtan-introspection-checks.log",
+      "outcome": "Initial runner killed the producer after its 180s timeout. Eval metadata assertions had passed; this was not a completed artifact test."
+    },
+    {
+      "log": "/tmp/valtan-introspection-checks2.log",
+      "outcome": "Unbounded retry exposed recursive error printing after missing compile-time package setup. Producer was explicitly terminated after profiling and inspecting its 3121-frame stack; retained McCLIM workers were untouched.",
+      "profile": "/tmp/valtan-introspection-compile-profile.json",
+      "stack": "/tmp/valtan-introspection-compile-stack.json",
+      "fix": "Target DEFPACKAGE compile-time evaluation and IN-PACKAGE resolve-before-assignment. Final unchanged artifact workflow completes with added package/export/error recovery assertions."
+    }
+  ]
+}

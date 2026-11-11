@@ -300,4 +300,5 @@
       ;; in the normal runtime order.
       `(progn (*:%defpackage ,package)
               (ensure-defined-package ',package ',options))
-      `(ensure-defined-package ',package ',options)))
+      `(eval-when (:compile-toplevel :load-toplevel :execute)
+         (ensure-defined-package ',package ',options))))

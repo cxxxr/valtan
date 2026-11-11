@@ -52,6 +52,7 @@
     "demo:mcclim": "node mcclim/demo.mjs",
     "build:resumable": "node resumable/build.mjs",
     "test:resumable": "node resumable/verify.mjs && node --test resumable/artifact.test.mjs",
+    "test:resumable:introspection": "node resumable/introspection.mjs",
     "build:bordeaux": "node bordeaux/build.mjs",
     "test:bordeaux": "node bordeaux/verify.mjs",
     "build:bordeaux:upstream": "node bordeaux/build.mjs bordeaux-upstream",

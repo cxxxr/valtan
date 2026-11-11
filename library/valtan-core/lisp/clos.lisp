@@ -863,6 +863,9 @@
               (std-compute-discriminating-function gf)
               (error "compute-discriminating-function trap")))))
     (set-funcallable-instance-function gf discriminating-function)
+    #+valtan
+    (ffi:set (ffi:ref discriminating-function "lisp_lambda_list")
+             (lambda () (generic-function-lambda-list gf)))
     (setf (gethash discriminating-function *generic-function-objects*) gf)
     ;; (setf (fdefinition (generic-function-name gf)) gf)
     (let ((trace-entry (and (boundp '*traced-functions*)

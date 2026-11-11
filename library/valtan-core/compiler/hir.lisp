@@ -49,6 +49,7 @@
   (hir-arg3 hir))
 
 (defstruct parsed-lambda-list
+  source
   vars
   rest-var
   optionals

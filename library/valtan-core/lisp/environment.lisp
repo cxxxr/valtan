@@ -139,6 +139,8 @@
                          (values-list results)))))))
         (let ((gf (gethash original *generic-function-objects*)))
           (when gf (setf (gethash wrapper *generic-function-objects*) gf)))
+        (ffi:set (ffi:ref wrapper "lisp_lambda_list")
+                 (ffi:ref original "lisp_lambda_list"))
         (setf (fdefinition name) wrapper)
         (push (list name original wrapper) *traced-functions*))))
   names)

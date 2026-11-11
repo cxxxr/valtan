@@ -56,6 +56,27 @@
   (let ((name (ffi:ref function "lisp_symbol")))
     (values nil t (if (symbolp name) name nil))))
 
+(defun system::function-lambda-list (function)
+  "Return the original lambda list and whether it is available.
+Native functions without recorded information return NIL, NIL. The returned
+list is a copy; default forms are not evaluated. No closure values are exposed."
+  (unless (functionp function) (type-error function 'function))
+  (let ((reader (ffi:ref function "lisp_lambda_list")))
+    (if (functionp reader)
+        (values (copy-tree (funcall reader)) t)
+        (values nil nil))))
+
+(defun system::operator-lambda-list (name)
+  "Return a global function or macro's original lambda list and availability."
+  (cond ((and (symbolp name) (compiler::get-macro name))
+         (let ((info (system:compiler-property name 'compiler::macro-lambda-list)))
+           (values (copy-tree (cdr info)) (not (null info)))))
+        ((and (symbolp name)
+              (or (special-operator-p name) (compiler::get-transform name)))
+         (values nil nil))
+        ((fboundp name) (system::function-lambda-list (fdefinition name)))
+        (t (values nil nil))))
+
 (defun constantp (form &optional environment)
   (setq form (macroexpand form environment))
   (cond ((symbolp form)
@@ -98,7 +119,9 @@
                          (t (type-error source '(or function cons))))))
     (when name
       (if macro-p
-          (setf (compiler::get-macro name) function)
+          (if definition-p
+              (setf (compiler::get-macro name) function)
+              (system:set-compiler-property name 'compiler::macro function))
           (setf (fdefinition name) function)))
     (values (or name function) warnings-p failure-p)))
 

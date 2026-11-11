@@ -69,6 +69,8 @@
   (*:compiler-property symbol 'macro))
 
 (defun (setf get-macro) (form symbol)
+  ;; Replacing an expander must not retain another definition's arguments.
+  (*:set-compiler-property symbol 'macro-lambda-list nil)
   (*:set-compiler-property symbol 'macro form))
 
 (defun get-symbol-macro (symbol)
@@ -238,6 +240,7 @@
       (let* ((min (length vars))
              (parsed-lambda-list
                (make-parsed-lambda-list
+                :source lambda-list
                 :vars vars
                 :optionals optionals
                 :rest-var rest-var
@@ -364,10 +367,12 @@
     (if (toplevel-p)
         (progn
           (setf (get-macro name) expander)
+          (*:set-compiler-property name 'macro-lambda-list (cons t lambda-list))
           (setf *macro-definitions* (nconc *macro-definitions* (list name)))
           `',name)
         `(progn
            (setf (get-macro ',name) ,expander)
+           (*:set-compiler-property ',name 'macro-lambda-list ',(cons t lambda-list))
            ',name))))
 
 (def-transform *:defmacro* (name lambda-list &rest body)
@@ -378,6 +383,7 @@
                  (declare ,@declares)
                  ,@body)))
       (setf (get-macro name) fn)
+      (*:set-compiler-property name 'macro-lambda-list (cons t lambda-list))
       (setf *macro-definitions* (nconc *macro-definitions* (list name)))
       `',name)))
 
@@ -593,7 +599,9 @@
                (let ((fn (get-macro symbol)))
                  (cond ((functionp fn) fn)
                        (fn
-                        (setf (get-macro symbol) (eval fn)))
+                        ;; Compiling the same expander changes its representation,
+                        ;; not its source lambda list.
+                        (*:set-compiler-property symbol 'macro (eval fn)))
                        (t
                         nil))))))))
 
@@ -1199,8 +1207,10 @@
                      nicknames)))))
 
 (def-pass1-form in-package ((&whole form name) return-value-p multiple-values-p)
-  (setq *package* (find-package name))
-  (setq valtan-core::*package* (find-package name)) ;TODO
+  (let ((package (or (find-package name)
+                     (compile-error "The package ~S does not exist" name))))
+    (setq *package* package)
+    (setq valtan-core::*package* package)) ;TODO
   (let ((name (string name)))
     (set-hir-position
      form
@@ -1349,5 +1359,8 @@
               (pass1-toplevel
                (if present-p
                    `(*:put ',name 'symbol-macro ,expansion)
-                   `(*:set-compiler-property ',name 'macro ,(get-macro name))))))
+                   `(progn
+                      (*:set-compiler-property ',name 'macro ,(get-macro name))
+                      (*:set-compiler-property ',name 'macro-lambda-list
+                                               ',(*:compiler-property name 'macro-lambda-list)))))))
           macro-definitions))
