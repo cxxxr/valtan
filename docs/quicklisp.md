@@ -417,7 +417,9 @@ source snapshot. Allocation reports the actual rounded surface dimensions, and
 deallocation releases the backing pixels. The [pixmap report](../tests/mcclim/pixmap-results.json)
 records 53 new checks and all 290 combined Canvas/Bezier/flipping checks passing
 in the retained worker, plus a fresh host-module test of fractional clipping and
-Canvas-state independence. The fresh 290-check snapshot is still running.
+Canvas-state independence. The [fresh 290-check snapshot also passes](../tests/mcclim/pixmap-cold-results.json)
+without production reloads. It includes PNG writing and the VALUES-LIST
+optimization, and predates the multiline-text correction below.
 
 Multiline text bounds now use the same font line advance as drawing, including
 blank lines and reversed page directions. They also report the final cursor's
