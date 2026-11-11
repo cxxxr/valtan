@@ -203,13 +203,18 @@
         ((climi::indirect-ink-p ink) (canvas-flipping-design medium (climi::indirect-ink-ink ink)))
         ((typep ink 'climi::standard-flipping-ink) ink)))
 
-(defun canvas-design-surface (medium design width height transformation)
+(defun canvas-design-surface (medium design width height transformation &optional stencil-p)
   ;; Composite the design independently of the shape being drawn. In particular,
   ;; OUT removes pixels from this temporary design, never from existing drawing.
   ;; All layers use device coordinates so nested transforms and text positioning
   ;; do not move the design relative to its mask.
-  (labels ((render (ink &optional (tr transformation))
-             (canvas-design-surface medium ink width height tr))
+  ;; Stencil opacity is defined with opaque black foreground and background,
+  ;; regardless of the medium's designs. Propagate that environment through
+  ;; nested composites, regions, transformations and pattern palette entries.
+  (let ((climi::*foreground-ink* (if stencil-p +black+ (medium-foreground medium)))
+        (climi::*background-ink* (if stencil-p +black+ (medium-background medium))))
+   (labels ((render (ink &optional (tr transformation))
+             (canvas-design-surface medium ink width height tr stencil-p))
            (combine (destination source operation)
              (canvas-set destination "globalCompositeOperation" operation)
              (canvas-call destination "drawImage" (property source "canvas") 0 0)
@@ -220,12 +225,11 @@
                (canvas-set surface "fillStyle" style)
                (canvas-call surface "fillRect" 0 0 width height)
                surface)))
-    (cond ((eq design +foreground-ink+) (render (medium-foreground medium)))
-          ((eq design +background-ink+) (render (medium-background medium)))
+    (cond ((eq design +foreground-ink+) (render climi::*foreground-ink*))
+          ((eq design +background-ink+) (render climi::*background-ink*))
           ((climi::indirect-ink-p design) (render (climi::indirect-ink-ink design)))
           ((typep design '(or color opacity climi::uniform-compositum))
-           (let ((climi::*foreground-ink* (medium-foreground medium)))
-             (fill (canvas-color medium design))))
+           (fill (canvas-color medium design)))
           ((typep design 'clime:pattern)
            (fill (canvas-pattern medium design transformation)))
           ((typep design 'climi::transformed-design)
@@ -234,17 +238,18 @@
                     (climi::transformed-design-transformation design))))
           ((typep design 'climi::masked-compositum)
            (combine (render (climi::compositum-ink design))
-                    (render (climi::compositum-mask design))
+                    (canvas-design-surface medium (climi::compositum-mask design)
+                                           width height transformation t)
                     (if (typep design 'climi::in-compositum)
                         "destination-in" "destination-out")))
           ((typep design 'climi::over-compositum)
            (combine (render (climi::compositum-background design))
                     (render (climi::compositum-foreground design)) "source-over"))
           ((typep design 'region)
-           (combine (render (medium-foreground medium))
+           (combine (render climi::*foreground-ink*)
                     (canvas-region-mask (transform-region transformation design) width height)
                     "destination-in"))
-          (t (error "Canvas design is not yet supported: ~S" (type-of design))))))
+          (t (error "Canvas design is not yet supported: ~S" (type-of design)))))))
 
 (defun call-with-canvas-state (medium function clip &optional (ink (medium-ink medium)))
   (when (medium-drawable medium)

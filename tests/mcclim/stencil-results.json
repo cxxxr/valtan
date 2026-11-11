@@ -1,0 +1,118 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "scope": "Real upstream CLIM Canvas, Bezier and solid-flipping assertions including14new stencil-opacity checks. Fresh browser result before any manual production reload, plus isolated old-renderer reproduction and restored-renderer rerun. Not full McCLIM coverage.",
+  "recordedAt": "2026-11-11T11:09:12.168860+00:00",
+  "expectedChecks": 183,
+  "counts": {
+    "canvas": 86,
+    "bezierDrawing": 45,
+    "bezierRegions": 40,
+    "solidFlipping": 12,
+    "newStencilChecks": 14
+  },
+  "sourceHashes": {
+    "library/mcclim-browser/medium.lisp": "8c2adfcbdf06993bdcf628bfcd7858e1755a7dda6655ba197cf266561cc9255e",
+    "tests/mcclim/canvas.mjs": "bb0f27fc192126a0b4aa42f93a5922f53310326c0fcce6dca75401d69ce01ccf",
+    "tests/mcclim/canvas-checks.lisp": "aa9f97d3f80c88e3c3ca910785f6fc27da36f93a10dbc23883faef9bad588386",
+    "tests/mcclim/bezier-canvas-checks.lisp": "ec44e2749292dee979b01426795a777cf1d454553ac832fdb6c5d63e6f0c92bb",
+    "tests/mcclim/bezier-region-checks.lisp": "3ed8df8e7a942f809bac85a9f628315558d980326473e0af13be5753cd4711fc",
+    "tests/mcclim/flipping-checks.lisp": "0ec3e27bef4527c44889154be041126f8ef052424d1d526c7de085608255fca0"
+  },
+  "specification": {
+    "source": "McCLIM Documentation/Specification/designs.tex, COMPOSE-IN stencil opacity definition",
+    "sha256": "ded11dab44977c2b72cbb4d4c14c45a4c52a5af9c7b2253794d6e129867f07d5",
+    "rule": "Stencil opacity is evaluated on transparent black with opaque black foreground and background. Drawing the ink itself retains the actual medium designs."
+  },
+  "fresh": {
+    "scope": "Frozen5c2fb35 runtime plus stencil correction. Predates61baebe required-argument classes andde706b2 call forwarding. No production reload before evaluation9001.",
+    "workbench": {
+      "work": "/tmp/valtan-mcclim-workbench-drRlHB",
+      "status": "ready",
+      "complete": false,
+      "startedAt": "2026-11-11T10:29:53.242Z",
+      "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+      "bundleSha256": "babced5fa1628925364b3757d8a5b2154603003c3cc10c7ba7c6f1485d96627c",
+      "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+      "readyAt": "2026-11-11T11:05:36.540Z"
+    },
+    "observation": {
+      "file": "/tmp/valtan-stencil-all-checks.lisp",
+      "id": 9001,
+      "sourceSha256": "9b69b0af934c3412897ab33ffb3f336dcaad60f5ca867c8ad681bfa6403ba5ba",
+      "startedAt": "2026-11-11T10:31:45.305Z",
+      "status": "passed",
+      "evaluationStartedAt": "2026-11-11T11:05:37.472Z",
+      "lastLog": "MCCLIM-FLIPPING-CHECKS-PASS 12",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9001,
+        "ok": true,
+        "value": "(:PASSED 183)"
+      },
+      "finishedAt": "2026-11-11T11:05:55.623Z"
+    },
+    "manualSubmission": true,
+    "preparation": "Original canvas.mjs driver was held with SIGSTOP before ready and never submitted its initial fixture. Corrected fixture to use a translucent foreground and opaque background, then combined all four check files. No browser restart or production reload for the corrected test setup.",
+    "initialUnusedFixtureSha256": "5bee5fdc2d148cde48304179cc125c738619c750805b62f1cc98a1c52d97b1ac"
+  },
+  "baseline": {
+    "scope": "Only original canvas-design-surface reloaded after the fresh pass; same corrected canvas fixture then reproduces alpha128 instead of255",
+    "observation": {
+      "file": "/tmp/valtan-stencil-before-checks.lisp",
+      "id": 9002,
+      "sourceSha256": "9d83ec48947e7b526e7a4f2515acb7f6e5b519b35f0c8261efa5a5316a2a5409",
+      "startedAt": "2026-11-11T11:06:02.565Z",
+      "status": "failed",
+      "evaluationStartedAt": "2026-11-11T11:06:02.624Z",
+      "lastLog": "MCCLIM-FLIPPING-CHECKS-PASS 12",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9002,
+        "ok": false,
+        "error": "Pixel (6,6): expected (255 0 0 255), got (255 0 0 128)"
+      },
+      "finishedAt": "2026-11-11T11:06:14.397Z"
+    },
+    "evaluationSource": "(in-package :mcclim-browser)\n(defun canvas-design-surface (medium design width height transformation)\n  ;; Composite the design independently of the shape being drawn. In particular,\n  ;; OUT removes pixels from this temporary design, never from existing drawing.\n  ;; All layers use device coordinates so nested transforms and text positioning\n  ;; do not move the design relative to its mask.\n  (labels ((render (ink &optional (tr transformation))\n             (canvas-design-surface medium ink width height tr))\n           (combine (destination source operation)\n             (canvas-set destination \"globalCompositeOperation\" operation)\n             (canvas-call destination \"drawImage\" (property source \"canvas\") 0 0)\n             (canvas-set destination \"globalCompositeOperation\" \"source-over\")\n             destination)\n           (fill (style)\n             (let ((surface (host-call \"createSurface\" width height)))\n               (canvas-set surface \"fillStyle\" style)\n               (canvas-call surface \"fillRect\" 0 0 width height)\n               surface)))\n    (cond ((eq design +foreground-ink+) (render (medium-foreground medium)))\n          ((eq design +background-ink+) (render (medium-background medium)))\n          ((climi::indirect-ink-p design) (render (climi::indirect-ink-ink design)))\n          ((typep design '(or color opacity climi::uniform-compositum))\n           (let ((climi::*foreground-ink* (medium-foreground medium)))\n             (fill (canvas-color medium design))))\n          ((typep design 'clime:pattern)\n           (fill (canvas-pattern medium design transformation)))\n          ((typep design 'climi::transformed-design)\n           (render (climi::transformed-design-design design)\n                   (compose-transformations transformation\n                    (climi::transformed-design-transformation design))))\n          ((typep design 'climi::masked-compositum)\n           (combine (render (climi::compositum-ink design))\n                    (render (climi::compositum-mask design))\n                    (if (typep design 'climi::in-compositum)\n                        \"destination-in\" \"destination-out\")))\n          ((typep design 'climi::over-compositum)\n           (combine (render (climi::compositum-background design))\n                    (render (climi::compositum-foreground design)) \"source-over\"))\n          ((typep design 'region)\n           (combine (render (medium-foreground medium))\n                    (canvas-region-mask (transform-region transformation design) width height)\n                    \"destination-in\"))\n          (t (error \"Canvas design is not yet supported: ~S\" (type-of design))))))\n\n\n;; Run through workbench.mjs after loading the current backend. These are real\n;; upstream CLIM drawing calls rendered by OffscreenCanvas in the browser.\n(defpackage #:valtan-canvas-checks (:use #:clim #:clim-lisp))\n(in-package #:valtan-canvas-checks)\n(defvar *checks* 0)\n(defun pixel (surface x y)\n  (let* ((context (mcclim-browser::property surface \"context\"))\n         (image ((ffi:ref context \"getImageData\") x y 1 1))\n         (data (ffi:ref image \"data\")))\n    (loop for i below 4 collect (ffi:aget data i))))\n(defun check-pixel (surface x y expected)\n  (let ((actual (pixel surface x y)))\n    (assert (equal actual expected) () \"Pixel (~D,~D): expected ~S, got ~S\" x y expected actual)\n    (incf *checks*)))\n\n(let* ((surface (mcclim-browser::host-call \"createSurface\" 20 20))\n       (medium (make-instance 'mcclim-browser:browser-medium\n                              :port (find-port :server-path '(:browser))))\n       (red (make-rgb-color 1 0 0)) (green (make-rgb-color 0 1 0))\n       (blue (make-rgb-color 0 0 1)))\n  (setf (climi::medium-drawable medium) surface *checks* 0)\n  (flet ((clear ()\n           (setf (medium-clipping-region medium) +everywhere+)\n           (mcclim-browser::canvas-call medium \"clearRect\" 0 0 20 20))\n         (fill-red () (draw-rectangle* medium 0 0 20 20 :ink red :filled t)))\n    (let ((pattern (make-pattern #2A((0 1) (2 3)) (vector red green blue +transparent-ink+))))\n      (draw-pattern* medium pattern 3 4)\n      (check-pixel surface 3 4 '(255 0 0 255))\n      (check-pixel surface 4 4 '(0 255 0 255))\n      (check-pixel surface 3 5 '(0 0 255 255))\n      (check-pixel surface 4 5 '(0 0 0 0))\n      (check-pixel surface 5 4 '(0 0 0 0))\n      (clear)\n      (draw-rectangle* medium 0 0 20 20 :filled t\n                       :ink (make-rectangular-tile pattern 2 2))\n      (check-pixel surface 12 12 '(255 0 0 255))\n      (check-pixel surface 13 12 '(0 255 0 255))\n      (check-pixel surface 12 13 '(0 0 255 255)))\n    (clear)\n    (let* ((storage (make-array 4 :element-type '(unsigned-byte 32)\n                                  :initial-contents '(0 #xffff0000 #xff0000ff 0)))\n           (array (make-array '(1 2) :element-type '(unsigned-byte 32)\n                                    :displaced-to storage :displaced-index-offset 1))\n           (pattern (make-pattern array nil)))\n      (draw-pattern* medium pattern 0 0)\n      (check-pixel surface 0 0 '(255 0 0 255))\n      (check-pixel surface 1 0 '(0 0 255 255))\n      (setf (aref storage 1) #xff00ff00)\n      (draw-pattern* medium pattern 0 0)\n      (check-pixel surface 0 0 '(0 255 0 255))\n      (clear)\n      (draw-rectangle* medium 0 0 20 20 :filled t\n                       :ink (transform-region (make-translation-transformation 5 6) pattern))\n      (check-pixel surface 5 6 '(0 255 0 255))\n      (check-pixel surface 6 6 '(0 0 255 255))\n      (check-pixel surface 0 0 '(0 0 0 0)))\n    (clear)\n    (draw-rectangle* medium 0 0 20 20 :filled t :ink +white+)\n    (draw-pattern* medium (make-pattern #2A((0))\n                                       (vector (compose-in red (make-opacity 1/2)))) 0 0)\n    (check-pixel surface 0 0 '(255 128 128 255))\n    (clear)\n    (setf (medium-clipping-region medium) (make-ellipse* 8 8 6 0 0 4))\n    (fill-red)\n    (check-pixel surface 8 8 '(255 0 0 255))\n    (check-pixel surface 0 0 '(0 0 0 0))\n    (check-pixel surface 8 2 '(0 0 0 0))\n    (clear)\n    (setf (medium-clipping-region medium)\n          (make-instance 'climi::standard-region-intersection\n                         :regions (list (make-ellipse* 8 8 6 0 0 4)\n                                        (make-rectangle* 8 0 20 20))))\n    (fill-red)\n    (check-pixel surface 5 8 '(0 0 0 0))\n    (check-pixel surface 10 8 '(255 0 0 255))\n    (check-pixel surface 18 8 '(0 0 0 0))\n    (clear)\n    (setf (medium-clipping-region medium)\n          (make-instance 'climi::standard-region-union\n                         :regions (list (make-polygon* '(2 2 10 2 10 10 2 10))\n                                        (make-polygon* '(6 6 6 14 14 14 14 6)))))\n    (fill-red)\n    (check-pixel surface 3 3 '(255 0 0 255))\n    (check-pixel surface 8 8 '(255 0 0 255))\n    (check-pixel surface 12 12 '(255 0 0 255))\n    (check-pixel surface 16 16 '(0 0 0 0))\n    (clear)\n    (setf (medium-clipping-region medium) (climi::region-complement (make-rectangle* 4 4 12 12)))\n    (fill-red)\n    (check-pixel surface 2 2 '(255 0 0 255))\n    (check-pixel surface 8 8 '(0 0 0 0))\n    (clear)\n    ;; A union containing an intersection cannot be represented by simply\n    ;; concatenating paths or by applying sequential Canvas clips.\n    (let* ((intersection (make-instance 'climi::standard-region-intersection\n                          :regions (list (make-ellipse* 8 8 6 0 0 4)\n                                         (make-rectangle* 8 0 20 20))))\n           (union (make-instance 'climi::standard-region-union\n                    :regions (list intersection (make-rectangle* 1 1 3 3)))))\n      (setf (medium-clipping-region medium) union)\n      (fill-red)\n      (check-pixel surface 2 2 '(255 0 0 255))\n      (check-pixel surface 5 8 '(0 0 0 0))\n      (check-pixel surface 10 8 '(255 0 0 255))\n      (check-pixel surface 18 8 '(0 0 0 0))\n      (clear)\n      (setf (medium-clipping-region medium)\n            (make-instance 'climi::standard-region-complement :complement union))\n      (fill-red)\n      (check-pixel surface 2 2 '(0 0 0 0))\n      (check-pixel surface 5 8 '(255 0 0 255))\n      (check-pixel surface 10 8 '(0 0 0 0))\n      (check-pixel surface 18 8 '(255 0 0 255))\n      ;; Overlapping union members must not paint semitransparent ink twice.\n      (clear)\n      (setf (medium-clipping-region medium)\n            (make-instance 'climi::standard-region-union\n              :regions (list intersection (make-rectangle* 8 6 12 10))))\n      (draw-rectangle* medium 0 0 20 20 :filled t\n                       :ink (compose-in red (make-opacity 1/2)))\n      (check-pixel surface 10 8 '(255 0 0 128))\n      (check-pixel surface 5 8 '(0 0 0 0))\n      ;; The mask is in device coordinates even when the drawing is translated.\n      (clear)\n      (setf (medium-clipping-region medium) union)\n      (draw-rectangle* medium 0 0 2 2 :filled t :ink blue\n                       :transformation (make-translation-transformation 9 7))\n      (check-pixel surface 10 8 '(0 0 255 255))\n      (check-pixel surface 2 2 '(0 0 0 0)))\n    (clear)\n    ;; Spatial composite designs must be resolved independently of existing\n    ;; destination pixels and then clipped to the geometry being drawn.\n    (let* ((box (make-rectangle* 4 4 12 12))\n           (red-box (compose-in red box))\n           (blue-box (compose-in blue (make-rectangle* 8 8 16 16))))\n      (draw-rectangle* medium 0 0 20 20 :filled t :ink red-box)\n      (check-pixel surface 6 6 '(255 0 0 255))\n      (check-pixel surface 2 2 '(0 0 0 0))\n      (check-pixel surface 14 14 '(0 0 0 0))\n      (clear)\n      (draw-rectangle* medium 0 0 20 20 :filled t :ink blue)\n      (draw-rectangle* medium 0 0 20 20 :filled t :ink (compose-out red box))\n      (check-pixel surface 6 6 '(0 0 255 255))\n      (check-pixel surface 2 2 '(255 0 0 255))\n      (check-pixel surface 14 14 '(255 0 0 255))\n      (clear)\n      (draw-rectangle* medium 0 0 20 20 :filled t :ink (compose-over red-box blue-box))\n      (check-pixel surface 6 6 '(255 0 0 255))\n      (check-pixel surface 10 10 '(255 0 0 255))\n      (check-pixel surface 14 14 '(0 0 255 255))\n      (check-pixel surface 2 2 '(0 0 0 0))\n      (clear)\n      (draw-rectangle* medium 0 0 20 20 :filled t\n                       :ink (compose-over (compose-in red-box (make-opacity 1/2)) blue-box))\n      (check-pixel surface 10 10 '(128 0 127 255))\n      (clear)\n      (draw-rectangle* medium 0 0 20 20 :filled t\n                       :ink (transform-region (make-translation-transformation 4 2) red-box))\n      (check-pixel surface 10 8 '(255 0 0 255))\n      (check-pixel surface 6 6 '(0 0 0 0))\n      (check-pixel surface 18 18 '(0 0 0 0))\n      (clear)\n      (draw-rectangle* medium 0 0 20 20 :filled t :ink red-box\n                       :transformation (make-translation-transformation 4 2))\n      (check-pixel surface 10 8 '(255 0 0 255))\n      ;; A drawing transformation moves the shape, not the supplied ink.\n      (check-pixel surface 14 8 '(0 0 0 0))\n      (check-pixel surface 18 18 '(0 0 0 0))\n      (clear)\n      (setf (medium-clipping-region medium) (make-rectangle* 0 0 8 20))\n      (draw-rectangle* medium 6 0 20 20 :filled t :ink red-box)\n      (check-pixel surface 7 6 '(255 0 0 255))\n      (check-pixel surface 10 6 '(0 0 0 0)))\n    (clear)\n    (let ((stencil (make-pattern #2A((0 1))\n                                (vector (make-opacity 1/2) +transparent-ink+))))\n      (draw-rectangle* medium 0 0 20 20 :filled t\n                       :ink (compose-in green (make-rectangular-tile stencil 2 1)))\n      (check-pixel surface 4 4 '(0 255 0 127))\n      (check-pixel surface 5 4 '(0 0 0 0))\n      (check-pixel surface 18 18 '(0 255 0 127)))\n    ;; CLIM stencil opacity uses opaque black foreground/background, even when\n    ;; the actual foreground is translucent. The medium background stays opaque.\n    (let ((foreground (medium-foreground medium))\n          (background (medium-background medium))\n          (box (make-rectangle* 4 4 12 12))\n          (palette (make-rectangular-tile\n                    (make-pattern #2A((0 1)) (vector +foreground-ink+ +background-ink+)) 2 1))\n          (stripe (make-rectangular-tile\n                   (make-pattern #2A((0 1)) (vector +foreground-ink+ +transparent-ink+)) 2 1)))\n      (unwind-protect\n           (progn\n             (setf (medium-foreground medium) (compose-in red (make-opacity 1/2))\n                   (medium-background medium) blue)\n             (clear)\n             (draw-rectangle* medium 0 0 20 20 :filled t :ink (compose-in red box))\n             (check-pixel surface 6 6 '(255 0 0 255))\n             (check-pixel surface 2 2 '(0 0 0 0))\n             (clear)\n             (draw-rectangle* medium 0 0 20 20 :filled t :ink (compose-out red box))\n             (check-pixel surface 6 6 '(0 0 0 0))\n             (check-pixel surface 2 2 '(255 0 0 255))\n             (clear)\n             (draw-rectangle* medium 0 0 20 20 :filled t :ink palette)\n             (check-pixel surface 6 6 '(255 0 0 127))\n             (check-pixel surface 7 6 '(0 0 255 255))\n             (draw-rectangle* medium 0 0 20 20 :filled t :ink (compose-in green palette))\n             (check-pixel surface 6 6 '(0 255 0 255))\n             (check-pixel surface 7 6 '(0 255 0 255))\n             (clear)\n             (draw-rectangle* medium 0 0 20 20 :filled t :ink (compose-out green palette))\n             (check-pixel surface 6 6 '(0 0 0 0))\n             (check-pixel surface 7 6 '(0 0 0 0))\n             (draw-rectangle* medium 0 0 20 20 :filled t :ink (compose-in green stripe))\n             (check-pixel surface 6 6 '(0 255 0 255))\n             (check-pixel surface 7 6 '(0 0 0 0))\n             (clear)\n             (draw-rectangle* medium 0 0 20 20 :filled t\n                              :ink (compose-in (compose-in green box)\n                                               (transform-region (make-translation-transformation 1 0) stripe)))\n             (check-pixel surface 6 6 '(0 0 0 0))\n             (check-pixel surface 7 6 '(0 255 0 255)))\n        (setf (medium-foreground medium) foreground\n              (medium-background medium) background)))\n    (clear)\n    (setf (medium-foreground medium) green)\n    (draw-rectangle* medium 0 0 20 20 :filled t :ink (make-rectangle* 4 4 12 12))\n    (check-pixel surface 6 6 '(0 255 0 255))\n    (check-pixel surface 2 2 '(0 0 0 0))\n    (clear)\n    (draw-rectangle* medium 0 0 20 20 :filled t\n                     :ink (compose-in (make-opacity 1/2) (make-rectangle* 4 4 12 12)))\n    (check-pixel surface 6 6 '(0 255 0 128))\n    (clear)\n    (draw-rectangle* medium 0 0 20 20 :filled t\n                     :transformation (make-translation-transformation 3 2)\n                     :ink (make-rectangular-tile\n                           (make-pattern #2A((0 1)) (vector red blue)) 2 1))\n    (check-pixel surface 4 4 '(255 0 0 255))\n    (check-pixel surface 5 4 '(0 0 255 255))\n    (check-pixel surface 2 4 '(0 0 0 0))\n    ;; Text positioning changes the Canvas transform internally. The design\n    ;; must still use drawing-plane coordinates, exactly like explicit clipping.\n    (clear)\n    (let ((box (make-rectangle* 4 4 12 12)))\n      ;; Use white for the reference coverage: Canvas text antialiasing can\n      ;; depend on ink luminance, and the composite path uses a white mask.\n      (draw-text* medium \"M\" 3 15 :text-size 16 :ink +white+ :clipping-region box)\n      (let ((reference (loop for y below 20 append\n                             (loop for x below 20\n                                   for alpha = (fourth (pixel surface x y))\n                                   collect (if (zerop alpha) '(0 0 0 0)\n                                               (list 255 0 0 alpha))))))\n        (assert (some (lambda (rgba) (plusp (fourth rgba))) reference))\n        (clear)\n        (draw-text* medium \"M\" 3 15 :text-size 16 :ink (compose-in red box))\n        (assert (equal reference (loop for y below 20 append\n                                       (loop for x below 20 collect (pixel surface x y)))))\n        (incf *checks*)))\n    (clear)\n    ;; Drei redisplay can retain zero-width/height bands alongside valid ones.\n    ;; MAP-OVER-REGION-SET-REGIONS returns +NOWHERE+ for those empty components.\n    (let ((region (make-instance 'climi::standard-rectangle-set\n                    :bands '((1 3 9) (6) (8 1 1) (8) (10 1 1) (10)))))\n      (assert (member +nowhere+ (region-set-regions region)))\n      (draw-rectangle* medium 0 0 20 20 :filled t :ink blue :clipping-region region)\n      (check-pixel surface 4 2 '(0 0 255 255))\n      (check-pixel surface 1 8 '(0 0 0 0))\n      (check-pixel surface 14 14 '(0 0 0 0)))\n    (clear)\n    (setf (medium-clipping-region medium) +nowhere+)\n    (fill-red)\n    (check-pixel surface 8 8 '(0 0 0 0))))\n(format t \"~&MCCLIM-CANVAS-CHECKS-PASS ~D~%\" *checks*)\n(values :passed *checks*)\n"
+  },
+  "restored": {
+    "scope": "Only corrected canvas-design-surface reloaded; all four fixtures rerun for183checks",
+    "observation": {
+      "file": "/tmp/valtan-stencil-restore-checks.lisp",
+      "id": 9003,
+      "sourceSha256": "2e4baef15699445454a244e02d84197515a0a74195fd1be65a1c89024ff04578",
+      "startedAt": "2026-11-11T11:06:40.266Z",
+      "status": "passed",
+      "evaluationStartedAt": "2026-11-11T11:06:40.325Z",
+      "lastLog": "MCCLIM-FLIPPING-CHECKS-PASS 12",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9003,
+        "ok": true,
+        "value": "(:PASSED 183)"
+      },
+      "finishedAt": "2026-11-11T11:06:58.517Z"
+    }
+  },
+  "driver": {
+    "rerunCommand": "cd tests && npm run test:mcclim:bezier:canvas -- --flipping",
+    "combinedFixtureSha256": "9b69b0af934c3412897ab33ffb3f336dcaad60f5ca867c8ad681bfa6403ba5ba",
+    "exactlyMatchesFreshEvaluationSource": true,
+    "verifiedFlagCounts": {
+      "default": 86,
+      "flipping": 98,
+      "bezier": 171,
+      "bezierAndFlipping": 183
+    },
+    "checks": [
+      "node --check tests/mcclim/canvas.mjs",
+      "All flag combinations prepare their expected counts; unknown flag rejected; combined generated fixture exactly matches cold evaluation9001 byte-for-byte"
+    ]
+  },
+  "workerDisposition": "Retained after restoration for subsequent McCLIM work. Original driver remains stopped; do not resume its obsolete fixture."
+}

@@ -326,11 +326,11 @@ and spatial inks, including ordinary region intersections and complements.
 Curves have zero area as a mask while retaining their stroked drawing behavior.
 
 `npm run test:mcclim:bezier:canvas` starts a fresh browser, runs the existing
-72 Canvas checks, and adds 45 Bezier pixel checks for curves, dashes, areas,
+86 Canvas checks, and adds 45 Bezier pixel checks for curves, dashes, areas,
 opposite-winding unions, differences, opacity, transforms, clipping, patterned
 and composite inks, flipping, and moved output-record replay. Another 40 pixel
-checks cover Bezier clipping and spatial inks, for 157 checks in total.
-These [157 checks pass in a retained browser](../tests/mcclim/bezier-region-results.json)
+checks cover Bezier clipping and spatial inks, for 171 checks in total.
+The earlier [157-check gate passes in a retained browser](../tests/mcclim/bezier-region-results.json)
 after reloading `HOST-CALL` to establish the single JavaScript return value.
 Without that boundary, CLOS method combination observed stale multiple values
 instead of the empty curve's Canvas surface. The report retains the original
@@ -360,6 +360,17 @@ All 69 also pass after a fresh McCLIM startup, without backend reloads; the
 [cold-start report](../tests/mcclim/canvas-cold-results.json) records the source
 hash, bundle and completed evaluation.
 
+Stencil masks now use opaque black foreground and background, independently of
+the medium's drawing designs, as required for `COMPOSE-IN` and `COMPOSE-OUT`.
+Fourteen additional pixel checks cover a translucent foreground, indirect inks
+in pattern palettes, nested masks and transformations. The combined command
+`npm run test:mcclim:bezier:canvas -- --flipping` runs all 183 Canvas, Bezier and
+solid-flipping checks. They [pass after a fresh startup](../tests/mcclim/stencil-results.json).
+Reloading the old renderer reproduces an incorrect alpha of 128 instead of 255;
+restoring the correction passes all 183 again. This browser snapshot includes
+the slot lookup optimization but predates the later required-argument-class and
+JavaScript call-forwarding changes; the report records each validation scope.
+
 Solid flipping inks exchange their two designs and restore the original pixels
 when the same geometry is drawn twice, including antialiased text and circles.
 This uses an opaque-pixel XOR operation with binary shape coverage; partially
@@ -367,8 +378,8 @@ transparent destination pixels and nonsolid design samples are left unchanged.
 The real CLIM gate checks foreground/background inks, explicit colors, tiled
 designs and Boolean clipping. Its 12 new checks and all 69 existing Canvas checks
 [pass after backend reloads](../tests/mcclim/flipping-live-results.json).
-`npm run test:mcclim:flipping` runs all 81 checks from a fresh startup; all 81 now
-[pass in that gate](../tests/mcclim/flipping-cold-results.json). That snapshot
+`npm run test:mcclim:flipping` now runs 98 checks from a fresh startup. The earlier
+81-check snapshot [passes in that gate](../tests/mcclim/flipping-cold-results.json). That snapshot
 predates the subsequent queue-order and editing-key fixes. The separate host/transport gate also
 [passes all seven tests](../tests/mcclim/input-flipping-transport-results.json).
 

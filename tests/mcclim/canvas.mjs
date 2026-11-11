@@ -10,19 +10,19 @@ const here=path.dirname(fileURLToPath(import.meta.url));
 const args=process.argv.slice(2),flipping=args.includes('--flipping'),bezier=args.includes('--bezier');
 if(flipping)args.splice(args.indexOf('--flipping'),1);
 if(bezier)args.splice(args.indexOf('--bezier'),1);
-if(args.length>1 || (flipping && bezier))throw Error('Usage: canvas.mjs [--flipping | --bezier] [report.json]');
-const output=path.resolve(args[0]??`/tmp/valtan-mcclim-${flipping?'flipping':bezier?'bezier-canvas':'canvas'}.json`);
+if(args.length>1 || args.some(arg=>arg.startsWith('--')))
+  throw Error('Usage: canvas.mjs [--flipping] [--bezier] [report.json]');
+const output=path.resolve(args[0]??`/tmp/valtan-mcclim-${bezier&&flipping?'bezier-flipping':flipping?'flipping':bezier?'bezier-canvas':'canvas'}.json`);
 const fixture=fs.readFileSync(path.join(here,'canvas-checks.lisp'),'utf8')+
-  (flipping?'\n'+fs.readFileSync(path.join(here,'flipping-checks.lisp'),'utf8')+
-    '\n(values :passed (+ valtan-canvas-checks::*checks* mcclim-flipping-checks::*checks*))\n':'')+
   (bezier?'\n'+fs.readFileSync(path.join(here,'bezier-canvas-checks.lisp'),'utf8')+
-    '\n'+fs.readFileSync(path.join(here,'bezier-region-checks.lisp'),'utf8')+
-    '\n(values :passed (+ valtan-canvas-checks::*checks* valtan-bezier-canvas-checks::*checks* valtan-bezier-canvas-checks::*region-checks*))\n':'');
-const expectedChecks=flipping?84:bezier?157:72;
+    '\n'+fs.readFileSync(path.join(here,'bezier-region-checks.lisp'),'utf8'):'')+
+  (flipping?'\n'+fs.readFileSync(path.join(here,'flipping-checks.lisp'),'utf8'):'')+
+  `\n(values :passed (+ valtan-canvas-checks::*checks*${bezier?' valtan-bezier-canvas-checks::*checks* valtan-bezier-canvas-checks::*region-checks*':''}${flipping?' mcclim-flipping-checks::*checks*':''}))\n`;
+const expectedChecks=86+(flipping?12:0)+(bezier?85:0);
 const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-canvas-checks-'));
 const fixtureFile=path.join(snapshot,'checks.lisp');fs.writeFileSync(fixtureFile,fixture);
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),
-  scope:`Real upstream CLIM pattern, clipping and composite-design pixel assertions${flipping?', plus solid flipping designs':bezier?', plus Bezier curves, areas, unions, differences and output replay':''} in Chrome; not full McCLIM compatibility`,
+  scope:`Real upstream CLIM pattern, clipping and composite-design pixel assertions${bezier?', plus Bezier curves, areas, unions, differences and output replay':''}${flipping?', plus solid flipping designs':''} in Chrome; not full McCLIM compatibility`,
   expectedChecks,
   checksSha256:hash(fixture)};
 const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
