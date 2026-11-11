@@ -340,7 +340,7 @@ Curves have zero area as a mask while retaining their stroked drawing behavior.
 86 Canvas checks, and adds 45 Bezier pixel checks for curves, dashes, areas,
 opposite-winding unions, differences, opacity, transforms, clipping, patterned
 and composite inks, flipping, and moved output-record replay. Another 40 pixel
-checks cover Bezier clipping and spatial inks, for 171 checks in total.
+checks cover Bezier clipping and spatial inks, for 224 checks in total including the 53 pixmap-copy checks below.
 The earlier [157-check gate passes in a retained browser](../tests/mcclim/bezier-region-results.json)
 after reloading `HOST-CALL` to establish the single JavaScript return value.
 Without that boundary, CLOS method combination observed stale multiple values
@@ -389,7 +389,7 @@ transparent destination pixels and nonsolid design samples are left unchanged.
 The real CLIM gate checks foreground/background inks, explicit colors, tiled
 designs and Boolean clipping. Its 12 new checks and all 69 existing Canvas checks
 [pass after backend reloads](../tests/mcclim/flipping-live-results.json).
-`npm run test:mcclim:flipping` now runs 152 checks from a fresh startup. The earlier
+`npm run test:mcclim:flipping` now runs 205 checks from a fresh startup. The earlier
 81-check snapshot [passes in that gate](../tests/mcclim/flipping-cold-results.json). That snapshot
 predates the subsequent queue-order and editing-key fixes. The separate host/transport gate also
 [passes all seven tests](../tests/mcclim/input-flipping-transport-results.json).
@@ -407,6 +407,17 @@ including the required-argument and JavaScript call-forwarding changes. That
 snapshot predates PNG writing, the native VALUES-LIST optimization and the later
 pixmap-copy fixes. Nonsolid flipping inputs and
 fractional flipping coverage remain outside the verified scope.
+
+Pixmap copies now replace pixel values, including transparency, and respect the
+destination's clipping region and native coordinates. Copies within one medium
+transform both positions before rebinding its transformation, so translated
+scroll/copy operations reach the correct destination. Overlapping regions use a
+source snapshot. Allocation reports the actual rounded surface dimensions, and
+deallocation releases the backing pixels. The [pixmap report](../tests/mcclim/pixmap-results.json)
+records 53 new checks and all 290 combined Canvas/Bezier/flipping checks passing
+in the retained worker, plus a fresh host-module test of fractional clipping and
+Canvas-state independence. The combined Canvas command now expects 290 checks;
+its fresh full McCLIM startup result is still pending.
 
 `npm run test:mcclim:gadgets` exercises upstream text fields, toggles and sliders
 through Chrome input in a nested frame event loop. The browser queue drains

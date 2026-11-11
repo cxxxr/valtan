@@ -1,0 +1,160 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T12:03:49.874081+00:00",
+  "scope": "Real McCLIM pixel-copy/pixmap operations after reloading the browser host copy function and Lisp medium. 53 new assertions plus all237 existing drawing assertions. Fresh-start290 gate remains pending.",
+  "sourceHashes": {
+    "library/mcclim-browser/host.mjs": "35f440e2407dc72a5ba44687b55687a12e33182b4809daab8311e239becb2174",
+    "library/mcclim-browser/medium.lisp": "463914391c8798a8016e2e5560f3559d90709168085877cc9591165f41c5c293",
+    "tests/mcclim/canvas.mjs": "43705951f5869c23d42d5b2a2bb1f2634e81bbb775e8712ec64d3b58d5b6aaaf",
+    "tests/mcclim/pixmap-checks.lisp": "8f1537607e5fb00e429af9d4d6ed3928cad95d72defc87e43517ab4a640c56c9",
+    "tests/mcclim/canvas-pattern.test.mjs": "e913407779fb3f897393b8bd23cbba839d35bb13b73261f6abc61557077ab745"
+  },
+  "baseline": {
+    "basicCalls": {
+      "file": "/tmp/valtan-pixmap-probe.lisp",
+      "id": 9017,
+      "sourceSha256": "3c935fd14aeefcda20e040d8b5d8300275eecec0e77e0e95fbf73aa714612fb6",
+      "startedAt": "2026-11-11T11:54:03.938Z",
+      "status": "passed",
+      "evaluationStartedAt": "2026-11-11T11:54:03.995Z",
+      "lastLog": "MCCLIM-PNG-WRITE-CHECKS-PASS 44",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9017,
+        "ok": true,
+        "value": "((:COPIED :COPIED))"
+      },
+      "finishedAt": "2026-11-11T11:54:05.159Z"
+    },
+    "pixelObservations": {
+      "file": "/tmp/valtan-pixmap-pixels-before.lisp",
+      "id": 9018,
+      "sourceSha256": "85167acd4ec6fbed41f84c7dac371a0568375994d93541ec10e646b62de8b623",
+      "startedAt": "2026-11-11T11:54:49.950Z",
+      "status": "passed",
+      "evaluationStartedAt": "2026-11-11T11:54:50.004Z",
+      "lastLog": "MCCLIM-PNG-WRITE-CHECKS-PASS 44",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9018,
+        "ok": true,
+        "value": "((:TRANSPARENT-COPY (0 0 255 255) :OUTSIDE-CLIP (255 0 0 255) :TRANSLATED-DESTINATION (0 0 255 255) :UNEXPECTED-WRITE (255 0 0 255)))"
+      },
+      "finishedAt": "2026-11-11T11:54:51.167Z"
+    },
+    "expected": {
+      "transparentCopy": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "outsideClip": [
+        0,
+        0,
+        255,
+        255
+      ],
+      "translatedDestination": [
+        255,
+        0,
+        0,
+        255
+      ],
+      "unexpectedWrite": [
+        0,
+        0,
+        255,
+        255
+      ]
+    },
+    "diagnosis": "Copy methods already existed via MACROLET. The host used source-over drawImage, omitted destination clipping/native transforms, and the upstream nested around methods lost the destination user transform for copies within one medium."
+  },
+  "reload": {
+    "file": "/tmp/valtan-pixmap-reload.lisp",
+    "id": 9019,
+    "sourceSha256": "90c82078cb49b8f09a7630d201de5ec30e8587e3661290070d9621faa9dda6f7",
+    "startedAt": "2026-11-11T11:55:51.786Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T11:55:51.831Z",
+    "lastLog": "MCCLIM-PNG-WRITE-CHECKS-PASS 44",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9019,
+      "ok": true,
+      "value": "((:TRANSPARENT-COPY (0 0 0 0) :OUTSIDE-CLIP (0 0 255 255) :TRANSLATED-DESTINATION (255 0 0 255) :UNEXPECTED-WRITE (0 0 255 255)))"
+    },
+    "finishedAt": "2026-11-11T11:56:02.501Z"
+  },
+  "newChecks": {
+    "file": "tests/mcclim/pixmap-checks.lisp",
+    "id": 9022,
+    "sourceSha256": "c2f42f441ed63aec91972fb1ed5438d1f03c552313f24ec9eb56ed82be4c8d0c",
+    "startedAt": "2026-11-11T11:58:53.921Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T11:58:53.979Z",
+    "lastLog": "MCCLIM-PIXMAP-CHECKS-PASS 53",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9022,
+      "ok": true,
+      "value": "(:PASSED 53)"
+    },
+    "finishedAt": "2026-11-11T11:58:59.373Z"
+  },
+  "combined": {
+    "file": "/tmp/valtan-pixmap-all-checks.lisp",
+    "id": 9023,
+    "sourceSha256": "fbd41c0e4ae9824461bd10c20352186133847de1482844a2add63e95329b6202",
+    "startedAt": "2026-11-11T12:01:07.185Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T12:01:07.239Z",
+    "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9023,
+      "ok": true,
+      "value": "(:PASSED 290)"
+    },
+    "finishedAt": "2026-11-11T12:01:33.931Z"
+  },
+  "hostModuleCheck": {
+    "command": "node --test tests/mcclim/canvas-pattern.test.mjs",
+    "status": "passed",
+    "tests": 1,
+    "scope": "Existing pattern/flipping contracts plus fractional-alpha pixel copying, full transparency, zero clipping coverage, dirty state, and independence from residual Canvas transforms, clips and globalAlpha."
+  },
+  "fixtureRefinement": "WITH-OUTPUT-TO-PIXMAP delegates to upstream MEDIUM-CLEAR-AREA, which initializes an opaque black background even with transparent medium background. The final fixture explicitly paints its background rather than assuming unspecified initial contents. No production change was made for that assumption.",
+  "runtimeScope": "Retained 5c2fb35 core with previously recorded composite-flipping/PNG backend reloads and 85f16ce native VALUES-LIST installed in evaluation9015. Current copy implementation loaded in9019. No fresh current-tree claim.",
+  "driver": {
+    "command": "cd tests && npm run test:mcclim:bezier:canvas -- --flipping",
+    "expectedCounts": {
+      "default": 139,
+      "flipping": 205,
+      "bezier": 224,
+      "bezierAndFlipping": 290
+    },
+    "combinedFixtureSha256": "fbd41c0e4ae9824461bd10c20352186133847de1482844a2add63e95329b6202",
+    "freshRun": {
+      "status": "running",
+      "complete": false,
+      "startedAt": "2026-11-11T12:01:20.227Z",
+      "scope": "Real upstream CLIM pattern, clipping and composite-design pixel assertions, plus Bezier curves, areas, unions, differences and output replay, plus solid flipping designs in Chrome; not full McCLIM compatibility",
+      "expectedChecks": 290,
+      "checksSha256": "fbd41c0e4ae9824461bd10c20352186133847de1482844a2add63e95329b6202",
+      "work": "/tmp/valtan-mcclim-workbench-pFnUWX"
+    }
+  },
+  "limitations": [
+    "Fresh current-tree startup validation is pending.",
+    "Synthetic native-origin media exercise the same native-coordinate protocol; this does not establish all platform window-management behavior.",
+    "Other full McCLIM gaps, including thread-dependent tests, remain."
+  ]
+}

@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 import {launchChrome} from './chrome.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../..');
 
-test('Canvas preserves patterns and implements reversible solid-design flipping',async()=>{
+test('Canvas preserves patterns, reversible flipping and clipped pixel copies',async()=>{
   const server=http.createServer((request,response)=>{
     if(request.url==='/'){response.setHeader('Content-Type','text/html');response.end('<!doctype html><title>Canvas pattern test</title>');return;}
     const filename={'/host.mjs':'host.mjs','/event-queue.mjs':'event-queue.mjs','/pointer.mjs':'pointer.mjs'}[request.url];
@@ -76,6 +76,26 @@ test('Canvas preserves patterns and implements reversible solid-design flipping'
     assert.deepEqual(flipping.samples,[blue,red,[0xed,0x34,0xa9,255],[255,0,255,255],red,blue]);
     assert.equal(flipping.changed,true);assert.equal(flipping.partialAlphaPreserved,true);
     assert.equal(flipping.restored,true);assert.equal(flipping.equalUnchanged,true);assert.equal(flipping.dirty,true);
+    const copied=await page.evaluate(`(async()=>{
+      const {copyCanvasArea}=await import('/host.mjs');
+      const surface=()=>{const canvas=new OffscreenCanvas(4,1);return {canvas,context:canvas.getContext('2d')};};
+      const source=surface(),destination=surface(),mask=surface();
+      const image=source.context.createImageData(4,1);
+      image.data.set([255,0,0,128, 0,0,0,0, 255,0,0,255, 0,255,0,255]);
+      source.context.putImageData(image,0,0);
+      destination.context.fillStyle='blue';destination.context.fillRect(0,0,4,1);
+      image.data.set([0,0,0,128, 0,0,0,255, 0,0,0,0, 0,0,0,255]);
+      mask.context.putImageData(image,0,0);
+      // Residual Canvas state must not transform, clip or composite the copy.
+      destination.context.translate(10,10);destination.context.globalAlpha=.1;
+      destination.context.beginPath();destination.context.rect(0,0,0,0);destination.context.clip();
+      copyCanvasArea(source,0,0,4,1,destination,0,0,mask);
+      return {pixels:Array.from(destination.context.getImageData(0,0,4,1).data),dirty:destination.dirty,
+        transform:destination.context.getTransform().e,alpha:destination.context.globalAlpha};
+    })()`);
+    const expected=[86,0,169,191, ...clear, ...blue, ...green];
+    copied.pixels.forEach((value,i)=>assert.ok(Math.abs(value-expected[i])<=(i<3?1:0),`copy channel ${i}`));
+    assert.equal(copied.dirty,true);assert.equal(copied.transform,10);assert.equal(copied.alpha,.1);
   }finally{
     await chrome?.close();server.closeAllConnections();await new Promise(resolve=>server.close(resolve));
   }

@@ -14,12 +14,13 @@ if(args.length>1 || args.some(arg=>arg.startsWith('--')))
   throw Error('Usage: canvas.mjs [--flipping] [--bezier] [report.json]');
 const output=path.resolve(args[0]??`/tmp/valtan-mcclim-${bezier&&flipping?'bezier-flipping':flipping?'flipping':bezier?'bezier-canvas':'canvas'}.json`);
 const fixture=fs.readFileSync(path.join(here,'canvas-checks.lisp'),'utf8')+
+  '\n'+fs.readFileSync(path.join(here,'pixmap-checks.lisp'),'utf8')+
   (bezier?'\n'+fs.readFileSync(path.join(here,'bezier-canvas-checks.lisp'),'utf8')+
     '\n'+fs.readFileSync(path.join(here,'bezier-region-checks.lisp'),'utf8'):'')+
   (flipping?'\n'+fs.readFileSync(path.join(here,'flipping-checks.lisp'),'utf8')+
     '\n'+fs.readFileSync(path.join(here,'composite-flipping-checks.lisp'),'utf8'):'')+
-  `\n(values :passed (+ valtan-canvas-checks::*checks*${bezier?' valtan-bezier-canvas-checks::*checks* valtan-bezier-canvas-checks::*region-checks*':''}${flipping?' mcclim-flipping-checks::*checks* mcclim-composite-flipping-checks::*checks*':''}))\n`;
-const expectedChecks=86+(flipping?12+54:0)+(bezier?85:0);
+  `\n(values :passed (+ valtan-canvas-checks::*checks* mcclim-pixmap-checks::*checks*${bezier?' valtan-bezier-canvas-checks::*checks* valtan-bezier-canvas-checks::*region-checks*':''}${flipping?' mcclim-flipping-checks::*checks* mcclim-composite-flipping-checks::*checks*':''}))\n`;
+const expectedChecks=86+53+(flipping?12+54:0)+(bezier?85:0);
 const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-canvas-checks-'));
 const fixtureFile=path.join(snapshot,'checks.lisp');fs.writeFileSync(fixtureFile,fixture);
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),

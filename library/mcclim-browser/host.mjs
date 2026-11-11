@@ -43,12 +43,8 @@ export function createCanvasHost(buffer, send = (...args) => postMessage(...args
       const canvas = new OffscreenCanvas(Math.max(1, Math.ceil(width)), Math.max(1, Math.ceil(height)));
       return {canvas, context: canvas.getContext('2d')};
     },
-    copyArea: (source, sx, sy, width, height, destination, dx, dy) => {
-      destination.context.save();
-      destination.context.resetTransform();
-      destination.context.drawImage(source.canvas, sx, sy, width, height, dx, dy, width, height);
-      destination.context.restore(); destination.dirty = true;
-    },
+    copyArea: copyCanvasArea,
+    releaseSurface: surface => {surface.canvas.width=0;surface.canvas.height=0;},
     flush: () => {for (const window of windows.values()) if (window.dirty) present(window);},
     nextEvent: timeout => events.take(timeout == null ? Infinity : Number(timeout)),
     getWindow: id => windows.get(Number(id)),
@@ -91,6 +87,29 @@ export function createCanvasHost(buffer, send = (...args) => postMessage(...args
     error: error => send({type: 'error', message: String(error?.stack ?? error)}),
   };
   return host;
+}
+
+// Copy pixel values, including transparent pixels, rather than compositing ink.
+// Snapshot the source first so overlapping copies behave like a temporary pixmap.
+export function copyCanvasArea(source,sx,sy,width,height,destination,dx,dy,clip=null) {
+  const left=Math.max(0,-sx,-dx),top=Math.max(0,-sy,-dy);
+  const right=Math.min(width,source.canvas.width-sx,destination.canvas.width-dx);
+  const bottom=Math.min(height,source.canvas.height-sy,destination.canvas.height-dy);
+  width=right-left;height=bottom-top;
+  if(width<=0 || height<=0)return;
+  sx+=left;sy+=top;dx+=left;dy+=top;
+  const input=source.context.getImageData(sx,sy,width,height);
+  if(!clip){destination.context.putImageData(input,dx,dy);destination.dirty=true;return;}
+  const output=destination.context.getImageData(dx,dy,width,height),data=output.data;
+  const mask=clip.context.getImageData(dx,dy,width,height).data,pixels=input.data;
+  for(let i=0;i<data.length;i+=4){
+    const weight=mask[i+3]/255;
+    if(!weight)continue;
+    const alpha=pixels[i+3]*weight+data[i+3]*(1-weight);
+    for(let c=0;c<3;c++)data[i+c]=alpha?(pixels[i+c]*pixels[i+3]*weight+data[i+c]*data[i+3]*(1-weight))/alpha:0;
+    data[i+3]=alpha;
+  }
+  destination.context.putImageData(output,dx,dy);destination.dirty=true;
 }
 
 // Flipping inks exchange two solid designs and must be an involution. Canvas

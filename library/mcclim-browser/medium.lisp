@@ -7,9 +7,13 @@
    (height :initarg :height :reader pixmap-height)))
 (defmethod pixmap-depth ((pixmap browser-pixmap)) 32)
 (defmethod allocate-pixmap ((medium browser-medium) width height)
-  (make-instance 'browser-pixmap :width width :height height
-                 :surface (host-call "createSurface" width height)))
-(defmethod deallocate-pixmap ((pixmap browser-pixmap)) nil)
+  (let ((width (max 1 (ceiling width))) (height (max 1 (ceiling height))))
+    (make-instance 'browser-pixmap :width width :height height
+                   :surface (host-call "createSurface" width height))))
+(defmethod deallocate-pixmap ((pixmap browser-pixmap))
+  (when (pixmap-surface pixmap)
+    (host-call "releaseSurface" (pixmap-surface pixmap))
+    (setf (slot-value pixmap 'surface) nil)))
 (defun canvas-surface (drawable)
   (typecase drawable
     (browser-medium (canvas-surface (medium-drawable drawable)))
@@ -455,11 +459,40 @@
 (defmethod medium-force-output ((medium browser-medium)) (port-force-output (port medium)))
 (defmethod medium-finish-output ((medium browser-medium)) (port-force-output (port medium)))
 
+(defmethod medium-copy-area :around ((source browser-medium) sx sy width height
+                                    (destination browser-medium) dx dy)
+  ;; Compute both positions before rebinding either transformation. Otherwise
+  ;; the upstream nested bindings miss the destination transform when copying
+  ;; within one medium. Extents describe pixels and are not scaled.
+  (let ((source-transformation (medium-transformation source))
+        (destination-transformation (medium-transformation destination)))
+    (multiple-value-bind (sx sy) (transform-position source-transformation sx sy)
+      (multiple-value-bind (dx dy) (transform-position destination-transformation dx dy)
+        (unwind-protect
+             (progn
+               (setf (medium-transformation source) +identity-transformation+
+                     (medium-transformation destination) +identity-transformation+)
+               (call-next-method source sx sy width height destination dx dy))
+          (setf (medium-transformation source) source-transformation
+                (medium-transformation destination) destination-transformation))))))
+
+(defun canvas-copy-area (source sx sy width height destination dx dy)
+  (let ((input (canvas-surface source)) (output (canvas-surface destination)))
+    (when (and input output)
+      (when (typep source 'browser-medium)
+        (multiple-value-setq (sx sy) (transform-position (medium-native-transformation source) sx sy)))
+      (when (typep destination 'browser-medium)
+        (multiple-value-setq (dx dy) (transform-position (medium-native-transformation destination) dx dy)))
+      (let* ((clip (if (typep destination 'browser-medium) (medium-device-region destination) +everywhere+))
+             (canvas (property output "canvas"))
+             (mask (unless (eq clip +everywhere+)
+                     (canvas-region-mask clip (property canvas "width") (property canvas "height")))))
+        (host-call "copyArea" input (round sx) (round sy) (round width) (round height)
+                   output (round dx) (round dy) (or mask (ffi:ref "null")))))))
+
 (macrolet ((copy-method (from to)
              `(defmethod medium-copy-area ((source ,from) sx sy width height (destination ,to) dx dy)
-                (when (and (canvas-surface source) (canvas-surface destination))
-                  (host-call "copyArea" (canvas-surface source) sx sy width height
-                             (canvas-surface destination) dx dy)))))
+                (canvas-copy-area source sx sy width height destination dx dy))))
   (copy-method browser-medium browser-medium)
   (copy-method browser-medium browser-pixmap)
   (copy-method browser-pixmap browser-medium)
