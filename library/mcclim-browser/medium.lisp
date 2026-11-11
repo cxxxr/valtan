@@ -203,6 +203,91 @@
         ((climi::indirect-ink-p ink) (canvas-flipping-design medium (climi::indirect-ink-ink ink)))
         ((typep ink 'climi::standard-flipping-ink) ink)))
 
+(defun canvas-design-flipping-p (medium design &optional stencil-p)
+  (flet ((contains-flipping (ink) (canvas-design-flipping-p medium ink stencil-p)))
+    (cond ((eq design +foreground-ink+)
+           (and (not stencil-p) (contains-flipping (medium-foreground medium))))
+          ((eq design +background-ink+)
+           (and (not stencil-p) (contains-flipping (medium-background medium))))
+          ((climi::indirect-ink-p design) (contains-flipping (climi::indirect-ink-ink design)))
+          ((typep design 'climi::standard-flipping-ink) t)
+          ((typep design '(or color opacity climi::uniform-compositum)) nil)
+          ((typep design 'climi::indexed-pattern)
+           (some #'contains-flipping (climi::pattern-designs design)))
+          ((typep design 'clime:rectangular-tile)
+           (contains-flipping (climi::rectangular-tile-design design)))
+          ((typep design 'climi::transformed-design)
+           (contains-flipping (climi::transformed-design-design design)))
+          ((typep design 'climi::masked-compositum)
+           (or (contains-flipping (climi::compositum-ink design))
+               (canvas-design-flipping-p medium (climi::compositum-mask design) t)))
+          ((typep design 'climi::over-compositum)
+           (or (contains-flipping (climi::compositum-foreground design))
+               (contains-flipping (climi::compositum-background design))))
+          ((typep design 'region)
+           (and (not stencil-p) (contains-flipping (medium-foreground medium)))))))
+
+(defun canvas-design-inverse-matrix (transformation)
+  (multiple-value-bind (xx xy yx yy tx ty) (climi::get-transformation (invert-transformation transformation))
+    (ffi:array xx yx xy yy tx ty)))
+
+(defun canvas-stencil-surface (medium design width height transformation)
+  (if (canvas-design-flipping-p medium design t)
+      (host-call "designStencil" (canvas-design-operation medium design width height transformation t)
+                 width height)
+      (canvas-design-surface medium design width height transformation t)))
+
+(defun canvas-design-operation (medium design width height transformation &optional stencil-p)
+  (let ((climi::*foreground-ink* (if stencil-p +black+ (medium-foreground medium)))
+        (climi::*background-ink* (if stencil-p +black+ (medium-background medium))))
+    (labels ((operation (ink &optional (w width) (h height) (tr transformation))
+               (canvas-design-operation medium ink w h tr stencil-p))
+             (surface (ink)
+               (canvas-design-surface medium ink width height transformation stencil-p)))
+      (cond ((eq design +foreground-ink+) (operation climi::*foreground-ink*))
+            ((eq design +background-ink+) (operation climi::*background-ink*))
+            ((climi::indirect-ink-p design) (operation (climi::indirect-ink-ink design)))
+            ((not (canvas-design-flipping-p medium design stencil-p))
+             (ffi:object :operation (ffi:cl->js "paint") :surface (surface design)))
+            ((typep design 'climi::standard-flipping-ink)
+             (ffi:object :operation (ffi:cl->js "flip")
+                         :first (surface (climi::flipping-ink-design1 design))
+                         :second (surface (climi::flipping-ink-design2 design))))
+            ((typep design 'climi::transformed-design)
+             (operation (climi::transformed-design-design design) width height
+                        (compose-transformations transformation (climi::transformed-design-transformation design))))
+            ((typep design 'climi::indexed-pattern)
+             (let* ((array (climi::pattern-array design))
+                    (w (pattern-width design)) (h (pattern-height design))
+                    (indices (make-array (* w h))))
+               (dotimes (i (length indices)) (setf (aref indices i) (row-major-aref array i)))
+               (ffi:object :operation (ffi:cl->js "indexed") :width w :height h
+                           :matrix (canvas-design-inverse-matrix transformation)
+                           :indices (ffi:cl->js indices)
+                           :palette (apply #'ffi:array
+                                           (map 'list (lambda (ink) (operation ink w h +identity-transformation+))
+                                                (climi::pattern-designs design))))))
+            ((typep design 'clime:rectangular-tile)
+             (let ((w (ceiling (pattern-width design))) (h (ceiling (pattern-height design))))
+               (ffi:object :operation (ffi:cl->js "tile") :width w :height h
+                           :matrix (canvas-design-inverse-matrix transformation)
+                           :ink (operation (climi::rectangular-tile-design design) w h +identity-transformation+))))
+            ((typep design 'climi::masked-compositum)
+             (ffi:object :operation (ffi:cl->js "mask")
+                         :ink (operation (climi::compositum-ink design))
+                         :mask (canvas-stencil-surface medium (climi::compositum-mask design) width height transformation)
+                         :outside (if (typep design 'climi::out-compositum) (ffi:ref "true") (ffi:ref "false"))))
+            ((typep design 'climi::over-compositum)
+             (ffi:object :operation (ffi:cl->js "over")
+                         :foreground (operation (climi::compositum-foreground design))
+                         :background (operation (climi::compositum-background design))))
+            ((typep design 'region)
+             (ffi:object :operation (ffi:cl->js "mask")
+                         :ink (operation climi::*foreground-ink*)
+                         :mask (canvas-region-mask (transform-region transformation design) width height)
+                         :outside (ffi:ref "false")))
+            (t (error "Canvas design operation is not supported: ~S" (type-of design)))))))
+
 (defun canvas-design-surface (medium design width height transformation &optional stencil-p)
   ;; Composite the design independently of the shape being drawn. In particular,
   ;; OUT removes pixels from this temporary design, never from existing drawing.
@@ -238,8 +323,8 @@
                     (climi::transformed-design-transformation design))))
           ((typep design 'climi::masked-compositum)
            (combine (render (climi::compositum-ink design))
-                    (canvas-design-surface medium (climi::compositum-mask design)
-                                           width height transformation t)
+                    (canvas-stencil-surface medium (climi::compositum-mask design)
+                                            width height transformation)
                     (if (typep design 'climi::in-compositum)
                         "destination-in" "destination-out")))
           ((typep design 'climi::over-compositum)
@@ -273,8 +358,9 @@
   (when (medium-drawable medium)
     (let ((clip (medium-device-region medium))
           (flipping (canvas-flipping-design medium (medium-ink medium)))
+          (flipping-composite (canvas-design-flipping-p medium (medium-ink medium)))
           (composite (canvas-composite-ink-p (medium-ink medium))))
-      (if (and (not flipping) (not composite) (canvas-direct-clip-p clip))
+      (if (and (not flipping-composite) (not composite) (canvas-direct-clip-p clip))
           (call-with-canvas-state medium function clip)
           (let* ((drawable (medium-drawable medium))
                  (destination (canvas-surface medium))
@@ -285,9 +371,9 @@
             (unwind-protect
                  (progn (setf (medium-drawable medium) layer)
                         (call-with-canvas-state medium function +everywhere+
-                                                (if (or flipping composite) +white+ (medium-ink medium))))
+                                                (if (or flipping-composite composite) +white+ (medium-ink medium))))
               (setf (medium-drawable medium) drawable))
-            (when composite
+            (when (and composite (not flipping-composite))
               ;; CLIM inks are anchored to the drawing plane, independently of
               ;; the drawing-option and sheet transformations. Only an explicit
               ;; TRANSFORM-REGION of the design moves its colors and masks.
@@ -298,13 +384,16 @@
                 (setf layer design)))
             (canvas-set layer "globalCompositeOperation" "destination-in")
             (canvas-call layer "drawImage" (property mask "canvas") 0 0)
-            (if flipping
+            (cond (flipping
                 (host-call "flipArea" destination layer
                            (canvas-design-surface medium (climi::flipping-ink-design1 flipping)
                                                   width height +identity-transformation+)
                            (canvas-design-surface medium (climi::flipping-ink-design2 flipping)
-                                                  width height +identity-transformation+))
-                (progn
+                                                  width height +identity-transformation+)))
+                (flipping-composite
+                 (host-call "paintDesign" destination layer
+                            (canvas-design-operation medium (medium-ink medium) width height +identity-transformation+)))
+                (t
                   (canvas-call destination "save")
                   (unwind-protect
                        (progn

@@ -37,6 +37,8 @@ export function createCanvasHost(buffer, send = (...args) => postMessage(...args
     createWindow, present,
     pattern: makeCanvasPattern,
     flipArea: flipCanvasArea,
+    paintDesign: paintCanvasDesign,
+    designStencil: canvasDesignStencil,
     createSurface: (width, height) => {
       const canvas = new OffscreenCanvas(Math.max(1, Math.ceil(width)), Math.max(1, Math.ceil(height)));
       return {canvas, context: canvas.getContext('2d')};
@@ -108,6 +110,103 @@ export function flipCanvasArea(destination, coverage, first, second) {
   }
   destination.context.putImageData(image,0,0);
   destination.dirty=true;
+}
+
+// A flipping design is an operation on existing pixels, not an RGBA image.
+// Keep that operation through OVER, masks and indexed/tiled patterns. Ordinary
+// subdesigns are still rasterized by Canvas and arrive as paint surfaces.
+function compileCanvasDesign(design) {
+  const sample = surface => {
+    const {width,height}=surface.canvas;
+    const data=surface.context.getImageData(0,0,width,height).data;
+    return (x,y) => {
+      x=Math.floor(x);y=Math.floor(y);
+      return x<0 || y<0 || x>=width || y>=height ? null : data.subarray(4*(y*width+x),4*(y*width+x+1));
+    };
+  };
+  const mix = (color,before,weight) => {
+    const alpha=before[3]*(1-weight)+color[3]*weight;
+    for(let i=0;i<3;i++)color[i]=alpha ? (before[i]*before[3]*(1-weight)+color[i]*color[3]*weight)/alpha : 0;
+    color[3]=alpha;
+  };
+  if(design.operation==='paint'){
+    const pixel=sample(design.surface);
+    return {flipping:false,opacity:(x,y)=>pixel(x,y)?.[3]??0,paint(color,x,y){
+      const source=pixel(x,y);if(!source || !source[3])return;
+      const alpha=source[3]+color[3]*(1-source[3]/255);
+      for(let i=0;i<3;i++)color[i]=(source[i]*source[3]+color[i]*color[3]*(1-source[3]/255))/alpha;
+      color[3]=alpha;
+    }};
+  }
+  if(design.operation==='flip'){
+    const first=sample(design.first),second=sample(design.second);
+    const opaque=(a,b)=>a?.[3]===255 && b?.[3]===255;
+    return {flipping:true,opacity:(x,y)=>opaque(first(x,y),second(x,y))?255:0,paint(color,x,y){
+      const a=first(x,y),b=second(x,y);
+      if(Math.round(color[3])!==255 || !opaque(a,b))return;
+      for(let i=0;i<3;i++)color[i]=Math.round(color[i])^a[i]^b[i];
+    }};
+  }
+  if(design.operation==='over'){
+    const foreground=compileCanvasDesign(design.foreground),background=compileCanvasDesign(design.background);
+    return {flipping:foreground.flipping||background.flipping,
+      opacity(x,y){const a=foreground.opacity(x,y);return a+background.opacity(x,y)*(1-a/255);},
+      paint(color,x,y){background.paint(color,x,y);foreground.paint(color,x,y);}};
+  }
+  if(design.operation==='mask'){
+    const ink=compileCanvasDesign(design.ink),mask=sample(design.mask);
+    const weight=(x,y)=>{const a=(mask(x,y)?.[3]??0)/255;return design.outside?1-a:a;};
+    return {flipping:ink.flipping,opacity:(x,y)=>ink.opacity(x,y)*weight(x,y),paint(color,x,y){
+      let amount=weight(x,y);
+      // Fractional flipping coverage is unspecified by CLIM. The same binary
+      // convention as flipCanvasArea preserves exact twice-drawn restoration.
+      if(ink.flipping)amount=amount>=0.5?1:0;
+      if(!amount)return;
+      const before=color.slice();ink.paint(color,x,y);
+      if(amount!==1)mix(color,before,amount);
+    }};
+  }
+  if(design.operation==='indexed' || design.operation==='tile'){
+    const tile=design.operation==='tile',{width,height,matrix}=design;
+    const children=tile?[compileCanvasDesign(design.ink)]:Array.from(design.palette,compileCanvasDesign);
+    const select=(x,y)=>{
+      const u=matrix[0]*x+matrix[2]*y+matrix[4],v=matrix[1]*x+matrix[3]*y+matrix[5];
+      if(!(width>0 && height>0))return null;
+      x=tile?((u%width)+width)%width:u;y=tile?((v%height)+height)%height:v;
+      if(x<0 || y<0 || x>=width || y>=height)return null;
+      const child=tile?children[0]:children[design.indices[Math.floor(y)*width+Math.floor(x)]];
+      if(!child)throw Error('Invalid indexed design palette entry');
+      return {child,x,y};
+    };
+    return {flipping:children.some(child=>child.flipping),
+      opacity(x,y){const selected=select(x,y);return selected?selected.child.opacity(selected.x,selected.y):0;},
+      paint(color,x,y){const selected=select(x,y);if(selected)selected.child.paint(color,selected.x,selected.y);}};
+  }
+  throw Error(`Unknown Canvas design operation: ${design.operation}`);
+}
+
+export function canvasDesignStencil(design,width,height) {
+  const canvas=new OffscreenCanvas(width,height),context=canvas.getContext('2d');
+  const image=context.createImageData(width,height),operation=compileCanvasDesign(design);
+  for(let y=0;y<height;y++)for(let x=0;x<width;x++)image.data[4*(y*width+x)+3]=operation.opacity(x+0.5,y+0.5);
+  context.putImageData(image,0,0);
+  return {canvas,context};
+}
+
+export function paintCanvasDesign(destination,coverage,design) {
+  const {width,height}=destination.canvas,operation=compileCanvasDesign(design);
+  const image=destination.context.getImageData(0,0,width,height),pixels=image.data;
+  const mask=coverage.context.getImageData(0,0,width,height).data;
+  for(let y=0;y<height;y++)for(let x=0;x<width;x++){
+    const i=4*(y*width+x);
+    const amount=operation.flipping?(mask[i+3]>=128?1:0):mask[i+3]/255;
+    if(!amount)continue;
+    const color=Array.from(pixels.subarray(i,i+4));operation.paint(color,x+0.5,y+0.5);
+    const alpha=pixels[i+3]*(1-amount)+color[3]*amount;
+    for(let c=0;c<3;c++)pixels[i+c]=alpha?(pixels[i+c]*pixels[i+3]*(1-amount)+color[c]*color[3]*amount)/alpha:0;
+    pixels[i+3]=alpha;
+  }
+  destination.context.putImageData(image,0,0);destination.dirty=true;
 }
 
 // CLIM patterns use packed ARGB pixels; Canvas ImageData uses RGBA bytes.

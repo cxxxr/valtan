@@ -364,8 +364,8 @@ Stencil masks now use opaque black foreground and background, independently of
 the medium's drawing designs, as required for `COMPOSE-IN` and `COMPOSE-OUT`.
 Fourteen additional pixel checks cover a translucent foreground, indirect inks
 in pattern palettes, nested masks and transformations. The combined command
-`npm run test:mcclim:bezier:canvas -- --flipping` runs all 183 Canvas, Bezier and
-solid-flipping checks. They [pass after a fresh startup](../tests/mcclim/stencil-results.json).
+`npm run test:mcclim:bezier:canvas -- --flipping` ran 183 Canvas, Bezier and
+solid-flipping checks at that revision. They [pass after a fresh startup](../tests/mcclim/stencil-results.json).
 Reloading the old renderer reproduces an incorrect alpha of 128 instead of 255;
 restoring the correction passes all 183 again. This browser snapshot includes
 the slot lookup optimization but predates the later required-argument-class and
@@ -378,10 +378,22 @@ transparent destination pixels and nonsolid design samples are left unchanged.
 The real CLIM gate checks foreground/background inks, explicit colors, tiled
 designs and Boolean clipping. Its 12 new checks and all 69 existing Canvas checks
 [pass after backend reloads](../tests/mcclim/flipping-live-results.json).
-`npm run test:mcclim:flipping` now runs 98 checks from a fresh startup. The earlier
+`npm run test:mcclim:flipping` now runs 152 checks from a fresh startup. The earlier
 81-check snapshot [passes in that gate](../tests/mcclim/flipping-cold-results.json). That snapshot
 predates the subsequent queue-order and editing-key fixes. The separate host/transport gate also
 [passes all seven tests](../tests/mcclim/input-flipping-transport-results.json).
+
+Flipping operations now survive `COMPOSE-IN`, `COMPOSE-OUT`, `COMPOSE-OVER`,
+transformed designs, indexed palettes and rectangular tiles. A separate operation
+tree preserves access to the destination pixels; stencil evaluation uses the
+source designs' opacity. Fifty-four new assertions cover ordering, masks,
+pattern mutation and phase, transforms, clipping, and exact restoration after
+repeated circle/text drawing. All 237 combined Canvas, Bezier and flipping
+assertions [pass in the retained worker](../tests/mcclim/composite-flipping-results.json)
+after loading the new host functions and Lisp backend. This is a backend-reload
+result on the earlier runtime, not a fresh-start result for the current tree.
+The combined command now expects 237 checks. Nonsolid flipping inputs and
+fractional flipping coverage remain outside the verified scope.
 
 `npm run test:mcclim:gadgets` exercises upstream text fields, toggles and sliders
 through Chrome input in a nested frame event loop. The browser queue drains
@@ -491,7 +503,8 @@ with all 30 independently generated variants also passing native Chrome decoding
 writing or other bitmap formats.
 
 This is an experimental backend, not full McCLIM compatibility. Arbitrary
-nested/nonsolid flipping designs, other bitmap formats, platform window management and the complete
+flipping inks used as inputs to another flipping ink, nonsolid flipping designs,
+other bitmap formats, platform window management and the complete
 upstream test suite are not yet verified. Startup still compiles the dependencies in the browser worker;
 the earlier counter-only end-to-end run took about 22 minutes, including build
 and input checks, before adding the PNG dependencies. There is currently no

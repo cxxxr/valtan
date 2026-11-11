@@ -1,0 +1,135 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T11:27:15.292811+00:00",
+  "scope": "Real upstream CLIM Canvas, Bezier and flipping checks in a retained Chrome worker after explicit host and Lisp backend reloads. This is not a fresh-start result or full McCLIM conformance.",
+  "expectedChecks": 237,
+  "counts": {
+    "canvas": 86,
+    "bezierDrawing": 45,
+    "bezierRegions": 40,
+    "solidFlipping": 12,
+    "compositeFlipping": 54
+  },
+  "sourceHashes": {
+    "library/mcclim-browser/host.mjs": "47f84f8ec71cc18c171ca550004bb19e43e03e2cc31dcb3829d366b18b50288c",
+    "library/mcclim-browser/medium.lisp": "511eb6a01b15579b570c1b510bd41030d77413e62cf0c1f0cb657da8fe27d20c",
+    "tests/mcclim/canvas.mjs": "dbf8d8eb65e5e2c893a2b16b308cef503f22155e1552b876a770c0015af89cc4",
+    "tests/mcclim/composite-flipping-checks.lisp": "2c013195f510cdd0445b7aee0e2fd2a948616f480da8638f8a766ba36c5984c3"
+  },
+  "runtimeScope": "Retained browser from stencil-results.json, core snapshot includes 5c2fb35, predates 61baebe and de706b2. Host functions and entire medium.lisp explicitly reloaded in evaluation 9005.",
+  "baseline": {
+    "scope": "All four actual draw attempts failed; outer evaluation reports ok because HANDLER-CASE collects the errors.",
+    "observation": {
+      "file": "/tmp/valtan-composite-flipping-probe.lisp",
+      "id": 9004,
+      "sourceSha256": "0aeba94864b4973f2f675d9f814e2daeccd3e9466f7310e64042f819bfea5516",
+      "startedAt": "2026-11-11T11:10:16.101Z",
+      "status": "passed",
+      "evaluationStartedAt": "2026-11-11T11:10:16.158Z",
+      "lastLog": "MCCLIM-FLIPPING-CHECKS-PASS 12",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9004,
+        "ok": true,
+        "value": "(((:OVER \"Canvas design is not yet supported: CLIM-INTERNALS::STANDARD-FLIPPING-INK\") (:IN \"Canvas design is not yet supported: CLIM-INTERNALS::STANDARD-FLIPPING-INK\") (:OUT \"Canvas design is not yet supported: CLIM-INTERNALS::STANDARD-FLIPPING-INK\") (:STENCIL \"Canvas design is not yet supported: CLIM-INTERNALS::STANDARD-FLIPPING-INK\")))"
+      },
+      "finishedAt": "2026-11-11T11:10:17.320Z"
+    },
+    "source": "(defpackage #:mcclim-composite-flipping-probe (:use #:clim #:clim-lisp))\n(in-package #:mcclim-composite-flipping-probe)\n(let* ((surface (mcclim-browser::host-call \"createSurface\" 24 24))\n       (medium (make-instance 'mcclim-browser:browser-medium :port (find-port :server-path '(:browser))))\n       (red (make-rgb-color 1 0 0)) (blue (make-rgb-color 0 0 1))\n       (flip (make-flipping-ink red blue))\n       (box (make-rectangle* 4 4 12 12)))\n  (setf (climi::medium-drawable medium) surface)\n  (flet ((probe (label ink)\n           (handler-case\n               (progn\n                 (draw-rectangle* medium 0 0 24 24 :filled t :ink red)\n                 (draw-rectangle* medium 0 0 24 24 :filled t :ink ink)\n                 (list label :drawn))\n             (error (condition) (list label (princ-to-string condition))))))\n    (list (probe :over (compose-over flip red))\n          (probe :in (compose-in flip box))\n          (probe :out (compose-out flip box))\n          (probe :stencil (compose-in red flip)))))\n"
+  },
+  "reload": {
+    "file": "/tmp/valtan-composite-flipping-reload.lisp",
+    "id": 9005,
+    "sourceSha256": "53e56a98342db91e2a1f2f9b6eea56e77850c98d8c9d25d82d63f9272564f092",
+    "startedAt": "2026-11-11T11:18:58.671Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T11:18:58.727Z",
+    "lastLog": "MCCLIM-FLIPPING-CHECKS-PASS 12",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9005,
+      "ok": true,
+      "value": "(((:OVER :DRAWN) (:IN :DRAWN) (:OUT :DRAWN) (:STENCIL :DRAWN)))"
+    },
+    "finishedAt": "2026-11-11T11:19:09.526Z"
+  },
+  "newChecks": {
+    "file": "tests/mcclim/composite-flipping-checks.lisp",
+    "id": 9006,
+    "sourceSha256": "e870b473cef6da2dd44c6315245cec87a22d4e0f9e0db88f8168be94500918ad",
+    "startedAt": "2026-11-11T11:21:42.121Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T11:21:42.171Z",
+    "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9006,
+      "ok": true,
+      "value": "(:PASSED 54)"
+    },
+    "finishedAt": "2026-11-11T11:21:46.500Z"
+  },
+  "combined": {
+    "file": "/tmp/valtan-composite-flipping-all-checks.lisp",
+    "id": 9007,
+    "sourceSha256": "6c7274d54730d5c49739ffb385ac9e682bce00cfa59387f1d0a1a277b1e8c20f",
+    "startedAt": "2026-11-11T11:23:20.884Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T11:23:20.943Z",
+    "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9007,
+      "ok": true,
+      "value": "(:PASSED 237)"
+    },
+    "finishedAt": "2026-11-11T11:23:42.301Z"
+  },
+  "driver": {
+    "command": "cd tests && npm run test:mcclim:bezier:canvas -- --flipping",
+    "expectedCounts": {
+      "default": 86,
+      "flipping": 152,
+      "bezier": 171,
+      "bezierAndFlipping": 237
+    },
+    "fixtureMatchesColdRun": true
+  },
+  "limitations": [
+    "Fresh-start run for these changes is still pending at recording time.",
+    "Nonsolid flipping inputs and fractional flipping coverage are unspecified by CLIM; binary flipping coverage preserves twice-drawn restoration.",
+    "Flipping inks as inputs to another flipping ink are not verified.",
+    "No end-to-end performance claim."
+  ],
+  "coldRunAtRecording": {
+    "status": "running",
+    "complete": false,
+    "startedAt": "2026-11-11T11:26:12.906Z",
+    "work": "/tmp/valtan-mcclim-workbench-Ch74sj",
+    "checksSha256": "6c7274d54730d5c49739ffb385ac9e682bce00cfa59387f1d0a1a277b1e8c20f"
+  },
+  "additionalValidation": {
+    "syntax": [
+      "node --check library/mcclim-browser/host.mjs",
+      "node --check tests/mcclim/canvas.mjs",
+      "git diff --check"
+    ],
+    "driver": "All four flag combinations match expected counts; unknown flags rejected; combined fixture exactly matches evaluation 9007.",
+    "hostPattern": {
+      "command": "node --test tests/mcclim/canvas-pattern.test.mjs",
+      "passed": 1,
+      "failed": 0
+    },
+    "transport": {
+      "command": "node --test tests/mcclim/event-queue.test.mjs tests/mcclim/browser-bridge.test.mjs",
+      "passed": 6,
+      "failed": 0
+    }
+  }
+}
