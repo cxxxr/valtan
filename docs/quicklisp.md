@@ -402,8 +402,10 @@ pattern mutation and phase, transforms, clipping, and exact restoration after
 repeated circle/text drawing. All 237 combined Canvas, Bezier and flipping
 assertions [pass in the retained worker](../tests/mcclim/composite-flipping-results.json)
 after loading the new host functions and Lisp backend. This is a backend-reload
-result on the earlier runtime, not a fresh-start result for the current tree.
-The combined command now expects 237 checks. Nonsolid flipping inputs and
+result on the earlier runtime. A separate [fresh-start run passes all 237 checks](../tests/mcclim/composite-flipping-cold-results.json),
+including the required-argument and JavaScript call-forwarding changes. That
+snapshot predates PNG writing, the native VALUES-LIST optimization and the later
+pixmap-copy fixes. Nonsolid flipping inputs and
 fractional flipping coverage remain outside the verified scope.
 
 `npm run test:mcclim:gadgets` exercises upstream text fields, toggles and sliders

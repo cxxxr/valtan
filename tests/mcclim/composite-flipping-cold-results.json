@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T11:26:12.906Z",
+  "scope": "Real upstream CLIM pattern, clipping and composite-design pixel assertions, plus Bezier curves, areas, unions, differences and output replay, plus solid flipping designs in Chrome; not full McCLIM compatibility",
+  "expectedChecks": 237,
+  "checksSha256": "6c7274d54730d5c49739ffb385ac9e682bce00cfa59387f1d0a1a277b1e8c20f",
+  "work": "/tmp/valtan-mcclim-workbench-Ch74sj",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-Ch74sj",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T11:26:12.944Z",
+    "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+    "bundleSha256": "f7c127664ee2bb7c081d62e7a46d05ced039050f73d4a9af9940f2e4b93cdec7",
+    "browserAssetsSha256": "27b102360c1bc80fe3c822f89e65280956364539a7f51961ee5506859d2e1ee5",
+    "readyAt": "2026-11-11T12:01:16.655Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "canvas",
+        "startedAt": "2026-11-11T12:01:16.657Z",
+        "sourceSha256": "6c7274d54730d5c49739ffb385ac9e682bce00cfa59387f1d0a1a277b1e8c20f",
+        "file": "/tmp/valtan-canvas-checks-hQmPIp/checks.lisp",
+        "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:PASSED 237)"
+        },
+        "finishedAt": "2026-11-11T12:01:39.251Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T12:01:39.296Z"
+  },
+  "result": {
+    "type": "test-result",
+    "id": 1,
+    "ok": true,
+    "value": "(:PASSED 237)"
+  },
+  "finishedAt": "2026-11-11T12:01:39.389Z",
+  "validationScope": "Fresh production snapshot matching c02beec composite-flipping implementation. Includes 61baebe required-classes and de706b2 call forwarding, predates 5bbb04b PNG writing, 85f16ce VALUES-LIST and pixmap-copy fixes. No production reload.",
+  "hostSourceSha256": "47f84f8ec71cc18c171ca550004bb19e43e03e2cc31dcb3829d366b18b50288c"
+}
