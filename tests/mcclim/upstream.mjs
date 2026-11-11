@@ -9,17 +9,24 @@ import {spawn,spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {hash} from './bundle.mjs';
 const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'../..');
-const args=process.argv.slice(2),drei=args.includes('--drei');
-if(drei)args.splice(args.indexOf('--drei'),1);
-if(args.length>1)throw Error('Usage: upstream.mjs [--drei] [report.json]');
-const output=path.resolve(args[0]??`/tmp/valtan-${drei?'drei':'mcclim'}-upstream.json`);
+const args=process.argv.slice(2);
+const modes=['--drei','--drei-performance','--drei-self-compilation'].filter(flag=>args.includes(flag));
+if(modes.length>1)throw Error('Choose one Drei suite');
+const mode=modes[0];
+if(mode)args.splice(args.indexOf(mode),1);
+if(args.length>1 || args.some(arg=>arg.startsWith('--')))
+  throw Error('Usage: upstream.mjs [--drei | --drei-performance | --drei-self-compilation] [report.json]');
+const drei=!!mode,selfCompilation=mode==='--drei-self-compilation';
+const suite=mode==='--drei-performance'?'BUFFER-PERFORMANCE-TESTS':selfCompilation?'SELF-COMPILATION-TEST':drei?'DREI-TESTS':'MCCLIM';
+const output=path.resolve(args[0]??`/tmp/valtan-${mode?.slice(2)??'mcclim'}-upstream.json`);
 const testSystem=drei?'drei-mcclim/test':'mcclim/test';
 const targetSystems=drei?['mcclim-browser','fiveam','automaton']:['mcclim-browser/bezier','fiveam'];
 const targetFeatures=drei?['clim-without-swank']:['clim-without-swank','use-salza2-zlib'];
+const evaluationTimeout=(mode && mode!=='--drei'?4:1)*60*60*1000;
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-mcclim-upstream-'));
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),
   scope:`All sources in the installed ${drei?'drei-mcclim/test':'mcclim/test and mcclim/test-util'} ASDF plan, read with target features in real browser McCLIM; not GUI integration or complete extension coverage`,
-  testSystem,targetSystems,targetFeatures,
+  testSystem,suite,selfCompilation,evaluationTimeout,targetSystems,targetFeatures,
   workbenchSourceHashes:Object.fromEntries(['upstream-plan.lisp','upstream-checks.lisp','upstream.mjs']
     .map(name=>[name,hash(fs.readFileSync(path.join(here,name)))]))};
 const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
@@ -40,13 +47,20 @@ try {
     fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,source);
     return {original,file,source,sha256:hash(source)};
   });
-  report.sources=snapshots.map(({source,...metadata})=>metadata);save();
+  report.sources=snapshots.map(({source,...metadata})=>metadata);
+  const sourceResources=selfCompilation?(plan.sourceResources??[]):[];
+  if(selfCompilation)assert.ok(sourceResources.length>0,'No Drei source resources in the component tree');
+  report.sourceResources=sourceResources.map(file=>({file,sha256:hash(fs.readFileSync(file))}));save();
   // Some upstream pathname tests require their own source file to exist. Supply
   // the unchanged snapshots as explicit static resources, just as application
   // assets are bundled; the browser has no host filesystem access.
   fs.writeFileSync(path.join(dir,'mcclim-upstream-data.asd'),`(asdf:defsystem "mcclim-upstream-data"
+    :depends-on (${selfCompilation?'"mcclim-upstream-data/drei-sources"':''})
     :pathname ${quote(path.join(dir,'test-sources')+'/')}
-    :components (${snapshots.map(({file},i)=>`(:static-file "source-${i}" :pathname ${quote(path.relative(path.join(dir,'test-sources'),file))})`).join(' ')}))`);
+    :components (${snapshots.map(({file},i)=>`(:static-file "source-${i}" :pathname ${quote(path.relative(path.join(dir,'test-sources'),file))})`).join(' ')}))
+    ${selfCompilation?`(asdf:defsystem "mcclim-upstream-data/drei-sources"
+      :pathname ${quote(plan.root)}
+      :components (${sourceResources.map((file,i)=>`(:static-file "drei-source-${i}" :pathname ${quote(path.relative(plan.root,file))})`).join(' ')}))`:''}`);
   for(const file of fs.readdirSync(path.join(root,'example/try-using-mcclim')))
     if(/\.(system|lisp|html)$/.test(file))fs.copyFileSync(path.join(root,'example/try-using-mcclim',file),path.join(dir,file));
   fs.writeFileSync(path.join(dir,'app.system'),`(defsystem "app"
@@ -56,18 +70,23 @@ try {
   const fixture=fs.readFileSync(path.join(here,'upstream-checks.lisp'),'utf8')+
     '\n(setf mcclim-upstream-checks::*files* nil)\n'+
     snapshots.map(({file,source})=>`(mcclim-upstream-checks::load-test-source ${quote(file)} ${quote(source)})`).join('\n')+
-    `\n(mcclim-upstream-checks::run ${drei?'(find-symbol "DREI-TESTS" "DREI-TESTS")':':mcclim'})\n`;
+    (selfCompilation?'\n(setf (symbol-value (find-symbol "*RUN-SELF-COMPILATION-TEST*" "DREI-TESTS")) t)\n':'')+
+    `\n(mcclim-upstream-checks::run ${drei?`(find-symbol "${suite}" "DREI-TESTS")`:':mcclim'})\n`;
   const checkFile=path.join(dir,'checks.lisp');fs.writeFileSync(checkFile,fixture);report.checksSha256=hash(fixture);save();
   child=spawn(process.execPath,[path.join(here,'workbench.mjs'),'--source-directory',dir],{stdio:['pipe','pipe','inherit']});
   const terminal=new Promise(resolve=>child.on('close',(code,signal)=>resolve({code,signal})));
-  const timer=setTimeout(()=>child.kill('SIGKILL'),130*60*1000);let result;
+  const timer=setTimeout(()=>child.kill('SIGKILL'),evaluationTimeout+70*60*1000);let result;
   try {
     for await(const line of readline.createInterface({input:child.stdout})){
       const message=JSON.parse(line);
       if(message.work){report.work=message.work;save();}
       if(message.loading)console.log(message.loading);
       if(message.evaluating){report.lastProgress=message.evaluating;save();console.log(message.evaluating);}
-      if(message.ready)child.stdin.write(JSON.stringify({op:'eval',id:'upstream',file:checkFile,timeout:60*60*1000})+'\n');
+      if(message.ready){
+        for(const resource of report.sourceResources)
+          assert.equal(hash(fs.readFileSync(resource.file)),resource.sha256,`Source changed during build: ${resource.file}`);
+        child.stdin.write(JSON.stringify({op:'eval',id:'upstream',file:checkFile,timeout:evaluationTimeout})+'\n');
+      }
       if(message.id==='upstream'){result=message;child.stdin.end('{"op":"close"}\n');}
       if(message.error && message.id!=='upstream')throw Error(message.error);
     }

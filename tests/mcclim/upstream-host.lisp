@@ -5,25 +5,44 @@
                  (merge-pathnames #p"quicklisp/setup.lisp" (user-homedir-pathname)))))
   (when (probe-file setup) (load setup)))
 (pushnew :clim-without-swank *features*)
-(defparameter *drei-tests-p* (member "--drei" (uiop:command-line-arguments) :test #'equal))
+(defparameter *diagnostic-arguments* (uiop:command-line-arguments))
+(defparameter *diagnostic-modes*
+  (remove-if-not (lambda (arg) (member arg '("--drei" "--drei-performance" "--drei-self-compilation")
+                                     :test #'equal)) *diagnostic-arguments*))
+(assert (<= (length *diagnostic-modes*) 1) () "Choose one Drei suite")
+(defparameter *diagnostic-mode* (first *diagnostic-modes*))
+(defparameter *diagnostic-output-arguments*
+  (remove *diagnostic-mode* *diagnostic-arguments* :test #'equal))
+(assert (and (<= (length *diagnostic-output-arguments*) 1)
+             (notany (lambda (arg) (uiop:string-prefix-p "--" arg)) *diagnostic-output-arguments*))
+        () "Expected one report pathname after the suite option")
+(defparameter *drei-tests-p* (not (null *diagnostic-mode*)))
+(defparameter *self-compilation-p* (equal *diagnostic-mode* "--drei-self-compilation"))
 (defparameter *upstream-test-system* (if *drei-tests-p* "drei-mcclim/test" "mcclim/test"))
 (asdf:load-system "st-json")
 (asdf:load-system *upstream-test-system*)
+(defparameter *upstream-suite*
+  (if *drei-tests-p*
+      (find-symbol (cond (*self-compilation-p* "SELF-COMPILATION-TEST")
+                         ((equal *diagnostic-mode* "--drei-performance") "BUFFER-PERFORMANCE-TESTS")
+                         (t "DREI-TESTS")) "DREI-TESTS")
+      :mcclim))
+(when *self-compilation-p*
+  (setf (symbol-value (find-symbol "*RUN-SELF-COMPILATION-TEST*" "DREI-TESTS")) t))
 
 (defmethod fiveam::run-test-lambda :before ((test fiveam::test-case))
   (format t "~&MCCLIM-HOST-TEST ~S~%" (fiveam::name test))
   (finish-output))
 
-(let* ((output (or (first (remove "--drei" (uiop:command-line-arguments) :test #'equal))
-                   (if *drei-tests-p* "/tmp/valtan-drei-upstream-host.json"
-                       "/tmp/valtan-mcclim-upstream-host.json")))
+(let* ((output (or (first *diagnostic-output-arguments*)
+                   (format nil "/tmp/valtan-~A-upstream-host.json"
+                           (if *diagnostic-mode* (subseq *diagnostic-mode* 2) "mcclim"))))
        (entries (loop for name in (fiveam::test-names)
                     for test = (fiveam:get-test name)
                     when (typep test 'fiveam::test-case) collect test))
        (cases (remove-duplicates entries :test #'eq))
        (fiveam:*on-error* nil) (fiveam:*on-failure* nil)
-       (results (fiveam:run (if *drei-tests-p* (find-symbol "DREI-TESTS" "DREI-TESTS") :mcclim)
-                            :print-names nil))
+       (results (fiveam:run *upstream-suite* :print-names nil))
        (counts (make-hash-table :test #'eq))
        (passed (count-if #'fiveam::test-passed-p results))
        (skipped (count-if (lambda (result) (typep result 'fiveam::test-skipped)) results))
@@ -36,7 +55,9 @@
     (st-json:write-json
      (st-json:jso
       "status" (if success "passed" "failed") "complete" :true
-      "scope" (format nil "Native host ~A with its normal dependencies and default test settings; not a Valtan result" *upstream-test-system*)
+      "scope" (format nil "Native host ~A, selected suite ~S, with its normal dependencies; not a Valtan result" *upstream-test-system* *upstream-suite*)
+      "suite" (symbol-name *upstream-suite*)
+      "selfCompilation" (if *self-compilation-p* :true :false)
       "implementation" (lisp-implementation-type)
       "implementationVersion" (lisp-implementation-version)
       "asdfVersion" (asdf:asdf-version)

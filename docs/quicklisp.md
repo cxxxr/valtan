@@ -414,6 +414,18 @@ separate 90-case performance suite (all pass) and explicitly enabled
 self-compilation (fails upstream on SBCL with an illegal function call while
 re-evaluating a `FORM-TO-OBJECT` method). Neither is a Valtan result.
 
+`npm run test:mcclim:drei:performance` selects the complete, unchanged
+`BUFFER-PERFORMANCE-TESTS` suite. `npm run test:mcclim:drei:self-compilation`
+explicitly enables and selects `SELF-COMPILATION-TEST`; it bundles all 34 files
+from Drei's ASDF component tree as read-only static resources at their original
+component pathnames, including feature-disabled components that the upstream
+test itself visits. Append `:host` to either command for the native baseline.
+Both diagnostics still load all 13 test sources and retain other registered
+cases as unexecuted coverage, so a passing selected suite alone does not produce
+a full-coverage success status. The [native command checks and resource inventory](../tests/mcclim/drei-extra-host-results.json)
+record 90 passing performance checks and the existing native self-compilation
+failure. The new browser self-compilation run is in progress.
+
 The browser backend reads static PNG files with the upstream pure-Lisp
 `png-read` decoder. Install `png-read` alongside McCLIM in the host Quicklisp;
 the backend's dependencies then include it in the target bundle. Ordinary
