@@ -783,6 +783,16 @@ record the runtime feature list; the native reference now includes every test
 name and per-test assertion counts. Earlier aggregate pass counts do not prove
 coverage of those omitted assertions.
 
+After a complete McCLIM run, compare it with the native reference using
+`node tests/mcclim/compare-upstream.mjs TARGET.json tests/mcclim/upstream-host-results.json COMPARISON.json`.
+The comparison requires matching source hashes, exact test names, successful
+execution and per-test assertion counts. It records the two known
+`FAKE-PROGV-KLUDGE` variants explicitly: 17 native assertions versus 33 target
+assertions in each stress case. Other count differences fail the comparison.
+`cd tests && npm run test:mcclim:reports` checks that omissions, duplicates,
+source changes and unfinished runs cannot pass this comparison; those verifier
+fixtures are not evidence that McCLIM itself has passed.
+
 The bridge consumes ASDF's source dependency plan; it does not execute that plan
 or load host FASLs into JavaScript. Definition-time code in `.asd` files still
 runs on the host, as it does with ASDF. Custom build operations and custom Lisp

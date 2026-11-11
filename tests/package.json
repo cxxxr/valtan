@@ -28,6 +28,7 @@
     "test:mop": "node --test mcclim/mop.test.mjs",
     "probe:mcclim": "node mcclim/probe.mjs",
     "test:mcclim:transport": "node --test mcclim/event-queue.test.mjs mcclim/browser-bridge.test.mjs",
+    "test:mcclim:reports": "node --test mcclim/compare-upstream.test.mjs",
     "test:mcclim:gui": "node mcclim/gui.mjs",
     "test:mcclim:gui:threaded": "node mcclim/gui.mjs --threaded",
     "test:mcclim:canvas": "node mcclim/canvas.mjs",
