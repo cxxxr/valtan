@@ -765,6 +765,16 @@ and `salza2` now pass. The sample also includes the two new adapter checks.
 `bordeaux-threads` remains a failure: its system definition rejects Valtan as
 an unsupported threading implementation. No threading support is claimed.
 
+The runtime now tracks dynamic bindings as movable stacks. Switching an internal
+binding context preserves its local values while exposing shared global values;
+global changes made in another context survive restoration. Generated special
+bindings and target `PROGV` use this mechanism. Initializers are protected by
+cleanup as well as the body, fixing a pre-existing `LET*` leak when a later
+initializer exits. This is groundwork for resumable execution, not a thread API:
+scheduling, resumable Lisp calls, locks, and per-thread multiple-value/backtrace
+state are still required. See the [binding-context checks](../tests/performance/binding-context-results.json)
+for the verified scope and binding-cost measurement.
+
 These results cover the checked API calls, not every feature in a passing library.
 The default ahead-of-time mode separately passed the `split-sequence` and
 `cl-base64` smoke cases. The loader checks, embedded-source fixtures and all 50

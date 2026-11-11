@@ -671,3 +671,26 @@
   (values (handler-case (compile 42 '(lambda () 1)) (type-error () :name))
           (handler-case (compile nil 42) (type-error () :definition)))
   :name :definition)
+
+(defvar *partial-binding-first* :outside-first)
+(defvar *partial-binding-second* :outside-second)
+(deftest letstar-partial-special-bindings-unwind-after-initializer-exit
+  (values
+   (loop repeat 3 collect
+     (catch 'stop
+       (let* ((*partial-binding-first* :inside-first)
+              (*partial-binding-second*
+                (throw 'stop *partial-binding-first*)))
+         :unreachable)))
+   *partial-binding-first* *partial-binding-second*)
+  (:inside-first :inside-first :inside-first) :outside-first :outside-second)
+
+(deftest letstar-partial-special-bindings-restore-repeated-name
+  (values
+   (catch 'stop
+     (let* ((*partial-binding-first* :first)
+            (*partial-binding-first* :second)
+            (value (throw 'stop *partial-binding-first*)))
+       value))
+   *partial-binding-first*)
+  :second :outside-first)

@@ -18,6 +18,7 @@ import {
     makeCons,
     isCons
 } from './cons';
+import { bindSpecial, unbindSpecial } from './bindings';
 
 class LispSymbol {
     constructor(options) {
@@ -151,6 +152,16 @@ export function CL_setCompilerProperty(symbol, key, value) {
 export function CL_boundp(x) {
     checkSymbol(x);
     return values1(toLispBoolean(x.isBound()));
+}
+
+export function CL_bindSpecial(symbol) {
+    checkSymbol(symbol);
+    return values1(bindSpecial(symbol));
+}
+
+export function CL_unbindSpecial(frame) {
+    unbindSpecial(frame);
+    return values1(S_nil);
 }
 
 function setfFunctionCell(name, setfSymbol, setfKey) {

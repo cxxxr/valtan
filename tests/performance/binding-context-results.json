@@ -1,0 +1,359 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "threadSupportComplete": false,
+  "recordedAt": "2026-11-11T12:39:11.502025+00:00",
+  "scope": "Dynamic-binding context infrastructure and correct partial-initializer unwind, exercised by interleaved JavaScript generators and generated Lisp code. No Lisp thread scheduler or resumable Lisp calling convention is implemented.",
+  "sourceHashes": {
+    "kernel/bindings.js": "200824c5006d4f99a78b9146dad4f4204f9a10582ad770879c6ca644d575f8e5",
+    "kernel/lisp.js": "648770ff07b3f9794605db5f0fc002960105609faa642f78d4b90dbf67f6f9db",
+    "kernel/symbol.js": "d0121909066da5d8618f65b17396eefc945c55aec649addc861f489f79121879",
+    "library/valtan-core/compiler/pass2.lisp": "e03e0c24b7364650a9f4ab981a79d2748da19c782e0876bef530cc1de84f9b2d",
+    "library/valtan-core/lisp/control.lisp": "cee16154d9a8e1448ce6f1f06009d04d46b461297b1f88a07d69cda16be0ff8b",
+    "tests/ansi/fixtures/compiler-regressions.lsp": "1dd9f853cf51e56cd0182e196f3bbc047ff7aee601a1b13fad8ba8cb9c4ef25f",
+    "tests/ansi/integration.test.mjs": "1c145e3c2440523d825e059dad72f8b3f663baa27121db73e65f2a307dce66a0",
+    "tests/performance/kernel.test.mjs": "2bb5278e1c0bf9a43eaa2dcdea1d4f07e0a9c8a2f4873ecc8653de6ef6a4ffa7",
+    "tests/performance/semantics.lisp": "150fed99fcbe818bb9210a48ffd99bb214807a9a602661375e94364e840c376a",
+    "tests/performance/verify.mjs": "011388d155c809a0a7ebe5940c6088710ff3718ef8d8a7b664afab829112d76e"
+  },
+  "compilerSha256": "395c1dc2d70d2f782d8c2b3b8ec65fed0ea9b85b59e18b1e5754014be8f90b5d",
+  "design": "Each binding stores its previous visible value and stack predecessor. Context deactivation saves locals and restores globals top-down; activation installs locals bottom-up while recapturing current global values. Ordinary symbol.value reads/writes remain direct. Compiled LET/parameters and targetPROGV use frame tokens. HostPROGV keeps its existing native implementation.",
+  "initializerRegression": {
+    "source": "(progn (defparameter *partial-binding-probe* :global) (list (catch (quote stop) (let* ((*partial-binding-probe* :local) (x (throw (quote stop) *partial-binding-probe*))) x)) *partial-binding-probe*))",
+    "reports": [
+      {
+        "variant": "before",
+        "value": [
+          "LOCAL",
+          "LOCAL"
+        ]
+      },
+      {
+        "variant": "after",
+        "value": [
+          "LOCAL",
+          "GLOBAL"
+        ]
+      }
+    ]
+  },
+  "kernel": {
+    "command": "cd tests && npm run test:performance:kernel",
+    "status": "passed",
+    "tests": 8,
+    "newTests": 3,
+    "scope": "Interleaved suspended generators; nested bindings of the same symbol; global mutation; unbound values; exceptional cleanup; invalid cross-context unwind; nested same-context execution."
+  },
+  "compilerSemantics": {
+    "command": "cd tests && npm run build:performance && node performance/verify.mjs",
+    "status": "passed",
+    "workloads": 8,
+    "reportedErrors": 0,
+    "scope": "Existing semantic assertions plus new generated LET, special parameters, PROGV with duplicate names/missing values, global updates across contexts, nonlocal exits and runtime-compiled binding bodies."
+  },
+  "ansi": [
+    {
+      "name": "binding-stack-regressions",
+      "files": [
+        "compiler-regressions.lsp",
+        "tagbody-activation-regressions.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 104,
+      "fail": 0,
+      "registered": 104,
+      "expectedRegistered": 104,
+      "completedFiles": [
+        "compiler-regressions.lsp",
+        "tagbody-activation-regressions.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "",
+      "pendingTest": null,
+      "currentFile": "tagbody-activation-regressions.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "binding-stack-upstream",
+      "files": [
+        "data-and-control-flow/let.lsp",
+        "data-and-control-flow/letstar.lsp",
+        "data-and-control-flow/progv.lsp",
+        "data-and-control-flow/unwind-protect.lsp",
+        "data-and-control-flow/catch.lsp",
+        "data-and-control-flow/multiple-value-bind.lsp",
+        "data-and-control-flow/multiple-value-prog1.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 117,
+      "fail": 0,
+      "registered": 117,
+      "expectedRegistered": 117,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "data-and-control-flow/let.lsp",
+        "data-and-control-flow/letstar.lsp",
+        "data-and-control-flow/progv.lsp",
+        "data-and-control-flow/unwind-protect.lsp",
+        "data-and-control-flow/catch.lsp",
+        "data-and-control-flow/multiple-value-bind.lsp",
+        "data-and-control-flow/multiple-value-prog1.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "",
+      "pendingTest": null,
+      "currentFile": "data-and-control-flow/multiple-value-prog1.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 117,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "binding-stack-regressions",
+      "files": [
+        "compiler-regressions.lsp",
+        "tagbody-activation-regressions.lsp"
+      ],
+      "mode": "compiled",
+      "status": "finished",
+      "pass": 104,
+      "fail": 0,
+      "registered": 104,
+      "expectedRegistered": 104,
+      "completedFiles": [
+        "compiler-regressions.lsp",
+        "tagbody-activation-regressions.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "",
+      "pendingTest": null,
+      "currentFile": "tagbody-activation-regressions.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "registrationMismatch": false
+    },
+    {
+      "name": "binding-stack-upstream",
+      "files": [
+        "data-and-control-flow/let.lsp",
+        "data-and-control-flow/letstar.lsp",
+        "data-and-control-flow/progv.lsp",
+        "data-and-control-flow/unwind-protect.lsp",
+        "data-and-control-flow/catch.lsp",
+        "data-and-control-flow/multiple-value-bind.lsp",
+        "data-and-control-flow/multiple-value-prog1.lsp"
+      ],
+      "mode": "compiled",
+      "status": "finished",
+      "pass": 117,
+      "fail": 0,
+      "registered": 117,
+      "expectedRegistered": 117,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "data-and-control-flow/let.lsp",
+        "data-and-control-flow/letstar.lsp",
+        "data-and-control-flow/progv.lsp",
+        "data-and-control-flow/unwind-protect.lsp",
+        "data-and-control-flow/catch.lsp",
+        "data-and-control-flow/multiple-value-bind.lsp",
+        "data-and-control-flow/multiple-value-prog1.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "",
+      "pendingTest": null,
+      "currentFile": "data-and-control-flow/multiple-value-prog1.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "effectiveExpectedRegistered": 117,
+      "referenceInventoryMismatch": false,
+      "missingReferenceTests": [],
+      "unexpectedTests": [],
+      "conditionalRegistrations": [],
+      "aliasedRegistrations": [],
+      "registrationNameMismatch": false,
+      "registrationMismatch": false
+    }
+  ],
+  "integration": {
+    "command": "node --test --test-name-pattern='^compiler-regressions.lsp$' tests/ansi/integration.test.mjs",
+    "status": "passed",
+    "tests": 1,
+    "assertions": 101
+  },
+  "verifier": {
+    "change": "Fail if generated top-levels report console.error even when later workload registrations succeed.",
+    "negativeControl": "Initial bundle with undefined PUSH in early PROGV bootstrap now exits1; original verifier incorrectly printed success. Final targetPROGV uses bootstrap-safe SETQ+CONS; rebuilt gate reports zero errors."
+  },
+  "benchmark": {
+    "scope": "Six fresh Node processes alternating versions, runtime-compiled100000 dynamic LET bindings with checked sum; first two of eight samples discarded. Not whole McCLIM startup.",
+    "source": "(lambda (n) (let ((sum 0)) (dotimes (i n sum) (let ((*binding-benchmark* i)) (declare (special *binding-benchmark*)) (incf sum *binding-benchmark*)))))",
+    "sourceHashes": {
+      "before": "706aa26855bc738db243e800c27ba0f6120821b017e1be6b0936b40f1bb2eb93",
+      "after": "33006ccb0a488013d32ea19f567215bf941b7d6a187f333135f476ea118a0577"
+    },
+    "runs": [
+      {
+        "variant": "before",
+        "samples": [
+          53.94723399999998,
+          53.03472500000004,
+          49.02085100000005,
+          49.12538799999993,
+          48.97377300000005,
+          48.85571600000003,
+          48.85069699999997,
+          48.81772799999999
+        ]
+      },
+      {
+        "variant": "after",
+        "samples": [
+          56.68849,
+          55.65147500000006,
+          51.53178500000001,
+          51.649531000000025,
+          51.541574999999966,
+          51.44079799999997,
+          51.5662440000001,
+          51.32061299999998
+        ]
+      },
+      {
+        "variant": "after",
+        "samples": [
+          56.00813299999999,
+          55.27456799999999,
+          51.263604999999984,
+          51.300523,
+          51.23822500000006,
+          51.20314700000006,
+          51.37680999999998,
+          51.31035300000008
+        ]
+      },
+      {
+        "variant": "before",
+        "samples": [
+          55.51745,
+          55.30204800000001,
+          51.43829899999997,
+          51.28195400000004,
+          51.26019500000007,
+          51.16287799999998,
+          51.29813299999989,
+          51.189257
+        ]
+      },
+      {
+        "variant": "before",
+        "samples": [
+          52.79772299999996,
+          53.40140200000002,
+          49.59084199999995,
+          48.61348499999997,
+          49.217363999999975,
+          49.471915999999965,
+          48.75070100000005,
+          48.825717000000054
+        ]
+      },
+      {
+        "variant": "after",
+        "samples": [
+          57.191922999999974,
+          66.554754,
+          52.08904600000005,
+          52.53839100000005,
+          52.552940000000035,
+          52.38055699999995,
+          53.123560999999995,
+          53.557226000000014
+        ]
+      }
+    ],
+    "medians": {
+      "before": 49.17137599999995,
+      "after": 51.53667999999999
+    }
+  },
+  "freshMcclim": {
+    "status": "running",
+    "complete": false,
+    "startedAt": "2026-11-11T12:36:41.262Z",
+    "scope": "Real upstream CLIM pattern, clipping, composite-design, pixmap-copy and multiline-text assertions, plus Bezier curves, areas, unions, differences and output replay, plus solid flipping designs in Chrome; not full McCLIM compatibility",
+    "expectedChecks": 350,
+    "checksSha256": "3403663c77ab7f36f0179f2af4fd06bf2cceaddb71905fa22a285a154ec0a699",
+    "work": "/tmp/valtan-mcclim-workbench-shpdoI"
+  },
+  "freshMcclimSnapshot": {
+    "work": "/tmp/valtan-mcclim-workbench-shpdoI",
+    "status": "loading",
+    "complete": false,
+    "startedAt": "2026-11-11T12:36:41.303Z",
+    "compilerSha256": "395c1dc2d70d2f782d8c2b3b8ec65fed0ea9b85b59e18b1e5754014be8f90b5d",
+    "bundleSha256": "d3e7e51a70dc35b4b7d1aacbca52db5ca4c5499fcf37bad65fe1a42ee5c61e27",
+    "browserAssetsSha256": "32ff8852e9d6a59d8d0e5e151d8e3183b7be13bc0c7b5fe6f9f501b94360c3d7"
+  },
+  "limitations": [
+    "No public thread support: scheduler, resumable Lisp calls, locks, and per-thread values/backtrace state remain to be implemented.",
+    "Fresh McCLIM350 startup validation is running; existing retained browser is not hot-patched with a mixture of old and new binding conventions.",
+    "Microbenchmark measures100000 special LET bindings only; approximately5percent overhead in this sample is not an end-to-end McCLIM timing.",
+    "No full ANSI or full McCLIM compatibility claim."
+  ]
+}

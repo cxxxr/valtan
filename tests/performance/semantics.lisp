@@ -83,3 +83,62 @@
 (assert (equal (multiple-value-list
                 (funcall (compile nil '(lambda (x) (unwind-protect (values x 2) (+ x 9)))) 1))
                '(1 2)))
+
+;; Binding contexts share global cells while keeping dynamic LET/parameter and
+;; PROGV bindings independent. This is runtime groundwork, not a thread API.
+(defvar *binding-context-value* :global)
+(defun call-in-new-binding-context (thunk)
+  ((ffi:ref "lisp" "withBindingContext")
+   ((ffi:ref "lisp" "createBindingContext")) thunk))
+(defun check-binding-contexts ()
+  (setf *binding-context-value* :global)
+  (let ((*binding-context-value* :local))
+    (assert (eq (call-in-new-binding-context
+                  (lambda ()
+                    (assert (eq *binding-context-value* :global))
+                    (setf *binding-context-value* :changed))) :changed))
+    (assert (eq *binding-context-value* :local)))
+  (assert (eq *binding-context-value* :changed))
+  (let ((symbol (make-symbol "PROGV-CONTEXT")))
+    (progv (list symbol symbol) '(1 2)
+      (assert (= (symbol-value symbol) 2))
+      (call-in-new-binding-context
+       (lambda ()
+         (assert (not (boundp symbol)))
+         (set symbol 3)))
+      (assert (= (symbol-value symbol) 2)))
+    (assert (= (symbol-value symbol) 3))
+    (progv (list symbol) nil
+      (assert (not (boundp symbol)))
+      (call-in-new-binding-context (lambda () (set symbol 4)))
+      (assert (not (boundp symbol))))
+    (assert (= (symbol-value symbol) 4)))
+  (flet ((parameter (*binding-context-value* &optional
+                      (x (call-in-new-binding-context
+                          (lambda ()
+                            (assert (eq *binding-context-value* :changed))
+                            (setf *binding-context-value* :parameter-global)))))
+           (list *binding-context-value* x)))
+    (assert (equal (parameter :parameter-local) '(:parameter-local :parameter-global))))
+  (assert (eq *binding-context-value* :parameter-global))
+  (let ((*binding-context-value* :outer))
+    (assert (eq (catch 'done
+                  (let ((*binding-context-value* :inner))
+                    (call-in-new-binding-context
+                     (lambda () (setf *binding-context-value* :exit-global)))
+                    (throw 'done *binding-context-value*))) :inner))
+    (assert (eq *binding-context-value* :outer)))
+  (assert (eq *binding-context-value* :exit-global)))
+(check-binding-contexts)
+(funcall (compile nil '(lambda () (check-binding-contexts))))
+;; Compile the binding body itself in the runtime compiler as well.
+(funcall (compile nil
+                  '(lambda ()
+                     (setf *binding-context-value* :global)
+                     (let ((*binding-context-value* :runtime-local))
+                       (call-in-new-binding-context
+                        (lambda ()
+                          (assert (eq *binding-context-value* :global))
+                          (setf *binding-context-value* :runtime-global)))
+                       (assert (eq *binding-context-value* :runtime-local)))
+                     (assert (eq *binding-context-value* :runtime-global)))))

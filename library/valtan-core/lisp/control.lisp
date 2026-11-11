@@ -442,6 +442,9 @@
          (progn
            (dolist (symbol symbols)
              (unless (symbolp symbol) (type-error symbol 'symbol))
+             #+valtan
+             (setq saved (cons (system::%bind-special symbol) saved))
+             #-valtan
              (let ((bound (boundp symbol)))
                (setq saved (cons (list symbol bound (when bound (symbol-value symbol))) saved)))
              (if values
@@ -451,6 +454,9 @@
                  (makunbound symbol)))
            (funcall thunk))
       (dolist (binding saved)
+        #+valtan
+        (system::%unbind-special binding)
+        #-valtan
         (if (second binding)
             (set (first binding) (third binding))
             (makunbound (first binding)))))))

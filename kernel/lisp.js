@@ -4,6 +4,7 @@ import {
 } from './values';
 export * from './values';
 export * from './dispatch';
+export * from './bindings';
 
 import {
     initSymbols,
@@ -38,6 +39,8 @@ import {
     CL_compilerProperty,
     CL_setCompilerProperty,
     CL_boundp,
+    CL_bindSpecial,
+    CL_unbindSpecial,
     CL_fboundp,
     CL_symbolPackage,
     CL_symbolValue,
@@ -261,6 +264,8 @@ function registerFunction(pkg, name, fn, min = 0, max = min) {
 
 // symbol.js
 registerFunction(cl_package, 'SYMBOLP', CL_symbolp, 1);
+registerFunction(system_package, '%BIND-SPECIAL', CL_bindSpecial, 1);
+registerFunction(system_package, '%UNBIND-SPECIAL', CL_unbindSpecial, 1);
 registerFunction(system_package, 'MAKE-SYMBOL', CL_makeSymbol, 1);
 registerFunction(system_package, 'SYMBOL-PLIST', CL_symbolPlist, 1);
 registerFunction(system_package, 'PUT-SYMBOL-PLIST', CL_setSymbolPlist, 2);
