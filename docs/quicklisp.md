@@ -520,7 +520,21 @@ Both diagnostics still load all 13 test sources and retain other registered
 cases as unexecuted coverage, so a passing selected suite alone does not produce
 a full-coverage success status. The [native command checks and resource inventory](../tests/mcclim/drei-extra-host-results.json)
 record 90 passing performance checks and the existing native self-compilation
-failure. The new browser self-compilation run is in progress.
+failure. The [fresh browser self-compilation run](../tests/mcclim/drei-self-compilation-cold-results.json)
+has now completed its one selected case successfully. The unchanged test
+re-evaluates Drei and asserts the status of an inner default-suite run; that
+inner run's individual result counts are not returned by this report. All 34
+source resources match their recorded hashes and remain accessible through
+Drei's ASDF component tree after the test. The report preserves its overall
+failure status for the 90 performance cases outside the selected suite. This
+snapshot predates the CLOS slot lookup optimization and later resumable work.
+
+The older [retained browser performance run](../tests/mcclim/drei-performance-retained-results.json)
+also finished all 90 selected cases successfully. Its source/result name set
+matches the fresh optimized run above, but its recorded runtime reloads make it
+a separate validation context. Both retained workers finished after their
+observers expired; their actual terminal page results were collected without
+restarting the tests.
 
 The browser backend reads static PNG files with the upstream pure-Lisp
 `png-read` decoder. Install `png-read` alongside McCLIM in the host Quicklisp;
