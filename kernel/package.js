@@ -1,3 +1,5 @@
+import { callResumable } from './function';
+import { setResumableImplementation, resumableCheckpoint } from './resumable';
 import {
     values1,
     values
@@ -402,6 +404,48 @@ export function CL_mapPackageAllSymbols(pkg, fn) {
     }
     return values1(S_nil);
 }
+
+// Native enumeration must delegate to callback generators. Checkpoints also
+// bound traversal when callbacks are ordinary JS functions without checkpoints.
+setResumableImplementation(CL_mapPackageSymbols, function*(pkg, fn) {
+    checkPackage(pkg);
+    for (const symbol of Object.values(pkg.symbolTable)) {
+        yield resumableCheckpoint;
+        yield* callResumable(fn, symbol);
+    }
+    return values1(S_nil);
+});
+
+setResumableImplementation(CL_mapPackageExternalSymbols, function*(pkg, fn) {
+    checkPackage(pkg);
+    for (const name in pkg.symbolTable) {
+        const symbol = pkg.symbolTable[name], external = pkg.exportTable[name];
+        yield resumableCheckpoint;
+        if (external) yield* callResumable(fn, symbol);
+    }
+    return values1(S_nil);
+});
+
+setResumableImplementation(CL_mapPackageAllSymbols, function*(pkg, fn) {
+    checkPackage(pkg);
+    const seen = Object.create(null);
+    for (const name in pkg.symbolTable) {
+        const symbol = pkg.symbolTable[name];
+        seen[name] = true;
+        yield resumableCheckpoint;
+        yield* callResumable(fn, symbol);
+    }
+    for (const usedPkg of pkg.useList) {
+        for (const name in usedPkg.symbolTable) {
+            const symbol = usedPkg.symbolTable[name];
+            const accessible = usedPkg.exportTable[name] && !seen[name];
+            if (accessible) seen[name] = true;
+            yield resumableCheckpoint;
+            if (accessible) yield* callResumable(fn, symbol);
+        }
+    }
+    return values1(S_nil);
+});
 
 // The Lisp wrapper handles the correctable error when other packages use it.
 export function CL_deletePackage(pkgDesignator) {

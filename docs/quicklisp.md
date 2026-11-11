@@ -817,10 +817,17 @@ regressions pass in both evaluation and compiled modes under `:dual`. Run
 The ordinary core remains the default. Dual builds contain more generated code;
 no end-to-end startup or scheduling performance improvement is claimed.
 
+Native package enumeration now delegates to resumable callbacks and yields
+checkpoints while scanning, including private symbols. `SYSTEM:MAP-FOREACH`
+advances the native Map/weak-map iterator from Lisp, allowing callback suspension
+while preserving live Map insertion/deletion behavior. It returns NIL after
+normal completion. [The native callback checks](../tests/resumable/callback-results.json)
+record 23 new Lisp assertions in Node and fresh Chrome, plus visibility,
+shadowing, bounded traversal and interrupted cleanup checks in the kernel.
+
 This is not Bordeaux Threads support. Scheduling, locks, blocking host operations
-and native JavaScript callback boundaries still need integration. For example,
-package iteration callbacks and native error delivery are not yet generally
-resumable. Load-time initializers remain synchronous. The McCLIM Canvas driver
+and remaining JavaScript callback boundaries still need integration; native error
+delivery is not yet generally resumable. Load-time initializers remain synchronous. The McCLIM Canvas driver
 accepts `--resumable` to check loading and ordinary drawing calls against a dual
 build; it does not by itself test suspension inside McCLIM operations.
 

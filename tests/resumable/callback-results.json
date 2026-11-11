@@ -1,0 +1,93 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "threadSupportComplete": false,
+  "recordedAt": "2026-11-11T13:30:03.719125+00:00",
+  "scope": "Native package enumeration callbacks and SYSTEM:MAP-FOREACH suspension in dual builds; not all JavaScript callbacks or a thread API.",
+  "sourceHashes": {
+    "kernel/package.js": "8124c16c7dd7de3f3a1ad9f95aa8eb285afcc38bf796198030b4d6d0b2ad3182",
+    "library/valtan-core/lisp/target-system-defs.lisp": "2f3d1ba3e346564481ba4eb8fb716203256f31ccd371466885eb526f91713fd2",
+    "tests/performance/kernel.test.mjs": "f727f1b4aaad0d9782f9c47d3b7974757b275d2cffbb15cf934c1e816c865ed9",
+    "tests/performance/semantics.lisp": "33db454fb9f1ae3841c3fb44fe716895afb4e38756b6f6c70e8d2d3a021e378d",
+    "tests/resumable.system": "e3ce0ec84efd324c575e1ac92c1b1e9fa7b06f11adf18f59265bdf3ad559dd98",
+    "tests/resumable/verify.mjs": "82f2f161b1a8e38de8073322ffd5f0bb60c85bfd5f76087805e7ec03d1b45f2b",
+    "tests/resumable/callbacks.lisp": "36d676bf021e5481e8bbd1e35ab8b1f6fdde16bf6e31a2cef26d621b222111d2"
+  },
+  "compilerSha256": "e229d2968e85fff309fb83b9eec7ff7d501e2af7a61cec479b815fbd388a139a",
+  "implementation": {
+    "package": "Generator alternatives attached to all three native package enumeration functions. Registered wrappers retain alternatives and arity checks. Each inspected symbol yields a checkpoint, including non-exported and shadowed entries. Callback results are discarded and enumeration returns one NIL value.",
+    "map": "Lisp TAGBODY loop advances Map.entries()/next(), then FUNCALL delegates to callback alternatives. Ordinary callbacks work as before, normal completion returns NIL. Early bootstrap file cannot use DO/LOOP macros."
+  },
+  "kernel": {
+    "status": "passed",
+    "tests": 13,
+    "newTests": 2,
+    "command": "node tests/performance/kernel-tests.mjs",
+    "log": "/tmp/valtan-native-callback-kernel.log",
+    "scope": "Existing11 plus callback suspension/visibility/duplicate inheritance/shadowing/values and checkpoint-bounded private-symbol traversal/interruption cleanup."
+  },
+  "node": {
+    "status": "passed",
+    "existingSuspensionChecks": 43,
+    "dualChecks": 51,
+    "nativeCallbackChecks": 23,
+    "reportedErrors": 0,
+    "command": "npm --prefix tests run build:resumable && npm --prefix tests run test:resumable",
+    "bundleSha256": "ab0fa2be437e368f267e4fba40696c34b15350d68845952581562ac97e6bead0",
+    "log": "/tmp/valtan-native-callback-verify3.log"
+  },
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T13:26:27.329Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-pgWYvC",
+    "compilerSha256": "e229d2968e85fff309fb83b9eec7ff7d501e2af7a61cec479b815fbd388a139a",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "checksSha256": "ff2f0298a7d7cda6b44e829024f2171523d61f87e5d101c53b8adbb34feb9f61",
+    "stage": "run",
+    "bundleSha256": "2655b6ee86497fd2bd6cd0fe8376e653c9a9c869c9d4692d9a14cfa61eb029f8",
+    "finishedAt": "2026-11-11T13:29:05.645Z"
+  },
+  "browserAssertions": {
+    "existingSuspensionChecks": 43,
+    "dualChecks": 51,
+    "nativeCallbackChecks": 23,
+    "alexandriaMappendChecks": 4,
+    "reportedErrors": 0,
+    "log": "/tmp/valtan-native-callback-browser-logs/run.log",
+    "reproduction": "Concatenate tests/performance/resumable.lisp, tests/resumable/checks.lisp, tests/resumable/callbacks.lisp, tests/resumable/alexandria-checks.lisp; pass file to node tests/mcclim/probe.mjs alexandria REPORT CHECKS --browser valtan-resumable"
+  },
+  "ordinaryMode": {
+    "status": "passed",
+    "command": "npm --prefix tests run build:performance && node tests/performance/verify.mjs",
+    "scope": "Existing compiler semantics and43suspension assertions plus10new ordinary strong/weak Map assertions and8workload results",
+    "bundleSha256": "b89fca1c7ebfa49ebda732825ac3ae08a3361e189a3ce13bf4f921f7a490a2ef",
+    "reportedErrors": 0,
+    "log": "/tmp/valtan-native-callback-performance-verify.log"
+  },
+  "packageRegression": {
+    "status": "passed",
+    "checks": 19,
+    "command": "npm --prefix tests run build:ansi && node --test --test-name-pattern='package-regressions' tests/ansi/integration.test.mjs",
+    "log": "/tmp/valtan-native-callback-ansi.log"
+  },
+  "weakRegression": {
+    "status": "passed",
+    "groups": 2,
+    "command": "node --test tests/quicklisp/weak.test.mjs",
+    "scope": "Reachability/ephemeron/numeric-key behavior and actual trivial-garbage Lisp API/CL hash operations",
+    "log": "/tmp/valtan-native-callback-weak.log"
+  },
+  "limitations": [
+    "No scheduler/locks/Bordeaux Threads backend.",
+    "Native error delivery, arbitrary foreign JS callbacks and blocking host operations remain synchronous.",
+    "No new full McCLIM pass claimed for this snapshot; ongoing dual McCLIM browser predates these callbacks."
+  ]
+}

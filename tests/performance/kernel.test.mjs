@@ -253,3 +253,68 @@ test('synchronous resumable callbacks ignore checkpoints but reject suspension w
   assert.equal(cleaned, true);
   assert.equal(x.value, 1);
 });
+
+test('native package enumeration delegates callbacks and preserves visibility', () => {
+  const used = lisp.CL_makePackage('TASK-ENUM-USED', [], []);
+  const alsoUsed = lisp.CL_makePackage('TASK-ENUM-ALSO-USED', [], []);
+  const pkg = lisp.CL_makePackage('TASK-ENUM-PACKAGE', [], []);
+  const inherited = lisp.intern('INHERITED', used);
+  lisp.intern('SHADOWED', used);
+  lisp.intern('PRIVATE', used);
+  used.exportSymbol('INHERITED'); used.exportSymbol('SHADOWED');
+  alsoUsed.symbolTable.INHERITED = inherited; alsoUsed.exportSymbol('INHERITED');
+  lisp.intern('SHADOWED', pkg); pkg.shadowing.add('SHADOWED');
+  lisp.intern('EXPORTED', pkg); pkg.exportSymbol('EXPORTED');
+  pkg.useList = [used, alsoUsed];
+  try {
+    for (const [name, expected] of [
+      ['MAP-PACKAGE-SYMBOLS', ['SHADOWED', 'EXPORTED']],
+      ['MAP-PACKAGE-EXTERNAL-SYMBOLS', ['EXPORTED']],
+      ['MAP-PACKAGE-ALL-SYMBOLS', ['SHADOWED', 'EXPORTED', 'INHERITED']],
+    ]) {
+      const symbol = lisp.intern(name, 'SYSTEM'), ordinary = [];
+      symbol.getFunction()(pkg, s => ordinary.push(s.name));
+      assert.deepEqual(ordinary, expected);
+      const visited = [], callback = lisp.makeResumable(function*(s) {
+        yield { kind: 'yield', value: s.name };
+        visited.push(s.name);
+        return lisp.values('ignored', 'secondary');
+      });
+      const task = new lisp.ResumableTask(symbol, [pkg, callback]);
+      for (const [i, expectedName] of expected.entries()) {
+        assert.equal(task.resume().value.value, expectedName);
+        assert.equal(visited.length, i);
+      }
+      assert.equal(task.resume().done, true);
+      assert.deepEqual(visited, expected);
+      assert.deepEqual(task.values, [lisp.S_nil]);
+    }
+  } finally {
+    lisp.CL_deletePackage(pkg); lisp.CL_deletePackage(alsoUsed); lisp.CL_deletePackage(used);
+  }
+});
+
+test('native enumeration bounds private-symbol scans and unwinds interrupted callbacks', () => {
+  const pkg = lisp.CL_makePackage('TASK-ENUM-BOUNDS', [], []);
+  for (let i = 0; i < 20; i++) lisp.intern(`PRIVATE-${i}`, pkg);
+  const external = new lisp.ResumableTask(lisp.intern('MAP-PACKAGE-EXTERNAL-SYMBOLS', 'SYSTEM'),
+    [pkg, () => assert.fail('private symbol was exposed')]);
+  try {
+    assert.equal(external.resume(undefined, 3).value, lisp.resumableCheckpoint);
+    assert.equal(external.done, false);
+    assert.equal(external.resume().done, true);
+    let visited = 0, cleaned = false;
+    const callback = lisp.makeResumable(function*() {
+      visited++;
+      try { yield { kind: 'yield', value: 'callback' }; }
+      finally { cleaned = true; }
+    });
+    const task = new lisp.ResumableTask(lisp.intern('MAP-PACKAGE-SYMBOLS', 'SYSTEM'), [pkg, callback]);
+    assert.equal(task.resume().value.value, 'callback');
+    const error = new Error('cancel enumeration');
+    assert.throws(() => task.interrupt(error), e => e === error);
+    assert.equal(visited, 1);
+    assert.equal(cleaned, true);
+    assert.equal(lisp.getBacktrace(), 'Backtrace:\n');
+  } finally { lisp.CL_deletePackage(pkg); }
+});

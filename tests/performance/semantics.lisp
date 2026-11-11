@@ -142,3 +142,17 @@
                           (setf *binding-context-value* :runtime-global)))
                        (assert (eq *binding-context-value* :runtime-local)))
                      (assert (eq *binding-context-value* :runtime-global)))))
+
+;; The bootstrap MAP-FOREACH iterator keeps ordinary callbacks and nonlocal
+;; exits working, for both strong and weak native maps.
+(dolist (map (list (system:make-map) (system:weak-op #j"map" #j"key" #j"eq")))
+  (let ((key (list :key)) (seen nil))
+    (assert (null (system:map-foreach map (lambda (&rest args) (declare (ignore args)) (error "Empty map callback")))))
+    (system:map-set map key 42)
+    (assert (null (system:map-foreach map (lambda (value actual-key) (setf seen (list value actual-key))))))
+    (assert (= (first seen) 42))
+    (assert (eq (second seen) key))
+    (assert (eq (catch 'map-exit
+                  (system:map-foreach map (lambda (value actual-key)
+                                           (declare (ignore value))
+                                           (throw 'map-exit actual-key)))) key))))

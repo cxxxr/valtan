@@ -6,4 +6,5 @@ finally { console.error = originalError; }
 assert.equal(errors.length, 0, 'No Lisp toplevel may report an error');
 assert.equal(globalThis.valtanResumableChecksPassed, 43);
 assert.equal(globalThis.valtanDualChecksPassed, 51);
-console.log('43 resumable and 51 dual core/library checks passed');
+assert.equal(globalThis.valtanCallbackChecksPassed, 23);
+console.log('43 resumable, 51 dual core/library and 23 native callback checks passed');

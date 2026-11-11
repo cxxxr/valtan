@@ -80,10 +80,19 @@
 
 (cl:defun system:map-foreach (map function)
   "Call FUNCTION with (value key) for each entry in MAP."
-  ((ffi:ref map "forEach")
-   (lambda (value key &rest ignored)
-     (declare (ignore ignored))
-     (funcall function value key))))
+  ;; A JS forEach callback cannot suspend its caller. Advance the native
+  ;; iterator from Lisp so FUNCALL can delegate to a resumable implementation.
+  ;; This file bootstraps before DO/LOOP macros are available.
+  (cl:let ((iterator ((ffi:ref map "entries"))) (item nil))
+    (cl:tagbody
+      next-entry
+        (cl:setq item ((ffi:ref iterator "next")))
+        (cl:if (eq (ffi:ref item "done") (ffi:ref "true")) (cl:go done))
+        (cl:let ((entry (ffi:ref item "value")))
+          (cl:funcall function (ffi:aget entry 1) (ffi:aget entry 0)))
+        (cl:go next-entry)
+      done)
+    nil))
 
 (cl:defun system:function-name (function)
   (let ((name (ffi:ref function "lisp_name")))
