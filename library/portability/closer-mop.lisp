@@ -219,7 +219,7 @@
         ;; Existing generic dispatch caches must not keep the old method order.
         (maphash (lambda (function gf)
                    (declare (ignore function))
-                   (clrhash (cl::classes-to-emf-table gf))) cl::*generic-function-objects*))
+                   (cl::invalidate-generic-function-caches gf)) cl::*generic-function-objects*))
       (setf class (apply #'make-instance metaclass :name name args)))
   (setf (find-class name) class))
 

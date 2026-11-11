@@ -410,6 +410,9 @@
          (std-after-initialization-for-classes class
                                                :direct-superclasses direct-superclasses
                                                :direct-slots direct-slots)
+         (maphash (lambda (function gf)
+                    (declare (ignore function))
+                    (invalidate-generic-function-caches gf)) *generic-function-objects*)
          class)
         (t
          (setq metaclass (canonicalize-class metaclass))
@@ -859,8 +862,13 @@
       (setf (fdefinition (generic-function-name gf))
             (if (and trace-entry (eq (second trace-entry) discriminating-function))
                 (third trace-entry) discriminating-function)))
-    #+valtan ((ffi:ref "lisp.resetMethodCacheKeys") gf)
-    (clrhash (classes-to-emf-table gf))))
+    (invalidate-generic-function-caches gf)))
+
+(defun invalidate-generic-function-caches (gf)
+  #+valtan ((ffi:ref "lisp.resetMethodCacheKeys") gf)
+  (clrhash (classes-to-emf-table gf))
+  (let ((cache (getf (%slot-value gf 'signature-shape) :keyword-policy-cache)))
+    (when cache (clrhash cache))))
 
 (defun required-classes (gf args)
   (let ((argc (length args)))
@@ -879,27 +887,42 @@
            (key (method-cache-key gf args classes))
            (emfun (when (eq (class-of gf) +standard-generic-function+)
                     (gethash key (classes-to-emf-table gf)))))
-      (%check-generic-keywords gf args classes)
+      (%check-generic-keywords gf args classes key)
       (if emfun
           (funcall emfun args)
           (slow-method-lookup gf args classes key)))))
 
-(defun %check-generic-keywords (gf args classes)
-  (let* ((shape (%slot-value gf 'signature-shape))
-         (methods nil))
+(defun %generic-keyword-policy (gf shape args classes)
+  (let ((keys (copy-list (getf shape :keywords)))
+        (allow (getf shape :allow-other-keys)))
+    (dolist (method (%compute-applicable-methods gf args classes))
+      (let ((m (analyze-lambda-list (method-lambda-list method))))
+        (setq keys (union keys (getf m :keywords)))
+        (when (getf m :allow-other-keys)
+          (setq allow t))))
+    (cons allow keys)))
+
+(defun %check-generic-keywords (gf args classes &optional (key (method-cache-key gf args classes)))
+  (let ((shape (%slot-value gf 'signature-shape)))
     (when (getf shape :keyp)
-      (setq methods (%compute-applicable-methods gf args classes))
-      (let ((keys (copy-list (getf shape :keywords)))
-            (allow (getf shape :allow-other-keys))
-            (tail (nthcdr (min (length args)
-                              (+ (length (getf shape :required-names))
-                                 (length (getf shape :optional-args)))) args)))
-        (dolist (method methods)
-          (let ((m (analyze-lambda-list (method-lambda-list method))))
-            (setq keys (union keys (getf m :keywords)))
-            (when (or (getf m :allow-other-keys)
-                      (and (getf m :rest-var) (not (getf m :keyp))))
-              (setq allow t))))
+      ;; The accepted keyword set depends on the applicable methods, including
+      ;; EQL specializers. Reuse the dispatch key and invalidate with the EMF
+      ;; cache. Custom generic-function classes keep their dynamic lookup.
+      (let* ((cache (when (eq (class-of gf) +standard-generic-function+)
+                      (or (getf shape :keyword-policy-cache)
+                          (let ((cache (make-hash-table :test #+valtan 'eq #-valtan 'equal)))
+                            (setf (getf shape :keyword-policy-cache) cache
+                                  (%slot-value gf 'signature-shape) shape)
+                            cache))))
+             (policy (or (and cache (gethash key cache))
+                         (let ((policy (%generic-keyword-policy gf shape args classes)))
+                           (when cache (setf (gethash key cache) policy))
+                           policy)))
+             (allow (car policy))
+             (keys (cdr policy))
+             (tail (nthcdr (min (length args)
+                               (+ (length (getf shape :required-names))
+                                  (length (getf shape :optional-args)))) args)))
         (unless (evenp (length tail)) (error 'program-error))
         (unless (or allow (getf tail :allow-other-keys))
           (do ((rest tail (cddr rest))) ((null rest))
@@ -1642,7 +1665,7 @@
           (find-class name) class)
     class))
 
-(defgeneric allocate-instance (class &key))
+(defgeneric allocate-instance (class &rest initargs &key &allow-other-keys))
 
 (defmethod allocate-instance ((class standard-class) &rest initargs)
   (declare (ignore initargs))
@@ -1653,7 +1676,7 @@
   (apply #'*:make-structure (class-name class)
          (make-list (length (class-slots class)))))
 
-(defgeneric shared-initialize (instance slot-names &key))
+(defgeneric shared-initialize (instance slot-names &rest initargs &key &allow-other-keys))
 
 (defmethod shared-initialize ((instance standard-object) slot-names &rest initargs)
   (dolist (slot (class-slots (class-of instance)))
@@ -1671,7 +1694,7 @@
                     (funcall (slot-definition-initfunction slot))))))))
   instance)
 
-(defgeneric initialize-instance (instance &key))
+(defgeneric initialize-instance (instance &rest initargs &key &allow-other-keys))
 
 (defmethod initialize-instance ((instance standard-object) &rest initargs)
   (apply #'shared-initialize instance t initargs))
@@ -1755,7 +1778,7 @@
     (apply #'update-instance-for-different-class previous instance initargs)
     instance))
 
-(defgeneric make-instance (class &key))
+(defgeneric make-instance (class &rest initargs &key &allow-other-keys))
 
 (defmethod make-instance ((symbol symbol) &rest initargs)
   (apply #'make-instance (find-class symbol) initargs))

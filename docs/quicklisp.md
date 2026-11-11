@@ -187,6 +187,18 @@ that test bodies execute. Its 57 upstream results pass; see the
 closures and other single-valued expressions in MULTIPLE-VALUE-CALL; previously
 FiveAM's runner could silently execute no tests.
 
+Standard generic functions cache accepted keywords by dispatch key, including
+EQL specializers, and invalidate that cache when methods or classes change.
+An `&rest`-only method no longer disables keyword checking, as specified by
+[CLHS 7.6.5](https://www.lispworks.com/documentation/HyperSpec/Body/07_fe.htm).
+Initialization generics explicitly declare `&allow-other-keys`.
+The [validation record](../tests/performance/keyword-policy-results.json)
+contains six new regression cases, 44 existing CLOS/class-change cases, MOP
+checks, and live McCLIM input after reloading the definitions. The upstream ANSI
+objects category retains its previous 829 successes and 34 failures. A focused
+3,000-call comparison measured median times of 794 ms without the cache and
+91 ms with it; this is not an end-to-end McCLIM speed measurement.
+
 An experimental Canvas backend lives in `library/mcclim-browser`, with a
 counter-frame example in `example/try-using-mcclim`. It runs Lisp in a worker;
 shared-memory input and transferred bitmap snapshots allow synchronous McCLIM

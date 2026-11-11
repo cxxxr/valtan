@@ -1,0 +1,436 @@
+{
+  "status": "verified",
+  "scope": "CLOS keyword-policy cache and keyword validation; includes known unchanged ANSI failures, not full McCLIM compatibility",
+  "recordedAt": "2026-11-11T06:57:18.962593+00:00",
+  "sourceHashes": {
+    "library/valtan-core/lisp/clos.lisp": "a7191e4bbafe42ee37c8e783d2954244be2a8edb387fe8bf1f748fdb5d44132b",
+    "library/portability/closer-mop.lisp": "a6c6c46607496c0cc7d257f808a6a2ad230ba18dd9bf2cdeefeb5aeae3232106",
+    "tests/ansi/fixtures/generic-keyword-regressions.lsp": "0c1856ec74c3ad38dd3efcdd4ffe073ddcc30bb9a7f2472a3a59b681a98ca31c",
+    "tests/mcclim/mop-checks.lisp": "edb1e3bfbb0b6fbe8ef1aaba4a76441eb0a9fc882828cb8ba41f4b38d079a78f"
+  },
+  "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+  "ansiBundleSha256": "9bf45e38fa61bdf20a3ac6a933a577652489931007d823194eeec779c13c14b4",
+  "nativeNewRegressions": {
+    "passed": 6,
+    "log": "PASS KEYWORD-POLICY-DISTINGUISHES-EQL-METHODS\nPASS KEYWORD-POLICY-FOLLOWS-METHOD-LIFECYCLE\nPASS KEYWORD-POLICY-FOLLOWS-PERMISSIVE-AROUND-METHOD\nPASS KEYWORD-REST-METHOD-DOES-NOT-DISABLE-VALIDATION\nPASS KEYWORD-POLICY-STILL-CHECKS-EACH-ARGUMENT-LIST\nPASS KEYWORD-POLICY-FOLLOWS-CLASS-REDEFINITION\n"
+  },
+  "targetRegressions": {
+    "counts": {
+      "clos-regressions.lsp": 36,
+      "generic-keyword-regressions.lsp": 6,
+      "class-change-regressions.lsp": 8
+    },
+    "log": "\u2714 clos-regressions.lsp (7611.960426ms)\n\u2714 generic-keyword-regressions.lsp (2315.257373ms)\n\u2714 class-change-regressions.lsp (1629.652569ms)\n\u2139 tests 3\n\u2139 suites 0\n\u2139 pass 3\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 11606.819794\n"
+  },
+  "mop": {
+    "log": "\u2714 MOP metaclasses, custom slot storage and forward references (36740.0299ms)\n\u2139 tests 1\n\u2139 suites 0\n\u2139 pass 1\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 36790.307816\n"
+  },
+  "ansiObjects": {
+    "name": "objects",
+    "files": [
+      "auxiliary/defclass-aux.lsp",
+      "objects/defclass.lsp",
+      "objects/defclass-01.lsp",
+      "objects/defclass-02.lsp",
+      "objects/defclass-03.lsp",
+      "objects/defclass-errors.lsp",
+      "objects/defclass-forward-reference.lsp",
+      "objects/ensure-generic-function.lsp",
+      "objects/allocate-instance.lsp",
+      "objects/reinitialize-instance.lsp",
+      "objects/shared-initialize.lsp",
+      "objects/change-class.lsp",
+      "objects/update-instance-for-different-class.lsp",
+      "objects/slot-boundp.lsp",
+      "objects/slot-exists-p.lsp",
+      "objects/slot-makunbound.lsp",
+      "objects/slot-missing.lsp",
+      "objects/slot-unbound.lsp",
+      "objects/slot-value.lsp",
+      "objects/method-qualifiers.lsp",
+      "objects/no-applicable-method.lsp",
+      "objects/no-next-method.lsp",
+      "objects/remove-method.lsp",
+      "objects/make-instance.lsp",
+      "objects/make-instances-obsolete.lsp",
+      "objects/make-load-form.lsp",
+      "objects/make-load-form-order.lsp",
+      "objects/make-load-form-saving-slots.lsp",
+      "objects/with-accessors.lsp",
+      "objects/with-slots.lsp",
+      "objects/defgeneric.lsp",
+      "objects/defgeneric-method-combination-aux.lsp",
+      "objects/defgeneric-method-combination-plus.lsp",
+      "objects/defgeneric-method-combination-append.lsp",
+      "objects/defgeneric-method-combination-nconc.lsp",
+      "objects/defgeneric-method-combination-list.lsp",
+      "objects/defgeneric-method-combination-max.lsp",
+      "objects/defgeneric-method-combination-min.lsp",
+      "objects/defgeneric-method-combination-and.lsp",
+      "objects/defgeneric-method-combination-or.lsp",
+      "objects/defgeneric-method-combination-progn.lsp",
+      "objects/find-class.lsp",
+      "objects/next-method-p.lsp",
+      "objects/call-next-method.lsp",
+      "objects/compute-applicable-methods.lsp",
+      "objects/define-method-combination.lsp",
+      "objects/define-method-combination-long-form.lsp",
+      "objects/find-method.lsp",
+      "objects/add-method.lsp",
+      "objects/class-name.lsp",
+      "objects/class-of.lsp",
+      "objects/unbound-slot.lsp",
+      "objects/defmethod.lsp"
+    ],
+    "mode": "eval",
+    "status": "finished",
+    "pass": 829,
+    "fail": 34,
+    "registered": 863,
+    "expectedRegistered": 862,
+    "completedFiles": [
+      "cl-test-package.lsp",
+      "auxiliary/ansi-aux-macros.lsp",
+      "universe.lsp",
+      "auxiliary/random-aux.lsp",
+      "auxiliary/ansi-aux.lsp",
+      "cl-symbol-names.lsp",
+      "notes.lsp",
+      "auxiliary/defclass-aux.lsp",
+      "objects/defclass.lsp",
+      "objects/defclass-01.lsp",
+      "objects/defclass-02.lsp",
+      "objects/defclass-03.lsp",
+      "objects/defclass-errors.lsp",
+      "objects/defclass-forward-reference.lsp",
+      "objects/ensure-generic-function.lsp",
+      "objects/allocate-instance.lsp",
+      "objects/reinitialize-instance.lsp",
+      "objects/shared-initialize.lsp",
+      "objects/change-class.lsp",
+      "objects/update-instance-for-different-class.lsp",
+      "objects/slot-boundp.lsp",
+      "objects/slot-exists-p.lsp",
+      "objects/slot-makunbound.lsp",
+      "objects/slot-missing.lsp",
+      "objects/slot-unbound.lsp",
+      "objects/slot-value.lsp",
+      "objects/method-qualifiers.lsp",
+      "objects/no-applicable-method.lsp",
+      "objects/no-next-method.lsp",
+      "objects/remove-method.lsp",
+      "objects/make-instance.lsp",
+      "objects/make-instances-obsolete.lsp",
+      "objects/make-load-form.lsp",
+      "objects/make-load-form-order.lsp",
+      "objects/make-load-form-saving-slots.lsp",
+      "objects/with-accessors.lsp",
+      "objects/with-slots.lsp",
+      "objects/defgeneric.lsp",
+      "objects/defgeneric-method-combination-aux.lsp",
+      "objects/defgeneric-method-combination-aux.lsp",
+      "objects/defgeneric-method-combination-plus.lsp",
+      "objects/defgeneric-method-combination-aux.lsp",
+      "objects/defgeneric-method-combination-append.lsp",
+      "objects/defgeneric-method-combination-aux.lsp",
+      "objects/defgeneric-method-combination-nconc.lsp",
+      "objects/defgeneric-method-combination-aux.lsp",
+      "objects/defgeneric-method-combination-list.lsp",
+      "objects/defgeneric-method-combination-aux.lsp",
+      "objects/defgeneric-method-combination-max.lsp",
+      "objects/defgeneric-method-combination-aux.lsp",
+      "objects/defgeneric-method-combination-min.lsp",
+      "objects/defgeneric-method-combination-aux.lsp",
+      "objects/defgeneric-method-combination-and.lsp",
+      "objects/defgeneric-method-combination-aux.lsp",
+      "objects/defgeneric-method-combination-or.lsp",
+      "objects/defgeneric-method-combination-aux.lsp",
+      "objects/defgeneric-method-combination-progn.lsp",
+      "objects/find-class.lsp",
+      "objects/next-method-p.lsp",
+      "objects/call-next-method.lsp",
+      "objects/compute-applicable-methods.lsp",
+      "objects/define-method-combination.lsp",
+      "objects/define-method-combination-long-form.lsp",
+      "objects/find-method.lsp",
+      "objects/add-method.lsp",
+      "objects/class-name.lsp",
+      "objects/class-of.lsp",
+      "objects/unbound-slot.lsp",
+      "objects/defmethod.lsp"
+    ],
+    "errors": [],
+    "failures": [
+      {
+        "test": "CLASS-0309.1",
+        "reason": "expected (T NIL T NIL); actual (T T T T) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "CLASS-0310.1",
+        "reason": "expected (T NIL T NIL CLASS-0310B CLASS-0310A); actual (T T T T CLASS-0310B CLASS-0310B) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "DEFCLASS.FORWARD-REF.1",
+        "reason": "There is no class named #:G4518."
+      },
+      {
+        "test": "DEFCLASS.FORWARD-REF.2",
+        "reason": "There is no class named #:G4539."
+      },
+      {
+        "test": "DEFCLASS.FORWARD-REF.3",
+        "reason": "There is no class named #:G4561."
+      },
+      {
+        "test": "DEFCLASS.FORWARD-REF.4",
+        "reason": "There is no class named #:G4573."
+      },
+      {
+        "test": "SHARED-INITIALIZE.ERROR.4",
+        "reason": "<unprintable>"
+      },
+      {
+        "test": "SLOT-BOUNDP.ERROR.5",
+        "reason": "expected (NIL); actual ((\"\u0000\" #(NIL NIL NIL NIL NIL NIL NIL NIL NIL NIL) #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS NIL :ENTRY-COUNT ...) #P\"foo\" #P\"CLTESTROOT:\" #S(COMMON-LISP::STANDARD-OUTPUT-STREAM :BUFFER \"\") #S(READTABLE :%CASE :UPCASE :SYNTAX #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :ENTRY-COUNT ...) :TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\# #\\\" #\\; #\\, #\\` #\\' #\\) #\\() :ENTRY-COUNT ...) :DISPATCH-MACRO-TABLE #S(HASH-TABLE :MAP #<[object Map]> :BUCKETS NIL :BUCKET-COUNT 0 :KEYS (#\\#) :ENTRY-COUNT ...)) #S(RANDOM-STATE :SEED 8166660282960120))) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "MAKE-INSTANCE.ERROR.3",
+        "reason": "expected (:GOOD); actual (T) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "MAKE-INSTANCE.ERROR.4",
+        "reason": "expected (:GOOD); actual (T) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "MAKE-INSTANCES-OBSOLETE.1",
+        "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+      },
+      {
+        "test": "MAKE-INSTANCES-OBSOLETE.2",
+        "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+      },
+      {
+        "test": "MAKE-INSTANCES-OBSOLETE.ERROR.1",
+        "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+      },
+      {
+        "test": "MAKE-INSTANCES-OBSOLETE.ERROR.2",
+        "reason": "The function MAKE-INSTANCES-OBSOLETE is undefined"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.1",
+        "reason": "unexpected literal: A"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.2",
+        "reason": "unexpected literal: A"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.3",
+        "reason": "unexpected literal: A"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.4",
+        "reason": "unexpected literal: B"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.5",
+        "reason": "unexpected literal: A"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.6",
+        "reason": "unexpected literal: B"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.7",
+        "reason": "unexpected literal: A"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.8",
+        "reason": "unexpected literal: B"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.9",
+        "reason": "unexpected literal: A"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.10",
+        "reason": "unexpected literal: C"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.11",
+        "reason": "unexpected literal: A"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.12",
+        "reason": "unexpected literal: C"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.13",
+        "reason": "unexpected literal: A"
+      },
+      {
+        "test": "MAKE-LOAD-FORM.ORDER.14",
+        "reason": "unexpected literal: C"
+      },
+      {
+        "test": "DEFGENERIC.30",
+        "reason": "expected (T T T T 1 2 1 2); actual (NIL T T T 1 2 1 2) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "FIND-CLASS.24",
+        "reason": "expected (((T T T) (T T T))); actual (((NIL NIL T) (T T T))) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "CALL-NEXT-METHOD.ERROR.1",
+        "reason": "expected (:ERROR); actual (NIL) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "CALL-NEXT-METHOD.ERROR.2",
+        "reason": "expected (:ERROR); actual (:BAD) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "CLASS-NAME.2",
+        "reason": "expected (SILLY); actual (\"{2173}\") [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "SETF-CLASS-NAME.1",
+        "reason": "expected (T); actual (NIL) [diagnostic display: length 10, depth 5]"
+      }
+    ],
+    "complete": true,
+    "timedOut": false,
+    "unexecuted": 0,
+    "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCLASS-NAME already names an ordinary function, macro or special operator.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "pendingTest": null,
+    "currentFile": "objects/defmethod.lsp",
+    "exitCode": 0,
+    "signal": null,
+    "unreadFiles": [],
+    "unregisteredTestsUnknown": false,
+    "fatalError": false,
+    "referenceRegistrationMismatch": true,
+    "effectiveExpectedRegistered": 863,
+    "referenceInventoryMismatch": false,
+    "missingReferenceTests": [],
+    "unexpectedTests": [
+      "DEFGENERIC.30"
+    ],
+    "conditionalRegistrations": [
+      {
+        "file": "objects/defgeneric.lsp",
+        "tests": [
+          "DEFGENERIC.30"
+        ],
+        "delta": 1,
+        "reason": "The upstream guard registers this test when the metaclass of STANDARD-GENERIC-FUNCTION is a subtype of STANDARD-CLASS."
+      }
+    ],
+    "aliasedRegistrations": [],
+    "registrationNameMismatch": false,
+    "registrationMismatch": false
+  },
+  "ansiComparison": {
+    "baseline": "tests/ansi/full-conformance-results.json",
+    "baselineSha256": "c560311c64947a4f0318510223f0b854500638fa0a952308bc5d0fd2d83515c8",
+    "newFailures": [],
+    "resolvedFailures": []
+  },
+  "benchmark": {
+    "scope": "3000 valid calls through a two-method standard generic function in one fresh Node process. Both the uncached checker from e1896a0 and the current checker are runtime compiled; the old checker accepts an ignored fourth argument for the current caller. This isolates keyword checking, not whole McCLIM speed.",
+    "samplesMs": [
+      [
+        870,
+        102
+      ],
+      [
+        794,
+        83
+      ],
+      [
+        775,
+        91
+      ]
+    ],
+    "uncachedMedianMs": 794,
+    "cachedMedianMs": 91,
+    "source": "(in-package :cl)\n(defun %benchmark-uncached-keywords (gf args classes &optional key)\n  (declare (ignore key))\n  (let* ((shape (%slot-value gf 'signature-shape))\n         (methods nil))\n    (when (getf shape :keyp)\n      (setq methods (%compute-applicable-methods gf args classes))\n      (let ((keys (copy-list (getf shape :keywords)))\n            (allow (getf shape :allow-other-keys))\n            (tail (nthcdr (min (length args)\n                              (+ (length (getf shape :required-names))\n                                 (length (getf shape :optional-args)))) args)))\n        (dolist (method methods)\n          (let ((m (analyze-lambda-list (method-lambda-list method))))\n            (setq keys (union keys (getf m :keywords)))\n            (when (or (getf m :allow-other-keys)\n                      (and (getf m :rest-var) (not (getf m :keyp))))\n              (setq allow t))))\n        (unless (evenp (length tail)) (error 'program-error))\n        (unless (or allow (getf tail :allow-other-keys))\n          (do ((rest tail (cddr rest))) ((null rest))\n            (unless (or (eq (car rest) :allow-other-keys) (member (car rest) keys))\n              (error 'program-error))))))))\n\n\n(defun %generic-keyword-policy (gf shape args classes)\n  (let ((keys (copy-list (getf shape :keywords)))\n        (allow (getf shape :allow-other-keys)))\n    (dolist (method (%compute-applicable-methods gf args classes))\n      (let ((m (analyze-lambda-list (method-lambda-list method))))\n        (setq keys (union keys (getf m :keywords)))\n        (when (getf m :allow-other-keys)\n          (setq allow t))))\n    (cons allow keys)))\n\n(defun %check-generic-keywords (gf args classes &optional (key (method-cache-key gf args classes)))\n  (let ((shape (%slot-value gf 'signature-shape)))\n    (when (getf shape :keyp)\n      ;; The accepted keyword set depends on the applicable methods, including\n      ;; EQL specializers. Reuse the dispatch key and invalidate with the EMF\n      ;; cache. Custom generic-function classes keep their dynamic lookup.\n      (let* ((cache (when (eq (class-of gf) +standard-generic-function+)\n                      (or (getf shape :keyword-policy-cache)\n                          (let ((cache (make-hash-table :test #+valtan 'eq #-valtan 'equal)))\n                            (setf (getf shape :keyword-policy-cache) cache\n                                  (%slot-value gf 'signature-shape) shape)\n                            cache))))\n             (policy (or (and cache (gethash key cache))\n                         (let ((policy (%generic-keyword-policy gf shape args classes)))\n                           (when cache (setf (gethash key cache) policy))\n                           policy)))\n             (allow (car policy))\n             (keys (cdr policy))\n             (tail (nthcdr (min (length args)\n                               (+ (length (getf shape :required-names))\n                                  (length (getf shape :optional-args)))) args)))\n        (unless (evenp (length tail)) (error 'program-error))\n        (unless (or allow (getf tail :allow-other-keys))\n          (do ((rest tail (cddr rest))) ((null rest))\n            (unless (or (eq (car rest) :allow-other-keys) (member (car rest) keys))\n              (error 'program-error))))))))\n\n\n(in-package :cl-user)\n(defgeneric keyword-benchmark-call (object &key))\n(defmethod keyword-benchmark-call ((object t) &key value) value)\n(defmethod keyword-benchmark-call ((object integer) &key value extra)\n  (declare (ignore value extra)) (1+ (call-next-method)))\n(defun keyword-benchmark-time (checker)\n  (setf (symbol-function 'cl::%check-generic-keywords) checker)\n  (dotimes (i 100) (assert (= 2 (keyword-benchmark-call i :value 1))))\n  (let ((start (get-internal-real-time)) (sum 0))\n    (dotimes (i 3000) (incf sum (keyword-benchmark-call i :value 1)))\n    (assert (= sum 6000))\n    (/ (* 1000 (- (get-internal-real-time) start)) internal-time-units-per-second)))\n(let ((optimized (symbol-function 'cl::%check-generic-keywords)) (samples nil))\n  (unwind-protect\n      (dotimes (i 3)\n        (let* ((uncached (keyword-benchmark-time #'cl::%benchmark-uncached-keywords))\n               (cached (keyword-benchmark-time optimized)))\n          (push (list uncached cached) samples)\n          (format t \"~&KEYWORD-BENCH-MS ~D ~D~%\" uncached cached)))\n    (setf (symbol-function 'cl::%check-generic-keywords) optimized))\n  (format t \"~&KEYWORD-BENCH-RESULT ~S~%\" (reverse samples)))\n",
+    "loadGate": {
+      "system": "alexandria",
+      "scope": "Load and supplied API assertions; GUI verification is separate",
+      "timestamp": "2026-11-11T06:46:07.138Z",
+      "complete": true,
+      "status": "passed",
+      "work": "/tmp/valtan-mcclim-iSoq0w",
+      "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+      "target": "node",
+      "extraSystems": [],
+      "targetFeatures": [],
+      "checksSha256": "b521816826ad0581c34f0abe8cee886951bd888f35ca4878f77cb9cde0182e1e",
+      "stage": "run",
+      "bundleSha256": "4da351c261fae0e149880fcb10fb213008f2082afa659f940401e8e33d97c190",
+      "finishedAt": "2026-11-11T06:47:07.005Z"
+    }
+  },
+  "liveMcclim": {
+    "scope": "Production definitions and initializer signatures reloaded into the existing browser worker, followed by all six regression cases and real Chrome button/keyboard input. Not a cold gate for the new core.",
+    "work": "/tmp/valtan-mcclim-workbench-hPP8og",
+    "startupCompilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "evaluations": [
+      {
+        "id": 69,
+        "commandId": "keyword-policy-live-reload",
+        "startedAt": "2026-11-11T06:53:56.353Z",
+        "sourceSha256": "22fdaf9590c5de097f2d3115e7c7f5c3cddaba18a923b6add762c41a1f27d642",
+        "file": "/tmp/valtan-keyword-cache-live-reload.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 69,
+          "ok": true,
+          "value": "(:KEYWORD-POLICY-RELOADED)"
+        },
+        "finishedAt": "2026-11-11T06:54:14.683Z"
+      },
+      {
+        "id": 70,
+        "commandId": "keyword-policy-live-checks",
+        "startedAt": "2026-11-11T06:54:26.662Z",
+        "sourceSha256": "a600057f248663276f2cdad76bc7504c9759eafd554eea916fdad19c1eda9ff4",
+        "file": "/tmp/valtan-keyword-cache-live-checks.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 70,
+          "ok": true,
+          "value": "(:KEYWORD-POLICY-CHECKS-PASSED 6)"
+        },
+        "finishedAt": "2026-11-11T06:54:28.907Z"
+      },
+      {
+        "id": 71,
+        "commandId": "keyword-policy-counter-baseline",
+        "startedAt": "2026-11-11T06:54:55.661Z",
+        "sourceSha256": "546684bd7c3dc533b09e9b117dcfb01184e9f9bf51ad758147315b0e8e9a6f89",
+        "result": {
+          "type": "test-result",
+          "id": 71,
+          "ok": true,
+          "value": "(2)"
+        },
+        "finishedAt": "2026-11-11T06:54:55.766Z"
+      },
+      {
+        "id": 72,
+        "commandId": "keyword-counter-result",
+        "startedAt": "2026-11-11T06:55:27.305Z",
+        "sourceSha256": "943ac12d1fb876aa610c9c26cea7209d4801c152f3b94e52877a80f501c62265",
+        "result": {
+          "type": "test-result",
+          "id": 72,
+          "ok": true,
+          "value": "(:COUNTER-INPUT-PASSED)"
+        },
+        "finishedAt": "2026-11-11T06:55:31.404Z"
+      }
+    ]
+  }
+}
