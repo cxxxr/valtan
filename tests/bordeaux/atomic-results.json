@@ -1,0 +1,160 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T15:55:56.011721+00:00",
+  "scope": "Atomic integer validation fast paths, preserving CHECK-TYPE conditions and STORE-VALUE retries; 12 public API groups in fresh Node/Chrome builds after core CHECK-TYPE fix 270bd64.",
+  "compilerSha256": "b5e98e1b0924dfd01161f5dac3ba8fd5b1de16277f3133695f4e967bd461f86c",
+  "sourceHashes": {
+    "library/portability/bordeaux-threads/atomics.lisp": "62e0d53232750e3c4c3e893043518fcf24c49feab7315bd94c2b8fcedbc9195a",
+    "library/valtan-core/lisp/restart.lisp": "6e65b1f941ef15db50e3831ee3cb04c0786b115e20f96e00dc0486cdfb771ffe",
+    "tests/bordeaux/checks.lisp": "0c68fb57fac35a64a51107c35516d131e54aead9f3da48f58d7984f55a4eb92e",
+    "tests/bordeaux/checks.mjs": "840c9e1f3fa6eef72e3ee7b67cd5adbad67226d2fbd83728afb48b4b516f0916"
+  },
+  "node": {
+    "status": "passed",
+    "groups": [
+      "v1",
+      "v2",
+      "bindings",
+      "counter",
+      "condition",
+      "semaphore",
+      "atomic",
+      "atomicValidation",
+      "selfInterrupt",
+      "interrupt",
+      "termination",
+      "timeout"
+    ],
+    "bundleSha256": "95f55955f960d22b273f8aa9b63cf4c61b7fb029f0b9aded2f36f9aecefdd05e",
+    "log": "/tmp/valtan-bordeaux-check-type-verify.log"
+  },
+  "browser": {
+    "system": "bordeaux-threads",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T15:47:15.390Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-gJ0sQf",
+    "compilerSha256": "b5e98e1b0924dfd01161f5dac3ba8fd5b1de16277f3133695f4e967bd461f86c",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "afterLoadSha256": "9279206b9488cfdd10ad9786e9317440022fa54a021184082a21760218b4c309",
+    "checksSha256": "0c68fb57fac35a64a51107c35516d131e54aead9f3da48f58d7984f55a4eb92e",
+    "stage": "run",
+    "bundleSha256": "9450534a8dbd62eb95aa6804b1220353775383c9969cda0767096d1ec7e16834",
+    "finishedAt": "2026-11-11T15:53:31.251Z"
+  },
+  "browserGroups": [
+    "v1",
+    "v2",
+    "bindings",
+    "counter",
+    "condition",
+    "semaphore",
+    "atomic",
+    "atomicValidation",
+    "selfInterrupt",
+    "interrupt",
+    "termination",
+    "timeout"
+  ],
+  "benchmark": {
+    "scope": "Same-process diagnostic: current BT bundle, reload ee1d5d0 atomics for baseline then optimized atomics; not a fresh build result",
+    "iterations": 20000,
+    "before": [
+      39546.517173,
+      39842.58172000002,
+      40794.493405000016
+    ],
+    "after": [
+      1167.3364670000155,
+      999.4544779999997,
+      1007.6303870000411
+    ],
+    "beforeMedianMs": 39842.58172000002,
+    "afterMedianMs": 1007.6303870000411,
+    "ratio": 39.54086958276537,
+    "baselineCommit": "ee1d5d0",
+    "baselineSourceSha256": "1b8d60381986c685b4d2186f78ff59d9ae8feced0cff0293166afb894230840a",
+    "script": "/tmp/valtan-bordeaux-atomic-benchmark.mjs",
+    "scriptSha256": "49cb62a28febafd7a5dcebf971d36c5e4264e805eb1ac11cfcec267bafdc0416",
+    "log": "/tmp/valtan-bordeaux-atomic-benchmark2.log",
+    "note": "Comparison reloads only the atomics definitions in one process. It does not measure library startup, whole McCLIM or browser performance. Initial helper attempt failed to read its malformed benchmark form and supplied no timing results."
+  },
+  "validationFailureBeforeCoreFix": {
+    "nodeLog": "/tmp/valtan-bordeaux-fast-verify.log",
+    "browser": {
+      "system": "bordeaux-threads",
+      "scope": "Load and supplied API assertions; GUI verification is separate",
+      "timestamp": "2026-11-11T15:37:35.949Z",
+      "complete": false,
+      "status": "failed",
+      "work": "/tmp/valtan-mcclim-TThC34",
+      "compilerSha256": "67b4c7a6bbdb29c6fc922f5bb9434e1b30d68dfbafc1706d1ee9f2bb1e63db0c",
+      "target": "browser",
+      "extraSystems": [],
+      "targetFeatures": [
+        "valtan-resumable"
+      ],
+      "afterLoadSha256": "9279206b9488cfdd10ad9786e9317440022fa54a021184082a21760218b4c309",
+      "checksSha256": "0c68fb57fac35a64a51107c35516d131e54aead9f3da48f58d7984f55a4eb92e",
+      "stage": "run",
+      "bundleSha256": "05fbde98e94924133198b52ccb7834000c934af8d7ca668e989588a7a2d809d7",
+      "error": "Error: Error: The assertion (HANDLER-CASE (PROGN (BT2:MAKE-ATOMIC-INTEGER :VALUE COMMON-LISP-USER::VALUE) NIL) (TYPE-ERROR (CONDITION) (EQL (TYPE-ERROR-DATUM CONDITION) COMMON-LISP-USER::VALUE))) failed.\n\nBacktrace:\n0: (SYSTEM:ERROR #<[object Object]>)\n1: (INVOKE-DEBUGGER #<SIMPLE-ERROR {157}>)\n2: (ERROR \"The assertion ~S failed.\" (HANDLER-CASE (PROGN (BT2:MAKE-ATOMIC-INTEGER :VALUE COMMON-LISP-USER::VALUE) NIL) (TYPE-ERROR (CONDITION) (EQL (TYPE-ERROR-DATUM CONDITION) COMMON-LISP-USER::VALUE))))\n3: (#<Function>)",
+      "finishedAt": "2026-11-11T15:43:35.656Z"
+    },
+    "cause": "CHECK-TYPE reported the quoted variable name as TYPE-ERROR-DATUM instead of the actual rejected value. Fixed in 270bd64; no test assertions were removed."
+  },
+  "upstreamDiagnosticFailure": {
+    "status": "failed",
+    "complete": false,
+    "startedAt": "2026-11-11T15:13:15.394Z",
+    "scope": "Both upstream Bordeaux Threads 0.9.4 suites, with unchanged atomic test bodies explicitly enabled for Valtan",
+    "bundleSha256": "93e4f970998b2b438887c9d4cb4feebe7bc6c121fe53bb9775740b770966dcfc",
+    "stage": "tests",
+    "finishedAt": "2026-11-11T15:34:00.627895+00:00",
+    "failureKind": "diagnostic-operation",
+    "error": "Profiler collection succeeded, but inspector Runtime.evaluate dynamic import of node:inspector rejected with ERR_VM_DYNAMIC_IMPORT_CALLBACK_MISSING; unhandled rejection terminated Node with exit 1. Suites had reached final atomic concurrency case.",
+    "rawReportAtExit": {
+      "status": "running",
+      "complete": false,
+      "startedAt": "2026-11-11T15:13:15.394Z",
+      "scope": "Both upstream Bordeaux Threads 0.9.4 suites, with unchanged atomic test bodies explicitly enabled for Valtan",
+      "bundleSha256": "93e4f970998b2b438887c9d4cb4feebe7bc6c121fe53bb9775740b770966dcfc",
+      "stage": "tests"
+    },
+    "processExitCode": 1,
+    "profile": "/tmp/valtan-bordeaux-atomic-profile.json"
+  },
+  "upstreamRuns": {
+    "unchangedRerun": {
+      "status": "running",
+      "complete": false,
+      "startedAt": "2026-11-11T15:34:00.650Z",
+      "scope": "Both upstream Bordeaux Threads 0.9.4 suites, with unchanged atomic test bodies explicitly enabled for Valtan",
+      "bundleSha256": "93e4f970998b2b438887c9d4cb4feebe7bc6c121fe53bb9775740b770966dcfc",
+      "stage": "tests"
+    },
+    "optimizedBeforeCoreFix": {
+      "status": "running",
+      "complete": false,
+      "startedAt": "2026-11-11T15:38:02.210Z",
+      "scope": "Both upstream Bordeaux Threads 0.9.4 suites, with unchanged atomic test bodies explicitly enabled for Valtan",
+      "bundleSha256": "c9963d773ae46660da71813a7712f842154c07200dec2cc6953b0cb224725085",
+      "stage": "tests"
+    },
+    "optimizedWithCoreFix": {
+      "status": "running",
+      "complete": false,
+      "startedAt": "2026-11-11T15:53:21.587Z",
+      "scope": "Both upstream Bordeaux Threads 0.9.4 suites, with unchanged atomic test bodies explicitly enabled for Valtan",
+      "bundleSha256": "a757913325c6c4e456cfba59941ad312c7e898a757fc4be09c2c9f617756a85c"
+    }
+  },
+  "upstreamNote": "These snapshots do not establish completion while a run reports running. Both full test suites retain their original bodies and million-update atomic concurrency case."
+}

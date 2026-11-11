@@ -909,6 +909,14 @@ cases and four focused regressions in both evaluated and compiled modes.
 The full conditions category completes with 646 passing and 27 existing
 failures, resolving five failures without introducing new failure names.
 
+Atomic integer operations now validate their fixed argument types directly
+on the successful path, retaining `CHECK-TYPE` for invalid arguments and
+`STORE-VALUE` retries. The [atomic checks](../tests/bordeaux/atomic-results.json)
+pass 12 public API groups in fresh Node and Chrome builds. In a same-process
+diagnostic, 20,000 increments took a median 39.84 seconds before and 1.01
+seconds after this change. This measures that update loop, not library startup
+or whole McCLIM performance.
+
 Application drivers still need integration with the scheduler: blocking calls
 must originate in scheduled Lisp, and merely enabling `:valtan-resumable` does
 not schedule a synchronous application top-level. Other blocking host operations and remaining JavaScript callback
