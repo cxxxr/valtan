@@ -1,0 +1,145 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T12:00:43.694Z",
+  "checksSha256": "f341838f8a98320d63777500782cba7c5c2ca4db3b67bffbb49c6cac07167762",
+  "scope": "Real McCLIM PNG output to binary streams in a fresh browser, including upstream ZPNG and independent decoding; filesystem output is tested separately on Node",
+  "work": "/tmp/valtan-mcclim-workbench-Rmu53z",
+  "validation": {
+    "status": "passed",
+    "checks": 44,
+    "images": [
+      {
+        "name": "rgba",
+        "width": 3,
+        "height": 2,
+        "bytes": 89,
+        "sha256": "57ce1b13840c18a1523c9cc2c35ffcebbf347abdc556796a2eac3b9a08d3b18a",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "default",
+        "width": 3,
+        "height": 2,
+        "bytes": 89,
+        "sha256": "57ce1b13840c18a1523c9cc2c35ffcebbf347abdc556796a2eac3b9a08d3b18a",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "rgba-repeat",
+        "width": 3,
+        "height": 2,
+        "bytes": 89,
+        "sha256": "57ce1b13840c18a1523c9cc2c35ffcebbf347abdc556796a2eac3b9a08d3b18a",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "palette",
+        "width": 2,
+        "height": 2,
+        "bytes": 76,
+        "sha256": "1b0b561b4fc0194a24bb1b2d63d9da5c8f6b78e291da98babf49789c8d9d7c1c",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "palette-mutation",
+        "width": 2,
+        "height": 2,
+        "bytes": 76,
+        "sha256": "5ad829a4766ddfe9accd7907d752addf631470eb34a96c222d3c69291f6dad20",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "tile",
+        "width": 4,
+        "height": 2,
+        "bytes": 74,
+        "sha256": "d6ab25b521bde971363d4d8fe58fba78a477424d80e96ea416f19d61ff026fc6",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "scaled",
+        "width": 4,
+        "height": 1,
+        "bytes": 74,
+        "sha256": "72ea709a5e5dca682d786fed1de0e61315e54dda105af5ff8960331d6f789b57",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "multirow",
+        "width": 64,
+        "height": 32,
+        "bytes": 8752,
+        "sha256": "383fb2fc0f320996b15b5fc9438b0cbc284c2c88d7a0f627c84a50fc3377337d",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IDAT",
+          "IDAT",
+          "IEND"
+        ]
+      }
+    ],
+    "validation": "PNG structure, CRC, independent zlib decompression and exact RGBA rows, plus native Chrome decoding over white"
+  },
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-Rmu53z",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T12:00:43.737Z",
+    "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+    "bundleSha256": "a3a29ef4882c887b2cede08d4883e04796bc50cc43e1af0685e805bffaf45910",
+    "browserAssetsSha256": "32ff8852e9d6a59d8d0e5e151d8e3183b7be13bc0c7b5fe6f9f501b94360c3d7",
+    "readyAt": "2026-11-11T12:24:08.459Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "png-write",
+        "startedAt": "2026-11-11T12:24:08.461Z",
+        "sourceSha256": "f341838f8a98320d63777500782cba7c5c2ca4db3b67bffbb49c6cac07167762",
+        "file": "/tmp/valtan-png-write-checks-HPMgKx/checks.lisp",
+        "lastLog": "MCCLIM-PNG-WRITE-CHECKS-PASS 44",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "valueSha256": "9562e024e098f78648ad0ced07c28ab7af2bf23258c1b5cf2e53438edb16d623",
+          "valueBytes": 67509
+        },
+        "finishedAt": "2026-11-11T12:24:15.590Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T12:24:15.632Z"
+  },
+  "finishedAt": "2026-11-11T12:24:15.888Z",
+  "fullMcclimComplete": false,
+  "validationScope": "Fresh browser with explicit test dependency FLEXI-STREAMS. Includes85f16ce VALUES-LIST and1bef48a pixmap fixes; predates75127e0 multiline text and binding-context work. No production reload. Exported PNG bytes validated independently and summarized by image hashes; original large eval value omitted with hash/length retained."
+}

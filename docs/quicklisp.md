@@ -550,7 +550,10 @@ comparison, and Chrome's native image decoder. SBCL passes the same checks plus
 seven pathname, readback and file-replacement assertions. The fresh Valtan
 browser run [exposed a missing test dependency](../tests/mcclim/png-write-cold-before-results.json):
 FLEXI-STREAMS was absent from the test app. Both test commands now declare it
-explicitly. Corrected fresh browser and Node results are still pending.
+explicitly. The corrected [fresh browser run passes all 44 checks and eight
+independent image validations](../tests/mcclim/png-write-cold-results.json), without
+production reloads. It includes the VALUES-LIST and pixmap-copy changes and
+predates the multiline-text correction. The Node filesystem result is pending.
 `npm run test:mcclim:png:write` runs the browser gate;
 `npm run test:mcclim:png:write:node` runs the stream and filesystem checks on Node.
 This adds static 8-bit RGBA PNG output, not APNG or other output formats.
