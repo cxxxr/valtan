@@ -1,0 +1,32 @@
+{
+  "system": "mcclim-browser",
+  "scope": "Load and supplied API assertions; GUI verification is separate",
+  "timestamp": "2026-11-11T12:01:19.109Z",
+  "complete": true,
+  "status": "passed",
+  "work": "/tmp/valtan-mcclim-Wh8mWo",
+  "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+  "target": "node",
+  "extraSystems": [
+    "flexi-streams"
+  ],
+  "targetFeatures": [
+    "clim-without-swank",
+    "use-salza2-zlib"
+  ],
+  "checksSha256": "95809d24404627fee788d575a386ac1deb95e40ab8ce7c3c8e3877e56e9cdfc8",
+  "stage": "run",
+  "bundleSha256": "b3610ba50599644d9be3d741c04fd53aed1f06314e1d90c2fc1e64f69bb2f99e",
+  "finishedAt": "2026-11-11T12:27:19.593Z",
+  "fullMcclimComplete": false,
+  "checks": 51,
+  "streamChecks": 44,
+  "fileChecks": 7,
+  "runLogSha256": "548e8b2d6a931ee0c727260cee7fbafb08fda6467c6c5124324a2aa1cffda9e1",
+  "completionMarkers": [
+    "MCCLIM-PNG-WRITE-CHECKS-PASS 44",
+    "MCCLIM-PNG-WRITE-FILES-PASS 51",
+    "MCCLIM-LOAD-COMPLETE"
+  ],
+  "validationScope": "Fresh Node process, explicit test dependency FLEXI-STREAMS; includes85f16ce VALUES-LIST and1bef48a pixmap fixes, predates75127e0 multiline text and binding-context changes. 44 stream assertions plus7 filesystem output/readback/replacement assertions. No production reload."
+}

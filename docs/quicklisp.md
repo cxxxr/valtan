@@ -553,7 +553,9 @@ FLEXI-STREAMS was absent from the test app. Both test commands now declare it
 explicitly. The corrected [fresh browser run passes all 44 checks and eight
 independent image validations](../tests/mcclim/png-write-cold-results.json), without
 production reloads. It includes the VALUES-LIST and pixmap-copy changes and
-predates the multiline-text correction. The Node filesystem result is pending.
+predates the multiline-text correction. A [fresh Node run also passes all 51
+stream and filesystem assertions](../tests/mcclim/png-write-node-results.json),
+including pathname output, readback and replacement of an existing file.
 `npm run test:mcclim:png:write` runs the browser gate;
 `npm run test:mcclim:png:write:node` runs the stream and filesystem checks on Node.
 This adds static 8-bit RGBA PNG output, not APNG or other output formats.
