@@ -338,8 +338,9 @@ validates their expected pixels. The real McCLIM file APIs, default format
 selection, Canvas pixels and malformed-file checks then
 [pass 92 groups in the existing worker](../tests/mcclim/png-live-results.json).
 `npm run test:mcclim:png` runs the fresh-start gate and removes the original image
-files before the Lisp checks, testing ASDF-embedded resources; that gate remains
-pending. This does not establish full PNG conformance, APNG playback, image
+files before the Lisp checks, testing ASDF-embedded resources. The
+[fresh-start gate passes all 92 groups](../tests/mcclim/png-cold-results.json),
+with all 30 independently generated variants also passing native Chrome decoding. This does not establish full PNG conformance, APNG playback, image
 writing or other bitmap formats.
 
 This is an experimental backend, not full McCLIM compatibility. Arbitrary

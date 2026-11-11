@@ -1,0 +1,234 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T05:51:22.863Z",
+  "scope": "30 PNG variants decoded through real McCLIM file APIs and drawn in Chrome; not other bitmap formats or full PNG conformance",
+  "fixtures": [
+    {
+      "name": "color-0-depth-1-interlace-0.PNG",
+      "width": 5,
+      "height": 3,
+      "sha256": "9f0f8b87d17bc25d0a7543122142138215e70757a1ac35150a275a59e00d7fc0"
+    },
+    {
+      "name": "color-0-depth-1-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "ea06e4ad1f70c2dae050deaa9edaef25b88a75287904ef69d72e5589d4558082"
+    },
+    {
+      "name": "color-0-depth-2-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "33f26df2a3cda242c87f7c57ce8f113d6f0ae6c2ec605024ba3321867fee28ee"
+    },
+    {
+      "name": "color-0-depth-2-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "7affa5e09bcd04f6d79e9950cf7df31f19a820e1a81d49309c3efab454013cef"
+    },
+    {
+      "name": "color-0-depth-4-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "9027b2c71619b7d8973ff83766d97ca8d72c0b3e45cb090626210653c126f378"
+    },
+    {
+      "name": "color-0-depth-4-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "ff27c00ba73699cbacb6854a062c39220d5c706d2a4292166b5da19067a86e08"
+    },
+    {
+      "name": "color-0-depth-8-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "dc9340a4c46ea4b2459e45b0532dba9ff14888bb7568d475bf1d64e7e38ac2d6"
+    },
+    {
+      "name": "color-0-depth-8-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "9468262dfb6ead749afc0f32619987ea41b07b232b00552ec29fc58d38143b1a"
+    },
+    {
+      "name": "color-0-depth-16-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "22a636eec8a766b6df12ef029f6183bbaaf39ca10dbbbe27f7540025a150df45"
+    },
+    {
+      "name": "color-0-depth-16-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "a67ec2fbf53a1e04bb7313bc9d3a8348800e1c80e4ceb5e6d895e9a96db67346"
+    },
+    {
+      "name": "color-2-depth-8-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "7789f3706a205feb85da1636ebc180099d601b93617abd3b0b3c2cc59d01a459"
+    },
+    {
+      "name": "color-2-depth-8-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "dff1357042a73014a1cb7da763e9893cbb4354e8d62e88d0cc8e5b55860090fc"
+    },
+    {
+      "name": "color-2-depth-16-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "2d2c51de5d9089913f733ea0b6659f4f027c04ec35656625abccb1dabfce3070"
+    },
+    {
+      "name": "color-2-depth-16-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "b6464e441cc063d7b7fda22ead2f34774b19adb0b03c28af0b60471c08239049"
+    },
+    {
+      "name": "color-3-depth-1-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "b3c9ce19d86c88928a0f2ab99820015bc81fcebd7476c8b5b0a2a0ebc979e47b"
+    },
+    {
+      "name": "color-3-depth-1-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "a20328e98ff27c6535e9fb0e90f7929a156043ebfd9f8bbd743ef083cd2dc5a8"
+    },
+    {
+      "name": "color-3-depth-2-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "e4381741df415e3c30ce035b608867dbe2495c990d5c0be334dabcf527522d95"
+    },
+    {
+      "name": "color-3-depth-2-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "58697b3af8c0cb7fe71a8c2a50f20266549ff17087b9591d7c75c8fd4fa28963"
+    },
+    {
+      "name": "color-3-depth-4-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "6cfbc3c9ab4d52c349e54f801a08f9268b698ab3f6e3135f54f1168f8b4298b6"
+    },
+    {
+      "name": "color-3-depth-4-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "bd8732be28b1bc34b9f4498375760344b93ada8f0a3eebd38a1c5a0875d333b5"
+    },
+    {
+      "name": "color-3-depth-8-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "e321573fc2581b33e01b5c968dbc18a348f97565c97dc1bc849ad07b5a704cef"
+    },
+    {
+      "name": "color-3-depth-8-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "b1ce4b9afbef216a030a981cf74b0708768ba2ef2639b82824e2f88ae91ebe82"
+    },
+    {
+      "name": "color-4-depth-8-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "9ec7852b856d87e9063a8822642046c8cc9da3ecdff650bb9dc39f546f21d416"
+    },
+    {
+      "name": "color-4-depth-8-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "b652e7508395eea6d7136c95b3161a50bc42d5412a60f1b38ba3ece245e213dc"
+    },
+    {
+      "name": "color-4-depth-16-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "39cd7f32381527722b1405e61521c639ec4e0ed73307980b0abdf2fd68277c63"
+    },
+    {
+      "name": "color-4-depth-16-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "6c6039174622d37cc9a8510eed6cd44b73a8b7881e4b6cec14575fadb999a2e2"
+    },
+    {
+      "name": "color-6-depth-8-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "5c99aeec92dd4b4e5797bf92bd7160861bcd27f0d87daf311bcb7c2a0bf27b70"
+    },
+    {
+      "name": "color-6-depth-8-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "124fb9b58fa5e1c0a7b57ed6861569c6faa81d93bd0bc4a7552f6525ba341eab"
+    },
+    {
+      "name": "color-6-depth-16-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "3c2c1649855afb127e7b340e8ac25ee413c97435c66312aa664f5e527a78856a"
+    },
+    {
+      "name": "color-6-depth-16-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "74798e9277451998e702187d442d919171dc743d4851635ed41033b7423dd1df"
+    }
+  ],
+  "sourceHashes": {
+    "png-fixtures.mjs": "9bb41e77481e9316e9f43e19c206900e4d5d170ff60422e4cdb6f15632bf0d21",
+    "png-checks.lisp": "533b4e5e6311fe69c685dc0467a93aa8af0191dffd5be31df8ae94aa6c1ee963",
+    "png.mjs": "a27a72656d1cf6d9908132a92c6846d4c37277985af13d0262b069c66b7e20ea"
+  },
+  "nativeReference": {
+    "status": "passed",
+    "images": 30
+  },
+  "checksSha256": "140638b85faede6c321e10c8481138d78459c328365137f4752c7a5352eead44",
+  "work": "/tmp/valtan-mcclim-workbench-qi4njb",
+  "originalAssetsRemoved": true,
+  "result": {
+    "type": "test-result",
+    "id": 1,
+    "ok": true,
+    "value": "(:PASSED 92)"
+  },
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-qi4njb",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T05:51:48.107Z",
+    "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "bundleSha256": "f8270ec0a72f71e9ff1780ea5bb684a2b72092c783e70558ff6619eb0fb6b8b2",
+    "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+    "readyAt": "2026-11-11T06:18:08.134Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "png",
+        "startedAt": "2026-11-11T06:18:08.136Z",
+        "sourceSha256": "140638b85faede6c321e10c8481138d78459c328365137f4752c7a5352eead44",
+        "file": "/tmp/valtan-png-checks-ll5kam/checks.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:PASSED 92)"
+        },
+        "finishedAt": "2026-11-11T06:18:14.374Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T06:18:14.420Z"
+  },
+  "finishedAt": "2026-11-11T06:18:14.463Z"
+}
