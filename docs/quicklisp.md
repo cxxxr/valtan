@@ -309,12 +309,14 @@ activation, toggle/slider callbacks, frame exit and subsequent popup Escape
 [pass](../tests/mcclim/gadget-live-results.json); see the
 [gadget screenshot](../tests/mcclim/screenshots/gadgets-live.png).
 The report retains the reproduced failures and the final successful checks.
-The earlier seven-stage gadget gate also
-[passes after a fresh startup](../tests/mcclim/gadget-cold-results.json).
-That snapshot predates the Escape mapping correction and the added batched-focus
-and post-exit popup checks; the expanded nine-stage fresh-start gate is not yet
-verified. These results do not establish simultaneous frame event loops or full
-Drei editor compatibility.
+The expanded nine-stage gate now
+[passes after a fresh startup](../tests/mcclim/gadget-cold-results.json), including
+the batched click/key sequence and popup Escape after frame exit. The runner
+waits for the popup's actual grab and keyboard focus before sending Escape;
+mirror creation alone occurs before input readiness. The report retains the
+earlier premature-input attempt and identifies the tested source snapshot.
+These results do not establish simultaneous frame event loops or full Drei
+editor compatibility.
 
 The browser backend reads static PNG files with the upstream pure-Lisp
 `png-read` decoder. Install `png-read` alongside McCLIM in the host Quicklisp;

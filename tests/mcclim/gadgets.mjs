@@ -138,6 +138,14 @@ try {
     (clim:menu-choose '(("First" :value :first) ("Second" :value :second))
       :associated-window (clim:find-pane-named clim:*application-frame* 'valtan-clim-demo::canvas))`});
   await waitFor('mcclimTest.application.windows.size===2');
+  // Creating a mirror precedes MENU-CHOOSE entering its input loop. Wait for
+  // the actual grab and its browser focus before sending a keyboard gesture.
+  await evaluate(`(assert (clim-internals::port-grabbed-sheet
+    (clim:port (clim:find-pane-named clim:*application-frame* 'valtan-clim-demo::canvas))))`);
+  await waitFor(`(()=>{const popup=[...mcclimTest.application.windows.values()].find(s=>s.id!==${original});
+    return popup && document.activeElement===popup.input;})()`);
+  report.popupFocus=await page(`(()=>{const popup=[...mcclimTest.application.windows.values()].find(s=>s.id!==${original});
+    return {id:popup.id,focused:document.activeElement===popup.input};})()`);save();
   await key('Escape');
   await waitFor(`globalThis.workbenchResults[${menu.evaluationId}]`);
   const dismissed=await command('evaluation-result',{evaluationId:menu.evaluationId});

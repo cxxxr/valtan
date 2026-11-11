@@ -1,49 +1,55 @@
 {
   "status": "passed",
   "complete": true,
-  "startedAt": "2026-11-11T05:26:13.904Z",
+  "startedAt": "2026-11-11T06:19:44.182Z",
   "scope": "Real upstream gadgets and callbacks in a nested frame event loop, driven through Chrome pointer, keyboard and native IME events",
-  "checksSha256": "75970672fc920b1cf23493dcb7db58031a2d2878dca2ffa39cd4b381cbbd1d70",
-  "driverSha256": "e3c277594b6d8d7ed817afc5dc4932f16e0b2373e54b14354e67550db5904e03",
+  "checksSha256": "0e22eb7c262df29075bc2b03ac247678e2026353fd604ace5754fa931746bf17",
+  "driverSha256": "321f21441e4af37bcc665d28f19b0233160577625ce0ef6054b93353d8ae742d",
   "checks": [
     "text field receives keyboard text and its value callback",
+    "a batched click and key preserve the first character across focus transfer",
     "native IME commits Japanese text once and preserves supplementary characters",
     "composition cancellation, cursor movement, deletion and activation",
     "Control shortcuts, forward deletion and deletion of a supplementary character",
     "toggle updates its value and invokes callbacks in both directions",
     "slider drag changes its value and invokes its release callback",
-    "application exit closes the nested frame and returns to the caller"
+    "application exit closes the nested frame and returns to the caller",
+    "Escape still dismisses a popup after the gadget frame exits"
   ],
-  "work": "/tmp/valtan-mcclim-workbench-ZcCiKh",
-  "screenshot": "/tmp/valtan-mcclim-workbench-ZcCiKh/gadgets.png",
+  "work": "/tmp/valtan-mcclim-workbench-G9puWS",
+  "screenshot": "/tmp/valtan-mcclim-workbench-G9puWS/gadgets.png",
+  "popupFocus": {
+    "id": 3,
+    "focused": true
+  },
   "workbench": {
-    "work": "/tmp/valtan-mcclim-workbench-ZcCiKh",
+    "work": "/tmp/valtan-mcclim-workbench-G9puWS",
     "status": "closed",
     "complete": false,
-    "startedAt": "2026-11-11T05:26:13.946Z",
+    "startedAt": "2026-11-11T06:19:44.218Z",
     "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
-    "bundleSha256": "55816ad58af05b1fd76990f24612fe577f7d98b0ac8d7db3d46adfaa7ef6f81c",
+    "bundleSha256": "9c150290c526bf7cc99a6e42978667504884bbf058df19ee1f700b4508782699",
     "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
-    "readyAt": "2026-11-11T05:46:27.031Z",
+    "readyAt": "2026-11-11T06:47:02.645Z",
     "evaluations": [
       {
         "id": 1,
         "commandId": 1,
-        "startedAt": "2026-11-11T05:46:27.032Z",
-        "sourceSha256": "75970672fc920b1cf23493dcb7db58031a2d2878dca2ffa39cd4b381cbbd1d70",
-        "file": "/tmp/valtan-gadget-checks-1RMEkq/checks.lisp",
+        "startedAt": "2026-11-11T06:47:02.648Z",
+        "sourceSha256": "0e22eb7c262df29075bc2b03ac247678e2026353fd604ace5754fa931746bf17",
+        "file": "/tmp/valtan-gadget-checks-oVFMmk/checks.lisp",
         "result": {
           "type": "test-result",
           "id": 1,
           "ok": true,
           "value": "(:GADGET-CHECKS-LOADED)"
         },
-        "finishedAt": "2026-11-11T05:46:28.957Z"
+        "finishedAt": "2026-11-11T06:47:04.586Z"
       },
       {
         "id": 2,
         "commandId": 3,
-        "startedAt": "2026-11-11T05:46:28.959Z",
+        "startedAt": "2026-11-11T06:47:04.588Z",
         "sourceSha256": "60cc6461b28d58934b3760826bf11a710963f7470f5beb1b1fca0d0991c10e09",
         "result": {
           "type": "test-result",
@@ -51,12 +57,12 @@
           "ok": true,
           "value": "(:GADGET-FRAME-CLOSED)"
         },
-        "finishedAt": "2026-11-11T05:46:53.293Z"
+        "finishedAt": "2026-11-11T06:47:36.223Z"
       },
       {
         "id": 3,
-        "commandId": 139,
-        "startedAt": "2026-11-11T05:46:32.440Z",
+        "commandId": 141,
+        "startedAt": "2026-11-11T06:47:08.204Z",
         "sourceSha256": "4038bb203347c73063caae2e9351650d1aeaf61eda8ed2f86eb46f3fb6f4ad37",
         "result": {
           "type": "test-result",
@@ -64,12 +70,12 @@
           "ok": true,
           "value": "((2 0 0 420 40))"
         },
-        "finishedAt": "2026-11-11T05:46:32.543Z"
+        "finishedAt": "2026-11-11T06:47:08.309Z"
       },
       {
         "id": 4,
-        "commandId": 146,
-        "startedAt": "2026-11-11T05:46:32.548Z",
+        "commandId": 148,
+        "startedAt": "2026-11-11T06:47:08.317Z",
         "sourceSha256": "3ab303e1055bc54bc5d525583f4d2c823ad65ef8b8c511186cec13986ed9fc8f",
         "result": {
           "type": "test-result",
@@ -77,193 +83,277 @@
           "ok": true,
           "value": "(:EDITOR-PASSED)"
         },
-        "finishedAt": "2026-11-11T05:46:36.190Z"
+        "finishedAt": "2026-11-11T06:47:12.192Z"
       },
       {
         "id": 5,
-        "commandId": 148,
-        "startedAt": "2026-11-11T05:46:36.194Z",
-        "sourceSha256": "3ab303e1055bc54bc5d525583f4d2c823ad65ef8b8c511186cec13986ed9fc8f",
+        "commandId": 149,
+        "startedAt": "2026-11-11T06:47:12.194Z",
+        "sourceSha256": "457b8244b5c7c7e171cec94747a4b0b806407618d1010b71a73e4b964ebd8c74",
         "result": {
           "type": "test-result",
           "id": 5,
           "ok": true,
-          "value": "(:EDITOR-PASSED)"
+          "value": "(:FOCUS-RESET)"
         },
-        "finishedAt": "2026-11-11T05:46:36.296Z"
+        "finishedAt": "2026-11-11T06:47:13.837Z"
       },
       {
         "id": 6,
-        "commandId": 152,
-        "startedAt": "2026-11-11T05:46:36.303Z",
-        "sourceSha256": "34333b369bfa19513580e832607b05a5718514f5451d58f3cbdbc37bb533266e",
+        "commandId": 150,
+        "startedAt": "2026-11-11T06:47:13.838Z",
+        "sourceSha256": "4038bb203347c73063caae2e9351650d1aeaf61eda8ed2f86eb46f3fb6f4ad37",
         "result": {
           "type": "test-result",
           "id": 6,
           "ok": true,
-          "value": "(:EDITOR-PASSED)"
+          "value": "((2 0 0 420 40))"
         },
-        "finishedAt": "2026-11-11T05:46:39.741Z"
+        "finishedAt": "2026-11-11T06:47:13.944Z"
       },
       {
         "id": 7,
-        "commandId": 159,
-        "startedAt": "2026-11-11T05:46:39.745Z",
-        "sourceSha256": "985dcfbdffd95f4267e4803a1bd23b31b6d34a48b57b1fb1b4725faf43a4332e",
+        "commandId": 152,
+        "startedAt": "2026-11-11T06:47:13.945Z",
+        "sourceSha256": "3ab303e1055bc54bc5d525583f4d2c823ad65ef8b8c511186cec13986ed9fc8f",
         "result": {
           "type": "test-result",
           "id": 7,
           "ok": true,
           "value": "(:EDITOR-PASSED)"
         },
-        "finishedAt": "2026-11-11T05:46:41.565Z"
+        "finishedAt": "2026-11-11T06:47:17.742Z"
       },
       {
         "id": 8,
-        "commandId": 162,
-        "startedAt": "2026-11-11T05:46:41.567Z",
-        "sourceSha256": "d0a3f2e7978676a0b28617206366bd26d06385b8ef70923464d1334a671853e3",
+        "commandId": 154,
+        "startedAt": "2026-11-11T06:47:17.748Z",
+        "sourceSha256": "3ab303e1055bc54bc5d525583f4d2c823ad65ef8b8c511186cec13986ed9fc8f",
         "result": {
           "type": "test-result",
           "id": 8,
           "ok": true,
           "value": "(:EDITOR-PASSED)"
         },
-        "finishedAt": "2026-11-11T05:46:41.668Z"
+        "finishedAt": "2026-11-11T06:47:17.853Z"
       },
       {
         "id": 9,
-        "commandId": 167,
-        "startedAt": "2026-11-11T05:46:41.671Z",
-        "sourceSha256": "b26ae625865f5ea1f0df6352b14b4fea2c33ede992fbd55056918e57e7586973",
+        "commandId": 158,
+        "startedAt": "2026-11-11T06:47:17.910Z",
+        "sourceSha256": "34333b369bfa19513580e832607b05a5718514f5451d58f3cbdbc37bb533266e",
         "result": {
           "type": "test-result",
           "id": 9,
           "ok": true,
           "value": "(:EDITOR-PASSED)"
         },
-        "finishedAt": "2026-11-11T05:46:43.392Z"
+        "finishedAt": "2026-11-11T06:47:21.500Z"
       },
       {
         "id": 10,
-        "commandId": 172,
-        "startedAt": "2026-11-11T05:46:43.393Z",
-        "sourceSha256": "551b458a1acb815dbfa31a98f137ffd29f7264b716ceeeb9606315e965a6f1fb",
+        "commandId": 165,
+        "startedAt": "2026-11-11T06:47:21.507Z",
+        "sourceSha256": "985dcfbdffd95f4267e4803a1bd23b31b6d34a48b57b1fb1b4725faf43a4332e",
         "result": {
           "type": "test-result",
           "id": 10,
           "ok": true,
           "value": "(:EDITOR-PASSED)"
         },
-        "finishedAt": "2026-11-11T05:46:45.115Z"
+        "finishedAt": "2026-11-11T06:47:23.449Z"
       },
       {
         "id": 11,
-        "commandId": 173,
-        "startedAt": "2026-11-11T05:46:45.115Z",
-        "sourceSha256": "31e80a4f628b69dc0450fd77940e5c863af7ab6e8c0585bc068e6a9085b042af",
+        "commandId": 168,
+        "startedAt": "2026-11-11T06:47:23.453Z",
+        "sourceSha256": "d0a3f2e7978676a0b28617206366bd26d06385b8ef70923464d1334a671853e3",
         "result": {
           "type": "test-result",
           "id": 11,
           "ok": true,
-          "value": "((2 0 100 420 40))"
+          "value": "(:EDITOR-PASSED)"
         },
-        "finishedAt": "2026-11-11T05:46:45.218Z"
+        "finishedAt": "2026-11-11T06:47:23.556Z"
       },
       {
         "id": 12,
-        "commandId": 178,
-        "startedAt": "2026-11-11T05:46:45.222Z",
-        "sourceSha256": "93dfeba09f969115c9b399aefe14bba1749f2ec6ebacce07cfa3fee43eebad61",
+        "commandId": 173,
+        "startedAt": "2026-11-11T06:47:23.559Z",
+        "sourceSha256": "b26ae625865f5ea1f0df6352b14b4fea2c33ede992fbd55056918e57e7586973",
         "result": {
           "type": "test-result",
           "id": 12,
           "ok": true,
-          "value": "(:TOGGLE-PASSED)"
+          "value": "(:EDITOR-PASSED)"
         },
-        "finishedAt": "2026-11-11T05:46:46.843Z"
+        "finishedAt": "2026-11-11T06:47:25.399Z"
       },
       {
         "id": 13,
-        "commandId": 179,
-        "startedAt": "2026-11-11T05:46:46.843Z",
-        "sourceSha256": "31e80a4f628b69dc0450fd77940e5c863af7ab6e8c0585bc068e6a9085b042af",
+        "commandId": 178,
+        "startedAt": "2026-11-11T06:47:25.402Z",
+        "sourceSha256": "551b458a1acb815dbfa31a98f137ffd29f7264b716ceeeb9606315e965a6f1fb",
         "result": {
           "type": "test-result",
           "id": 13,
           "ok": true,
-          "value": "((2 0 100 420 40))"
+          "value": "(:EDITOR-PASSED)"
         },
-        "finishedAt": "2026-11-11T05:46:46.945Z"
+        "finishedAt": "2026-11-11T06:47:27.350Z"
       },
       {
         "id": 14,
-        "commandId": 184,
-        "startedAt": "2026-11-11T05:46:46.948Z",
-        "sourceSha256": "c3d80fda0c7f63f382c5feb17ae11cf1a8369be70e48a973409f2f3832ac057b",
+        "commandId": 179,
+        "startedAt": "2026-11-11T06:47:27.351Z",
+        "sourceSha256": "31e80a4f628b69dc0450fd77940e5c863af7ab6e8c0585bc068e6a9085b042af",
         "result": {
           "type": "test-result",
           "id": 14,
           "ok": true,
-          "value": "(:TOGGLE-PASSED)"
+          "value": "((2 0 100 420 40))"
         },
-        "finishedAt": "2026-11-11T05:46:47.758Z"
+        "finishedAt": "2026-11-11T06:47:27.455Z"
       },
       {
         "id": 15,
-        "commandId": 185,
-        "startedAt": "2026-11-11T05:46:47.759Z",
-        "sourceSha256": "139bb92d4b2645caa5b96c364dd5a36c109c9eb574315b1fa4f4fd233bc5d9d4",
+        "commandId": 184,
+        "startedAt": "2026-11-11T06:47:27.460Z",
+        "sourceSha256": "93dfeba09f969115c9b399aefe14bba1749f2ec6ebacce07cfa3fee43eebad61",
         "result": {
           "type": "test-result",
           "id": 15,
           "ok": true,
-          "value": "((2 0 40 420 60))"
+          "value": "(:TOGGLE-PASSED)"
         },
-        "finishedAt": "2026-11-11T05:46:47.861Z"
+        "finishedAt": "2026-11-11T06:47:29.201Z"
       },
       {
         "id": 16,
-        "commandId": 187,
-        "startedAt": "2026-11-11T05:46:47.862Z",
-        "sourceSha256": "139bb92d4b2645caa5b96c364dd5a36c109c9eb574315b1fa4f4fd233bc5d9d4",
+        "commandId": 185,
+        "startedAt": "2026-11-11T06:47:29.202Z",
+        "sourceSha256": "31e80a4f628b69dc0450fd77940e5c863af7ab6e8c0585bc068e6a9085b042af",
         "result": {
           "type": "test-result",
           "id": 16,
           "ok": true,
-          "value": "((2 0 40 420 60))"
+          "value": "((2 0 100 420 40))"
         },
-        "finishedAt": "2026-11-11T05:46:47.964Z"
+        "finishedAt": "2026-11-11T06:47:29.307Z"
       },
       {
         "id": 17,
-        "commandId": 193,
-        "startedAt": "2026-11-11T05:46:47.969Z",
-        "sourceSha256": "a44f7d15ba62f5d72143bb0cfe7ce8f81e181e99fbbc085f43cdecf820e0cd1f",
+        "commandId": 190,
+        "startedAt": "2026-11-11T06:47:29.312Z",
+        "sourceSha256": "c3d80fda0c7f63f382c5feb17ae11cf1a8369be70e48a973409f2f3832ac057b",
         "result": {
           "type": "test-result",
           "id": 17,
           "ok": true,
-          "value": "(:SLIDER-PASSED)"
+          "value": "(:TOGGLE-PASSED)"
         },
-        "finishedAt": "2026-11-11T05:46:51.714Z"
+        "finishedAt": "2026-11-11T06:47:30.233Z"
       },
       {
         "id": 18,
-        "commandId": 195,
-        "startedAt": "2026-11-11T05:46:51.729Z",
-        "sourceSha256": "5849d23b4657292e2ba52ecd1c7f684c0ab8a6c80be797eccffe2278d244063f",
+        "commandId": 191,
+        "startedAt": "2026-11-11T06:47:30.234Z",
+        "sourceSha256": "139bb92d4b2645caa5b96c364dd5a36c109c9eb574315b1fa4f4fd233bc5d9d4",
         "result": {
           "type": "test-result",
           "id": 18,
           "ok": true,
+          "value": "((2 0 40 420 60))"
+        },
+        "finishedAt": "2026-11-11T06:47:30.340Z"
+      },
+      {
+        "id": 19,
+        "commandId": 193,
+        "startedAt": "2026-11-11T06:47:30.343Z",
+        "sourceSha256": "139bb92d4b2645caa5b96c364dd5a36c109c9eb574315b1fa4f4fd233bc5d9d4",
+        "result": {
+          "type": "test-result",
+          "id": 19,
+          "ok": true,
+          "value": "((2 0 40 420 60))"
+        },
+        "finishedAt": "2026-11-11T06:47:30.446Z"
+      },
+      {
+        "id": 20,
+        "commandId": 199,
+        "startedAt": "2026-11-11T06:47:30.459Z",
+        "sourceSha256": "a44f7d15ba62f5d72143bb0cfe7ce8f81e181e99fbbc085f43cdecf820e0cd1f",
+        "result": {
+          "type": "test-result",
+          "id": 20,
+          "ok": true,
+          "value": "(:SLIDER-PASSED)"
+        },
+        "finishedAt": "2026-11-11T06:47:34.536Z"
+      },
+      {
+        "id": 21,
+        "commandId": 201,
+        "startedAt": "2026-11-11T06:47:34.570Z",
+        "sourceSha256": "5849d23b4657292e2ba52ecd1c7f684c0ab8a6c80be797eccffe2278d244063f",
+        "result": {
+          "type": "test-result",
+          "id": 21,
+          "ok": true,
           "value": "((2 0 140 420 40))"
         },
-        "finishedAt": "2026-11-11T05:46:51.832Z"
+        "finishedAt": "2026-11-11T06:47:34.674Z"
+      },
+      {
+        "id": 22,
+        "commandId": 269,
+        "startedAt": "2026-11-11T06:47:36.225Z",
+        "sourceSha256": "57c9a2596b0b4a25674e0e226952683e2383a00e1234a4620cabdfe571759be9",
+        "result": {
+          "type": "test-result",
+          "id": 22,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T06:47:42.141Z"
+      },
+      {
+        "id": 23,
+        "commandId": 287,
+        "startedAt": "2026-11-11T06:47:36.649Z",
+        "sourceSha256": "360db6f53f9fc0df0b63a99eb249791b7d24a6b999a63630efe9b5d3f49bb1bb",
+        "result": {
+          "type": "test-result",
+          "id": 23,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T06:47:41.974Z"
       }
     ],
-    "finishedAt": "2026-11-11T05:46:53.343Z"
+    "finishedAt": "2026-11-11T06:47:42.188Z"
   },
-  "finishedAt": "2026-11-11T05:46:53.377Z",
-  "snapshotNotes": "Seven-stage source snapshot includes focus ordering and editing-key fixes, but predates the Escape mapping correction and the added batched-focus and post-exit popup tests. Does not establish the expanded nine-stage gate."
+  "finishedAt": "2026-11-11T06:47:42.228Z",
+  "earlierAttempt": {
+    "status": "failed",
+    "complete": false,
+    "checksSha256": "0e22eb7c262df29075bc2b03ac247678e2026353fd604ace5754fa931746bf17",
+    "driverSha256": "174c6ef12344470cc4b24f6732573779d8ff373351422793c30a95f66c263767",
+    "checks": [
+      "text field receives keyboard text and its value callback",
+      "a batched click and key preserve the first character across focus transfer",
+      "native IME commits Japanese text once and preserves supplementary characters",
+      "composition cancellation, cursor movement, deletion and activation",
+      "Control shortcuts, forward deletion and deletion of a supplementary character",
+      "toggle updates its value and invokes callbacks in both directions",
+      "slider drag changes its value and invokes its release callback",
+      "application exit closes the nested frame and returns to the caller"
+    ],
+    "error": "Error: Browser condition timed out: globalThis.workbenchResults[22]",
+    "work": "/tmp/valtan-mcclim-workbench-71fxoD"
+  },
+  "readinessCorrection": "Wait for the real CLIM pointer grab and browser popup focus before sending Escape. The earlier attempt sent Escape immediately after mirror creation, before input readiness was established.",
+  "snapshotNotes": "Fresh-start snapshot includes queue ordering, named Escape and all nine gadget stages. It predates the later CLOS keyword-policy cache changes."
 }
