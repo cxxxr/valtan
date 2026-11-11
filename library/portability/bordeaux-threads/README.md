@@ -50,3 +50,8 @@ Valtan, while the corresponding v2 tests use capability checks. The runner
 reports registered cases, results, skipped/failed cases and cases without a
 result. It records and cleans up surviving test threads after both suites
 finish. Passing these suites does not establish full McCLIM compatibility.
+
+The [recorded upstream run](../../../tests/bordeaux/upstream-results.json)
+passes all 82 registered cases and 130 checks, without skips or unexecuted
+registered cases. The report records the frozen build and the differing
+implementation guards in the native SBCL comparison.

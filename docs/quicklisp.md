@@ -902,6 +902,15 @@ interruption and timeouts. The kernel suite passes 41 tests; ordinary and dual
 compiler/runtime regressions also pass. The separate upstream test-suite run
 is not included in those passing API counts.
 
+The [upstream suite results](../tests/bordeaux/upstream-results.json), from a
+separate frozen build with the atomic optimization and `CHECK-TYPE` fix,
+complete with 82 registered cases and 130 passing checks, no skips, failures
+or unexecuted registered cases. This includes the unchanged million-increment
+and million-decrement test. Upstream reader guards still apply: the v1
+`condition-wait-timeout` case excludes Valtan, while the v2 timeout cases run.
+These results predate the native condition-delivery changes below and do not
+establish full McCLIM compatibility.
+
 `CHECK-TYPE` now reports the actual rejected value, preserves `STORE-VALUE`
 retry behavior and uses a supplied type description. The
 [condition checks](../tests/ansi/check-type-results.json) pass all nine upstream
