@@ -8,15 +8,36 @@ import {spawn} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {hash} from './bundle.mjs';
 const here=path.dirname(fileURLToPath(import.meta.url));
-const output=path.resolve(process.argv[2]??'/tmp/valtan-mcclim-windows.json');
-const fixture=fs.readFileSync(path.join(here,'window-checks.lisp'),'utf8');
+const args=process.argv.slice(2),threaded=args.includes('--threaded');
+if(threaded)args.splice(args.indexOf('--threaded'),1);
+if(args.length>1 || args.some(arg=>arg.startsWith('--')))
+  throw Error('Usage: windows.mjs [--threaded] [report.json]');
+const output=path.resolve(args[0]??`/tmp/valtan-mcclim-windows${threaded?'-threaded':''}.json`);
+const fixture=fs.readFileSync(path.join(here,'window-checks.lisp'),'utf8')+
+  (threaded?'\n'+fs.readFileSync(path.join(here,'threaded-window-checks.lisp'),'utf8'):'');
+const startupTimeout=(threaded?3:1)*60*60*1000;
+const evaluationTimeout=(threaded?30:2)*60*1000;
 const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-window-checks-'));
 const fixtureFile=path.join(snapshot,'checks.lisp');fs.writeFileSync(fixtureFile,fixture);
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),
-  scope:'Real McCLIM frame lifecycle and popup menu selection/cancellation in Chrome; second frame has no concurrent event loop',
+  scope:threaded?'Real McCLIM concurrent frame event loops, lifecycle and popup menu selection/cancellation in Chrome':
+    'Real McCLIM frame lifecycle and popup menu selection/cancellation in Chrome; second frame has no concurrent event loop',
+  threaded,startupTimeout,evaluationTimeout,
   checksSha256:hash(fixture),driverSha256:hash(fs.readFileSync(fileURLToPath(import.meta.url))),checks:[]};
 const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
-const child=spawn(process.execPath,[path.join(here,'workbench.mjs')],{stdio:['pipe','pipe','inherit']});
+const workbenchArgs=[path.join(here,'workbench.mjs'),'--startup-timeout',String(startupTimeout)];
+if(threaded){
+  const original=path.resolve(here,'../../example/try-using-mcclim');
+  for(const name of fs.readdirSync(original))
+    if(/\.(asd|system|lisp|html)$/.test(name))fs.copyFileSync(path.join(original,name),path.join(snapshot,name));
+  fs.writeFileSync(path.join(snapshot,'app.system'),`(defsystem "app"
+    :depends-on ("mcclim-load-trace" "mcclim-browser")
+    :components ((:file "main")) :target :browser
+    :target-features (:clim-without-swank :valtan-resumable :clim-mp)
+    :compile-mode :runtime)`);
+  workbenchArgs.push('--source-directory',snapshot);
+}
+const child=spawn(process.execPath,workbenchArgs,{stdio:['pipe','pipe','inherit']});
 let serial=0, readyResolve, readyReject;
 const ready=new Promise((resolve,reject)=>{readyResolve=resolve;readyReject=reject;});
 const pending=new Map();
@@ -25,7 +46,7 @@ const exit=new Promise(resolve=>child.on('close',(code,signal)=>{
   readyReject(error);for(const {reject} of pending.values())reject(error);
   pending.clear();resolve({code,signal});
 }));
-const timer=setTimeout(()=>child.kill('SIGKILL'),70*60*1000);
+const timer=setTimeout(()=>child.kill('SIGKILL'),startupTimeout+60*60*1000);
 readline.createInterface({input:child.stdout}).on('line',line=>{
   const message=JSON.parse(line);
   if(message.work){report.work=message.work;save();}
@@ -39,24 +60,39 @@ const command=(op,fields={})=>new Promise((resolve,reject)=>{
   const id=++serial;pending.set(id,{resolve,reject});child.stdin.write(JSON.stringify({id,op,...fields})+'\n');
 });
 const evaluate=async source=>{
-  const result=await command('eval',{source,timeout:120000});
+  const result=await command('eval',{source,timeout:evaluationTimeout});
   assert.equal(result?.ok,true,result?.error);return result.value;
 };
 const page=expression=>command('page',{expression});
 const mouse=params=>command('cdp',{method:'Input.dispatchMouseEvent',params});
 async function waitFor(expression){
-  const deadline=Date.now()+30000;
+  const deadline=Date.now()+(threaded?120000:30000);
   while(!await page(expression)){
     const errors=await page('mcclimTest.errors');assert.deepEqual(errors,[]);
     if(Date.now()>deadline)throw Error('Browser condition timed out: '+expression);
     await new Promise(resolve=>setTimeout(resolve,50));
   }
 }
+async function waitForLisp(source,expected){
+  const deadline=Date.now()+(threaded?120000:30000);
+  for(;;){
+    const actual=await evaluate(source);
+    if(actual===expected)return;
+    if(Date.now()>deadline)throw Error(`Lisp condition timed out: ${source}; expected ${expected}, got ${actual}`);
+    await new Promise(resolve=>setTimeout(resolve,100));
+  }
+}
 function checked(name){report.checks.push(name);save();console.log('Passed: '+name);}
 try {
   await ready;
-  const loaded=await command('eval',{file:fixtureFile});assert.equal(loaded?.ok,true,loaded?.error);
-  await evaluate('(mcclim-window-checks::setup)');
+  await page(`globalThis.workbenchPointerGrab=null;
+    mcclimTest.application.worker.addEventListener('message',({data})=>{
+      if(data.type==='pointer-grab')workbenchPointerGrab=data;
+      else if(data.type==='pointer-ungrab')workbenchPointerGrab=null;
+    });true`);
+  const loaded=await command('eval',{file:fixtureFile,timeout:evaluationTimeout});assert.equal(loaded?.ok,true,loaded?.error);
+  await evaluate(threaded?`(mcclim-window-checks::setup 'mcclim-threaded-window-checks::threaded-window-frame)
+    (mcclim-threaded-window-checks::start)`:'(mcclim-window-checks::setup)');
   await waitFor('mcclimTest.application.windows.size===2');
   const ids=await page('[...mcclimTest.application.windows.keys()]');
   const [primary,secondary]=ids;
@@ -64,6 +100,19 @@ try {
   async function geometry(id){return page(`(()=>{const s=${state(id)};return [s.x,s.y,s.canvas.width,s.canvas.height];})()`);}
   assert.deepEqual(await geometry(primary),[20,40,600,280]);
   assert.deepEqual(await geometry(secondary),[320,80,220,160]);checked('two real frames with requested geometry');
+  async function secondaryKey(expected){
+    await page(`${state(secondary)}.input.focus();true`);
+    const before=await page(`${state(secondary)}.canvas.toDataURL()`);
+    await command('cdp',{method:'Input.dispatchKeyEvent',params:{type:'keyDown',key:'+',text:'+',code:'Equal'}});
+    await command('cdp',{method:'Input.dispatchKeyEvent',params:{type:'keyUp',key:'+',code:'Equal'}});
+    await waitFor(`mcclimTest.status==='Secondary: ${expected}'`);
+    assert.notEqual(await page(`${state(secondary)}.canvas.toDataURL()`),before);
+  }
+  if(threaded){
+    await secondaryKey(1);
+    assert.equal(await evaluate('(mcclim-threaded-window-checks::counts)'),'(1 0)');
+    checked('second frame handles keyboard input in its own thread and dynamic frame context');
+  }
   await evaluate('(setf (clim:frame-pretty-name mcclim-window-checks::*primary*) "日本語のフレーム")');
   await waitFor(`${state(primary)}.title.textContent==='日本語のフレーム'`);checked('frame pretty name reaches browser');
   const overlap=await page(`(()=>{const r=${state(secondary)}.canvas.getBoundingClientRect();return {x:r.x+20,y:r.y+60};})()`);
@@ -88,6 +137,11 @@ try {
   await mouse({type:'mouseMoved',x:title.x+30,y:title.y+20,button:'left',buttons:1});
   await mouse({type:'mouseReleased',x:title.x+30,y:title.y+20,button:'left',clickCount:1});
   await waitFor(`${state(primary)}.x===50 && ${state(primary)}.y===60`);
+  // DOM dragging precedes queue delivery. In threaded mode, a test interrupt
+  // can run before the application's configuration-event handler.
+  await waitForLisp(`(multiple-value-list (clim:transform-position
+    (clim:sheet-transformation (mcclim-window-checks::top-sheet mcclim-window-checks::*primary*)) 0 0))`,
+    '((50 60))');
   await evaluate('(mcclim-window-checks::check-geometry mcclim-window-checks::*primary* 50 60 600 280)');
   checked('title drag reaches CLIM sheet transformation');
   await evaluate('(mcclim-window-checks::shrink-primary)');
@@ -103,6 +157,13 @@ try {
   await mouse({type:'mousePressed',...button,button:'left',clickCount:1});
   await mouse({type:'mouseReleased',...button,button:'left',clickCount:1});
   await waitFor(`mcclimTest.status==='Counter: 1'`);checked('gadget input survives window movement and restore');
+  if(threaded){
+    await secondaryKey(2);
+    assert.equal(await evaluate('(mcclim-threaded-window-checks::counts)'),'(2 1)');
+    checked('both frame event loops keep handling independent input');
+    assert.equal(await evaluate('(mcclim-threaded-window-checks::stop)'), '(:STOPPED)');
+    checked('second frame exits and its thread joins before mirror destruction');
+  }
   await evaluate('(mcclim-window-checks::destroy-secondary)');
   await waitFor('mcclimTest.application.windows.size===1');
   assert.deepEqual(await page('[...mcclimTest.application.windows.keys()]'),[primary]);
@@ -114,6 +175,12 @@ try {
       (clim:menu-choose '(("First item" :value :first) ("Second item" :value :second))
         :associated-window (clim:find-pane-named mcclim-window-checks::*primary* 'valtan-clim-demo::canvas))`});
     await waitFor('mcclimTest.application.windows.size===2');
+    // A menu's mirror can exist before layout and pointer acquisition finish.
+    // Observe the real browser command first: repeatedly interrupting the Lisp
+    // task here can starve the menu whose progress we are trying to observe.
+    await waitFor(`workbenchPointerGrab && workbenchPointerGrab.id!==${primary}`);
+    await waitForLisp(`(not (null (clim-internals::port-grabbed-sheet
+      (clim:port (mcclim-window-checks::top-sheet mcclim-window-checks::*primary*)))))`,'(T)');
     await evaluate(`(assert (clim-internals::port-grabbed-sheet
       (clim:port (mcclim-window-checks::top-sheet mcclim-window-checks::*primary*))))`);
     const popup=await page(`(()=>{const s=[...mcclimTest.application.windows.values()].find(s=>s.id!==${primary});
@@ -162,6 +229,10 @@ try {
   await page('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
   const available=await page(`(()=>{const r=document.querySelector('.mcclim-desktop').getBoundingClientRect();
     return {width:Math.floor(r.width),height:Math.floor(innerHeight-r.top)};})()`);
+  await waitForLisp(`(let ((g (clim:find-graft :port
+    (clim:port (mcclim-window-checks::top-sheet mcclim-window-checks::*primary*)))))
+    (list (clim:graft-width g) (clim:graft-height g)))`,
+    `((${available.width} ${available.height}))`);
   await evaluate(`(let ((g (clim:find-graft :port (clim:port (mcclim-window-checks::top-sheet mcclim-window-checks::*primary*)))))
     (assert (= (clim:graft-width g) ${available.width})) (assert (= (clim:graft-height g) ${available.height}))
     (assert (= (clim:bounding-rectangle-width (clim:sheet-region g)) ${available.width}))

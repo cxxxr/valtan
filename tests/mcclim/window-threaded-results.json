@@ -1,0 +1,485 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T21:39:27.816Z",
+  "scope": "Real McCLIM concurrent frame event loops, lifecycle and popup menu selection/cancellation in Chrome",
+  "threaded": true,
+  "startupTimeout": 10800000,
+  "evaluationTimeout": 1800000,
+  "checksSha256": "ffa4127fe230e7103d10ac13cc800af1a9f8df0f6fce13f9efb6063ef3e4139d",
+  "driverSha256": "a056248b1711cb043c5bfd3d6f35612f2ec351919aeaaf56a97af8505b2b26bf",
+  "checks": [
+    "two real frames with requested geometry",
+    "second frame handles keyboard input in its own thread and dynamic frame context",
+    "frame pretty name reaches browser",
+    "raise and bury match browser hit testing",
+    "Lisp move and resize update mirror and browser",
+    "disable and enable",
+    "title drag reaches CLIM sheet transformation",
+    "minimize and user restore update frame state",
+    "gadget input survives window movement and restore",
+    "both frame event loops keep handling independent input",
+    "second frame exits and its thread joins before mirror destruction",
+    "destroy removes Lisp and browser mirrors",
+    "popup placement, captured input and second-item selection",
+    "outside click cancels menu and restores focus",
+    "Escape cancels menu and releases the grab",
+    "viewport resize updates the real graft dimensions",
+    "keyboard input and popup menus survive viewport resize"
+  ],
+  "work": "/tmp/valtan-mcclim-workbench-RkhiDC",
+  "menuScreenshot": "/tmp/valtan-mcclim-workbench-RkhiDC/menu.png",
+  "screenshot": "/tmp/valtan-mcclim-workbench-RkhiDC/windows.png",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-RkhiDC",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T21:39:27.861Z",
+    "compilerSha256": "23616d896d26650aa1187b28fd2edcbc2d012e3759dad7ce8682a583021bf1fd",
+    "startupTimeout": 10800000,
+    "bundleSha256": "aca36950cf675afdfc6ce463d177d55bbe018ebae2147541f426642411b5c63a",
+    "browserAssetsSha256": "82680c293554a5da7cd4c1bcecc04fd9ac549b708089d3841c507a8255520cef",
+    "readyAt": "2026-11-11T22:00:39.079Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": 2,
+        "startedAt": "2026-11-11T22:00:39.082Z",
+        "sourceSha256": "ffa4127fe230e7103d10ac13cc800af1a9f8df0f6fce13f9efb6063ef3e4139d",
+        "file": "/tmp/valtan-window-checks-QV3TKn/checks.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:THREADED-WINDOW-CHECKS-LOADED)"
+        },
+        "finishedAt": "2026-11-11T22:01:42.845Z"
+      },
+      {
+        "id": 2,
+        "commandId": 3,
+        "startedAt": "2026-11-11T22:01:42.845Z",
+        "sourceSha256": "f2ac437701d40f2fbe8c31916fc7c654ee9f2a7b642c236676fb1c7f62a91b5e",
+        "result": {
+          "type": "test-result",
+          "id": 2,
+          "ok": true,
+          "value": "(:STARTED)"
+        },
+        "finishedAt": "2026-11-11T22:02:16.284Z"
+      },
+      {
+        "id": 3,
+        "commandId": 636,
+        "startedAt": "2026-11-11T22:02:32.682Z",
+        "sourceSha256": "399e03b6a92d70aa9b3b553903e35bfdf0a98a7c2c1280670770157ad610fa64",
+        "result": {
+          "type": "test-result",
+          "id": 3,
+          "ok": true,
+          "value": "(1 0)"
+        },
+        "finishedAt": "2026-11-11T22:02:32.886Z"
+      },
+      {
+        "id": 4,
+        "commandId": 637,
+        "startedAt": "2026-11-11T22:02:32.887Z",
+        "sourceSha256": "eb956db174592cc5806c9e245304c7efa2b284e71bfe6e166bee74737371341a",
+        "result": {
+          "type": "test-result",
+          "id": 4,
+          "ok": true,
+          "value": "(\"\u65e5\u672c\u8a9e\u306e\u30d5\u30ec\u30fc\u30e0\")"
+        },
+        "finishedAt": "2026-11-11T22:02:33.194Z"
+      },
+      {
+        "id": 5,
+        "commandId": 640,
+        "startedAt": "2026-11-11T22:02:33.196Z",
+        "sourceSha256": "f5ff20b5365718acff06c8aacf5baa10d9320f9d0f1d971603cc26ba0af54e73",
+        "result": {
+          "type": "test-result",
+          "id": 5,
+          "ok": true,
+          "value": "(#<undefined>)"
+        },
+        "finishedAt": "2026-11-11T22:02:33.401Z"
+      },
+      {
+        "id": 6,
+        "commandId": 642,
+        "startedAt": "2026-11-11T22:02:33.402Z",
+        "sourceSha256": "8152b2dad7ce8c67a63a0e41b43ae2692afbcfb9c663870c719b94fe28296cbe",
+        "result": {
+          "type": "test-result",
+          "id": 6,
+          "ok": true,
+          "value": "(#<undefined>)"
+        },
+        "finishedAt": "2026-11-11T22:02:33.607Z"
+      },
+      {
+        "id": 7,
+        "commandId": 644,
+        "startedAt": "2026-11-11T22:02:33.608Z",
+        "sourceSha256": "d743fc2faa5b5e2e54a6cf875819f9db4535843345d285b3cc76f31b1b40ed0d",
+        "result": {
+          "type": "test-result",
+          "id": 7,
+          "ok": true,
+          "value": "(#<undefined>)"
+        },
+        "finishedAt": "2026-11-11T22:02:40.102Z"
+      },
+      {
+        "id": 8,
+        "commandId": 647,
+        "startedAt": "2026-11-11T22:02:40.103Z",
+        "sourceSha256": "75cb87cd4c562fba98d93551c9246d62fcf18193096d774ced12ddad1f51f729",
+        "result": {
+          "type": "test-result",
+          "id": 8,
+          "ok": true,
+          "value": "(:DISABLED)"
+        },
+        "finishedAt": "2026-11-11T22:02:40.407Z"
+      },
+      {
+        "id": 9,
+        "commandId": 649,
+        "startedAt": "2026-11-11T22:02:40.408Z",
+        "sourceSha256": "5611654451fa4aa89fb61ce0e2a13f7c0957a65ef93b89bb6f557b205c5dc35f",
+        "result": {
+          "type": "test-result",
+          "id": 9,
+          "ok": true,
+          "value": "(:ENABLED)"
+        },
+        "finishedAt": "2026-11-11T22:02:45.886Z"
+      },
+      {
+        "id": 10,
+        "commandId": 651,
+        "startedAt": "2026-11-11T22:02:45.887Z",
+        "sourceSha256": "f5ff20b5365718acff06c8aacf5baa10d9320f9d0f1d971603cc26ba0af54e73",
+        "result": {
+          "type": "test-result",
+          "id": 10,
+          "ok": true,
+          "value": "(#<undefined>)"
+        },
+        "finishedAt": "2026-11-11T22:02:46.091Z"
+      },
+      {
+        "id": 11,
+        "commandId": 658,
+        "startedAt": "2026-11-11T22:02:46.113Z",
+        "sourceSha256": "38c8b06d880a74ec4043a1b282aaefc7a47cba9833e05900a664ddae3606007b",
+        "result": {
+          "type": "test-result",
+          "id": 11,
+          "ok": true,
+          "value": "((20 40))"
+        },
+        "finishedAt": "2026-11-11T22:02:46.623Z"
+      },
+      {
+        "id": 12,
+        "commandId": 659,
+        "startedAt": "2026-11-11T22:02:46.723Z",
+        "sourceSha256": "38c8b06d880a74ec4043a1b282aaefc7a47cba9833e05900a664ddae3606007b",
+        "result": {
+          "type": "test-result",
+          "id": 12,
+          "ok": true,
+          "value": "((50 60))"
+        },
+        "finishedAt": "2026-11-11T22:02:47.030Z"
+      },
+      {
+        "id": 13,
+        "commandId": 660,
+        "startedAt": "2026-11-11T22:02:47.030Z",
+        "sourceSha256": "e9bdd6e1f6e34aa99e8651896d143902f51ade2bf6717564338d1a9738558dc9",
+        "result": {
+          "type": "test-result",
+          "id": 13,
+          "ok": true,
+          "value": "(:GEOMETRY-MATCHES)"
+        },
+        "finishedAt": "2026-11-11T22:02:47.236Z"
+      },
+      {
+        "id": 14,
+        "commandId": 661,
+        "startedAt": "2026-11-11T22:02:47.236Z",
+        "sourceSha256": "c55e993b69799df9b6d96ce4e1193cd82561a9736a647129578b0f93bbde25fc",
+        "result": {
+          "type": "test-result",
+          "id": 14,
+          "ok": true,
+          "value": "(:SHRUNK)"
+        },
+        "finishedAt": "2026-11-11T22:02:47.544Z"
+      },
+      {
+        "id": 15,
+        "commandId": 676,
+        "startedAt": "2026-11-11T22:02:47.758Z",
+        "sourceSha256": "1bf37850863b7b4f180012b4894c321c6727aa7ada3658cbb948f05f3b984cc1",
+        "result": {
+          "type": "test-result",
+          "id": 15,
+          "ok": true,
+          "value": "(:RESTORED)"
+        },
+        "finishedAt": "2026-11-11T22:02:49.185Z"
+      },
+      {
+        "id": 16,
+        "commandId": 3316,
+        "startedAt": "2026-11-11T22:03:58.112Z",
+        "sourceSha256": "399e03b6a92d70aa9b3b553903e35bfdf0a98a7c2c1280670770157ad610fa64",
+        "result": {
+          "type": "test-result",
+          "id": 16,
+          "ok": true,
+          "value": "(2 1)"
+        },
+        "finishedAt": "2026-11-11T22:03:58.215Z"
+      },
+      {
+        "id": 17,
+        "commandId": 3317,
+        "startedAt": "2026-11-11T22:03:58.216Z",
+        "sourceSha256": "fa9765763ceed6c227111234f0683cbcee0a5d95d56206394938c3a0016e53b3",
+        "result": {
+          "type": "test-result",
+          "id": 17,
+          "ok": true,
+          "value": "(:STOPPED)"
+        },
+        "finishedAt": "2026-11-11T22:03:58.522Z"
+      },
+      {
+        "id": 18,
+        "commandId": 3318,
+        "startedAt": "2026-11-11T22:03:58.523Z",
+        "sourceSha256": "5ffa2deabbc76ea93f57c1241618d5d38b62508fcb991d99b45180023d6519b4",
+        "result": {
+          "type": "test-result",
+          "id": 18,
+          "ok": true,
+          "value": "(:DESTROYED)"
+        },
+        "finishedAt": "2026-11-11T22:03:58.829Z"
+      },
+      {
+        "id": 19,
+        "commandId": 3325,
+        "startedAt": "2026-11-11T22:03:58.834Z",
+        "sourceSha256": "a5d291b33e4679cddbd6fb1a893276e6cfe5345b7792f7c016dbd14a4c740262",
+        "result": {
+          "type": "test-result",
+          "id": 19,
+          "ok": true,
+          "value": "(:SECOND (\"Second item\" :VALUE :SECOND) #<POINTER-BUTTON-PRESS-EVENT 18.417709350585938 22>)"
+        },
+        "finishedAt": "2026-11-11T22:05:03.617Z"
+      },
+      {
+        "id": 20,
+        "commandId": 5618,
+        "startedAt": "2026-11-11T22:04:59.406Z",
+        "sourceSha256": "2a27622588a8319de696d882e588e009b0c2aeca7d85620d4db7b5ed8b0743d4",
+        "result": {
+          "type": "test-result",
+          "id": 20,
+          "ok": true,
+          "value": "(T)"
+        },
+        "finishedAt": "2026-11-11T22:04:59.714Z"
+      },
+      {
+        "id": 21,
+        "commandId": 5619,
+        "startedAt": "2026-11-11T22:04:59.714Z",
+        "sourceSha256": "535d9d853a234960508d2e0f87f4c81208e7d61ed05d4cbcc9a0cf1271ac00ab",
+        "result": {
+          "type": "test-result",
+          "id": 21,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T22:05:00.021Z"
+      },
+      {
+        "id": 22,
+        "commandId": 5766,
+        "startedAt": "2026-11-11T22:05:03.618Z",
+        "sourceSha256": "a5d291b33e4679cddbd6fb1a893276e6cfe5345b7792f7c016dbd14a4c740262",
+        "result": {
+          "type": "test-result",
+          "id": 22,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T22:06:07.084Z"
+      },
+      {
+        "id": 23,
+        "commandId": 7921,
+        "startedAt": "2026-11-11T22:05:59.738Z",
+        "sourceSha256": "2a27622588a8319de696d882e588e009b0c2aeca7d85620d4db7b5ed8b0743d4",
+        "result": {
+          "type": "test-result",
+          "id": 23,
+          "ok": true,
+          "value": "(T)"
+        },
+        "finishedAt": "2026-11-11T22:06:00.043Z"
+      },
+      {
+        "id": 24,
+        "commandId": 7922,
+        "startedAt": "2026-11-11T22:06:00.043Z",
+        "sourceSha256": "535d9d853a234960508d2e0f87f4c81208e7d61ed05d4cbcc9a0cf1271ac00ab",
+        "result": {
+          "type": "test-result",
+          "id": 24,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T22:06:00.349Z"
+      },
+      {
+        "id": 25,
+        "commandId": 8192,
+        "startedAt": "2026-11-11T22:06:07.086Z",
+        "sourceSha256": "a5d291b33e4679cddbd6fb1a893276e6cfe5345b7792f7c016dbd14a4c740262",
+        "result": {
+          "type": "test-result",
+          "id": 25,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T22:07:01.923Z"
+      },
+      {
+        "id": 26,
+        "commandId": 10247,
+        "startedAt": "2026-11-11T22:07:00.525Z",
+        "sourceSha256": "2a27622588a8319de696d882e588e009b0c2aeca7d85620d4db7b5ed8b0743d4",
+        "result": {
+          "type": "test-result",
+          "id": 26,
+          "ok": true,
+          "value": "(T)"
+        },
+        "finishedAt": "2026-11-11T22:07:00.829Z"
+      },
+      {
+        "id": 27,
+        "commandId": 10248,
+        "startedAt": "2026-11-11T22:07:00.830Z",
+        "sourceSha256": "535d9d853a234960508d2e0f87f4c81208e7d61ed05d4cbcc9a0cf1271ac00ab",
+        "result": {
+          "type": "test-result",
+          "id": 27,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T22:07:01.134Z"
+      },
+      {
+        "id": 28,
+        "commandId": 10291,
+        "startedAt": "2026-11-11T22:07:01.952Z",
+        "sourceSha256": "3ac9a1cde9e1fefee8a65b551e571fb8333e94e415cd621e85d88272347529bd",
+        "result": {
+          "type": "test-result",
+          "id": 28,
+          "ok": true,
+          "value": "((852 547))"
+        },
+        "finishedAt": "2026-11-11T22:07:02.766Z"
+      },
+      {
+        "id": 29,
+        "commandId": 10292,
+        "startedAt": "2026-11-11T22:07:02.766Z",
+        "sourceSha256": "4e47ec3b451d0d0aed61a747edb27f0ee127167a68aa3985f2b24ec5fe1e14cc",
+        "result": {
+          "type": "test-result",
+          "id": 29,
+          "ok": true,
+          "value": "(:GEOMETRY-MATCHES)"
+        },
+        "finishedAt": "2026-11-11T22:07:04.089Z"
+      },
+      {
+        "id": 30,
+        "commandId": 11546,
+        "startedAt": "2026-11-11T22:07:36.616Z",
+        "sourceSha256": "a5d291b33e4679cddbd6fb1a893276e6cfe5345b7792f7c016dbd14a4c740262",
+        "result": {
+          "type": "test-result",
+          "id": 30,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T22:08:31.861Z"
+      },
+      {
+        "id": 31,
+        "commandId": 13621,
+        "startedAt": "2026-11-11T22:08:30.672Z",
+        "sourceSha256": "2a27622588a8319de696d882e588e009b0c2aeca7d85620d4db7b5ed8b0743d4",
+        "result": {
+          "type": "test-result",
+          "id": 31,
+          "ok": true,
+          "value": "(T)"
+        },
+        "finishedAt": "2026-11-11T22:08:30.978Z"
+      },
+      {
+        "id": 32,
+        "commandId": 13622,
+        "startedAt": "2026-11-11T22:08:30.978Z",
+        "sourceSha256": "535d9d853a234960508d2e0f87f4c81208e7d61ed05d4cbcc9a0cf1271ac00ab",
+        "result": {
+          "type": "test-result",
+          "id": 32,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T22:08:31.285Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T22:08:31.939Z"
+  },
+  "finishedAt": "2026-11-11T22:08:32.071Z",
+  "snapshotNotes": "Fresh browser with 4e8824f core, MCCLIM reader features, dual compilation, and real application/I/O threads. No Lisp source hot reload. This predates the 097be96 COMPILE-FILE MACROLET correction. Pointer notifications are observed before Lisp assertions to avoid repeated query interruptions during menu layout. Both this observation change and native package lookup are present; the speedup is not isolated to one change.",
+  "featurePreflight": {
+    "work": "/tmp/valtan-mcclim-workbench-RkhiDC",
+    "components": 376,
+    "missingMcclim": [],
+    "workbench": {
+      "work": "/tmp/valtan-mcclim-workbench-RkhiDC",
+      "status": "loading",
+      "complete": false,
+      "startedAt": "2026-11-11T21:39:27.861Z",
+      "compilerSha256": "23616d896d26650aa1187b28fd2edcbc2d012e3759dad7ce8682a583021bf1fd",
+      "startupTimeout": 10800000,
+      "bundleSha256": "aca36950cf675afdfc6ce463d177d55bbe018ebae2147541f426642411b5c63a",
+      "browserAssetsSha256": "82680c293554a5da7cd4c1bcecc04fd9ac549b708089d3841c507a8255520cef"
+    }
+  },
+  "screenshotArtifact": "tests/mcclim/screenshots/windows-threaded.png",
+  "screenshotSha256": "d4ccce9754e147fc6110ff7d693359e5b9b011592e4647c87f51134be7950e9b",
+  "menuScreenshotArtifact": "tests/mcclim/screenshots/menu-threaded.png",
+  "menuScreenshotSha256": "b25a6389cfdde58f8f69c5103cbb76f109df6f073f4905821484930bbbf19594"
+}

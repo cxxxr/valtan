@@ -36,11 +36,11 @@
                                :min-width 1 :min-height 1))
   (:layouts (default content)))
 
-(defun setup ()
+(defun setup (&optional (frame-class 'window-test-frame))
   (clim:move-and-resize-sheet (top-sheet *primary*) 20 40 600 280)
   (check-geometry *primary* 20 40 600 280)
   (setf *secondary*
-        (clim:make-application-frame 'window-test-frame
+        (clim:make-application-frame frame-class
           :frame-manager (clim:frame-manager *primary*) :enable t
           :pretty-name "Second frame" :left 320 :top 80 :width 220 :height 160))
   (clim:redisplay-frame-panes *secondary* :force-p t)

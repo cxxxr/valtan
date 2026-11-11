@@ -301,6 +301,17 @@ error. All 14 stages of the expanded gate pass after a fresh startup; see the
 [window/menu report](../tests/mcclim/window-menu-cold-results.json) and
 [popup screenshot](../tests/mcclim/screenshots/menu-cold.png). That source snapshot
 predates the later native IME, flipping and input-queue changes.
+`npm run test:mcclim:windows:threaded` runs two real frame top levels and the port
+I/O thread. Its [fresh browser run](../tests/mcclim/window-threaded-results.json)
+passes all 17 stages, including independent key input and repainting, each
+frame's dynamic application-frame binding, frame exit followed by thread join,
+and popup selection/cancellation before and after viewport resizing. The driver
+waits for browser pointer-grab notifications before querying Lisp, allowing menu
+layout to proceed without repeated test interruptions. The report records the
+frozen compiler and bundle hashes; this run includes native package lookup and
+predates the subsequent file-compilation MACROLET correction.
+The same driver also [passes all 14 ordinary stages](../tests/mcclim/window-ordinary-results.json)
+with the MACROLET correction, without the cooperative-thread features.
 Focused checks in an existing real McCLIM worker reproduce and fix a minimize
 bug: the sheet remained enabled while its browser window was hidden, so
 `ENABLE-FRAME` could skip restoring it. The adapter now disables the sheet when

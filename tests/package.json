@@ -35,6 +35,7 @@
     "test:mcclim:canvas:threaded": "node mcclim/canvas.mjs --threaded --bezier --flipping",
     "test:mcclim:flipping": "node mcclim/canvas.mjs --flipping",
     "test:mcclim:windows": "node mcclim/windows.mjs",
+    "test:mcclim:windows:threaded": "node mcclim/windows.mjs --threaded",
     "test:mcclim:gadgets": "node mcclim/gadgets.mjs",
     "test:mcclim:drei": "node mcclim/drei.mjs",
     "test:mcclim:png": "node mcclim/png.mjs",
