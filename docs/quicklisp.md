@@ -550,8 +550,13 @@ Runtime bundles also expose read-only ASDF system/component metadata through
 `FIND-SYSTEM`, `FIND-COMPONENT`, `SYSTEM-RELATIVE-PATHNAME` and the component
 accessors. This lets libraries locate bundled data using their ordinary ASDF
 names. It does not implement runtime ASDF build operations or dynamic downloads.
+The metadata preserves the `COMPONENT`, `MODULE`, `SYSTEM` and `SOURCE-FILE`
+type hierarchy, including systems being modules. `MODULE-COMPONENTS` supports
+recursive source discovery and methods specialized on these types, as used by
+Drei. More specific ASDF file classes and runtime build operations are not supplied.
 `npm run test:resources` tests text/binary streams, path lookup, feature-selected
-resources and write protection after deleting the original data, on Node and
+resources, component traversal with generic methods, and write protection after
+deleting the original data, on Node and
 in real Chrome. The CL-DejaVu font library also passes its metadata and font-header
 probe in a Chrome Worker without Node filesystem APIs; see the
 [recorded run](../tests/quicklisp/dejavu-browser-results.json).

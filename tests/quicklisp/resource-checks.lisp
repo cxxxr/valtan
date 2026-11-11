@@ -1,3 +1,26 @@
+;; Walk actual serialized metadata using the same specializers as Drei's
+;; source-discovery code. Run after the host source tree has been removed.
+(defgeneric resource-pathnames (component))
+(defmethod resource-pathnames ((component asdf:module))
+  (mapcan #'resource-pathnames (asdf:module-components component)))
+(defmethod resource-pathnames ((component asdf:source-file))
+  (list (asdf:component-pathname component)))
+
+(let* ((system (asdf:find-system "resource-fixture"))
+       (assets (asdf:find-component system "assets"))
+       (nested (asdf:find-component assets "nested"))
+       (data (asdf:find-component assets "Data.bin")))
+  (assert (typep system 'asdf:system))
+  (assert (typep system 'asdf:module))
+  (assert (typep assets 'asdf:module))
+  (assert (typep nested 'asdf:module))
+  (assert (typep data 'asdf:source-file))
+  (assert (not (typep data 'asdf:module)))
+  (assert (eq (asdf:component-parent nested) assets))
+  (assert (eq (asdf:component-system data) system))
+  (assert (eq (asdf:component-children assets) (asdf:module-components assets)))
+  (assert (member (asdf:component-pathname data) (resource-pathnames system) :test #'equal)))
+
 (let* ((data (asdf:system-relative-pathname "resource-fixture" "assets/Data.bin"))
        (text (asdf:system-relative-pathname "resource-fixture" "assets/nested/日本語.txt")))
   (assert (probe-file data))

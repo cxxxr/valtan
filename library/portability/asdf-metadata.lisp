@@ -2,16 +2,21 @@
 ;; operations remain on the host; this package does not implement runtime ASDF.
 (defpackage :asdf
   (:use :cl)
-  (:export :component :system :find-system :find-component
+  (:export :component :module :system :source-file :find-system :find-component
            :component-name :component-pathname :component-parent
-           :component-children :component-version :component-system
+           :component-children :module-components :component-version :component-system
            :system-source-file :system-source-directory :system-relative-pathname
            :registered-systems :missing-component))
 (in-package :asdf)
 
 (defstruct component name pathname parent children version source-file)
-(defstruct (system (:include component)))
+(defstruct (module (:include component)))
+(defstruct (system (:include module)))
+(defstruct (source-file (:include component)))
 (defvar *embedded-systems* (make-hash-table :test 'equal))
+
+(defun module-components (module)
+  (component-children module))
 
 (defun coerce-name (name)
   (etypecase name
@@ -70,7 +75,10 @@
 (defun system::register-asdf-metadata (descriptions)
   (labels ((component (description parent)
              (destructuring-bind (name pathname kind version source children) description
-               (let ((value (funcall (if (eq kind :system) #'make-system #'make-component)
+               (let ((value (funcall (ecase kind
+                                      (:system #'make-system)
+                                      (:module #'make-module)
+                                      (:file #'make-source-file))
                                      :name name :pathname (and pathname (pathname pathname))
                                      :parent parent :version version
                                      :source-file (and source (pathname source)))))
