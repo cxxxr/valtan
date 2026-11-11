@@ -984,6 +984,18 @@ file-literal work; the ordinary snapshot includes the file-literal traversal
 fix. These counter checks do not establish full threaded Canvas or upstream
 suite coverage.
 
+The separate [threaded Canvas run](../tests/mcclim/canvas-threaded-results.json)
+passes all 350 drawing assertions, including Bezier regions and flipping designs,
+plus five checks for scheduler context, the application frame, the live I/O thread
+and a suspending thread join. The test workbench interrupts the application task
+to retain its dynamic bindings while evaluating checks that can suspend.
+Run `npm run test:mcclim:canvas:threaded` from `tests` to repeat this suite.
+The recorded evaluation took 14.6 minutes after startup; its observer deadline
+was extended without reloading or changing the checks. The driver now allows
+30 minutes for threaded evaluation. This frozen snapshot has the same checkpoint
+limitations as the threaded GUI record above and predates the temporary
+declaration optimization. It does not establish a passing full upstream suite.
+
 `CHECK-TYPE` now reports the actual rejected value, preserves `STORE-VALUE`
 retry behavior and uses a supplied type description. The
 [condition checks](../tests/ansi/check-type-results.json) pass all nine upstream

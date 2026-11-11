@@ -11,15 +11,22 @@ import {launchChrome} from './chrome.mjs';
 const here=path.dirname(fileURLToPath(import.meta.url));
 const root=path.resolve(here,'../..');
 const args=process.argv.slice(2);
+let startupTimeout=60*60*1000;
+const startupOption=args.indexOf('--startup-timeout');
+if(startupOption>=0){
+  startupTimeout=Number(args[startupOption+1]);
+  if(!Number.isSafeInteger(startupTimeout)||startupTimeout<=0)throw Error('Invalid startup timeout');
+  args.splice(startupOption,2);
+}
 if(args.length && (args.length!==2 || args[0]!=='--source-directory'))
-  throw Error('Usage: workbench.mjs [--source-directory directory]');
+  throw Error('Usage: workbench.mjs [--source-directory directory] [--startup-timeout milliseconds]');
 const originalSource=args.length?path.resolve(args[1]):path.join(root,'example/try-using-mcclim');
 const work=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-mcclim-workbench-'));
 const sourceDirectory=path.join(work,'sources'); fs.mkdirSync(sourceDirectory);
 for(const name of fs.readdirSync(originalSource))
   if(/\.(asd|system|lisp|html)$/.test(name)) fs.copyFileSync(path.join(originalSource,name),path.join(sourceDirectory,name));
 fs.writeFileSync(path.join(sourceDirectory,'main.lisp'),fs.readFileSync(path.join(here,'workbench-evaluator.lisp'),'utf8')+'\n'+fs.readFileSync(path.join(sourceDirectory,'main.lisp'),'utf8'));
-const report={work,status:'building',complete:false,startedAt:new Date().toISOString(),compilerSha256:compilerHash()};
+const report={work,status:'building',complete:false,startedAt:new Date().toISOString(),compilerSha256:compilerHash(),startupTimeout};
 const save=()=>fs.writeFileSync(path.join(work,'report.json'),JSON.stringify(report,null,2)+'\n');
 const say=value=>process.stdout.write(JSON.stringify(value)+'\n');
 say({work}); save();
@@ -33,7 +40,7 @@ try {
   report.status='loading'; save();
   let lastLog='';
   async function state(){return page.evaluate('globalThis.mcclimTest && ({ready:mcclimTest.ready,paints:mcclimTest.paints,status:mcclimTest.status,lastLog:mcclimTest.lastLog,errors:mcclimTest.errors})');}
-  const deadline=Date.now()+60*60*1000;
+  const deadline=Date.now()+startupTimeout;
   for(;;){
     const current=await state();
     if(current?.lastLog && current.lastLog!==lastLog){lastLog=current.lastLog;say({loading:lastLog});}

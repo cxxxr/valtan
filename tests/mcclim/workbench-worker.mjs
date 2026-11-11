@@ -5,6 +5,12 @@ self.addEventListener('message', async ({data}) => {
   if (data.type !== 'initialize' || initialized) return;
   initialized = true;
   const host = createCanvasHost(data.buffer);
+  const ready = host.ready;
+  let applicationTask;
+  host.ready = () => {
+    applicationTask = globalThis.valtanMcclimKernel?.currentScheduledTask();
+    ready();
+  };
   const next = host.nextEvent;
   const sources = new Map();
   host.nextEvent = timeout => {
@@ -14,11 +20,24 @@ self.addEventListener('message', async ({data}) => {
         sources.set(event.id, (sources.get(event.id) ?? '') + event.text);
       } else if (event?.type === 'test-evaluate') {
         const source = sources.get(event.id); sources.delete(event.id);
-        let result;
-        try {result = globalThis.valtanMcclimEvaluate(source ?? '');}
-        catch (error) {result = {ok:false, error:String(error?.stack ?? error)};}
-        host.flush();
-        postMessage({type:'test-result', id:event.id, ...result});
+        const sendResult = result => {
+          host.flush();
+          postMessage({type:'test-result', id:event.id, ...result});
+        };
+        const failure = error => ({ok:false, error:String(error?.stack ?? error)});
+        const lisp = globalThis.valtanMcclimKernel;
+        const task = applicationTask ?? lisp?.currentScheduledTask();
+        if (task) {
+          // Preserve the application's dynamic context, including its frame,
+          // while allowing test EVAL, JOIN and cleanup to suspend.
+          task.scheduler.interrupt(task, lisp.makeResumable(function*() {
+            try {sendResult(yield* lisp.callResumable(globalThis.valtanMcclimEvaluate, source ?? ''));}
+            catch (error) {sendResult(failure(error));}
+          }));
+        } else {
+          try {sendResult(globalThis.valtanMcclimEvaluate(source ?? ''));}
+          catch (error) {sendResult(failure(error));}
+        }
       } else return event;
     }
   };

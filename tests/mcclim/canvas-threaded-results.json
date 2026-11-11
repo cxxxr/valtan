@@ -1,0 +1,87 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T18:56:26.578Z",
+  "scope": "Real upstream CLIM pattern, clipping, composite-design, pixmap-copy and multiline-text assertions, plus Bezier curves, areas, unions, differences and output replay, plus solid flipping designs in Chrome; not full McCLIM compatibility",
+  "expectedChecks": 350,
+  "threadedEntryChecks": 5,
+  "compilationMode": "dual functions; real application and I/O threads, checks interrupt the scheduled application",
+  "checksSha256": "0b388e165beb45cde9eed69c9de30cdd480755a66050a5034fd9136c5c0189b1",
+  "work": "/tmp/valtan-mcclim-workbench-VMldqa",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-VMldqa",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T18:56:26.613Z",
+    "compilerSha256": "ceb79b3cd0bdede4d44636c4385e1926e028058d1e0b211bfac828e82a76fe7c",
+    "startupTimeout": 10800000,
+    "bundleSha256": "83bb0167eaad9cf06844230e1bd562489ce5751ddbc239cf91d4731df315b15d",
+    "browserAssetsSha256": "82680c293554a5da7cd4c1bcecc04fd9ac549b708089d3841c507a8255520cef",
+    "readyAt": "2026-11-11T20:10:56.960Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "canvas",
+        "startedAt": "2026-11-11T20:10:56.962Z",
+        "sourceSha256": "0b388e165beb45cde9eed69c9de30cdd480755a66050a5034fd9136c5c0189b1",
+        "file": "/tmp/valtan-canvas-checks-I7hJum/checks.lisp",
+        "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:PASSED 350)"
+        },
+        "finishedAt": "2026-11-11T20:25:33.884Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T20:25:33.932Z"
+  },
+  "result": {
+    "type": "test-result",
+    "id": 1,
+    "ok": true,
+    "value": "(:PASSED 350)"
+  },
+  "finishedAt": "2026-11-11T20:25:34.142Z",
+  "sourceVerification": {
+    "example/try-using-mcclim/main.lisp": "ba2d55a1ec056ef199359143fdb3a9e9b5ff1f4346cc1241a9168ea0510c77ec",
+    "library/mcclim-browser/port.lisp": "cb633806725dcef376f52272413c9290f5b8986a2a56f83ce9eba6b9f2ca7ef0",
+    "tests/mcclim/workbench-worker.mjs": "599a2e4589e15b212fedda8561ff8b3c2a94b5589865b12614c0370bd7d201f6",
+    "tests/mcclim/workbench-evaluator.lisp": "db2741804c7be7bd0c851211f948711aca84a464443e540dd913c2bbc014f03a"
+  },
+  "runtimeContext": {
+    "coldWorker": true,
+    "testWorkbenchWorker": true,
+    "productionReloads": false,
+    "note": "Frozen compiler/kernel with checkpoint batching and synchronous checkpoint suppression, before the final nested-task synchronous-boundary fix in 1794c6a and before MAKE-LOAD-FORM, DEFCONSTANT and temporary deduplication changes. Main, browser port, workbench worker and evaluator match the committed integration. Fixture exactly matches the committed driver with --threaded --bezier --flipping."
+  },
+  "observation": {
+    "originalEvaluationTimeoutMs": 600000,
+    "extension": {
+      "kind": "evaluation",
+      "observedAt": "2026-11-11T20:17:26.195Z",
+      "target": "/home/user/src/valtan/tests/mcclim/workbench.mjs",
+      "oldDeadline": 1794428456968,
+      "update": "ok",
+      "newDeadline": 1794431846368,
+      "status": "extended",
+      "targetVariable": "until",
+      "reason": "Worker is actively compiling the unchanged Canvas fixture; read-only stack sampling identifies quadratic temporary-declaration deduplication. Extend observer only, no code reload or test changes.",
+      "oldDeadlineUtc": "2026-11-11T20:20:56.968000+00:00",
+      "newDeadlineUtc": "2026-11-11T21:17:26.368000+00:00"
+    },
+    "evaluationDurationMs": 876922,
+    "note": "Only the workbench observer deadline was extended while the worker continued compiling unchanged checks. No hot reload, changed assertions, or injected Lisp definitions. Future driver default is 30 minutes for threaded evaluation; this recorded run used the original 10-minute default plus the recorded extension."
+  },
+  "reproduceCommand": "cd tests && npm run test:mcclim:canvas:threaded",
+  "transportRegression": {
+    "command": "cd tests && npm run test:mcclim:transport",
+    "exitCode": 0,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "logSha256": "f90b51674bf1ca755a71a9d9620b84aa8b79f8840d728539ea9966fc578c92ae",
+    "scope": "Separate browser bridge and event queue checks on the current sources; not additional Lisp Canvas assertions."
+  }
+}

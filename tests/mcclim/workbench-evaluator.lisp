@@ -1,5 +1,6 @@
 ;; Installed only in the local test workbench. Requests run in the same target
 ;; Lisp and event-loop context as the application, preserving its loaded state.
+(ffi:set (ffi:ref "globalThis.valtanMcclimKernel") (ffi:ref "lisp"))
 (ffi:set (ffi:ref "globalThis.valtanMcclimEvaluate")
   (lambda (source)
     (handler-case
