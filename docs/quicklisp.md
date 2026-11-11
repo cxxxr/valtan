@@ -924,6 +924,14 @@ pass 29 ordinary/scheduled assertions and all eight upstream ANSI cases in both
 evaluation and compiled modes. The file-literal tests also exercise a nested
 constant definition in a `MAKE-LOAD-FORM` creation form after restarting.
 
+Top-level `DEFTYPE` definitions are available during compilation, allowing later
+macros in the same file to use their derived types. McCLIM's pointer-tracking
+macro exposed this gap by rejecting a valid clause keyword during staging. Nested
+definitions still capture their lexical environment and take effect when
+executed. The [type-definition checks](../tests/resumable/deftype-results.json)
+exercise ordinary and scheduled compilation and restore the definitions from
+an artifact after deleting the source. Full McCLIM staging is verified separately.
+
 Internal cooperative locks and condition variables now share the scheduler's
 task identity. Locks support recursive ownership, nonblocking/timed acquisition
 and FIFO handoff. Condition waits atomically enqueue and release the lock, then

@@ -1,0 +1,177 @@
+{
+  "status": "passed",
+  "complete": true,
+  "verifiedAt": "2026-11-11T20:59:49.757782+00:00",
+  "scope": "DEFTYPE compile-time recognition, lexical environments, and source-deleted artifact loading in ordinary and scheduled execution. The full McCLIM staging rerun is still pending.",
+  "compilerSha256": "e15f12f60f5fe87b1815b9bb474ffa49326ecaae8b120d779c428f6f2c4c6c7a",
+  "dualBundleSha256": "766c6ab03eb9b73f0550c80a577abacc4b3cab8297ed60f99e47a492100e55d9",
+  "sourceHashes": {
+    "library/valtan-core/lisp/type.lisp": "36aceda8e71fdeb875097e2de4815dce13497fa761385aa8edf1b6dedbc7503c",
+    "tests/resumable/deftype.mjs": "0813da55c87fe2a8a0a6b39196daaaf7b1ce3f1e2533a5183f426d7f24c553e9"
+  },
+  "specification": "https://www.lispworks.com/documentation/HyperSpec/Body/m_deftp.htm",
+  "reproducer": {
+    "sourceScriptSha256": "6e7e7323a17363b4546c44d9793e5f4f927a2f79bc154a30230f51e00e821250",
+    "before": "Invalid tracking clause: :POINTER-MOTION; type was defined earlier in the same source file but not registered during compilation.",
+    "after": "DEFTYPE-COMPILE-REPRO-PASS; macro expands successfully and compiled function restores after deleting the source.",
+    "beforeLogSha256": "533be386e4fcc44317da45b4320a31d399531b5671eb00519b2cd63d59f46386",
+    "afterLogSha256": "da77c76e832e3b6f37c67ea0bb7b30861df6aa825aae9ad1d253dca632a5ad55",
+    "upstreamFailure": "Core/extended-input/pointer-tracking.lisp in /tmp/valtan-target-stage-mcclim-constants-oho8q91j rejected :POINTER-MOTION. Full post-fix staging is not yet a pass."
+  },
+  "behaviorChecks": {
+    "count": 33,
+    "compileTimeExpansion": true,
+    "nestedLexicalEnvironment": true,
+    "noNestedCompileTimeEffects": true,
+    "optionalDefaultWildcard": true,
+    "sourceDeletedBeforeLoad": true,
+    "loadRestoresClearedTypeExpanders": true,
+    "ordinaryAndScheduled": true
+  },
+  "regressions": {
+    "command": "cd tests && npm run test:resumable",
+    "exitCode": 0,
+    "coreAndCallbacks": 117,
+    "checkpointChecks": 11,
+    "scheduledTasks": 64,
+    "evalLoad": 18,
+    "synchronization": 12,
+    "sleep": 10,
+    "interrupts": 13,
+    "nativeErrors": 27,
+    "defconstant": 29,
+    "deftype": 33,
+    "artifactTests": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "logSha256": "bfab38dc755be48d41ba058b248f3e5c0fa38b5667c1669ef6aee51f699612f1"
+  },
+  "ansi": {
+    "eval": {
+      "suite": "ansi-test",
+      "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+      "mode": "eval",
+      "bundleSha256": "9ae1f133a7bbc97e9e2395ed9e822d9fd9719fb2432aae441ef04075abd96d1a",
+      "startedAt": "2026-11-11T20:56:01.390Z",
+      "selection": "selected",
+      "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+      "results": [
+        {
+          "name": "types-and-classes/deftype.lsp",
+          "files": [
+            "auxiliary/types-aux.lsp",
+            "types-and-classes/deftype.lsp"
+          ],
+          "mode": "eval",
+          "status": "finished",
+          "pass": 21,
+          "fail": 0,
+          "registered": 21,
+          "expectedRegistered": 21,
+          "completedFiles": [
+            "cl-test-package.lsp",
+            "auxiliary/ansi-aux-macros.lsp",
+            "universe.lsp",
+            "auxiliary/random-aux.lsp",
+            "auxiliary/ansi-aux.lsp",
+            "cl-symbol-names.lsp",
+            "notes.lsp",
+            "auxiliary/types-aux.lsp",
+            "types-and-classes/deftype.lsp"
+          ],
+          "errors": [],
+          "failures": [],
+          "complete": true,
+          "timedOut": false,
+          "unexecuted": 0,
+          "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "pendingTest": null,
+          "currentFile": "types-and-classes/deftype.lsp",
+          "exitCode": 0,
+          "signal": null,
+          "unreadFiles": [],
+          "unregisteredTestsUnknown": false,
+          "fatalError": false,
+          "referenceRegistrationMismatch": false,
+          "effectiveExpectedRegistered": 21,
+          "referenceInventoryMismatch": false,
+          "missingReferenceTests": [],
+          "unexpectedTests": [],
+          "conditionalRegistrations": [],
+          "aliasedRegistrations": [],
+          "registrationNameMismatch": false,
+          "registrationMismatch": false
+        }
+      ],
+      "pass": 21,
+      "fail": 0,
+      "complete": true,
+      "passRate": 100,
+      "finishedAt": "2026-11-11T20:56:11.737Z"
+    },
+    "compiled": {
+      "suite": "ansi-test",
+      "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+      "mode": "compiled",
+      "bundleSha256": "9ae1f133a7bbc97e9e2395ed9e822d9fd9719fb2432aae441ef04075abd96d1a",
+      "startedAt": "2026-11-11T20:56:01.390Z",
+      "selection": "selected",
+      "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+      "results": [
+        {
+          "name": "types-and-classes/deftype.lsp",
+          "files": [
+            "auxiliary/types-aux.lsp",
+            "types-and-classes/deftype.lsp"
+          ],
+          "mode": "compiled",
+          "status": "finished",
+          "pass": 21,
+          "fail": 0,
+          "registered": 21,
+          "expectedRegistered": 21,
+          "completedFiles": [
+            "cl-test-package.lsp",
+            "auxiliary/ansi-aux-macros.lsp",
+            "universe.lsp",
+            "auxiliary/random-aux.lsp",
+            "auxiliary/ansi-aux.lsp",
+            "cl-symbol-names.lsp",
+            "notes.lsp",
+            "auxiliary/types-aux.lsp",
+            "types-and-classes/deftype.lsp"
+          ],
+          "errors": [],
+          "failures": [],
+          "complete": true,
+          "timedOut": false,
+          "unexecuted": 0,
+          "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "pendingTest": null,
+          "currentFile": "types-and-classes/deftype.lsp",
+          "exitCode": 0,
+          "signal": null,
+          "unreadFiles": [],
+          "unregisteredTestsUnknown": false,
+          "fatalError": false,
+          "referenceRegistrationMismatch": false,
+          "effectiveExpectedRegistered": 21,
+          "referenceInventoryMismatch": false,
+          "missingReferenceTests": [],
+          "unexpectedTests": [],
+          "conditionalRegistrations": [],
+          "aliasedRegistrations": [],
+          "registrationNameMismatch": false,
+          "registrationMismatch": false
+        }
+      ],
+      "pass": 21,
+      "fail": 0,
+      "complete": true,
+      "passRate": 100,
+      "finishedAt": "2026-11-11T20:56:11.900Z"
+    }
+  }
+}

@@ -30,7 +30,7 @@
     (cl:when (cl:and (cl:stringp (cl:car body)) (cl:cdr body)) (setq body (cl:cdr body)))
     (cl:do () ((cl:not (cl:and (cl:consp (cl:car body)) (cl:eq (cl:caar body) 'declare))))
       (setq declarations (cl:append declarations (cl:cdar body)) body (cl:cdr body)))
-    `(progn
+    `(eval-when (:compile-toplevel :load-toplevel :execute)
      (setf (deftype-expander ',name)
            (lambda ,lambda-list (declare ,@declarations) (block ,name ,@body)))
      ',name)))
