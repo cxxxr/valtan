@@ -1020,7 +1020,15 @@ and terminal atom; destructuring variables still describe the last visited cons.
 ordinary and scheduled execution and repair the focused case in a retained real
 Drei parser. The complete ANSI iteration category remains 839/843 in both modes,
 with exactly the same four arithmetic `FINALLY` failures as the recorded baseline.
-The separate fresh full Drei rerun is not covered by this focused repair report.
+The [fresh browser rerun](../tests/mcclim/drei-image-upstream-results.json)
+loads the same 13 unchanged upstream test sources and records 3,665 passed
+assertions, zero failed assertions and one default self-compilation skip.
+`WITH-CODE-INSIGHT` now passes all 12 assertions, and all 19 previously
+image-skipped cases run successfully. The report retains its aggregate `failed`
+status because 90 separately selected performance cases remain unexecuted and
+self-compilation is skipped in this default-suite invocation. The separate
+performance and self-compilation reports above used earlier runtime versions;
+these runs do not establish complete current-version or threaded GUI coverage.
 Run `npm run build:resumable && npm run test:resumable:loop-on` from `tests` to
 repeat the focused checks. The iterator behavior follows the
 [CLHS description of `ON`](https://www.lispworks.com/documentation/HyperSpec/Body/06_abac.htm).
