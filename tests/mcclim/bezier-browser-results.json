@@ -1,0 +1,33 @@
+{
+  "system": "mcclim-bezier/core",
+  "scope": "Load and supplied API assertions; GUI verification is separate",
+  "timestamp": "2026-11-11T07:01:08.195Z",
+  "complete": true,
+  "status": "passed",
+  "work": "/tmp/valtan-mcclim-NzlMSC",
+  "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+  "target": "browser",
+  "extraSystems": [
+    "mcclim-portability",
+    "uiop"
+  ],
+  "targetFeatures": [
+    "clim-without-swank",
+    "use-salza2-zlib"
+  ],
+  "checksSha256": "e146bd691e806f029d84fe2f3439c006ee422c8c7a606642634b513a97d54767",
+  "stage": "run",
+  "bundleSha256": "37417b5be2a1192517f037b0fe560dcb87a9de4e8dbed309aac6631b0ce56636",
+  "finishedAt": "2026-11-11T07:31:04.680Z",
+  "sourceHashes": {
+    "environment-checks.lisp": "0b478fb3a00b3aee486537c9f6a8a909f4b3ac6362d2d3678ac8ad939c58588b",
+    "bezier-checks.lisp": "da0e97af9dd0cda0b9a347dd6619e9e54a276427d598bd4abf1a433ea4a7a43d"
+  },
+  "checks": [
+    "Browser environment lookup without Node APIs",
+    "Polygonalize an ordinary Bezier area",
+    "Polygonalize a tiny transformed area to +NOWHERE+"
+  ],
+  "logSha256": "34247ad040be7a432175f3364538f86ac15790d7a347fd1d270ba20d3940439b",
+  "completionLog": "MCCLIM-ENVIRONMENT-CHECKS-PASS\n\nMCCLIM-BEZIER-CHECKS-PASS\n\nMCCLIM-LOAD-COMPLETE\n\n"
+}

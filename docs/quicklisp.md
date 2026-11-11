@@ -285,7 +285,10 @@ failure while loading the PostScript dependency of `mcclim-bezier/core`.
 UIOP and the upstream pure-Lisp compression option, and exercises its
 polygonalization smoke assertions. This fresh Node run now
 [passes](../tests/mcclim/bezier-results.json), including the ordinary polygon and
-degenerate tiny-area cases. It does not verify Bezier drawing in the browser.
+degenerate tiny-area cases. The same API checks also
+[pass in a fresh browser](../tests/mcclim/bezier-browser-results.json), including
+the real extension dependencies; rerun with `npm run test:mcclim:bezier:browser`.
+These API checks do not verify Bezier drawing.
 
 Spatial `COMPOSE-IN`, `COMPOSE-OUT` and `COMPOSE-OVER` designs now render through
 separate Canvas layers. Masks can contain regions or patterns, and composition
