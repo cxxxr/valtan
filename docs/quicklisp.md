@@ -980,6 +980,16 @@ snapshot that preceded the MACROLET fix; it does not cover the remaining
 components or a real application window. Full compiled-library restoration and
 GUI input still require their separate gates.
 
+A subsequent [247-component replay](../tests/mcclim/compiled-presentations-browser-results.json)
+uses artifacts from the corrected MACROLET compiler and restores `REAL`,
+`INTEGER` and bounded-integer presentation types in a fresh browser. Geometry,
+the application-frame macro and a scheduled thread join also pass, with library
+source loading disabled and the loaded inventory matching the manifest in order.
+The original producer was interrupted before finishing. For each included
+artifact, a following `TARGET-STAGE` marker proves that its compilation and load
+returned. This verifies restoration of the presentation definitions, while the replacement full
+producer and the complete library/GUI gates remain pending.
+
 The staged-compilation harness is available in the repository. From the
 repository root, using a new work directory:
 

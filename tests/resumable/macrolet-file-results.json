@@ -267,5 +267,14 @@
     ],
     "compilerSha256": "465b09137a7c584c31000f2fa624945e3984c9a6081a9bb61528fff42b42d72a",
     "oldFailure": "standard-presentations.lisp was the 207th source; its failed output was absent. The old 206.fasl belongs to the preceding completed gadgets.lisp, not the failed source."
+  },
+  "mcclimBrowserRestoration": {
+    "status": "passed",
+    "fullMcclim": false,
+    "components": 247,
+    "report": "tests/mcclim/compiled-presentations-browser-results.json",
+    "finishedAt": "2026-11-11T23:01:20.660Z",
+    "bundleSha256": "e0da7be702a25760a0e317ac64a0323c718d25f3f55abb05cd4a4600132e738f",
+    "scope": "Fresh browser restores the completed prefix including standard-presentations with library source loading disabled; REAL, INTEGER and bounded INTEGER presentation assertions, frame macro and scheduled BT join pass. Full compiled McCLIM and GUI restoration remain pending."
   }
 }
