@@ -997,6 +997,17 @@ counter values in FINALLY and are marked as specification issues by the upstream
 suite. Valtan's values agree with SBCL for those cases. The full ANSI and SACLA
 suites were not remeasured for this change.
 
+Single-pair `PSETQ` now expands to `SETQ` followed by `NIL`, avoiding saved
+multiple-value lists and setter closures in single-variable `DO` steps. Multiple
+assignments retain `PSETF`'s place-subform capture semantics. The
+[regression results](../tests/resumable/psetq-results.json) include 106 upstream
+`PSETQ`, `PSETF`, `DO` and `GETF` cases passing in each of evaluation and compiled
+modes, plus ten ordinary and ten scheduled assignment checks. Run the latter
+with `npm run build:resumable && npm run test:resumable:psetq` from `tests`.
+An ordinary `GETF` scan over 64 property pairs in the dual runtime dropped from
+43 to 1.4 microseconds for a final-key hit, and from 47 to 1.4 microseconds for a
+miss. These local timings exclude startup and do not measure McCLIM as a whole.
+
 The optional `mcclim-portability/image-support` system provides symbol completion,
 operator argument descriptions and CLOS initialization argument descriptions for
 editor integration. Completion respects package exports, internal access,

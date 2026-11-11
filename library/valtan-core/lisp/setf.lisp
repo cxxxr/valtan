@@ -286,7 +286,12 @@
   (cl:when (cl:oddp (cl:length pairs)) (cl:error "Odd number of args to PSETQ."))
   (cl:do ((tail pairs (cl:cddr tail))) ((cl:null tail))
     (cl:unless (symbolp (cl:car tail)) (cl:error "PSETQ requires variable names")))
-  `(psetf ,@pairs))
+  ;; One assignment has no parallel stores to defer. SETQ also handles symbol
+  ;; macros, including evaluation of their place subforms before the value.
+  ;; Avoid PSETF's saved multiple-value list and setter closure in DO steps.
+  (cl:cond ((cl:null pairs) nil)
+           ((cl:null (cl:cddr pairs)) `(progn (setq ,@pairs) nil))
+           (t `(psetf ,@pairs))))
 
 (defmacro multiple-value-setq (vars form)
   (cl:if vars `(values (setf (values ,@vars) ,form)) `(values ,form)))
