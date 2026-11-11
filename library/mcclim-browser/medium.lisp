@@ -82,6 +82,9 @@
   (multiple-value-bind (xx xy yx yy tx ty) (climi::get-transformation transformation)
     (canvas-call medium "setTransform" xx yx xy yy tx ty)))
 (defun canvas-clip-path (medium region)
+  ;; Rectangle sets produced during text redisplay may include zero-area bands.
+  ;; Their normalized components are +NOWHERE+, which contributes no contour.
+  (when (eq region +nowhere+) (return-from canvas-clip-path nil))
   (typecase region
     (rectangle
      (multiple-value-bind (left top right bottom) (bounding-rectangle* region)
@@ -142,11 +145,12 @@
          (unless (eq region +nowhere+) (canvas-clip-path medium region))
          (canvas-call medium "clip"))))
 (defun canvas-path-region-p (region)
-  (typecase region
-    ((or rectangle polygon ellipse point line polyline elliptical-arc) t)
-    ((or climi::standard-region-union climi::standard-rectangle-set)
-     (every #'canvas-path-region-p (region-set-regions region)))
-    (t nil)))
+  (or (eq region +nowhere+)
+      (typecase region
+        ((or rectangle polygon ellipse point line polyline elliptical-arc) t)
+        ((or climi::standard-region-union climi::standard-rectangle-set)
+         (every #'canvas-path-region-p (region-set-regions region)))
+        (t nil))))
 
 (defun canvas-direct-clip-p (region)
   (or (eq region +everywhere+) (eq region +nowhere+)

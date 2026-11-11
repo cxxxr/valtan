@@ -1,0 +1,474 @@
+{
+  "status": "passed",
+  "complete": true,
+  "scope": "Scoped zero-area rectangle-set clipping fix and native Drei input in an existing browser worker after reloading two Canvas helpers. Not a fresh-start result or full Drei compatibility.",
+  "recordedAt": "2026-11-11T08:19:53.372609+00:00",
+  "startup": {
+    "work": "/tmp/valtan-mcclim-workbench-hPP8og",
+    "startedAt": "2026-11-11T04:52:20.346Z",
+    "readyAt": "2026-11-11T05:14:03.166Z",
+    "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "bundleSha256": "24cfeaec8bc99a115119e72fd0c49acddbd08a42804d74bb662eda3c3a84b11f",
+    "browserAssetsSha256": "47eb1c8bf0a2fe7bc8fff366bc3e2741e559d221dbbc101f9fad4cf559e23ca4"
+  },
+  "context": "This long-lived worker already had the input, PNG and CLOS hot reloads recorded by earlier diagnostics. Evaluation69 identifies the CLOS reload. No fresh startup is claimed.",
+  "checks": [
+    "72 Canvas checks including zero-area rectangle-set bands",
+    "Native Japanese IME and supplementary character editing through Drei ACCEPT",
+    "Edited integer acceptance after newline redisplay",
+    "Tab member completion returns alpha",
+    "Nested frame closes and original frame handles a native click"
+  ],
+  "evaluations": [
+    {
+      "id": 69,
+      "commandId": "keyword-policy-live-reload",
+      "startedAt": "2026-11-11T06:53:56.353Z",
+      "sourceSha256": "22fdaf9590c5de097f2d3115e7c7f5c3cddaba18a923b6add762c41a1f27d642",
+      "file": "/tmp/valtan-keyword-cache-live-reload.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 69,
+        "ok": true,
+        "value": "(:KEYWORD-POLICY-RELOADED)"
+      },
+      "finishedAt": "2026-11-11T06:54:14.683Z"
+    },
+    {
+      "id": 73,
+      "commandId": "load-drei-probe",
+      "startedAt": "2026-11-11T08:03:57.910Z",
+      "sourceSha256": "7acaba62ab5590206b7821c3f5f250bb51522c8b4fb7a1d4cbc1e650ae5bea33",
+      "file": "/tmp/valtan-drei-probe.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 73,
+        "ok": true,
+        "value": "(:DREI-PROBE-LOADED)"
+      },
+      "finishedAt": "2026-11-11T08:03:59.038Z"
+    },
+    {
+      "id": 74,
+      "commandId": "run-drei-probe",
+      "startedAt": "2026-11-11T08:04:16.987Z",
+      "sourceSha256": "2f72af5b6077edde3d4516f547ec776486de93afa8d29afdb2c9147c73cc13a6",
+      "result": {
+        "type": "test-result",
+        "id": 74,
+        "ok": false,
+        "error": "Canvas region mask is not supported: CLIM-BACKEND:STANDARD-RECTANGLE-SET"
+      },
+      "finishedAt": "2026-11-11T08:19:52.235Z"
+    },
+    {
+      "id": 77,
+      "commandId": "mask-rectangle-set-diagnostic",
+      "startedAt": "2026-11-11T08:05:58.756Z",
+      "sourceSha256": "2fb180292f21362ad8179e213a6f5f56c262675d8a1e7a710f12d3cc2cdd6472",
+      "result": {
+        "type": "test-result",
+        "id": 77,
+        "ok": true,
+        "value": "((CLIM-BACKEND:STANDARD-RECTANGLE-SET (CLIM:STANDARD-BOUNDING-RECTANGLE CLIM:STANDARD-BOUNDING-RECTANGLE) T T))"
+      },
+      "finishedAt": "2026-11-11T08:05:58.859Z"
+    },
+    {
+      "id": 79,
+      "commandId": "run-drei-mask-diagnostic",
+      "startedAt": "2026-11-11T08:06:43.164Z",
+      "sourceSha256": "2f72af5b6077edde3d4516f547ec776486de93afa8d29afdb2c9147c73cc13a6",
+      "result": {
+        "type": "test-result",
+        "id": 79,
+        "ok": false,
+        "error": "Canvas region mask is not supported: CLIM-BACKEND:STANDARD-RECTANGLE-SET"
+      },
+      "finishedAt": "2026-11-11T08:19:52.236Z"
+    },
+    {
+      "id": 82,
+      "commandId": "inspect-failed-mask-2",
+      "startedAt": "2026-11-11T08:07:55.030Z",
+      "sourceSha256": "6839bfd34cc4fa1b0600356b6d2eb633be3f2fdbbb4c886153ab82f6a0a478f0",
+      "result": {
+        "type": "test-result",
+        "id": 82,
+        "ok": true,
+        "value": "((\"Drei string ready\" (\"abc日本😀\") (CLIM-BACKEND:STANDARD-RECTANGLE-SET ((CLIM-BACKEND:NOWHERE-REGION NIL) (CLIM-BACKEND:NOWHERE-REGION NIL) (CLIM:STANDARD-BOUNDING-RECTANGLE T)) NIL ((1 35.11785888671875 104.259521484375) (21) (32 1 1) (32) (35 1 1) (35)))))"
+      },
+      "finishedAt": "2026-11-11T08:07:55.135Z"
+    },
+    {
+      "id": 83,
+      "commandId": "load-empty-region-fix",
+      "startedAt": "2026-11-11T08:10:12.385Z",
+      "sourceSha256": "4d8ca391db92d8a3813dc611750154c2569aff7e8ac28c1ca7d36d40d30de3b0",
+      "file": "/tmp/valtan-drei-empty-regions-live.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 83,
+        "ok": true,
+        "value": "(:EMPTY-REGION-FIX-LOADED)"
+      },
+      "finishedAt": "2026-11-11T08:10:13.303Z"
+    },
+    {
+      "id": 84,
+      "commandId": "canvas-empty-region-regression",
+      "startedAt": "2026-11-11T08:10:13.303Z",
+      "sourceSha256": "17645104e00cfa35a414379d85d65cffcdbf8e2ca63ca23444835eed5680a3ee",
+      "file": "/home/user/src/valtan/tests/mcclim/canvas-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 84,
+        "ok": true,
+        "value": "(:PASSED 72)"
+      },
+      "finishedAt": "2026-11-11T08:10:21.395Z"
+    },
+    {
+      "id": 85,
+      "commandId": "drei-after-empty-region-fix",
+      "startedAt": "2026-11-11T08:11:02.957Z",
+      "sourceSha256": "2f72af5b6077edde3d4516f547ec776486de93afa8d29afdb2c9147c73cc13a6",
+      "result": {
+        "type": "test-result",
+        "id": 85,
+        "ok": true,
+        "value": "((\"abc日本😀\" 42 \"alpha\"))"
+      },
+      "finishedAt": "2026-11-11T08:14:35.073Z"
+    },
+    {
+      "id": 86,
+      "commandId": "drei3-string-result",
+      "startedAt": "2026-11-11T08:11:34.228Z",
+      "sourceSha256": "23438264dbd49c7bef8407bf4ec34ec77f5da0e4cd95c3aa637c56b494714fe2",
+      "result": {
+        "type": "test-result",
+        "id": 86,
+        "ok": true,
+        "value": "(:DREI-STRING-PASSED \"Drei integer ready\")"
+      },
+      "finishedAt": "2026-11-11T08:11:38.935Z"
+    },
+    {
+      "id": 87,
+      "commandId": "drei3-number-result",
+      "startedAt": "2026-11-11T08:12:20.863Z",
+      "sourceSha256": "add59e01f7bd181468c64576a303f2b94b7e15a7a77c343a42f584b9006fa146",
+      "result": {
+        "type": "test-result",
+        "id": 87,
+        "ok": true,
+        "value": "(:DREI-INTEGER-PASSED \"Drei completion ready\")"
+      },
+      "finishedAt": "2026-11-11T08:12:29.364Z"
+    },
+    {
+      "id": 88,
+      "commandId": "drei3-completion-barrier",
+      "startedAt": "2026-11-11T08:13:38.884Z",
+      "sourceSha256": "4a8e6d3ab899f6b4ec475de8525d4d2a43c64d24a460cc4f3e41d1ee19ac50b0",
+      "result": {
+        "type": "test-result",
+        "id": 88,
+        "ok": true,
+        "value": "(\"Drei completion ready\" (42 \"abc日本😀\"))"
+      },
+      "finishedAt": "2026-11-11T08:13:38.989Z"
+    },
+    {
+      "id": 89,
+      "commandId": "drei3-return-counter-check",
+      "startedAt": "2026-11-11T08:18:06.875Z",
+      "sourceSha256": "59b9303440f152d0ea198346d62b5db2906e5f8753e38b017d5ba8d93833eef9",
+      "result": {
+        "type": "test-result",
+        "id": 89,
+        "ok": true,
+        "value": "(:DREI-RETURNED-TO-COUNTER)"
+      },
+      "finishedAt": "2026-11-11T08:18:09.225Z"
+    }
+  ],
+  "nativeEvents": [
+    {
+      "op": "cdp",
+      "id": "drei3-move",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseMoved",
+        "x": 94,
+        "y": 207
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-down",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mousePressed",
+        "x": 94,
+        "y": 207,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-up",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseReleased",
+        "x": 94,
+        "y": 207,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-ascii",
+      "method": "Input.insertText",
+      "params": {
+        "text": "abc"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-ime",
+      "method": "Input.imeSetComposition",
+      "params": {
+        "text": "日本語",
+        "selectionStart": 0,
+        "selectionEnd": 3
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-commit",
+      "method": "Input.insertText",
+      "params": {
+        "text": "日本語"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-emoji",
+      "method": "Input.insertText",
+      "params": {
+        "text": "😀"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-ArrowLeft-keyDown",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "ArrowLeft",
+        "code": "ArrowLeft"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-ArrowLeft-keyUp",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "ArrowLeft",
+        "code": "ArrowLeft"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-Backspace-keyDown",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "Backspace",
+        "code": "Backspace"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-Backspace-keyUp",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "Backspace",
+        "code": "Backspace"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-Enter-keyDown",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "Enter",
+        "code": "Enter"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-Enter-keyUp",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "Enter",
+        "code": "Enter"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-number-start",
+      "method": "Input.insertText",
+      "params": {
+        "text": "4x"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-number-backspace-keyDown",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "Backspace",
+        "code": "Backspace"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-number-backspace-keyUp",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "Backspace",
+        "code": "Backspace"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-number-finish",
+      "method": "Input.insertText",
+      "params": {
+        "text": "2"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-number-enter-keyDown",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "Enter",
+        "code": "Enter"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-number-enter-keyUp",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "Enter",
+        "code": "Enter"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-choice-start",
+      "method": "Input.insertText",
+      "params": {
+        "text": "al"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-choice-tab-keyDown",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "Tab",
+        "code": "Tab"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-choice-tab-keyUp",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "Tab",
+        "code": "Tab"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-choice-enter-keyDown",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "Enter",
+        "code": "Enter"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-choice-enter-keyUp",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "Enter",
+        "code": "Enter"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-return-move",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseMoved",
+        "x": 324,
+        "y": 412
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-return-down",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mousePressed",
+        "x": 324,
+        "y": 412,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "drei3-return-up",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseReleased",
+        "x": 324,
+        "y": 412,
+        "button": "left",
+        "clickCount": 1
+      }
+    }
+  ],
+  "loadedFix": {
+    "sha256": "4d8ca391db92d8a3813dc611750154c2569aff7e8ac28c1ca7d36d40d30de3b0",
+    "source": "(in-package #:mcclim-browser)\n(setf (fdefinition 'canvas-region-mask) *original-mask*)\n(defun canvas-clip-path (medium region)\n  ;; Rectangle sets produced during text redisplay may include zero-area bands.\n  ;; Their normalized components are +NOWHERE+, which contributes no contour.\n  (when (eq region +nowhere+) (return-from canvas-clip-path nil))\n  (typecase region\n    (rectangle\n     (multiple-value-bind (left top right bottom) (bounding-rectangle* region)\n       (canvas-call medium \"rect\" left top (- right left) (- bottom top))))\n    (polygon\n     (let ((first t) (points nil) (area 0))\n       (map-over-polygon-coordinates\n        (lambda (x y) (push (cons x y) points)) region)\n       (setq points (nreverse points))\n       (loop for rest on points for a = (car rest) for b = (or (cadr rest) (car points))\n             do (incf area (- (* (car a) (cdr b)) (* (car b) (cdr a)))))\n       ;; Union paths must have the same winding, regardless of the input\n       ;; polygon's vertex order, or overlapping regions could cancel out.\n       (when (< area 0) (setq points (reverse points)))\n       (dolist (point points)\n         (canvas-call medium (if first \"moveTo\" \"lineTo\") (car point) (cdr point))\n         (setf first nil))\n       (canvas-call medium \"closePath\")))\n    (ellipse\n     (multiple-value-bind (cx cy) (ellipse-center-point* region)\n       (multiple-value-bind (rx1 ry1 rx2 ry2) (ellipse-radii region)\n         (let* ((start (or (ellipse-start-angle region) 0))\n                (end (or (ellipse-end-angle region) (* 2 pi)))\n                (reverse (< (- (* rx1 ry2) (* rx2 ry1)) 0)))\n           (canvas-call medium \"save\")\n           (canvas-call medium \"transform\" rx1 ry1 rx2 ry2 cx cy)\n           (canvas-call medium \"moveTo\" (cos (if reverse end start)) (sin (if reverse end start)))\n           (canvas-call medium \"arc\" 0 0 1 (if reverse end start) (if reverse start end)\n                        (if reverse (ffi:ref \"true\") (ffi:ref \"false\")))\n           (when (< (abs (- end start)) (* 2 pi)) (canvas-call medium \"lineTo\" 0 0))\n           (canvas-call medium \"closePath\")\n           (canvas-call medium \"restore\")))))\n    ((or climi::standard-region-union climi::standard-rectangle-set)\n     (map-over-region-set-regions (lambda (part) (canvas-clip-path medium part)) region :normalize :y-banding))\n    ((or point line polyline elliptical-arc) nil)\n    (t (error \"Canvas clipping region is not yet supported: ~S\" (type-of region)))))\n\n(defun canvas-path-region-p (region)\n  (or (eq region +nowhere+)\n      (typecase region\n        ((or rectangle polygon ellipse point line polyline elliptical-arc) t)\n        ((or climi::standard-region-union climi::standard-rectangle-set)\n         (every #'canvas-path-region-p (region-set-regions region)))\n        (t nil))))\n\n\n:empty-region-fix-loaded\n"
+  },
+  "loadedFixture": {
+    "sha256": "7acaba62ab5590206b7821c3f5f250bb51522c8b4fb7a1d4cbc1e650ae5bea33",
+    "source": "(defpackage #:valtan-drei-probe (:use #:clim #:clim-lisp))\n(in-package #:valtan-drei-probe)\n(defvar *frame* nil)\n(defvar *answers* nil)\n(defvar *phase* nil)\n(defun phase (name stream)\n  (setf *phase* name)\n  (force-output stream)\n  (mcclim-browser::host-call \"status\" (ffi:cl->js name)))\n(defun top-level (frame)\n  (let ((stream (find-pane-named frame 'editor)))\n    (phase \"Drei string ready\" stream)\n    (push (accept 'string :stream stream :prompt \"Text\") *answers*)\n    (terpri stream)\n    (phase \"Drei integer ready\" stream)\n    (push (accept 'integer :stream stream :prompt \"Number\") *answers*)\n    (terpri stream)\n    (phase \"Drei completion ready\" stream)\n    (push (accept '(member \"alpha\" \"beta\") :stream stream :prompt \"Choice\") *answers*)\n    (phase \"Drei finished\" stream)))\n(define-application-frame drei-probe-frame () ()\n  (:menu-bar nil)\n  (:panes (editor :interactor :scroll-bars nil :width 520 :height 220))\n  (:layouts (default editor))\n  (:top-level (top-level)))\n(defun run ()\n  (setf *answers* nil\n        *frame* (make-application-frame 'drei-probe-frame\n                   :frame-manager (frame-manager *application-frame*)\n                   :pretty-name \"Drei input checks\" :left 40 :top 35 :width 520 :height 220))\n  (unwind-protect (run-frame-top-level *frame*)\n    (destroy-frame *frame*))\n  (nreverse *answers*))\n:drei-probe-loaded\n"
+  },
+  "screenshot": "screenshots/drei-live.png"
+}

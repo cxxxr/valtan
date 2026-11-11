@@ -302,7 +302,7 @@ Bezier regions used as clipping regions or spatial inks are not implemented by
 this adapter yet; the supported operation here is drawing the Bezier design.
 
 `npm run test:mcclim:bezier:canvas` starts a fresh browser, runs the existing
-69 Canvas checks, and adds 45 Bezier pixel checks for curves, dashes, areas,
+72 Canvas checks, and adds 45 Bezier pixel checks for curves, dashes, areas,
 opposite-winding unions, differences, opacity, transforms, clipping, patterned
 and composite inks, flipping, and moved output-record replay.
 All 114 checks [pass](../tests/mcclim/bezier-canvas-results.json) in a fresh
@@ -357,6 +357,18 @@ mirror creation alone occurs before input readiness. The report retains the
 earlier premature-input attempt and identifies the tested source snapshot.
 These results do not establish simultaneous frame event loops or full Drei
 editor compatibility.
+
+`npm run test:mcclim:drei` exercises the actual Drei-backed `accept` operation
+with native Japanese IME input, supplementary characters, cursor movement,
+deletion, integer parsing and Tab completion. It also verifies that the nested
+input frame closes and the original frame still handles pointer input.
+Drei redisplay exposed rectangle sets containing zero-area bands. Their empty
+components now contribute no clipping contour instead of causing an unsupported
+mask error. The [existing-worker checks](../tests/mcclim/drei-live-results.json)
+pass after reloading the two clipping helpers, including all 72 Canvas checks;
+the [screenshot](../tests/mcclim/screenshots/drei-live.png) shows the edited text,
+accepted integer and completed member. The fresh-start Drei gate is running.
+This is a focused input-editing check, not full Drei coverage.
 
 The browser backend reads static PNG files with the upstream pure-Lisp
 `png-read` decoder. Install `png-read` alongside McCLIM in the host Quicklisp;

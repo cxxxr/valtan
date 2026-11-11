@@ -215,6 +215,16 @@
                                        (loop for x below 20 collect (pixel surface x y)))))
         (incf *checks*)))
     (clear)
+    ;; Drei redisplay can retain zero-width/height bands alongside valid ones.
+    ;; MAP-OVER-REGION-SET-REGIONS returns +NOWHERE+ for those empty components.
+    (let ((region (make-instance 'climi::standard-rectangle-set
+                    :bands '((1 3 9) (6) (8 1 1) (8) (10 1 1) (10)))))
+      (assert (member +nowhere+ (region-set-regions region)))
+      (draw-rectangle* medium 0 0 20 20 :filled t :ink blue :clipping-region region)
+      (check-pixel surface 4 2 '(0 0 255 255))
+      (check-pixel surface 1 8 '(0 0 0 0))
+      (check-pixel surface 14 14 '(0 0 0 0)))
+    (clear)
     (setf (medium-clipping-region medium) +nowhere+)
     (fill-red)
     (check-pixel surface 8 8 '(0 0 0 0))))

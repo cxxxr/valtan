@@ -33,6 +33,7 @@
     "test:mcclim:flipping": "node mcclim/canvas.mjs --flipping",
     "test:mcclim:windows": "node mcclim/windows.mjs",
     "test:mcclim:gadgets": "node mcclim/gadgets.mjs",
+    "test:mcclim:drei": "node mcclim/drei.mjs",
     "test:mcclim:png": "node mcclim/png.mjs",
     "test:mcclim:upstream": "node mcclim/upstream.mjs",
     "test:mcclim:upstream:host": "sbcl --script mcclim/upstream-host.lisp",
