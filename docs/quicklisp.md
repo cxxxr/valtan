@@ -979,6 +979,18 @@ Ordinary and dual compiler/runtime checks, 27 browser condition cases and
 compiled-artifact checks pass. This is a focused Node measurement, not a
 whole-McCLIM speedup measurement.
 
+Registered native functions also return their resumable implementation's
+iterator directly on valid calls, avoiding another forwarding generator frame.
+Invalid argument counts retain resumable error delivery. The
+[native forwarding checks](../tests/resumable/native-forwarding-results.json)
+include the existing callback, scheduler, synchronization, interrupt, 27 native
+condition and source-deleted artifact regressions. In one seven-sample Node
+comparison, a 20-level `APPLY` chain propagating loop checkpoints changed from
+1.77 to 1.51 seconds; a shallow `APPLY` workload changed from 225 to 236 ms.
+These synthetic timings exclude startup and do not establish a McCLIM speedup.
+Run `tests/performance/native-apply.mjs` with a dual runtime bundle and report
+path to repeat the workloads.
+
 Application drivers still need integration with the scheduler: blocking calls
 must originate in scheduled Lisp, and merely enabling `:valtan-resumable` does
 not schedule a synchronous application top-level. Other blocking host operations and remaining JavaScript callback

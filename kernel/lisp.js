@@ -273,10 +273,16 @@ function registerFunction(pkg, name, fn, min = 0, max = min) {
     if (native) setResumableNativeImplementation(intern(name, pkg).func, native);
     const implementation = getResumableImplementation(fn);
     if (implementation) {
-        setResumableImplementation(intern(name, pkg).func, function*(...args) {
-            if ((min !== null && args.length < min) || (max !== null && args.length > max))
-                yield* argumentsErrorResumable(intern(name, pkg), args.length);
-            return yield* implementation(...args);
+        setResumableImplementation(intern(name, pkg).func, function(...args) {
+            if ((min !== null && args.length < min) || (max !== null && args.length > max)) {
+                return (function*() {
+                    yield* argumentsErrorResumable(intern(name, pkg), args.length);
+                    return yield* implementation(...args);
+                })();
+            }
+            // Return the iterator directly on valid calls. A forwarding
+            // generator adds an activation to every suspension in its callee.
+            return implementation(...args);
         });
     }
 }

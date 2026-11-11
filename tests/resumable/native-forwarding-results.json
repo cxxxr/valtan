@@ -1,0 +1,112 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T18:43:25.644959+00:00",
+  "scope": "Registered resumable native functions return their implementation iterator directly on valid calls. Invalid arities retain a generator activation so condition handlers can suspend. Ordinary wrappers remain unchanged. No fresh McCLIM GUI result for this change.",
+  "compilerSha256": "c6d156c39a993711a385a95f84933869538203f49a9da2b74b1b0774ff159351",
+  "sourceHashes": {
+    "kernel/lisp.js": "fd7af3b3d2253b30b5c0aea033f6cdf65848115ca174866a893c88043b678746",
+    "kernel/function.js": "4bac1018cf00807d3d4496b28e60740427f96a69fd4d5f335de2825ccc45c29e",
+    "kernel/resumable.js": "e0671f027c2738861263f8a1ed08f6d2e266c463418b0e1969435f4415a98a7e",
+    "tests/resumable/verify.mjs": "4006df4b29b738e1d845ccae480ce317aaeb4ab333eeba9fd651ceeeeeada310",
+    "tests/resumable/native-errors.lisp": "927c11fb2397ecb5ee551a3e3575ec513260d9505cf843a1fe87bc0bd14b294f",
+    "tests/resumable/native-error-checks.mjs": "120b6de51e82cf99f4d8858b24e41ae1f748720f1bef6f129a1354dd8d852471",
+    "tests/resumable/artifact.test.mjs": "e7397895daa4a258b5b33bb2f9f6372605152e33488934dd8d194c44696785a5",
+    "tests/resumable/artifact-worker.mjs": "a8faa6141df7ce58e808422b94ce314982622ed630f852a8c4e9aee240d4ea98",
+    "tests/performance/native-apply.mjs": "d844684ede444b6b5f3e130af6c6a6e16622f49265a3de623568493929b94188"
+  },
+  "benchmark": {
+    "before": {
+      "date": "2026-11-11T18:42:27.920Z",
+      "node": "v24.21.0",
+      "scope": "Scheduled synthetic APPLY workloads; excludes startup and is not a whole McCLIM benchmark",
+      "bundleSha256": "1d0f6772cd7bdee62d9d73f1d55aeea0909b9d82ab1e70ccdc2f6c660c81aacc",
+      "results": [
+        {
+          "name": "NATIVE-APPLY-BENCH",
+          "args": [
+            10000
+          ],
+          "samples": [
+            254.20907700000043,
+            216.39591999999902,
+            217.0952469999993,
+            212.53494300000057,
+            242.3608260000001,
+            239.56942100000015,
+            225.23693599999933
+          ],
+          "medianMs": 225.23693599999933
+        },
+        {
+          "name": "NESTED-APPLY-BENCH",
+          "args": [
+            20,
+            10000
+          ],
+          "samples": [
+            1787.5262889999995,
+            1766.2013050000005,
+            1773.3598169999987,
+            1799.3391620000002,
+            1748.8921410000003,
+            1753.9006789999985,
+            1746.7768539999997
+          ],
+          "medianMs": 1766.2013050000005
+        }
+      ]
+    },
+    "after": {
+      "date": "2026-11-11T18:43:01.027Z",
+      "node": "v24.21.0",
+      "scope": "Scheduled synthetic APPLY workloads; excludes startup and is not a whole McCLIM benchmark",
+      "bundleSha256": "1d95b347c3ec28dd0f401c742485f24a1747747d80d60649e64235d0eb07b1bd",
+      "results": [
+        {
+          "name": "NATIVE-APPLY-BENCH",
+          "args": [
+            10000
+          ],
+          "samples": [
+            248.14578600000004,
+            235.91225699999995,
+            235.98501399999986,
+            267.64284299999963,
+            227.79430700000012,
+            231.95954300000085,
+            234.7792360000003
+          ],
+          "medianMs": 235.91225699999995
+        },
+        {
+          "name": "NESTED-APPLY-BENCH",
+          "args": [
+            20,
+            10000
+          ],
+          "samples": [
+            1506.0688719999998,
+            1513.4648469999993,
+            1554.4787629999992,
+            1533.2373050000006,
+            1509.4928639999998,
+            1514.5734279999997,
+            1570.2630989999998
+          ],
+          "medianMs": 1514.5734279999997
+        }
+      ]
+    },
+    "note": "Single seven-sample comparison on a busy host. The nested APPLY workload improves; the shallow workload is slightly slower in this sample. Neither measures full McCLIM throughput or startup."
+  },
+  "verification": {
+    "command": "node tests/resumable/verify.mjs",
+    "exitCode": 0,
+    "output": "RESUMABLE-CHECKS-PASS 43\nDUAL-CHECKS-PASS 51\nNATIVE-CALLBACK-CHECKS-PASS 23\n43 resumable, 51 dual core/library and 23 native callback checks passed\n64 scheduled Lisp tasks, 2 checkpoint-only loops, shared array, local bindings, await and asynchronous cleanup passed\nRESUMABLE-EVAL-CHECKS-PASS {\"checks\":18,\"sharedTopLevelInvocations\":2,\"sourceLoad\":true,\"compiledStreamLoad\":true,\"compileFileLoad\":true}\nSYNCHRONIZATION-CHECKS-PASS {\"checks\":12,\"counterTasks\":64,\"counterUpdates\":192,\"producers\":4,\"consumers\":4,\"transferredItems\":64,\"broadcastWaiters\":4,\"recursiveTasks\":8,\"cancelledWaiters\":1}\nSLEEP-CHECKS-PASS {\"checks\":10,\"rational\":true,\"float\":true,\"zero\":true,\"taskInterleaving\":true,\"hostProgress\":true,\"asynchronousCancellationCleanup\":true}\nINTERRUPT-CHECKS-PASS {\"checks\":13,\"targetDynamicBindings\":true,\"multipleValues\":true,\"handlerCase\":true,\"resumableHandlerBind\":true,\"catchThrow\":true,\"nonlocalGo\":true,\"asynchronousCancellationCleanup\":true}\nNATIVE-ERROR-CHECKS-PASS {\"cases\":27,\"asynchronousHandlers\":true,\"restarts\":true,\"asynchronousCleanup\":true,\"ordinaryHandler\":true,\"numericValues\":true,\"synchronousNumericCallback\":true}\n",
+    "artifactCommand": "node --test tests/resumable/artifact.test.mjs",
+    "artifactExitCode": 0,
+    "artifactOutput": "✔ resumable compiled artifacts suspend after restart without their source (26256.386831ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 26300.754342\n"
+  }
+}
