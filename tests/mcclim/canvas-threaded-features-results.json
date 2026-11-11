@@ -1,0 +1,60 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T21:46:14.216Z",
+  "scope": "Real upstream CLIM pattern, clipping, composite-design, pixmap-copy and multiline-text assertions, plus Bezier curves, areas, unions, differences and output replay, plus solid flipping designs in Chrome; not full McCLIM compatibility",
+  "expectedChecks": 350,
+  "startupTimeout": 10800000,
+  "evaluationTimeout": 1800000,
+  "threadedEntryChecks": 5,
+  "compilationMode": "dual functions; real application and I/O threads, checks interrupt the scheduled application",
+  "checksSha256": "0b388e165beb45cde9eed69c9de30cdd480755a66050a5034fd9136c5c0189b1",
+  "work": "/tmp/valtan-mcclim-workbench-PQ8D5Q",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-PQ8D5Q",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T21:46:14.261Z",
+    "compilerSha256": "23616d896d26650aa1187b28fd2edcbc2d012e3759dad7ce8682a583021bf1fd",
+    "startupTimeout": 10800000,
+    "bundleSha256": "71bc7ecbe130cd27d586daf78d33deb2cf8632cb5dffcbe5ece22fafb63c72b4",
+    "browserAssetsSha256": "82680c293554a5da7cd4c1bcecc04fd9ac549b708089d3841c507a8255520cef",
+    "readyAt": "2026-11-11T22:16:40.990Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "canvas",
+        "startedAt": "2026-11-11T22:16:40.992Z",
+        "sourceSha256": "0b388e165beb45cde9eed69c9de30cdd480755a66050a5034fd9136c5c0189b1",
+        "file": "/tmp/valtan-canvas-checks-CtJN6E/checks.lisp",
+        "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:PASSED 350)"
+        },
+        "finishedAt": "2026-11-11T22:20:39.538Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T22:20:39.591Z"
+  },
+  "result": {
+    "type": "test-result",
+    "id": 1,
+    "ok": true,
+    "value": "(:PASSED 350)"
+  },
+  "finishedAt": "2026-11-11T22:20:39.763Z",
+  "sourceSnapshotNotes": "Fresh browser with 4e8824f core, preserved dependency MCCLIM features, temporary declaration deduplication, nested-task checkpoints, and native package lookup. No source hot reload or deadline extension. This snapshot predates the 097be96 file-compilation MACROLET correction. It verifies drawing and thread entry, not the complete upstream test suite.",
+  "featurePreflight": {
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-workbench-PQ8D5Q",
+    "embeddedComponents": 496,
+    "missingMcclim": [],
+    "scope": "Every embedded source module has MCCLIM; count is measured, not an independently verified coverage target"
+  },
+  "evaluationDurationMs": 238546,
+  "reproduceCommand": "cd tests && npm run test:mcclim:canvas:threaded",
+  "driverSha256": "c5e7d60c0e1385df48d6660d0e531726551de5d9657344e24b5bb8e0d78c2823"
+}

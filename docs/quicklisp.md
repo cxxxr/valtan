@@ -1053,6 +1053,13 @@ was extended without reloading or changing the checks. The driver now allows
 30 minutes for threaded evaluation. This frozen snapshot has the same checkpoint
 limitations as the threaded GUI record above and predates the temporary
 declaration optimization. It does not establish a passing full upstream suite.
+A [later fresh threaded run](../tests/mcclim/canvas-threaded-features-results.json)
+also passes all 350 drawing assertions and five thread-entry checks, with
+McCLIM's reader features present in all 496 embedded source modules. It includes
+the checkpoint, declaration-deduplication and native package-lookup changes,
+uses the unchanged checks, and needs no observer extension or source reload.
+Its compiler snapshot predates the subsequent MACROLET file-compilation fix;
+the complete upstream suite remains a separate gate.
 
 `CHECK-TYPE` now reports the actual rejected value, preserves `STORE-VALUE`
 retry behavior and uses a supplied type description. The
