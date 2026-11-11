@@ -2,7 +2,15 @@
 // Synchronous foreign callbacks may execute them only without suspension.
 const implementations = new WeakMap();
 const nativeImplementations = new WeakMap();
+let synchronousResumptionDepth = 0;
 export const resumableCheckpoint = Object.freeze({ kind: 'checkpoint' });
+export function synchronousResumptionActive() { return synchronousResumptionDepth > 0; }
+export function withTaskCheckpoints(function_) {
+    const previous = synchronousResumptionDepth;
+    synchronousResumptionDepth = 0;
+    try { return function_(); }
+    finally { synchronousResumptionDepth = previous; }
+}
 
 export function setResumableImplementation(function_, implementation) {
     implementations.set(function_, implementation);
@@ -25,18 +33,21 @@ export function getResumableNativeImplementation(function_) {
 }
 
 function runSynchronously(iterator) {
-    let step = iterator.next();
-    while (!step.done) {
-        if (step.value === resumableCheckpoint) {
-            step = iterator.next();
-        } else {
-            // Throw through the suspended stack so Lisp UNWIND-PROTECT and
-            // dynamic bindings get their normal exceptional cleanup.
-            const error = new Error('Cannot suspend across a synchronous JavaScript call boundary');
-            step = iterator.throw(error);
+    synchronousResumptionDepth++;
+    try {
+        let step = iterator.next();
+        while (!step.done) {
+            if (step.value === resumableCheckpoint) {
+                step = iterator.next();
+            } else {
+                // Throw through the suspended stack so Lisp UNWIND-PROTECT and
+                // dynamic bindings get their normal exceptional cleanup.
+                const error = new Error('Cannot suspend across a synchronous JavaScript call boundary');
+                step = iterator.throw(error);
+            }
         }
-    }
-    return step.value;
+        return step.value;
+    } finally { synchronousResumptionDepth--; }
 }
 
 export function makeResumable(implementation) {

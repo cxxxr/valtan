@@ -9,6 +9,9 @@ assert.equal(globalThis.valtanDualChecksPassed, 51);
 assert.equal(globalThis.valtanCallbackChecksPassed, 23);
 console.log('43 resumable, 51 dual core/library and 23 native callback checks passed');
 
+const { verifyCheckpoints } = await import('./checkpoint-checks.mjs');
+console.log('CHECKPOINT-CHECKS-PASS ' + JSON.stringify(verifyCheckpoints(globalThis.valtanSchedulerKernel)));
+
 const { verifyScheduledLisp } = await import('./scheduler-checks.mjs');
 await verifyScheduledLisp(globalThis.valtanSchedulerKernel, globalThis.valtanScheduledTestSetup());
 console.log('64 scheduled Lisp tasks, 2 checkpoint-only loops, shared array, local bindings, await and asynchronous cleanup passed');

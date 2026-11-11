@@ -991,6 +991,20 @@ These synthetic timings exclude startup and do not establish a McCLIM speedup.
 Run `tests/performance/native-apply.mjs` with a dual runtime bundle and report
 path to repeat the workloads.
 
+Compiler checkpoints now consume the task's budget locally and yield only when
+that budget is exhausted. Older compiled code and native generators can still
+yield individual checkpoints. Synchronous facades omit checkpoint yields that
+they would immediately consume; explicitly advancing another task inside such a
+callback still respects that task's own budget. The
+[checkpoint checks](../tests/resumable/checkpoint-results.json) cover 11 focused
+cases, matching old/new/mixed task slices, nested contexts, exceptions and direct
+iterator consumers, alongside the existing resumable regressions. A source-deleted
+artifact from the older runtime also loads and suspends successfully after restart.
+Fresh Chrome checks pass 64 interleaved tasks and all 27 native condition cases.
+The existing 2,000-update CLOS benchmark changes from 3.89 to 1.12 seconds, and
+the closure workload from 701 to 377 ms. These Node measurements exclude startup
+and do not establish full McCLIM performance or GUI compatibility.
+
 Application drivers still need integration with the scheduler: blocking calls
 must originate in scheduled Lisp, and merely enabling `:valtan-resumable` does
 not schedule a synchronous application top-level. Other blocking host operations and remaining JavaScript callback

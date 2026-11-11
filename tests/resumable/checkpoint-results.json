@@ -1,0 +1,123 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T19:02:01.899726+00:00",
+  "scope": "Count compiler checkpoints inside each task slice, yielding only on budget exhaustion. Legacy/native checkpoint yields still consume one budget unit. Synchronous facades avoid unobservable checkpoint yields, while explicitly nested task advancement restores a resumable boundary. No fresh full McCLIM result for this change.",
+  "compilerSha256": "ceb79b3cd0bdede4d44636c4385e1926e028058d1e0b211bfac828e82a76fe7c",
+  "sourceHashes": {
+    "kernel/execution.js": "6f9404b477bc985e2a75f2a2c3eb5c81fac66db5efa6db031c8b9e4d1a84ec7d",
+    "kernel/resumable.js": "e554fb89ed7b9075c91308f2fc9f62bbce803c4bb72a0e62bf6c40b9a58e51ae",
+    "library/valtan-core/compiler/pass2.lisp": "7951fb9e778c40bcbe25d903a757479bd5074d06b4cdbd02881bd0ecc4ca0719",
+    "tests/resumable/checkpoint-checks.mjs": "0b68402bee107efa76f48eda4aa536b0b0b0005c789367fa4c1a22f4da76355b",
+    "tests/resumable/verify.mjs": "2b9b5220a78964e4ea6e523071b01b7a0dec3a2be0e8f820d3caa952accad4ab",
+    "tests/resumable/funcall-benchmark.mjs": "ab1bee36774f6e2762cfc15e7e0c5120acfa80dd411109e6b6a81e8e6556aa0b",
+    "tests/resumable/artifact.test.mjs": "e7397895daa4a258b5b33bb2f9f6372605152e33488934dd8d194c44696785a5",
+    "tests/resumable/artifact-worker.mjs": "a8faa6141df7ce58e808422b94ce314982622ed630f852a8c4e9aee240d4ea98"
+  },
+  "nodeBundleSha256": "f459ff08ce96444d02a9cffe2a3acc7ffe4a50e67aaa8aea67e37eb8a82e30c4",
+  "verification": {
+    "command": "node tests/resumable/verify.mjs",
+    "exitCode": 0,
+    "output": "RESUMABLE-CHECKS-PASS 43\nDUAL-CHECKS-PASS 51\nNATIVE-CALLBACK-CHECKS-PASS 23\n43 resumable, 51 dual core/library and 23 native callback checks passed\nCHECKPOINT-CHECKS-PASS {\"checks\":11,\"legacyCompatibility\":true,\"identicalSlices\":true,\"nestedContexts\":true,\"exceptionalCleanup\":true,\"synchronousFacades\":true,\"directIterators\":true}\n64 scheduled Lisp tasks, 2 checkpoint-only loops, shared array, local bindings, await and asynchronous cleanup passed\nRESUMABLE-EVAL-CHECKS-PASS {\"checks\":18,\"sharedTopLevelInvocations\":2,\"sourceLoad\":true,\"compiledStreamLoad\":true,\"compileFileLoad\":true}\nSYNCHRONIZATION-CHECKS-PASS {\"checks\":12,\"counterTasks\":64,\"counterUpdates\":192,\"producers\":4,\"consumers\":4,\"transferredItems\":64,\"broadcastWaiters\":4,\"recursiveTasks\":8,\"cancelledWaiters\":1}\nSLEEP-CHECKS-PASS {\"checks\":10,\"rational\":true,\"float\":true,\"zero\":true,\"taskInterleaving\":true,\"hostProgress\":true,\"asynchronousCancellationCleanup\":true}\nINTERRUPT-CHECKS-PASS {\"checks\":13,\"targetDynamicBindings\":true,\"multipleValues\":true,\"handlerCase\":true,\"resumableHandlerBind\":true,\"catchThrow\":true,\"nonlocalGo\":true,\"asynchronousCancellationCleanup\":true}\nNATIVE-ERROR-CHECKS-PASS {\"cases\":27,\"asynchronousHandlers\":true,\"restarts\":true,\"asynchronousCleanup\":true,\"ordinaryHandler\":true,\"numericValues\":true,\"synchronousNumericCallback\":true}\n",
+    "artifactCommand": "node --test tests/resumable/artifact.test.mjs",
+    "artifactExitCode": 0,
+    "artifactOutput": "✔ resumable compiled artifacts suspend after restart without their source (17243.423448ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 17281.342102\n"
+  },
+  "legacyArtifact": {
+    "producerBundleSha256": "1d95b347c3ec28dd0f401c742485f24a1747747d80d60649e64235d0eb07b1bd",
+    "artifactSha256": "7f189054de9af90bff36334336d435f6af7fefc14284354972391fb030a0cb7b",
+    "sourceDeleted": true,
+    "consumerExitCode": 0,
+    "output": "RESUMABLE-CHECKS-PASS 43\nDUAL-CHECKS-PASS 51\nNATIVE-CALLBACK-CHECKS-PASS 23\nRESUMABLE-ARTIFACT-CONSUME-PASS\n",
+    "scope": "Artifact compiled by the pre-change runtime, loaded and suspended on a promise in a fresh final runtime with its source removed."
+  },
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T18:59:46.985Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-HIwhhz",
+    "compilerSha256": "ceb79b3cd0bdede4d44636c4385e1926e028058d1e0b211bfac828e82a76fe7c",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "runtimeTimeout": 3600000,
+    "afterLoadSha256": "bd8560555811044cab4fd456a292d5a29a7edbb6497d3d533b0c0a8f748f8719",
+    "checksSha256": "8c455189b2a57f4db5fef4244c25232e31651157c1abb1afb5546601a0dab6f6",
+    "stage": "run",
+    "bundleSha256": "feec08c448a83f16895481d72bd57ed92a163c3fb7a182a29e7ea4a6b8d55f3c",
+    "finishedAt": "2026-11-11T19:01:06.775Z"
+  },
+  "browserOutput": "; Loading /home/user/src/valtan/library/portability/asdf-metadata.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/package.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/definitions.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/binding.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/strings.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/conditions.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/symbols.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/macros.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/functions.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/lists.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/types.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/io.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/hash-tables.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/control-flow.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/arrays.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/sequences.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/numbers.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-1/features.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/package.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/arrays.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/control-flow.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/sequences.lisp\n\n; Loading /home/user/quicklisp/dists/quicklisp/software/alexandria-20241012-git/alexandria-2/lists.lisp\n\n; Loading /tmp/valtan-mcclim-HIwhhz/main.lisp\n\nMCCLIM-LOAD-COMPLETE\n\nCHECKPOINT-BROWSER-SCHEDULER {\"tasks\":64,\"sharedArrayWrites\":192,\"checkpointOnlyTasks\":2,\"asynchronousCleanup\":true}\nCHECKPOINT-BROWSER-NATIVE {\"cases\":27,\"asynchronousHandlers\":true,\"restarts\":true,\"asynchronousCleanup\":true,\"ordinaryHandler\":true,\"numericValues\":true,\"synchronousNumericCallback\":true}\n",
+  "benchmark": {
+    "before": {
+      "startedAt": "2026-11-11T18:53:23.914Z",
+      "status": "passed",
+      "bundleSha256": "1d95b347c3ec28dd0f401c742485f24a1747747d80d60649e64235d0eb07b1bd",
+      "sourceSha256": "94bcc76cdcb744633792a6a35f99c9812747e69fa1ff81eebc97d3724c09093b",
+      "source": "(progn\n (defclass funcall-bench-cell () ((value :initform 0 :accessor funcall-bench-value)))\n (defmethod funcall-bench-step ((cell funcall-bench-cell)) (incf (funcall-bench-value cell)))\n (ffi:set (ffi:ref \"globalThis\" \"valtanFuncallBench\")\n  (ffi:object\n   \"closure\" (let ((next (lambda (i) (1+ i))))\n               (lambda (n) (let ((total 0)) (dotimes (i n total) (incf total (funcall next i))))))\n   \"generic\" (lambda (n) (let ((cell (make-instance 'funcall-bench-cell)))\n                          (dotimes (i n) (funcall #'funcall-bench-step cell))\n                          (funcall-bench-value cell))))))",
+      "results": [
+        {
+          "name": "closure",
+          "iterations": 20000,
+          "expected": 200010000,
+          "samples": [
+            727.762635000001,
+            694.2137409999996,
+            701.2271490000003
+          ],
+          "medianMs": 701.2271490000003
+        },
+        {
+          "name": "generic",
+          "iterations": 2000,
+          "expected": 2000,
+          "samples": [
+            3889.8989820000006,
+            3807.370654999999,
+            3934.4773950000017
+          ],
+          "medianMs": 3889.8989820000006
+        }
+      ],
+      "finishedAt": "2026-11-11T18:53:42.632Z"
+    },
+    "after": {
+      "startedAt": "2026-11-11T19:00:15.272Z",
+      "status": "passed",
+      "bundleSha256": "f459ff08ce96444d02a9cffe2a3acc7ffe4a50e67aaa8aea67e37eb8a82e30c4",
+      "sourceSha256": "94bcc76cdcb744633792a6a35f99c9812747e69fa1ff81eebc97d3724c09093b",
+      "source": "(progn\n (defclass funcall-bench-cell () ((value :initform 0 :accessor funcall-bench-value)))\n (defmethod funcall-bench-step ((cell funcall-bench-cell)) (incf (funcall-bench-value cell)))\n (ffi:set (ffi:ref \"globalThis\" \"valtanFuncallBench\")\n  (ffi:object\n   \"closure\" (let ((next (lambda (i) (1+ i))))\n               (lambda (n) (let ((total 0)) (dotimes (i n total) (incf total (funcall next i))))))\n   \"generic\" (lambda (n) (let ((cell (make-instance 'funcall-bench-cell)))\n                          (dotimes (i n) (funcall #'funcall-bench-step cell))\n                          (funcall-bench-value cell))))))",
+      "results": [
+        {
+          "name": "closure",
+          "iterations": 20000,
+          "expected": 200010000,
+          "samples": [
+            378.5786360000002,
+            377.4436249999999,
+            363.8900219999996
+          ],
+          "medianMs": 377.4436249999999
+        },
+        {
+          "name": "generic",
+          "iterations": 2000,
+          "expected": 2000,
+          "samples": [
+            1117.0746500000005,
+            1162.0373309999995,
+            1054.900393
+          ],
+          "medianMs": 1117.0746500000005
+        }
+      ],
+      "finishedAt": "2026-11-11T19:00:21.301Z"
+    },
+    "note": "Same existing closure/CLOS workloads, three timed samples after warmup, on a busy host. Startup excluded; not a whole McCLIM speedup measurement."
+  }
+}

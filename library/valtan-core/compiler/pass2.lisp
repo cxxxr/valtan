@@ -728,7 +728,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
         (*resumable-functions* (if resumable-p t *resumable-functions*)))
     (p2-emit-check-arguments hir name parsed-lambda-list)
     (when *p2-in-resumable-function*
-      (write-line "yield lisp.resumableCheckpoint;" *p2-emit-stream*))
+      (write-line "if(lisp.resumableCheckpointDue())yield lisp.resumableCheckpoint;" *p2-emit-stream*))
     (let ((*p2-temporary-variables* '()))
       ;; !!!
       (let* ((base-stream *p2-emit-stream*)
@@ -1076,7 +1076,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
         (*p2-in-simple-loop* t))
     (write-line "for(;;){" *p2-emit-stream*)
     (when *p2-in-resumable-function*
-      (write-line "yield lisp.resumableCheckpoint;" *p2-emit-stream*))
+      (write-line "if(lisp.resumableCheckpointDue())yield lisp.resumableCheckpoint;" *p2-emit-stream*))
     (p2 body :stmt)
     (write-line "break;" *p2-emit-stream*)
     (write-line "}" *p2-emit-stream*)
@@ -1124,7 +1124,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
       (progn
         (format *p2-emit-stream* "~A: for(;;){~%" tagbody-name)
         (when *p2-in-resumable-function*
-          (write-line "yield lisp.resumableCheckpoint;" *p2-emit-stream*))
+          (write-line "if(lisp.resumableCheckpointDue())yield lisp.resumableCheckpoint;" *p2-emit-stream*))
         (progn
           (when exist-escape-p
             (write-line "try{" *p2-emit-stream*))
@@ -1538,7 +1538,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
       (write-line "return lisp.makeResumable(function*(){" stream)
       ;; Each invocation owns its temporaries, including recursive EVAL calls.
       (let ((*p2-emit-stream* stream)) (p2-emit-declare-temporary-variables))
-      (write-line "yield lisp.resumableCheckpoint;" stream))
+      (write-line "if(lisp.resumableCheckpointDue())yield lisp.resumableCheckpoint;" stream))
     (join-emitter-stream stream *p2-emit-stream*)
     (when resumable-p (write-line "});" stream))))
 
