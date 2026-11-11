@@ -201,6 +201,16 @@ objects category retains its previous 829 successes and 34 failures. A focused
 The same compiler also passes all 19 upstream McCLIM algebra results in a fresh
 Node process, retaining the default 100 random trials and upstream assertions.
 
+Internal CLOS slot searches now compare their symbol names directly, avoiding
+repeated general sequence and key-function dispatch. They still read the current
+storage and slot definitions on every access and use the existing MOP hooks.
+The [slot lookup validation](../tests/performance/slot-lookup-results.json) retains
+50 passing regressions in both evaluation and compiled modes, the custom MOP
+fixture, and the same 829 passing / 34 failing upstream ANSI objects cases.
+A focused Node/closer-mop benchmark measured 401 ms versus 107 ms warm medians
+for 2,000 slot updates. The complete browser Drei performance suite with this
+optimization is still running; that workload's timing is not yet established.
+
 An experimental Canvas backend lives in `library/mcclim-browser`, with a
 counter-frame example in `example/try-using-mcclim`. It runs Lisp in a worker;
 shared-memory input and transferred bitmap snapshots allow synchronous McCLIM

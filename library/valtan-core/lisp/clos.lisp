@@ -39,8 +39,15 @@
   (declare (ignore depth))
   (print-object standard-instance stream))
 
+;; Slot names are symbols. Avoid general sequence/key/test dispatch in these
+;; internal searches, which run for both instance data and CLOS metaobjects.
+;; Read the current lists each time so redefinition and MOP hooks stay visible.
+(defun %standard-slot-cell (instance slot-name)
+  (dolist (cell (standard-instance-slots instance))
+    (when (and cell (eq slot-name (car cell))) (return cell))))
+
 (defun std-slot-boundp (instance slot-name)
-  (if (assoc slot-name (standard-instance-slots instance))
+  (if (%standard-slot-cell instance slot-name)
       t
       nil))
 
@@ -58,12 +65,13 @@
 (defun %instance-slot-definition (object slot-name)
   (unless (symbolp slot-name) (type-error slot-name 'symbol))
   (unless (standard-instance-p object) (type-error object 'standard-object))
-  (find slot-name (class-slots (class-of object)) :key #'slot-definition-name))
+  (dolist (slot (class-slots (class-of object)))
+    (when (eq slot-name (slot-definition-name slot)) (return slot))))
 
 (defun %slot-value (class slot-name)
   (when (functionp class)
     (setq class (or (gethash class *generic-function-objects*) class)))
-  (let ((elt (assoc slot-name (standard-instance-slots class))))
+  (let ((elt (%standard-slot-cell class slot-name)))
     (unless elt
       (error "The slot ~S is unbound in the object ~S."
              slot-name class))
@@ -72,7 +80,7 @@
 (defun (cl:setf %slot-value) (value class slot-name)
   (when (functionp class)
     (setq class (or (gethash class *generic-function-objects*) class)))
-  (let ((elt (assoc slot-name (standard-instance-slots class))))
+  (let ((elt (%standard-slot-cell class slot-name)))
     (if elt
         (setf (cdr elt) value)
         (push (cons slot-name value) (standard-instance-slots class)))
