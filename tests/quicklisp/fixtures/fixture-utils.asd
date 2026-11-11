@@ -1,3 +1,4 @@
+(pushnew :fixture-asdf-feature *features*)
 (asdf:defsystem "fixture-utils"
   :version "1.0"
   :depends-on ("net.didierverna.asdf-flv"

@@ -74,6 +74,15 @@
          (write-fixture directory "vt-direct.asd"
                         "(asdf:defsystem \"vt-direct\" :components ((:file \"dep\")))")
          (check (equal "vt-direct" (system-name (load-system-file (merge-pathnames "vt-direct.asd" directory)))))
+         (write-fixture directory "vt-feature.asd"
+                        "(pushnew #+valtan :vt-target-feature #-valtan :vt-host-feature *features*)
+                         (asdf:defsystem \"vt-feature\" :components ((:file \"dep\")))")
+         (let* ((host-features (copy-list *features*))
+                (target-features (copy-list valtan-core::*features*))
+                (system (load-system-file (merge-pathnames "vt-feature.asd" directory))))
+           (check (equal (system-target-features system) '(:vt-target-feature)))
+           (check (equal *features* host-features))
+           (check (equal valtan-core::*features* target-features)))
          (write-fixture directory "vt-custom.asd"
                         "(defclass vt-custom-file (asdf:cl-source-file) ())
                          (asdf:defsystem \"vt-custom\" :components ((vt-custom-file \"dep\")))")

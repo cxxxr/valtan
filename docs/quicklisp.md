@@ -771,6 +771,18 @@ plus the host ASDF version features. Host flags such as `:sbcl` are not advertis
 to target libraries. A system previously loaded into SBCL is not proof of target
 compatibility, and its host-feature component selection is not reused.
 
+Features added by target ASDF definitions and `:target-features` declared by
+dependency systems are preserved when compiling and embedding the application.
+The [feature propagation checks](../tests/quicklisp/asdf-features-results.json)
+cover definition-side additions, dependency declarations, source reader branches
+and host isolation. The McCLIM adapter declares `:mcclim`, because the browser
+loads lower-level CLIM systems without the root `mcclim.asd` feature announcement.
+Older browser runs lacked that feature and omitted upstream `#+mcclim` assertions
+inside otherwise registered tests. New upstream checks require the feature and
+record the runtime feature list; the native reference now includes every test
+name and per-test assertion counts. Earlier aggregate pass counts do not prove
+coverage of those omitted assertions.
+
 The bridge consumes ASDF's source dependency plan; it does not execute that plan
 or load host FASLs into JavaScript. Definition-time code in `.asd` files still
 runs on the host, as it does with ASDF. Custom build operations and custom Lisp

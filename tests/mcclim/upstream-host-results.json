@@ -1,7 +1,9 @@
 {
   "status": "passed",
   "complete": true,
-  "scope": "Native host mcclim/test with its normal dependencies; not a Valtan result",
+  "scope": "Native host mcclim/test, selected suite :MCCLIM, with its normal dependencies; not a Valtan result",
+  "suite": "MCCLIM",
+  "selfCompilation": false,
   "implementation": "SBCL",
   "implementationVersion": "2.6.0.debian",
   "asdfVersion": "3.3.1",
@@ -67,6 +69,968 @@
     "SBCL",
     "UNIX"
   ],
+  "registrationEntries": 193,
+  "registeredTests": [
+    "CLIM-TESTS::LINE-BREAKS.SMOKE",
+    "CLIM-TESTS::LINE-BREAKS.RANDOM",
+    "CLIM-TESTS::NORMALIZE-MARGIN-SPEC",
+    "CLIM-TESTS::NORMALIZE-MARGIN-SPEC.VALIDATION",
+    "CLIM-TESTS::VALIDATE-PARSE-SPACE",
+    "CLIM-TESTS::INPUT-EDITING.*ACTIVATION-GESTURES*",
+    "CLIM-TESTS::INPUT-EDITING.SIMPLE-PARSE-ERROR",
+    "CLIM-TESTS::INPUT-EDITING.INPUT-NOT-OF-REQUIRED-TYPE",
+    "CLIM-TESTS::ACCEPT.SMOKE",
+    "CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.NO-MENU",
+    "CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.MENU",
+    "CLIM-TESTS::COMMANDS.ADD-AND-REMOVE-COMMAND",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-MENU",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-KEYSTROKES",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-KEYSTROKES*",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE.ADD-COMMAND-WITH-EXISTING-MENU",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE.ADD-MENU-NAME-WITH-KEYSTROKE",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE-INHERITANCE.SMOKE",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.1",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.2",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.3",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.4",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.5",
+    "CLIM-TESTS::COMMANDS.COMMAND-TABLE-ERRORS",
+    "CLIM-TESTS::COMMANDS.COMMAND-NO-PRESENT.PRINT",
+    "CLIM-TESTS::COMMANDS.FIND-PRESENTATION-TRANSLATOR.SMOKE",
+    "CLIM-TESTS::COMMANDS.ADD-PRESENTATION-TRANSLATOR-TO-COMMAND-TABLE.SMOKE",
+    "CLIM-TESTS::COMMANDS.REMOVE-PRESENTATION-TRANSLATOR-FROM-COMMAND-TABLE.SMOKE",
+    "CLIM-TESTS::TEXT-SELECTION.SMOKE",
+    "CLIM-TESTS::PARSE-TEXT-STYLE.SMOKE",
+    "CLIM-TESTS::PARSE-TEXT-STYLE*.SMOKE",
+    "CLIM-TESTS::REQUIRED-ARGS",
+    "CLIM-TESTS::OPTIONAL-ARGS",
+    "CLIM-TESTS::KEY-ARGS",
+    "CLIM-TESTS::OPTIONAL-ARGUMENTS-TEST",
+    "CLIM-TESTS::VARIABLES.1.SMOKE",
+    "CLIM-TESTS::VARIABLES.2.BOUNDP",
+    "CLIM-TESTS::VARIABLES.3.MAKEUNBOUND",
+    "CLIM-TESTS::VARIABLES.4.LOCAL-BOUNDP",
+    "CLIM-TESTS::VARIABLES.5.LOCAL-MAKUNBOUND",
+    "CLIM-TESTS::VARIABLES.6.DIFFERENCES",
+    "CLIM-TESTS::VARIABLES.7.THREAD-LOCAL.INITFUN",
+    "CLIM-TESTS::VARIABLES.8.THREAD-LOCAL.INITVAL",
+    "CLIM-TESTS::METACLASS.1.SMOKE",
+    "CLIM-TESTS::METACLASS.2.BINDING",
+    "CLIM-TESTS::METACLASS.3.CONCURRENT",
+    "CLIM-TESTS::STRESS.9",
+    "CLIM-TESTS::STRESS.0",
+    "CLIM-TESTS::TRANSFORMS.+IDENTITY-TRANSFORMATION+",
+    "CLIM-TESTS::TRANSFORMS.CONDITION-TYPE-RELATIONS",
+    "CLIM-TESTS::TRANSFORMS.CLASSES",
+    "CLIM-TESTS::TRANSFORMS.PROTOCOL",
+    "CLIM-TESTS::TRANSFORMS.ORDER-OF-COMPOSITION",
+    "CLIM-TESTS::REGIONS.BOUNDING-RECTANGLES",
+    "CLIM-TESTS::REGIONS.REGION",
+    "CLIM-TESTS::REGIONS.PATH",
+    "CLIM-TESTS::REGIONS.AREA",
+    "CLIM-TESTS::REGIONS.COORDINATE",
+    "CLIM-TESTS::REGIONS.POINT",
+    "CLIM-TESTS::REGIONS.+EVERYWHERE+-AND-+NOWHERE+",
+    "CLIM-TESTS::REGIONS.REGION-SET",
+    "CLIM-TESTS::REGIONS.UNION",
+    "CLIM-TESTS::REGIONS.UNION.STANDARD-REGION-INTERSECTION",
+    "CLIM-TESTS::REGIONS.INTERSECTION",
+    "CLIM-TESTS::REGIONS.DIFFERENCE",
+    "CLIM-TESTS::REGIONS.STANDARD-RECTANGLE-SET",
+    "CLIM-TESTS::REGIONS.REGION-DIFFERENCE/REGRESSION-1",
+    "CLIM-TESTS::REGIONS.REGION-DIFFERENCE/REGRESSION-2",
+    "CLIM-TESTS::REGIONS.POLYLINE",
+    "CLIM-TESTS::REGIONS.POLYGON",
+    "CLIM-TESTS::REGIONS.LINE",
+    "CLIM-TESTS::REGIONS.RECTANGLE",
+    "CLIM-TESTS::REGIONS.ELLIPSE",
+    "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS",
+    "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.ISSUE-1411",
+    "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.ALMOST-POINT",
+    "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.NEARLY-COINCIDENT",
+    "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.LINE-SEGMENT-INTERSECTION",
+    "CLIM-TESTS::REGIONS.ELLIPTICAL-ARC",
+    "CLIM-TESTS::BOUNDING-RECTANGLE.POINT",
+    "CLIM-TESTS::BOUNDING-RECTANGLE.POLYLINE",
+    "CLIM-TESTS::BOUNDING-RECTANGLE.LINE",
+    "CLIM-TESTS::BOUNDING-RECTANGLE.ELLIPTICAL-ARC",
+    "CLIM-TESTS::BOUNDING-RECTANGLE.POLYGON",
+    "CLIM-TESTS::BOUNDING-RECTANGLE.RECTANGLE",
+    "CLIM-TESTS::BOUNDING-RECTANGLE.ELLIPSE",
+    "CLIM-TESTS::BOUNDING-RECTANGLE.REGION-SETS",
+    "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.IDENTITY",
+    "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMPLEMENT",
+    "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMMUTATIVITY",
+    "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.ASSOCIATIVITY",
+    "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.DISTRIBUTIVITY",
+    "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.IDEMPOTENT",
+    "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.DOMINATION",
+    "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.ABSORPTION",
+    "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.DE-MORGAN",
+    "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.INVOLUTION",
+    "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.UNIVERSAL-AND-EMPTY",
+    "CLIM-TESTS::ALGEBRA.EXTRA/UNIQUENESS-OF-COMPLEMENTS",
+    "CLIM-TESTS::ALGEBRA.INCLUSION.REFLEXIVITY",
+    "CLIM-TESTS::ALGEBRA.INCLUSION.ASSYMETRY",
+    "CLIM-TESTS::ALGEBRA.INCLUSION.TRANSITIVITY",
+    "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-LEAST-GREATEST",
+    "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-JOINS",
+    "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-MEETS",
+    "CLIM-TESTS::MAKE-TEXT-STYLE.CACHE",
+    "CLIM-TESTS::OPACITY-VALUE.STANDARD-COLOR",
+    "CLIM-TESTS::COLOR-RGB.STANDARD-COLOR",
+    "CLIM-TESTS::COLOR-RGBA.STANDARD-COLOR",
+    "CLIM-TESTS::COLOR-RGBA.INDIRECT-INK",
+    "CLIM-TESTS::DESIGN-INK.STANDARD-COLOR",
+    "CLIM-TESTS::DESIGN-INK.REGION",
+    "CLIM-TESTS::BEZIER.POLYGONALIZE.SMOKE",
+    "CLIM-TESTS::STREAM-READ-GESTURE.SMOKE",
+    "CLIM-TESTS::GESTURES.1.ADD-GESTURE-NAME.SMOKE",
+    "CLIM-TESTS::GESTURES.2.ENSURE-PHYSICAL-GESTURE.SMOKE",
+    "CLIM-TESTS::GESTURES.3.EVENT-DATA-MATCHES-GESTURE-P.SMOKE",
+    "CLIM-TESTS::GESTURES.4.INDIRECT-GESTURES.SMOKE",
+    "CLIM-TESTS::RECORDING.PARENT-TRIGGERS-ADD-OUTPUT-RECORD",
+    "CLIM-TESTS::RECORDING.RECOMPUTE-EXTENT-FOR-NEW/CHANGED-CHILD",
+    "CLIM-TESTS::RECORDING.MAP-OVER-OUTPUT-RECORDS.OUTSIDE-TREE",
+    "CLIM-TESTS::RECORDING.PARENT-UPDATES-ITS-STRUCTURE",
+    "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.1",
+    "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.2",
+    "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.3",
+    "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.4",
+    "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.5",
+    "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.6",
+    "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.7",
+    "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.SEQUENCE-ENUMERATED",
+    "CLIM-TESTS::PRESENTATIONS.TYPEP.1",
+    "CLIM-TESTS::PRESENTATIONS.TYPE-PARAMETERS.SMOKE",
+    "CLIM-TESTS::PRESENTATIONS.TYPE-OPTIONS.SMOKE",
+    "CLIM-TESTS::PRESENTATIONS.FORWARD-REFERENCED-CLASS",
+    "CLIM-TESTS::PGF-SPECIALIZERS",
+    "CLIM-TESTS::PGF-WARNING",
+    "CLIM-TESTS::PGF-REGRESSION-TEST.1",
+    "CLIM-TESTS::PTI.0001.INHERIT-EXPRESSION",
+    "CLIM-TESTS::PTI.0002.INHERIT-CLASS",
+    "CLIM-TESTS::PTI.0003.INHERITANCE-VALIDITY",
+    "CLIM-TESTS::PRESENTATION-TRANSLATORS.SMOKE",
+    "CLIM-TESTS::PRESENTATION-TRANSLATORS.META",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.ACCEPT",
+    "CLIM-TESTS::NUMBER-SUBTYPEP.RANDOM",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.CHARACTER.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.CHARACTER.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.SUBSET-COMPLETION.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.SUBSET-COMPLETION.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.OR.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.OR.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.OR.ACCEPT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.AND.TYPEP",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.AND.PRESENT",
+    "CLIM-TESTS::STANDARD-PRESENTATIONS.AND.ACCEPT",
+    "CLIM-TESTS::PARSE-DEFINE-APPLICATION.SMOKE"
+  ],
+  "resultCounts": [
+    {
+      "test": "CLIM-TESTS::LINE-BREAKS.SMOKE",
+      "count": 12
+    },
+    {
+      "test": "CLIM-TESTS::LINE-BREAKS.RANDOM",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::NORMALIZE-MARGIN-SPEC",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::NORMALIZE-MARGIN-SPEC.VALIDATION",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::VALIDATE-PARSE-SPACE",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::INPUT-EDITING.*ACTIVATION-GESTURES*",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::INPUT-EDITING.SIMPLE-PARSE-ERROR",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::INPUT-EDITING.INPUT-NOT-OF-REQUIRED-TYPE",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::ACCEPT.SMOKE",
+      "count": 8
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.NO-MENU",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.MENU",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.ADD-AND-REMOVE-COMMAND",
+      "count": 13
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-MENU",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-KEYSTROKES",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE.MENU-IS-KEYSTROKES*",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE.ADD-COMMAND-WITH-EXISTING-MENU",
+      "count": 16
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE.ADD-MENU-NAME-WITH-KEYSTROKE",
+      "count": 6
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE-INHERITANCE.SMOKE",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.1",
+      "count": 20
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.2",
+      "count": 10
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.3",
+      "count": 9
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.4",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE.KEYSTROKE.5",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-TABLE-ERRORS",
+      "count": 7
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.COMMAND-NO-PRESENT.PRINT",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.FIND-PRESENTATION-TRANSLATOR.SMOKE",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.ADD-PRESENTATION-TRANSLATOR-TO-COMMAND-TABLE.SMOKE",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::COMMANDS.REMOVE-PRESENTATION-TRANSLATOR-FROM-COMMAND-TABLE.SMOKE",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::TEXT-SELECTION.SMOKE",
+      "count": 13
+    },
+    {
+      "test": "CLIM-TESTS::PARSE-TEXT-STYLE.SMOKE",
+      "count": 18
+    },
+    {
+      "test": "CLIM-TESTS::PARSE-TEXT-STYLE*.SMOKE",
+      "count": 23
+    },
+    {
+      "test": "CLIM-TESTS::REQUIRED-ARGS",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::OPTIONAL-ARGS",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::KEY-ARGS",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::OPTIONAL-ARGUMENTS-TEST",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::VARIABLES.1.SMOKE",
+      "count": 16
+    },
+    {
+      "test": "CLIM-TESTS::VARIABLES.2.BOUNDP",
+      "count": 12
+    },
+    {
+      "test": "CLIM-TESTS::VARIABLES.3.MAKEUNBOUND",
+      "count": 12
+    },
+    {
+      "test": "CLIM-TESTS::VARIABLES.4.LOCAL-BOUNDP",
+      "count": 12
+    },
+    {
+      "test": "CLIM-TESTS::VARIABLES.5.LOCAL-MAKUNBOUND",
+      "count": 20
+    },
+    {
+      "test": "CLIM-TESTS::VARIABLES.6.DIFFERENCES",
+      "count": 8
+    },
+    {
+      "test": "CLIM-TESTS::VARIABLES.7.THREAD-LOCAL.INITFUN",
+      "count": 12
+    },
+    {
+      "test": "CLIM-TESTS::VARIABLES.8.THREAD-LOCAL.INITVAL",
+      "count": 10
+    },
+    {
+      "test": "CLIM-TESTS::METACLASS.1.SMOKE",
+      "count": 24
+    },
+    {
+      "test": "CLIM-TESTS::METACLASS.2.BINDING",
+      "count": 20
+    },
+    {
+      "test": "CLIM-TESTS::METACLASS.3.CONCURRENT",
+      "count": 32
+    },
+    {
+      "test": "CLIM-TESTS::STRESS.9",
+      "count": 17
+    },
+    {
+      "test": "CLIM-TESTS::STRESS.0",
+      "count": 17
+    },
+    {
+      "test": "CLIM-TESTS::TRANSFORMS.+IDENTITY-TRANSFORMATION+",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::TRANSFORMS.CONDITION-TYPE-RELATIONS",
+      "count": 7
+    },
+    {
+      "test": "CLIM-TESTS::TRANSFORMS.CLASSES",
+      "count": 14
+    },
+    {
+      "test": "CLIM-TESTS::TRANSFORMS.PROTOCOL",
+      "count": 40
+    },
+    {
+      "test": "CLIM-TESTS::TRANSFORMS.ORDER-OF-COMPOSITION",
+      "count": 14
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.BOUNDING-RECTANGLES",
+      "count": 31
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.REGION",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.PATH",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.AREA",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.COORDINATE",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.POINT",
+      "count": 11
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.+EVERYWHERE+-AND-+NOWHERE+",
+      "count": 6
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.REGION-SET",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.UNION",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.UNION.STANDARD-REGION-INTERSECTION",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.INTERSECTION",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.DIFFERENCE",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.STANDARD-RECTANGLE-SET",
+      "count": 7
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.REGION-DIFFERENCE/REGRESSION-1",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.REGION-DIFFERENCE/REGRESSION-2",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.POLYLINE",
+      "count": 24
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.POLYGON",
+      "count": 13
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.LINE",
+      "count": 11
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.RECTANGLE",
+      "count": 19
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.ELLIPSE",
+      "count": 135
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS",
+      "count": 6
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.ISSUE-1411",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.ALMOST-POINT",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.NEARLY-COINCIDENT",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.ELLIPSE.REGRESSIONS.LINE-SEGMENT-INTERSECTION",
+      "count": 6
+    },
+    {
+      "test": "CLIM-TESTS::REGIONS.ELLIPTICAL-ARC",
+      "count": 16
+    },
+    {
+      "test": "CLIM-TESTS::BOUNDING-RECTANGLE.POINT",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::BOUNDING-RECTANGLE.POLYLINE",
+      "count": 10
+    },
+    {
+      "test": "CLIM-TESTS::BOUNDING-RECTANGLE.LINE",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::BOUNDING-RECTANGLE.ELLIPTICAL-ARC",
+      "count": 10
+    },
+    {
+      "test": "CLIM-TESTS::BOUNDING-RECTANGLE.POLYGON",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::BOUNDING-RECTANGLE.RECTANGLE",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::BOUNDING-RECTANGLE.ELLIPSE",
+      "count": 10
+    },
+    {
+      "test": "CLIM-TESTS::BOUNDING-RECTANGLE.REGION-SETS",
+      "count": 19
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.IDENTITY",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMPLEMENT",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMMUTATIVITY",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.ASSOCIATIVITY",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.DISTRIBUTIVITY",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.IDEMPOTENT",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.DOMINATION",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.ABSORPTION",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.DE-MORGAN",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.INVOLUTION",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.UNIVERSAL-AND-EMPTY",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.EXTRA/UNIQUENESS-OF-COMPLEMENTS",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.INCLUSION.REFLEXIVITY",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.INCLUSION.ASSYMETRY",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.INCLUSION.TRANSITIVITY",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-LEAST-GREATEST",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-JOINS",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-MEETS",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::MAKE-TEXT-STYLE.CACHE",
+      "count": 10
+    },
+    {
+      "test": "CLIM-TESTS::OPACITY-VALUE.STANDARD-COLOR",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::COLOR-RGB.STANDARD-COLOR",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::COLOR-RGBA.STANDARD-COLOR",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::COLOR-RGBA.INDIRECT-INK",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::DESIGN-INK.STANDARD-COLOR",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::DESIGN-INK.REGION",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::BEZIER.POLYGONALIZE.SMOKE",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::STREAM-READ-GESTURE.SMOKE",
+      "count": 16
+    },
+    {
+      "test": "CLIM-TESTS::GESTURES.1.ADD-GESTURE-NAME.SMOKE",
+      "count": 28
+    },
+    {
+      "test": "CLIM-TESTS::GESTURES.2.ENSURE-PHYSICAL-GESTURE.SMOKE",
+      "count": 6
+    },
+    {
+      "test": "CLIM-TESTS::GESTURES.3.EVENT-DATA-MATCHES-GESTURE-P.SMOKE",
+      "count": 25
+    },
+    {
+      "test": "CLIM-TESTS::GESTURES.4.INDIRECT-GESTURES.SMOKE",
+      "count": 24
+    },
+    {
+      "test": "CLIM-TESTS::RECORDING.PARENT-TRIGGERS-ADD-OUTPUT-RECORD",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::RECORDING.RECOMPUTE-EXTENT-FOR-NEW/CHANGED-CHILD",
+      "count": 10
+    },
+    {
+      "test": "CLIM-TESTS::RECORDING.MAP-OVER-OUTPUT-RECORDS.OUTSIDE-TREE",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::RECORDING.PARENT-UPDATES-ITS-STRUCTURE",
+      "count": 6
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.1",
+      "count": 180
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.2",
+      "count": 352
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.3",
+      "count": 174
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.4",
+      "count": 6
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.6",
+      "count": 15
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.7",
+      "count": 9
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATIONS.TYPE-RELATIONS.SEQUENCE-ENUMERATED",
+      "count": 14
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATIONS.TYPEP.1",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATIONS.TYPE-PARAMETERS.SMOKE",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATIONS.TYPE-OPTIONS.SMOKE",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATIONS.FORWARD-REFERENCED-CLASS",
+      "count": 14
+    },
+    {
+      "test": "CLIM-TESTS::PGF-SPECIALIZERS",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::PGF-WARNING",
+      "count": 12
+    },
+    {
+      "test": "CLIM-TESTS::PGF-REGRESSION-TEST.1",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::PTI.0002.INHERIT-CLASS",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::PTI.0003.INHERITANCE-VALIDITY",
+      "count": 16
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.TYPEP",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.PRESENT",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.NULL.ACCEPT",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.TYPEP",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.PRESENT",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.BOOLEAN.ACCEPT",
+      "count": 13
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.TYPEP",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.PRESENT",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.SYMBOL.ACCEPT",
+      "count": 13
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.TYPEP",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.PRESENT",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.KEYWORD.ACCEPT",
+      "count": 7
+    },
+    {
+      "test": "CLIM-TESTS::NUMBER-SUBTYPEP.RANDOM",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.TYPEP",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.PRESENT",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.NUMBER.ACCEPT",
+      "count": 14
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.TYPEP",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.PRESENT",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLEX.ACCEPT",
+      "count": 20
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.TYPEP",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.PRESENT",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.REAL.ACCEPT",
+      "count": 13
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.TYPEP",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.PRESENT",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.INTEGER.ACCEPT",
+      "count": 11
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.CHARACTER.TYPEP",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.CHARACTER.PRESENT",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.TYPEP",
+      "count": 2
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.PRESENT",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.STRING.ACCEPT",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.TYPEP",
+      "count": 3
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.PRESENT",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.ACCEPT",
+      "count": 7
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.TYPEP",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.PRESENT",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.COMPLETION.ACCEPT",
+      "count": 19
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.SUBSET-COMPLETION.TYPEP",
+      "count": 8
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.SUBSET-COMPLETION.PRESENT",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.TYPEP",
+      "count": 5
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.PRESENT",
+      "count": 6
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE.ACCEPT",
+      "count": 12
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.TYPEP",
+      "count": 7
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.PRESENT",
+      "count": 8
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.SEQUENCE-ENUMERATED.ACCEPT",
+      "count": 14
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.OR.TYPEP",
+      "count": 6
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.OR.PRESENT",
+      "count": 6
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.OR.ACCEPT",
+      "count": 23
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.AND.TYPEP",
+      "count": 6
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.AND.PRESENT",
+      "count": 4
+    },
+    {
+      "test": "CLIM-TESTS::STANDARD-PRESENTATIONS.AND.ACCEPT",
+      "count": 15
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATION-TRANSLATORS.SMOKE",
+      "count": 1
+    },
+    {
+      "test": "CLIM-TESTS::PRESENTATION-TRANSLATORS.META",
+      "count": 24
+    },
+    {
+      "test": "CLIM-TESTS::PARSE-DEFINE-APPLICATION.SMOKE",
+      "count": 7
+    }
+  ],
   "registered": 193,
   "results": 2213,
   "passed": 2213,
@@ -74,8 +1038,6 @@
   "skipped": 0,
   "unexecuted": [],
   "nonpassed": [],
-  "runnerSha256": "7c8d54df70531ec835e8973e41997635da40d3da63585e0dd2c31b5807029f15",
-  "upstreamDefinitionSha256": "c656f4107f9bc4cf3546ffe51cd034d1e0f56c5246684a0c82cbe04e0c2058c4",
   "sourcePlan": [
     {
       "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/util/package.lisp",
@@ -186,5 +1148,8 @@
       "sha256": "5acfb609f2cede3965bd4cf0bf542fafd3a957fe964dbc60d7d7089b7af343c2"
     }
   ],
-  "provenanceNote": "Source hashes attached after the verified native run; these are the installed test sources, not a browser result."
+  "runnerSha256": "a5efb8374cce61fd439afb35e67f71e258e580ceab180ea4862ba1732a5a8cef",
+  "upstreamDefinitionSha256": "c656f4107f9bc4cf3546ffe51cd034d1e0f56c5246684a0c82cbe04e0c2058c4",
+  "verifiedAt": "2026-11-11T20:44:33.942724+00:00",
+  "provenanceNote": "Fresh native run with unchanged installed sources. Records all 193 case names and per-case assertion counts; two cases execute without producing assertions. Native results do not prove target coverage. SBCL selects FAKE-PROGV-KLUDGE for the stress-test reader branches."
 }

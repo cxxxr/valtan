@@ -1,5 +1,8 @@
 (defsystem "mcclim-portability"
   :depends-on ("clim-core/system")
+  ;; The browser loads the lower-level CLIM systems, bypassing mcclim.asd's
+  ;; feature announcement. This adapter still uses the McCLIM implementation.
+  :target-features (:mcclim)
   :components ((:file "environment")))
 
 (defsystem "mcclim-portability/image-support"

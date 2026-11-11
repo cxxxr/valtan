@@ -1,6 +1,7 @@
 (in-package :valtan-host.system)
 
 (defparameter *host-asdf-systems* '("asdf" "asdf-package-system"))
+(defvar *initial-target-asdf-features* nil)
 
 (defun target-asdf-features ()
   ;; ASDF version features describe the definition reader, not the target VM.
@@ -22,7 +23,8 @@
                               *host-asdf-systems* :test #'equal))
                     (asdf/system-registry:registered-systems*)))
          (ports-directory (asdf:system-relative-pathname :valtan "library/portability/"))
-         (*features* (target-asdf-features))
+         (*initial-target-asdf-features* (target-asdf-features))
+         (*features* (copy-list *initial-target-asdf-features*))
          (asdf:*central-registry* (cons ports-directory (append *system-directories* asdf:*central-registry*))))
     (unless (and registry (boundp registry))
       (error "Unsupported ASDF registry in ASDF ~A" (asdf:asdf-version)))
@@ -103,6 +105,13 @@
       (setf (gethash name *system-map*)
             (make-system :name name
                          :pathname (asdf:system-source-file system)
+                         ;; Definitions can announce implementation features,
+                         ;; e.g. MCCLIM, which their target sources also read.
+                         ;; Only additions to the isolated target feature set
+                         ;; cross this boundary; host implementation features
+                         ;; and ASDF's own reader features do not.
+                         :target-features (set-difference *features*
+                                                         *initial-target-asdf-features*)
                          :asdf-metadata (mapcar #'describe-asdf-component
                                                (reverse metadata-systems))
                          :asdf-resources (nreverse resources)

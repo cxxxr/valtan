@@ -64,6 +64,7 @@
       "upstreamDefinition" (namestring (asdf:system-source-file *upstream-test-system*))
       "features" (mapcar #'symbol-name *features*)
       "registrationEntries" (length entries)
+      "registeredTests" (mapcar (lambda (test) (prin1-to-string (fiveam::name test))) cases)
       "resultCounts" (loop for test being the hash-keys of counts using (hash-value count)
                            collect (st-json:jso "test" (prin1-to-string (fiveam::name test))
                                                 "count" count))

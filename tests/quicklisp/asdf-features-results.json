@@ -1,0 +1,88 @@
+{
+  "status": "passed",
+  "complete": true,
+  "verifiedAt": "2026-11-11T20:50:42.571537+00:00",
+  "scope": "ASDF definition and dependency-system feature propagation, host isolation, and emitted McCLIM source feature lists. Full corrected-feature McCLIM runtime and upstream suite are still pending.",
+  "compilerSha256": "3b9a6ddf653cab9cd74bee540ad0ced291701b6c7248fc02274e06a4fb566b3f",
+  "sourceHashes": {
+    "host-src/asdf.lisp": "95baa3af24d167f95fc25fe65e4cfbdb4d46702be743c98dfd8cfd9a533726a0",
+    "host-src/build.lisp": "4bc520fd8451b0fab5c3bf8eb0eb5166daba1a96f49165d6d26990005e6a002a",
+    "library/mcclim-portability/mcclim-portability.system": "b042b4ed655962d2edfb6c6594cc9f1dc00ee1545dfaee8c242e24d1a6ff37c0",
+    "tests/quicklisp/system-tests.lisp": "aad4af21aa5ab1c008e711008f890cc0a0c6af8c933559353d1541669283681f",
+    "tests/quicklisp/fixtures/fixture-utils.asd": "1b0abe58996da39c4e154107ca735971662363a268d43b69523f8a395f0afb0c",
+    "tests/quicklisp/fixtures/feature-selection.system": "da65cd01686ba3cd45bf7a9bfc6181cc9115b58d3e6c7977dba31d728f515ec8",
+    "tests/quicklisp/fixtures/main.lisp": "69d496a5d7cc016e71959ef56d1554ce594a2a3c0254d0deb0df5856e45e5482",
+    "tests/quicklisp/fixtures/src/definitions.lisp": "68dfa6e683ebe8160975afd8d9f397e8b71b9cdfc58d1f379011940af4704fd5",
+    "tests/mcclim/upstream-checks.lisp": "be9405d39716b339c2bc3fedd4f1db00592f938d030427286c66afddfde90f62"
+  },
+  "trigger": {
+    "liveOldWorkerFeatures": [
+      "5AM",
+      "FLEXI-STREAMS",
+      "ASDF-UNICODE",
+      "BORDEAUX-THREADS",
+      "THREAD-SUPPORT",
+      "LITTLE-ENDIAN",
+      "CLIM-WITHOUT-SWANK",
+      "USE-SALZA2-ZLIB",
+      "VALTAN-RESUMABLE",
+      "CLIM-MP",
+      "VALTAN",
+      "PACKAGE-LOCAL-NICKNAMES"
+    ],
+    "missingFeature": "MCCLIM",
+    "readerGuards": "Tests/presentations/presentation-types.lisp contains #+mcclim assertions inside registered cases. Registration totals alone miss this coverage gap.",
+    "causes": [
+      "Features added in isolated ASDF definition reading were discarded before source compilation.",
+      "The browser loads lower-level CLIM systems rather than the root mcclim.asd that announces MCCLIM. Its adapter now explicitly declares the implementation feature."
+    ]
+  },
+  "verification": {
+    "systemLoader": {
+      "passed": 21,
+      "exitCode": 0,
+      "logSha256": "954ce798b89b721eff756ce31b6d071edc08e8ae42de1f9a4d84c02ea1dae07a"
+    },
+    "quicklispFixtures": {
+      "command": "cd tests && npm run test:quicklisp:fixtures",
+      "passed": 10,
+      "failed": 0,
+      "exitCode": 0,
+      "logSha256": "a0d18402c5468e6f4564b40eae37be273e47bdb00bd3dc647dd1b3c957e17f56",
+      "note": "Initial full run. The final dependency declaration and dependency source assertions were then verified by the focused run below."
+    },
+    "finalRuntimeFixture": {
+      "command": "cd tests && node --test --test-name-pattern='ASDF dependencies execute once' quicklisp/runtime.test.mjs",
+      "passed": 1,
+      "failed": 0,
+      "exitCode": 0,
+      "logSha256": "95b9baa3e71ced5e8d5b10497a9e7ad32176ac7b64dcc9b048f91c4fa23dc816",
+      "checks": [
+        "ASDF feature reaches dependency and application readers",
+        "Dependency system target feature reaches application reader",
+        "Features present at runtime",
+        "Host SBCL feature absent",
+        "Runtime succeeds after original sources and ASD definition are deleted",
+        "Intentional source-load errors still abort initialization"
+      ]
+    },
+    "mcclimBuild": {
+      "status": "passed",
+      "embeddedComponents": 376,
+      "missingMcclimFeature": [],
+      "compilerSha256": "3b9a6ddf653cab9cd74bee540ad0ced291701b6c7248fc02274e06a4fb566b3f",
+      "work": "/tmp/valtan-target-stage-mcclim-feature-final-a8he9hqp",
+      "scope": "Only embedded dependency/application source modules; excludes core compiler definitions of LOAD-EMBEDDED-SOURCE."
+    }
+  },
+  "nativeReference": {
+    "file": "tests/mcclim/upstream-host-results.json",
+    "registered": 193,
+    "passed": 2213,
+    "failed": 0,
+    "skipped": 0,
+    "registeredNamesRecorded": 193,
+    "perTestResultCountsRecorded": 191,
+    "note": "Two native cases execute without assertions. Native FAKE-PROGV-KLUDGE changes both stress cases from the target run's 33 checks to 17. This reference is not a target pass."
+  }
+}

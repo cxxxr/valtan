@@ -1,5 +1,7 @@
 (defpackage :fixture-utils (:use :cl) (:export :twice :*loads* :*read-value* :*file* :*sub-value*))
 (in-package :fixture-utils)
+#-fixture-asdf-feature (error "Dependency source lost its ASDF definition's feature")
+(assert (member :fixture-asdf-feature *features*))
 (when (ffi:js-eval "return process.env.VALTAN_FIXTURE_FAIL === 'yes' ? lisp.S_t : lisp.S_nil;")
   (error "EXPECTED-FIXTURE-LOAD-FAILURE"))
 (defvar *loads* 0)

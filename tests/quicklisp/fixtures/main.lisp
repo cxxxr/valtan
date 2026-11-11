@@ -1,3 +1,8 @@
+#-fixture-asdf-feature (error "Target source reader lost a feature announced by an ASDF definition")
+(assert (member :fixture-asdf-feature *features*))
+#-fixture-dependency-feature (error "Target source reader lost a dependency system's feature")
+(assert (member :fixture-dependency-feature *features*))
+(assert (not (member :sbcl *features*)))
 (assert (= fixture-utils:*loads* 1))
 (let* ((system (asdf:find-system :fixture-utils))
        (module (asdf:find-component system "src" :registered t))

@@ -2,6 +2,9 @@
 ;; skipped checks and unexecuted test cases prevent success; nothing is omitted.
 (defpackage #:mcclim-upstream-checks (:use #:cl))
 (in-package #:mcclim-upstream-checks)
+;; MCCLIM is announced by its ASDF definition. Without it the upstream test
+;; reader silently omits implementation-specific assertions within test cases.
+(assert (member :mcclim *features*) () "McCLIM's ASDF feature is missing in the target")
 (defvar *files* nil)
 (defvar *report-progress* nil)
 
@@ -53,6 +56,7 @@
      ((ffi:ref "JSON" "stringify")
       (ffi:object
        :status (ffi:cl->js (if success "passed" "failed"))
+       :features (js-array *features* (lambda (feature) (ffi:cl->js (symbol-name feature))))
        :files (js-array (reverse *files*)
                         (lambda (entry)
                           (ffi:object :file (ffi:cl->js (first entry))
