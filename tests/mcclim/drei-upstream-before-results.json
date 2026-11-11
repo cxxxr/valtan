@@ -1,0 +1,386 @@
+{
+  "status": "incomplete",
+  "complete": false,
+  "scope": "All13 unchanged drei-mcclim/test source files attempted in the existing browser worker, then the default Drei suite; not a fresh-start result",
+  "evaluation": {
+    "id": 90,
+    "commandId": "drei-upstream-default-suite",
+    "startedAt": "2026-11-11T08:29:26.991Z",
+    "sourceSha256": "0caac659ed8227cfdc9f45b410661adcedd55cb9d7ec8cbddf65958b6b73bc1a",
+    "file": "/tmp/valtan-drei-upstream-target.lisp"
+  },
+  "observedAt": "2026-11-11T09:01:36.767759+00:00",
+  "lastObservation": {
+    "lastLog": "DREI-UPSTREAM-TEST DREI-TESTS::FORM-TO-OBJECT-17",
+    "ready": true
+  },
+  "manifest": {
+    "system": "drei-mcclim/test",
+    "files": [
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/packages.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/testing.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/buffer-tests.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/base-tests.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/kill-ring-tests.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/motion-tests.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/editing-tests.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/core-tests.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/buffer-streams-tests.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/rectangle-tests.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/undo-tests.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/lisp-syntax-tests.lisp",
+      "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/lisp-syntax-swine-tests.lisp"
+    ],
+    "definition": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/drei-mcclim.asd",
+    "asdfVersion": "3.3.1",
+    "sources": [
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/packages.lisp",
+        "sha256": "312c495fde851bc583d4bc811cd9182859f11c96adb490d5e010c272bbba5cef"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/testing.lisp",
+        "sha256": "eca5e451eff6b03617c6789e56973e73b46e25a39e860fb4e44e686863616dbb"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/buffer-tests.lisp",
+        "sha256": "24c82a971cbb13941835e6741c5dde803fc63970958e326afb1fdf0be2f6567d"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/base-tests.lisp",
+        "sha256": "2bfcfb22efa6539f25c026e21ae32075a349255df73d421d663bf5cb27f9fb38"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/kill-ring-tests.lisp",
+        "sha256": "80adc089d13a307483399808089d283da021997e7b3ca6cd503cfc65955414a8"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/motion-tests.lisp",
+        "sha256": "3fdd4c8546cd3991c8946700b1751a4af76a970bd52d956e5b476a605bc8cc2d"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/editing-tests.lisp",
+        "sha256": "68a9853819cc7083606cda2353f847eb9d55c2a691a1ac1c94f8d929ba4919a7"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/core-tests.lisp",
+        "sha256": "72171a8ac9ea9ecbe8b53472f8246380283ec251692b9cd5713ec5b00f185460"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/buffer-streams-tests.lisp",
+        "sha256": "a4ee97f28a32d822255c4398d1c8db60a178de0c949467f3e3a04dd4dcdba1fb"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/rectangle-tests.lisp",
+        "sha256": "6ac2e74b3b85f65fc9903b3dd1f4e03ec3360ef93dcfe68e198fe8fa1b1c6b38"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/undo-tests.lisp",
+        "sha256": "1dcb0953e6893955e437ea7832915a1030ac21aacb8935f34e4ad7f1029db86b"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/lisp-syntax-tests.lisp",
+        "sha256": "2441e0bda8cf3bfbf7e6f4fc4fefb21c422f941340a0bdd0eadcbdcc0e0cba05"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/Tests/lisp-syntax-swine-tests.lisp",
+        "sha256": "be021f7ed39ebf2931d55b376d2c37822e4b853e1b8dc20450dfa50548531f3f"
+      }
+    ],
+    "checksSha256": "0caac659ed8227cfdc9f45b410661adcedd55cb9d7ec8cbddf65958b6b73bc1a",
+    "scope": "Default upstream Drei tests, no assertions changed; isolated new registrations in existing browser worker. All13 files attempted, load errors and skipped/unexecuted results retained."
+  },
+  "nativeBaseline": {
+    "status": "failed",
+    "complete": true,
+    "scope": "Native host drei-mcclim/test with its normal dependencies and default test settings; not a Valtan result",
+    "implementation": "SBCL",
+    "implementationVersion": "2.6.0.debian",
+    "asdfVersion": "3.3.1",
+    "upstreamDefinition": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/drei-mcclim.asd",
+    "features": [
+      "5AM",
+      "SBCL-DEBUG-PRINT-VARIABLE-ALIST",
+      "PACKAGE-LOCKS",
+      "FAKE-PROGV-KLUDGE",
+      "CLOSER-MOP",
+      "BORDEAUX-THREADS",
+      "GLOBAL-VARS",
+      "SEQUENCE-EMPTYP",
+      "THREAD-SUPPORT",
+      "CLIM-MP",
+      "CLIM-WITHOUT-SWANK",
+      "QUICKLISP",
+      "ASDF3.3",
+      "ASDF3.2",
+      "ASDF3.1",
+      "ASDF3",
+      "ASDF2",
+      "ASDF",
+      "OS-UNIX",
+      "NON-BASE-CHARS-EXIST-P",
+      "ASDF-UNICODE",
+      "ARENA-ALLOCATOR",
+      "X86-64",
+      "GENCGC",
+      "64-BIT",
+      "ANSI-CL",
+      "COMMON-LISP",
+      "ELF",
+      "IEEE-FLOATING-POINT",
+      "LINUX",
+      "LITTLE-ENDIAN",
+      "PACKAGE-LOCAL-NICKNAMES",
+      "SB-CORE-COMPRESSION",
+      "SB-LDB",
+      "SB-PACKAGE-LOCKS",
+      "SB-THREAD",
+      "SB-UNICODE",
+      "SBCL",
+      "UNIX"
+    ],
+    "registered": 615,
+    "results": 3584,
+    "passed": 3564,
+    "failed": 0,
+    "skipped": 20,
+    "unexecuted": [
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE-TEST-1",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE-TEST-1",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE-TEST-1",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE-TEST-1",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE-TEST-1",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE-TEST-1A",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE-TEST-1A",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE-TEST-1A",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE-TEST-1A",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE-TEST-1A",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-1B",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-1B",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-1B",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-1B",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-1B",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-1BA",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-1BA",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-1BA",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-1BA",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-1BA",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-1C",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-1C",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-1C",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-1C",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-1C",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-1CA",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-1CA",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-1CA",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-1CA",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-1CA",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-1CB",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-1CB",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-1CB",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-1CB",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-1CB",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-2",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-2",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-2",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-2",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-2",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-2B",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-2B",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-2B",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-2B",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-2B",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-2C",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-2C",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-2C",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-2C",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-2C",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-3",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-3",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-3",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-3",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-3",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-3B",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-3B",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-3B",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-3B",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-3B",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-3C",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-3C",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-3C",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-3C",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-3C",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-4",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-4",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-4",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-4",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-4",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-4B",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-4B",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-4B",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-4B",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-4B",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-4C",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-4C",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-4C",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-4C",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-4C",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-4D",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-4D",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-4D",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-4D",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-4D",
+      "DREI-TESTS::BINSEQ2-BUFFER-PERFORMANCE.TEST-4E",
+      "DREI-TESTS::OBINSEQ-BUFFER-PERFORMANCE.TEST-4E",
+      "DREI-TESTS::BINSEQ-BUFFER-PERFORMANCE.TEST-4E",
+      "DREI-TESTS::DELEGATING-STANDARD-BUFFER-PERFORMANCE.TEST-4E",
+      "DREI-TESTS::STANDARD-BUFFER-PERFORMANCE.TEST-4E"
+    ],
+    "nonpassed": [
+      {
+        "test": "DREI-TESTS::ARGLIST-FOR-FORM-1",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::ARGLIST-FOR-FORM-2",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::INDENT-FORM-1",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::INDENT-FORM-2",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::INDENT-FORM-3",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::INDENT-FORM-4",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::INDENT-FORM-5",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::INDENT-FORM-PROGN",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::INDENT-FORM-PROG1",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::INDENT-FORM-PROG2",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::INDENT-FORM-LET",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::INDENT-FORM-LET*",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::INDENT-FORM-MULTIPLE-VALUE-BIND",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::SELF-COMPILATION-TEST",
+        "kind": "TEST-SKIPPED",
+        "reason": "Sensibly skipping self-compilation test. Set DREI-TESTS:*RUN-SELF-COMPILATION-TEST* to true if you don't want to skip it"
+      },
+      {
+        "test": "DREI-TESTS::FIND-DIRECT-OPERATOR",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::FIND-APPLICABLE-FORM",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::POSSIBLE-COMPLETIONS",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::WITH-CODE-INSIGHT",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::MAKE-INSTANCE-FORM-TRAITS",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      },
+      {
+        "test": "DREI-TESTS::FIND-CLASS-FORM-TRAITS",
+        "kind": "TEST-SKIPPED",
+        "reason": "No useful image link found"
+      }
+    ]
+  },
+  "knownProductionReloads": "Existing worker includes the CLOS keyword-policy cache and the two zero-area clipping helpers; no ASDF module/source-file hierarchy or TAGBODY activation fix. Earlier input and Canvas changes are recorded in drei-live-results.json.",
+  "diagnosis": "The worker stayed inside FORM-TO-OBJECT-17. A browser CPU trace showed repeated ERROR/SIGNAL paths inside recursive methods. Independent bounded regressions reproduce static TAGBODY identifiers catching nonlocal GO in the wrong recursive activation: recursive GO returns the wrong traversal and nested HANDLER-CASE resends the same condition indefinitely. The observed suite never returned a result. No passed-check totals or source-load-success claims are inferred.",
+  "action": "Close this confirmed looping worker after preserving evidence; validate the compiler correction and rerun in a newly started retained worker.",
+  "regressionsBefore": {
+    "name": "tagbody-before",
+    "files": [
+      "tagbody-activation-regressions.lsp"
+    ],
+    "mode": "eval",
+    "status": "finished",
+    "pass": 1,
+    "fail": 2,
+    "registered": 3,
+    "expectedRegistered": null,
+    "completedFiles": [
+      "tagbody-activation-regressions.lsp"
+    ],
+    "errors": [],
+    "failures": [
+      {
+        "test": "RECURSIVE-GO-REACHES-LEXICAL-ACTIVATION",
+        "reason": "expected ((3)); actual ((3 :FELL-THROUGH 2 :FELL-THROUGH 1 :FELL-THROUGH 0)) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "RECURSIVE-HANDLER-CASE-RESIGNALS-OUTWARD",
+        "reason": "expected (:CAUGHT 4); actual (:LOOPED 5) [diagnostic display: length 10, depth 5]"
+      }
+    ],
+    "complete": true,
+    "timedOut": false,
+    "unexecuted": 0,
+    "diagnostics": "\n\n\n\n\n\n\n\n\n\n",
+    "pendingTest": null,
+    "currentFile": "tagbody-activation-regressions.lsp",
+    "exitCode": 0,
+    "signal": null,
+    "unreadFiles": [],
+    "unregisteredTestsUnknown": false,
+    "fatalError": false,
+    "referenceRegistrationMismatch": false,
+    "registrationMismatch": false
+  },
+  "profileFile": "/tmp/valtan-drei-worker-profile.json",
+  "profileSha256": "da0aa6ee3e114f7cbc521f6695a60e19beda2d0355178443bb2a0c516a6a25fc"
+}

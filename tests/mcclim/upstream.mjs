@@ -9,19 +9,24 @@ import {spawn,spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {hash} from './bundle.mjs';
 const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'../..');
-const output=path.resolve(process.argv[2]??'/tmp/valtan-mcclim-upstream.json');
+const args=process.argv.slice(2),drei=args.includes('--drei');
+if(drei)args.splice(args.indexOf('--drei'),1);
+if(args.length>1)throw Error('Usage: upstream.mjs [--drei] [report.json]');
+const output=path.resolve(args[0]??`/tmp/valtan-${drei?'drei':'mcclim'}-upstream.json`);
+const testSystem=drei?'drei-mcclim/test':'mcclim/test';
+const targetSystems=drei?['mcclim-browser','fiveam','automaton']:['mcclim-browser/bezier','fiveam'];
+const targetFeatures=drei?['clim-without-swank']:['clim-without-swank','use-salza2-zlib'];
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-mcclim-upstream-'));
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),
-  scope:'All sources in the installed mcclim/test and mcclim/test-util ASDF plan, read with target features in real browser McCLIM; not GUI integration or complete extension coverage',
-  targetSystems:['mcclim-browser/bezier','fiveam'],
-  targetFeatures:['clim-without-swank','use-salza2-zlib'],
+  scope:`All sources in the installed ${drei?'drei-mcclim/test':'mcclim/test and mcclim/test-util'} ASDF plan, read with target features in real browser McCLIM; not GUI integration or complete extension coverage`,
+  testSystem,targetSystems,targetFeatures,
   workbenchSourceHashes:Object.fromEntries(['upstream-plan.lisp','upstream-checks.lisp','upstream.mjs']
     .map(name=>[name,hash(fs.readFileSync(path.join(here,name)))]))};
 const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
 let child;
 try {
   const manifest=path.join(dir,'source-plan.json');
-  const planned=spawnSync('sbcl',['--script',path.join(here,'upstream-plan.lisp'),manifest],
+  const planned=spawnSync('sbcl',['--script',path.join(here,'upstream-plan.lisp'),manifest,testSystem],
     {encoding:'utf8',timeout:120000,maxBuffer:16*1024*1024});
   fs.writeFileSync(path.join(dir,'plan.log'),(planned.stdout??'')+(planned.stderr??''));
   assert.equal(planned.status,0,planned.stderr??String(planned.error));
@@ -45,13 +50,13 @@ try {
   for(const file of fs.readdirSync(path.join(root,'example/try-using-mcclim')))
     if(/\.(system|lisp|html)$/.test(file))fs.copyFileSync(path.join(root,'example/try-using-mcclim',file),path.join(dir,file));
   fs.writeFileSync(path.join(dir,'app.system'),`(defsystem "app"
-    :depends-on ("mcclim-load-trace" "mcclim-browser/bezier" "fiveam" "mcclim-upstream-data")
+    :depends-on ("mcclim-load-trace" ${targetSystems.map(quote).join(' ')} "mcclim-upstream-data")
     :components ((:file "main")) :target :browser
-    :target-features (:clim-without-swank :use-salza2-zlib) :compile-mode :runtime)`);
+    :target-features (${targetFeatures.map(name=>':'+name).join(' ')}) :compile-mode :runtime)`);
   const fixture=fs.readFileSync(path.join(here,'upstream-checks.lisp'),'utf8')+
     '\n(setf mcclim-upstream-checks::*files* nil)\n'+
     snapshots.map(({file,source})=>`(mcclim-upstream-checks::load-test-source ${quote(file)} ${quote(source)})`).join('\n')+
-    '\n(mcclim-upstream-checks::run)\n';
+    `\n(mcclim-upstream-checks::run ${drei?'(find-symbol "DREI-TESTS" "DREI-TESTS")':':mcclim'})\n`;
   const checkFile=path.join(dir,'checks.lisp');fs.writeFileSync(checkFile,fixture);report.checksSha256=hash(fixture);save();
   child=spawn(process.execPath,[path.join(here,'workbench.mjs'),'--source-directory',dir],{stdio:['pipe','pipe','inherit']});
   const terminal=new Promise(resolve=>child.on('close',(code,signal)=>resolve({code,signal})));

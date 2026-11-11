@@ -5,15 +5,19 @@
   (when (probe-file setup) (load setup)))
 (asdf:load-system "st-json")
 (let ((output (first (uiop:command-line-arguments)))
+      (system (or (second (uiop:command-line-arguments)) "mcclim/test"))
       (files nil) (seen (make-hash-table :test 'equal)))
   (unless output (error "Expected output manifest pathname"))
+  (assert (member system '("mcclim/test" "drei-mcclim/test") :test #'equal))
   (dolist (action (asdf/plan:plan-actions
                   (asdf:make-plan 'asdf/plan:filtered-sequential-plan 'asdf:load-op
-                                  (asdf:find-system "mcclim/test") :other-systems t)))
+                                  (asdf:find-system system) :other-systems t)))
     (let ((component (cdr action)))
       (when (and (typep (car action) 'asdf:load-op) (typep component 'asdf:cl-source-file)
                  (member (asdf:component-name (asdf:component-system component))
-                         '("mcclim/test" "mcclim/test-util") :test #'equal))
+                         (if (equal system "mcclim/test")
+                             '("mcclim/test" "mcclim/test-util")
+                             (list system)) :test #'equal))
         (let ((file (asdf:component-pathname component)))
           (unless (gethash file seen)
             (setf (gethash file seen) t)
@@ -22,6 +26,7 @@
   (with-open-file (out output :direction :output :if-exists :supersede)
     (st-json:write-json
      (st-json:jso "root" (namestring (asdf:system-source-directory "mcclim"))
-                  "definition" (namestring (asdf:system-source-file "mcclim/test"))
+                  "system" system
+                  "definition" (namestring (asdf:system-source-file system))
                   "asdfVersion" (asdf:asdf-version)
                   "files" (nreverse files)) out)))

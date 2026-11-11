@@ -31,13 +31,14 @@
     (push (list file failure (set-difference (test-cases) before :test #'eq)) *files*)
     (when failure (format t "~&MCCLIM-UPSTREAM-LOAD-FAIL ~A: ~A~%" file failure))))
 
-(defun run ()
-  (let* ((cases (test-cases))
+(defun run (&optional (suite :mcclim))
+  (let* ((cases (remove-duplicates
+                (mapcan (lambda (entry) (copy-list (third entry))) *files*) :test #'eq))
          (*report-progress* t)
          (clim:*application-frame* climi::*default-application-frame*)
          (fiveam:*test-dribble* (make-string-output-stream))
          (fiveam:*on-error* nil) (fiveam:*on-failure* nil)
-         (results (fiveam:run :mcclim :print-names nil))
+         (results (fiveam:run suite :print-names nil))
          (passed (count-if #'fiveam::test-passed-p results))
          (skipped (count-if (lambda (result) (typep result 'fiveam::test-skipped)) results))
          (failed (- (length results) passed skipped))

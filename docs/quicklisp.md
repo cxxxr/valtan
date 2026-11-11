@@ -383,6 +383,18 @@ reloading production definitions; see the
 This run includes the empty-region fix and predates the ASDF metadata type changes.
 This is a focused input-editing check, not full Drei coverage.
 
+`npm run test:mcclim:drei:upstream` attempts every source in the separate
+`drei-mcclim/test` ASDF plan and runs its default suite in the browser.
+`npm run test:mcclim:drei:upstream:host` provides the native SBCL baseline.
+Both retain skipped and unexecuted tests as nonpassing coverage. The installed
+baseline registers 615 cases: 3,564 checks pass, 20 checks skip under the default
+settings, and 90 separately registered performance cases remain unexecuted.
+The [initial browser diagnostic](../tests/mcclim/drei-upstream-before-results.json)
+did not finish `FORM-TO-OBJECT-17`: recursive condition resignal exposed a
+nonlocal GO activation bug. The compiler correction and its bounded regressions
+are recorded in [the TAGBODY checks](../tests/ansi/tagbody-activation-results.json).
+The full browser diagnostic is being rerun after that correction.
+
 The browser backend reads static PNG files with the upstream pure-Lisp
 `png-read` decoder. Install `png-read` alongside McCLIM in the host Quicklisp;
 the backend's dependencies then include it in the target bundle. Ordinary

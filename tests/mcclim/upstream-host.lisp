@@ -5,20 +5,24 @@
                  (merge-pathnames #p"quicklisp/setup.lisp" (user-homedir-pathname)))))
   (when (probe-file setup) (load setup)))
 (pushnew :clim-without-swank *features*)
+(defparameter *drei-tests-p* (member "--drei" (uiop:command-line-arguments) :test #'equal))
+(defparameter *upstream-test-system* (if *drei-tests-p* "drei-mcclim/test" "mcclim/test"))
 (asdf:load-system "st-json")
-(asdf:load-system "mcclim/test")
+(asdf:load-system *upstream-test-system*)
 
 (defmethod fiveam::run-test-lambda :before ((test fiveam::test-case))
   (format t "~&MCCLIM-HOST-TEST ~S~%" (fiveam::name test))
   (finish-output))
 
-(let* ((output (or (first (uiop:command-line-arguments))
-                   "/tmp/valtan-mcclim-upstream-host.json"))
+(let* ((output (or (first (remove "--drei" (uiop:command-line-arguments) :test #'equal))
+                   (if *drei-tests-p* "/tmp/valtan-drei-upstream-host.json"
+                       "/tmp/valtan-mcclim-upstream-host.json")))
        (cases (loop for name in (fiveam::test-names)
                     for test = (fiveam:get-test name)
                     when (typep test 'fiveam::test-case) collect test))
        (fiveam:*on-error* nil) (fiveam:*on-failure* nil)
-       (results (fiveam:run :mcclim :print-names nil))
+       (results (fiveam:run (if *drei-tests-p* (find-symbol "DREI-TESTS" "DREI-TESTS") :mcclim)
+                            :print-names nil))
        (passed (count-if #'fiveam::test-passed-p results))
        (skipped (count-if (lambda (result) (typep result 'fiveam::test-skipped)) results))
        (failed (- (length results) passed skipped))
@@ -28,11 +32,11 @@
     (st-json:write-json
      (st-json:jso
       "status" (if success "passed" "failed") "complete" :true
-      "scope" "Native host mcclim/test with its normal dependencies; not a Valtan result"
+      "scope" (format nil "Native host ~A with its normal dependencies and default test settings; not a Valtan result" *upstream-test-system*)
       "implementation" (lisp-implementation-type)
       "implementationVersion" (lisp-implementation-version)
       "asdfVersion" (asdf:asdf-version)
-      "upstreamDefinition" (namestring (asdf:system-source-file "mcclim/test"))
+      "upstreamDefinition" (namestring (asdf:system-source-file *upstream-test-system*))
       "features" (mapcar #'symbol-name *features*)
       "registered" (length cases) "results" (length results)
       "passed" passed "failed" failed "skipped" skipped
