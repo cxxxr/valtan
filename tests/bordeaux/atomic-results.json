@@ -131,7 +131,8 @@
     "processExitCode": 1,
     "profile": "/tmp/valtan-bordeaux-atomic-profile.json"
   },
-  "upstreamRuns": {
+  "upstreamNote": "The running snapshots above were recorded before suite completion. All three runs subsequently passed 82 cases and 130 checks, including the unchanged million-increment/million-decrement atomic test. See upstream-results.json for terminal reports; initial diagnostic failure remains preserved separately.",
+  "upstreamRunsAtRecording": {
     "unchangedRerun": {
       "status": "running",
       "complete": false,
@@ -156,5 +157,5 @@
       "bundleSha256": "a757913325c6c4e456cfba59941ad312c7e898a757fc4be09c2c9f617756a85c"
     }
   },
-  "upstreamNote": "These snapshots do not establish completion while a run reports running. Both full test suites retain their original bodies and million-update atomic concurrency case."
+  "terminalUpstreamEvidence": "upstream-results.json"
 }

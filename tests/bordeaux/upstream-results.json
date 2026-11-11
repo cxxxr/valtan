@@ -1271,7 +1271,7 @@
     "earlier": "/tmp/valtan-bordeaux-fast-upstream.log",
     "native": "/tmp/valtan-bordeaux-host4.log"
   },
-  "otherRuns": "The original unoptimized rerun is still running and is not counted as completed. The first unoptimized run was killed by an inspector diagnostic error, preserved in atomic-results.json; it is not a test-suite failure.",
+  "otherRuns": "The original unoptimized rerun has completed with the same 82 registered cases and 130 successful checks as finalNodeRun. The first unoptimized run ended because an inspector diagnostic threw an unhandled rejection, preserved in atomic-results.json; it is not a test-suite failure.",
   "nativeNumericConditionRegression": {
     "sourceCommit": "c600e77",
     "sourceScope": "Includes resumable native symbol, arity and numeric condition delivery. Frozen before scheduled FUNCALL optimization 62aba8a. This is not a threaded McCLIM integration result.",
@@ -1741,5 +1741,38 @@
       "finishedAt": "2026-11-11T16:51:49.679Z"
     },
     "sameRegisteredCasesAsPriorRun": true
+  },
+  "originalUnoptimizedRun": {
+    "status": "passed",
+    "complete": true,
+    "startedAt": "2026-11-11T15:34:00.650Z",
+    "scope": "Both upstream Bordeaux Threads 0.9.4 suites, with unchanged atomic test bodies explicitly enabled for Valtan",
+    "bundleSha256": "93e4f970998b2b438887c9d4cb4feebe7bc6c121fe53bb9775740b770966dcfc",
+    "stage": "tests",
+    "teardown": [
+      {
+        "name": "Unknown thread 17",
+        "state": "waiting"
+      },
+      {
+        "name": "Waiting thread 2",
+        "state": "waiting"
+      }
+    ],
+    "consoleErrors": [],
+    "finishedAt": "2026-11-11T17:00:30.847Z",
+    "results": {
+      "registered": 82,
+      "results": 130,
+      "passed": 130,
+      "skipped": 0,
+      "failed": 0,
+      "unexecuted": [],
+      "nonpassed": []
+    },
+    "registeredNamesAndResultCountsMatch": "finalNodeRun.results",
+    "sourceScope": "Original ee1d5d0 snapshot, before atomic fast paths, CHECK-TYPE fix and later resumable native error changes.",
+    "rawReport": "/tmp/valtan-bordeaux-upstream2.json",
+    "rawReportSha256": "2524d41fdd174ab08c1f169d2706d71d16ee7ed03e39d312745ceb3f44c3c559"
   }
 }
