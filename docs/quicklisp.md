@@ -644,6 +644,17 @@ checks; this preflight is recorded, and no production definitions were reloaded.
 This snapshot predates the Bezier region-mask extensions and the empty-region
 clipping fix.
 
+The separate [scheduled dynamic-variable run](../tests/mcclim/dynamic-vars-results.json)
+now passes all 244 checks from the 13 cases in the unchanged upstream
+`Tests/dynamic-vars.lisp`, with no skips or unexecuted cases. It includes the
+64-thread metaclass workload and both 4096-variable stress tests in a fresh
+Chrome worker. Run `npm run test:mcclim:dynamic-vars` to reproduce it; the source
+comes from the installed ASDF test plan, with its hash and harness hashes recorded.
+The recorded bundle includes checkpoint batching and synchronous checkpoint
+suppression, but predates the final nested-task checkpoint-boundary fix and
+`MAKE-LOAD-FORM` support. This isolated result does not replace the older full-suite
+report or establish threaded GUI coverage.
+
 Two failures from the earlier run now pass focused checks in the existing browser worker:
 the presentation inheritance compilation test and `STREAM-READ-GESTURE.SMOKE`
 each execute all 16 assertions. `COMPILE` records warning/failure return values

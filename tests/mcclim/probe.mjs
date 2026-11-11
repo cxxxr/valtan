@@ -15,6 +15,12 @@ const [system = 'clim-core/system', outputName = '/tmp/valtan-mcclim-load.json',
 const browserOption = features.indexOf('--browser');
 const target = browserOption < 0 ? 'node' : 'browser';
 if (browserOption >= 0) features.splice(browserOption, 1);
+const timeoutOptions = features.filter(feature => feature.startsWith('--runtime-timeout='));
+if (timeoutOptions.length > 1) throw new Error('Specify at most one runtime timeout');
+const runtimeTimeout = timeoutOptions.length ? Number(timeoutOptions[0].slice(18)) : 60 * 60 * 1000;
+if (!Number.isSafeInteger(runtimeTimeout) || runtimeTimeout <= 0 || runtimeTimeout > 2147483647)
+  throw new Error('Runtime timeout must be a positive timer duration in milliseconds');
+for (let i = features.length - 1; i >= 0; i--) if (features[i].startsWith('--runtime-timeout=')) features.splice(i, 1);
 const afterLoadOptions = features.filter(feature => feature.startsWith('--after-load='));
 if (afterLoadOptions.length > 1 || (afterLoadOptions.length && target !== 'browser'))
   throw new Error('--after-load=FILE is supported once, with --browser');
@@ -32,7 +38,7 @@ fs.mkdirSync(logs, {recursive: true});
 const hash = data => createHash('sha256').update(data).digest('hex');
 const report = {system, scope: checkFile ? 'Load and supplied API assertions; GUI verification is separate' : 'Load gate only; GUI verification is separate',
   timestamp: new Date().toISOString(), complete: false, status: 'running', work,
-  compilerSha256: hash(fs.readFileSync(path.join(root, 'valtan'))), target, extraSystems, targetFeatures: features};
+  compilerSha256: hash(fs.readFileSync(path.join(root, 'valtan'))), target, extraSystems, targetFeatures: features, runtimeTimeout};
 if (afterLoad !== null) report.afterLoadSha256 = hash(afterLoad);
 const save = () => fs.writeFileSync(output, JSON.stringify(report, null, 2) + '\n');
 async function run(command, args, logName, timeout) {
@@ -79,7 +85,7 @@ async function runBrowser(bundle) {
   try {
     chrome = await launchChrome();
     const page = await chrome.page(`http://127.0.0.1:${server.address().port}/`);
-    const deadline = Date.now() + 60 * 60 * 1000;
+    const deadline = Date.now() + runtimeTimeout;
     while (!await page.evaluate('probe.done')) {
       if (Date.now() >= deadline) throw new Error('Browser load probe timed out');
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -108,7 +114,7 @@ try {
     bundle: true, platform: target, format: 'esm', logLevel: 'silent',
     alias: {lisp: path.join(root, 'kernel/lisp.js')}});
   report.bundleSha256 = hash(fs.readFileSync(bundle)); report.stage = 'run'; save();
-  const text = target === 'browser' ? await runBrowser(bundle) : await run(process.execPath, [bundle], 'run.log', 60 * 60 * 1000);
+  const text = target === 'browser' ? await runBrowser(bundle) : await run(process.execPath, [bundle], 'run.log', runtimeTimeout);
   if (!/^MCCLIM-LOAD-COMPLETE$/m.test(text)) throw new Error('Load completion marker missing');
   report.complete = true; report.status = 'passed';
 } catch (error) {report.status = 'failed'; report.error = String(error); process.exitCode = 1;}

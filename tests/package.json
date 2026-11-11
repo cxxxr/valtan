@@ -38,6 +38,7 @@
     "test:mcclim:png:write": "node mcclim/png-write.mjs",
     "test:mcclim:png:write:node": "node mcclim/png-write.mjs --node",
     "test:mcclim:upstream": "node mcclim/upstream.mjs",
+    "test:mcclim:dynamic-vars": "node mcclim/dynamic-vars.mjs",
     "test:mcclim:drei:upstream": "node mcclim/upstream.mjs --drei",
     "test:mcclim:drei:performance": "node mcclim/upstream.mjs --drei-performance",
     "test:mcclim:drei:self-compilation": "node mcclim/upstream.mjs --drei-self-compilation",

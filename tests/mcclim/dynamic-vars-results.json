@@ -1,0 +1,135 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T18:56:26.583Z",
+  "work": "/tmp/valtan-dynamic-vars-k6CSO8",
+  "scope": "All unchanged upstream Tests/dynamic-vars.lisp cases, including 64-thread metaclass and 4096-variable stress workloads, in a fresh Chrome worker; not GUI coverage",
+  "targetFeatures": [
+    "valtan-resumable",
+    "clim-mp"
+  ],
+  "asdfVersion": "3.3.1",
+  "upstreamDefinition": {
+    "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/mcclim.asd",
+    "sha256": "c656f4107f9bc4cf3546ffe51cd034d1e0f56c5246684a0c82cbe04e0c2058c4"
+  },
+  "source": {
+    "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/dynamic-vars.lisp",
+    "sha256": "51a722552557d1e2d1958bf39c3230d0d51debb65ead598c66323e8055758bb9"
+  },
+  "checksSha256": "fc45d3ffcf7fda08bd29bbcfa5b1be89731bc8f1597ba547447e38add02dd140",
+  "harnessHashes": {
+    "dynamic-vars.mjs": "926369073d69ef4ab420576a452adea6ac040938eb517bc1072bfd46aaf551e1",
+    "dynamic-vars-package.lisp": "d322a535545d198a8cc4b35c1ffc14490e55d309e99604f647883dd6fedd58fc",
+    "dynamic-vars-summary.lisp": "c4dead940625684779e002880a8e1c45fe6d1f9ac6b92bd57f507a3af91bcf4b",
+    "dynamic-vars-after.mjs": "3fa5ed639046cf4d6c8732e9fba81ddad633bedda20be77dd15a83c993c79454",
+    "probe.mjs": "892b9248351154aa6bd1e5fa655a47a9d239713290a5a9a56628294ebdeedc13"
+  },
+  "probe": {
+    "system": "clim-core/system",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T18:56:26.900Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-1LZ8Yz",
+    "compilerSha256": "ceb79b3cd0bdede4d44636c4385e1926e028058d1e0b211bfac828e82a76fe7c",
+    "target": "browser",
+    "extraSystems": [
+      "fiveam"
+    ],
+    "targetFeatures": [
+      "valtan-resumable",
+      "clim-mp"
+    ],
+    "runtimeTimeout": 10800000,
+    "afterLoadSha256": "3fa5ed639046cf4d6c8732e9fba81ddad633bedda20be77dd15a83c993c79454",
+    "checksSha256": "fc45d3ffcf7fda08bd29bbcfa5b1be89731bc8f1597ba547447e38add02dd140",
+    "stage": "run",
+    "bundleSha256": "cf24810794a55485822868fa9727ffe1ce6d198a05fd25e605015e1493b7fdff",
+    "finishedAt": "2026-11-11T19:34:23.676Z"
+  },
+  "checks": {
+    "registered": 13,
+    "results": 244,
+    "passed": 244,
+    "skipped": 0,
+    "failed": 0,
+    "registeredNames": [
+      "CLIM-TESTS::VARIABLES.1.SMOKE",
+      "CLIM-TESTS::VARIABLES.2.BOUNDP",
+      "CLIM-TESTS::VARIABLES.3.MAKEUNBOUND",
+      "CLIM-TESTS::VARIABLES.4.LOCAL-BOUNDP",
+      "CLIM-TESTS::VARIABLES.5.LOCAL-MAKUNBOUND",
+      "CLIM-TESTS::VARIABLES.6.DIFFERENCES",
+      "CLIM-TESTS::VARIABLES.7.THREAD-LOCAL.INITFUN",
+      "CLIM-TESTS::VARIABLES.8.THREAD-LOCAL.INITVAL",
+      "CLIM-TESTS::METACLASS.1.SMOKE",
+      "CLIM-TESTS::METACLASS.2.BINDING",
+      "CLIM-TESTS::METACLASS.3.CONCURRENT",
+      "CLIM-TESTS::STRESS.9",
+      "CLIM-TESTS::STRESS.0"
+    ],
+    "resultCounts": [
+      {
+        "test": "CLIM-TESTS::VARIABLES.1.SMOKE",
+        "count": 16
+      },
+      {
+        "test": "CLIM-TESTS::VARIABLES.2.BOUNDP",
+        "count": 12
+      },
+      {
+        "test": "CLIM-TESTS::VARIABLES.3.MAKEUNBOUND",
+        "count": 12
+      },
+      {
+        "test": "CLIM-TESTS::VARIABLES.4.LOCAL-BOUNDP",
+        "count": 12
+      },
+      {
+        "test": "CLIM-TESTS::VARIABLES.5.LOCAL-MAKUNBOUND",
+        "count": 20
+      },
+      {
+        "test": "CLIM-TESTS::VARIABLES.6.DIFFERENCES",
+        "count": 8
+      },
+      {
+        "test": "CLIM-TESTS::VARIABLES.7.THREAD-LOCAL.INITFUN",
+        "count": 12
+      },
+      {
+        "test": "CLIM-TESTS::VARIABLES.8.THREAD-LOCAL.INITVAL",
+        "count": 10
+      },
+      {
+        "test": "CLIM-TESTS::METACLASS.1.SMOKE",
+        "count": 24
+      },
+      {
+        "test": "CLIM-TESTS::METACLASS.2.BINDING",
+        "count": 20
+      },
+      {
+        "test": "CLIM-TESTS::METACLASS.3.CONCURRENT",
+        "count": 32
+      },
+      {
+        "test": "CLIM-TESTS::STRESS.9",
+        "count": 33
+      },
+      {
+        "test": "CLIM-TESTS::STRESS.0",
+        "count": 33
+      }
+    ],
+    "unexecuted": [],
+    "nonpassed": []
+  },
+  "finishedAt": "2026-11-11T19:34:23.692Z",
+  "runtimeContext": {
+    "coldWorker": true,
+    "productionReloads": false,
+    "note": "Frozen compiler/kernel with checkpoint batching and synchronous checkpoint suppression, before the final nested-task synchronous-boundary fix in 1794c6a and before f700ec9 MAKE-LOAD-FORM support. Exact compiler and bundle hashes are recorded under probe. This is the unchanged upstream dynamic-vars suite, not current full McCLIM or GUI coverage."
+  }
+}
