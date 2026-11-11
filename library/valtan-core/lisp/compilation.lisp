@@ -1,9 +1,45 @@
 (in-package :common-lisp)
 
-(defun eval (x)
+(defun %eval-in-environment (x environment)
   (let ((compiler::*file-compilation-p* nil))
-    (multiple-value-bind (code constants) (compiler:compile-toplevel x t t)
+    ;; Evaluate top-level bodies in order. In particular, a DEFCONSTANT's
+    ;; macroexpander may need values established by an earlier DEFPARAMETER.
+    (setq x (macroexpand x environment))
+    ;; LOAD/EVAL must process definitions in order, including bodies protected
+    ;; by local macro and declaration environments. Compiling the entire body
+    ;; first expands later macros before earlier definitions have taken effect.
+    (when (and (consp x) (member (car x) '(macrolet symbol-macrolet locally)))
+      (let* ((kind (car x))
+             (body (if (eq kind 'locally) (cdr x) (cddr x)))
+             (environment
+               (case kind
+                 (macrolet (compiler::macrolet-environment (second x) environment))
+                 (symbol-macrolet (compiler::symbol-macrolet-environment (second x) body environment))
+                 (t environment))))
+        (multiple-value-bind (forms declarations) (compiler::parse-body body nil)
+          (return-from %eval-in-environment
+            (%eval-in-environment (cons 'progn forms)
+                                  (compiler::pass1-declares declarations nil environment))))))
+    (when (and (consp x) (eq (car x) 'eval-when))
+      (unless (or (member :execute (second x)) (member 'eval (second x)))
+        (return-from %eval-in-environment nil))
+      (setq x (cons 'progn (cddr x))))
+    (when (and (consp x) (eq (car x) 'progn))
+      (do ((forms (cdr x) (cdr forms))) ((null forms) nil)
+        (if (null (cdr forms))
+            (return-from %eval-in-environment (%eval-in-environment (car forms) environment))
+            (%eval-in-environment (car forms) environment))))
+    (multiple-value-bind (code constants)
+        (let ((compiler::*local-macro-compilation-environment* environment))
+          (compiler:compile-toplevel x t t))
       (ffi:js-eval code constants))))
+
+(defun eval (x)
+  ;; Only the compiler's explicit, one-shot expander environment is inherited.
+  ;; An EVAL called by evaluated code still starts in a null environment.
+  (let ((environment compiler::*local-macro-compilation-environment*)
+        (compiler::*local-macro-compilation-environment* nil))
+    (%eval-in-environment x environment)))
 
 (defun compiled-function-p (object)
   (functionp object))
@@ -34,15 +70,32 @@
                        (compiler::get-macro name)))
          (source (if definition-p definition
                      (if macro-p macro-p (fdefinition name))))
+         (warnings-p nil)
+         (failure-p nil)
          (function (cond ((functionp source) source)
                          ((and (consp source) (eq (car source) 'lambda))
-                          (eval (list 'function source)))
+                          (handler-bind
+                              ((warning (lambda (condition)
+                                          (setq warnings-p t)
+                                          (unless (typep condition 'style-warning)
+                                            (setq failure-p t)))))
+                            (handler-case (eval (list 'function source))
+                              (error (condition)
+                                ;; COMPILE may recover from a compiler error.
+                                ;; Preserve the diagnostic and return a function
+                                ;; that signals it when called, never a successful
+                                ;; no-op or the partially compiled definition.
+                                (setq warnings-p t failure-p t)
+                                (format *error-output* "~&; Compilation failed: ~A~%" condition)
+                                (lambda (&rest arguments)
+                                  (declare (ignore arguments))
+                                  (error condition))))))
                          (t (type-error source '(or function cons))))))
     (when name
       (if macro-p
           (setf (compiler::get-macro name) function)
           (setf (fdefinition name) function)))
-    (values (or name function) nil nil)))
+    (values (or name function) warnings-p failure-p)))
 
 (defun proclaim (declaration)
   (unless (and (consp declaration) (proper-list-p declaration))

@@ -1,0 +1,16 @@
+{
+  "name": "try-using-cl-ppcre",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "build": "../../valtan build try-using-cl-ppcre.system && vite build",
+    "start": "npm run build && node dist/try-using-cl-ppcre.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

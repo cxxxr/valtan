@@ -329,3 +329,13 @@
             (values (slot-value copy 'a) (slot-boundp copy 'b)
                     (load-form-fixture-structure-a copy2)))))))
   (1 2) nil 7)
+
+;; Portable callers sometimes probe a presentation type represented by a class
+;; object. Like SBCL, FIND-CLASS with ERRORP NIL treats an unregistered designator
+;; as absent; structure discovery must not call GET on a non-symbol.
+(deftest find-class-nonsymbol-probe
+  (values (find-class (find-class 'standard-object) nil)
+          (find-class '(not-a-class-name) nil)
+          (find-class #() nil)
+          (handler-case (find-class #()) (error () :missing)))
+  nil nil nil :missing)

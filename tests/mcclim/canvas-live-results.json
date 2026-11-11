@@ -1,0 +1,41 @@
+{
+  "status": "passed",
+  "complete": true,
+  "recordedAt": "2026-11-10T13:42:24.963206+00:00",
+  "scope": "40 CLIM-to-Canvas pixel assertions in the persistent real McCLIM browser worker after explicit source reloads. This is not a cold-start or full McCLIM compatibility result.",
+  "startup": {
+    "work": "/tmp/valtan-mcclim-workbench-D21R5a",
+    "status": "ready",
+    "complete": false,
+    "startedAt": "2026-11-10T12:56:08.519Z",
+    "compilerSha256": "454d9e512f6b3ec53b6ab643ff1f4860997b0465637f891e916d69d24680ab1c",
+    "bundleSha256": "9e67189f3ea14e85d90874a346bab45d1be9bed5562b99dfc01ccc91fa470ccd",
+    "browserAssetsSha256": "084bd9dbfeadf523480532e5863c326e58c99162d79e0de1b444496d9fcceff6",
+    "readyAt": "2026-11-10T13:18:17.262Z"
+  },
+  "patches": [
+    {
+      "kind": "compiler function",
+      "source": "(cl:in-package :cl-user)\n(DEFUN COMPILER::P2-MULTIPLE-VALUE-CALL (COMPILER::HIR) \"Generate code for MULTIPLE-VALUE-CALL that properly collects all values from all arguments.\n   Uses block scope instead of IIFE to avoid potential scoping issues.\" (LET ((COMPILER::ARGS (COMPILER::HIR-ARG2 COMPILER::HIR))) (COND ((<= 1 (LENGTH COMPILER::ARGS)) (COMPILER::EMBED-SOURCE-MAP COMPILER::HIR) (DESTRUCTURING-BIND (COMPILER::FN-HIR . COMPILER::ARG-HIRS) COMPILER::ARGS (LET ((COMPILER::MV-ARRAY (COMPILER::P2-GENVAR \"mvall\")) (COMPILER::FN-VAR (COMPILER::P2-GENVAR \"mvfn\")) COMPILER::RESULT) (FORMAT COMPILER::*P2-EMIT-STREAM* \"{~%\") (LET ((COMPILER::FN-REF (COMPILER::%P2-FORM COMPILER::FN-HIR))) (FORMAT COMPILER::*P2-EMIT-STREAM* \"let ~A=~A;~%\" COMPILER::FN-VAR COMPILER::FN-REF)) (FORMAT COMPILER::*P2-EMIT-STREAM* \"let ~A=[];~%\" COMPILER::MV-ARRAY) (DOLIST (COMPILER::ARG-HIR COMPILER::ARG-HIRS) (LET ((COMPILER::ARG-REF (COMPILER::P2-FORM COMPILER::ARG-HIR))) (FORMAT COMPILER::*P2-EMIT-STREAM* \"~A;~%\" COMPILER::ARG-REF) (FORMAT COMPILER::*P2-EMIT-STREAM* \"~A.push(...lisp.currentValues());~%\" COMPILER::MV-ARRAY))) (WHEN (COMPILER::HIR-RETURN-VALUE-P COMPILER::HIR) (SETQ COMPILER::RESULT (COMPILER::P2-TEMPORARY-VAR)) (FORMAT COMPILER::*P2-EMIT-STREAM* \"~A=~A(...~A);~%\" COMPILER::RESULT COMPILER::FN-VAR COMPILER::MV-ARRAY)) (UNLESS (COMPILER::HIR-RETURN-VALUE-P COMPILER::HIR) (FORMAT COMPILER::*P2-EMIT-STREAM* \"~A(...~A);~%\" COMPILER::FN-VAR COMPILER::MV-ARRAY)) (FORMAT COMPILER::*P2-EMIT-STREAM* \"}~%\") COMPILER::RESULT))) (T (COMPILER::P2-CALL-DEFAULT COMPILER::HIR)))))"
+    },
+    {
+      "kind": "Canvas host function",
+      "source": "(ffi:js-eval \"globalThis.valtanMcclim.pattern = function makeCanvasPattern(surface, pixels, width, height, repeat, transform) {\n  width=Number(width);height=Number(height);\n  if (!width || !height) return 'rgba(0,0,0,0)';\n  const canvas=new OffscreenCanvas(width,height);\n  const context=canvas.getContext('2d');\n  const data=context.createImageData(width,height);\n  for(let i=0;i<width*height;i++){\n    const argb=Number(pixels[i])>>>0;\n    data.data[i*4]=(argb>>>16)&255;data.data[i*4+1]=(argb>>>8)&255;\n    data.data[i*4+2]=argb&255;data.data[i*4+3]=argb>>>24;\n  }\n  context.putImageData(data,0,0);\n  const pattern=surface.context.createPattern(canvas,repeat?'repeat':'no-repeat');\n  pattern.setTransform(new DOMMatrix(Array.from(transform,Number)));\n  return pattern;\n}\n\")\n"
+    },
+    {
+      "kind": "Lisp backend",
+      "file": "library/mcclim-browser/medium.lisp",
+      "sha256": "626092600d8f219f05535ce587f730765517b64f0dd48da06c3b399c21b669b2"
+    }
+  ],
+  "checks": {
+    "file": "tests/mcclim/canvas-checks.lisp",
+    "sha256": "26516101b952447a214c201e87e9587239fbb22bc786a8b6a99595dcc7e3ed3c"
+  },
+  "result": {
+    "type": "test-result",
+    "id": 9,
+    "ok": true,
+    "value": "(:PASSED 40)"
+  }
+}

@@ -1,0 +1,4018 @@
+{
+  "schemaVersion": 1,
+  "timestamp": "2026-11-10T09:09:29.626Z",
+  "complete": true,
+  "jobs": 16,
+  "scope": "All original FLEXI-STREAMS suites; comparison scenarios partitioned without removing any direction, encoding, file or assertion",
+  "compilerSha256": "ee9caa78ca919731c1c5a561d05e7bc0d38eaf13981de8f293fc6f53e7970be6",
+  "node": "v24.21.0",
+  "harnessFiles": {
+    "flexi.mjs": "17fb2dca02131e80e12f73e0bf28b8dd328e04d66f797951cbf74b42b038ee7d",
+    "flexi-shard-main.lisp": "b046bada0596285865935a028728e7b00ac6c14d7f62795647784c9cf8fb7e75",
+    "flexi-report.mjs": "b3fd314032a9cb453bb0f42d8b4ead1e4325e8696ee7ad4edf02b4323bcd8dea"
+  },
+  "workers": [
+    {
+      "index": 0,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 0,
+          "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 16,
+          "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 32,
+          "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 48,
+          "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 64,
+          "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 80,
+          "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 96,
+          "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+        },
+        {
+          "index": 112,
+          "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 128,
+          "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 144,
+          "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+        },
+        {
+          "index": 160,
+          "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 176,
+          "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 192,
+          "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+        },
+        {
+          "index": 208,
+          "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 224,
+          "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 240,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 256,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 272,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 288,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 304,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 320,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 336,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 352,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 368,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 384,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 400,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 416,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 432,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 448,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        },
+        {
+          "name": "flexi-STRING-TESTS",
+          "status": "passed"
+        },
+        {
+          "name": "flexi-SEQUENCE-TESTS",
+          "status": "passed"
+        },
+        {
+          "name": "flexi-ERROR-HANDLING-TESTS",
+          "status": "passed"
+        },
+        {
+          "name": "flexi-UNREAD-CHAR-TESTS",
+          "status": "passed"
+        },
+        {
+          "name": "flexi-COLUMN-TESTS",
+          "status": "passed"
+        },
+        {
+          "name": "flexi-MAKE-EXTERNAL-FORMAT-TESTS",
+          "status": "passed"
+        },
+        {
+          "name": "flexi-PEEK-BYTE-TESTS",
+          "status": "passed"
+        },
+        {
+          "name": "flexi-IN-MEMORY-STREAM-TESTS",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 1,
+          "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 17,
+          "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 33,
+          "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 49,
+          "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 65,
+          "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 81,
+          "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 97,
+          "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+        },
+        {
+          "index": 113,
+          "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 129,
+          "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 145,
+          "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+        },
+        {
+          "index": 161,
+          "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 177,
+          "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 193,
+          "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+        },
+        {
+          "index": 209,
+          "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 225,
+          "scenario": "(\"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T) \"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 241,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 257,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 273,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 289,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 305,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 321,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 337,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 353,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 369,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 385,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 401,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 417,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 433,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 449,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 2,
+          "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 18,
+          "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 34,
+          "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 50,
+          "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 66,
+          "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 82,
+          "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 98,
+          "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 114,
+          "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+        },
+        {
+          "index": 130,
+          "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 146,
+          "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 162,
+          "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 178,
+          "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 194,
+          "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 210,
+          "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+        },
+        {
+          "index": 226,
+          "scenario": "(\"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T) \"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 242,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 258,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 274,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 290,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 306,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 322,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 338,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 354,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 370,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 386,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 402,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 418,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 434,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 450,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 3,
+          "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 19,
+          "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 35,
+          "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 51,
+          "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 67,
+          "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 83,
+          "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 99,
+          "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 115,
+          "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+        },
+        {
+          "index": 131,
+          "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 147,
+          "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 163,
+          "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 179,
+          "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 195,
+          "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 211,
+          "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+        },
+        {
+          "index": 227,
+          "scenario": "(\"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T) \"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 243,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 259,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 275,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 291,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 307,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 323,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 339,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 355,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 371,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 387,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 403,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 419,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 435,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 451,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 4,
+          "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 20,
+          "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 36,
+          "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 52,
+          "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 68,
+          "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 84,
+          "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+        },
+        {
+          "index": 100,
+          "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 116,
+          "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 132,
+          "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+        },
+        {
+          "index": 148,
+          "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 164,
+          "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 180,
+          "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 196,
+          "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 212,
+          "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 228,
+          "scenario": "(\"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T) \"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 244,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 260,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 276,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 292,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 308,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 324,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 340,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 356,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 372,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 388,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 404,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 420,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 436,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 452,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 5,
+          "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 21,
+          "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 37,
+          "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 53,
+          "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 69,
+          "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 85,
+          "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+        },
+        {
+          "index": 101,
+          "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 117,
+          "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 133,
+          "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+        },
+        {
+          "index": 149,
+          "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 165,
+          "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 181,
+          "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 197,
+          "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 213,
+          "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 229,
+          "scenario": "(\"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T) \"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 245,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 261,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 277,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 293,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 309,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 325,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 341,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 357,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 373,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 389,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 405,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 421,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 437,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 453,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 6,
+          "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 22,
+          "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 38,
+          "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 54,
+          "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 70,
+          "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 86,
+          "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 102,
+          "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+        },
+        {
+          "index": 118,
+          "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 134,
+          "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 150,
+          "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+        },
+        {
+          "index": 166,
+          "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 182,
+          "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 198,
+          "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+        },
+        {
+          "index": 214,
+          "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 230,
+          "scenario": "(\"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T) \"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 246,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 262,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 278,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 294,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 310,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 326,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 342,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 358,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 374,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 390,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 406,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 422,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 438,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 454,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 7,
+          "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 23,
+          "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 39,
+          "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 55,
+          "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 71,
+          "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 87,
+          "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 103,
+          "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+        },
+        {
+          "index": 119,
+          "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 135,
+          "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 151,
+          "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+        },
+        {
+          "index": 167,
+          "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 183,
+          "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 199,
+          "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+        },
+        {
+          "index": 215,
+          "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 231,
+          "scenario": "(\"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 247,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 263,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 279,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 295,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 311,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 327,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 343,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 359,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 375,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 391,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 407,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 423,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 439,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 455,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 8,
+          "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 24,
+          "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 40,
+          "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 56,
+          "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 72,
+          "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 88,
+          "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 104,
+          "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 120,
+          "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+        },
+        {
+          "index": 136,
+          "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 152,
+          "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 168,
+          "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 184,
+          "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 200,
+          "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 216,
+          "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+        },
+        {
+          "index": 232,
+          "scenario": "(\"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 248,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 264,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 280,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 296,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 312,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 328,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 344,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 360,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 376,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 392,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 408,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 424,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 440,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 456,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 9,
+          "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 25,
+          "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 41,
+          "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 57,
+          "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 73,
+          "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 89,
+          "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 105,
+          "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 121,
+          "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+        },
+        {
+          "index": 137,
+          "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 153,
+          "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 169,
+          "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 185,
+          "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 201,
+          "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 217,
+          "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+        },
+        {
+          "index": 233,
+          "scenario": "(\"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 249,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 265,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 281,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 297,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 313,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 329,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 345,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 361,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 377,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 393,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 409,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 425,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 441,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 457,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 10,
+          "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 26,
+          "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 42,
+          "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 58,
+          "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 74,
+          "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 90,
+          "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+        },
+        {
+          "index": 106,
+          "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 122,
+          "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 138,
+          "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+        },
+        {
+          "index": 154,
+          "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 170,
+          "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 186,
+          "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 202,
+          "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 218,
+          "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 234,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 250,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 266,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 282,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 298,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 314,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 330,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 346,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 362,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 378,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 394,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 410,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 426,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 442,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 458,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 11,
+          "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 27,
+          "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 43,
+          "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 59,
+          "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 75,
+          "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 91,
+          "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+        },
+        {
+          "index": 107,
+          "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 123,
+          "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 139,
+          "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+        },
+        {
+          "index": 155,
+          "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 171,
+          "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 187,
+          "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 203,
+          "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 219,
+          "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 235,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 251,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 267,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 283,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 299,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 315,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 331,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 347,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 363,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 379,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 395,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 411,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 427,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 443,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 12,
+          "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 28,
+          "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 44,
+          "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 60,
+          "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 76,
+          "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 92,
+          "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 108,
+          "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+        },
+        {
+          "index": 124,
+          "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 140,
+          "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 156,
+          "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 172,
+          "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 188,
+          "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 204,
+          "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+        },
+        {
+          "index": 220,
+          "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 236,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 252,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 268,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 284,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 300,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 316,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 332,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 348,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 364,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 380,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 396,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 412,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 428,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 444,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 13,
+          "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 29,
+          "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 45,
+          "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 61,
+          "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 77,
+          "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 93,
+          "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 109,
+          "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+        },
+        {
+          "index": 125,
+          "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 141,
+          "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 157,
+          "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 173,
+          "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 189,
+          "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 205,
+          "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+        },
+        {
+          "index": 221,
+          "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 237,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 253,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 269,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 285,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 301,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 317,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 333,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 349,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 365,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 381,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 397,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 413,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 429,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 445,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 14,
+          "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 30,
+          "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 46,
+          "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 62,
+          "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 78,
+          "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 94,
+          "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 110,
+          "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 126,
+          "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+        },
+        {
+          "index": 142,
+          "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 158,
+          "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 174,
+          "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 190,
+          "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 206,
+          "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 222,
+          "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+        },
+        {
+          "index": 238,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 254,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 270,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 286,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 302,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 318,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 334,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 350,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 366,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 382,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 398,
+          "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 414,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 430,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 446,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "complete": true,
+      "status": "passed",
+      "cases": [
+        {
+          "index": 15,
+          "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 31,
+          "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 47,
+          "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 63,
+          "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 79,
+          "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 95,
+          "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 111,
+          "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 127,
+          "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+        },
+        {
+          "index": 143,
+          "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 159,
+          "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 175,
+          "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 191,
+          "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 207,
+          "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 223,
+          "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+        },
+        {
+          "index": 239,
+          "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 255,
+          "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 271,
+          "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 287,
+          "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 303,
+          "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 319,
+          "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 335,
+          "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+        },
+        {
+          "index": 351,
+          "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 367,
+          "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 383,
+          "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+        },
+        {
+          "index": 399,
+          "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+        },
+        {
+          "index": 415,
+          "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+        },
+        {
+          "index": 431,
+          "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+        },
+        {
+          "index": 447,
+          "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+        }
+      ],
+      "suites": [
+        {
+          "name": "flexi-COMPARE-FILES",
+          "status": "passed"
+        }
+      ]
+    }
+  ],
+  "source": "/home/user/quicklisp/dists/quicklisp/software/flexi-streams-20241012-git/",
+  "expectedCases": [
+    {
+      "index": 0,
+      "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 1,
+      "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 2,
+      "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 3,
+      "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 4,
+      "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 5,
+      "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 6,
+      "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 7,
+      "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 8,
+      "scenario": "(\"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 9,
+      "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 10,
+      "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 11,
+      "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 12,
+      "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 13,
+      "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 14,
+      "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 15,
+      "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 16,
+      "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 17,
+      "scenario": "(\"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 18,
+      "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 19,
+      "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 20,
+      "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 21,
+      "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 22,
+      "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 23,
+      "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 24,
+      "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 25,
+      "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 26,
+      "scenario": "(\"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 27,
+      "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 28,
+      "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 29,
+      "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 30,
+      "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 31,
+      "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 32,
+      "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 33,
+      "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 34,
+      "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 35,
+      "scenario": "(\"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 36,
+      "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 37,
+      "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 38,
+      "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 39,
+      "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 40,
+      "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 41,
+      "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 42,
+      "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 43,
+      "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 44,
+      "scenario": "(\"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 45,
+      "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 46,
+      "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 47,
+      "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 48,
+      "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 49,
+      "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 50,
+      "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 51,
+      "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 52,
+      "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 53,
+      "scenario": "(\"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 54,
+      "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 55,
+      "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 56,
+      "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 57,
+      "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 58,
+      "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 59,
+      "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 60,
+      "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 61,
+      "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 62,
+      "scenario": "(\"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 63,
+      "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 64,
+      "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 65,
+      "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 66,
+      "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 67,
+      "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 68,
+      "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 69,
+      "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 70,
+      "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 71,
+      "scenario": "(\"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 72,
+      "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 73,
+      "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 74,
+      "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 75,
+      "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_latin1_lf.txt\" (:ISO-8859-1 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 76,
+      "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_latin1_cr.txt\" (:ISO-8859-1 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 77,
+      "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_latin1_crlf.txt\" (:ISO-8859-1 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 78,
+      "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_cp1252_lf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 79,
+      "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_cp1252_cr.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 80,
+      "scenario": "(\"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF) \"kafka_cp1252_crlf.txt\" (:CODE-PAGE :ID 1252 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 81,
+      "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 82,
+      "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 83,
+      "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 84,
+      "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+    },
+    {
+      "index": 85,
+      "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+    },
+    {
+      "index": 86,
+      "scenario": "(\"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 87,
+      "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 88,
+      "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 89,
+      "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 90,
+      "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+    },
+    {
+      "index": 91,
+      "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+    },
+    {
+      "index": 92,
+      "scenario": "(\"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 93,
+      "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 94,
+      "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 95,
+      "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 96,
+      "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+    },
+    {
+      "index": 97,
+      "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+    },
+    {
+      "index": 98,
+      "scenario": "(\"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 99,
+      "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 100,
+      "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 101,
+      "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 102,
+      "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+    },
+    {
+      "index": 103,
+      "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+    },
+    {
+      "index": 104,
+      "scenario": "(\"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 105,
+      "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 106,
+      "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 107,
+      "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 108,
+      "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+    },
+    {
+      "index": 109,
+      "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+    },
+    {
+      "index": 110,
+      "scenario": "(\"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 111,
+      "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 112,
+      "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 113,
+      "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 114,
+      "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_ascii_lf.txt\" (:US-ASCII :EOL-STYLE :LF))"
+    },
+    {
+      "index": 115,
+      "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_ascii_cr.txt\" (:US-ASCII :EOL-STYLE :CR))"
+    },
+    {
+      "index": 116,
+      "scenario": "(\"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF) \"tilton_ascii_crlf.txt\" (:US-ASCII :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 117,
+      "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 118,
+      "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 119,
+      "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 120,
+      "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+    },
+    {
+      "index": 121,
+      "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+    },
+    {
+      "index": 122,
+      "scenario": "(\"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 123,
+      "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 124,
+      "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 125,
+      "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 126,
+      "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+    },
+    {
+      "index": 127,
+      "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+    },
+    {
+      "index": 128,
+      "scenario": "(\"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 129,
+      "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 130,
+      "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 131,
+      "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 132,
+      "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+    },
+    {
+      "index": 133,
+      "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+    },
+    {
+      "index": 134,
+      "scenario": "(\"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 135,
+      "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 136,
+      "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 137,
+      "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 138,
+      "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+    },
+    {
+      "index": 139,
+      "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+    },
+    {
+      "index": 140,
+      "scenario": "(\"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 141,
+      "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 142,
+      "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 143,
+      "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 144,
+      "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+    },
+    {
+      "index": 145,
+      "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+    },
+    {
+      "index": 146,
+      "scenario": "(\"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 147,
+      "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 148,
+      "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 149,
+      "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 150,
+      "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_mac_lf.txt\" (:MAC-ROMAN :EOL-STYLE :LF))"
+    },
+    {
+      "index": 151,
+      "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_mac_cr.txt\" (:MAC-ROMAN :EOL-STYLE :CR))"
+    },
+    {
+      "index": 152,
+      "scenario": "(\"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF) \"mac_chars_mac_crlf.txt\" (:MAC-ROMAN :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 153,
+      "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 154,
+      "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 155,
+      "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 156,
+      "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 157,
+      "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 158,
+      "scenario": "(\"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 159,
+      "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 160,
+      "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 161,
+      "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 162,
+      "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 163,
+      "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 164,
+      "scenario": "(\"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 165,
+      "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 166,
+      "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 167,
+      "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 168,
+      "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 169,
+      "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 170,
+      "scenario": "(\"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 171,
+      "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 172,
+      "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 173,
+      "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 174,
+      "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 175,
+      "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 176,
+      "scenario": "(\"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 177,
+      "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 178,
+      "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 179,
+      "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 180,
+      "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 181,
+      "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 182,
+      "scenario": "(\"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 183,
+      "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 184,
+      "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 185,
+      "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 186,
+      "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_latin8_lf.txt\" (:ISO-8859-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 187,
+      "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_latin8_cr.txt\" (:ISO-8859-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 188,
+      "scenario": "(\"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF) \"hebrew_latin8_crlf.txt\" (:ISO-8859-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 189,
+      "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 190,
+      "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 191,
+      "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 192,
+      "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+    },
+    {
+      "index": 193,
+      "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+    },
+    {
+      "index": 194,
+      "scenario": "(\"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 195,
+      "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 196,
+      "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 197,
+      "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 198,
+      "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+    },
+    {
+      "index": 199,
+      "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+    },
+    {
+      "index": 200,
+      "scenario": "(\"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 201,
+      "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 202,
+      "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 203,
+      "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 204,
+      "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+    },
+    {
+      "index": 205,
+      "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+    },
+    {
+      "index": 206,
+      "scenario": "(\"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 207,
+      "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 208,
+      "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 209,
+      "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 210,
+      "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+    },
+    {
+      "index": 211,
+      "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+    },
+    {
+      "index": 212,
+      "scenario": "(\"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 213,
+      "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 214,
+      "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 215,
+      "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 216,
+      "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+    },
+    {
+      "index": 217,
+      "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+    },
+    {
+      "index": 218,
+      "scenario": "(\"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 219,
+      "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 220,
+      "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 221,
+      "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 222,
+      "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_koi8r_lf.txt\" (:KOI8-R :EOL-STYLE :LF))"
+    },
+    {
+      "index": 223,
+      "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_koi8r_cr.txt\" (:KOI8-R :EOL-STYLE :CR))"
+    },
+    {
+      "index": 224,
+      "scenario": "(\"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF) \"russian_koi8r_crlf.txt\" (:KOI8-R :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 225,
+      "scenario": "(\"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T) \"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 226,
+      "scenario": "(\"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T) \"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 227,
+      "scenario": "(\"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T) \"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 228,
+      "scenario": "(\"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T) \"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 229,
+      "scenario": "(\"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T) \"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 230,
+      "scenario": "(\"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T) \"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 231,
+      "scenario": "(\"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"xjt_gbk_lf.txt\" (:GBK :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 232,
+      "scenario": "(\"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"xjt_gbk_cr.txt\" (:GBK :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 233,
+      "scenario": "(\"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"xjt_gbk_crlf.txt\" (:GBK :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 234,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 235,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 236,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 237,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 238,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 239,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 240,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 241,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 242,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 243,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 244,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 245,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 246,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 247,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 248,
+      "scenario": "(\"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 249,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 250,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 251,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 252,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 253,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 254,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 255,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 256,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 257,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 258,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 259,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 260,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 261,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 262,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 263,
+      "scenario": "(\"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 264,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 265,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 266,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 267,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 268,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 269,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 270,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 271,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 272,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 273,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 274,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 275,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 276,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 277,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 278,
+      "scenario": "(\"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 279,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 280,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 281,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 282,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 283,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 284,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 285,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 286,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 287,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 288,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 289,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 290,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 291,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 292,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 293,
+      "scenario": "(\"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 294,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 295,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 296,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 297,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 298,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 299,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 300,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 301,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 302,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 303,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 304,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 305,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 306,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 307,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 308,
+      "scenario": "(\"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 309,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 310,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 311,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 312,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 313,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 314,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 315,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 316,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 317,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 318,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 319,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 320,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 321,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 322,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 323,
+      "scenario": "(\"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 324,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 325,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 326,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 327,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 328,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 329,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 330,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 331,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 332,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 333,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 334,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 335,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 336,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 337,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 338,
+      "scenario": "(\"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 339,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 340,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 341,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 342,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 343,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 344,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 345,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 346,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 347,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 348,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 349,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 350,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 351,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 352,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 353,
+      "scenario": "(\"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 354,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 355,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 356,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 357,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 358,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 359,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 360,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 361,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 362,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 363,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 364,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 365,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 366,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 367,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 368,
+      "scenario": "(\"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 369,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 370,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 371,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 372,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 373,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 374,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 375,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 376,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 377,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 378,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 379,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 380,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 381,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 382,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 383,
+      "scenario": "(\"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 384,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 385,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 386,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 387,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 388,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 389,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 390,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 391,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 392,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 393,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 394,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 395,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 396,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 397,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 398,
+      "scenario": "(\"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 399,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 400,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 401,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 402,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 403,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 404,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 405,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 406,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 407,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 408,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 409,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 410,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 411,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 412,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 413,
+      "scenario": "(\"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 414,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 415,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 416,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 417,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 418,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 419,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 420,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 421,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 422,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 423,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 424,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 425,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 426,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 427,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 428,
+      "scenario": "(\"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 429,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 430,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 431,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 432,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 433,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 434,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 435,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 436,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 437,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 438,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 439,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 440,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 441,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 442,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 443,
+      "scenario": "(\"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 444,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_lf.txt\" (:UTF-8 :EOL-STYLE :LF))"
+    },
+    {
+      "index": 445,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_cr.txt\" (:UTF-8 :EOL-STYLE :CR))"
+    },
+    {
+      "index": 446,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_utf8_crlf.txt\" (:UTF-8 :EOL-STYLE :CRLF))"
+    },
+    {
+      "index": 447,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_le.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 448,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_le.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 449,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_le.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 450,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_lf_be.txt\" (:UTF-16 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 451,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_cr_be.txt\" (:UTF-16 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 452,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs2_crlf_be.txt\" (:UTF-16 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 453,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_le.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 454,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_le.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 455,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_le.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN T))"
+    },
+    {
+      "index": 456,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_lf_be.txt\" (:UTF-32 :EOL-STYLE :LF :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 457,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_cr_be.txt\" (:UTF-32 :EOL-STYLE :CR :LITTLE-ENDIAN NIL))"
+    },
+    {
+      "index": 458,
+      "scenario": "(\"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL) \"unicode_demo_ucs4_crlf_be.txt\" (:UTF-32 :EOL-STYLE :CRLF :LITTLE-ENDIAN NIL))"
+    }
+  ],
+  "sourceFiles": {
+    "CHANGELOG": "15356bad8ca7e1960eece393c217da3d7ac2d7c7c153d16a710bcb5027c97582",
+    "README.md": "f9fbf7d8a5a81a655d7dacc07cf7a3487cb8f0d8ed1cb148a7955dda0479fdeb",
+    "ascii.lisp": "7a5a148cf3d20da3d876c7896078a617039f8bd7612cee1708afa06955ad6f96",
+    "code-pages.lisp": "898fa07b9ced1f17d342aa811077d7a72e2367edc0fa4cd7966e1847c60fc70e",
+    "conditions.lisp": "40c2f996aa58eea8d56782e300df2e1d8b912db5910eddde3bc42423a59c072a",
+    "decode.lisp": "fdad8315b42c79d5d5cba13a4ffff6cb1d7963e14ce9e41e0c7868ed2003c603",
+    "docs/foo.txt": "14be753bfa4c2263c27aee20bdaa4f1e3d1ed3d56a0ccf20a2aeb04b8dede0c4",
+    "docs/index.html": "604cab26af364eb746849cd5a71b59eaceadfb408847cf7f6fe55aa5e02ef994",
+    "enc-cn-tbl.lisp": "6f2f4ae85914db737464ba704299e98a394fc07a158a1af27e1b7516f4f7b321",
+    "encode.lisp": "4ad8e89ee6b5147d06a01b4a104e05e9488e08bb90ee1bc2161bc1a757402364",
+    "external-format.lisp": "46484f4cd3f2b4973c1889e674555efa3bbb575775ebe181ce6e3808f39a6e32",
+    "flexi-streams-test.asd": "1ae4e0e303273f4677018894dd5743cc02d40728a375a27460651ca67516fee5",
+    "flexi-streams.asd": "e22f5d44c9a08babd7672c607ad341b76fd7db15afa180edaaed0f7bc2cd089d",
+    "in-memory.lisp": "9e18e6f91960dee3f67499c3b5d12a18d696fbdb70f7181dbfe2a23784e98e01",
+    "input.lisp": "dedc3c5724b5c2c4bb500bbbb5f8dba15fcf916630f914775f120562b055bf04",
+    "io.lisp": "e17816db07f962da58a1b833cc3982ba129d9e7eff57cfcad2951272cae8060e",
+    "iso-8859.lisp": "578eaf532c93084c3d85bbf128e98df802961c87008fb2547c02eb68114284ed",
+    "koi8-r.lisp": "aaa9ec8d72c13e9b90a43cc307371ddb06efbc30197f25002f2d877997a3bb26",
+    "length.lisp": "9a7d5b647b64c34864d1bf8b38af7423808dff033883ec80d244fc0e5f9b9bdf",
+    "lw-char-stream.lisp": "26afb82df404e12d325620fd1d28672377ce8055df56ff0cc3eec2492c0e3af3",
+    "mac.lisp": "42be934ea00d360647cd198e5d38c9c6e9a8bf19e35b56e095ff818ee3faca85",
+    "mapping.lisp": "57bd41c1b501104b91d4cf6e44ec816eb080f231a855d651b39c2a34364f25dd",
+    "output.lisp": "24a239d6f454c0ca92ef221f435dc9eddeacf242685fd84bf9c46e11021b296e",
+    "packages.lisp": "3e76f78b99d10ae3e9f82e25d86778451ff2385502a1b5b4f76575583fc14142",
+    "specials.lisp": "c8bc2ead7f396a3cfe8599ef2092ab9033579355ef88e8fdd86c03b6809c26fe",
+    "stream.lisp": "d342af19c9f2ba9c248fe331bc38ba4af2f7518a9e068ef2959408d3d45b0193",
+    "strings.lisp": "b3826450ee569a90170f204703ce3e3ec22756717d62f394bcf75b8744d47836",
+    "test/README": "f3095e4639374195851dbee440ac97c536b8b93372cd5fc141b6e0c29f896f5f",
+    "test/hebrew_latin8_cr.txt": "1f16e4ccd48e769ec4710836b8ee25843d16eb422d599a3d5921bd2781b4a949",
+    "test/hebrew_latin8_crlf.txt": "bdd8ddc83e064388321d23258fafcd420ff6703803a5ec08a955cd1aee0d7ba4",
+    "test/hebrew_latin8_lf.txt": "e5599b7e86650f7aec5884359632d7de459aa812dfc5d14c987c9e8171fa5398",
+    "test/hebrew_utf8_cr.txt": "be56a2deb6e8be59a4b3a6cc9d6dc48f32d08ef9a33a2c483f644c0ca7a336e8",
+    "test/hebrew_utf8_crlf.txt": "39c7adce2e5d2ced98c5ffdb83828a151d41c3e0720e5ab4870320187f50438b",
+    "test/hebrew_utf8_lf.txt": "1948cd22029e186b5289945e6fcef033f573e22ea175680e1e9a22dfd0a8c19c",
+    "test/kafka_cp1252_cr.txt": "f1eb2877020af3725ea8327e533c8840bc69fcfd6b83eeead40d8a98d2014e6b",
+    "test/kafka_cp1252_crlf.txt": "fd13020fd43f788399368fed34bfae152eb900cde8181e98ff945a04ceb3b88c",
+    "test/kafka_cp1252_lf.txt": "66ec352722267c11245077579b98d18202773236b0688ba597f3ece52dced08d",
+    "test/kafka_latin1_cr.txt": "f1eb2877020af3725ea8327e533c8840bc69fcfd6b83eeead40d8a98d2014e6b",
+    "test/kafka_latin1_crlf.txt": "fd13020fd43f788399368fed34bfae152eb900cde8181e98ff945a04ceb3b88c",
+    "test/kafka_latin1_lf.txt": "66ec352722267c11245077579b98d18202773236b0688ba597f3ece52dced08d",
+    "test/kafka_utf8_cr.txt": "535217d5cbab0fb188f9372f6bd04f38687ac32186a09be706e281e70ab46552",
+    "test/kafka_utf8_crlf.txt": "681ce8fca14d6800bd2dc3692721547bc1c08c95cda744bd80d7674f3e1ce685",
+    "test/kafka_utf8_lf.txt": "ab5f72584954b74a182f36e14425e709084b66f3bea4ef1ec9b81c590e48d376",
+    "test/mac_chars_mac_cr.txt": "4e4cc7dc489fb61378d91e9b1b176defaa596bcf3cf427e1184ef92af095981c",
+    "test/mac_chars_mac_crlf.txt": "7452697aca0f2091590f2caaa324c196a1cbc18afc893ce4d6f3ad7d7d07c63e",
+    "test/mac_chars_mac_lf.txt": "0d5ed59dc61f6ff8d3e7661ff1cfb919d4534f9d61594f37b34959255f2a9f57",
+    "test/mac_chars_utf8_cr.txt": "249bf4436aa1d624bdc3f7d3af6fef99ab74e8bcdf45030407227b293c59b810",
+    "test/mac_chars_utf8_crlf.txt": "2845df4bc3f8615e50ede91445663aec1348719346beaa7fdbbe63e4270c7972",
+    "test/mac_chars_utf8_lf.txt": "27e1dc898cd94ce09b64f4ccbe8bd0a8fcf7359ecfd303a4fa10071532df5788",
+    "test/packages.lisp": "5a9011134958f8ef8c5e3179d5f82701e7ea8a56e4df4db2f0b0ad72041fdf27",
+    "test/russian_koi8r_cr.txt": "2d71e9001c44583900a0cf303e10b3ff5bffb6b885ab510a117873dbebdbf2a1",
+    "test/russian_koi8r_crlf.txt": "b91bbe4b9c3b2abd467c54d24028a2d4a5599b59efe0111a0cd2fd52519163b2",
+    "test/russian_koi8r_lf.txt": "e086b3252fbde7b10930a1a98aa40f8e89aa3c4580bb95f605bdb6dadc5eac12",
+    "test/russian_utf8_cr.txt": "dca3f807726da7714635131290de1a787dcb1da26feda24a0adaf459467cf0da",
+    "test/russian_utf8_crlf.txt": "85f4cdf169a6aeeaa7a554db44688866e90143e7cba7c900c46f51e95031bcfc",
+    "test/russian_utf8_lf.txt": "cc7d1f592cf947d3257997b6f2516c7d37ce515ed4ca53f306fd667d08576071",
+    "test/test.lisp": "439f2d166d4c0b544957a6026192cc65766d8dec28bd8131435d54b4f9568c24",
+    "test/tilton_ascii_cr.txt": "9fbd8c6d2e29c2d03422141899b49bf62d3491e733200cfa3a957c2904a51713",
+    "test/tilton_ascii_crlf.txt": "7c20a9ebec05f9a826e65bafcfde2cfc833bdfdd0085613c9ae86a59fff64ae2",
+    "test/tilton_ascii_lf.txt": "0e34be26c51f1059e898139ede09f2b4c27ae472199461e84a43fb69f7dd202b",
+    "test/tilton_utf8_cr.txt": "9fbd8c6d2e29c2d03422141899b49bf62d3491e733200cfa3a957c2904a51713",
+    "test/tilton_utf8_crlf.txt": "7c20a9ebec05f9a826e65bafcfde2cfc833bdfdd0085613c9ae86a59fff64ae2",
+    "test/tilton_utf8_lf.txt": "0e34be26c51f1059e898139ede09f2b4c27ae472199461e84a43fb69f7dd202b",
+    "test/unicode_demo_ucs2_cr_be.txt": "7079d54b6852459a6cf5142eff174ae5d08d6a26c4dc5c9bcf0de4762dd61e1f",
+    "test/unicode_demo_ucs2_cr_le.txt": "58f833bd5addd6fa2b68da10fb6349c9dc64993bbb02b2bd1c30c6f84073676d",
+    "test/unicode_demo_ucs2_crlf_be.txt": "e3a64f727b03697806cc44daf563bb3f87e7f29a32cbcb2e820a313411d5ba1e",
+    "test/unicode_demo_ucs2_crlf_le.txt": "0675e55e8510b805fd5076a71fa173673d05e193a1199a1ae6f78b955773a2e8",
+    "test/unicode_demo_ucs2_lf_be.txt": "4cc0f1f547a4df904164e855c7b0f866fa0c67739667f994a9145cbad8b2a2bf",
+    "test/unicode_demo_ucs2_lf_le.txt": "3ac1aae20d74f2e2a65569e7309547dcecc6d94e9be61dde799a826257b1886e",
+    "test/unicode_demo_ucs4_cr_be.txt": "09ac7d7409b6020398017b4689bb5e1660e598c639499730736c8d67c3518a1c",
+    "test/unicode_demo_ucs4_cr_le.txt": "f8fb300f01c0cd6d28f4554c4e20fe19163dea1a05fb3ee76a748c3a0bfba26d",
+    "test/unicode_demo_ucs4_crlf_be.txt": "0de1d5440e037960a925f7229401fb185652ec25cc6bb4ccfe3586450f8fbd11",
+    "test/unicode_demo_ucs4_crlf_le.txt": "35890959da9fa5f15ee889c3f2c2f447f8e18cecfb0f32e50444603eb6ac55fa",
+    "test/unicode_demo_ucs4_lf_be.txt": "7bf1c0e58550c3a925668cbe4aec0cf6fc607dc10115259837ecd6c3dc95ea37",
+    "test/unicode_demo_ucs4_lf_le.txt": "47ab6092d08cc0c61e9f73b30d7a8d24ad36dce20d969571b4a785f0b268d0d6",
+    "test/unicode_demo_utf8_cr.txt": "0dd8199c1149935aa4d454e33fff49301a8600e1f6469de5fa188d0f335c798a",
+    "test/unicode_demo_utf8_crlf.txt": "b7173caeecb1b39697c37055a7952ccead5b53fd529f55ab1c7ee91d51cd64fc",
+    "test/unicode_demo_utf8_lf.txt": "e0084609a607b4a2cb0ed0cd8ca4f25f01e72b356bbf4d8c49329a440ea946dd",
+    "test/xjt_gbk_cr.txt": "e1267e230354d6daa214287914d9af02c8d87ff1b84a2b6fbd74bbed3d005eef",
+    "test/xjt_gbk_crlf.txt": "ae26c898fae5e66bdf752cc87140925fa6182d34b3f9a7a7ac1faf51bc8af61b",
+    "test/xjt_gbk_lf.txt": "e1333e98f9af2e9abecdb0ac1338ffa0389a2be85a8c500350d69654f4c446ab",
+    "util.lisp": "bd4e40ec78318f5fd434257eda5bd451573a50386687df3de9f38a5ab3af6365"
+  },
+  "bundleSha256": "94c34f9be436048a5fca8abd9445919de587bcc3d263ccfeae670510d0f40fa7",
+  "comparisons": 3672,
+  "status": "passed"
+}

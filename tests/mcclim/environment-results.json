@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "complete": true,
+  "scope": "Environment adapter: Node kernel and isolated CLIM-INTERNALS package fixture; real upstream browser worker after adapter reload. Not the complete Bezier load gate.",
+  "node": {
+    "work": "/tmp/valtan-clim-env-Dt81qa",
+    "script": "/tmp/valtan-env-test.mjs",
+    "scriptSha256": "9fe80f396398f328ec3c491c21896401649e19482ef7645d8318060a2f6f2f0f",
+    "output": "MCCLIM-ENVIRONMENT-CHECKS-PASS\n"
+  },
+  "browser": {
+    "work": "/tmp/valtan-mcclim-workbench-ZUwd8d",
+    "reload": {
+      "id": 7,
+      "commandId": "environment-port",
+      "startedAt": "2026-11-10T15:23:49.612Z",
+      "sourceSha256": "61a02bda21b2487ab33331bc827447022df5e158d0f8a1ae5c1306a9259f833f",
+      "file": "/home/user/src/valtan/library/mcclim-portability/environment.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 7,
+        "ok": true,
+        "value": "(GET-ENVIRONMENT-VARIABLE)"
+      },
+      "finishedAt": "2026-11-10T15:23:49.716Z"
+    },
+    "check": {
+      "id": 8,
+      "commandId": "environment-browser-check",
+      "startedAt": "2026-11-10T15:24:01.286Z",
+      "sourceSha256": "0b478fb3a00b3aee486537c9f6a8a909f4b3ac6362d2d3678ac8ad939c58588b",
+      "file": "/home/user/src/valtan/tests/mcclim/environment-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 8,
+        "ok": true,
+        "value": "(\"MCCLIM-ENVIRONMENT-CHECKS-PASS\")"
+      },
+      "finishedAt": "2026-11-10T15:24:01.490Z"
+    }
+  },
+  "sourceSha256": {
+    "library/mcclim-portability/environment.lisp": "61a02bda21b2487ab33331bc827447022df5e158d0f8a1ae5c1306a9259f833f",
+    "tests/mcclim/environment-checks.lisp": "0b478fb3a00b3aee486537c9f6a8a909f4b3ac6362d2d3678ac8ad939c58588b"
+  }
+}

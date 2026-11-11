@@ -1,0 +1,15 @@
+Portable UIOP modules vendored from https://gitlab.common-lisp.net/asdf/asdf
+Commit 29d098f9121c804af0d525f0f64318bc069591db (UIOP 3.3.7.4).
+License: LICENSE.texinfo (MIT); upstream copyright notices are preserved.
+
+Changes: package.lisp imports Valtan's package-local nickname API from SYSTEM;
+common-lisp.lisp recognizes Valtan and its Unicode support;
+os.lisp allows browsers without inventing an OS, and expands OS-COND to a
+runtime conditional. filesystem.lisp uses the Node backend for validated
+recursive directory removal. Valtan backends and the reduced driver are separate files.
+Includes package, utility, version, os, pathname, filesystem, stream,
+launch-program and run-program. The last two upstream files are unchanged;
+valtan-run-program.lisp supplies synchronous execution through Node spawnSync
+while retaining upstream stream processors, temporary files and error handling.
+Asynchronous LAUNCH-PROGRAM, ASDF, Lisp image/build control and configuration
+discovery are not implemented. OS-backed operations require Node.js.

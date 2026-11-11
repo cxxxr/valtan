@@ -3,6 +3,7 @@ import {
     CL_multipleValueCall
 } from './values';
 export * from './values';
+export * from './dispatch';
 
 import {
     initSymbols,
@@ -76,6 +77,7 @@ import {
     CL_shadowingImport,
     CL_shadow,
     CL_packageShadowingSymbols,
+    CL_packageLocalOperation,
     CL_unintern,
     CL_renamePackage,
 } from './package';
@@ -155,7 +157,9 @@ export * from './number';
 
 import { CL_formatControl } from './format';
 import { CL_initializeFileSystem, CL_fileOperation, CL_streamClosedp, CL_markStreamClosed } from './files';
+export { registerEmbeddedFile } from './files';
 import { CL_initializeEnvironment, CL_environmentOperation } from './environment';
+import { CL_weakOperation } from './weak';
 
 import {
     CL_apply,
@@ -171,6 +175,7 @@ import {
     CL_cons,
     CL_car,
     CL_cdr,
+    CL_listEltCell,
     CL_rplaca,
     CL_rplacd,
     CL_jsArrayToList,
@@ -294,6 +299,7 @@ registerFunction(system_package, 'IMPORT', CL_import, 2);
 registerFunction(system_package, 'SHADOWING-IMPORT', CL_shadowingImport, 2);
 registerFunction(system_package, 'SHADOW', CL_shadow, 2);
 registerFunction(system_package, 'PACKAGE-SHADOWING-SYMBOLS', CL_packageShadowingSymbols, 1);
+registerFunction(system_package, 'PACKAGE-LOCAL-OP', CL_packageLocalOperation, 2, 4);
 registerFunction(system_package, 'UNINTERN', CL_unintern, 2);
 registerFunction(system_package, 'RENAME-PACKAGE', CL_renamePackage, 3);
 
@@ -301,6 +307,7 @@ registerFunction(system_package, 'RENAME-PACKAGE', CL_renamePackage, 3);
 registerFunction(system_package, 'INITIALIZE-FILE-SYSTEM', CL_initializeFileSystem, 2);
 registerFunction(system_package, 'INITIALIZE-ENVIRONMENT', CL_initializeEnvironment, 1);
 registerFunction(system_package, 'ENVIRONMENT-OP', CL_environmentOperation, 1, null);
+registerFunction(system_package, 'WEAK-OP', CL_weakOperation, 1, null);
 registerFunction(system_package, 'FILE-OP', CL_fileOperation, 1, null);
 registerFunction(system_package, 'STREAM-CLOSED-P', CL_streamClosedp, 1);
 registerFunction(system_package, 'MARK-STREAM-CLOSED', CL_markStreamClosed, 1);
@@ -369,6 +376,7 @@ registerFunction(cl_package, 'CONSP', CL_consp, 1);
 registerFunction(cl_package, 'CONS', CL_cons, 2);
 registerFunction(system_package, '%CAR', CL_car, 1);
 registerFunction(system_package, '%CDR', CL_cdr, 1);
+registerFunction(system_package, '%LIST-ELT-CELL', CL_listEltCell, 2);
 registerFunction(system_package, '%RPLACA', CL_rplaca, 2);
 registerFunction(system_package, '%RPLACD', CL_rplacd, 2);
 registerFunction(system_package, 'RAW-ARRAY-TO-LIST', CL_jsArrayToList, 1);

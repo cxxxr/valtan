@@ -2,6 +2,24 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as lisp from '../../kernel/lisp.js';
 
+test('CLOS cache keys preserve class order, EQL matches and invalidation', () => {
+  const gf = {}, other = {}, a = {}, b = {}, eql = {};
+  const list = (...items) => lisp.jsArrayToList(items);
+  const key = (classes, matches = []) => lisp.internMethodCacheKey(gf, list(...classes), list(...matches));
+  const ordinary = key([a, b]);
+  assert.equal(key([a, b]), ordinary);
+  assert.notEqual(key([b, a]), ordinary);
+  assert.notEqual(key([a]), ordinary);
+  assert.notEqual(key([a, b], [eql]), ordinary);
+  assert.equal(key([a, b], [eql]), key([a, b], [eql]));
+  assert.notEqual(key([a], [b]), ordinary);
+  assert.notEqual(key([]), key([a]));
+  assert.notEqual(lisp.internMethodCacheKey(other, list(a, b), list()), ordinary);
+  lisp.resetMethodCacheKeys(gf);
+  assert.notEqual(key([a, b]), ordinary);
+  assert.equal(key([a, b]), key([a, b]));
+});
+
 test('single and multiple values yield stable snapshots across nested cleanup', () => {
   lisp.values1(1);
   const one = lisp.currentValues();

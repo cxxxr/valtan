@@ -88,3 +88,52 @@
     (setf (gethash a table) :found)
     (values (equal a b) (equalp a b) (equal a c) (equalp a c) (gethash b table)))
   t t nil nil :found)
+
+(deftest supplementary-file-characters-and-position
+  (let ((path "supplementary.txt"))
+    (unwind-protect
+         (progn
+           (with-open-file (s path :direction :output :if-exists :supersede)
+             (write-string "A😀B" s))
+           (with-open-file (s path :direction :io :if-exists :overwrite)
+             (values (file-length s) (read-char s) (char-code (read-char s))
+                     (file-position s)
+                     (progn (unread-char (code-char #x1f600) s) (char-code (read-char s)))
+                     (progn (file-position s 1) (write-char #\X s)
+                            (file-position s :start) (read-line s)))))
+      (delete-file path)))
+  3 #\A 128512 2 128512 "AXB")
+
+(deftest file-native-byte-boundaries-and-lifecycle
+  (let ((s (open "byte-bounds.bin" :direction :io :if-exists :supersede :element-type '(signed-byte 8))))
+    (unwind-protect
+         (progn
+           (write-byte -128 s) (write-byte 127 s)
+           (let ((low (handler-case (write-byte -129 s) (type-error () :bad)))
+                 (high (handler-case (write-byte 128 s) (type-error () :bad)))
+                 (character (handler-case (read-char s) (stream-error () :bad))))
+             (file-position s 0)
+             (let ((a (read-byte s)) (b (read-byte s)))
+               (close s)
+               (values low high character a b
+                       (handler-case (read-byte s) (stream-error () :closed))))))
+      (close s)))
+  :bad :bad :bad -128 127 :closed)
+
+(deftest file-native-byte-copy
+  (with-open-file (s "byte-copy.bin" :direction :io :if-exists :supersede :element-type '(unsigned-byte 8))
+    (dotimes (i 10000) (write-byte (mod i 256) s))
+    (file-position s 0)
+    (values (loop repeat 10000 sum (read-byte s)) (read-byte s nil :eof)
+            (handler-case (write-byte 256 s) (type-error () :bad))))
+  1273080 :eof :bad)
+
+(deftest file-native-wide-byte-boundaries
+  (values
+    (with-open-file (s "signed-wide.bin" :direction :io :if-exists :supersede :element-type '(signed-byte 64))
+      (write-byte -9223372036854775808 s) (write-byte 9223372036854775807 s)
+      (file-position s 0) (list (read-byte s) (read-byte s)))
+    (with-open-file (s "unsigned-wide.bin" :direction :io :if-exists :supersede :element-type '(unsigned-byte 64))
+      (write-byte 18446744073709551615 s)
+      (file-position s 0) (read-byte s)))
+  (-9223372036854775808 9223372036854775807) 18446744073709551615)

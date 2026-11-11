@@ -1,0 +1,5 @@
+(defsystem "try-using-cl-ppcre"
+  :depends-on ("cl-ppcre")
+  :compile-mode :runtime
+  :target :node
+  :components ((:file "main")))

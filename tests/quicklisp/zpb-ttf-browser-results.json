@@ -1,0 +1,18 @@
+{
+  "system": "zpb-ttf",
+  "scope": "Load and supplied API assertions; GUI verification is separate",
+  "timestamp": "2026-11-10T14:15:42.113Z",
+  "complete": true,
+  "status": "passed",
+  "work": "/tmp/valtan-mcclim-KcHwW6",
+  "compilerSha256": "836e9e731f6fbc93bf2c9b83fe67bf27a631ecc335a17d2984ce73be3c35e09a",
+  "target": "browser",
+  "extraSystems": [
+    "cl-dejavu"
+  ],
+  "targetFeatures": [],
+  "checksSha256": "24ed8d84d20e5daf8b91d9f6cd8d7b60a62ec0e6c72937c7d83efa0e69066979",
+  "stage": "run",
+  "bundleSha256": "9d972c3772777c1afc33397303ff56d79c89b0cb8a082c1fdea1ce8d9242c7d9",
+  "finishedAt": "2026-11-10T14:16:42.510Z"
+}

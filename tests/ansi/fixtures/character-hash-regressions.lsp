@@ -31,3 +31,27 @@
     (with-hash-table-iterator (next (make-hash-table))
       (macro-visible-p next)))
   t)
+
+(deftest portable-control-character-aliases
+  (values (mapcar (lambda (name) (char-code (name-char name)))
+                  '("nul" "NULL" "Bell" "BS" "HT" "LF" "VT" "FF" "CR" "Sub" "Esc" "Escape" "Del"))
+          (char-code (read-from-string "#\\nul"))
+          (char-name (code-char 0)))
+  (0 0 7 8 9 10 11 12 13 26 27 27 127) 0 "U0000")
+
+(deftest supplementary-characters-and-strings
+  (let* ((face (code-char #x1f600))
+         (text (concatenate 'string "A" (string face) "B")))
+    (values (characterp face) (char-code face) (length text)
+            (char-code (char text 1)) (string= text "A😀B")
+            (null (code-char char-code-limit))))
+  t 128512 3 128512 t t)
+
+(deftest supplementary-string-mutation-and-displacement
+  (let* ((text (copy-seq "A😀B"))
+         (view (make-array 1 :element-type 'character :displaced-to text :displaced-index-offset 1)))
+    (setf (char view 0) (code-char #x10400))
+    (values (length text) (char-code (char text 1))
+            (string= (ffi:js->cl (ffi:cl->js view)) "𐐀")
+            (length (subseq text 1 2))))
+  3 66560 t 1)

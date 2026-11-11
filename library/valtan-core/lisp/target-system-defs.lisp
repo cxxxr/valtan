@@ -5,6 +5,8 @@
 #+node (system:initialize-file-system js:fs js:path)
 #+node (ffi:require js:os "os")
 #+node (system:initialize-environment js:os)
+#+node (ffi:require js:child-process "child_process")
+#+node (system:environment-op :initialize-subprocess js:child-process js:fs)
 
 (cl:define-symbol-macro system:+null+ (ffi:ref "null"))
 
@@ -15,13 +17,13 @@
   ((ffi:ref raw-string "padEnd") n))
 
 (cl:defun system:code-to-raw-string (code)
-  ((ffi:ref "String" "fromCharCode") code))
+  ((ffi:ref "String" "fromCodePoint") code))
 
 (cl:defun system:sub-raw-string/2 (raw-string start)
-  ((ffi:ref raw-string "substring") start))
+  ((ffi:ref ((ffi:ref ((ffi:ref "Array" "from") raw-string) "slice") start) "join") #j""))
 
 (cl:defun system:sub-raw-string/3 (raw-string start end)
-  ((ffi:ref raw-string "substring") start end))
+  ((ffi:ref ((ffi:ref ((ffi:ref "Array" "from") raw-string) "slice") start end) "join") #j""))
 
 (cl:defun system:concat-raw-string/2 (raw-string-1 raw-string-2)
   ((ffi:ref raw-string-1 "concat") raw-string-2))
@@ -78,7 +80,10 @@
 
 (cl:defun system:map-foreach (map function)
   "Call FUNCTION with (value key) for each entry in MAP."
-  ((ffi:ref map "forEach") function))
+  ((ffi:ref map "forEach")
+   (lambda (value key &rest ignored)
+     (declare (ignore ignored))
+     (funcall function value key))))
 
 (cl:defun system:function-name (function)
   (let ((name (ffi:ref function "lisp_name")))

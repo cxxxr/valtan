@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "complete": true,
+  "recordedAt": "2026-11-10T15:17:37.522Z",
+  "scope": "Chrome window transport with blocked synthetic worker; does not load McCLIM",
+  "command": "node --test --test-name-pattern='positioned' tests/mcclim/browser-bridge.test.mjs",
+  "checks": [
+    "parent-relative positioning and clipping",
+    "unmanaged popup decoration",
+    "raise/bury hit testing and focus preservation",
+    "Unicode title",
+    "resize preserves pixels",
+    "visibility and minimize/restore",
+    "captured dragging and release",
+    "recursive destruction"
+  ],
+  "sourceSha256": {
+    "library/mcclim-browser/windows.mjs": "d9a0588219b9c701f7290c438506823b175fa382cafe086a953761a4cf1966c8",
+    "library/mcclim-browser/client.mjs": "1e648bd513e02e6c509d52af5fa9bd6957c53673496cc9407163b16ad318835f",
+    "library/mcclim-browser/host.mjs": "962fc4b68c65acf5a71bb0972d177df12306f6fea685f8d8daa4f7901f09c2bc",
+    "tests/mcclim/browser-bridge.test.mjs": "a0ee9c8e5a38028a13a8f1b28f58c4b92a3c489070fe6d2c8101ea0c83b7c2b9"
+  },
+  "log": "✔ Chrome manages positioned, nested and unmanaged mirrors while its worker blocks (25342.406216ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 25399.332838\n"
+}

@@ -82,10 +82,17 @@
   index)
 
 (defun elt (sequence index)
+  #+valtan
+  (when (listp sequence)
+    (return-from elt (car (system::%list-elt-cell sequence index))))
   (%check-sequence-index sequence index)
   (if (listp sequence) (nth index sequence) (aref sequence index)))
 
 (defun (cl:setf elt) (value sequence index)
+  #+valtan
+  (when (listp sequence)
+    (rplaca (system::%list-elt-cell sequence index) value)
+    (return-from elt value))
   (%check-sequence-index sequence index)
   (if (listp sequence) (rplaca (nthcdr index sequence) value)
       (setf (aref sequence index) value))

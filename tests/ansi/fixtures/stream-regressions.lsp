@@ -106,3 +106,37 @@
     (values (file-position s) (file-length s) (file-string-length s "abc")
             (stream-element-type s) (stream-external-format s)))
   0 0 1 t :default)
+
+(deftest unicode-output-buffer-growth-and-reset
+  (let ((stream (make-string-output-stream)) (character (code-char #x1f600)))
+    (dotimes (i 10000) (write-char character stream) (write-string "ab" stream))
+    (let ((first (get-output-stream-string stream)))
+      (write-string "next" stream)
+      (values (length first) (char first 29997) (subseq first 29998)
+              (get-output-stream-string stream) (get-output-stream-string stream)
+              (array-has-fill-pointer-p first))))
+  30000 #.(code-char #x1f600) "ab" "next" "" nil)
+
+(deftest output-buffer-copies-nested-displacement-and-fill-pointer
+  (let* ((base (concatenate 'string "0" (string (code-char #x1f600)) "abZ9"))
+         (parent (make-array 4 :element-type 'character :displaced-to base :displaced-index-offset 1))
+         (child (make-array 3 :element-type 'character :displaced-to parent :displaced-index-offset 1 :fill-pointer 2))
+         (stream (make-string-output-stream)))
+    (write-string child stream :start 1)
+    (write-string parent stream)
+    (let ((first (get-output-stream-string stream)))
+      (write-string "new" stream)
+      (values (length first) (char first 0) (char first 1) (subseq first 2)
+              (get-output-stream-string stream) (length child) (char base 0))))
+  5 #\b #.(code-char #x1f600) "abZ" "new" 2 #\0)
+
+(deftest output-buffer-large-bulk-write-and-reset
+  (let* ((source (make-string 100000 :initial-element (code-char #x1f600)))
+         (stream (make-string-output-stream)))
+    (write-string source stream)
+    (write-string "end" stream)
+    (let ((result (get-output-stream-string stream)))
+      (setf (char source 0) #\x)
+      (values (length result) (char result 0) (char result 99999) (subseq result 100000)
+              (get-output-stream-string stream) (array-has-fill-pointer-p result))))
+  100003 #.(code-char #x1f600) #.(code-char #x1f600) "end" "" nil)

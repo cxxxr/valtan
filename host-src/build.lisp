@@ -36,7 +36,8 @@
   (eql (cache-date cache)
        (file-write-date file)))
 
-(defun invoke-compile-file-with-cache (input-file compile-fn &key (cache-key input-file))
+(defun invoke-compile-file-with-cache
+    (input-file compile-fn &key (cache-key (list input-file valtan-core::*features*)))
   (flet ((main ()
            (let ((output-file (funcall compile-fn)))
              (setf (gethash cache-key *cache*)
@@ -219,6 +220,26 @@
 (defmethod compile-component ((component lisp-component))
   (compile-file-with-cache (component-pathname component)))
 
+(defun embed-source-component (component)
+  (let ((input-file (component-pathname component)))
+    (invoke-compile-file-with-cache
+     input-file
+     (lambda ()
+       (%with-compilation-unit ()
+         (let* ((output-file (input-file-to-output-file input-file))
+                (form `(system::load-embedded-source
+                        ,(uiop:read-file-string input-file :external-format :utf-8)
+                        ,(namestring input-file)
+                        ',valtan-core::*features*)))
+           (ensure-directories-exist output-file)
+           (with-write-file (out output-file)
+             (emit-import-lisp out)
+             ;; A failed source load must abort module initialization. The
+             ;; ordinary toplevel emitter logs errors and continues loading.
+             (compiler::p2-toplevel (compiler::pass1-toplevel form) out nil))
+           output-file)))
+     :cache-key (list :runtime input-file valtan-core::*features*))))
+
 (defmethod compile-component ((component js-component))
   (let ((dst-file (input-file-to-output-file (component-pathname component))))
     (ensure-directories-exist dst-file)
@@ -251,7 +272,10 @@
   (when (system-entry-file system)
     (create-entry-file system))
   (%with-compilation-unit ()
-    (let ((output-file (compute-output-system-pathname system)))
+    (let* ((output-file (compute-output-system-pathname system))
+           (metadata-file (when (and valtan-host.system::*prefer-asdf-systems*
+                                     (valtan-host.system::system-asdf-metadata system))
+                            (emit-asdf-metadata system output-file))))
       (ensure-directories-exist output-file)
       (with-write-file (out output-file)
         (emit-import-lisp out)
@@ -260,6 +284,8 @@
                  (path (resolve-path (escape-system-pathname system)
                                      (escape-system-pathname dependent-system))))
             (format out "import '~A.js';~%" path)))
+        (when metadata-file
+          (format out "import './~A';~%" (file-namestring metadata-file)))
         (dolist (component (system-components system))
           (let ((path (resolve-path (escape-system-pathname system)
                                     (component-pathname component))))
@@ -270,16 +296,43 @@
                (format out "import '~A.js';~%" path))))))
       output-file)))
 
+(defun emit-asdf-metadata (system system-output-file)
+  (let* ((adapter (asdf:system-relative-pathname :valtan "library/portability/asdf-metadata.lisp"))
+         (adapter-output (embed-source-component
+                          (valtan-host.system::make-lisp-component :name "asdf-metadata" :pathname adapter)))
+         (output-file (make-pathname :name (concatenate 'string (pathname-name system-output-file) "-metadata")
+                                     :defaults system-output-file)))
+    (ensure-directories-exist output-file)
+    (with-write-file (out output-file)
+      (emit-import-lisp out)
+      (format out "import '~A';~%" (resolve-path system-output-file adapter-output))
+      (dolist (resource (valtan-host.system::system-asdf-resources system))
+        (format out "lisp.registerEmbeddedFile(~A, '" (st-json:write-json-to-string (namestring resource)))
+        (with-open-file (input resource :element-type '(unsigned-byte 8))
+          (loop for byte = (read-byte input nil) while byte
+                do (write-char (char "0123456789abcdef" (ash byte -4)) out)
+                   (write-char (char "0123456789abcdef" (logand byte 15)) out)))
+        (format out "', ~D);~%" (file-write-date resource)))
+      (compiler::p2-toplevel
+       (compiler::pass1-toplevel
+        `(system::register-asdf-metadata ',(valtan-host.system::system-asdf-metadata system)))
+       out nil))
+    output-file))
+
 (defun cache-system-key (system)
-  (system-name system))
+  (list :system (system-name system) valtan-core::*features*))
 
 (defun compile-system-file-with-cache (system)
   (let ((input-file (system-pathname system)))
-    (invoke-compile-file-with-cache
+    ;; A resource can change without its .asd changing. Re-emit the inexpensive
+    ;; system/metadata modules; source compilation still uses its own cache.
+    (if (valtan-host.system::system-asdf-resources system)
+        (compile-system-file system)
+        (invoke-compile-file-with-cache
      input-file
      (lambda ()
        (compile-system-file system))
-     :cache-key (cache-system-key system))))
+     :cache-key (cache-system-key system)))))
 
 (defun check-discarting-cache-system-file (system)
   (let* ((input-file (system-pathname system))
@@ -321,17 +374,25 @@
          (*cache-directory* (append base-directory
                                     (list ".valtan-cache")))
          (*discard-cache* (if force t nil))
-         (valtan-core::*features* valtan-core::*features*))
+         (valtan-host.system::*prefer-asdf-systems*
+           (eq (system-compile-mode system) :runtime))
+         (valtan-core::*features*
+           (union (system-target-features system) valtan-core::*features*))
+         (*features* (union (system-target-features system) *features*)))
     (pushnew :valtan valtan-core::*features*)
     (when (eql :node (system-target system))
       (pushnew :node valtan-core::*features*))
     (prepare-valtan-path base-directory)
-    (dolist (system (compute-system-precedence-list system))
-      (when (check-discarting-cache-system-file system)
+    (dolist (dependency (compute-system-precedence-list system))
+      (when (check-discarting-cache-system-file dependency)
         (setq *discard-cache* t))
-      (dolist (component (system-components system))
-        (compile-component component))
-      (compile-system-file-with-cache system))
+      (dolist (component (system-components dependency))
+        (if (and (eq (system-compile-mode system) :runtime)
+                 (not (valtan-host.system::core-system-name-p (system-name dependency)))
+                 (typep component 'lisp-component))
+            (embed-source-component component)
+            (compile-component component)))
+      (compile-system-file-with-cache dependency))
     (create-entry-file system)))
 
 (defun ensure-system-file (pathname)
@@ -343,11 +404,12 @@
     probed-pathname))
 
 (defun build-system (pathname &key force)
-  (let* ((pathname (ensure-system-file pathname))
-         (system (load-system-file pathname))
+  (let* ((valtan-host.system::*system-map* (make-hash-table :test 'equal))
+         (pathname (ensure-system-file pathname))
          (*system-directories*
            (cons (uiop:pathname-directory-pathname pathname)
-                 *system-directories*)))
+                 *system-directories*))
+         (system (load-system-file pathname)))
     (build-system-using-system system :force force)))
 
 (defun webpack (directory)

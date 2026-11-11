@@ -168,6 +168,8 @@
 (defvar *p2-runtime-literals* nil)
 (defvar *p2-runtime-literal-values* nil)
 (defvar *p2-toplevel-defun-stream*)
+(defvar *p2-load-time-value-stream*)
+(defvar *p2-load-time-value-vars*)
 (defvar *p2-defun-names*)
 (defvar *p2-temporary-variables*)
 (defvar *p2-in-simple-loop* nil)
@@ -591,6 +593,8 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 (defun p2-make-save-var (var)
   (p2-local-var (binding-id var) "save_"))
 
+(defvar *p2-parameter-unwinds* nil)
+
 (defun p2-emit-unwind-var (var finally-stream &optional active-var)
   (when (eq (binding-kind var) :special)
     (let ((js-var (p2-symbol-to-js-value (binding-name var)))
@@ -599,7 +603,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
       (format finally-stream "~A.value=~A;~%" js-var save-var)
       (when active-var (write-line "}" finally-stream)))))
 
-(defun p2-emit-declvar (var finally-stream)
+(defun p2-emit-declvar (var finally-stream &optional block-scope-p)
   (ecase (binding-kind var)
     ((:special)
      (let ((js-var (p2-symbol-to-js-value (binding-name var)))
@@ -610,19 +614,23 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
        (when active-var
          (push active-var *p2-temporary-variables*)
          (format *p2-emit-stream* "~A=true;~%" active-var)
-         (p2-emit-unwind-var var finally-stream active-var))
+         (push (list var active-var) *p2-parameter-unwinds*))
        (format *p2-emit-stream* "~A.value=" js-var)))
     ((:variable)
      (let ((var (p2-local-var (binding-id var))))
-       (push var *p2-temporary-variables*)
+       (if block-scope-p
+           (write-string "let " *p2-emit-stream*)
+           (push var *p2-temporary-variables*))
        (format *p2-emit-stream* "~A=" var)))
     ((:function)
      (let ((var (p2-local-function (binding-id var))))
-       (push var *p2-temporary-variables*)
+       (if block-scope-p
+           (write-string "let " *p2-emit-stream*)
+           (push var *p2-temporary-variables*))
        (format *p2-emit-stream* "~A=" var)))))
 
 (defun p2-emit-lambda-list (parsed-lambda-list finally-stream)
-  (let ((i 0))
+  (let ((i 0) (*p2-parameter-unwinds* nil))
     (dolist (var (parsed-lambda-list-vars parsed-lambda-list))
       (p2-emit-declvar var finally-stream)
       (format *p2-emit-stream* "arguments[~D];~%" i)
@@ -694,7 +702,11 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
       (let ((result (p2-temporary-var)))
         (format *p2-emit-stream* "~A=~A;~%" result (p2-form (second aux)))
         (p2-emit-declvar (first aux) finally-stream)
-        (format *p2-emit-stream* "~A;~%" result)))))
+        (format *p2-emit-stream* "~A;~%" result)))
+    ;; Auxiliary bindings can rebind a special parameter. Restore in reverse
+    ;; binding order, also when a later initializer exits abnormally.
+    (dolist (entry *p2-parameter-unwinds*)
+      (p2-emit-unwind-var (first entry) finally-stream (second entry)))))
 
 (define-p2-emit lambda (hir)
   (let ((name (hir-arg1 hir))
@@ -732,6 +744,19 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
     (or lambda-result
         (values))))
 
+(define-p2-emit load-time-value (hir)
+  (let ((var (p2-genvar "LTV"))
+        (*p2-temporary-variables* nil)
+        (code (make-emitter-stream *p2-load-time-value-stream*)))
+    (push var *p2-load-time-value-vars*)
+    (let ((*p2-emit-stream* code))
+      (let ((initializer (p2-form (hir-arg1 hir))))
+        (format code "~A=lisp.values1(~A());~%" var initializer)))
+    (let ((*p2-emit-stream* *p2-load-time-value-stream*))
+      (p2-emit-declare-temporary-variables))
+    (join-emitter-stream *p2-load-time-value-stream* code)
+    (if (hir-return-value-p hir) var (p2-no-return))))
+
 (define-p2-emit let (hir)
   (embed-source-map hir)
   (let ((bindings (hir-arg1 hir))
@@ -739,7 +764,7 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
     (write-line "{" *p2-emit-stream*)
     (dolist (binding bindings)
       (let ((value (p2-form (binding-init-value binding))))
-        (p2-emit-declvar binding nil)
+        (p2-emit-declvar binding nil t)
         (format *p2-emit-stream* "~A;~%" value)))
     (let (result)
       (p2-with-unwind-special-vars
@@ -1236,8 +1261,8 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
         (forms (hir-arg2 hir))
         (export-modules (hir-arg3 hir)))
     (declare (ignore name))
-    (when forms
-      (p2-forms forms))
+    (dolist (form forms)
+      (p2-toplevel-1 form))
     (dolist (export-module export-modules)
       (destructuring-bind (name . as) export-module
         (if as
@@ -1296,26 +1321,6 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
           (t
            (p2-call-default hir)))))
 
-(defun hir-definitely-single-value-p (hir)
-  "Check if HIR definitely returns a single value (not multiple values).
-   Returns T for literals, variable references, and forms known to return single values.
-   Returns NIL for function calls (which may return multiple values) and unknown forms."
-  (case (hir-op hir)
-    ;; These definitely return single values
-    ((const lref gref fref the) t)
-    ;; Progn returns what its last form returns
-    ((progn)
-     (let ((forms (hir-arg1 hir)))
-       (if forms
-           (hir-definitely-single-value-p (car (last forms)))
-           t)))  ; empty progn returns nil (single value)
-    ;; If returns what its branches return - conservative: assume might be multiple
-    ((if) nil)
-    ;; Function calls may return multiple values - don't assume single
-    ((call lcall) nil)
-    ;; Unknown forms - conservative, assume might be multiple
-    (t nil)))
-
 (defun p2-multiple-value-call (hir)
   "Generate code for MULTIPLE-VALUE-CALL that properly collects all values from all arguments.
    Uses block scope instead of IIFE to avoid potential scoping issues."
@@ -1335,15 +1340,11 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                (format *p2-emit-stream* "let ~A=[];~%" mv-array)
                ;; Process each argument
                (dolist (arg-hir arg-hirs)
-                 (let ((arg-ref (%p2-form arg-hir)))
-                   ;; For forms that definitely return a single value (literals, variables),
-                   ;; we need to set currentValues explicitly. For function calls and other
-                   ;; forms that may return multiple values, let them set currentValues naturally.
-                   (if (hir-definitely-single-value-p arg-hir)
-                       ;; Single value form - wrap in values1 to set currentValues
-                       (format *p2-emit-stream* "lisp.values1(~A);~%" arg-ref)
-                       ;; May return multiple values - just evaluate, it sets currentValues
-                       (format *p2-emit-stream* "~A;~%" arg-ref))
+                 (let ((arg-ref (p2-form arg-hir)))
+                   ;; Use the HIR's value-count contract, just as other value
+                   ;; consumers do. Guessing from a subset of opcodes missed
+                   ;; LAMBDA and reused the preceding form's value register.
+                   (format *p2-emit-stream* "~A;~%" arg-ref)
                    ;; Collect values from this argument
                    (format *p2-emit-stream* "~A.push(...lisp.currentValues());~%" mv-array)))
                ;; Call the function and assign result
@@ -1359,13 +1360,23 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 
 
 (defun p2-toplevel-1 (hir)
-  (p2 hir (if (hir-return-value-p hir) :expr :stmt)))
+  ;; A file module contains multiple source forms. Initialize each form's
+  ;; constants after earlier forms have installed their functions and values.
+  (let ((outer *p2-emit-stream*)
+        (*p2-load-time-value-stream* (make-emitter-stream *p2-emit-stream*))
+        (*p2-emit-stream* (make-emitter-stream *p2-emit-stream*)))
+    (let ((result (p2 hir (if (hir-return-value-p hir) :expr :stmt))))
+      (join-emitter-stream outer *p2-load-time-value-stream*)
+      (join-emitter-stream outer *p2-emit-stream*)
+      result)))
 
 (defun p2-emit-initialize-vars (stream)
   (maphash (lambda (symbol ident)
              (declare (ignore symbol))
              (format stream "let ~A;~%" ident))
            *p2-literal-symbols*)
+  (dolist (name *p2-load-time-value-vars*)
+    (format stream "let ~A;~%" name))
   (dolist (name *p2-defun-names*)
     (format stream "let ~A;~%" name))
   (let ((*p2-emit-stream* stream))
@@ -1406,6 +1417,8 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
 (defun p2-toplevel (hir &optional (stream *standard-output*) (return-value-p t))
   (let ((*p2-literal-symbols* (make-hash-table))
         (*p2-defun-names* '())
+        (*p2-load-time-value-vars* '())
+        (*p2-load-time-value-stream* (make-emitter-stream stream))
         (*p2-temporary-variables* '())
         (*p2-toplevel-defun-stream* (make-emitter-stream stream))
         (*p2-emit-stream* (make-emitter-stream stream))
@@ -1419,12 +1432,15 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
     (join-emitter-stream stream *p2-toplevel-defun-stream*)
     (write-line "// initialize symbols" stream)
     (p2-emit-initialize-symbols stream)
+    (join-emitter-stream stream *p2-load-time-value-stream*)
     (write-line "// main" stream)
     (join-emitter-stream stream *p2-emit-stream*)))
 
 (defun p2-toplevel-forms (hir-forms &optional (stream *standard-output*))
   (let ((*p2-literal-symbols* (make-hash-table))
         (*p2-defun-names* '())
+        (*p2-load-time-value-vars* '())
+        (*p2-load-time-value-stream* (make-emitter-stream stream))
         (*p2-temporary-variables* '())
         (*p2-toplevel-defun-stream* (make-emitter-stream stream))
         (*p2-emit-stream* (make-emitter-stream stream))

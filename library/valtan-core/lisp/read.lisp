@@ -567,7 +567,11 @@ Integers without decimal use *read-base*."
                  (declare (ignore non-terminating-p))
                  (cond
                    (function
-                    (let ((values (multiple-value-list (funcall function stream c))))
+                    ;; The list parser may stop after a zero-value macro.
+                    ;; Recursive READ calls made by a reader macro must still
+                    ;; skip comments before reading their own object (#', #., #+).
+                    (let ((values (let ((*inner-list-p* nil))
+                                    (multiple-value-list (funcall function stream c)))))
                       (cond (values
                              (return (unless *read-suppress* (first values))))
                             (*inner-list-p*

@@ -14,12 +14,32 @@
     "test:performance:kernel": "node performance/kernel-tests.mjs",
     "test:performance": "node performance/kernel-tests.mjs && node performance/verify.mjs",
     "bench": "node performance/run.mjs",
-    "bench:compare": "node performance/compare.mjs"
+    "bench:compare": "node performance/compare.mjs",
+    "test:quicklisp": "node quicklisp/run.mjs",
+    "test:resources": "node --test quicklisp/resources.test.mjs",
+    "test:dejavu:browser": "node mcclim/probe.mjs cl-dejavu quicklisp/dejavu-browser-results.json quicklisp/dejavu-checks.lisp --browser",
+    "test:zpb-ttf:browser": "node mcclim/probe.mjs zpb-ttf quicklisp/zpb-ttf-browser-results.json quicklisp/zpb-ttf-checks.lisp --browser --depends-on=cl-dejavu",
+    "test:systems": "sbcl --script quicklisp/system-tests.lisp",
+    "test:quicklisp:fixtures": "sbcl --script quicklisp/system-tests.lisp && node --test quicklisp/runtime.test.mjs quicklisp/portability.test.mjs quicklisp/portability-report.test.mjs",
+    "test:cl-ppcre": "node quicklisp/ppcre.mjs",
+    "test:fiveam": "node mcclim/probe.mjs fiveam/test quicklisp/fiveam-results.json quicklisp/fiveam-checks.lisp",
+    "test:portability": "node quicklisp/portability.mjs",
+    "test:weak": "node --test quicklisp/weak.test.mjs",
+    "test:mop": "node --test mcclim/mop.test.mjs",
+    "probe:mcclim": "node mcclim/probe.mjs",
+    "test:mcclim:transport": "node --test mcclim/event-queue.test.mjs mcclim/browser-bridge.test.mjs",
+    "test:mcclim:gui": "node mcclim/gui.mjs",
+    "test:mcclim:canvas": "node mcclim/canvas.mjs",
+    "test:mcclim:windows": "node mcclim/windows.mjs",
+    "test:mcclim:bezier": "node mcclim/bezier.mjs",
+    "test:mcclim:queues": "node mcclim/queue.mjs",
+    "demo:mcclim": "node mcclim/demo.mjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "vite": "^5.4.0"
+    "vite": "^5.4.0",
+    "esbuild": "^0.21.5"
   }
 }

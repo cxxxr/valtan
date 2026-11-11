@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>McCLIM on Valtan</title>
+<style>
+  body {margin: 24px; background: #e8edf3; color: #142033; font: 16px system-ui, sans-serif}
+  #status {min-height: 1.5em}
+  .mcclim-window {width: fit-content; background: white; border: 1px solid #acb8c8; box-shadow: 0 8px 30px #20304a20}
+  .mcclim-window h2 {margin: 0; padding: 10px 16px; background: #172d4d; color: white; font-size: 15px}
+  canvas {display: block; outline-offset: 2px}
+</style>
+<h1>McCLIM on Valtan</h1><p id="status">Loading McCLIM…</p><main id="windows"></main>
+<script type="module">
+  import {mountMcclim} from '/library/mcclim-browser/client.mjs';
+  const container = document.querySelector('#windows'), status = document.querySelector('#status');
+  const state = globalThis.mcclimTest = {ready: false, paints: 0, status: '', errors: []};
+  container.addEventListener('mcclim-ready', () => {state.ready = true; status.textContent = 'Ready';});
+  container.addEventListener('mcclim-paint', () => state.paints++);
+  container.addEventListener('mcclim-status', event => {state.status = event.detail; status.textContent = event.detail;});
+  container.addEventListener('mcclim-error', event => {state.errors.push(event.detail); status.textContent = event.detail;});
+  container.addEventListener('mcclim-log', event => {
+    state.lastLog = event.detail.trim();
+    if (!state.ready && state.lastLog.startsWith('; Loading ')) status.textContent = state.lastLog;
+  });
+  state.application = mountMcclim(container, '/library/mcclim-browser/worker.mjs', '/app.mjs');
+</script></html>

@@ -1,0 +1,36 @@
+(defpackage :trivial-garbage
+  (:use :cl)
+  (:nicknames :tg)
+  (:export :make-weak-pointer :weak-pointer-p :weak-pointer-value
+           :make-weak-hash-table :hash-table-weakness :gc :finalize :cancel-finalization))
+(in-package :trivial-garbage)
+
+(defun weak-op (name &rest args)
+  (apply #'system:weak-op (ffi:cl->js name) args))
+(defun make-weak-pointer (object)
+  (assert object) (weak-op "pointer" object))
+(defun weak-pointer-p (object) (weak-op "pointer-p" object))
+(defun weak-pointer-value (pointer) (weak-op "value" pointer))
+(defun finalize (object function)
+  (check-type function function) (weak-op "finalize" object function))
+(defun cancel-finalization (object) (weak-op "cancel" object))
+(defun gc (&key full verbose)
+  (declare (ignore full verbose)) (weak-op "gc"))
+(defun hash-table-weakness (table) (cl::hash-table-weakness table))
+
+(defun make-weak-hash-table (&rest args &key weakness (weakness-matters t)
+                              (test 'eql) (rehash-size 1.5) (rehash-threshold 1.0)
+                              &allow-other-keys)
+  (remf args :weakness) (remf args :weakness-matters)
+  (unless weakness (return-from make-weak-hash-table (apply #'cl:make-hash-table args)))
+  (unless (member weakness '(:key :value :key-and-value :key-or-value))
+    (error "Unknown weak hash table weakness ~S" weakness))
+  (let ((test (cl::%normalize-test test)))
+    (unless (member test '(eq eql))
+      (if weakness-matters
+          (error "Valtan weak hash tables require EQ or EQL")
+          (return-from make-weak-hash-table (apply #'cl:make-hash-table args))))
+    (cl::%make-hash-table
+     :map (weak-op "map" (ffi:cl->js (string-downcase (symbol-name weakness)))
+                        (ffi:cl->js (string-downcase (symbol-name test))))
+     :weakness weakness :test test :rehash-size rehash-size :rehash-threshold rehash-threshold)))

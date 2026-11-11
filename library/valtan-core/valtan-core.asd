@@ -48,6 +48,7 @@
                (:file "lisp/catch-throw")
                (:file "lisp/documentation")
                (:file "lisp/loop")
+               (:file "lisp/gray-streams" :if-feature :valtan)
                (:file "lisp/logical-pathname")
                (:file "lisp/format" :if-feature :valtan)
                (:file "lisp/pprint" :if-feature :valtan)

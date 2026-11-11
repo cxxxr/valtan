@@ -176,6 +176,15 @@
 (defun name-char (name)
   (let ((text (string name)))
     (or (car (rassoc text *char-name-table* :test #'string-equal))
+        ;; Common implementation aliases used by portable library sources.
+        ;; Keep CHAR-NAME's canonical names (and printed round trips) stable.
+        (let ((alias (assoc text '(("Nul" . 0) ("Null" . 0)
+                                  ("Bell" . 7) ("BS" . 8) ("HT" . 9)
+                                  ("LF" . 10) ("VT" . 11) ("FF" . 12)
+                                  ("CR" . 13) ("Sub" . 26) ("Esc" . 27) ("Escape" . 27)
+                                  ("Del" . 127))
+                            :test #'string-equal)))
+          (when alias (code-char (cdr alias))))
         (when (and (= (length text) 5) (char-equal (char text 0) #\U)
                    (every (lambda (c) (digit-char-p c 16)) (subseq text 1)))
           (code-char (parse-integer text :start 1 :radix 16))))))

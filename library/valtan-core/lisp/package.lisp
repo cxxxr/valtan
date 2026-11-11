@@ -11,6 +11,12 @@
     symbols))
 
 (defun find-package (name)
+  #+valtan
+  (unless (packagep name)
+    (let ((local (system:package-local-op
+                  (*:array-to-raw-string "find") *package*
+                  (*:array-to-raw-string (string name)))))
+      (when local (return-from find-package local))))
   (cond ((packagep name)
          name)
         ;; Handle raw strings from host environment (SBCL) - check if it's a CL string, not Valtan array
@@ -196,6 +202,31 @@
 
 (defvar *package-documentation* (make-hash-table :test 'eq))
 
+(defun system:package-local-nicknames (&optional (package *package*))
+  (mapcar (lambda (pair)
+            (cons (*:raw-string-to-array (ffi:aget pair 0)) (ffi:aget pair 1)))
+          (*:raw-array-to-list
+           (system:package-local-op (*:array-to-raw-string "list") (ensure-package package)))))
+
+(defun system:package-locally-nicknamed-by-list (package)
+  (system:package-local-op (*:array-to-raw-string "users") (ensure-package package)))
+
+(defun system:add-package-local-nickname (nickname actual-package &optional (package *package*))
+  (let* ((name (string nickname)) (owner (ensure-package package))
+         (target (ensure-package actual-package))
+         (old (cdr (assoc name (system:package-local-nicknames owner) :test #'string=))))
+    (when (or (and old (not (eq old target)))
+              (member name '("CL" "COMMON-LISP" "KEYWORD") :test #'string=)
+              (string= name (package-name owner))
+              (member name (package-nicknames owner) :test #'string=))
+      (cerror "Use this local nickname anyway." 'package-error :package owner))
+    (system:package-local-op (*:array-to-raw-string "add") owner
+                             (*:array-to-raw-string name) target)))
+
+(defun system:remove-package-local-nickname (nickname &optional (package *package*))
+  (system:package-local-op (*:array-to-raw-string "remove") (ensure-package package)
+                           (*:array-to-raw-string (string nickname))))
+
 (defun ensure-defined-package (name options)
   (let ((names nil) (interned nil) (exported nil) (nicknames nil)
         (documentation nil) (documentation-p nil) (size-p nil))
@@ -214,6 +245,12 @@
         (:export (setq exported (append exported (mapcar #'string (cdr option)))))
         (:nicknames (setq nicknames (append nicknames (mapcar #'string (cdr option)))))
         (:use)
+        (:local-nicknames
+         (dolist (pair (cdr option))
+           (unless (and (listp pair) (= (length pair) 2))
+             (program-error "Invalid local nickname ~S" pair))
+           (string (first pair))
+           (ensure-package (second pair))))
         (:size
          (when (or size-p (/= (length option) 2)
                    (not (typep (second option) '(integer 0 *))))
@@ -228,12 +265,16 @@
       (program-error "DEFPACKAGE :INTERN and :EXPORT names overlap"))
     (let ((package (or (find-package name) (make-package name :use nil))))
       (rename-package package name nicknames)
+      (dolist (option options)
+        (when (eq (car option) :local-nicknames)
+          (dolist (pair (cdr option))
+            (system:add-package-local-nickname (first pair) (second pair) package))))
       (labels ((import-option (option shadowing)
                  (let ((source (ensure-package (second option))))
                    (dolist (name (cddr option))
                      (multiple-value-bind (symbol status) (find-symbol (string name) source)
                        (if status
-                           (if shadowing (shadowing-import symbol package) (import symbol package))
+                           (if shadowing (shadowing-import (list symbol) package) (import (list symbol) package))
                            (cerror "Skip the missing symbol." 'package-error :package source)))))))
         (dolist (option options)
           (case (car option)

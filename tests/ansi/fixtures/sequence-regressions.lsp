@@ -78,3 +78,27 @@
           (handler-case (merge '(bit-vector 3) (list 0 0 0) (list 1 1 1) #'<)
             (type-error () :length)))
   nil :length :length)
+
+(deftest list-elt-reads-writes-and-checks-bounds
+  (let ((items (list 10 20 30)))
+    (values (elt items 1) (setf (elt items 2) 99) items
+            (handler-case (elt items 3) (type-error () :bad))
+            (handler-case (elt items -1) (type-error () :bad))
+            (handler-case (elt items 1.0) (type-error () :bad))
+            (handler-case (elt items (ash 1 100)) (type-error () :bad))
+            (handler-case (elt nil 0) (type-error () :bad))))
+  20 99 (10 20 99) :bad :bad :bad :bad :bad)
+
+(deftest list-elt-rejects-improper-and-circular-lists
+  (let* ((cycle (list 1 2 3)) (self (list 4)))
+    (setf (cdr (last cycle)) (cdr cycle) (cdr self) self)
+    (values (handler-case (elt '(1 2 . tail) 0) (type-error () :bad))
+            (handler-case (elt cycle 1) (type-error () :bad))
+            (handler-case (setf (elt self 0) 5) (type-error () :bad))))
+  :bad :bad :bad)
+
+(deftest list-elt-long-list-boundaries
+  (let ((items (loop for i below 20000 collect i)))
+    (values (elt items 0) (elt items 19999)
+            (setf (elt items 10000) :middle) (nth 10000 items)))
+  0 19999 :middle :middle)

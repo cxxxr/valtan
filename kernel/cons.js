@@ -87,6 +87,31 @@ export function CL_checkedCdr(list) {
     return values1(list.cdr);
 }
 
+// ELT must validate a proper list and its index. Do both in one native walk,
+// retaining the selected cons for reads and SETF without repeated Lisp LENGTH
+// and NTH traversals. The slow pointer also rejects circular lists.
+export function CL_listEltCell(list, index) {
+    const validIndex = (typeof index === 'number' && Number.isInteger(index) && index >= 0)
+        || (typeof index === 'bigint' && index >= 0n);
+    const wanted = validIndex ? Number(index) : -1;
+    let cursor = list, slow = list, size = 0, selected = null;
+    const improper = () => typeError(list, jsArrayToList([
+        intern('SATISFIES', cl_package), intern('PROPER-LIST-P', cl_package)
+    ]));
+    while (cursor !== S_nil) {
+        if (!isCons(cursor)) return improper();
+        if (size === wanted) selected = cursor;
+        cursor = cursor.cdr;
+        size++;
+        if (size % 2 === 0) slow = slow.cdr;
+        if (cursor !== S_nil && cursor === slow) return improper();
+    }
+    if (!selected) return typeError(index, jsArrayToList([
+        intern('INTEGER', cl_package), 0, jsArrayToList([size])
+    ]));
+    return values1(selected);
+}
+
 export function CL_null(x) { return values1(toLispBoolean(x === S_nil)); }
 export function CL_listp(x) { return values1(toLispBoolean(x === S_nil || isCons(x))); }
 export function CL_atom(x) { return values1(toLispBoolean(!isCons(x))); }

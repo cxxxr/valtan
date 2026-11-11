@@ -1,0 +1,37 @@
+;;; Test framework adapter only. Babel's source and test assertions are unmodified.
+;;; Implements the small Stefil assertion/registration API used by tests/tests.lisp.
+(defpackage :hu.dwim.stefil
+  (:use :cl) (:export :deftest :defsuite* :is :signals :finishes :without-debugging
+                     :root-suite :*last-test-result*))
+(in-package :hu.dwim.stefil)
+(defvar *tests* nil)
+(defvar *assertions* 0)
+(defvar *last-test-result* nil)
+(defmacro defsuite* (&rest options) (declare (ignore options)) nil)
+(defmacro without-debugging (&body body) `(progn ,@body))
+(defmacro deftest (name arguments &body body)
+  (let ((symbol (if (consp name) (car name) name))
+        (auto (or (atom name) (getf (cdr name) :auto-call t))))
+    `(progn (defun ,symbol ,arguments ,@body)
+            ,(when (and auto (null arguments)) `(pushnew ',symbol *tests*)))))
+(defmacro is (form &rest options)
+  (declare (ignore options))
+  `(progn (incf *assertions*) (assert ,form () "Upstream Babel assertion failed: ~S" ',form)))
+(defmacro signals (type &body body)
+  `(progn (incf *assertions*)
+          (assert (handler-case (progn ,@body nil)
+                    (,type () t))
+                  () "Expected condition ~S" ',type)))
+(defmacro finishes (&body body) `(progn ,@body (incf *assertions*) t))
+(defun record/failure (type &key format-control format-arguments)
+  (declare (ignore type)) (apply #'error format-control format-arguments))
+(in-package :cl-user)
+;; The upstream suite resolves fixture paths through ASDF. This runner supplies
+;; only that path lookup when there is no runtime ASDF (not a library dependency).
+(unless (find-package :asdf) (make-package :asdf :use nil))
+(export (intern "SYSTEM-RELATIVE-PATHNAME" :asdf) :asdf)
+(unless (fboundp 'asdf:system-relative-pathname)
+  (setf (symbol-function 'asdf:system-relative-pathname)
+        (lambda (system relative)
+          (assert (string= system "babel-tests"))
+          (merge-pathnames relative *babel-test-source*))))

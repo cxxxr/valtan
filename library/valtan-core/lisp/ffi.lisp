@@ -71,7 +71,7 @@
   (cl:error "unimplemented"))
 
 (defun ffi:cl->js (value)
-  (cl:cond ((cl:stringp value) (array-contents value))
+  (cl:cond ((cl:stringp value) (*:array-to-raw-string value))
            ((cl:vectorp value) (array-contents value))
            ;; ((listp value)
            ;;  (*:list-to-raw-array value))

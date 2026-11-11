@@ -46,3 +46,36 @@
             (typep (sxhash (ash 1 500)) '(and fixnum unsigned-byte))
             (= (sxhash #c(0.0 0.0)) (sxhash #c(-0.0 -0.0)))))
   t t t t)
+(deftype character-alias () 'character)
+(deftest arrays-expand-element-type-aliases
+  (let ((s (make-array 2 :element-type 'character-alias :initial-element #\a)))
+    (values (array-element-type s) (stringp s) (string= s "aa")))
+  character t t)
+
+(deftype octet-alias () '(unsigned-byte 8))
+(deftest octet-arrays-preserve-specialization
+  (let ((bytes (make-array 4 :element-type 'octet-alias :initial-contents '(0 1 128 255))))
+    (values (array-element-type bytes) (typep bytes '(vector t))
+            (typep bytes '(vector (integer 0 255))) (coerce bytes 'list)
+            (upgraded-array-element-type '(unsigned-byte 7))
+            (upgraded-array-element-type '(integer 0 1))))
+  (unsigned-byte 8) nil t (0 1 128 255) (unsigned-byte 8) bit)
+
+(deftest octet-array-writes-and-initialization-check-bounds
+  (let ((bytes (make-array 3 :element-type '(unsigned-byte 8))))
+    (values (coerce bytes 'list)
+            (handler-case (setf (aref bytes 0) 256) (type-error () :bad))
+            (handler-case (make-array 1 :element-type '(unsigned-byte 8) :initial-element -1)
+              (type-error () :bad))
+            (handler-case (make-array '(1 2) :element-type '(unsigned-byte 8) :initial-contents '((0 256)))
+              (type-error () :bad))))
+  (0 0 0) :bad :bad :bad)
+
+(deftest octet-arrays-adjust-and-displace
+  (let* ((bytes (make-array 2 :element-type '(unsigned-byte 8) :initial-contents '(65 255)
+                              :adjustable t :fill-pointer 2))
+         (view (make-array 1 :element-type '(unsigned-byte 8) :displaced-to bytes :displaced-index-offset 1)))
+    (vector-push-extend 128 bytes)
+    (setf (aref view 0) 0)
+    (values (array-element-type bytes) (coerce bytes 'list) (coerce view 'list)))
+  (unsigned-byte 8) (65 0 128) (0))

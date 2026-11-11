@@ -38,13 +38,25 @@
               (cl:values vars (cl:rest place) (cl:list store) `(,setf-expander ,@vars ,store)
                          `(,(cl:first place) ,@vars))))
            ((cl:consp setf-expander)
-            (let ((vars (gensyms (cl:rest place)))
-                  (store (cl:gensym))
+            (let ((vars nil) (forms nil) (arguments nil)
+                  (stores (gensyms (cl:second setf-expander)))
                   (fn
                    (cl:eval
                     `(lambda ,(cl:first setf-expander) (lambda ,@(cl:rest setf-expander))))))
-              (cl:values vars (cl:rest place) (cl:list store) (cl:funcall (cl:apply fn vars) store)
-                         `(,(cl:first place) ,@vars))))
+              ;; Literal keyword names must reach the expander's &KEY parser.
+              ;; Replacing :KEY with a gensym made every long DEFSETF using
+              ;; keyword arguments fail before its expansion could be emitted.
+              ;; NIL and T also stay literal, notably for :ALLOW-OTHER-KEYS.
+              (cl:dolist (form (cl:rest place))
+                (cl:if (cl:or (cl:keywordp form) (cl:null form) (cl:eq form cl:t))
+                       (cl:setq arguments (cl:cons form arguments))
+                       (let ((var (cl:gensym)))
+                         (cl:setq vars (cl:cons var vars) forms (cl:cons form forms)
+                                  arguments (cl:cons var arguments)))))
+              (cl:setq vars (cl:nreverse vars) forms (cl:nreverse forms)
+                       arguments (cl:nreverse arguments))
+              (cl:values vars forms stores (cl:apply (cl:apply fn arguments) stores)
+                         `(,(cl:first place) ,@arguments))))
            ((functionp setf-expander) (cl:funcall setf-expander (cl:rest place) environment))))
          (t
           (cl:multiple-value-bind (expansion expanded-p)

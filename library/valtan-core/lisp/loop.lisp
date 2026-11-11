@@ -8,6 +8,7 @@
 (defvar *initially-forms*)
 (defvar *finally-forms*)
 (defvar *loop-test-forms*)
+(defvar *first-update-forms*)
 (defvar *before-update-forms*)
 (defvar *after-update-forms*)
 (defvar *result-forms*)
@@ -148,6 +149,7 @@
   (push form *loop-test-forms*))
 
 (defun add-before-update-form (op var form)
+  (push (list op var form) *first-update-forms*)
   (push (list op var form) *before-update-forms*))
 
 (defun add-after-update-form (op var form)
@@ -361,17 +363,17 @@
 
 (defun parse-for-as-equals-then (d-var)
   (let* ((equals-form (next-exp))
+         (then-p (and (symbolp (lookahead))
+                      (string= (lookahead) :then)))
          (then-form
-           (when (and (symbolp (lookahead))
-                      (string= (lookahead) :then))
+           (when then-p
              (next-exp)
              (next-exp))))
     (push (make-let-bindings :pairs (gen-d-var-bindings d-var)) *bindings*)
-    (cond (then-form
-           (add-initially-form `(d-setq ,d-var ,equals-form))
-           (add-after-update-form 'd-setq d-var then-form))
-          (t
-           (add-before-update-form 'd-setq d-var equals-form)))))
+    ;; Both forms participate in their FOR group's parallel assignments.  A
+    ;; separate FOR group must see the preceding group's current values.
+    (push (list 'd-setq d-var equals-form) *first-update-forms*)
+    (add-after-update-form 'd-setq d-var (if then-p then-form equals-form))))
 
 (defun parse-for-as-by-clause ()
   (when (eq (ensure-keyword (lookahead)) :by)
@@ -436,62 +438,37 @@
   (next-exp)
   (ecase (ensure-keyword (next-exp))
     ((:in :of)))
-  (let* ((null '#:null)
-         (hash-table (next-exp))
-         (hash-second-var null))
+  (let ((hash-table (next-exp))
+        (hash-second-var nil))
     (when (eq :using (ensure-keyword (lookahead)))
       (next-exp)
       (let ((form (next-exp)))
         (assert (and (consp form)
                      (= 2 (length form))
-                     (eq (if hash-key-p
-                             :hash-value
-                             :hash-key)
+                     (eq (if hash-key-p :hash-value :hash-key)
                          (ensure-keyword (car form)))))
         (setq hash-second-var (cadr form))
         (check-duplicate-binding-d-var hash-second-var)))
-    (let* ((hash-second-var (if (eq hash-second-var null)
-                                (gensym (if hash-key-p #"HASH-VALUE" #"HASH-KEY"))
-                                hash-second-var))
-           (hash-table-var (gensym #"HASH-TABLE"))
-           (hash-more-var (gensym #"HASH-MORE"))
-           (hash-table-next (gensym #"HASH-NEXT"))
-           (hash-first-temp (if (listp hash-first-var)
-                                (gensym (if hash-key-p #"HASH-KEY-TEMP" #"HASH-VALUE-TEMP"))
-                                nil))
-           (hash-second-temp (if (listp hash-second-var)
-                                 (gensym (if hash-key-p #"HASH-VALUE-TEMP" #"HASH-KEY-TEMP"))
-                                 nil))
-           (hash-key-var (if hash-key-p
-                             (or hash-first-temp hash-first-var)
-                             (or hash-second-temp hash-second-var)))
-           (hash-value-var (if hash-key-p
-                               (or hash-second-temp hash-second-var)
-                               (or hash-first-temp hash-first-var))))
-      (let ((bindings '()))
-        (cond (hash-first-temp
-               (setq bindings (nconc bindings (gen-d-var-bindings hash-first-var)))
-               (push (list hash-first-temp nil) bindings))
-              (t
-               (push (list hash-first-var nil) bindings)))
-        (cond (hash-second-temp
-               (setq bindings (nconc bindings (gen-d-var-bindings hash-second-var)))
-               (push (list hash-second-temp nil) bindings))
-              (t
-               (push (list hash-second-var nil) bindings)))
-        (push (list hash-table-var hash-table) bindings)
-        (push (list hash-more-var nil) bindings)
-        (push (make-let-bindings :pairs bindings) *bindings*))
-      (push (cons hash-table-next hash-table-var) *hash-table-iterators*)
-      (push `(unless (multiple-value-setq
-                         (,hash-more-var ,hash-key-var ,hash-value-var)
-                       (,hash-table-next))
-               (go end-loop))
-            *loop-body*)
-      (when hash-first-temp
-        (push `(d-setq ,hash-first-var ,hash-first-temp) *loop-body*))
-      (when hash-second-temp
-        (push `(d-setq ,hash-second-var ,hash-second-temp) *loop-body*)))))
+    (let ((table (gensym #"HASH-TABLE"))
+          (next (gensym #"HASH-NEXT"))
+          (more (gensym #"HASH-MORE"))
+          (key (gensym #"HASH-KEY"))
+          (value (gensym #"HASH-VALUE")))
+      (push (make-let-bindings
+             :pairs `((,table ,hash-table)
+                      ,@(gen-d-var-bindings hash-first-var)
+                      ,@(gen-d-var-bindings hash-second-var)))
+            *bindings*)
+      (push (cons next table) *hash-table-iterators*)
+      ;; Fetch in the variable clause, so subsequent FOR clauses see this
+      ;; entry, while AND clauses still assign their variables in parallel.
+      (add-before-update-form
+       'd-setq
+       (if hash-key-p (list hash-first-var hash-second-var)
+           (list hash-second-var hash-first-var))
+       `(multiple-value-bind (,more ,key ,value) (,next)
+          (unless ,more (go end-loop))
+          (list ,key ,value))))))
 
 (defun parse-for-as-package (var symbol-type)
   ;; symbol-type is one of :symbols, :external-symbols, :present-symbols
@@ -549,7 +526,9 @@
        (loop-error "unexpected keyword after BEING: ~S" keyword)))))
 
 (defun parse-for-as-clause-1 ()
-  (let ((*before-update-forms* '())
+  (let ((*first-update-forms* '())
+        (*loop-test-forms* '())
+        (*before-update-forms* '())
         (*after-update-forms* '())
         (*bindings* '()))
     (do ()
@@ -589,9 +568,12 @@
            (construct-bindings (bindings)
              (make-let-bindings
               :pairs (mapcan #'let-bindings-pairs (nreverse bindings)))))
-      (values (construct-update-forms *before-update-forms*)
-              (construct-update-forms *after-update-forms*)
-              (construct-bindings *bindings*)))))
+      (let ((tests (mapcar (lambda (form) `(unless ,form (go end-loop)))
+                           (reverse *loop-test-forms*))))
+        (values `(progn ,@tests ,(construct-update-forms *first-update-forms*))
+                `(progn ,(construct-update-forms *after-update-forms*)
+                        ,@tests ,(construct-update-forms *before-update-forms*))
+                (construct-bindings *bindings*))))))
 
 (defun parse-for-as-clause ()
   (multiple-value-bind (before-update-form after-update-form bindings)
@@ -624,6 +606,14 @@
       ((:for :as)
        (next-exp)
        (parse-for-as-clause)
+       t)
+      ((:repeat :while :until)
+       ;; Test at this position in the initial and subsequent iterations,
+       ;; before later FOR assignments. Allowing WHILE/UNTIL between variable
+       ;; clauses is the SBCL-compatible extension used by McCLIM triangulation.
+       (let ((test (parse-termination-test-clause exp)))
+         (push test *before-update-forms*)
+         (push test *after-update-forms*))
        t)
       (otherwise
        (parse-initial-final-clause exp)))))
@@ -813,12 +803,11 @@
      (let ((repeat-var (gensym #"REPEAT"))
            (repeat-value (next-exp)))
        (push (make-let-bindings :pairs `((,repeat-var ,repeat-value))) *bindings*)
-       ;; Add termination test at loop start (before body)
-       (add-loop-test-form `(> ,repeat-var 0))
-       ;; Add decrement after body
-       (add-after-update-form 'decf repeat-var 1)
-       ;; Return a no-op form for the body
-       '(progn)))
+       ;; REPEAT is a body clause: preceding iteration variables have already
+       ;; been initialized/stepped, including on the terminating iteration.
+       `(if (> ,repeat-var 0)
+            (decf ,repeat-var)
+            (go end-loop))))
     ((:always)
      (next-exp)
      ;; Check for conflict with accumulation clause
@@ -920,6 +909,7 @@
         (*hash-table-iterators* '())
         (*result-forms* '())
         (*loop-test-forms* '())
+        (*first-update-forms* '())
         (*before-update-forms* '())
         (*after-update-forms* '())
         (*it* nil)
@@ -933,12 +923,8 @@
     (let ((body
             `(tagbody
                ,@(nreverse *initially-forms*)
-               ,loop-start
-               ,@(mapcar (lambda (form)
-                           `(unless ,form
-                              (go end-loop)))
-                   (nreverse *loop-test-forms*))
                ,@(nreverse *before-update-forms*)
+               ,loop-start
                ,@(nreverse *loop-body*)
                ,@(nreverse *after-update-forms*)
                (go ,loop-start)

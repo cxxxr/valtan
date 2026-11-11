@@ -56,6 +56,20 @@ $ npm install
 $ npm start # run
 ```
 
+## Quicklisp libraries
+
+Installed ASDF/Quicklisp systems can be used in `:depends-on`. For libraries that
+need macros, custom readers or definitions from earlier source files, opt into
+`:compile-mode :runtime` in your `.system` definition. This embeds the sources
+and compiles them in Valtan at application startup. The default ahead-of-time
+mode remains available. Target adapters provide Gray Streams, `trivial-features`,
+and UIOP runtime utilities; Babel and FLEXI-STREAMS use their installed sources.
+
+See [setup, compilation modes and measured compatibility](docs/quicklisp.md).
+The library matrix checks actual API calls and records failures; it is separate
+from the ANSI conformance results. The [CL-PPCRE example](example/try-using-cl-ppcre)
+demonstrates searches, captures, splitting and replacement using the upstream library.
+
 ## Status
 
 Valtan is still in its alpha stage.

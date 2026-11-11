@@ -1,0 +1,15 @@
+{
+  "system": "cl-dejavu",
+  "scope": "Load and supplied API assertions; GUI verification is separate",
+  "timestamp": "2026-11-10T14:08:43.452Z",
+  "complete": true,
+  "status": "passed",
+  "work": "/tmp/valtan-mcclim-f0lza0",
+  "compilerSha256": "836e9e731f6fbc93bf2c9b83fe67bf27a631ecc335a17d2984ce73be3c35e09a",
+  "target": "browser",
+  "targetFeatures": [],
+  "checksSha256": "09dd930136886cd799725dde1c0f29f663cea504a8115fbbab4b861629e541b4",
+  "stage": "run",
+  "bundleSha256": "76cc141b3f2b46b1c60c663d67a08cb62572fe2d26089eb96afb7bb0722396fc",
+  "finishedAt": "2026-11-10T14:09:41.059Z"
+}

@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "runtimeTimeoutSeconds": 1200,
+  "mode": "runtime",
+  "timestamp": "2026-11-10T09:09:31.945Z",
+  "node": "v24.21.0",
+  "compilerSha256": "ee9caa78ca919731c1c5a561d05e7bc0d38eaf13981de8f293fc6f53e7970be6",
+  "casesSha256": "f0e6baee1f91e5dd08e74a2e94f05e9ce250b44d5dd2945ec09397c280cde365",
+  "scope": "Selected API smoke tests, not full upstream test suites or all of Quicklisp",
+  "complete": true,
+  "selected": [
+    "alexandria",
+    "split-sequence",
+    "anaphora",
+    "cl-ppcre",
+    "cl-base64",
+    "st-json",
+    "cl-json",
+    "parse-number",
+    "iterate",
+    "cl-utilities",
+    "babel",
+    "yason",
+    "trivial-gray-streams",
+    "md5",
+    "flexi-streams",
+    "bordeaux-threads",
+    "let-plus",
+    "xsubseq",
+    "cl-colors2",
+    "trivial-indent",
+    "chipz",
+    "salza2",
+    "trivial-features",
+    "uiop"
+  ],
+  "results": [
+    {
+      "system": "alexandria",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "028d1b1122cc1a2c24719028979468239340318c6ed592db05d3e6726a1a17d7",
+      "sourceReleases": [
+        {
+          "release": "alexandria-20241012-git",
+          "files": 23,
+          "sha256": "071f022af31169f2df30c14485b5c678ecc0fade6c0ce55572404ce4dc390e05"
+        }
+      ],
+      "bundleSha256": "d5eb18d92bc20deb60dd7d47a96095f903d15c8c9cfb41ce3cfadc42b3556727",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "split-sequence",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "04a28374d5e6ea4ac237fed1ffdca0029434c5850100d74188ff8ee762a3104f",
+      "sourceReleases": [
+        {
+          "release": "split-sequence-v2.0.1",
+          "files": 6,
+          "sha256": "c75f7ede586bf169f832479b95d0f7221c11ff67071438b47215e1f727c6c4ee"
+        }
+      ],
+      "bundleSha256": "2da71d538f453b4246cdf5111da530fa1300ebd237cef9552ac51bb2665b97ab",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "anaphora",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "d1571c93b564183c348806ff1ac15096bff194a84f496d0fd3aa78c7749614e6",
+      "sourceReleases": [
+        {
+          "release": "anaphora-20220220-git",
+          "files": 5,
+          "sha256": "2043d5ea4359441029f5b2d0d771089231b1c1b177ef124c3b7fff2b6892fed0"
+        }
+      ],
+      "bundleSha256": "84c5d760c8e729d860cfc58ebb5aae521339684802c37a924d35b36ec4e7dfe3",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "cl-ppcre",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "e7e481fa0cf3b396ba3c7bc6a70d40d0996672b7eea2ea503b159e748b747ff7",
+      "sourceReleases": [
+        {
+          "release": "cl-ppcre-20250622-git",
+          "files": 18,
+          "sha256": "66004e6d42061f0a645d44e8c83cd68aa99a04835c11ab28e7644b6fddba1827"
+        }
+      ],
+      "bundleSha256": "3e9cb545af645ca51ec26fd168a5119c919a774e88d65aa2336a690cc4a2096f",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "cl-base64",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "531f4e67a18ecdc5cb6216f47445415d55e5b588146fd546f1df76ab6ebe4d24",
+      "sourceReleases": [
+        {
+          "release": "cl-base64-20201016-git",
+          "files": 4,
+          "sha256": "c2db9c9cb208f6fd2824219cf432b15d77939573b4ff87af4c610f656379fc4c"
+        }
+      ],
+      "bundleSha256": "f410233125bee6de3b2140bd1ebc7d2cbee2bb6c7d3de70703441db73149c373",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "st-json",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "cb946e54a9ea13afc51a2485ddbb2e9bc0ef8f225135f1ac8d7d9e47d18b4e69",
+      "sourceReleases": [
+        {
+          "release": "st-json-20210630-git",
+          "files": 2,
+          "sha256": "f0ae95bcbc6bebf8583f4cfc7972f90ee44ed7d4276c07102d1fa814d196be9b"
+        }
+      ],
+      "bundleSha256": "9637df6bea25b60663aa9df98dec2d4e86dfc8aa9a82bff3239ad0a47daf13e2",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "cl-json",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "ebe3f27b696049f6bc867b06c89ce94035b7953973b16b09fab8d9090230ff11",
+      "sourceReleases": [
+        {
+          "release": "cl-json-20220707-git",
+          "files": 8,
+          "sha256": "cf85f9463e471773e68653aedcd6c2f7d8dd464a033038bde3cd7d2cf018f2fe"
+        }
+      ],
+      "bundleSha256": "64d601e8d49d7187c13e4304062bee1961fa1329dcfe299e11f7b5ef6482c1a6",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "parse-number",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "40e83959cc8b34e1426c7db9af1b092d2f7e24ee1d6d27922678e7204e43c402",
+      "sourceReleases": [
+        {
+          "release": "parse-number-v1.8",
+          "files": 2,
+          "sha256": "7e60c459fdc1ba9f743184debcd5fa2621609929254bf08aa02f7cd6fa1d1cb5"
+        }
+      ],
+      "bundleSha256": "ce8062146f859dca7e8db9a00f40f2a0fe316a8728656de5277f16c80b174e6c",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "iterate",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "6aba6ccc624ae06e9094474c2b537f7a95e8b08a2d97452a9a83ec81ec38b79a",
+      "sourceReleases": [
+        {
+          "release": "iterate-release-d27d7ff4-git",
+          "files": 3,
+          "sha256": "a46735b9ed5c9063cc23d831602f0a0466ef137b6a004115f5b859642fd59fdd"
+        }
+      ],
+      "bundleSha256": "18cad461f8f79edb913a1820a379b9a8481e100959b3a264003002a320d8f2bb",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "cl-utilities",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "34144eae05930f6743c90ebae6f2f9a1491c115f5fa1cbe09a15423effc96d38",
+      "sourceReleases": [
+        {
+          "release": "cl-utilities-1.2.4",
+          "files": 12,
+          "sha256": "509429bb4ae833715de978d4c745e489b792e6afe90d5f91ce37400ffad29cd5"
+        }
+      ],
+      "bundleSha256": "8e4a928d7d8eda76ab794efaf5536b4fb50732692f2cce3fa99c1a3f3ea8ad23",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "babel",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "e7887eb5e242931ad01f3d7179c55a5fc6e5874088cbbbfa9c4565766085e8ca",
+      "sourceReleases": [
+        {
+          "release": "alexandria-20241012-git",
+          "files": 22,
+          "sha256": "7657bf4a470bc3c5598e21343c1c40a545cdd839743857877a3c83fe68309b40"
+        },
+        {
+          "release": "babel-20260101-git",
+          "files": 29,
+          "sha256": "f64e4d190b2a65f08a853978d5400c23a65ff2622849c242029310b88d7fd8a5"
+        }
+      ],
+      "bundleSha256": "4c307e0a40705a03d3f7a19a72b07b6ae4995244959cd7afa79889eaa831deba",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "yason",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "03a193929adfb71054be41e71659b61a2bff9ae5cb26e218f9a78861f869c8a9",
+      "sourceReleases": [
+        {
+          "release": "alexandria-20241012-git",
+          "files": 22,
+          "sha256": "7657bf4a470bc3c5598e21343c1c40a545cdd839743857877a3c83fe68309b40"
+        },
+        {
+          "release": "yason-20250622-git",
+          "files": 4,
+          "sha256": "061a1fd2853ee342000605ac5dd5b25ba56ab370e515012b61c4fb488ab8d3ee"
+        }
+      ],
+      "bundleSha256": "677f39d7bc19917fa14c665ba688cfcbd24969cfee0d94e82fba9ed1cbebefbf",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "trivial-gray-streams",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "b8989bee4965dee2b6b398896bffa49ac60e54859f41716d4f0ec68dbdeded8e",
+      "sourceReleases": [],
+      "bundleSha256": "334a57a5785d4a72d9c5880c7d20fd1d3a7214e005e18637eaf6158018cd07ad",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "md5",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "5c837e2882cf69a53c06a8ac3db308d589a486e2e5bb01cb97cae1f378815ddc",
+      "sourceReleases": [
+        {
+          "release": "flexi-streams-20241012-git",
+          "files": 21,
+          "sha256": "4b5771e999f82ddfa34995b807961f767d1a52d35ca3914e0380ba9a9e587400"
+        },
+        {
+          "release": "md5-20210630-git",
+          "files": 2,
+          "sha256": "f17934bcb0b9dae16234b6bf5afcc2716c6a247861bf8b716300d4e6a9b21f48"
+        }
+      ],
+      "bundleSha256": "b682002b6cb29a932f647d6be44a24194640d863bf84094883b93207f00018c6",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "flexi-streams",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "bdfbc73561409572a636275b1157e43c0974e9b2e6ed44afaeb7b39d519a891d",
+      "sourceReleases": [
+        {
+          "release": "flexi-streams-20241012-git",
+          "files": 22,
+          "sha256": "cce3f086e538f923a427f9ce827624ef5b529a8c9fa37b310ec54ce21103d678"
+        }
+      ],
+      "bundleSha256": "c58796b416f8aa04e4704f3651d3ee1c4a6a972494d99b3ff5be2f61159e7a9a",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "bordeaux-threads",
+      "status": "failed",
+      "stage": "compile",
+      "testSha256": "a2489195333c21077d73adfba836fc2f26470558ca0ff5d8b5f3816e4d50b26c",
+      "diagnostic": "While evaluating the form starting at line 25, column 0\n  of #P\"/home/user/quicklisp/dists/quicklisp/software/bordeaux-threads-v0.9.4/bordeaux-threads.asd\":\n\ndebugger invoked on a LOAD-SYSTEM-DEFINITION-ERROR in thread #<THREAD tid=203817 \"main thread\" RUNNING {12019D0003}>: Error while trying to load definition for system bordeaux-threads from pathname /home/user/quicklisp/dists/quicklisp/software/bordeaux-threads-v0.9.4/bordeaux-threads.asd: This implementation is unsupported.\n\ndebugger invoked on a SIMPLE-ERROR in thread\n#<THREAD tid=203817 \"main thread\" RUNNING {12019D0003}>:\n  System \"bordeaux-threads\" is not found. Install its sources with Quicklisp or configure ASDF's source registry.\n\nError: Command failed: /home/user/src/valtan/valtan build smoke.system\nWhile evaluating the form starting at line 25, column 0\n  of #P\"/home/user/quicklisp/dists/quicklisp/software/bordeaux-threads-v0.9.4/bordeaux-threads.asd\":\n\ndebugger invoked on a LOAD-SYSTEM-DEFINITION-ERROR in thread #<THREAD tid=203817 \"main thread\" RUNNING {12019D0003}>: Error while trying to load definition for system bordeaux-threads from pathname /home/user/quicklisp/dists/quicklisp/software/bordeaux-threads-v0.9.4/bordeaux-threads.asd: This implementation is unsupported.\n\ndebugger invoked on a SIMPLE-ERROR in thread\n#<THREAD tid=203817 \"main thread\" RUNNING {12019D0003}>:\n  System \"bordeaux-threads\" is not found. Install its sources with Quicklisp or configure ASDF's source registry.\n"
+    },
+    {
+      "system": "let-plus",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "64e2a7d46114bcd63627094b4e2447460bdb23f9563bd0e1d3df906983e3c887",
+      "sourceReleases": [
+        {
+          "release": "alexandria-20241012-git",
+          "files": 22,
+          "sha256": "7657bf4a470bc3c5598e21343c1c40a545cdd839743857877a3c83fe68309b40"
+        },
+        {
+          "release": "anaphora-20220220-git",
+          "files": 4,
+          "sha256": "a14b8048b37481c396ff28bcb49b747cfc43150c658a3135d69afd05328bcec6"
+        },
+        {
+          "release": "let-plus-20191130-git",
+          "files": 4,
+          "sha256": "0ae68444f750672cbd8ef980d04afc845984b224b2c258857a494f4f1f00b272"
+        }
+      ],
+      "bundleSha256": "b3ba140b8ee801a39d721f9bba85835effa2c68efebce13dad27039d38113952",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "xsubseq",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "b278be167af5205455fdbc6ee4ee6c768dfccee49167de0e6c23870cfe64ac96",
+      "sourceReleases": [
+        {
+          "release": "xsubseq-20170830-git",
+          "files": 2,
+          "sha256": "2dd3b31ddbb09bd6b55d84c2660b48a9b977325c86c0cc60b03d1638f31d74d6"
+        }
+      ],
+      "bundleSha256": "ff340c0415b476eb7fcfe3839248b31d79894f8c2b6d7be45f7638855f4bb00d",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "cl-colors2",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "9857ee194fb0429fb6ccbd98d008ad5924fbbe27498ea36c0eacb7d7bb4c5d34",
+      "sourceReleases": [
+        {
+          "release": "alexandria-20241012-git",
+          "files": 22,
+          "sha256": "7657bf4a470bc3c5598e21343c1c40a545cdd839743857877a3c83fe68309b40"
+        },
+        {
+          "release": "cl-colors2-20250622-git",
+          "files": 8,
+          "sha256": "5666ea7667d590468a559a5f466368e026fe6750819927b0670959d1658b80e1"
+        },
+        {
+          "release": "cl-ppcre-20250622-git",
+          "files": 17,
+          "sha256": "f98b28a07e13843b60e277438052e48bc7f4b86a06c1c5b89609a386f67d6092"
+        },
+        {
+          "release": "parse-number-v1.8",
+          "files": 1,
+          "sha256": "050e75d0270450bc97f282c82628701cc667642616cf25216d44ce39d5e8f750"
+        }
+      ],
+      "bundleSha256": "ffdd2a85f1822ce83cff4a0f2225f5b501394ed665fdccc14fc929f87bc98b19",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "trivial-indent",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "e996513019cbf3bbc5e7297f924d92054737b4c17f1ce0fa44a84333e7841486",
+      "sourceReleases": [
+        {
+          "release": "trivial-indent-20260101-git",
+          "files": 2,
+          "sha256": "3ca98bb444ece74b8688cf033545357e37a8250a7fdce361ac6b479a34f2f79c"
+        }
+      ],
+      "bundleSha256": "244328ae567c6a11ac1511361cdfd785e6546f7ca59d64f1fb1d0956b9307bf2",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "chipz",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "81a65240a64d0a50eba435046a85aa9c2a62c119f16933c5c39179b75ef49e93",
+      "sourceReleases": [
+        {
+          "release": "chipz-20230618-git",
+          "files": 15,
+          "sha256": "47f7aebb760d29a4a85bfbfc769337c5434e882ce88afb7832e654c6703bcc0e"
+        }
+      ],
+      "bundleSha256": "19e0ae234216f7c99dcfd70ccb3b51f6550053eb40921bb7302692ab7059298b",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "salza2",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "8987e5a55800918091ab8a1ba91069e8f211c09aa44957166323ac9dd1678190",
+      "sourceReleases": [
+        {
+          "release": "chipz-20230618-git",
+          "files": 15,
+          "sha256": "47f7aebb760d29a4a85bfbfc769337c5434e882ce88afb7832e654c6703bcc0e"
+        },
+        {
+          "release": "salza2-2.1",
+          "files": 20,
+          "sha256": "b6892ab9fec0840f081cf366d75af3fc0ab20490c4db449b508ab435c44df511"
+        }
+      ],
+      "bundleSha256": "137317cc57ea5b8baa44dc0adf1e98b8a547454b11ddec12e9e889c4e3e711f5",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "trivial-features",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "8ecbb8ce75d0383433fb27f23f6c51c17ab2ecc8b3df2e997ee6518a1c0e4ccd",
+      "sourceReleases": [],
+      "bundleSha256": "60d1c6c329e6e3825edc9bff958e0777f4ca4cbc6daf5e0c0111795f57f1ec54",
+      "runtimeTimeoutSeconds": 1200
+    },
+    {
+      "system": "uiop",
+      "status": "passed",
+      "stage": "run",
+      "testSha256": "1c8f96e937846837c572e1409d5e56134e1ae181554156413e2c095d6a969c41",
+      "sourceReleases": [],
+      "bundleSha256": "6473abde50451060901e10f1d9049f59cee75914192f7918869472ec2ce29090",
+      "runtimeTimeoutSeconds": 1200
+    }
+  ],
+  "passed": 23,
+  "failed": 1
+}

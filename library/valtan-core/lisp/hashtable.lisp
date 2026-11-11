@@ -14,10 +14,27 @@
   buckets    ; vector of alists for equal/equalp, or nil for eq/eql
   (bucket-count 0)   ; number of buckets
   (keys nil)         ; list of all keys (for iteration)
-  (count 0)          ; number of entries
+  (entry-count 0)    ; number of strong entries
   (test 'eql :read-only t)
   (rehash-size 1.5 :read-only t)
-  (rehash-threshold 1.0 :read-only t))
+  (rehash-threshold 1.0 :read-only t)
+  (weakness nil :read-only t))
+
+(defun hash-table-count (hash-table)
+  (if (hash-table-weakness hash-table)
+      (system:map-length (hash-table-map hash-table))
+      (hash-table-entry-count hash-table)))
+
+(defun (cl:setf hash-table-count) (value hash-table)
+  (setf (hash-table-entry-count hash-table) value))
+
+(defun %hash-table-iteration-keys (hash-table)
+  (if (hash-table-weakness hash-table)
+      (let ((keys nil))
+        (system:map-foreach (hash-table-map hash-table)
+          (lambda (value key) (declare (ignore value)) (push key keys)))
+        keys)
+      (copy-list (hash-table-keys hash-table))))
 
 (defun %normalize-test (test)
   "Normalize hash table test to symbol name."
@@ -128,7 +145,7 @@
           (multiple-value-bind (old-value found)
               (system:map-get map key)
             (declare (ignore old-value))
-            (unless found
+            (unless (or found (hash-table-weakness hash-table))
               (push key (hash-table-keys hash-table))
               (incf (hash-table-count hash-table))))
           (system:map-set map key value))
@@ -161,9 +178,10 @@
           (declare (ignore value))
           (when found
             (system:map-remove map key)
-            (setf (hash-table-keys hash-table)
-                  (delete key (hash-table-keys hash-table) :test #'eq :count 1))
-            (decf (hash-table-count hash-table)))
+            (unless (hash-table-weakness hash-table)
+              (setf (hash-table-keys hash-table)
+                    (delete key (hash-table-keys hash-table) :test #'eq :count 1))
+              (decf (hash-table-count hash-table))))
           found)
         ;; equal/equalp: use bucket-based removal
         (let* ((buckets (hash-table-buckets hash-table))
@@ -183,7 +201,7 @@
               (return t)))))))
 
 (defun maphash (function hash-table)
-  (let ((keys (copy-list (hash-table-keys hash-table))))
+  (let ((keys (%hash-table-iteration-keys hash-table)))
     (dolist (key keys)
       (multiple-value-bind (value found)
           (gethash key hash-table)
@@ -192,7 +210,7 @@
   nil)
 
 (defun make-hash-table-iterator (hash-table)
-  (let ((keys (copy-list (hash-table-keys hash-table))))
+  (let ((keys (%hash-table-iteration-keys hash-table)))
     (lambda ()
       (do () ((null keys) (values nil))
         (let ((key (pop keys)))

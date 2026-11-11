@@ -12,5 +12,6 @@
                (:file "util")
                (:file "reader")
                (:file "system")
+               (:file "asdf")
                (:file "build")
                (:file "valtan-host")))

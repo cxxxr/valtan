@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-10T12:13:24.548Z",
+  "work": "/tmp/valtan-mcclim-gui-1Wdu0a",
+  "scope": "Real McCLIM application frame, Canvas rendering, gadget click and keyboard input in Chrome",
+  "compilerSha256": "000a29e436efba93bd926acb40820e1fd5c9902fb45ab77f7fa9d25b3bb5cd78",
+  "stage": "input",
+  "bundleSha256": "1149f55fa4f8bb460320c7eba37411a01ac25eb5845ecaa7b7148a11ca67dbc3",
+  "browserAssetsSha256": "f47ff489531f732a8026cde727d4e9fa74793340c5f401532cf6ba315704865a",
+  "canvas": {
+    "x": 25,
+    "y": 169.4375,
+    "width": 600,
+    "height": 280
+  },
+  "initialPixels": {
+    "opaque": 168000,
+    "nonWhite": 32030
+  },
+  "input": [
+    "push-button -> Counter: 1",
+    "keyboard + -> Counter: 2"
+  ],
+  "finishedAt": "2026-11-10T12:35:15.203Z",
+  "currentBuildVerification": {
+    "compilerSha256": "132a3c89bd8c1098e69b23c456cc266518e46daf66e3643a91435b61b4039ae3",
+    "testedBundleDirectory": "/tmp/valtan-mcclim-gui-1Wdu0a",
+    "currentBundleDirectory": "/tmp/valtan-mcclim-cache-bundle-Ut1Cjd",
+    "equivalentExceptSourcePathnames": true,
+    "normalizedBundleSha256": "aa1f0443629999c3f8784bc61541adf5c1474879438e5158545d91af66e66028"
+  },
+  "notes": [
+    "Actual upstream clim and drei-mcclim sources with :clim-without-swank; not a mock CLIM implementation.",
+    "The current compiler produces identical JavaScript after normalizing the temporary build directory in source pathnames.",
+    "This verifies the counter frame and its input handlers; it does not certify every McCLIM application or backend operation."
+  ],
+  "screenshots": [
+    "screenshots/initial.png",
+    "screenshots/after-input.png"
+  ]
+}

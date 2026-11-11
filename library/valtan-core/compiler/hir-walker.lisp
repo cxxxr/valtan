@@ -148,3 +148,7 @@
 
 (defun walk-hir (walker hir)
   (walk-hir-aux walker (hir-op hir) hir))
+
+(defmethod walk-hir-aux ((walker hir-walker) (op (eql 'load-time-value)) hir)
+  (walk-hir walker (hir-arg1 hir))
+  hir)

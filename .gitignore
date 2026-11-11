@@ -8,6 +8,7 @@ example/example.js
 
 # Build artifacts
 /valtan
+/.valtan-path
 /tests/dist-performance/
 quicklisp.lisp
 
@@ -15,3 +16,12 @@ quicklisp.lisp
 .direnv/
 result
 /lib/
+
+# Quicklisp compatibility test diagnostics
+/tests/quicklisp/*-logs/
+
+/tests/quicklisp/ppcre-results.log
+
+/tests/quicklisp/portability-results.log
+
+/tests/quicklisp/*.log

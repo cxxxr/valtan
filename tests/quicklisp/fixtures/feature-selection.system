@@ -1,0 +1,3 @@
+(defsystem "feature-selection"
+  :components ((:file "feature-selected" :if-feature :fixture-no-optional-backend)
+               (:file "missing-feature-backend" :if-feature (:not :fixture-no-optional-backend))))

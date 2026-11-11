@@ -36,6 +36,11 @@
   (:nicknames :*)
   (:use)
   (:export :+null+
+           :package-local-op
+           :add-package-local-nickname
+           :remove-package-local-nickname
+           :package-local-nicknames
+           :package-locally-nicknamed-by-list
            :format-control
            :number-print-string
            :parse-float-string
@@ -45,6 +50,7 @@
            :initialize-file-system
            :initialize-environment
            :environment-op
+           :weak-op
            :file-op
            :stream-closed-p
            :mark-stream-closed

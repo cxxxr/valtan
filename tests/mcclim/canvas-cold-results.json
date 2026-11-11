@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-10T14:42:27.478Z",
+  "scope": "Real upstream CLIM pattern, clipping and composite-design pixel assertions in Chrome; not full McCLIM compatibility",
+  "checksSha256": "3437e345f9ac1ddce6b5ef8d53de2c46199a230c8ec4915a6e2895d470f1cd25",
+  "work": "/tmp/valtan-mcclim-workbench-yH3pQ1",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-yH3pQ1",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-10T14:42:27.517Z",
+    "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "bundleSha256": "b30e39e9b771c1d3239a988c6a2cb67824c4af47056ccacd075395c5b5c25932",
+    "browserAssetsSha256": "fdeb2e226a7ea49987e31c0e7d96d018b1fe5df1668073d0b7a61a9e05ab3dd0",
+    "readyAt": "2026-11-10T15:03:33.598Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "canvas",
+        "startedAt": "2026-11-10T15:03:33.599Z",
+        "sourceSha256": "3437e345f9ac1ddce6b5ef8d53de2c46199a230c8ec4915a6e2895d470f1cd25",
+        "file": "/tmp/valtan-canvas-checks-cCZLh9/checks.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:PASSED 69)"
+        },
+        "finishedAt": "2026-11-10T15:03:41.798Z"
+      }
+    ],
+    "finishedAt": "2026-11-10T15:03:41.854Z"
+  },
+  "result": {
+    "type": "test-result",
+    "id": 1,
+    "ok": true,
+    "value": "(:PASSED 69)"
+  },
+  "finishedAt": "2026-11-10T15:03:41.879Z"
+}

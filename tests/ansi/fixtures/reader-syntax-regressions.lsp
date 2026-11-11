@@ -69,3 +69,27 @@
     (values (parse-integer " 12 ")
             (handler-case (parse-integer "!12") (parse-error () :invalid))))
   12 :invalid)
+
+(deftest recursive-reader-macros-skip-comments
+  (let ((*features* (cons :reader-test *features*)))
+    (values
+     (car (read-from-string (format nil "(#+reader-test ; comment~% 42)")))
+     (read-from-string (format nil "#.(or #+missing-reader-feature ; comment~% (error \"bad\") 7)"))
+     (car (read-from-string (format nil "(' ; comment~% hello)")))))
+  42 7 (quote hello))
+
+(deftest backquoted-vector-unquotes-and-splices
+  (let ((x 65) (tail '(128 200)))
+    (eval `(let ((x ,x) (tail ',tail))
+             ,(read-from-string "`#(,x ,@tail)"))))
+  #(65 128 200))
+
+(deftest backquoted-vectors-nest-and-preserve-bit-vectors
+  (eval (read-from-string "(let ((x 7)) `(#(,x #(,(1+ x))) #*101 \"abc\" #()))"))
+  (#(7 #(8)) #*101 "abc" #()))
+
+(deftest nested-backquoted-vector
+  (let* ((form (read-from-string "(let ((x 9)) ``#(,,x))"))
+         (expansion (eval form)))
+    (eval expansion))
+  #(9))

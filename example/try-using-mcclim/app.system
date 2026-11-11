@@ -1,0 +1,6 @@
+(defsystem "app"
+  :depends-on ("mcclim-load-trace" "mcclim-browser")
+  :components ((:file "main"))
+  :target :browser
+  :target-features (:clim-without-swank)
+  :compile-mode :runtime)

@@ -23,7 +23,10 @@
                           raw-result))))
 
 (defun bq-process (x)
-  (cond ((atom x)
+  (cond ((simple-vector-p x)
+         (list 'coerce (bq-process (coerce x 'list))
+               (list *bq-quote* 'simple-vector)))
+        ((atom x)
          (list *bq-quote* x))
         ((eq (car x) '*:backquote)
          (bq-process (bq-completely-process (cadr x))))

@@ -37,6 +37,7 @@ class Package {
         this.symbolTable = Object.create(null);
         this.exportTable = Object.create(null);
         this.shadowing = new Set();
+        this.localNicknames = new Map();
     }
 
     is(name) { return this.name === name || this.nicknames.includes(name); }
@@ -408,7 +409,12 @@ export function CL_deletePackage(pkgDesignator) {
     if (pkg.name === null) return values1(S_nil);
     const index = packages.indexOf(pkg);
     if (index < 0) return values1(S_nil);
-    for (const p of packages) p.useList = p.useList.filter(used => used !== pkg);
+    for (const p of packages) {
+        p.useList = p.useList.filter(used => used !== pkg);
+        for (const [name, target] of p.localNicknames) {
+            if (target === pkg) p.localNicknames.delete(name);
+        }
+    }
     for (const symbol of Object.values(pkg.symbolTable)) {
         if (symbol.packageName === pkg.name) symbol.packageName = null;
     }
@@ -419,7 +425,21 @@ export function CL_deletePackage(pkgDesignator) {
     pkg.symbolTable = Object.create(null);
     pkg.exportTable = Object.create(null);
     pkg.shadowing.clear();
+    pkg.localNicknames.clear();
     return values1(S_t);
+}
+
+export function CL_packageLocalOperation(operation, owner, name, target) {
+    const pkg = ensurePackage(owner);
+    switch (operation) {
+        case 'find': return values1(pkg.localNicknames.get(name) ?? S_nil);
+        case 'add': pkg.localNicknames.set(name, ensurePackage(target)); return values1(pkg);
+        case 'remove': return values1(toLispBoolean(pkg.localNicknames.delete(name)));
+        case 'list': return values1([...pkg.localNicknames.entries()]);
+        case 'users': return values1(jsArrayToList(packages.filter(p =>
+            [...p.localNicknames.values()].includes(pkg))));
+        default: simpleError(`Unknown package-local operation ${operation}`);
+    }
 }
 
 export function CL_packageUsedByList(pkgDesignator) {

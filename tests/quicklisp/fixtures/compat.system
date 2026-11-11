@@ -1,0 +1,6 @@
+(defsystem "compat"
+  :depends-on ("fixture-utils" "fixture-utils/sub" "feature-selection")
+  :compile-mode :runtime
+  :target :node
+  :target-features (:fixture-no-optional-backend)
+  :components ((:file "main")))

@@ -1,0 +1,4 @@
+(defsystem "mcclim-browser"
+  :depends-on ("mcclim-portability" "clim")
+  :serial t
+  :components ((:file "package") (:file "queues") (:file "port") (:file "medium")))

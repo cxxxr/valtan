@@ -422,3 +422,7 @@
     '(block nil
       (tagbody
         (lambda () (return nil))))))
+
+(define-hir-optimizer load-time-value (hir)
+  (setf (hir-arg1 hir) (hir-optimize (hir-arg1 hir)))
+  hir)

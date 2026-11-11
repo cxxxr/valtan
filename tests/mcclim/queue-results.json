@@ -1,0 +1,16 @@
+{
+  "system": "clim-core/silex",
+  "scope": "Load and supplied API assertions; GUI verification is separate",
+  "timestamp": "2026-11-10T14:30:15.007Z",
+  "complete": true,
+  "status": "passed",
+  "work": "/tmp/valtan-mcclim-kVsIzl",
+  "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+  "target": "node",
+  "extraSystems": [],
+  "targetFeatures": [],
+  "checksSha256": "de9e0a805abab11b13d4d614592c1bbb39066333c85a241576addf97f0abb163",
+  "stage": "run",
+  "bundleSha256": "c772a1c319f6d2473b98d3c23dde705b5385a354f56422856e178b5e9bbf1fd4",
+  "finishedAt": "2026-11-10T14:39:40.662Z"
+}

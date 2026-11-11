@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "complete": true,
+  "scope": "19 upstream algebra results from the older partial McCLIM test-system run; not a full-suite pass or a rerun on the newest compiler",
+  "observedAt": "2026-11-10T15:24:32.855404+00:00",
+  "startup": {
+    "work": "/tmp/valtan-mcclim-workbench-D21R5a",
+    "status": "ready",
+    "complete": false,
+    "startedAt": "2026-11-10T12:56:08.519Z",
+    "compilerSha256": "454d9e512f6b3ec53b6ab643ff1f4860997b0465637f891e916d69d24680ab1c",
+    "bundleSha256": "9e67189f3ea14e85d90874a346bab45d1be9bed5562b99dfc01ccc91fa470ccd",
+    "browserAssetsSha256": "084bd9dbfeadf523480532e5863c326e58c99162d79e0de1b444496d9fcceff6",
+    "readyAt": "2026-11-10T13:18:17.262Z"
+  },
+  "loadRequestSha256": "0e711e0908dc48a3cc4574bc551bc6fb355ef02fe6a6db55ee4527bedc86af5d",
+  "loadResult": {
+    "type": "test-result",
+    "id": 7,
+    "ok": true,
+    "value": "(((\"Backends/Null/package.lisp\" :LOADED) (\"Backends/Null/port.lisp\" :LOADED) (\"Backends/Null/medium.lisp\" :LOADED) (\"Backends/Null/graft.lisp\" :LOADED) (\"Backends/Null/frame-manager.lisp\" :LOADED) (\"Tests/util/package.lisp\" :LOADED) (\"Tests/util/test-page.lisp\" :LOADED) (\"Tests/package.lisp\" :LOADED) (\"Tests/utils.lisp\" :LOADED) (\"Tests/input-editing.lisp\" :LOADED) (\"Tests/commands.lisp\" :LOADED) (\"Tests/text-selection.lisp\" :LOADED) (\"Tests/text-formatting.lisp\" :LOADED) (\"Tests/text-styles.lisp\" :LOADED) (\"Tests/setf-star.lisp\" :FAILED \"Unknown &KEY argument\") (\"Tests/dynamic-vars.lisp\" :FAILED \"Package BT does not exist.\") (\"Tests/geometry/transforms.lisp\" :LOADED) (\"Tests/geometry/regions.lisp\" :LOADED) (\"Tests/geometry/bounding-rectangles.lisp\" :LOADED) (\"Tests/geometry/algebra.lisp\" :LOADED) (\"Tests/drawing/medium.lisp\" :LOADED) (\"Tests/drawing/design.lisp\" :LOADED) (\"Tests/drawing/bezier.lisp\" :FAILED \"Package MCCLIM-BEZIER does not exist.\") (\"Tests/extended-streams/stream-input.lisp\" :LOADED) (\"Tests/extended-streams/gestures.lisp\" :LOADED) (\"Tests/extended-streams/recording.lisp\" :LOADED) (\"Tests/presentations/presentation-types.lisp\" :LOADED) (\"Tests/presentations/presentation-functions.lisp\" :LOADED) (\"Tests/presentations/presentation-inheritance.lisp\" :LOADED) (\"Tests/presentations/translators.lisp\" :LOADED) (\"Tests/presentations/standard-presentations.lisp\" :LOADED) (\"Tests/frames/define-application-frame.lisp\" :LOADED)))"
+  },
+  "wholeRunResult": {
+    "type": "test-result",
+    "id": 11,
+    "ok": true,
+    "value": "(1609 1602 7)"
+  },
+  "algebraResult": {
+    "type": "test-result",
+    "id": 13,
+    "ok": true,
+    "value": "((19 19 ((CLIM-TESTS::ALGEBRA.FUNDAMENTAL.IDENTITY IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMPLEMENT IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMMUTATIVITY IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.FUNDAMENTAL.ASSOCIATIVITY IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.FUNDAMENTAL.DISTRIBUTIVITY IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.IDEMPOTENT IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.DOMINATION IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.ABSORPTION IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.DE-MORGAN IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.INVOLUTION IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.UNIVERSAL-AND-EMPTY IT.BESE.FIVEAM::TEST-PASSED) (CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.UNIVERSAL-AND-EMPTY IT.BESE.FIVEAM::TEST-PASSED) (CLIM-TESTS::ALGEBRA.EXTRA/UNIQUENESS-OF-COMPLEMENTS IT.BESE.FIVEAM::TEST-PASSED) (CLIM-TESTS::ALGEBRA.INCLUSION.REFLEXIVITY IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.INCLUSION.ASSYMETRY IT.BESE.FIVEAM::TEST-PASSED) (CLIM-TESTS::ALGEBRA.INCLUSION.TRANSITIVITY IT.BESE.FIVEAM::TEST-PASSED) (CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-LEAST-GREATEST IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-JOINS IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED) (CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-MEETS IT.BESE.FIVEAM::FOR-ALL-TEST-PASSED))))"
+  },
+  "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/algebra.lisp",
+  "sourceSha256": "d9160d5b082db0fc6ab6c7a7e58ef0fdf62d9d5ebf3e59e85f12a24390ab2983",
+  "results": 19,
+  "passed": 19,
+  "nonPassed": 0
+}

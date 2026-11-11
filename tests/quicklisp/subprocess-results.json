@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "complete": true,
+  "recordedAt": "2026-11-10T14:53:07.042806+00:00",
+  "scope": "Synchronous UIOP subprocess execution and I/O in Node; portable helpers and explicit unsupported-operation behavior in a browser VM without Node APIs. Not asynchronous process support or a real-browser subprocess test.",
+  "command": "node --test tests/quicklisp/portability.test.mjs",
+  "groups": {
+    "passed": 2,
+    "failed": 0
+  },
+  "compilerRegressions": {
+    "passed": 50,
+    "failed": 0,
+    "logSha256": "75c06b62d8eeeeef32792074efb6f18b32780868262a5064afb82db23e1ffcb2"
+  },
+  "sourceSha256": {
+    "kernel/environment.js": "87fd10ae09749d36a7a85f908c65c942706c33432b0fcadfd18d966ae900f8ce",
+    "library/valtan-core/lisp/target-system-defs.lisp": "101582fc071dd8041e0ebcf3b4fc352fb800797f69cfe6f68b3fc023818987a8",
+    "library/portability/uiop/launch-program.lisp": "d67825c0caa2604796929755fc33e50941358f46ac239244d383bf7b5d9e6227",
+    "library/portability/uiop/run-program.lisp": "6603b1fecbe3bb0bd381649ecca203f5cdec72f1ca357bf0dd6c0d375c87b557",
+    "library/portability/uiop/valtan-run-program.lisp": "8773bc11904085852025287f2d1c790704cb4d885dd2a6ce92a2a1faeb11627d",
+    "library/portability/uiop.asd": "4b2047225bf6b7b65fa4efdc82e6e91305c5a70b512c3c97fb23167b823a7a7b",
+    "library/portability/uiop/driver.lisp": "6e83464842cd9dc82e29bef5fa882f0adc8c50508596838599e66d4c4682e13b",
+    "tests/quicklisp/portability.test.mjs": "14ee82539c9440bc0319d23de435361e057d501cdc944ae7d45b0e5da789f5a9",
+    "tests/quicklisp/subprocess-checks.lisp": "090bc5c5793c3b3cba3e10eecc14668d4f70765e036c930e817c0608bdc6be05"
+  },
+  "logSha256": "e9a6f9243749188d88e6c5e7f14778fd6d03bd7be8c589bab2638428a6fae695"
+}

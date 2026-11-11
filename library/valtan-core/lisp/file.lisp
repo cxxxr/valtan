@@ -56,7 +56,10 @@
       (let ((handle (*:file-op :open (*:array-to-raw-string (%file-namestring pathname)) pathname
                               direction if-exists if-does-not-exist bytes signed)))
         (when handle
-          (let ((stream (%make-file-stream :handle handle :pathname pathname :element-type type :direction direction)))
+          (let* ((limit (unless (zerop bytes) (ash 1 (- (* bytes 8) (if signed 1 0)))))
+                 (stream (%make-file-stream :handle handle :pathname pathname :element-type type :direction direction
+                                            :byte-minimum (and limit (if signed (- limit) 0))
+                                            :byte-maximum (and limit (1- limit)))))
             (when (eq direction :probe) (close stream))
             stream))))))
 

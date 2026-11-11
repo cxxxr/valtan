@@ -1,0 +1,18 @@
+(in-package :cl-ppcre-test)
+
+(defun upstream-test-count (name)
+  (with-open-file (input (make-pathname :name name :type nil :defaults *this-file*)
+                         :element-type 'flex:octet)
+    (let ((stream (flex:make-flexi-stream input :external-format '(:latin-1 :eol-style :lf))))
+      (loop for form = (read stream nil nil) while form count t))))
+
+(let ((success t))
+  (flet ((report (name result count skipped)
+           (format t "~%PPCRE-SUITE ~A ~A ~D ~D~%" name (if result "passed" "failed") count skipped)
+           (force-output)
+           (unless result (setq success nil))))
+    (report "simple" (simple-tests) (upstream-test-count "simple") 0)
+    (report "perl" (perl-test) (upstream-test-count "perltestdata") (length *tests-to-skip*))
+    (report "optimized-character-tests" (test-optimized-test-functions) 5 0))
+  (assert success))
+(write-line "PPCRE-UPSTREAM-PASS")

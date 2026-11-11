@@ -1,0 +1,315 @@
+{
+  "status": "passed",
+  "complete": true,
+  "recordedAt": "2026-11-10T14:42:28.633056+00:00",
+  "scope": "69 real upstream CLIM-to-Canvas pixel and text-mask checks in Chrome after recorded backend source reloads; not a cold-start or full McCLIM result",
+  "startup": {
+    "work": "/tmp/valtan-mcclim-workbench-6JB6u3",
+    "status": "ready",
+    "complete": false,
+    "startedAt": "2026-11-10T13:50:25.895Z",
+    "compilerSha256": "341a1a746cb84775a1f9f1d372d0348ee6af874a5a03d163dad9da2ca42754d3",
+    "bundleSha256": "96ee789f62cb51df1a5e9f8a9c0810afd12954d3a1cff9b2dc8d41e7878c0bf0",
+    "browserAssetsSha256": "fdeb2e226a7ea49987e31c0e7d96d018b1fe5df1668073d0b7a61a9e05ab3dd0",
+    "readyAt": "2026-11-10T14:12:23.023Z"
+  },
+  "evaluations": [
+    {
+      "id": 1,
+      "commandId": 1,
+      "startedAt": "2026-11-10T14:13:04.580Z",
+      "sourceSha256": "26516101b952447a214c201e87e9587239fbb22bc786a8b6a99595dcc7e3ed3c",
+      "file": "/home/user/src/valtan/tests/mcclim/canvas-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 1,
+        "ok": true,
+        "value": "(:PASSED 40)"
+      },
+      "finishedAt": "2026-11-10T14:13:07.434Z"
+    },
+    {
+      "id": 2,
+      "commandId": 2,
+      "startedAt": "2026-11-10T14:14:16.884Z",
+      "sourceSha256": "9d628f6eebfd1fca76707f4118a23b3d1d58a2fcb6d2c857a7953854f1baa162",
+      "file": "/tmp/valtan-browser-fiveam-load.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 2,
+        "ok": true,
+        "value": "(T)"
+      },
+      "finishedAt": "2026-11-10T14:14:41.576Z"
+    },
+    {
+      "id": 3,
+      "commandId": 3,
+      "startedAt": "2026-11-10T14:14:48.563Z",
+      "sourceSha256": "0e711e0908dc48a3cc4574bc551bc6fb355ef02fe6a6db55ee4527bedc86af5d",
+      "file": "/tmp/valtan-browser-mcclim-tests-load.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 3,
+        "ok": true,
+        "value": "(((\"Backends/Null/package.lisp\" :LOADED) (\"Backends/Null/port.lisp\" :LOADED) (\"Backends/Null/medium.lisp\" :LOADED) (\"Backends/Null/graft.lisp\" :LOADED) (\"Backends/Null/frame-manager.lisp\" :LOADED) (\"Tests/util/package.lisp\" :LOADED) (\"Tests/util/test-page.lisp\" :LOADED) (\"Tests/package.lisp\" :LOADED) (\"Tests/utils.lisp\" :LOADED) (\"Tests/input-editing.lisp\" :LOADED) (\"Tests/commands.lisp\" :LOADED) (\"Tests/text-selection.lisp\" :LOADED) (\"Tests/text-formatting.lisp\" :LOADED) (\"Tests/text-styles.lisp\" :LOADED) (\"Tests/setf-star.lisp\" :LOADED) (\"Tests/dynamic-vars.lisp\" :FAILED \"Package BT does not exist.\") (\"Tests/geometry/transforms.lisp\" :LOADED) (\"Tests/geometry/regions.lisp\" :LOADED) (\"Tests/geometry/bounding-rectangles.lisp\" :LOADED) (\"Tests/geometry/algebra.lisp\" :LOADED) (\"Tests/drawing/medium.lisp\" :LOADED) (\"Tests/drawing/design.lisp\" :LOADED) (\"Tests/drawing/bezier.lisp\" :FAILED \"Package MCCLIM-BEZIER does not exist.\") (\"Tests/extended-streams/stream-input.lisp\" :LOADED) (\"Tests/extended-streams/gestures.lisp\" :LOADED) (\"Tests/extended-streams/recording.lisp\" :LOADED) (\"Tests/presentations/presentation-types.lisp\" :LOADED) (\"Tests/presentations/presentation-functions.lisp\" :LOADED) (\"Tests/presentations/presentation-inheritance.lisp\" :LOADED) (\"Tests/presentations/translators.lisp\" :LOADED) (\"Tests/presentations/standard-presentations.lisp\" :LOADED) (\"Tests/frames/define-application-frame.lisp\" :LOADED)))"
+      },
+      "finishedAt": "2026-11-10T14:16:10.105Z"
+    },
+    {
+      "id": 4,
+      "commandId": 4,
+      "startedAt": "2026-11-10T14:17:30.232Z",
+      "sourceSha256": "872b033a4dfc1514b55601ebc0500889662e4cccfa188ef8903ac4ad8b9b8a2d",
+      "file": "/tmp/valtan-mcclim-suites.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 4,
+        "ok": true,
+        "value": "(((:MCCLIM.UTILS 18 18 NIL) (:MCCLIM.INPUT-EDITING 15 15 NIL) (:MCCLIM.COMMANDS 116 114 ((CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.NO-MENU \"\n(COMMAND-MENU-ITEM-VALUE ITEM)\n\n evaluated to \n\n(COM-TEST-COMMAND)\n\n which is not \n\nEQUAL\n\n to \n\n(#\\\\t)\n\n\") (CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.MENU \"\n(COMMAND-MENU-ITEM-VALUE ITEM)\n\n evaluated to \n\n(COM-TEST-COMMAND)\n\n which is not \n\nEQUAL\n\n to \n\n(#\\\\u)\n\n\"))) (:MCCLIM.TEXT-SELECTION 13 13 NIL) (:MCCLIM.TEXT-STYLES 41 41 NIL) (:MCCLIM.SETF-STAR 9 9 NIL) (:MCCLIM.TRANSFORMS 77 77 NIL) (:MCCLIM.REGIONS 316 316 NIL) (:MCCLIM.BOUNDING-RECTANGLES 69 69 NIL) (:MCCLIM.DRAWING 10 10 NIL) (:MCCLIM.DESIGN 9 9 NIL) (:MCCLIM.EXTENDED-STREAMS.STREAM-INPUT 13 12 ((CLIM-TESTS::STREAM-READ-GESTURE.SMOKE \"Unexpected Error: #<SIMPLE-ERROR {14975}>\nNo applicable method for #<Function PROCESS-NEXT-EVENT> with arguments (NIL :TIMEOUT 0 :WAIT-FUNCTION NIL)..\"))) (:MCCLIM.GESTURES 83 83 NIL) (:MCCLIM.RECORDING 19 19 NIL) (:MCCLIM.PRESENTATIONS 756 752 ((CLIM-TESTS::PRESENTATIONS.TYPE-PARAMETERS.SMOKE \"Unexpected Error: #<TYPE-ERROR {15526}>\nThe value #<STANDARD-CLASS CLASS-PRESENTATION-TYPE> is not of the expected type SYMBOL.\") (CLIM-TESTS::PRESENTATIONS.TYPE-OPTIONS.SMOKE \"Unexpected Error: #<TYPE-ERROR {15529}>\nThe value #<STANDARD-CLASS CLASS-PRESENTATION-TYPE> is not of the expected type SYMBOL.\") (CLIM-TESTS::PTI.0003.INHERITANCE-VALIDITY \"Unexpected Error: #<SIMPLE-ERROR {15602}>\nAND in :INHERIT-FROM only supports classes, not AND..\") (CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.ACCEPT \"Unexpected Error: #<FILE-ERROR {16024}>\nFile operations are unavailable on this host: *.*.\"))) (:MCCLIM.PRESENTATION-TRANSLATORS 25 25 NIL) (:MCCLIM.PRESENTATIONS.STANDARD-PRESENTATIONS 318 317 ((CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.ACCEPT \"Unexpected Error: #<FILE-ERROR {16687}>\nFile operations are unavailable on this host: *.*.\"))) (:MCCLIM.FRAMES 7 7 NIL)))"
+      },
+      "finishedAt": "2026-11-10T14:17:55.558Z"
+    },
+    {
+      "id": 5,
+      "commandId": 5,
+      "startedAt": "2026-11-10T14:20:14.876Z",
+      "sourceSha256": "93f98785272d34c39f48644b1a21a79bc5c9e008b2c8477c5215ac0ed2ce6f7c",
+      "result": {
+        "type": "test-result",
+        "id": 5,
+        "ok": true,
+        "value": "(((CLIM-TESTS::PRESENTATIONS.TYPE-PARAMETERS.SMOKE 5 5) (CLIM-TESTS::PRESENTATIONS.TYPE-OPTIONS.SMOKE 5 5) (CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.NO-MENU 3 2) (CLIM-TESTS::COMMANDS.MAP-OVER-COMMAND-TABLE-KEYSTROKES.MENU 3 2)))"
+      },
+      "finishedAt": "2026-11-10T14:20:15.387Z"
+    },
+    {
+      "id": 6,
+      "commandId": 6,
+      "startedAt": "2026-11-10T14:20:28.766Z",
+      "sourceSha256": "30f46966b2250390bfbdd4a714c207d2a1068a66539d05a1f8ba2d03a06bb00e",
+      "result": {
+        "type": "test-result",
+        "id": 6,
+        "ok": true,
+        "value": "(((IT.BESE.FIVEAM::UNEXPECTED-TEST-FAILURE \"Unexpected Error: #<SIMPLE-ERROR {16944}>\nNo applicable method for #<Function COMMAND-ENABLED> with arguments (COM-TEST-COMMAND NIL)..\") (IT.BESE.FIVEAM::TEST-PASSED \"no reason given\") (IT.BESE.FIVEAM::TEST-PASSED \"no reason given\")))"
+      },
+      "finishedAt": "2026-11-10T14:20:28.972Z"
+    },
+    {
+      "id": 7,
+      "commandId": 7,
+      "startedAt": "2026-11-10T14:21:05.376Z",
+      "sourceSha256": "ed1c15db4688b24d4c121a7704dba4cd4de84aec02d9f2dee5a3ba5548bcbd8f",
+      "file": "/tmp/valtan-mcclim-suites-default-frame.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 7,
+        "ok": true,
+        "value": "(((:MCCLIM.UTILS 18 18 NIL) (:MCCLIM.INPUT-EDITING 15 15 NIL) (:MCCLIM.COMMANDS 116 116 NIL) (:MCCLIM.TEXT-SELECTION 13 13 NIL) (:MCCLIM.TEXT-STYLES 41 41 NIL) (:MCCLIM.SETF-STAR 9 9 NIL) (:MCCLIM.TRANSFORMS 77 77 NIL) (:MCCLIM.REGIONS 316 316 NIL) (:MCCLIM.BOUNDING-RECTANGLES 69 69 NIL) (:MCCLIM.DRAWING 10 10 NIL) (:MCCLIM.DESIGN 9 9 NIL) (:MCCLIM.EXTENDED-STREAMS.STREAM-INPUT 13 12 ((CLIM-TESTS::STREAM-READ-GESTURE.SMOKE \"Unexpected Error: #<SIMPLE-ERROR {19803}>\nNo applicable method for #<Function PROCESS-NEXT-EVENT> with arguments (NIL :TIMEOUT 0 :WAIT-FUNCTION NIL)..\"))) (:MCCLIM.GESTURES 83 83 NIL) (:MCCLIM.RECORDING 19 19 NIL) (:MCCLIM.PRESENTATIONS 762 760 ((CLIM-TESTS::PTI.0003.INHERITANCE-VALIDITY \"Unexpected Error: #<SIMPLE-ERROR {20424}>\nAND in :INHERIT-FROM only supports classes, not AND..\") (CLIM-TESTS::STANDARD-PRESENTATIONS.PATHNAME.ACCEPT \"Unexpected Error: #<FILE-ERROR {20846}>\nFile operations are unavailable on this host: *.*.\"))) (:MCCLIM.PRESENTATION-TRANSLATORS 25 25 NIL) (:MCCLIM.FRAMES 7 7 NIL)))"
+      },
+      "finishedAt": "2026-11-10T14:21:27.068Z"
+    },
+    {
+      "id": 8,
+      "commandId": 8,
+      "startedAt": "2026-11-10T14:25:20.729Z",
+      "sourceSha256": "3a5bf45fbd9ae159561b8d44deb2a5110bd693721f864bead6c7b706cbc379e5",
+      "file": "/tmp/valtan-compile-recovery.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 8,
+        "ok": true,
+        "value": "(COMPILE)"
+      },
+      "finishedAt": "2026-11-10T14:25:21.240Z"
+    },
+    {
+      "id": 9,
+      "commandId": 9,
+      "startedAt": "2026-11-10T14:26:08.991Z",
+      "sourceSha256": "2ab2c984c24b8dff18997b683532893741e0cb31dab71f05c371238910c16141",
+      "result": {
+        "type": "test-result",
+        "id": 9,
+        "ok": true,
+        "value": "((16 16 NIL))"
+      },
+      "finishedAt": "2026-11-10T14:26:10.013Z"
+    },
+    {
+      "id": 10,
+      "commandId": 10,
+      "startedAt": "2026-11-10T14:28:39.797Z",
+      "sourceSha256": "7f11885ce29893faa112c30bc9deb3f0a41671650acfa0e3aa29cf9a2ae2dfaa",
+      "file": "/home/user/src/valtan/library/mcclim-browser/queues.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 10,
+        "ok": true,
+        "value": "(#<STANDARD-METHOD CLIM-INTERNALS::QUEUE-LISTEN (#<STANDARD-CLASS SIMPLE-QUEUE>)>)"
+      },
+      "finishedAt": "2026-11-10T14:28:40.817Z"
+    },
+    {
+      "id": 11,
+      "commandId": 11,
+      "startedAt": "2026-11-10T14:29:13.256Z",
+      "sourceSha256": "aeaa918590e7f85e3596d31b3468fd5cf5a2457ab42f2661f3b3fa3b910e42bf",
+      "file": "/home/user/src/valtan/tests/mcclim/queue-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 11,
+        "ok": true,
+        "value": "(\"PORTLESS-QUEUE-PASS\")"
+      },
+      "finishedAt": "2026-11-10T14:29:13.968Z"
+    },
+    {
+      "id": 12,
+      "commandId": 12,
+      "startedAt": "2026-11-10T14:29:22.844Z",
+      "sourceSha256": "a49244e4a77abc3945cb02e7b5286feeae0e8c357e8f1bb7603cdb65f1f833ba",
+      "result": {
+        "type": "test-result",
+        "id": 12,
+        "ok": true,
+        "value": "((16 16 NIL))"
+      },
+      "finishedAt": "2026-11-10T14:29:23.151Z"
+    },
+    {
+      "id": 13,
+      "commandId": 25,
+      "startedAt": "2026-11-10T14:38:19.670Z",
+      "sourceSha256": "5a786f03e86b3008202e882d5f7715c4c622f49368b9894486291989e7238f89",
+      "file": "/home/user/src/valtan/tests/mcclim/canvas-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 13,
+        "ok": false,
+        "error": "No applicable method for #<Function COLOR-RGBA> with arguments (#<IN-COMPOSITUM :INK #<NAMED-COLOR \"red\"> :MASK #<STANDARD-BOUNDING-RECTANGLE X 4.00:12.00 Y 4.00:12.00>>)."
+      },
+      "finishedAt": "2026-11-10T14:38:24.975Z"
+    },
+    {
+      "id": 14,
+      "commandId": 26,
+      "startedAt": "2026-11-10T14:38:36.701Z",
+      "sourceSha256": "52b543cb8b136d0bd58fdc1a16285799b401a0ea351cc67ce2ffbef15d0945c6",
+      "file": "/home/user/src/valtan/library/mcclim-browser/medium.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 14,
+        "ok": true,
+        "value": "(#<STANDARD-METHOD MEDIUM-COPY-AREA (#<STANDARD-CLASS BROWSER-PIXMAP> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<STANDARD-CLASS BROWSER-PIXMAP> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T>)>)"
+      },
+      "finishedAt": "2026-11-10T14:38:43.841Z"
+    },
+    {
+      "id": 15,
+      "commandId": 27,
+      "startedAt": "2026-11-10T14:38:53.523Z",
+      "sourceSha256": "5a786f03e86b3008202e882d5f7715c4c622f49368b9894486291989e7238f89",
+      "file": "/home/user/src/valtan/tests/mcclim/canvas-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 15,
+        "ok": false,
+        "error": "Pixel (6,6): expected (0 0 0 0), got (255 0 0 255)"
+      },
+      "finishedAt": "2026-11-10T14:38:58.851Z"
+    },
+    {
+      "id": 16,
+      "commandId": 28,
+      "startedAt": "2026-11-10T14:39:22.753Z",
+      "sourceSha256": "4a1bed4a53e7dcf0a8d1d851645628e7edbe8fa0da726cfdbf1b8ea176f647ba",
+      "result": {
+        "type": "test-result",
+        "id": 16,
+        "ok": true,
+        "value": "(54)"
+      },
+      "finishedAt": "2026-11-10T14:39:22.858Z"
+    },
+    {
+      "id": 17,
+      "commandId": 29,
+      "startedAt": "2026-11-10T14:40:05.742Z",
+      "sourceSha256": "38076adb2a5c2d223659dbc639a7190b011469aee6657ba53b8e50f54fccf2cd",
+      "file": "/home/user/src/valtan/library/mcclim-browser/medium.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 17,
+        "ok": true,
+        "value": "(#<STANDARD-METHOD MEDIUM-COPY-AREA (#<STANDARD-CLASS BROWSER-PIXMAP> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<STANDARD-CLASS BROWSER-PIXMAP> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T>)>)"
+      },
+      "finishedAt": "2026-11-10T14:40:12.595Z"
+    },
+    {
+      "id": 18,
+      "commandId": 30,
+      "startedAt": "2026-11-10T14:40:12.595Z",
+      "sourceSha256": "6d29d80329aec2f8ff02dac4416d90f310d6a0546f905f9e7adbc5e2e72b19ec",
+      "file": "/home/user/src/valtan/tests/mcclim/canvas-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 18,
+        "ok": true,
+        "value": "(:PASSED 65)"
+      },
+      "finishedAt": "2026-11-10T14:40:17.801Z"
+    },
+    {
+      "id": 19,
+      "commandId": 31,
+      "startedAt": "2026-11-10T14:41:15.973Z",
+      "sourceSha256": "a2afbdc1dd2c97d3148ec8e5980b8e6fdf47196489f839b9098af7969954bcf0",
+      "file": "/home/user/src/valtan/tests/mcclim/canvas-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 19,
+        "ok": false,
+        "error": "The assertion (EQUAL VALTAN-CANVAS-CHECKS::REFERENCE (LOOP VALTAN-CANVAS-CHECKS::FOR VALTAN-CANVAS-CHECKS::Y VALTAN-CANVAS-CHECKS::BELOW 20 APPEND (LOOP VALTAN-CANVAS-CHECKS::FOR VALTAN-CANVAS-CHECKS::X VALTAN-CANVAS-CHECKS::BELOW 20 VALTAN-CANVAS-CHECKS::COLLECT (VALTAN-CANVAS-CHECKS::PIXEL VALTAN-CANVAS-CHECKS::SURFACE VALTAN-CANVAS-CHECKS::X VALTAN-CANVAS-CHECKS::Y)))) failed."
+      },
+      "finishedAt": "2026-11-10T14:41:23.438Z"
+    },
+    {
+      "id": 20,
+      "commandId": 32,
+      "startedAt": "2026-11-10T14:41:39.315Z",
+      "sourceSha256": "104f7905f032127542644de20dc2c7d935ab25d38b0533619395caec9ea673a3",
+      "file": "/tmp/valtan-composite-text-diagnostic.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 20,
+        "ok": true,
+        "value": "(((4 4 (255 0 0 101) (255 0 0 116)) (6 4 (255 0 0 221) (255 0 0 226)) (4 5 (255 0 0 101) (255 0 0 115)) (5 5 (255 0 0 212) (255 0 0 218)) (6 5 (255 0 0 247) (255 0 0 248)) (7 5 (255 0 0 49) (255 0 0 62)) (11 5 (255 0 0 53) (255 0 0 67)) (4 6 (255 0 0 101) (255 0 0 116)) (5 6 (255 0 0 218) (255 0 0 223)) (6 6 (255 0 0 170) (255 0 0 181)) (7 6 (255 0 0 140) (255 0 0 153)) (11 6 (255 0 0 144) (255 0 0 157)) (4 7 (255 0 0 101) (255 0 0 116)) (5 7 (255 0 0 229) (255 0 0 233)) (6 7 (255 0 0 83) (255 0 0 97)) (7 7 (255 0 0 229) (255 0 0 233)) (8 7 (255 0 0 1) (255 0 0 2)) (10 7 (255 0 0 3) (255 0 0 6)) (11 7 (255 0 0 234) (255 0 0 237)) (4 8 (255 0 0 101) (255 0 0 116)) (5 8 (255 0 0 238) (255 0 0 241)) (6 8 (255 0 0 5) (255 0 0 9)) (7 8 (255 0 0 238) (255 0 0 241)) (8 8 (255 0 0 68) (255 0 0 83)) (10 8 (255 0 0 73) (255 0 0 87)) (11 8 (255 0 0 231) (255 0 0 235)) (4 9 (255 0 0 101) (255 0 0 116)) (5 9 (255 0 0 240) (255 0 0 242)) (7 9 (255 0 0 151) (255 0 0 163)) (8 9 (255 0 0 159) (255 0 0 170)) (10 9 (255 0 0 163) (255 0 0 174)) (11 9 (255 0 0 139) (255 0 0 152)) (4 10 (255 0 0 101) (255 0 0 116)) (5 10 (255 0 0 240) (255 0 0 242)) (7 10 (255 0 0 55) (255 0 0 69)) (8 10 (255 0 0 242) (255 0 0 244)) (9 10 (255 0 0 10) (255 0 0 17)) (10 10 (255 0 0 243) (255 0 0 245)) (11 10 (255 0 0 42) (255 0 0 55)) (4 11 (255 0 0 101) (255 0 0 116)) (5 11 (255 0 0 240) (255 0 0 242)) (8 11 (255 0 0 222) (255 0 0 227)) (9 11 (255 0 0 152) (255 0 0 164)) (10 11 (255 0 0 204) (255 0 0 211))))"
+      },
+      "finishedAt": "2026-11-10T14:41:40.238Z"
+    },
+    {
+      "id": 21,
+      "commandId": 33,
+      "startedAt": "2026-11-10T14:41:54.410Z",
+      "sourceSha256": "3437e345f9ac1ddce6b5ef8d53de2c46199a230c8ec4915a6e2895d470f1cd25",
+      "file": "/home/user/src/valtan/tests/mcclim/canvas-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 21,
+        "ok": true,
+        "value": "(:PASSED 69)"
+      },
+      "finishedAt": "2026-11-10T14:42:02.079Z"
+    }
+  ],
+  "backendSha256": "38076adb2a5c2d223659dbc639a7190b011469aee6657ba53b8e50f54fccf2cd",
+  "checksSha256": "3437e345f9ac1ddce6b5ef8d53de2c46199a230c8ec4915a6e2895d470f1cd25",
+  "result": {
+    "type": "test-result",
+    "id": 21,
+    "ok": true,
+    "value": "(:PASSED 69)"
+  }
+}

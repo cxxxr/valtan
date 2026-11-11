@@ -1,0 +1,206 @@
+{
+  "status": "passed",
+  "complete": true,
+  "recordedAt": "2026-11-10T15:26:32.195960+00:00",
+  "scope": "Focused real McCLIM window lifecycle in a persistent Chrome worker after reloading port.lisp; not the cold window gate or a title-drag test",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-ZUwd8d",
+    "status": "ready",
+    "complete": false,
+    "startedAt": "2026-11-10T15:00:21.640Z",
+    "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "bundleSha256": "c2078e62cf0f7e329acec32b4714ca13773c8cc3ad66e9276ede007b77e47eaf",
+    "browserAssetsSha256": "fa467213091d7c6fc0431954ec7e3fa8d1b4b56d9dd54b9790deae9a93b3f93c",
+    "readyAt": "2026-11-10T15:21:00.659Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "window-fixture",
+        "startedAt": "2026-11-10T15:21:00.660Z",
+        "sourceSha256": "395ff40cd868a061a1dd98efeca8eddd2eed6a0a4145e2f35486b5a4edd35689",
+        "file": "/home/user/src/valtan/tests/mcclim/window-checks.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:WINDOW-CHECKS-LOADED)"
+        },
+        "finishedAt": "2026-11-10T15:21:02.192Z"
+      },
+      {
+        "id": 2,
+        "commandId": "window-setup",
+        "startedAt": "2026-11-10T15:21:21.915Z",
+        "sourceSha256": "c55cb9b23f51475156d41be017da472865bc7e44872ef84bb5a76a0eebd3f3ef",
+        "result": {
+          "type": "test-result",
+          "id": 2,
+          "ok": true,
+          "value": "(:WINDOWS-CREATED)"
+        },
+        "finishedAt": "2026-11-10T15:21:25.386Z"
+      },
+      {
+        "id": 3,
+        "commandId": "window-shrink-before",
+        "startedAt": "2026-11-10T15:21:42.978Z",
+        "sourceSha256": "c55e993b69799df9b6d96ce4e1193cd82561a9736a647129578b0f93bbde25fc",
+        "result": {
+          "type": "test-result",
+          "id": 3,
+          "ok": false,
+          "error": "The assertion (NOT (SHEET-ENABLED-P (MCCLIM-WINDOW-CHECKS::TOP-SHEET MCCLIM-WINDOW-CHECKS::*PRIMARY*))) failed."
+        },
+        "finishedAt": "2026-11-10T15:21:43.083Z"
+      },
+      {
+        "id": 4,
+        "commandId": "window-port-fix",
+        "startedAt": "2026-11-10T15:21:56.590Z",
+        "sourceSha256": "d6ce9734b23b7458180c46839dcb17688b99d64c33e06228e95b6dca6418faef",
+        "file": "/home/user/src/valtan/library/mcclim-browser/port.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 4,
+          "ok": true,
+          "value": "(#<STANDARD-METHOD PROCESS-NEXT-EVENT (#<STANDARD-CLASS BROWSER-PORT>)>)"
+        },
+        "finishedAt": "2026-11-10T15:22:00.461Z"
+      },
+      {
+        "id": 5,
+        "commandId": "window-shrink-after",
+        "startedAt": "2026-11-10T15:22:29.100Z",
+        "sourceSha256": "c55e993b69799df9b6d96ce4e1193cd82561a9736a647129578b0f93bbde25fc",
+        "result": {
+          "type": "test-result",
+          "id": 5,
+          "ok": true,
+          "value": "(:SHRUNK)"
+        },
+        "finishedAt": "2026-11-10T15:22:29.205Z"
+      },
+      {
+        "id": 6,
+        "commandId": "window-restored",
+        "startedAt": "2026-11-10T15:23:35.561Z",
+        "sourceSha256": "1bf37850863b7b4f180012b4894c321c6727aa7ada3658cbb948f05f3b984cc1",
+        "result": {
+          "type": "test-result",
+          "id": 6,
+          "ok": true,
+          "value": "(:RESTORED)"
+        },
+        "finishedAt": "2026-11-10T15:23:35.665Z"
+      },
+      {
+        "id": 7,
+        "commandId": "environment-port",
+        "startedAt": "2026-11-10T15:23:49.612Z",
+        "sourceSha256": "61a02bda21b2487ab33331bc827447022df5e158d0f8a1ae5c1306a9259f833f",
+        "file": "/home/user/src/valtan/library/mcclim-portability/environment.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 7,
+          "ok": true,
+          "value": "(GET-ENVIRONMENT-VARIABLE)"
+        },
+        "finishedAt": "2026-11-10T15:23:49.716Z"
+      },
+      {
+        "id": 8,
+        "commandId": "environment-browser-check",
+        "startedAt": "2026-11-10T15:24:01.286Z",
+        "sourceSha256": "0b478fb3a00b3aee486537c9f6a8a909f4b3ac6362d2d3678ac8ad939c58588b",
+        "file": "/home/user/src/valtan/tests/mcclim/environment-checks.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 8,
+          "ok": true,
+          "value": "(\"MCCLIM-ENVIRONMENT-CHECKS-PASS\")"
+        },
+        "finishedAt": "2026-11-10T15:24:01.490Z"
+      },
+      {
+        "id": 9,
+        "commandId": "window-gadget-count",
+        "startedAt": "2026-11-10T15:25:09.437Z",
+        "sourceSha256": "6ebb44d026e2e060662d6e925a41de3478eb1592e29603c9cb5eeb171ef17498",
+        "result": {
+          "type": "test-result",
+          "id": 9,
+          "ok": true,
+          "value": "(1)"
+        },
+        "finishedAt": "2026-11-10T15:25:09.541Z"
+      },
+      {
+        "id": 10,
+        "commandId": "window-secondary-move",
+        "startedAt": "2026-11-10T15:25:30.764Z",
+        "sourceSha256": "1584ecbcb6460331e43e0adc709a0a1de3ea38f811d82786aa5434e9760151f2",
+        "result": {
+          "type": "test-result",
+          "id": 10,
+          "ok": true,
+          "value": "(:DISABLED)"
+        },
+        "finishedAt": "2026-11-10T15:25:31.581Z"
+      },
+      {
+        "id": 11,
+        "commandId": "window-secondary-enabled",
+        "startedAt": "2026-11-10T15:25:50.453Z",
+        "sourceSha256": "a220f9e649fc4b98efbe66e388706c42262efb7d024f6838464279a6178ef19c",
+        "result": {
+          "type": "test-result",
+          "id": 11,
+          "ok": true,
+          "value": "(#<[object Object]>)"
+        },
+        "finishedAt": "2026-11-10T15:25:50.964Z"
+      },
+      {
+        "id": 12,
+        "commandId": "window-secondary-destroy",
+        "startedAt": "2026-11-10T15:25:51.007Z",
+        "sourceSha256": "5ffa2deabbc76ea93f57c1241618d5d38b62508fcb991d99b45180023d6519b4",
+        "result": {
+          "type": "test-result",
+          "id": 12,
+          "ok": true,
+          "value": "(:DESTROYED)"
+        },
+        "finishedAt": "2026-11-10T15:25:51.111Z"
+      }
+    ]
+  },
+  "sourceSha256": {
+    "library/mcclim-browser/port.lisp": "d6ce9734b23b7458180c46839dcb17688b99d64c33e06228e95b6dca6418faef",
+    "tests/mcclim/window-checks.lisp": "395ff40cd868a061a1dd98efeca8eddd2eed6a0a4145e2f35486b5a4edd35689"
+  },
+  "browserObservations": {
+    "afterRestore": {
+      "visible": true,
+      "restoreButtons": 0,
+      "windows": 2,
+      "errors": []
+    },
+    "secondaryDisabled": {
+      "x": 180,
+      "y": 90,
+      "width": 260,
+      "height": 180,
+      "title": "日本語のフレーム",
+      "hidden": true
+    },
+    "afterDestroy": {
+      "ids": [
+        1
+      ],
+      "status": "Counter: 1",
+      "errors": []
+    }
+  },
+  "screenshot": "screenshots/windows-after-restore.png"
+}

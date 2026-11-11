@@ -70,6 +70,15 @@ jobs:
             npm run test:performance
           '
 
+      - name: Verify ASDF source planning and embedded library loading
+        run: |
+          nix develop --command bash -c '
+            set -e
+            cd tests
+            npm run test:quicklisp:fixtures
+            node --test --test-name-pattern="in node" quicklisp/resources.test.mjs
+          '
+
       - name: Build and verify ANSI test adapter
         run: |
           nix develop --command bash -c '

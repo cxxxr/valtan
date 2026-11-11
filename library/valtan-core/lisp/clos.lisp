@@ -16,6 +16,8 @@
     (apply #'append (apply #'mapcar function lists))))
 
 (defvar +standard-class+)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defvar *mop-enabled* nil))
 
 (defstruct (standard-instance (:print-function print-standard-instance))
   class
@@ -46,6 +48,8 @@
   (when (and (*:structure-p object) (not (standard-instance-p object)))
     (return-from slot-boundp (slot-exists-p object slot-name)))
   (let ((slot (%instance-slot-definition object slot-name)))
+    (when (and slot *mop-enabled*)
+      (return-from slot-boundp (%mop-slot-boundp (class-of object) object slot)))
     (if slot
         (let ((location (slot-definition-location slot)))
           (if location (not (null (second location))) (std-slot-boundp object slot-name)))
@@ -57,6 +61,8 @@
   (find slot-name (class-slots (class-of object)) :key #'slot-definition-name))
 
 (defun %slot-value (class slot-name)
+  (when (functionp class)
+    (setq class (or (gethash class *generic-function-objects*) class)))
   (let ((elt (assoc slot-name (standard-instance-slots class))))
     (unless elt
       (error "The slot ~S is unbound in the object ~S."
@@ -64,6 +70,8 @@
     (cdr elt)))
 
 (defun (cl:setf %slot-value) (value class slot-name)
+  (when (functionp class)
+    (setq class (or (gethash class *generic-function-objects*) class)))
   (let ((elt (assoc slot-name (standard-instance-slots class))))
     (if elt
         (setf (cdr elt) value)
@@ -78,6 +86,8 @@
   (let ((slot (%instance-slot-definition object slot-name)))
     (unless slot
       (return-from slot-value (values (slot-missing (class-of object) object slot-name 'slot-value))))
+    (when *mop-enabled*
+      (return-from slot-value (%mop-slot-value (class-of object) object slot)))
     (unless (slot-boundp object slot-name)
       (return-from slot-value (values (slot-unbound (class-of object) object slot-name))))
     (let ((location (slot-definition-location slot)))
@@ -89,6 +99,8 @@
       (unless index (error "No slot named ~S." slot-name))
       (return-from slot-value (*:%structure-set object index value))))
   (let ((slot (%instance-slot-definition object slot-name)))
+    (when (and slot *mop-enabled*)
+      (return-from slot-value (funcall (fdefinition '(setf %mop-slot-value)) value (class-of object) object slot)))
     (if slot
         (let ((location (slot-definition-location slot)))
           (if location
@@ -99,6 +111,9 @@
 
 (defun slot-makunbound (object slot-name)
   (let ((slot (%instance-slot-definition object slot-name)))
+    (when (and slot *mop-enabled*)
+      (%mop-slot-makunbound (class-of object) object slot)
+      (return-from slot-makunbound object))
     (if slot
         (let ((location (slot-definition-location slot)))
           (if location
@@ -239,7 +254,7 @@
         ((functionp x)
          (if (and (boundp '*generic-function-objects*)
                   (gethash x *generic-function-objects*))
-             (find-class 'standard-generic-function)
+             (standard-instance-class (gethash x *generic-function-objects*))
              (find-class 'function)))
         ((*:structure-p x)
          (or (find-class (*:%structure-name x) nil) (find-class t)))
@@ -250,7 +265,8 @@
   (defun find-class (symbol &optional (errorp t) environment)
     (declare (ignore environment))
     (let ((class (or (gethash symbol class-table)
-                     (and (get symbol 'structure-defined)
+                     (and (symbolp symbol)
+                          (get symbol 'structure-defined)
                           (fboundp '%ensure-structure-class)
                           (%ensure-structure-class symbol)))))
       (when (and (null class) errorp)
@@ -273,7 +289,7 @@
           ((null plist))
         (let ((key (car plist))
               (value (cadr plist)))
-          (unless (member key '(:initform :initarg :reader :writer :accessor :documentation :type :allocation))
+          (unless (or *mop-enabled* (member key '(:initform :initarg :reader :writer :accessor :documentation :type :allocation)))
             (error 'program-error :format-control "Unknown slot option ~S" :format-arguments (list key)))
           (when (and (member key '(:initform :documentation :type :allocation)) (member key seen))
             (error 'program-error :format-control "Repeated slot option ~S" :format-arguments (list key)))
@@ -329,7 +345,7 @@
     (mapcan (lambda (elt)
               (let ((key (car elt))
                     (rest (cdr elt)))
-                (unless (member key '(:default-initargs :metaclass :documentation))
+                (unless (or *mop-enabled* (member key '(:default-initargs :metaclass :documentation)))
                   (error 'program-error :format-control "Unknown class option ~S" :format-arguments (list key)))
                 (when (eq key :default-initargs)
                   (setq key :direct-default-initargs))
@@ -385,7 +401,8 @@
                                                  direct-superclasses #|name|#
                                                  (metaclass 'standard-class)
                                             &allow-other-keys)
-  (declare (ignore args))
+  (when *mop-enabled*
+    (return-from ensure-class-using-class (apply #'%mop-ensure-class class name args)))
   (check-duplicate-direct-slots direct-slots)
   (check-duplicate-direct-default-initargs direct-default-initargs name)
   (setq direct-superclasses (mapcar #'find-class direct-superclasses))
@@ -775,7 +792,7 @@
           (setf (generic-function-method-class gf) (canonicalize-class method-class)))
         (finalize-generic-function gf)
         gf)
-      (let ((gf (apply (if (eq generic-function-class +standard-generic-function+)
+      (let ((gf (apply (if (subclassp (canonicalize-class generic-function-class) +standard-generic-function+)
                            #'make-instance-standard-generic-function
                            (error "make-instance trap"))
                        generic-function-class
@@ -786,16 +803,15 @@
         gf)))
 
 (defun make-instance-standard-generic-function
-    (generic-function-class &key name lambda-list method-class
+    (generic-function-class &rest initargs &key name lambda-list method-class
                                  (method-combination '(standard)) argument-precedence-order &allow-other-keys)
-  (declare (ignore generic-function-class))
-  (let ((gf (make-standard-instance :class +standard-generic-function+)))
+  (let ((gf (make-standard-instance :class (canonicalize-class generic-function-class))))
     (setf (gethash gf *generic-function-combinations*) method-combination)
     (setf (generic-function-name gf) name)
     (setf (generic-function-lambda-list gf) lambda-list)
-    (setf (generic-function-method-class gf) method-class)
+    (setf (generic-function-method-class gf) (canonicalize-class method-class))
     (setf (generic-function-methods gf) '())
-    (setf (classes-to-emf-table gf) (make-hash-table :test 'equal))
+    (setf (classes-to-emf-table gf) (make-hash-table :test #+valtan 'eq #-valtan 'equal))
     (destructuring-bind (&key required-args optional-args rest-var &allow-other-keys)
         (analyze-lambda-list lambda-list)
       (setf (generic-function-min-argc gf) (length required-args)
@@ -804,6 +820,8 @@
               (+ (length required-args) (length optional-args)))))
     (%configure-generic-signature gf (when argument-precedence-order
                                       (list :argument-precedence-order argument-precedence-order)))
+    (unless (eq (class-of gf) +standard-generic-function+)
+      (apply #'initialize-instance gf initargs))
     (finalize-generic-function gf)
     gf))
 
@@ -817,7 +835,8 @@
                  (= (length (remove-duplicates order)) (length required))
                  (every (lambda (name) (member name required)) order))
       (error 'program-error))
-    (setf (gethash gf *generic-function-precedence*)
+    (setf (%slot-value gf 'signature-shape) shape
+          (gethash gf *generic-function-precedence*)
           (mapcar (lambda (name) (position name required)) order)
           (generic-function-min-argc gf) (length required)
           (%slot-value gf 'max-argc)
@@ -829,7 +848,7 @@
   (let ((discriminating-function
           (if (std-slot-boundp gf 'funcallable-instance)
               (%slot-value gf 'funcallable-instance)
-              (if (eq (class-of gf) +standard-generic-function+)
+              (if (subclassp (class-of gf) +standard-generic-function+)
               (std-compute-discriminating-function gf)
               (error "compute-discriminating-function trap")))))
     (set-funcallable-instance-function gf discriminating-function)
@@ -840,6 +859,7 @@
       (setf (fdefinition (generic-function-name gf))
             (if (and trace-entry (eq (second trace-entry) discriminating-function))
                 (third trace-entry) discriminating-function)))
+    #+valtan ((ffi:ref "lisp.resetMethodCacheKeys") gf)
     (clrhash (classes-to-emf-table gf))))
 
 (defun required-classes (gf args)
@@ -857,14 +877,15 @@
   (lambda (&rest args)
     (let* ((classes (required-classes gf args))
            (key (method-cache-key gf args classes))
-           (emfun (gethash key (classes-to-emf-table gf))))
+           (emfun (when (eq (class-of gf) +standard-generic-function+)
+                    (gethash key (classes-to-emf-table gf)))))
       (%check-generic-keywords gf args classes)
       (if emfun
           (funcall emfun args)
           (slow-method-lookup gf args classes key)))))
 
 (defun %check-generic-keywords (gf args classes)
-  (let* ((shape (analyze-lambda-list (generic-function-lambda-list gf)))
+  (let* ((shape (%slot-value gf 'signature-shape))
          (methods nil))
     (when (getf shape :keyp)
       (setq methods (%compute-applicable-methods gf args classes))
@@ -902,17 +923,21 @@
     (dolist (entry (%slot-value gf 'eql-specializers))
       (when (eql (nth (car entry) args) (eql-specializer-object (cdr entry)))
         (push entry matches)))
-    (if matches (cons classes matches) classes)))
+    #+valtan ((ffi:ref "lisp.internMethodCacheKey") gf classes matches)
+    #-valtan (if matches (cons classes matches) classes)))
 
 (defun slow-method-lookup (gf args classes key)
-  (let ((applicable-methods (%compute-applicable-methods gf args classes)))
+  (let ((applicable-methods (if (and *mop-enabled* (not (eq (class-of gf) +standard-generic-function+)))
+                                (%mop-applicable-methods gf args classes)
+                                (%compute-applicable-methods gf args classes))))
     (unless applicable-methods
       (return-from slow-method-lookup
         (apply #'no-applicable-method (%slot-value gf 'funcallable-instance) args)))
-    (let ((emfun (if (eq (class-of gf) +standard-generic-function+)
+    (let ((emfun (if (subclassp (class-of gf) +standard-generic-function+)
                      (std-compute-effective-method-function gf applicable-methods)
                      (error "compute-effective-method-function trap"))))
-      (setf (gethash key (classes-to-emf-table gf)) emfun)
+      (when (eq (class-of gf) +standard-generic-function+)
+        (setf (gethash key (classes-to-emf-table gf)) emfun))
       (funcall emfun args))))
 
 (defun compute-applicable-methods (gf args)
@@ -934,7 +959,7 @@
                                                 (subclassp required-class specializer))
                                       (return nil)))))
                               (generic-function-methods gf))
-               (if (eq (class-of gf) +standard-generic-function+)
+               (if (subclassp (class-of gf) +standard-generic-function+)
                    (lambda (m1 m2)
                      (std-method-more-specific-p gf m1 m2 required-classes))
                    #+(or)
@@ -981,7 +1006,7 @@
       (error "No primary methods for the generic function ~S." gf))
     (if around
         (let ((next-emfun
-                (if (eq (class-of gf) +standard-generic-function+)
+                (if (subclassp (class-of gf) +standard-generic-function+)
                     (std-compute-effective-method-function gf (remove around methods))
                     (error "compute-effective-method-function trap")
                     #+(or)
@@ -1521,17 +1546,18 @@
 
 (defclass standard-object (t) ())
 
-(defclass class (standard-object) ())
-
-(defclass standard-class (class)
+(defclass class (standard-object)
   ((name :initarg :name)
-   (direct-superclasses :initarg :direct-superclasses)
+   (direct-superclasses :initform '())
    (direct-slots :initform '())
    (direct-default-initargs :initform '())
-   (class-precedence-list)
-   (effective-slots)
+   (precedence-list)
+   (slots)
+   (default-initargs :initform '())
    (direct-subclasses :initform '())
    (direct-methods :initform '())))
+
+(defclass standard-class (class) ())
 
 (defclass built-in-class (class) ())
 (defclass function (t) ())

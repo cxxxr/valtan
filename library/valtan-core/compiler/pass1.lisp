@@ -250,7 +250,9 @@
                                  (* 2 (length keys)))))
                 :allow-other-keys allow-other-keys
                 :keyp key-p)))
-        (let ((all-vars (collect-variables parsed-lambda-list)))
+        ;; &AUX establishes sequential LET* bindings, so those variables may
+        ;; shadow parameters or earlier auxiliary bindings (McCLIM uses this).
+        (let ((all-vars (collect-variables parsed-lambda-list nil)))
           (when (duplicate-var-p all-vars)
             (lambda-list-error)))
         parsed-lambda-list))))
@@ -713,6 +715,15 @@
 (def-pass1-form quote ((x) return-value-p multiple-values-p)
   (pass1-const x return-value-p))
 
+(def-pass1-form load-time-value ((form &optional read-only-p) return-value-p multiple-values-p)
+  (unless (member read-only-p '(nil t))
+    (compile-error "Invalid LOAD-TIME-VALUE read-only-p: ~S" read-only-p))
+  ;; The initializer has a null lexical environment and runs once when this
+  ;; compiled code is loaded, even when nested inside a function or a branch.
+  (let ((*lexenv* nil))
+    (make-hir 'load-time-value return-value-p nil
+              (pass1 `(function (lambda () ,form)) t nil))))
+
 (def-pass1-form the ((type value) return-value-p multiple-values-p)
   (declare (ignore type))
   (pass1 value return-value-p multiple-values-p))
@@ -960,20 +971,25 @@
       (let ((*local-macro-compilation-environment* *lexenv*))
         (eval form))))
 
-(def-pass1-form macrolet ((definitions &rest body) return-value-p multiple-values-p)
+(defun macrolet-environment (definitions environment)
   (check-flet-definitions definitions)
-  (let ((*lexenv*
-          (extend-lexenv (mapcar (lambda (definition)
-                                   (make-macro-binding (first definition)
-                                                       (eval-local-macro (macro-expander-lambda
-                                                              (first definition)
-                                                              (second definition)
-                                                              (cddr definition)))))
-                                 definitions)
-                         *lexenv*)))
+  (let ((*lexenv* environment))
+    (extend-lexenv
+     (mapcar (lambda (definition)
+               (make-macro-binding
+                (first definition)
+                (eval-local-macro
+                 (macro-expander-lambda (first definition)
+                                        (second definition)
+                                        (cddr definition)))))
+             definitions)
+     environment)))
+
+(def-pass1-form macrolet ((definitions &rest body) return-value-p multiple-values-p)
+  (let ((*lexenv* (macrolet-environment definitions *lexenv*)))
     (apply #'pass1-locally return-value-p multiple-values-p nil body)))
 
-(def-pass1-form symbol-macrolet ((definitions &rest body) return-value-p multiple-values-p)
+(defun symbol-macrolet-environment (definitions body environment)
   (check-flet-definitions definitions)
   (dolist (definition definitions)
     (let ((name (first definition)))
@@ -988,12 +1004,14 @@
           (when (assoc name definitions)
             (error 'program-error :format-control "Symbol macro ~S cannot be SPECIAL."
                    :format-arguments (list name)))))))
-  (let ((*lexenv*
-          (extend-lexenv (mapcar (lambda (definition)
-                                   (make-symbol-macro-binding (first definition)
-                                                              (second definition)))
-                                 definitions)
-                         *lexenv*)))
+  (extend-lexenv
+   (mapcar (lambda (definition)
+             (make-symbol-macro-binding (first definition) (second definition)))
+           definitions)
+   environment))
+
+(def-pass1-form symbol-macrolet ((definitions &rest body) return-value-p multiple-values-p)
+  (let ((*lexenv* (symbol-macrolet-environment definitions body *lexenv*)))
     (apply #'pass1-locally return-value-p multiple-values-p nil body)))
 
 (def-pass1-form unwind-protect ((&whole unwind-protected-form protected &rest cleanup) return-value-p multiple-values-p)

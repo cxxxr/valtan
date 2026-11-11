@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "complete": true,
+  "recordedAt": "2026-11-11T05:01:36.044796+00:00",
+  "scope": "Native Chrome IME, keyboard, pointer capture, window transport and shared event queue with synthetic workers; does not load McCLIM",
+  "command": "node --test tests/mcclim/event-queue.test.mjs tests/mcclim/browser-bridge.test.mjs",
+  "tests": 6,
+  "passed": 6,
+  "failed": 0,
+  "sourceSha256": {
+    "library/mcclim-browser/client.mjs": "40dc14e0f77afd7330c6361bbfbc52b7709851df8606e4dbf13375a689623294",
+    "library/mcclim-browser/keyboard.mjs": "03241a18524f9cc66845814fcb075f761f4b18a62341f39efd94e4b2edbe7277",
+    "library/mcclim-browser/pointer.mjs": "1eeb6a51739930e93fb3aa014f82e71c4fe1cf8df577b88879ea4e9f9f80675d",
+    "library/mcclim-browser/windows.mjs": "f7f948fb6120042cf0d89ace956a32f171995b8d468cf326cbde6effafcd4774",
+    "library/mcclim-browser/host.mjs": "544a497236c4338a162c3ec527d29a13ea0d26a50fd2b1f16530455c5cc4090c",
+    "library/mcclim-browser/event-queue.mjs": "46021a84db8a973083237f8bde410e94b3fca2323264b92b21d747616e1adb3c",
+    "tests/mcclim/browser-bridge.test.mjs": "86c298016e1245e64e79dc9ac1e80047d61cd5d0b58e8a273002fe36ccb5a4b8",
+    "tests/mcclim/event-queue.test.mjs": "e6fa84b2951601c025255a30d7f6b5a0d5c05c7afc9bb550e214c22e0613891e"
+  },
+  "log": "✔ Chrome commits native IME and direct text once while preserving key gestures (25308.585021ms)\n✔ Chrome paints and accepts pointer/keyboard input while its worker blocks (25308.415827ms)\n✔ Chrome manages positioned, nested and unmanaged mirrors while its worker blocks (25348.040921ms)\n✔ Chrome routes grabbed pointer input outside and between mirrors (25393.576739ms)\n✔ input ordering, Unicode, overflow, wraparound and shutdown (2.402987ms)\n✔ a blocked worker wakes for input and for shutdown (64.897905ms)\nℹ tests 6\nℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 101418.282447\n"
+}

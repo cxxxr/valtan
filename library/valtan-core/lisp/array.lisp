@@ -17,6 +17,13 @@
 
 (defun upgraded-array-element-type (typespec &optional environment)
   (declare (ignore environment))
+  (setq typespec (expand-deftype typespec))
+  ;; Preserve octet specialization: bivalent streams use the destination
+  ;; array's element type to distinguish binary reads from character reads.
+  (multiple-value-bind (low high integer-p) (integer-type-bounds typespec)
+    (when (and integer-p low high (<= 0 low high 255))
+      (return-from upgraded-array-element-type
+        (if (<= high 1) 'bit '(unsigned-byte 8)))))
   (cond ((symbolp typespec)
          (case typespec
            ((nil) nil)
@@ -33,6 +40,22 @@
         (t t)))
 
 (defun make-array-contents-with-initial-contents (dimensions total-size rank element-type initial-contents)
+  (when (equal element-type '(unsigned-byte 8))
+    (labels ((check-contents (dimensions contents)
+               (if (null dimensions)
+                   (unless (typep contents '(unsigned-byte 8))
+                     (type-error contents '(unsigned-byte 8)))
+                   (map nil (lambda (part) (check-contents (cdr dimensions) part)) contents))))
+      (check-contents dimensions initial-contents)))
+  #+valtan
+  (when (and (eq element-type 'character) (= rank 1))
+    (unless (= (car dimensions) (length initial-contents))
+      (error "Invalid character array initial contents length"))
+    (let ((contents (system:make-raw-array total-size)) (i 0))
+      (map nil (lambda (character)
+                 (unless (characterp character) (type-error character 'character))
+                 (system:raw-array-set contents i character) (incf i)) initial-contents)
+      (return-from make-array-contents-with-initial-contents contents)))
   (cond ((and (eq element-type 'character) (= rank 1))
          (let* ((len (length initial-contents))
                 (raw-string (system:make-raw-string)))
@@ -75,8 +98,18 @@
              raw-array)))))
 
 (defun make-array-contents-with-initial-element (dimensions total-size rank element-type initial-element initial-element-p)
-  (when (and (eq element-type 'bit) (not initial-element-p))
+  #+valtan
+  (when (and (eq element-type 'character) (= rank 1))
+    (let ((character (if initial-element-p initial-element (code-char 0))))
+      (unless (characterp character) (type-error character 'character))
+      (return-from make-array-contents-with-initial-element
+        (system:fill-raw-array (system:make-raw-array total-size) character))))
+  (when (and (or (eq element-type 'bit) (equal element-type '(unsigned-byte 8)))
+             (not initial-element-p))
     (setq initial-element 0))
+  (when (and (equal element-type '(unsigned-byte 8))
+             (not (typep initial-element '(unsigned-byte 8))))
+    (type-error initial-element '(unsigned-byte 8)))
   (cond ((and (eq element-type 'character) (= rank 1))
          (let ((initial-raw-string
                  (system:code-to-raw-string
@@ -235,6 +268,9 @@
                  :element-type t)))
 
 (defun simple-make-string (raw-string)
+  ;; One slot per Lisp character, rather than per UTF-16 code unit. Mutable
+  ;; backing storage also avoids copying the whole string on each SETF CHAR.
+  #+valtan (setq raw-string ((ffi:ref "Array" "from") raw-string))
   (let ((length (system:raw-array-length raw-string)))
     (%make-array :contents raw-string
                  :dimensions (list length)
@@ -254,6 +290,9 @@
     (do () ((null (array-displaced-to array)))
       (incf offset (array-displaced-index-offset array))
       (setq array (array-displaced-to array)))
+    #+valtan
+    ((ffi:ref ((ffi:ref (array-contents array) "slice") offset (+ offset length)) "join") #j"")
+    #-valtan
     (system:sub-raw-string/3 (array-contents array) offset (+ offset length))))
 
 (defun vector (&rest args)
@@ -370,7 +409,8 @@
   (when (or (< index 0) (<= (array-total-size array) index))
     (error "Invalid index ~D for ~S, should be a non-negative integer below ~D."
            index array index))
-  (setf (array-contents array)
+  #+valtan (system:raw-array-set (array-contents array) index value)
+  #-valtan (setf (array-contents array)
         (system:concat-raw-string/3 (system:sub-raw-string/3 (array-contents array) 0 index)
                                     value
                                     (system:sub-raw-string/2 (array-contents array) (1+ index))))
@@ -396,6 +436,9 @@
   (unless (arrayp array)
     (type-error array 'array))
   (when (null (array-element-type array)) (type-error value nil))
+  (when (and (equal (array-element-type array) '(unsigned-byte 8))
+             (not (and (integerp value) (<= 0 value 255))))
+    (type-error value '(unsigned-byte 8)))
   (when (or (< index 0) (<= (array-total-size array) index))
     (error "Invalid array index ~D" index))
   (cond ((array-displaced-to array)

@@ -20,7 +20,7 @@
  lambda-list-keywords
  '(&ALLOW-OTHER-KEYS &AUX &BODY &ENVIRONMENT &KEY &OPTIONAL &REST &WHOLE))
 
-(defvar *features* '(:valtan))
+(defvar *features* '(:valtan :package-local-nicknames))
 
 ;; All four permitted float names share the JavaScript binary64 format.
 #+valtan

@@ -1,0 +1,104 @@
+[
+  {
+    "system": "alexandria",
+    "form": "(assert (equal (alexandria:iota 4 :start 2) '(2 3 4 5))) (assert (equal (alexandria:flatten '(1 (2 (3)))) '(1 2 3)))"
+  },
+  {
+    "system": "split-sequence",
+    "form": "(assert (equal (split-sequence:split-sequence #\\, \"a,b,,c\") '(\"a\" \"b\" \"\" \"c\"))) (assert (equal (split-sequence:split-sequence-if #'oddp '(2 1 4 3 6)) '((2) (4) (6))))"
+  },
+  {
+    "system": "anaphora",
+    "form": "(assert (= (anaphora:aif (+ 2 3) (* anaphora:it 2) 0) 10))"
+  },
+  {
+    "system": "cl-ppcre",
+    "form": "(assert (equal (cl-ppcre:split \"[,;]+\" \"a,b;;c\") '(\"a\" \"b\" \"c\"))) (assert (equalp (multiple-value-list (cl-ppcre:scan \"[0-9]+\" \"abc123!\")) '(3 6 #() #())))"
+  },
+  {
+    "system": "cl-base64",
+    "form": "(assert (string= (cl-base64:string-to-base64-string \"hello\") \"aGVsbG8=\")) (assert (string= (cl-base64:base64-string-to-string \"aGVsbG8=\") \"hello\"))"
+  },
+  {
+    "system": "st-json",
+    "form": "(let ((object (st-json:read-json-from-string \"{\\\"answer\\\":42}\"))) (assert (= (st-json:getjso \"answer\" object) 42)) (assert (string= (st-json:write-json-to-string object) \"{\\\"answer\\\":42}\")))"
+  },
+  {
+    "system": "cl-json",
+    "form": "(assert (equal (json:decode-json-from-string \"[1,2,3]\") '(1 2 3))) (assert (string= (json:encode-json-to-string #(1 2 3)) \"[1,2,3]\"))"
+  },
+  {
+    "system": "parse-number",
+    "form": "(assert (= (parse-number:parse-number \"12345678901234567890\") 12345678901234567890)) (assert (= (parse-number:parse-number \"3/4\") 3/4))"
+  },
+  {
+    "system": "iterate",
+    "form": "(assert (= (iterate:iter (iterate:for i from 1 to 10) (iterate:sum i)) 55))"
+  },
+  {
+    "system": "cl-utilities",
+    "form": "(assert (= (cl-utilities:expt-mod 2 10 1000) 24)) (assert (equal (cl-utilities:split-sequence #\\, \"x,y\") '(\"x\" \"y\")))"
+  },
+  {
+    "system": "babel",
+    "form": "(assert (string= (babel:octets-to-string (babel:string-to-octets \"日本語\" :encoding :utf-8) :encoding :utf-8) \"日本語\"))"
+  },
+  {
+    "system": "yason",
+    "form": "(assert (= (gethash \"answer\" (yason:parse \"{\\\"answer\\\":42}\")) 42))"
+  },
+  {
+    "system": "trivial-gray-streams",
+    "form": "(assert (find-class 'trivial-gray-streams:fundamental-character-output-stream))"
+  },
+  {
+    "system": "md5",
+    "form": "(assert (equalp (md5:md5sum-sequence \"abc\") #(144 1 80 152 60 210 79 176 214 150 63 125 40 225 127 114)))"
+  },
+  {
+    "system": "flexi-streams",
+    "form": "(assert (string= (flexi-streams:octets-to-string #(104 105) :external-format :utf-8) \"hi\"))"
+  },
+  {
+    "system": "bordeaux-threads",
+    "form": "(assert (bordeaux-threads:current-thread))"
+  },
+  {
+    "system": "let-plus",
+    "form": "(assert (= (let-plus:let+ (((a b) '(20 22))) (+ a b)) 42))"
+  },
+  {
+    "system": "xsubseq",
+    "form": "(assert (string= (xsubseq:coerce-to-sequence (xsubseq:xsubseq \"abcdef\" 1 4)) \"bcd\"))"
+  },
+  {
+    "system": "cl-colors2",
+    "form": "(let ((color (cl-colors2:hex-to-rgb \"#ff0000\"))) (assert (= (cl-colors2:rgb-red color) 1)) (assert (= (cl-colors2:rgb-green color) 0)))",
+    "dependsOn": [
+      "uiop"
+    ]
+  },
+  {
+    "system": "trivial-indent",
+    "form": "(setf (trivial-indent:indentation 'test-macro) 2) (assert (= (trivial-indent:indentation 'test-macro) 2)) (trivial-indent:remove-indentation 'test-macro) (assert (null (trivial-indent:indentation 'test-macro)))"
+  },
+  {
+    "system": "chipz",
+    "form": "(assert (equalp (chipz:decompress nil 'chipz:zlib (make-array 13 :element-type '(unsigned-byte 8) :initial-contents '(120 156 203 72 205 201 201 7 0 6 44 2 21))) #(104 101 108 108 111)))"
+  },
+  {
+    "system": "salza2",
+    "dependsOn": [
+      "chipz"
+    ],
+    "form": "(let ((data (make-array 5 :element-type '(unsigned-byte 8) :initial-contents '(104 101 108 108 111)))) (assert (equalp (chipz:decompress nil 'chipz:zlib (salza2:compress-data data 'salza2:zlib-compressor)) data)))"
+  },
+  {
+    "system": "trivial-features",
+    "form": "(assert (member :valtan *features*)) (assert (not (member :sbcl *features*))) (assert (not (eq (not (null (member :little-endian *features*))) (not (null (member :big-endian *features*))))))"
+  },
+  {
+    "system": "uiop",
+    "form": "(assert (equal (uiop:split-string \"a:b\" :separator \":\") (quote (\"a\" \"b\")))) (assert (uiop:version< \"1.2\" \"1.3\")) (assert (uiop:directory-pathname-p (uiop:getcwd)))"
+  }
+]

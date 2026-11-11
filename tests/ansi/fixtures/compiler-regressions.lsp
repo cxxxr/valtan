@@ -283,6 +283,28 @@
                (values a b uninitialized))
              1 2 :ignored 99))
   13 14 nil)
+(deftest auxiliary-bindings-shadow-parameters-and-earlier-auxiliaries
+  (funcall (lambda (x &aux (original (lambda () x)) (x (+ x 1)) (x (* x 2)))
+             (values x (funcall original))) 3)
+  8 3)
+(deftest special-auxiliary-shadowing-restores-outer-binding
+  (let ((x :outside))
+    (declare (special x))
+    (values (funcall (lambda (x &aux (x (1+ x))) (declare (special x)) x) 3) x))
+  4 :outside)
+(deftest special-auxiliary-shadowing-unwinds-on-error
+  (let ((x :outside))
+    (declare (special x))
+    (handler-case
+        (funcall (lambda (x &aux (x (1+ x)) (fail (error "auxiliary failed")))
+                   (declare (special x) (ignore fail)) x) 3)
+      (error () nil))
+    x)
+  :outside)
+(deftest repeated-required-parameters-remain-invalid
+  (handler-case (progn (eval '(function (lambda (x x) x))) :accepted)
+    (error () :rejected))
+  :rejected)
 (deftest special-auxiliary-parameter-unwinds-on-initialization-error
   (let ((*return-binding* :outside))
     (handler-case
@@ -480,3 +502,172 @@
     (defmacro local-default-fixture (&optional (arg default)) arg)
     (values (macroexpand-1 '(local-default-fixture))))
   :captured)
+
+(deftest closures-capture-fresh-let-bindings-in-loops
+  (let ((functions
+          (loop for item in '(1 2 3)
+                collect (let ((saved item)) (lambda () saved)))))
+    (mapcar #'funcall functions))
+  (1 2 3))
+
+(deftest closures-share-one-binding-but-not-other-iterations
+  (let ((pairs (loop for item in '(1 2)
+                    collect (let ((value item))
+                              (list (lambda () (incf value)) (lambda () value))))))
+    (funcall (caar pairs))
+    (mapcar (lambda (pair) (funcall (second pair))) pairs))
+  (2 2))
+
+(defvar *load-time-value-counter* 0)
+
+(deftest load-time-value-initializes-once-before-calling-compiled-function
+  (let ((*load-time-value-counter* 0))
+    (let ((fn (compile nil '(lambda ()
+                             (load-time-value (list (incf *load-time-value-counter*)))))))
+      (values *load-time-value-counter*
+              (eq (funcall fn) (funcall fn))
+              (funcall fn)
+              *load-time-value-counter*)))
+  1 t (1) 1)
+
+(deftest load-time-value-nested-and-single-valued
+  (multiple-value-list
+   (funcall (compile nil '(lambda ()
+                          (load-time-value (values (load-time-value (+ 20 22) t) :extra))))))
+  (42))
+
+(deftest load-time-value-does-not-capture-lexical-environment
+  (progn
+    (setf (symbol-value 'load-time-value-global) :global)
+    (funcall (compile nil '(lambda ()
+                           (let ((load-time-value-global :local))
+                             (load-time-value load-time-value-global))))))
+  :global)
+
+(deftest eval-top-level-definitions-in-order
+  (eval '(progn
+           (defparameter *eval-constant-source* 41)
+           (defconstant +eval-constant-result+ (1+ *eval-constant-source*))
+           (values +eval-constant-result+ *eval-constant-source*)))
+  42 41)
+
+(deftest eval-when-execute-only-in-eval
+  (let ((name (gensym)))
+    (eval `(progn
+             (eval-when (:compile-toplevel :load-toplevel) (set ',name :wrong))
+             (eval-when (:execute) (set ',name :right))))
+    (symbol-value name))
+  :right)
+
+(defvar *expansion-order-value* :initial)
+(defmacro expansion-order-value () `',*expansion-order-value*)
+(deftest eval-macrolet-processes-expansions-and-definitions-in-order
+  (let ((*expansion-order-value* :initial))
+    (eval '(macrolet ((define-value (value)
+                       `(progn (setq *expansion-order-value* ,value)
+                               (expansion-order-value))))
+             (define-value 10)
+             (define-value 20))))
+  20)
+
+(deftest eval-nested-macrolet-expander-retains-outer-macro-environment
+  (eval '(macrolet ((outer () :expanded))
+           (macrolet ((inner () (outer)))
+             (values (inner) (outer)))))
+  :expanded :expanded)
+
+(deftest eval-symbol-macrolet-preserves-order-and-multiple-values
+  (let ((*expansion-order-value* :initial))
+    (eval '(symbol-macrolet ((cell *expansion-order-value*))
+             (setq cell :changed)
+             (values cell (expansion-order-value)))))
+  :changed :changed)
+
+(deftest eval-locally-preserves-order-and-execute-only-semantics
+  (let ((*expansion-order-value* :initial))
+    (eval '(locally (declare (special *expansion-order-value*))
+             (eval-when (:compile-toplevel) (setq *expansion-order-value* :wrong))
+             (eval-when (:execute) (setq *expansion-order-value* :executed))
+             (expansion-order-value))))
+  :executed)
+
+(deftest eval-called-inside-local-macro-environment-starts-with-null-environment
+  (handler-case
+      (eval '(macrolet ((fixture-local-only () :wrong))
+               (eval '(fixture-local-only))))
+    (undefined-function () :null-environment))
+  :null-environment)
+
+(deftest multiple-value-list-of-closure
+  (let ((captured 42))
+    (funcall (first (multiple-value-list (lambda () captured)))))
+  42)
+
+(deftest psetf-preserves-new-and-previous-functions
+  (let ((a (lambda () 21)) (b nil))
+    (psetf a (lambda () 42) b a)
+    (values (funcall a) (funcall b)))
+  42 21)
+
+(deftest multiple-value-call-mixes-zero-closure-and-many-values
+  (let ((args (multiple-value-call #'list (values) (lambda () :closure) (values :a :b))))
+    (values (length args) (funcall (first args)) (rest args)))
+  3 :closure (:a :b))
+
+(deftest multiple-value-call-assignment-is-single-valued
+  (let ((x nil))
+    (values (multiple-value-list (setq x (values 10 20))) x))
+  (10) 10)
+
+(deftest multiple-value-call-preserves-the-values
+  (multiple-value-list (the (values integer integer) (values 10 20)))
+  (10 20))
+(define-condition compiler-fixture-style-warning (style-warning simple-condition) ())
+(define-condition compiler-fixture-expansion-error (error) ())
+(defmacro compiler-fixture-warn (style-p)
+  (warn (if style-p 'compiler-fixture-style-warning 'simple-warning)
+        :format-control "Compiler fixture warning" :format-arguments nil)
+  :compiled)
+(defmacro compiler-fixture-fail ()
+  (error 'compiler-fixture-expansion-error))
+
+(deftest compile-warning-result-flags
+  (handler-bind ((warning #'muffle-warning))
+    (loop for style-p in '(t nil)
+          collect (multiple-value-bind (function warnings failure)
+                      (compile nil `(lambda () (compiler-fixture-warn ,style-p)))
+                    (list (funcall function) (not (null warnings)) (not (null failure))))))
+  ((:compiled t nil) (:compiled t t)))
+
+(deftest compile-error-recovery-retains-diagnostic
+  (let ((diagnostics (make-string-output-stream)))
+    (multiple-value-bind (function warnings failure)
+        (let ((*error-output* diagnostics))
+          (compile nil '(lambda () (compiler-fixture-fail))))
+      (values (functionp function) warnings failure
+              (not (null (search "Compilation failed" (get-output-stream-string diagnostics))))
+              (handler-case (funcall function)
+                (compiler-fixture-expansion-error () :original-condition)))))
+  t t t t :original-condition)
+
+(deftest compile-named-error-recovery-installs-failing-function
+  (let ((name (gensym)) (*error-output* (make-broadcast-stream)))
+    (multiple-value-bind (result warnings failure)
+        (compile name '(lambda (x) (compiler-fixture-fail)))
+      (values (eq result name) warnings failure
+              (handler-case (funcall name 42)
+                (compiler-fixture-expansion-error () :failed)))))
+  t t t :failed)
+
+(deftest compile-runtime-error-is-not-compilation-failure
+  (multiple-value-bind (function warnings failure)
+      (compile nil '(lambda () (error 'compiler-fixture-expansion-error)))
+    (values warnings failure
+            (handler-case (funcall function)
+              (compiler-fixture-expansion-error () :runtime))))
+  nil nil :runtime)
+
+(deftest compile-invalid-arguments-still-signal
+  (values (handler-case (compile 42 '(lambda () 1)) (type-error () :name))
+          (handler-case (compile nil 42) (type-error () :definition)))
+  :name :definition)

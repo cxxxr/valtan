@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "timestamp": "2026-11-10T05:51:50.294Z",
+  "complete": true,
+  "compilerSha256": "5a8b73885cf88d8d3d9c9c441a0061917894e5bd099f7a828824c12b6b2b88c3",
+  "node": "v24.21.0",
+  "adapter": "Latin-1 input only; upstream library, assertions and skip list unchanged",
+  "suites": [
+    {
+      "name": "simple",
+      "status": "passed",
+      "cases": 80,
+      "upstreamSkipped": 0
+    },
+    {
+      "name": "perl",
+      "status": "passed",
+      "cases": 1629,
+      "upstreamSkipped": 5
+    },
+    {
+      "name": "optimized-character-tests",
+      "status": "passed",
+      "cases": 5,
+      "upstreamSkipped": 0
+    }
+  ],
+  "source": "/home/user/quicklisp/dists/quicklisp/software/cl-ppcre-20250622-git",
+  "sourceFiles": {
+    "api.lisp": "79444d08e416c7909e67b88612fff9356b82fbf227d5f501f820f66bd628f6fd",
+    "charmap.lisp": "9d9ec34bc458978c567d861fe403e52bde8b0439a61c70109fa6f096c51886e9",
+    "charset.lisp": "b97274c69199514d423ffb8bed6cb18436694b911240f0298ede62e8c7fcff12",
+    "chartest.lisp": "fd03e7a9218951d7efd3ffaf4812dc49d6066dcb24bf26fc9e1ed11fc86a87c7",
+    "cl-ppcre.asd": "46d96fa60a6017504ed892e85781eceb0d31e582f9d9c569a2fa3312b4b756db",
+    "closures.lisp": "7c50baeb650bb11763fb4b35cdf656ae6a9fcf1fa60e6ba6a6e8c7252dfadeab",
+    "convert.lisp": "fc57156f9cbeee1796046be4715ca6ac5986ede7157a28dbb4db174ceabfa01f",
+    "errors.lisp": "c3694407e612f999e26587c2f66db460cf7d505604a518f94983a95ddda772eb",
+    "lexer.lisp": "ecf4a98fff7d1b018e52bfab24ecfa775b968fd7bb778cc4d64b19408674e3ee",
+    "optimize.lisp": "3b89f569626f013dac450f7c5aa61ec31cb996364a031fb6201ceddc8f4cb235",
+    "packages.lisp": "bd4c0a18b7dbc72ed9b8d6dc5f0d049b8ebfeadd0e8be45cfb11154cc62e5865",
+    "parser.lisp": "7aaa493cf785cd4ac4ba8d11863126dd9e6edab6e415191991e708d2558e2ac3",
+    "regex-class-util.lisp": "47ca77cd37d13094eb622b21809f222e0ad8388f1c353bc4920d92ce1ce9654b",
+    "regex-class.lisp": "7009f77e5848f68f779162ab6a4ae16d0cebf9845028f10f3678a4f3c29cff4d",
+    "repetition-closures.lisp": "d4eaf943fd1de72072dc3547e7509bde02d0b28e90ae9eeaef6400fe8c4f07b3",
+    "scanner.lisp": "40eac3d45c7115d80be98732bf1c6bd4bc36c6076b4acf499d1ce8ee04e136c7",
+    "specials.lisp": "cb79c6354ce9f1f566876a0505a58db14ca45089d683f48bbac2614b30bcc267",
+    "test/packages.lisp": "39e76f101f6d8994cccaee8250c586f169d26acb935944e9f450134f7f8ef9cc",
+    "test/perl-tests.lisp": "a9ea0121bf2b8eaf04dc8a82f5634298e2d45881fbc0c776d0bb269e4317ac17",
+    "test/perltestdata": "0d307cd37874a32aab015ea0d822673d4493776fd474afaf1c7f5872b91bc2e9",
+    "test/simple": "d77f1c13ee46f48d34cdebaa3f5d58d6d4feb0019d8f6198db6ed7ee9aa03d41",
+    "test/tests.lisp": "ad834a82c501f2c08170aa9cfa11388a93b0f4356f111a4ff39579a8a7776367",
+    "util.lisp": "d2f13ae419e76b2a1a3c57caab21efb0290c17cd7d91b873a1883060a5c457a2"
+  },
+  "harnessFiles": {
+    "ppcre.mjs": "cc6a662559d82c7e5a6df58f488e86ec41b92471b7febd2a9c245e4c1446b643",
+    "ppcre-streams.lisp": "a79d3a5e4db9a1c3abf66fae4e8b0f2fcf4aa38703c66f42a31583d7c6f3592a",
+    "ppcre-main.lisp": "9f2903151e994a403e7343d4cd7c93961a77ae6b530f6df94606628d3d86c102"
+  },
+  "exampleSha256": "a27c681e8dec4a0e096e0326053bdad8741fd91170c21d0e692ebf758c709c25",
+  "bundleSha256": "13c6f01c538bacfd00d40f3dbab8ec2be2c46da4e15729dd2f02417b5a7f23da",
+  "status": "passed",
+  "elapsedSeconds": 531.289
+}

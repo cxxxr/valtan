@@ -19,3 +19,11 @@
     (rotatef (values a b) (values c d))
     (values a b c d))
   3 4 1 2)
+(deftest copy-long-and-dotted-list
+  (let* ((original (make-list 20000 :initial-element :item))
+         (copy (copy-list original))
+         (last (last original)))
+    (setf (cdr last) :tail)
+    (values (length copy) (eq copy original) (eq (last copy) last)
+            (cdr (last (copy-list original)))))
+  20000 nil nil :tail)

@@ -226,7 +226,11 @@
 (defun copy-list (list)
   (if (atom list)
       list
-      (cons (car list) (copy-list (cdr list)))))
+      (let* ((head (cons (car list) nil)) (tail head))
+        (do ((rest (cdr list) (cdr rest))) ((atom rest) (rplacd tail rest))
+          (setf (cdr tail) (cons (car rest) nil)
+                tail (cdr tail)))
+        head)))
 
 (defun list (&rest list)
   list)

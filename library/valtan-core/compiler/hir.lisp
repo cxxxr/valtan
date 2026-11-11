@@ -59,7 +59,7 @@
   allow-other-keys
   keyp)
 
-(defun collect-variables (parsed-lambda-list)
+(defun collect-variables (parsed-lambda-list &optional (include-aux t))
   (append (parsed-lambda-list-vars parsed-lambda-list)
           (if (parsed-lambda-list-rest-var parsed-lambda-list)
               (list (parsed-lambda-list-rest-var parsed-lambda-list)))
@@ -67,7 +67,7 @@
           (remove nil (mapcar #'third (parsed-lambda-list-optionals parsed-lambda-list)))
           (mapcar #'first (parsed-lambda-list-keys parsed-lambda-list))
           (remove nil (mapcar #'third (parsed-lambda-list-keys parsed-lambda-list)))
-          (mapcar #'first (parsed-lambda-list-auxs parsed-lambda-list))))
+          (when include-aux (mapcar #'first (parsed-lambda-list-auxs parsed-lambda-list)))))
 
 (defstruct binding
   name
@@ -134,6 +134,8 @@
 
 (defun reduce-hir (hir)
   (ecase (hir-op hir)
+    ((load-time-value)
+     `(load-time-value ,(reduce-hir (hir-arg1 hir))))
     ((const)
      `#(const ,(hir-arg1 hir)))
     ((lref)

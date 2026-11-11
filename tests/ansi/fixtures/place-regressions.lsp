@@ -96,3 +96,71 @@
     (symbol-macrolet ((place (car (progn (incf count) cell))))
       (values (multiple-value-setq (place) count) cell count)))
   1 (1) 1)
+
+(defun coordinate-pair (cell) (values (car cell) (cdr cell)))
+(defsetf coordinate-pair (cell) (x y)
+  `(progn (setf (car ,cell) ,x (cdr ,cell) ,y) (values ,x ,y)))
+
+(deftest long-defsetf-multiple-stores-evaluate-place-and-value-once
+  (let ((cell (cons 0 0)) (order nil))
+    (values (multiple-value-list
+             (setf (coordinate-pair (progn (push :place order) cell))
+                   (progn (push :value order) (values 3 7 :ignored))))
+            cell (reverse order)))
+  (3 7) (3 . 7) (:place :value))
+
+(deftest long-defsetf-missing-values-fill-with-nil
+  (let ((cell (cons 0 0)))
+    (values (multiple-value-list (setf (coordinate-pair cell) 4)) cell))
+  (4 nil) (4))
+
+(deftest long-defsetf-expansion-reports-every-store
+  (multiple-value-bind (temps forms stores writer reader)
+      (get-setf-expansion '(coordinate-pair cell))
+    (declare (ignore writer reader))
+    (values (length temps) forms (length stores) (every #'symbolp stores)))
+  1 (cell) 2 t)
+
+(defsetf discard-place (cell) () `(progn (incf (car ,cell)) (values)))
+(deftest long-defsetf-zero-stores-still-evaluates-value
+  (let ((cell (list 1)) (evaluated nil))
+    (values (multiple-value-list
+             (setf (discard-place cell) (progn (setq evaluated t) (values 9 10))))
+            cell evaluated))
+  nil (2) t)
+
+(defun keyword-pair (cell &optional option &key scale)
+  (declare (ignore option scale))
+  (values (car cell) (cdr cell)))
+(defsetf keyword-pair (cell &optional (option 0 option-p) &key (scale 1 scale-p)) (x y)
+  `(progn
+     (setf (car ,cell) (* ,x ,scale) (cdr ,cell) (* ,y ,scale))
+     (values ,option ,option-p ,scale-p ,x ,y)))
+
+(deftest long-defsetf-keywords-and-multiple-stores
+  (let ((cell (cons 0 0)) (order nil))
+    (values
+     (multiple-value-list
+      (setf (keyword-pair (progn (push :place order) cell)
+                          (progn (push :optional order) :option)
+                          :scale (progn (push :key order) 3))
+            (progn (push :value order) (values 2 4))))
+     cell (reverse order)))
+  (:option t t 2 4) (6 . 12) (:place :optional :key :value))
+
+(deftest long-defsetf-keywords-default-and-duplicate
+  (let ((cell (cons 0 0)))
+    (values (multiple-value-list (setf (keyword-pair cell) (values 2 4)))
+            (multiple-value-list
+             (setf (keyword-pair cell nil :scale 3 :scale 8) (values 2 4)))
+            cell))
+  (0 nil nil 2 4) (nil t t 2 4) (6 . 12))
+
+(deftest long-defsetf-allow-other-keys-literal-value
+  (values (handler-case
+              (progn (get-setf-expansion '(keyword-pair cell nil :unknown 9 :allow-other-keys nil)) :accepted)
+            (program-error () :rejected))
+          (let ((cell (cons 0 0)))
+            (setf (keyword-pair cell nil :unknown 9 :allow-other-keys t) (values 5 6))
+            cell))
+  :rejected (5 . 6))

@@ -1,0 +1,91 @@
+{
+  "status": "passed",
+  "complete": true,
+  "scope": "COMPILE recovery and portless queues: focused upstream tests in an existing Chrome worker with recorded source reloads; separate fresh-process compiler regression groups; not full McCLIM compatibility",
+  "timestamp": "2026-11-10T14:39:10.466888+00:00",
+  "compilerSha256": "341a1a746cb84775a1f9f1d372d0348ee6af874a5a03d163dad9da2ca42754d3",
+  "bundleSha256": "96ee789f62cb51df1a5e9f8a9c0810afd12954d3a1cff9b2dc8d41e7878c0bf0",
+  "evaluations": [
+    {
+      "id": 8,
+      "commandId": 8,
+      "startedAt": "2026-11-10T14:25:20.729Z",
+      "sourceSha256": "3a5bf45fbd9ae159561b8d44deb2a5110bd693721f864bead6c7b706cbc379e5",
+      "file": "/tmp/valtan-compile-recovery.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 8,
+        "ok": true,
+        "value": "(COMPILE)"
+      },
+      "finishedAt": "2026-11-10T14:25:21.240Z"
+    },
+    {
+      "id": 9,
+      "commandId": 9,
+      "startedAt": "2026-11-10T14:26:08.991Z",
+      "sourceSha256": "2ab2c984c24b8dff18997b683532893741e0cb31dab71f05c371238910c16141",
+      "result": {
+        "type": "test-result",
+        "id": 9,
+        "ok": true,
+        "value": "((16 16 NIL))"
+      },
+      "finishedAt": "2026-11-10T14:26:10.013Z"
+    },
+    {
+      "id": 10,
+      "commandId": 10,
+      "startedAt": "2026-11-10T14:28:39.797Z",
+      "sourceSha256": "7f11885ce29893faa112c30bc9deb3f0a41671650acfa0e3aa29cf9a2ae2dfaa",
+      "file": "/home/user/src/valtan/library/mcclim-browser/queues.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 10,
+        "ok": true,
+        "value": "(#<STANDARD-METHOD CLIM-INTERNALS::QUEUE-LISTEN (#<STANDARD-CLASS SIMPLE-QUEUE>)>)"
+      },
+      "finishedAt": "2026-11-10T14:28:40.817Z"
+    },
+    {
+      "id": 11,
+      "commandId": 11,
+      "startedAt": "2026-11-10T14:29:13.256Z",
+      "sourceSha256": "aeaa918590e7f85e3596d31b3468fd5cf5a2457ab42f2661f3b3fa3b910e42bf",
+      "file": "/home/user/src/valtan/tests/mcclim/queue-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 11,
+        "ok": true,
+        "value": "(\"PORTLESS-QUEUE-PASS\")"
+      },
+      "finishedAt": "2026-11-10T14:29:13.968Z"
+    },
+    {
+      "id": 12,
+      "commandId": 12,
+      "startedAt": "2026-11-10T14:29:22.844Z",
+      "sourceSha256": "a49244e4a77abc3945cb02e7b5286feeae0e8c357e8f1bb7603cdb65f1f833ba",
+      "result": {
+        "type": "test-result",
+        "id": 12,
+        "ok": true,
+        "value": "((16 16 NIL))"
+      },
+      "finishedAt": "2026-11-10T14:29:23.151Z"
+    }
+  ],
+  "guiAfterQueueReload": {
+    "button": "Counter: 1",
+    "keyboardPlus": "Counter: 2",
+    "paints": 6,
+    "errors": [],
+    "screenshot": "screenshots/queue-after-input.png"
+  },
+  "freshCompilerRegressionGroups": {
+    "passed": 50,
+    "failed": 0,
+    "logSha256": "c18354a3557deb063042f94f206e94725e7af23ff45633ccd677847df20e3dec",
+    "log": "/tmp/valtan-compile-recovery-regressions.log"
+  }
+}

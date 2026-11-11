@@ -4,6 +4,7 @@ import { normalizeInteger, numberValue } from './number';
 import { simpleError } from './error';
 
 let hostOS;
+let subprocessHost, subprocessFS;
 export function CL_initializeEnvironment(os) { hostOS = os; return values1(S_nil); }
 const epochOffset = 2208988800n;
 const leapYear = year => year % 4n === 0n && (year % 100n !== 0n || year % 400n === 0n);
@@ -67,6 +68,64 @@ function encode(second, minute, hour, day, month, year, offset) {
 export function CL_environmentOperation(operation, ...args) {
     const proc = globalThis.process;
     switch (operation.name) {
+    case 'INITIALIZE-SUBPROCESS':
+        [subprocessHost, subprocessFS] = args;
+        return values1(S_nil);
+    case 'SUBPROCESS-AVAILABLE': return values1(toLispBoolean(!!subprocessHost));
+    case 'RUN-PROGRAM': {
+        if (!subprocessHost) return simpleError('Subprocess execution requires Node.js');
+        const [command, argv, shell, directory, input, output, errorOutput] = args;
+        const opened = [];
+        try {
+            function descriptor(spec, index) {
+                if (spec[0] === 'ignore') return 'ignore';
+                if (spec[0] === 'inherit') return index;
+                if (spec[0] !== 'file') throw new Error(`Invalid subprocess I/O: ${spec[0]}`);
+                const fd = subprocessFS.openSync(spec[1], index === 0 ? 'r' : 'a');
+                opened.push(fd);
+                return fd;
+            }
+            const stdio = [descriptor(input, 0), descriptor(output, 1)];
+            stdio.push(errorOutput[0] === 'stdout' ? stdio[1] : descriptor(errorOutput, 2));
+            const result = subprocessHost.spawnSync(command, argv, {
+                shell, cwd: directory ?? undefined, stdio, windowsHide: true,
+            });
+            if (result.error) throw result.error;
+            if (result.status !== null) return values1(result.status);
+            const signal = hostOS?.constants?.signals?.[result.signal];
+            if (signal) return values1(128 + signal);
+            throw new Error(`Subprocess ended without an exit status: ${result.signal}`);
+        } catch (error) { return simpleError(`Subprocess failed: ${error.message}`); }
+        finally { for (const fd of opened) subprocessFS.closeSync(fd); }
+    }
+    case 'GETENV': return values1(proc?.env?.[args[0]] ?? S_nil);
+    case 'SETENV':
+        if (!proc?.env) return simpleError('Environment variables require Node.js');
+        if (args[1] === S_nil) delete proc.env[args[0]];
+        else proc.env[args[0]] = args[1];
+        return values1(args[1]);
+    case 'CHDIR':
+        if (!proc?.chdir) return simpleError('Changing directories requires Node.js');
+        try { proc.chdir(args[0]); } catch (error) { return simpleError(error.message); }
+        return values1(S_nil);
+    case 'FEATURES': {
+        const little = new Uint8Array(new Uint16Array([1]).buffer)[0] === 1;
+        const result = [little ? 'LITTLE-ENDIAN' : 'BIG-ENDIAN'];
+        if (hostOS) {
+            const type = hostOS.type();
+            result.push(type === 'Windows_NT' ? 'WINDOWS' : type.toUpperCase());
+            if (type !== 'Windows_NT') result.push('UNIX');
+            if (['Darwin', 'FreeBSD', 'OpenBSD', 'NetBSD', 'DragonFly'].includes(type)) result.push('BSD');
+            const arch = hostOS.arch();
+            const cpu = { x64: 'X86-64', ia32: 'X86', arm: 'ARM', arm64: 'ARM64',
+                ppc: 'PPC', ppc64: 'PPC64', mips: 'MIPS', mipsel: 'MIPS',
+                s390x: 'S390X', riscv64: 'RISCV64', loong64: 'LOONGARCH64' }[arch];
+            if (cpu) result.push(cpu);
+            if (['x64', 'arm64', 'ppc64', 's390x', 'riscv64', 'loong64', 'mips64el'].includes(arch)) result.push('64-BIT');
+            else if (['ia32', 'arm', 'ppc', 'mips', 'mipsel'].includes(arch)) result.push('32-BIT');
+        }
+        return values1(result);
+    }
     case 'UNIVERSAL-TIME': return values1(integer(BigInt(Math.floor(Date.now() / 1000)) + epochOffset));
     case 'REAL-TIME': return values1(Math.floor(globalThis.performance?.now() ?? Date.now()));
     case 'RUN-TIME': {

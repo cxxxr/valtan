@@ -9,6 +9,7 @@
 (defvar *load-print* nil)
 (defvar *load-verbose* nil)
 (defvar *modules* nil)
+(defvar system::*file-local-variables* nil)
 
 (defmacro with-compilation-unit ((&key override) &body body)
   (let ((value (gensym)))
@@ -49,6 +50,22 @@
           do (let ((value (eval form)))
                (when print (write value :escape t :readably nil) (terpri)))))
   t)
+
+(defun system::load-embedded-source (source filename features)
+  ;; Loading in the target preserves macros, readtables and definitions across
+  ;; ASDF components without executing application code in the build host.
+  (dolist (feature features) (pushnew feature *features*))
+  (when *load-verbose* (format t "; Loading ~A~%" filename) (finish-output))
+  (let ((*package* (find-package :cl-user))
+        (*readtable* *readtable*)
+        (*load-pathname* (pathname filename))
+        (*load-truename* (pathname filename)))
+    (with-input-from-string (stream source)
+      ;; Target equivalent of ASDF-FLV's LOAD-OP bindings. This applies to
+      ;; ASDF source components, not to arbitrary calls of CL:LOAD or EVAL.
+      (progv system::*file-local-variables*
+          (mapcar #'symbol-value system::*file-local-variables*)
+        (%load-stream stream nil)))))
 
 (defun load (filespec &key (verbose *load-verbose*) (print *load-print*)
                           (if-does-not-exist t) (external-format :default))

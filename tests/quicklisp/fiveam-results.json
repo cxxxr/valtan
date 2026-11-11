@@ -1,0 +1,13 @@
+{
+  "system": "fiveam/test",
+  "scope": "Load and supplied API assertions; GUI verification is separate",
+  "timestamp": "2026-11-10T13:28:42.512Z",
+  "complete": true,
+  "status": "passed",
+  "work": "/tmp/valtan-mcclim-Clez1u",
+  "compilerSha256": "7ec5db38c1cdd07d77247d2536a65a88f97ac661e6893fdbd54780751d15b9ef",
+  "checksSha256": "92f9468bd6c490ef53e1d1fe78232d359ee0c3762e1cd81d7347b146ef7c0db9",
+  "stage": "run",
+  "bundleSha256": "5e6b4b96802bf2df255b0d012c5f7db188fc2814eeb725d54d445da2ca34f422",
+  "finishedAt": "2026-11-10T13:30:01.736Z"
+}

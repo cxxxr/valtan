@@ -1,0 +1,205 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-10T15:15:47.810Z",
+  "scope": "Real McCLIM frame geometry, title, stacking, visibility, drag, minimize/restore and destruction in Chrome; second frame has no concurrent event loop",
+  "checksSha256": "395ff40cd868a061a1dd98efeca8eddd2eed6a0a4145e2f35486b5a4edd35689",
+  "driverSha256": "d74bec1f82b2736e4ea40ce9b823310acd654c9221a01b50cd1cca2e581f1fbc",
+  "checks": [
+    "two real frames with requested geometry",
+    "frame pretty name reaches browser",
+    "raise and bury match browser hit testing",
+    "Lisp move and resize update mirror and browser",
+    "disable and enable",
+    "title drag reaches CLIM sheet transformation",
+    "minimize and user restore update frame state",
+    "gadget input survives window movement and restore",
+    "destroy removes Lisp and browser mirrors"
+  ],
+  "work": "/tmp/valtan-mcclim-workbench-1a5PC9",
+  "screenshot": "/tmp/valtan-mcclim-workbench-1a5PC9/windows.png",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-1a5PC9",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-10T15:15:47.846Z",
+    "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "bundleSha256": "721991af12a53c6f35e04885bd152d3b2148bc0e8d56e69cbfe218f85bd7bf86",
+    "browserAssetsSha256": "2c38c1a18c8be572627e1e86d688cc7e6d960d11dfb41ccbcb0dd2df62ee8ec2",
+    "readyAt": "2026-11-10T15:35:57.644Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": 1,
+        "startedAt": "2026-11-10T15:35:57.646Z",
+        "sourceSha256": "395ff40cd868a061a1dd98efeca8eddd2eed6a0a4145e2f35486b5a4edd35689",
+        "file": "/tmp/valtan-window-checks-zaZ6aO/checks.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:WINDOW-CHECKS-LOADED)"
+        },
+        "finishedAt": "2026-11-10T15:35:59.177Z"
+      },
+      {
+        "id": 2,
+        "commandId": 2,
+        "startedAt": "2026-11-10T15:35:59.178Z",
+        "sourceSha256": "c55cb9b23f51475156d41be017da472865bc7e44872ef84bb5a76a0eebd3f3ef",
+        "result": {
+          "type": "test-result",
+          "id": 2,
+          "ok": true,
+          "value": "(:WINDOWS-CREATED)"
+        },
+        "finishedAt": "2026-11-10T15:36:02.646Z"
+      },
+      {
+        "id": 3,
+        "commandId": 7,
+        "startedAt": "2026-11-10T15:36:02.650Z",
+        "sourceSha256": "eb956db174592cc5806c9e245304c7efa2b284e71bfe6e166bee74737371341a",
+        "result": {
+          "type": "test-result",
+          "id": 3,
+          "ok": true,
+          "value": "(\"日本語のフレーム\")"
+        },
+        "finishedAt": "2026-11-10T15:36:02.753Z"
+      },
+      {
+        "id": 4,
+        "commandId": 10,
+        "startedAt": "2026-11-10T15:36:02.756Z",
+        "sourceSha256": "f5ff20b5365718acff06c8aacf5baa10d9320f9d0f1d971603cc26ba0af54e73",
+        "result": {
+          "type": "test-result",
+          "id": 4,
+          "ok": true,
+          "value": "(#<[object Object]>)"
+        },
+        "finishedAt": "2026-11-10T15:36:02.859Z"
+      },
+      {
+        "id": 5,
+        "commandId": 12,
+        "startedAt": "2026-11-10T15:36:02.860Z",
+        "sourceSha256": "8152b2dad7ce8c67a63a0e41b43ae2692afbcfb9c663870c719b94fe28296cbe",
+        "result": {
+          "type": "test-result",
+          "id": 5,
+          "ok": true,
+          "value": "(#<[object Object]>)"
+        },
+        "finishedAt": "2026-11-10T15:36:02.965Z"
+      },
+      {
+        "id": 6,
+        "commandId": 14,
+        "startedAt": "2026-11-10T15:36:02.966Z",
+        "sourceSha256": "d743fc2faa5b5e2e54a6cf875819f9db4535843345d285b3cc76f31b1b40ed0d",
+        "result": {
+          "type": "test-result",
+          "id": 6,
+          "ok": true,
+          "value": "(#<[object Object]>)"
+        },
+        "finishedAt": "2026-11-10T15:36:03.583Z"
+      },
+      {
+        "id": 7,
+        "commandId": 17,
+        "startedAt": "2026-11-10T15:36:03.588Z",
+        "sourceSha256": "75cb87cd4c562fba98d93551c9246d62fcf18193096d774ced12ddad1f51f729",
+        "result": {
+          "type": "test-result",
+          "id": 7,
+          "ok": true,
+          "value": "(:DISABLED)"
+        },
+        "finishedAt": "2026-11-10T15:36:03.692Z"
+      },
+      {
+        "id": 8,
+        "commandId": 19,
+        "startedAt": "2026-11-10T15:36:03.694Z",
+        "sourceSha256": "5611654451fa4aa89fb61ce0e2a13f7c0957a65ef93b89bb6f557b205c5dc35f",
+        "result": {
+          "type": "test-result",
+          "id": 8,
+          "ok": true,
+          "value": "(:ENABLED)"
+        },
+        "finishedAt": "2026-11-10T15:36:04.106Z"
+      },
+      {
+        "id": 9,
+        "commandId": 21,
+        "startedAt": "2026-11-10T15:36:04.108Z",
+        "sourceSha256": "f5ff20b5365718acff06c8aacf5baa10d9320f9d0f1d971603cc26ba0af54e73",
+        "result": {
+          "type": "test-result",
+          "id": 9,
+          "ok": true,
+          "value": "(#<[object Object]>)"
+        },
+        "finishedAt": "2026-11-10T15:36:04.211Z"
+      },
+      {
+        "id": 10,
+        "commandId": 28,
+        "startedAt": "2026-11-10T15:36:04.224Z",
+        "sourceSha256": "e9bdd6e1f6e34aa99e8651896d143902f51ade2bf6717564338d1a9738558dc9",
+        "result": {
+          "type": "test-result",
+          "id": 10,
+          "ok": true,
+          "value": "(:GEOMETRY-MATCHES)"
+        },
+        "finishedAt": "2026-11-10T15:36:05.250Z"
+      },
+      {
+        "id": 11,
+        "commandId": 29,
+        "startedAt": "2026-11-10T15:36:05.251Z",
+        "sourceSha256": "c55e993b69799df9b6d96ce4e1193cd82561a9736a647129578b0f93bbde25fc",
+        "result": {
+          "type": "test-result",
+          "id": 11,
+          "ok": true,
+          "value": "(:SHRUNK)"
+        },
+        "finishedAt": "2026-11-10T15:36:05.357Z"
+      },
+      {
+        "id": 12,
+        "commandId": 38,
+        "startedAt": "2026-11-10T15:36:05.466Z",
+        "sourceSha256": "1bf37850863b7b4f180012b4894c321c6727aa7ada3658cbb948f05f3b984cc1",
+        "result": {
+          "type": "test-result",
+          "id": 12,
+          "ok": true,
+          "value": "(:RESTORED)"
+        },
+        "finishedAt": "2026-11-10T15:36:06.488Z"
+      },
+      {
+        "id": 13,
+        "commandId": 154,
+        "startedAt": "2026-11-10T15:36:09.402Z",
+        "sourceSha256": "5ffa2deabbc76ea93f57c1241618d5d38b62508fcb991d99b45180023d6519b4",
+        "result": {
+          "type": "test-result",
+          "id": 13,
+          "ok": true,
+          "value": "(:DESTROYED)"
+        },
+        "finishedAt": "2026-11-10T15:36:10.014Z"
+      }
+    ],
+    "finishedAt": "2026-11-10T15:36:10.068Z"
+  },
+  "finishedAt": "2026-11-10T15:36:10.103Z"
+}
