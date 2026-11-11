@@ -224,6 +224,17 @@ covers redefinition, multiple values, profiling and exception backtraces, plus
 the compiler semantic regressions. An isolated CLOS benchmark measured warm
 medians of 114 ms before and 101 ms after; full McCLIM timing is not established.
 
+`VALUES-LIST` now validates and collects a proper list in one native traversal,
+without forwarding through `APPLY`. It preserves zero values, object identity,
+and a stable snapshot when the caller later mutates the list; improper and
+circular lists still signal type errors. The
+[validation record](../tests/performance/values-list-results.json) includes all
+131 selected upstream multiple-value and nonlocal-control tests passing in
+both evaluation and compiled modes, compiler semantic regressions, and 281
+McCLIM drawing/PNG assertions after a retained-worker reload. A six-process
+comparison measured warm medians of 5.6 ms before and 2.3 ms after for 30,000
+four-value calls. This measures that operation, not total McCLIM startup time.
+
 An experimental Canvas backend lives in `library/mcclim-browser`, with a
 counter-frame example in `example/try-using-mcclim`. It runs Lisp in a worker;
 shared-memory input and transferred bitmap snapshots allow synchronous McCLIM

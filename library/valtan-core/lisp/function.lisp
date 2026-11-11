@@ -55,6 +55,10 @@
 
 (defun values-list (list)
   "Return the elements of LIST as multiple values."
-  (unless (proper-list-p list)
-    (type-error list '(satisfies proper-list-p)))
-  (apply #'values list))
+  #+valtan
+  (system::%values-list list)
+  #-valtan
+  (progn
+    (unless (proper-list-p list)
+      (type-error list '(satisfies proper-list-p)))
+    (apply #'values list)))

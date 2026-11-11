@@ -1,0 +1,586 @@
+{
+  "status": "verified",
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T11:50:52.936210+00:00",
+  "scope": "Single-pass proper-list validation and multiple-value snapshot in the target kernel. ANSI multiple-value/nonlocal-control tests, compiler regression checks, and retained McCLIM assertions. Isolated benchmark, not full McCLIM startup timing.",
+  "sourceHashes": {
+    "kernel/cons.js": "10a11c1ae38ab1228739201bb7d68c2e04c87dcf7f5e0b040cb166b291e2e5b0",
+    "kernel/lisp.js": "e7ead6d0999e09e03958728d3fb0f85e870023094f5b0077757708a319fb9b89",
+    "library/valtan-core/lisp/function.lisp": "7b4216e0eb5b831a1125697af0fb3f5ea4dab52fd859302e1ebea08ad7943d6c",
+    "tests/performance/kernel.test.mjs": "f464c9e1e8682378540ecdeef0fc070a2bf89eaf368039c1a7c1452ba585a5e9",
+    "tests/performance/semantics.lisp": "d85c0b7617c68af4d36a6b8764d0360c5f3b098c4dc87daa18d975778ae1ab72"
+  },
+  "profile": {
+    "fileSha256": "aa78b3795851db9d974e7627e391561541b55e7684f2792c6c7276e824fb8fb8",
+    "scope": "Two-second trace during fresh McCLIM startup in browser Kt72IV, frozen bundle f7c127664ee2bb7c081d62e7a46d05ced039050f73d4a9af9940f2e4b93cdec7. Includes required-classes and call-forwarder changes; predates this VALUES-LIST change. Counts describe this sample only.",
+    "summary": {
+      "activeSamples": 5397,
+      "valuesListAncestrySamples": 1386,
+      "underValuesList": [
+        [
+          "F_APPLY_14",
+          587
+        ],
+        [
+          "F_VALUES_LIST_268",
+          232
+        ],
+        [
+          "F_PROPER_LIST_P_248",
+          182
+        ],
+        [
+          "CL_listToJsArray",
+          168
+        ],
+        [
+          "values",
+          84
+        ],
+        [
+          "intern.func",
+          67
+        ],
+        [
+          "F_ENSURE_FUNCTION_22",
+          37
+        ],
+        [
+          "CL_values",
+          29
+        ]
+      ],
+      "top": [
+        [
+          "F_APPLY_14",
+          598
+        ],
+        [
+          "callFunctionWithCallStack",
+          553
+        ],
+        [
+          "F_GETF_4270",
+          423
+        ],
+        [
+          "(garbage collector)",
+          234
+        ],
+        [
+          "F_VALUES_LIST_268",
+          232
+        ],
+        [
+          "F_PROCESS_LIST_3303",
+          196
+        ],
+        [
+          "F_PROPER_LIST_P_248",
+          188
+        ],
+        [
+          "F_PERCENTSTRUCTURE_SUBTYPE_P_12",
+          184
+        ],
+        [
+          "CL_listToJsArray",
+          175
+        ],
+        [
+          "F_GET_51",
+          147
+        ],
+        [
+          "F_ENSURE_FUNCTION_22",
+          135
+        ],
+        [
+          "F_PERCENTSTRUCTURE_INSTANCE_P_46",
+          127
+        ],
+        [
+          "F_LIST_2427",
+          107
+        ],
+        [
+          "values",
+          85
+        ],
+        [
+          "F_ROW_MAJOR_AREF_1948",
+          84
+        ],
+        [
+          "F_STRING_CMP_545",
+          71
+        ],
+        [
+          "intern.func",
+          69
+        ],
+        [
+          "F_EQL_68",
+          63
+        ],
+        [
+          "F_VECTORP_1619",
+          63
+        ],
+        [
+          "F_CDDR_184",
+          55
+        ]
+      ]
+    }
+  },
+  "benchmark": {
+    "scope": "Fresh Node processes, alternating old and new VALUES-LIST; fixed list, public function, validate primary value and multiple-value count on each of 30000 calls. First two samples discarded. Not end-to-end McCLIM timing.",
+    "sourceHashes": {
+      "before": "4cb917f65121a28a56d329db9c3fcefc1e47c43e4fc5b0f3fa15eaff24625453",
+      "after": "706aa26855bc738db243e800c27ba0f6120821b017e1be6b0936b40f1bb2eb93"
+    },
+    "runs": [
+      {
+        "variant": "before",
+        "measurements": [
+          {
+            "length": 0,
+            "iterations": 30000,
+            "samples": [
+              4.426667000000009,
+              5.219920999999999,
+              23.166762000000006,
+              2.765375000000006,
+              2.7986139999999864,
+              2.983276999999987
+            ]
+          },
+          {
+            "length": 4,
+            "iterations": 30000,
+            "samples": [
+              6.545175000000029,
+              5.5964570000000435,
+              5.659485000000018,
+              5.589687999999967,
+              5.515839999999969,
+              5.513189999999952
+            ]
+          },
+          {
+            "length": 32,
+            "iterations": 30000,
+            "samples": [
+              24.340921999999978,
+              21.710002999999972,
+              21.822248000000002,
+              21.64817499999998,
+              21.586477000000002,
+              21.63793499999997
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "after",
+        "measurements": [
+          {
+            "length": 0,
+            "iterations": 30000,
+            "samples": [
+              3.798729000000037,
+              2.0788479999999936,
+              16.992394999999988,
+              3.8946559999999977,
+              1.103211999999985,
+              1.0806430000000091
+            ]
+          },
+          {
+            "length": 4,
+            "iterations": 30000,
+            "samples": [
+              2.3555789999999774,
+              2.3798080000000255,
+              2.411316999999997,
+              2.439356000000032,
+              2.383447999999987,
+              2.425617000000045
+            ]
+          },
+          {
+            "length": 32,
+            "iterations": 30000,
+            "samples": [
+              8.802206000000012,
+              9.043939000000023,
+              8.991420000000005,
+              8.989510999999993,
+              9.153615000000002,
+              9.198913000000005
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "after",
+        "measurements": [
+          {
+            "length": 0,
+            "iterations": 30000,
+            "samples": [
+              2.8603519999999776,
+              2.761504000000002,
+              14.853298999999993,
+              4.138958000000002,
+              1.2156780000000253,
+              1.1519910000000095
+            ]
+          },
+          {
+            "length": 4,
+            "iterations": 30000,
+            "samples": [
+              3.023305999999991,
+              2.9700879999999756,
+              1.9251730000000293,
+              2.510023999999987,
+              2.2882810000000404,
+              2.3168099999999754
+            ]
+          },
+          {
+            "length": 32,
+            "iterations": 30000,
+            "samples": [
+              9.562331000000029,
+              9.572950000000048,
+              9.399456999999984,
+              9.394125999999972,
+              9.558430999999985,
+              9.12474599999996
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "before",
+        "measurements": [
+          {
+            "length": 0,
+            "iterations": 30000,
+            "samples": [
+              4.520854000000043,
+              5.520559999999989,
+              25.89058799999998,
+              7.9118780000000015,
+              3.2004800000000273,
+              3.161280999999974
+            ]
+          },
+          {
+            "length": 4,
+            "iterations": 30000,
+            "samples": [
+              6.537444999999991,
+              5.526508999999976,
+              5.646506000000045,
+              5.7493220000000065,
+              5.633785999999986,
+              5.680323999999985
+            ]
+          },
+          {
+            "length": 32,
+            "iterations": 30000,
+            "samples": [
+              24.905033000000003,
+              20.20696399999997,
+              21.68947300000002,
+              20.724117000000035,
+              22.016702000000066,
+              21.778760000000034
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "before",
+        "measurements": [
+          {
+            "length": 0,
+            "iterations": 30000,
+            "samples": [
+              4.803404999999998,
+              5.061676000000034,
+              15.269294000000002,
+              6.08435099999997,
+              3.0721340000000055,
+              3.0339350000000422
+            ]
+          },
+          {
+            "length": 4,
+            "iterations": 30000,
+            "samples": [
+              5.99183400000004,
+              5.501480000000015,
+              5.443103000000008,
+              5.525579999999991,
+              5.5416589999999815,
+              5.475141000000008
+            ]
+          },
+          {
+            "length": 32,
+            "iterations": 30000,
+            "samples": [
+              23.32212800000002,
+              21.47727100000003,
+              21.465940999999987,
+              21.58319700000004,
+              21.629705,
+              21.44022199999995
+            ]
+          }
+        ]
+      },
+      {
+        "variant": "after",
+        "measurements": [
+          {
+            "length": 0,
+            "iterations": 30000,
+            "samples": [
+              3.0283960000000434,
+              3.125662000000034,
+              22.011843,
+              1.3566830000000323,
+              1.2445470000000114,
+              1.244737999999984
+            ]
+          },
+          {
+            "length": 4,
+            "iterations": 30000,
+            "samples": [
+              2.1609059999999545,
+              2.177625999999975,
+              2.210373000000004,
+              2.160256000000004,
+              2.163735000000031,
+              2.177845999999988
+            ]
+          },
+          {
+            "length": 32,
+            "iterations": 30000,
+            "samples": [
+              9.161175000000014,
+              9.321789000000024,
+              9.394385999999997,
+              9.294669999999996,
+              9.274951000000044,
+              9.282960000000003
+            ]
+          }
+        ]
+      }
+    ],
+    "medians": {
+      "0": {
+        "before": 3.1808805000000007,
+        "after": 1.300710500000008
+      },
+      "4": {
+        "before": 5.565673499999974,
+        "after": 2.302545500000008
+      },
+      "32": {
+        "before": 21.633819999999986,
+        "after": 9.278955500000023
+      }
+    }
+  },
+  "kernelAndCompiler": {
+    "status": "passed",
+    "kernelTests": 5,
+    "workloads": 8,
+    "semanticRegressionScope": "Zero and multiple values, object identity, source mutation during cleanup, dotted/atomic/circular inputs through direct and runtime-compiled callers; existing compiler semantic assertions also execute.",
+    "log": "\n> tests@1.0.0 test:performance\n> node performance/kernel-tests.mjs && node performance/verify.mjs\n\n\u2714 CLOS cache keys preserve class order, EQL matches and invalidation (0.654937ms)\n\u2714 single and multiple values yield stable snapshots across nested cleanup (0.430475ms)\n\u2714 VALUES-LIST retains a snapshot independent of later list mutation (0.122285ms)\n\u2714 lazy backtrace frames preserve function/argument order and unwind on exceptions (0.357767ms)\n\u2714 symbol calls observe redefinition and preserve multiple values with profiling (0.314589ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 5\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 40.567243\nCompiler semantic regressions and all 8 workload results passed\n"
+  },
+  "ansi": {
+    "bundleSha256": "614b8822ff430ca5b5c4e5e59b9f7d4f5fbeb992a8d8451fe2fc777d747bc45b",
+    "upstreamRevision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+    "runs": [
+      {
+        "name": "values-and-control",
+        "files": [
+          "data-and-control-flow/values-list.lsp",
+          "data-and-control-flow/values.lsp",
+          "data-and-control-flow/multiple-value-bind.lsp",
+          "data-and-control-flow/multiple-value-call.lsp",
+          "data-and-control-flow/multiple-value-prog1.lsp",
+          "data-and-control-flow/multiple-value-setq.lsp",
+          "data-and-control-flow/multiple-value-list.lsp",
+          "data-and-control-flow/nth-value.lsp",
+          "data-and-control-flow/unwind-protect.lsp",
+          "data-and-control-flow/catch.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 131,
+        "fail": 0,
+        "registered": 131,
+        "expectedRegistered": null,
+        "completedFiles": [
+          "cl-test-package.lsp",
+          "auxiliary/ansi-aux-macros.lsp",
+          "universe.lsp",
+          "auxiliary/random-aux.lsp",
+          "auxiliary/ansi-aux.lsp",
+          "cl-symbol-names.lsp",
+          "notes.lsp",
+          "data-and-control-flow/values-list.lsp",
+          "data-and-control-flow/values.lsp",
+          "data-and-control-flow/multiple-value-bind.lsp",
+          "data-and-control-flow/multiple-value-call.lsp",
+          "data-and-control-flow/multiple-value-prog1.lsp",
+          "data-and-control-flow/multiple-value-setq.lsp",
+          "data-and-control-flow/multiple-value-list.lsp",
+          "data-and-control-flow/nth-value.lsp",
+          "data-and-control-flow/unwind-protect.lsp",
+          "data-and-control-flow/catch.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "data-and-control-flow/catch.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false,
+        "referenceExpectedRegistered": 131
+      },
+      {
+        "name": "values-and-control",
+        "files": [
+          "data-and-control-flow/values-list.lsp",
+          "data-and-control-flow/values.lsp",
+          "data-and-control-flow/multiple-value-bind.lsp",
+          "data-and-control-flow/multiple-value-call.lsp",
+          "data-and-control-flow/multiple-value-prog1.lsp",
+          "data-and-control-flow/multiple-value-setq.lsp",
+          "data-and-control-flow/multiple-value-list.lsp",
+          "data-and-control-flow/nth-value.lsp",
+          "data-and-control-flow/unwind-protect.lsp",
+          "data-and-control-flow/catch.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 131,
+        "fail": 0,
+        "registered": 131,
+        "expectedRegistered": null,
+        "completedFiles": [
+          "cl-test-package.lsp",
+          "auxiliary/ansi-aux-macros.lsp",
+          "universe.lsp",
+          "auxiliary/random-aux.lsp",
+          "auxiliary/ansi-aux.lsp",
+          "cl-symbol-names.lsp",
+          "notes.lsp",
+          "data-and-control-flow/values-list.lsp",
+          "data-and-control-flow/values.lsp",
+          "data-and-control-flow/multiple-value-bind.lsp",
+          "data-and-control-flow/multiple-value-call.lsp",
+          "data-and-control-flow/multiple-value-prog1.lsp",
+          "data-and-control-flow/multiple-value-setq.lsp",
+          "data-and-control-flow/multiple-value-list.lsp",
+          "data-and-control-flow/nth-value.lsp",
+          "data-and-control-flow/unwind-protect.lsp",
+          "data-and-control-flow/catch.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "data-and-control-flow/catch.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false,
+        "referenceExpectedRegistered": 131
+      }
+    ]
+  },
+  "host": {
+    "status": "passed",
+    "scope": "Fresh SBCL QL load of valtan-core plus native VALUES-LIST returning three values. Native implementation retained behind #-valtan; optimized target implementation under #+valtan.",
+    "targetCodeIdentityAfterFeatureGuard": {
+      "before": "cf32d6ce57f9cb62359c7858a1cf5811273745baee64c26e8076f11c6b6a89af",
+      "after": "cf32d6ce57f9cb62359c7858a1cf5811273745baee64c26e8076f11c6b6a89af",
+      "identical": true
+    }
+  },
+  "mcclim": {
+    "scope": "Retained browser with older 5c2fb35 core and recorded backend reloads. Native helper installed through FFI and Lisp VALUES-LIST redefined. No restart or claim of a fresh current-runtime McCLIM startup.",
+    "observation": {
+      "file": "/tmp/valtan-values-list-mcclim-checks.lisp",
+      "id": 9015,
+      "sourceSha256": "a8daeabb4a1e9d2c79ddd08845a60aa9ea1acbfcb3da12d2f64c6bef02f7ef1c",
+      "startedAt": "2026-11-11T11:43:43.623Z",
+      "status": "passed",
+      "evaluationStartedAt": "2026-11-11T11:43:43.683Z",
+      "lastLog": "MCCLIM-PNG-WRITE-CHECKS-PASS 44",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9015,
+        "ok": true,
+        "value": "(:CANVAS 237 :PNG 44)"
+      },
+      "finishedAt": "2026-11-11T11:44:09.333Z"
+    },
+    "counterVerification": {
+      "file": "/tmp/valtan-values-list-counts.lisp",
+      "id": 9016,
+      "sourceSha256": "a5238be927a7004fcffc4b1075f697b32a695e6978491b05bfe4e6596f5f1436",
+      "startedAt": "2026-11-11T11:44:47.789Z",
+      "status": "passed",
+      "evaluationStartedAt": "2026-11-11T11:44:47.845Z",
+      "lastLog": "MCCLIM-PNG-WRITE-CHECKS-PASS 44",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9016,
+        "ok": true,
+        "value": "(:CANVAS 237 :PNG 44)"
+      },
+      "finishedAt": "2026-11-11T11:44:49.020Z"
+    },
+    "counts": {
+      "canvasAndBezierAndFlipping": 237,
+      "pngWriting": 44
+    }
+  },
+  "limitations": [
+    "No completed fresh McCLIM startup with this optimization yet.",
+    "Thread-dependent upstream tests and other existing McCLIM gaps remain.",
+    "Timing compares the public VALUES-LIST operation in six fresh Node processes; it does not establish application-level speedup."
+  ]
+}

@@ -59,6 +59,25 @@
 (assert (equal (multiple-value-list
                 (multiple-value-prog1 (+ (identity 1) 2) (+ (identity 5) 6))) '(3)))
 
+;; VALUES-LIST must keep zero values, retain object identity, reject improper
+;; and circular input, and detach its result from later source-list mutation.
+(dolist (function (list #'values-list (compile nil '(lambda (items) (values-list items)))))
+  (assert (null (multiple-value-list (funcall function nil))))
+  (let* ((object (list :object)) (items (list nil object 3)))
+    (multiple-value-bind (first second third) (funcall function items)
+      (assert (null first)) (assert (eq second object)) (assert (= third 3))))
+  (let ((items (list 1 2 3)))
+    (assert (equal (multiple-value-list
+                    (unwind-protect (funcall function items)
+                      (setf (car items) 9 (cdr items) nil))) '(1 2 3))))
+  (let* ((cycle (list 1 2 3)) (prefix (list* 4 5 cycle)))
+    (setf (cdddr cycle) cycle)
+    (dolist (invalid (list 17 (cons 1 2) cycle prefix))
+      (assert (handler-case (progn (funcall function invalid) nil)
+                (type-error (condition) (eq (type-error-datum condition) invalid)))))))
+(assert (equal (multiple-value-call #'list (values-list '(1 2))
+                                 (values-list nil) (values-list '(3))) '(1 2 3)))
+
 ;; The runtime compiler must use the same lowering and preserve evaluation order.
 (assert (= (funcall (compile nil '(lambda (x) (+ x (setq x 4)))) 1) 5))
 (assert (equal (multiple-value-list

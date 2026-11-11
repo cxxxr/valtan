@@ -1,5 +1,6 @@
 import {
-    values1
+    values1,
+    restoreValues
 } from './values';
 import {
     S_nil,
@@ -47,6 +48,25 @@ export function listToJsArray(list) {
         array.push(x.car);
     }
     return array;
+}
+
+// VALUES-LIST needs a stable value snapshot, not an APPLY argument list.
+// Validate the proper list while collecting its values, including cycles.
+export function CL_valuesList(list) {
+    const result = [];
+    let cursor = list, slow = list;
+    const improper = () => typeError(list, jsArrayToList([
+        intern('SATISFIES', cl_package), intern('PROPER-LIST-P', cl_package)
+    ]));
+    while (cursor !== S_nil) {
+        if (!isCons(cursor)) return improper();
+        result.push(cursor.car);
+        cursor = cursor.cdr;
+        if (result.length % 2 === 0) slow = slow.cdr;
+        if (cursor !== S_nil && cursor === slow) return improper();
+    }
+    restoreValues(result);
+    return result.length ? result[0] : S_nil;
 }
 
 export function CL_consp(x) {

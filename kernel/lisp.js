@@ -176,6 +176,7 @@ import {
     CL_car,
     CL_cdr,
     CL_listEltCell,
+    CL_valuesList,
     CL_rplaca,
     CL_rplacd,
     CL_jsArrayToList,
@@ -377,6 +378,7 @@ registerFunction(cl_package, 'CONS', CL_cons, 2);
 registerFunction(system_package, '%CAR', CL_car, 1);
 registerFunction(system_package, '%CDR', CL_cdr, 1);
 registerFunction(system_package, '%LIST-ELT-CELL', CL_listEltCell, 2);
+registerFunction(system_package, '%VALUES-LIST', CL_valuesList, 1);
 registerFunction(system_package, '%RPLACA', CL_rplaca, 2);
 registerFunction(system_package, '%RPLACD', CL_rplacd, 2);
 registerFunction(system_package, 'RAW-ARRAY-TO-LIST', CL_jsArrayToList, 1);

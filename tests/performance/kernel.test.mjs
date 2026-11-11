@@ -39,6 +39,18 @@ test('single and multiple values yield stable snapshots across nested cleanup', 
   assert.deepEqual(lisp.CL_multipleValueCall((...xs) => xs, 0, 6), [0, 6]);
 });
 
+test('VALUES-LIST retains a snapshot independent of later list mutation', () => {
+  const list = lisp.jsArrayToList([1, 2, 3]);
+  assert.equal(lisp.CL_valuesList(list), 1);
+  const snapshot = lisp.currentValues();
+  lisp.rplaca(list, 99);
+  lisp.rplacd(list, lisp.S_nil);
+  assert.deepEqual(snapshot, [1, 2, 3]);
+  assert.equal(lisp.CL_valuesList(lisp.S_nil), lisp.S_nil);
+  assert.deepEqual(lisp.currentValues(), []);
+  assert.deepEqual(snapshot, [1, 2, 3]);
+});
+
 test('lazy backtrace frames preserve function/argument order and unwind on exceptions', () => {
   const printed = [];
   lisp.setLispFormatFunction((control, frame) => {
