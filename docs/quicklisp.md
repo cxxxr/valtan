@@ -876,6 +876,19 @@ before loading its compiled artifact, suspends during loading, and resumes to
 install the remaining definition. Browser file output remains unavailable, so
 browser COMPILE-FILE is not covered by the passing compiled-stream checks.
 
+Target `COMPILE-FILE` externalizes standard and structure objects through
+`MAKE-LOAD-FORM`, including `MAKE-LOAD-FORM-SAVING-SLOTS`. A file-wide literal
+pool preserves shared objects and aggregate substructure across source forms
+and ordinary/scheduled function entries. Creation dependencies are ordered;
+circular creation dependencies signal an error, while circular initialization
+references are supported. Each `LOAD` owns a fresh pool, retained by the
+functions it installs and isolated from nested loads. `EVAL` continues to use
+the original live objects. The [two-process tests](../tests/resumable/file-literals.test.mjs)
+delete the source before loading, check 23 graph/slot assertions per load,
+verify one load-form call per object per compilation, and exercise suspension
+in both creation and initialization forms. These compiler tests do not establish
+that all McCLIM components can yet be precompiled and reloaded.
+
 Internal cooperative locks and condition variables now share the scheduler's
 task identity. Locks support recursive ownership, nonblocking/timed acquisition
 and FIFO handoff. Condition waits atomically enqueue and release the lock, then

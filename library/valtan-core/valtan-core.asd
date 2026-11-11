@@ -70,6 +70,7 @@
                (:file "compiler/type-infer" :if-feature (:not :valtan))
                (:file "compiler/hir-optimize" :if-feature (:not :valtan))
                (:file "compiler/pass2")
+               (:file "compiler/file-literals")
                (:file "compiler/compiler")
                (:file "lisp/compilation" :if-feature :valtan)
                (:file "lisp/compilation-files" :if-feature :valtan)))

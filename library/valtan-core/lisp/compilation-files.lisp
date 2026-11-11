@@ -10,6 +10,7 @@
 (defvar *load-verbose* nil)
 (defvar *modules* nil)
 (defvar system::*file-local-variables* nil)
+(defvar system::*compiled-file-literals* nil)
 
 (defmacro with-compilation-unit ((&key override) &body body)
   (let ((value (gensym)))
@@ -44,7 +45,10 @@
         (file-position stream position)))))
 
 (defun %load-stream (stream print)
-  (let ((*readtable* (if (%compiled-input-p stream) (copy-readtable nil) *readtable*))
+  (let* ((compiled-p (%compiled-input-p stream))
+         (*readtable* (if compiled-p (copy-readtable nil) *readtable*))
+         (system::*compiled-file-literals*
+           (if compiled-p (system:make-raw-array 0) system::*compiled-file-literals*))
         (eof (gensym)))
     (loop for form = (read stream nil eof) until (eq form eof)
           do (let ((value (eval form)))
@@ -102,6 +106,9 @@
   (let* ((*compile-file-pathname* (merge-pathnames (pathname input-file)))
          (*compile-file-truename* (truename *compile-file-pathname*))
          (compiler::*file-compilation-p* t)
+         (compiler::*p2-file-literals* (make-hash-table :test 'eq))
+         (compiler::*p2-file-pending-literals* nil)
+         (compiler::*p2-record-file-literal-dependencies* nil)
          (output-path (compile-file-pathname input-file :output-file output-file))
          (*package* *package*) (*readtable* *readtable*)
          (warnings nil) (failure nil) (eof (gensym)))
