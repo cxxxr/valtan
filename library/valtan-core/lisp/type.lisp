@@ -369,6 +369,55 @@
         (when (and (subtypep (first left) (first right))
                    (subtypep (second left) (second right)))
           (return-from subtypep (values t t))))))
+  (let ((left (and (or (symbolp type1) (consp type1)) (%array-type-description type1)))
+        (right (and (or (symbolp type2) (consp type2)) (%array-type-description type2))))
+    (when (and left right)
+      (return-from subtypep
+        (values (and (or (not (first right)) (first left))
+                     (or (eq (second right) '*)
+                         (and (not (eq (second left) '*))
+                              (subsetp (second left) (second right) :test #'%same-type-specifier-p)))
+                     (%array-dimensions-subtype-p (third left) (third right))) t)))
+    (when (and left (member type2 '(sequence atom)))
+      (return-from subtypep
+        (values (or (eq type2 'atom) (%array-dimensions-subtype-p (third left) 1)) t)))
+    (when (and left (member type2 '(number real rational integer fixnum bignum float symbol cons list character)))
+      (return-from subtypep (values nil t))))
+  #+valtan
+  (when (fboundp 'numeric-subtypep)
+    (when (and (eq type2 'atom) (nth-value 1 (numeric-type-intervals type1)))
+      (return-from subtypep (values t t)))
+    (multiple-value-bind (subset known) (numeric-subtypep type1 type2)
+      (when known (return-from subtypep (values subset t)))))
+  ;; Intersections on the right and unions on the left require every component
+  ;; relationship. Preserve uncertainty unless a known counterexample exists.
+  ;; Numeric interval reasoning above can prove additional compound relations.
+  (flet ((all-subtypes (parts predicate)
+           (let ((certain t))
+             (dolist (part parts (values certain certain))
+               (multiple-value-bind (subset known) (funcall predicate part)
+                 (when (and known (not subset))
+                   (return (values nil t)))
+                 (unless known (setq certain nil)))))))
+    (when (and (consp type2) (eq (car type2) 'and))
+      (return-from subtypep
+        (all-subtypes (cdr type2) (lambda (part) (subtypep type1 part)))))
+    (when (and (consp type1) (eq (car type1) 'or))
+      (return-from subtypep
+        (all-subtypes (cdr type1) (lambda (part) (subtypep part type2))))))
+  ;; A single contained component is sufficient in the other two directions.
+  ;; Failure to find one does not prove noncontainment: components may overlap
+  ;; or jointly cover the whole source type.
+  (when (and (consp type1) (eq (car type1) 'and))
+    (dolist (part (cdr type1))
+      (multiple-value-bind (subset known) (subtypep part type2)
+        (when (and subset known) (return-from subtypep (values t t)))))
+    (return-from subtypep (values nil nil)))
+  (when (and (consp type2) (eq (car type2) 'or))
+    (dolist (part (cdr type2))
+      (multiple-value-bind (subset known) (subtypep type1 part)
+        (when (and subset known) (return-from subtypep (values t t)))))
+    (return-from subtypep (values nil nil)))
   (let ((left (or (eq type1 'complex) (and (consp type1) (eq (car type1) 'complex))))
         (right (or (eq type2 'complex) (and (consp type2) (eq (car type2) 'complex)))))
     (when (and left right)
@@ -382,26 +431,6 @@
     (when (or (and left (subtypep type2 'real))
               (and right (subtypep type1 'real)))
       (return-from subtypep (values nil t))))
-  (let ((left (and (or (symbolp type1) (consp type1)) (%array-type-description type1)))
-        (right (and (or (symbolp type2) (consp type2)) (%array-type-description type2))))
-    (when (and left right)
-      (return-from subtypep
-        (values (and (or (not (first right)) (first left))
-                     (or (eq (second right) '*)
-                         (and (not (eq (second left) '*))
-                              (subsetp (second left) (second right))))
-                     (%array-dimensions-subtype-p (third left) (third right))) t)))
-    (when (and left (member type2 '(sequence atom)))
-      (return-from subtypep
-        (values (or (eq type2 'atom) (%array-dimensions-subtype-p (third left) 1)) t)))
-    (when (and left (member type2 '(number real rational integer fixnum bignum float symbol cons list character)))
-      (return-from subtypep (values nil t))))
-  #+valtan
-  (when (fboundp 'numeric-subtypep)
-    (when (and (eq type2 'atom) (nth-value 1 (numeric-type-intervals type1)))
-      (return-from subtypep (values t t)))
-    (multiple-value-bind (subset known) (numeric-subtypep type1 type2)
-      (when known (return-from subtypep (values subset t)))))
   ;; All four float formats use the same binary64 representation.
   (when (and (member type1 '(float short-float single-float double-float long-float))
              (member type2 '(float short-float single-float double-float long-float real number)))

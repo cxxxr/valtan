@@ -1,0 +1,438 @@
+{
+  "scope": "Boolean SUBTYPEP reasoning for class types, conservative uncertainty for empty intersections, and structural comparison of upgraded array element types; not full ANSI conformance or a full fresh-start Drei validation",
+  "before": {
+    "name": "boolean-before",
+    "files": [
+      "boolean-class-subtypes.lsp"
+    ],
+    "mode": "eval",
+    "status": "finished",
+    "pass": 1,
+    "fail": 8,
+    "registered": 9,
+    "expectedRegistered": null,
+    "completedFiles": [
+      "boolean-class-subtypes.lsp"
+    ],
+    "errors": [],
+    "failures": [
+      {
+        "test": "CLASS-SUBTYPE-OF-CONJUNCTION",
+        "reason": "expected ((T T) (T T)); actual ((NIL NIL) (NIL NIL)) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "CLASS-CONJUNCTION-KNOWN-NEGATIVE",
+        "reason": "expected (NIL T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "CLASS-UNION-SUBTYPE",
+        "reason": "expected ((T T) (NIL T)); actual ((NIL NIL) (NIL NIL)) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "CLASS-INTERSECTION-SUBTYPE",
+        "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "CLASS-SUBTYPE-OF-UNION",
+        "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "BOOLEAN-CLASS-OBJECT-SPECIFIERS",
+        "reason": "expected (T T); actual (NIL NIL) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "BOOLEAN-TYPES-EMPTY-IDENTITIES",
+        "reason": "expected ((T T) (T T)); actual ((T T) (NIL NIL)) [diagnostic display: length 10, depth 5]"
+      },
+      {
+        "test": "BOOLEAN-TYPES-PRESERVE-UNCERTAINTY",
+        "reason": "expected ((NIL NIL) (T T) (T T)); actual ((NIL NIL) (NIL NIL) (NIL NIL)) [diagnostic display: length 10, depth 5]"
+      }
+    ],
+    "complete": true,
+    "timedOut": false,
+    "unexecuted": 0,
+    "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+    "pendingTest": null,
+    "currentFile": "boolean-class-subtypes.lsp",
+    "exitCode": 0,
+    "signal": null,
+    "unreadFiles": [],
+    "unregisteredTestsUnknown": false,
+    "fatalError": false,
+    "referenceRegistrationMismatch": false,
+    "registrationMismatch": false
+  },
+  "upstreamBefore": {
+    "scope": "Same SUBTYPEP selection with the pre-change CL:SUBTYPEP definition loaded into the runtime before tests",
+    "result": {
+      "name": "subtypep-before",
+      "files": [
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep.lsp",
+        "types-and-classes/subtypep-integer.lsp",
+        "types-and-classes/subtypep-float.lsp",
+        "types-and-classes/subtypep-rational.lsp",
+        "types-and-classes/subtypep-real.lsp",
+        "types-and-classes/subtypep-cons.lsp",
+        "types-and-classes/subtypep-member.lsp",
+        "types-and-classes/subtypep-eql.lsp",
+        "types-and-classes/subtypep-array.lsp",
+        "types-and-classes/subtypep-function.lsp",
+        "types-and-classes/subtypep-complex.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 389,
+      "fail": 1,
+      "registered": 390,
+      "expectedRegistered": null,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "old-subtype.lsp",
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep.lsp",
+        "types-and-classes/subtypep-integer.lsp",
+        "types-and-classes/subtypep-float.lsp",
+        "types-and-classes/subtypep-rational.lsp",
+        "types-and-classes/subtypep-real.lsp",
+        "types-and-classes/subtypep-cons.lsp",
+        "types-and-classes/subtypep-member.lsp",
+        "types-and-classes/subtypep-eql.lsp",
+        "types-and-classes/subtypep-array.lsp",
+        "types-and-classes/subtypep-function.lsp",
+        "types-and-classes/subtypep-complex.lsp"
+      ],
+      "errors": [],
+      "failures": [
+        {
+          "test": "SUBTYPEP.ARRAY.5",
+          "reason": "expected (NIL); actual (((ARRAY (UNSIGNED-BYTE 8) 0) (ARRAY (UNSIGNED-BYTE 8) 1) (ARRAY (UNSIGNED-BYTE 8) 2) (ARRAY (UNSIGNED-BYTE 8) 3) (ARRAY (UNSIGNED-BYTE 8) 4) (ARRAY (UNSIGNED-BYTE 8) 5) (ARRAY (UNSIGNED-BYTE 8) 6) (ARRAY (UNSIGNED-BYTE 8) 7) (ARRAY (UNSIGNED-BYTE 8) 8) (ARRAY (UNSIGNED-BYTE 8) 9) ...)) [diagnostic display: length 10, depth 5]"
+        }
+      ],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "types-and-classes/subtypep-complex.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "registrationMismatch": false
+    }
+  },
+  "initialImplementation": {
+    "scope": "Before correcting compound real/complex reasoning and structural array element comparison",
+    "result": {
+      "startedAt": "2026-11-11T09:33:46.963Z",
+      "fixtures": [
+        {
+          "name": "boolean-types-eval",
+          "files": [
+            "boolean-class-subtypes.lsp",
+            "type-regressions.lsp",
+            "numeric-type-regressions.lsp"
+          ],
+          "mode": "eval",
+          "status": "finished",
+          "pass": 34,
+          "fail": 0,
+          "registered": 34,
+          "expectedRegistered": null,
+          "completedFiles": [
+            "boolean-class-subtypes.lsp",
+            "type-regressions.lsp",
+            "numeric-type-regressions.lsp"
+          ],
+          "errors": [],
+          "failures": [],
+          "complete": true,
+          "timedOut": false,
+          "unexecuted": 0,
+          "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "pendingTest": null,
+          "currentFile": "numeric-type-regressions.lsp",
+          "exitCode": 0,
+          "signal": null,
+          "unreadFiles": [],
+          "unregisteredTestsUnknown": false,
+          "fatalError": false,
+          "referenceRegistrationMismatch": false,
+          "registrationMismatch": false
+        },
+        {
+          "name": "boolean-types-compiled",
+          "files": [
+            "boolean-class-subtypes.lsp",
+            "type-regressions.lsp",
+            "numeric-type-regressions.lsp"
+          ],
+          "mode": "compiled",
+          "status": "finished",
+          "pass": 34,
+          "fail": 0,
+          "registered": 34,
+          "expectedRegistered": null,
+          "completedFiles": [
+            "boolean-class-subtypes.lsp",
+            "type-regressions.lsp",
+            "numeric-type-regressions.lsp"
+          ],
+          "errors": [],
+          "failures": [],
+          "complete": true,
+          "timedOut": false,
+          "unexecuted": 0,
+          "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+          "pendingTest": null,
+          "currentFile": "numeric-type-regressions.lsp",
+          "exitCode": 0,
+          "signal": null,
+          "unreadFiles": [],
+          "unregisteredTestsUnknown": false,
+          "fatalError": false,
+          "referenceRegistrationMismatch": false,
+          "registrationMismatch": false
+        }
+      ],
+      "upstream": {
+        "name": "subtypep",
+        "files": [
+          "auxiliary/types-aux.lsp",
+          "types-and-classes/subtypep.lsp",
+          "types-and-classes/subtypep-integer.lsp",
+          "types-and-classes/subtypep-float.lsp",
+          "types-and-classes/subtypep-rational.lsp",
+          "types-and-classes/subtypep-real.lsp",
+          "types-and-classes/subtypep-cons.lsp",
+          "types-and-classes/subtypep-member.lsp",
+          "types-and-classes/subtypep-eql.lsp",
+          "types-and-classes/subtypep-array.lsp",
+          "types-and-classes/subtypep-function.lsp",
+          "types-and-classes/subtypep-complex.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 387,
+        "fail": 3,
+        "registered": 390,
+        "expectedRegistered": null,
+        "completedFiles": [
+          "cl-test-package.lsp",
+          "auxiliary/ansi-aux-macros.lsp",
+          "universe.lsp",
+          "auxiliary/random-aux.lsp",
+          "auxiliary/ansi-aux.lsp",
+          "cl-symbol-names.lsp",
+          "notes.lsp",
+          "auxiliary/types-aux.lsp",
+          "types-and-classes/subtypep.lsp",
+          "types-and-classes/subtypep-integer.lsp",
+          "types-and-classes/subtypep-float.lsp",
+          "types-and-classes/subtypep-rational.lsp",
+          "types-and-classes/subtypep-real.lsp",
+          "types-and-classes/subtypep-cons.lsp",
+          "types-and-classes/subtypep-member.lsp",
+          "types-and-classes/subtypep-eql.lsp",
+          "types-and-classes/subtypep-array.lsp",
+          "types-and-classes/subtypep-function.lsp",
+          "types-and-classes/subtypep-complex.lsp"
+        ],
+        "errors": [],
+        "failures": [
+          {
+            "test": "SUBTYPEP.AND.4",
+            "reason": "expected (NIL); actual ((((SUBTYPEP (QUOTE #) (QUOTE #)) :==> NIL T) ((SUBTYPEP (QUOTE #) (QUOTE #)) :==> NIL T) ((SUBTYPEP (QUOTE #) (QUOTE #)) :==> NIL T) ((SUBTYPEP (QUOTE #) (QUOTE #)) :==> NIL T) ((SUBTYPEP (QUOTE #) (QUOTE #)) :==> NIL T) ((SUBTYPEP (QUOTE #) (QUOTE #)) :==> NIL T))) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "SUBTYPEP.ARRAY.5",
+            "reason": "expected (NIL); actual (((ARRAY (UNSIGNED-BYTE 8) 0) (ARRAY (UNSIGNED-BYTE 8) 1) (ARRAY (UNSIGNED-BYTE 8) 2) (ARRAY (UNSIGNED-BYTE 8) 3) (ARRAY (UNSIGNED-BYTE 8) 4) (ARRAY (UNSIGNED-BYTE 8) 5) (ARRAY (UNSIGNED-BYTE 8) 6) (ARRAY (UNSIGNED-BYTE 8) 7) (ARRAY (UNSIGNED-BYTE 8) 8) (ARRAY (UNSIGNED-BYTE 8) 9) ...)) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "SUBTYPEP.ARRAY.6",
+            "reason": "expected (NIL); actual ((((SUBTYPEP (QUOTE #) (QUOTE #)) :==> NIL T))) [diagnostic display: length 10, depth 5]"
+          }
+        ],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "types-and-classes/subtypep-complex.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      "finishedAt": "2026-11-11T09:34:38.650Z"
+    }
+  },
+  "after": {
+    "startedAt": "2026-11-11T09:41:44.394Z",
+    "typeSourceSha256": "a83bc369690f3f9ac18198191654a7a02b9c1e0af0f47db9664acb87bf0c96e5",
+    "bundleSha256": "244a00d69fa6c6b28646e227a7b400beac9bd87e3f838f46e1e9354d9108d70d",
+    "fixtures": [
+      {
+        "name": "boolean-types-eval",
+        "files": [
+          "boolean-class-subtypes.lsp",
+          "type-regressions.lsp",
+          "numeric-type-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 37,
+        "fail": 0,
+        "registered": 37,
+        "expectedRegistered": null,
+        "completedFiles": [
+          "boolean-class-subtypes.lsp",
+          "type-regressions.lsp",
+          "numeric-type-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "numeric-type-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "boolean-types-compiled",
+        "files": [
+          "boolean-class-subtypes.lsp",
+          "type-regressions.lsp",
+          "numeric-type-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 37,
+        "fail": 0,
+        "registered": 37,
+        "expectedRegistered": null,
+        "completedFiles": [
+          "boolean-class-subtypes.lsp",
+          "type-regressions.lsp",
+          "numeric-type-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "numeric-type-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      }
+    ],
+    "upstream": {
+      "name": "subtypep",
+      "files": [
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep.lsp",
+        "types-and-classes/subtypep-integer.lsp",
+        "types-and-classes/subtypep-float.lsp",
+        "types-and-classes/subtypep-rational.lsp",
+        "types-and-classes/subtypep-real.lsp",
+        "types-and-classes/subtypep-cons.lsp",
+        "types-and-classes/subtypep-member.lsp",
+        "types-and-classes/subtypep-eql.lsp",
+        "types-and-classes/subtypep-array.lsp",
+        "types-and-classes/subtypep-function.lsp",
+        "types-and-classes/subtypep-complex.lsp"
+      ],
+      "mode": "eval",
+      "status": "finished",
+      "pass": 390,
+      "fail": 0,
+      "registered": 390,
+      "expectedRegistered": null,
+      "completedFiles": [
+        "cl-test-package.lsp",
+        "auxiliary/ansi-aux-macros.lsp",
+        "universe.lsp",
+        "auxiliary/random-aux.lsp",
+        "auxiliary/ansi-aux.lsp",
+        "cl-symbol-names.lsp",
+        "notes.lsp",
+        "auxiliary/types-aux.lsp",
+        "types-and-classes/subtypep.lsp",
+        "types-and-classes/subtypep-integer.lsp",
+        "types-and-classes/subtypep-float.lsp",
+        "types-and-classes/subtypep-rational.lsp",
+        "types-and-classes/subtypep-real.lsp",
+        "types-and-classes/subtypep-cons.lsp",
+        "types-and-classes/subtypep-member.lsp",
+        "types-and-classes/subtypep-eql.lsp",
+        "types-and-classes/subtypep-array.lsp",
+        "types-and-classes/subtypep-function.lsp",
+        "types-and-classes/subtypep-complex.lsp"
+      ],
+      "errors": [],
+      "failures": [],
+      "complete": true,
+      "timedOut": false,
+      "unexecuted": 0,
+      "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+      "pendingTest": null,
+      "currentFile": "types-and-classes/subtypep-complex.lsp",
+      "exitCode": 0,
+      "signal": null,
+      "unreadFiles": [],
+      "unregisteredTestsUnknown": false,
+      "fatalError": false,
+      "referenceRegistrationMismatch": false,
+      "registrationMismatch": false
+    },
+    "finishedAt": "2026-11-11T09:42:36.316Z"
+  },
+  "drei": {
+    "scope": "Retained real McCLIM browser with the final CL:SUBTYPEP definition reloaded; five unchanged upstream MAKE-LAMBDA-LIST tests, 55 checks; not fresh startup",
+    "result": {
+      "file": "/tmp/valtan-drei-subtype-final-reload.lisp",
+      "id": 9009,
+      "sourceSha256": "a7c27a65ac2cab6209e16d4a1ada4b019fb25833272120bd99ee6c5f5f7bbd27",
+      "startedAt": "2026-11-11T09:43:22.500Z",
+      "status": "passed",
+      "evaluationStartedAt": "2026-11-11T09:43:22.557Z",
+      "lastLog": "Running test MAKE-LAMBDA-LIST-5",
+      "errors": [],
+      "result": {
+        "type": "test-result",
+        "id": 9009,
+        "ok": true,
+        "value": "(55 55 NIL)"
+      },
+      "finishedAt": "2026-11-11T09:43:27.934Z"
+    }
+  }
+}
