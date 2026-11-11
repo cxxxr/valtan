@@ -1,0 +1,75 @@
+{
+  "status": "passed",
+  "complete": true,
+  "scope": "Real Drei adapter methods: 22 Chrome assertions for string compilation, definition ordering, argument metadata and warning/error notes; 11 Node assertions for actual file compilation and optional loading. This does not certify the full upstream Drei suite or scheduled GUI integration.",
+  "sourceHashes": {
+    "library/mcclim-portability/drei-image.lisp": "3bf79277a01a5bec83765ffb0e7cd2d920c0f1e96375914f965d00f4578ff7b3",
+    "library/mcclim-portability/mcclim-portability.system": "24a0742297f0149a32c6f3ff8a08a0fa5bd8f0ddb71695ab1517be17e990b749",
+    "library/mcclim-browser/mcclim-browser.system": "4aa84eea5f9af29547c938b2e81a548d9fc57a98c115e0e2385c1d898d9b8690",
+    "tests/mcclim/drei-image-checks.lisp": "1c5cc8a061a24654ca8d936c9325373dc69c0d7600a720b7563f73957cacda5f",
+    "tests/mcclim/drei-image-file-checks.lisp": "78566293d82f8640c91f0904a4643cd680e03eb49207ed1bf7ec0549d09c2af5"
+  },
+  "browser": {
+    "coreRevision": "dc02e32",
+    "includes": "Current local image adapter, earlier uncommitted threaded integration files in ordinary mode; no production reload.",
+    "excludes": "Later PSETQ optimization.",
+    "compilerSha256": "a3e3ea9483a2546c1f87ae6d399f029232bacb13e3146918c2a3ac3cfdcd386a",
+    "bundleSha256": "6321339021a29cc89c293277807ba761ec546768d4ed7586e8867c3ec2d5477c",
+    "work": "/tmp/valtan-mcclim-workbench-bWVMar",
+    "checks": 22,
+    "observation": {
+      "status": "passed",
+      "complete": true,
+      "startedAt": "2026-11-11T17:55:02.998Z",
+      "queue": {
+        "queuedAt": "2026-11-11T17:44:10.361518+00:00",
+        "sourceSha256": "1c5cc8a061a24654ca8d936c9325373dc69c0d7600a720b7563f73957cacda5f",
+        "profile": "/tmp/valtan-chrome-VNV9q6",
+        "result": "{\"id\":3,\"result\":{\"result\":{\"type\":\"object\",\"value\":{\"queued\":23,\"ready\":false}}},\"sessionId\":\"A868151D9D1C9210CC127DD8973B8D6F\"}\n",
+        "stderr": ""
+      },
+      "lastObservation": {
+        "ready": true,
+        "lastLog": "MCCLIM-UPSTREAM-LOAD /tmp/valtan-mcclim-upstream-APmXl3/test-sources/Libraries/Drei/Tests/testing.lisp",
+        "errors": [],
+        "result": {
+          "type": "test-result",
+          "id": 9001,
+          "ok": true,
+          "value": "(:DREI-IMAGE-CHECKS 22)"
+        }
+      },
+      "observedAt": "2026-11-11T17:58:45.715Z",
+      "finishedAt": "2026-11-11T17:58:45.715Z"
+    }
+  },
+  "node": {
+    "coreRevision": "96dc1e5",
+    "checks": 11,
+    "command": "node tests/mcclim/probe.mjs mcclim-portability/drei /tmp/drei-image-file-node.json tests/mcclim/drei-image-file-checks.lisp clim-without-swank",
+    "probe": {
+      "system": "mcclim-portability/drei",
+      "scope": "Load and supplied API assertions; GUI verification is separate",
+      "timestamp": "2026-11-11T17:55:54.789Z",
+      "complete": true,
+      "status": "passed",
+      "work": "/tmp/valtan-mcclim-LLJxfp",
+      "compilerSha256": "677aa0499ad3504660ebe484061b5c946e149180ff852cffb0ae1992db6fb063",
+      "target": "node",
+      "extraSystems": [],
+      "targetFeatures": [
+        "clim-without-swank"
+      ],
+      "checksSha256": "78566293d82f8640c91f0904a4643cd680e03eb49207ed1bf7ec0549d09c2af5",
+      "stage": "run",
+      "bundleSha256": "e66f5cc505e2e24c0eda75bdd692dd2bc2d69f32e35704c37aeb172219084fc4",
+      "finishedAt": "2026-11-11T18:05:17.259Z"
+    }
+  },
+  "limitations": [
+    "Browser pathname output is unavailable; missing or unwritable files become error notes.",
+    "Compiler notes currently have messages and severity, without source locations.",
+    "Fuzzy completion and definition lookup still use upstream fallback methods.",
+    "The separate full upstream suite was still running when this method report was recorded."
+  ]
+}

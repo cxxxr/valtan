@@ -1,5 +1,5 @@
 (defsystem "mcclim-browser"
-  :depends-on ("mcclim-portability" "clim" "png-read" "zpng")
+  :depends-on ("mcclim-portability" "clim" "mcclim-portability/drei" "png-read" "zpng")
   :serial t
   :components ((:file "package") (:file "queues") (:file "port") (:file "medium")
                (:file "png") (:file "png-write")))

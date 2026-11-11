@@ -5,3 +5,7 @@
 (defsystem "mcclim-portability/image-support"
   :depends-on ("closer-mop")
   :components ((:file "image-support")))
+
+(defsystem "mcclim-portability/drei"
+  :depends-on ("mcclim-portability" "mcclim-portability/image-support" "drei-mcclim")
+  :components ((:file "drei-image")))

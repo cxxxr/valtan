@@ -1028,6 +1028,32 @@ node tests/mcclim/probe.mjs mcclim-portability/image-support /tmp/image-support-
 
 These are helper API checks; they do not establish Drei adapter or GUI coverage.
 
+`mcclim-browser` also loads `mcclim-portability/drei`. With `:clim-without-swank`,
+Drei uses a Valtan local image for argument lists, symbol completion, class
+initialization arguments and compilation. Explicitly selected image objects and
+Swank configurations retain their upstream selection behavior. String
+compilation processes forms in order through Valtan's compiler and returns
+warning/error notes; file compilation optionally loads the generated artifact.
+[Adapter checks](../tests/mcclim/drei-image-results.json) pass 22 assertions in a
+fresh real Chrome McCLIM workbench and 11 filesystem assertions in fresh Node.
+The browser run predates the PSETQ optimization; the Node run includes it.
+
+From the repository root, reproduce the browser method checks with the workbench
+and inspect the `drei-image` response for `(:DREI-IMAGE-CHECKS 22)`:
+
+```sh
+node tests/mcclim/workbench.mjs <<'JSON'
+{"op":"eval","id":"drei-image","file":"tests/mcclim/drei-image-checks.lisp","timeout":300000}
+{"op":"close"}
+JSON
+node tests/mcclim/probe.mjs mcclim-portability/drei /tmp/drei-image-file-node.json tests/mcclim/drei-image-file-checks.lisp clim-without-swank
+```
+
+These checks cover adapter methods, not the complete upstream suite or GUI input.
+Browser pathname output remains unavailable. Compiler notes have messages and
+severity, but no source locations; fuzzy completion and definition lookup still
+use upstream fallback methods.
+
 ## Verification
 
 Rebuild the `valtan` executable after compiler/loader changes, then:
