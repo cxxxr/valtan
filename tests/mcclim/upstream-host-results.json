@@ -1,0 +1,190 @@
+{
+  "status": "passed",
+  "complete": true,
+  "scope": "Native host mcclim/test with its normal dependencies; not a Valtan result",
+  "implementation": "SBCL",
+  "implementationVersion": "2.6.0.debian",
+  "asdfVersion": "3.3.1",
+  "upstreamDefinition": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/mcclim.asd",
+  "features": [
+    "5AM",
+    "SBCL-DEBUG-PRINT-VARIABLE-ALIST",
+    "CLIM",
+    "CL-PDF",
+    "PDF-BINARY",
+    "MMAP",
+    "FLAT-NAMESPACE",
+    "X86-64",
+    "UNIX",
+    "CFFI",
+    "FLAT-NAMESPACE",
+    "FLEXI-STREAMS",
+    "CLX-EXT-RANDR",
+    "CLX-EXT-RENDER",
+    "CLX-MIT-R5",
+    "CLX-MIT-R4",
+    "XLIB",
+    "CLX",
+    "CLX-LITTLE-ENDIAN",
+    "CL-UNICODE",
+    "CL-PPCRE",
+    "FAKE-PROGV-KLUDGE",
+    "CLOSER-MOP",
+    "BORDEAUX-THREADS",
+    "GLOBAL-VARS",
+    "SEQUENCE-EMPTYP",
+    "USE-NO-ZLIB",
+    "THREAD-SUPPORT",
+    "CLIM-MP",
+    "MCCLIM",
+    "CLIM-WITHOUT-SWANK",
+    "QUICKLISP",
+    "ASDF3.3",
+    "ASDF3.2",
+    "ASDF3.1",
+    "ASDF3",
+    "ASDF2",
+    "ASDF",
+    "OS-UNIX",
+    "NON-BASE-CHARS-EXIST-P",
+    "ASDF-UNICODE",
+    "ARENA-ALLOCATOR",
+    "X86-64",
+    "GENCGC",
+    "64-BIT",
+    "ANSI-CL",
+    "COMMON-LISP",
+    "ELF",
+    "IEEE-FLOATING-POINT",
+    "LINUX",
+    "LITTLE-ENDIAN",
+    "PACKAGE-LOCAL-NICKNAMES",
+    "SB-CORE-COMPRESSION",
+    "SB-LDB",
+    "SB-PACKAGE-LOCKS",
+    "SB-THREAD",
+    "SB-UNICODE",
+    "SBCL",
+    "UNIX"
+  ],
+  "registered": 193,
+  "results": 2213,
+  "passed": 2213,
+  "failed": 0,
+  "skipped": 0,
+  "unexecuted": [],
+  "nonpassed": [],
+  "runnerSha256": "7c8d54df70531ec835e8973e41997635da40d3da63585e0dd2c31b5807029f15",
+  "upstreamDefinitionSha256": "c656f4107f9bc4cf3546ffe51cd034d1e0f56c5246684a0c82cbe04e0c2058c4",
+  "sourcePlan": [
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/util/package.lisp",
+      "sha256": "bf75e8d160516bd3afe7373e541ca4cae0233ea5ebfc8cfa90dd520e8047ebe8"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/util/test-page.lisp",
+      "sha256": "f277401f97abd836ee15726a9c85f644eeecb331d6dec79af6ae605d1cd7fe83"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/package.lisp",
+      "sha256": "f68a524bbccfd19ba42e83dbe2f9a6f55957bbbe88aae78cef1437c35d519627"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/utils.lisp",
+      "sha256": "387fa6a5734754ffac637f529d6519b37ab805cd28b53574c71af4339da5b837"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/input-editing.lisp",
+      "sha256": "b49ad5c58d4bf3ed0d9cadadf289500f33b452c6586023cf1f12bd9c398cbba0"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/commands.lisp",
+      "sha256": "aabcd83528ed1801fa0d5b9411c82d94c7bca707a9892c1bd89e45c221461af9"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/text-selection.lisp",
+      "sha256": "25bf24a9f8e6a1806a3d8d36f5052fda1df5706b3410d2c242b60be65f0be6bd"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/text-formatting.lisp",
+      "sha256": "53f778fd38035c08ce5917057be04b35c016a819a1403bb8a3eb6d0ca59eeb4c"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/text-styles.lisp",
+      "sha256": "970b2ad7127ccab3d0dad63ac9fd86fd4a88f2949cf33dc21e44d3c2d39f37f5"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/setf-star.lisp",
+      "sha256": "69739e85f5c7a06a737140ad5f206dff03265a5ec8bd7f83e1c9d69c06acc0e8"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/dynamic-vars.lisp",
+      "sha256": "51a722552557d1e2d1958bf39c3230d0d51debb65ead598c66323e8055758bb9"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/transforms.lisp",
+      "sha256": "3a261ce10b7905f5d172f4e0050f1a546c9a20c831843f9813e6fa513ce846b1"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/regions.lisp",
+      "sha256": "bf0581c44b27ea7d46c908a49376495ffbb5856b943543dd6c8652ef00e55a75"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/bounding-rectangles.lisp",
+      "sha256": "1a83e87c6ef02526b2def4b0522644cdc50462e358a83765d1ecd0ced91ab956"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/algebra.lisp",
+      "sha256": "d9160d5b082db0fc6ab6c7a7e58ef0fdf62d9d5ebf3e59e85f12a24390ab2983"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/drawing/medium.lisp",
+      "sha256": "7d14065608bf2e27a7dddb976192283af1c1bfb7c2515031be10701d626245e0"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/drawing/design.lisp",
+      "sha256": "8658e579ea43e53123be03136559a54d0e92009d7e2daf9cc6f55cd22ac66792"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/drawing/bezier.lisp",
+      "sha256": "ff2d17057b5226f763a5a02833e11adabcf051985898b8435a128a842cb41213"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/extended-streams/stream-input.lisp",
+      "sha256": "2f604dadd352620b50ba23bc9e168ea3a9dfeb0608ff557d26919181dfba2678"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/extended-streams/gestures.lisp",
+      "sha256": "5b10fb37c778f9dd8ee3cb97b03ec9cfe029ea03b0b5f07b83c09a0fb315d08c"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/extended-streams/recording.lisp",
+      "sha256": "6d934afb4437106f53f97d0570956878396a03541a96f0ccb3853a72e7ac446a"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/presentation-types.lisp",
+      "sha256": "157bfc16c424e1375368807ea86e2ee4c52a94a2595f6240b12af206d1cb7be6"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/presentation-functions.lisp",
+      "sha256": "f0027aa0553057edc499916f47d92f7a636c35740adfc8974a53dd014b041cfd"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/presentation-inheritance.lisp",
+      "sha256": "5ae599596626d07d943fe63e9f262b05fa82f0c75b2e83aa9d6e56d856902e33"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/translators.lisp",
+      "sha256": "47e3d4b5a8e7cdccd3b23838fa79c5f97588049b4b41147e4e9ae7cebb97dd59"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/presentations/standard-presentations.lisp",
+      "sha256": "334309d32dbbfa19ef45d7da5ffc6ba195fc5d70b012e2885a9a5f4afc8265bf"
+    },
+    {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/frames/define-application-frame.lisp",
+      "sha256": "5acfb609f2cede3965bd4cf0bf542fafd3a957fe964dbc60d7d7089b7af343c2"
+    }
+  ],
+  "provenanceNote": "Source hashes attached after the verified native run; these are the installed test sources, not a browser result."
+}

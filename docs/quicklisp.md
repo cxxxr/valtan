@@ -366,6 +366,13 @@ included in that selection. This is not
 a passing full-suite report. The `FIND-CLASS` change separately passes all 36
 CLOS regression checks and the MOP protocol fixture in fresh target processes.
 
+For a native comparison with the installed McCLIM test system, run
+`sbcl --script tests/mcclim/upstream-host.lisp` from the repository root.
+The [SBCL baseline](../tests/mcclim/upstream-host-results.json) executes all
+193 registered tests and passes 2,213 checks, with no skipped or unexecuted
+tests. It loads McCLIM's normal native dependencies, including threading and
+extensions. These host results do not establish Valtan compatibility.
+
 Two failures from the earlier run now pass focused checks in the existing browser worker:
 the presentation inheritance compilation test and `STREAM-READ-GESTURE.SMOKE`
 each execute all 16 assertions. `COMPILE` records warning/failure return values
