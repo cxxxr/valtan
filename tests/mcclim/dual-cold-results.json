@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T13:17:16.440Z",
+  "scope": "Real upstream CLIM pattern, clipping, composite-design, pixmap-copy and multiline-text assertions, plus Bezier curves, areas, unions, differences and output replay, plus solid flipping designs in Chrome; not full McCLIM compatibility",
+  "expectedChecks": 350,
+  "compilationMode": "dual ordinary/resumable functions; drawing checks use ordinary calls",
+  "checksSha256": "3403663c77ab7f36f0179f2af4fd06bf2cceaddb71905fa22a285a154ec0a699",
+  "work": "/tmp/valtan-mcclim-workbench-3ynymo",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-3ynymo",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T13:17:16.473Z",
+    "compilerSha256": "e229d2968e85fff309fb83b9eec7ff7d501e2af7a61cec479b815fbd388a139a",
+    "bundleSha256": "cc6510a622ba4a43a8ce1c47e6bb3c258108d4c98a0ba62a43082f585aea5863",
+    "browserAssetsSha256": "32ff8852e9d6a59d8d0e5e151d8e3183b7be13bc0c7b5fe6f9f501b94360c3d7",
+    "readyAt": "2026-11-11T16:22:17.772Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "canvas",
+        "startedAt": "2026-11-11T16:22:17.774Z",
+        "sourceSha256": "3403663c77ab7f36f0179f2af4fd06bf2cceaddb71905fa22a285a154ec0a699",
+        "file": "/tmp/valtan-canvas-checks-jlHhYX/checks.lisp",
+        "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:PASSED 350)"
+        },
+        "finishedAt": "2026-11-11T16:23:54.046Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T16:23:54.092Z"
+  },
+  "result": {
+    "type": "test-result",
+    "id": 1,
+    "ok": true,
+    "value": "(:PASSED 350)"
+  },
+  "finishedAt": "2026-11-11T16:23:54.277Z",
+  "fullMcclimComplete": false,
+  "validationScope": "Fresh Chrome snapshot ddc40da: 350 Canvas/pixmap/text/Bezier/flipping assertions with dual ordinary/resumable function compilation. Checks use ordinary calls. No production reload. Predates scheduler, Bordeaux Threads, native condition-delivery and threaded McCLIM integration; does not prove suspension or threading within McCLIM.",
+  "observerExtensions": "Only Node observer deadlines were extended to retain the cold worker during the long startup. Production compiler/core/browser code was not reloaded or modified."
+}

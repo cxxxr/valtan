@@ -821,6 +821,13 @@ Quicklisp Alexandria `MAPPEND` implementation. The 104 compiler/control
 regressions pass in both evaluation and compiled modes under `:dual`. Run
 `npm --prefix tests run build:resumable` followed by
 `npm --prefix tests run test:resumable` to build and check the dual core.
+
+A [fresh McCLIM dual-compilation run](../tests/mcclim/dual-cold-results.json)
+also completes all 350 Canvas, pixmap, text, Bezier and flipping checks.
+That frozen `ddc40da` build executes the drawing checks through ordinary calls
+and predates the scheduler, Bordeaux Threads and threaded McCLIM integration.
+It verifies loading and drawing with dual definitions; it does not verify
+threaded application or I/O execution.
 The ordinary core remains the default. Dual builds contain more generated code;
 no end-to-end startup or scheduling performance improvement is claimed.
 
