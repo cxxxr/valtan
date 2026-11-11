@@ -917,6 +917,15 @@ diagnostic, 20,000 increments took a median 39.84 seconds before and 1.01
 seconds after this change. This measures that update loop, not library startup
 or whole McCLIM performance.
 
+Native symbol access, undefined-function and invalid-function errors, and
+generated Lisp argument-count errors now signal through resumable calls.
+The [native condition checks](../tests/resumable/native-error-results.json)
+pass eight simultaneous cases in Node and Chrome: handlers await while their
+dynamic bindings and restarts remain active, then run asynchronous cleanup.
+The ordinary compiler, dual compiler/runtime, callback and compiled-artifact
+regressions also pass. Numerical error paths and JavaScript builtin
+argument-count checks still need resumable delivery.
+
 Application drivers still need integration with the scheduler: blocking calls
 must originate in scheduled Lisp, and merely enabling `:valtan-resumable` does
 not schedule a synchronous application top-level. Other blocking host operations and remaining JavaScript callback

@@ -486,7 +486,10 @@
 (define-p2-emit gref (hir)
   (embed-source-map hir)
   (let ((ident (p2-symbol-to-js-value (hir-arg1 hir))))
-    (format nil "lisp.symbolValue(~A)" ident)))
+    (if *p2-in-resumable-function*
+        (format nil "(~A.value !== null ? ~A.value : (yield* lisp.symbolValueResumable(~A)))"
+                ident ident ident)
+        (format nil "lisp.symbolValue(~A)" ident))))
 
 (define-p2-emit lset (hir)
   (let ((lhs (hir-arg1 hir))
@@ -591,7 +594,11 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
            (format *p2-emit-stream* "if(arguments.length < ~D || ~D < arguments.length) {~%" min max)))
     (let ((symbol-var (p2-literal name)))
       (embed-source-map hir)
-      (format *p2-emit-stream* "lisp.argumentsError(~A, arguments.length);~%" symbol-var))
+      (format *p2-emit-stream* "~A(~A, arguments.length);~%"
+              (if *p2-in-resumable-function*
+                  "yield* lisp.argumentsErrorResumable"
+                  "lisp.argumentsError")
+              symbol-var))
     (write-line "}" *p2-emit-stream*)))
 
 (defun p2-make-save-var (var)

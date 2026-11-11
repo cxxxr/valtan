@@ -28,3 +28,7 @@ console.log('SLEEP-CHECKS-PASS ' + JSON.stringify(sleep));
 const { verifyInterrupts } = await import('./interrupt-checks.mjs');
 const interrupts = await verifyInterrupts(globalThis.valtanSchedulerKernel, globalThis.valtanInterruptTestSetup());
 console.log('INTERRUPT-CHECKS-PASS ' + JSON.stringify(interrupts));
+
+const { verifyNativeErrors } = await import('./native-error-checks.mjs');
+const nativeErrors = await verifyNativeErrors(globalThis.valtanSchedulerKernel, globalThis.valtanNativeErrorTestSetup());
+console.log('NATIVE-ERROR-CHECKS-PASS ' + JSON.stringify(nativeErrors));

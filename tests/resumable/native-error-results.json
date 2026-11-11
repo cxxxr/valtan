@@ -1,0 +1,99 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T16:09:41.288781+00:00",
+  "scope": "Resumable native symbol-value/function errors, invalid function designators and generated Lisp arity checks; active handlers/restarts/dynamic bindings survive awaiting, asynchronous cleanup runs once. Other native error paths remain synchronous.",
+  "compilerSha256": "02cfb2e0cee70e161ab3e3d3c6d979c4de8bb14af3bc82c8e90c04147df2a9c4",
+  "sourceHashes": {
+    "kernel/error.js": "522c12b889e914a00aabb2ae93c501d74f69dd9bb2f0ee8901e1c6842c41ddb0",
+    "kernel/function.js": "5153e6e8b05d2b71bad78f4357e103f6559fedeae2b3cafc72c460c86e953ec0",
+    "kernel/symbol.js": "b2ab965c5f30607905522cb374fcfca122c9df45987e152a2026cf48b3503f96",
+    "library/valtan-core/compiler/pass2.lisp": "9039392b5803f45d8b40b2dfd97160701da87effd215cb38e539fdb175855b4a",
+    "tests/resumable/native-errors.lisp": "5dbecc6eeb98363dbcf1e2fffab6e79e629fee3b8080a10f5e0e9ac85ac7a39c",
+    "tests/resumable/native-error-checks.mjs": "5d3c24fd448daea3c5ec617bbfa4207ffff6709929d3b060825a3acc7bcd9d6a",
+    "tests/resumable.system": "d8dc1e85e2e1f275ecd854631589ab06a27c986e6e7edb8d2079f0900b6a8b86",
+    "tests/resumable/verify.mjs": "4006df4b29b738e1d845ccae480ce317aaeb4ab333eeba9fd651ceeeeeada310"
+  },
+  "sourceNote": "Only a comment describing defined-symbol lookup was reworded after the tested bundle was built; no behavior changed.",
+  "baseline": {
+    "status": "failed",
+    "error": "Error: Cannot suspend across a synchronous JavaScript call boundary",
+    "stack": "Error: Cannot suspend across a synchronous JavaScript call boundary\n    at runSynchronously (file:///tmp/valtan-native-errors-before.mjs:403:21)\n    at function_ (file:///tmp/valtan-native-errors-before.mjs:411:12)\n    at CL_funcall (file:///tmp/valtan-native-errors-before.mjs:740:12)\n    at LispSymbol.func (file:///tmp/valtan-native-errors-before.mjs:74897:23)\n    at LispSymbol.func (file:///tmp/valtan-native-errors-before.mjs:75202:16)\n    at LispSymbol.func (file:///tmp/valtan-native-errors-before.mjs:75437:21)\n    at unboundVariable (file:///tmp/valtan-native-errors-before.mjs:442:22)\n    at symbolValue (file:///tmp/valtan-native-errors-before.mjs:495:26)\n    at CL_symbolValue (file:///tmp/valtan-native-errors-before.mjs:588:18)\n    at intern.func (file:///tmp/valtan-native-errors-before.mjs:4075:14)"
+  },
+  "baselineScope": "Old frozen resumable bundle, load the new Lisp fixture, run the same JS checker. Failed at the synchronous native error boundary.",
+  "baselineBundleSha256": "cf13c012650049d2f277f50c7c81cc1fc9c82ef95fb7734a1b83bfae93920c76",
+  "node": {
+    "status": "passed",
+    "result": {
+      "cases": 8,
+      "asynchronousHandlers": true,
+      "restarts": true,
+      "asynchronousCleanup": true,
+      "ordinaryHandler": true
+    }
+  },
+  "nodeBundleSha256": "d18cbc6512235dc80462171bcaade106c7a6e18df3b9b5d34fdca7eacff00f6d",
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T16:05:41.262Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-BqzNfD",
+    "compilerSha256": "02cfb2e0cee70e161ab3e3d3c6d979c4de8bb14af3bc82c8e90c04147df2a9c4",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "afterLoadSha256": "a0612cba38f04b8e45c52897ff8e920c0563ba4d85889a4d9f16c81c29689e41",
+    "checksSha256": "75949af50ee5c9947e1657b326f69c680cb9905d27d164e015de2c8af6c6192d",
+    "stage": "run",
+    "bundleSha256": "6f008e6322bceb0f94c6de839f3f29415120808665f7804c223025b30b7ea681",
+    "finishedAt": "2026-11-11T16:08:12.712Z"
+  },
+  "cases": [
+    "unbound SYMBOL-VALUE",
+    "unbound global reference (value consumed)",
+    "undefined function designator",
+    "undefined SYMBOL-FUNCTION",
+    "generated Lisp arity error",
+    "SYMBOL-VALUE type error",
+    "SYMBOL-FUNCTION type error",
+    "invalid function designator type error"
+  ],
+  "regressions": {
+    "kernel": {
+      "passed": 41,
+      "failed": 0,
+      "log": "/tmp/valtan-native-errors-kernel.log"
+    },
+    "ordinary": {
+      "resumableChecks": 43,
+      "compilerSemanticAssertions": "passed",
+      "workloads": 8,
+      "log": "/tmp/valtan-native-errors-ordinary.log"
+    },
+    "dual": {
+      "resumableChecks": 43,
+      "dualChecks": 51,
+      "nativeCallbacks": 23,
+      "schedulerTasks": 64,
+      "checkpointOnlyLoops": 2,
+      "evalChecks": 18,
+      "synchronizationChecks": 12,
+      "sleepChecks": 10,
+      "interruptChecks": 13,
+      "nativeErrorCases": 8,
+      "sourceDeletedArtifact": "passed",
+      "log": "/tmp/valtan-native-errors-regressions.log"
+    }
+  },
+  "remaining": [
+    "Native numerical errors, including division by zero, still cross an ordinary error-delivery boundary.",
+    "Arity checking in JavaScript builtin registration is still ordinary.",
+    "Synchronous foreign callbacks still cannot suspend.",
+    "McCLIM threaded browser integration and dynamic-variable upstream tests remain in progress on earlier frozen builds."
+  ]
+}

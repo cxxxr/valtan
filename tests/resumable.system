@@ -7,7 +7,8 @@
                (:file "resumable/eval")
                (:file "resumable/synchronization")
                (:file "resumable/sleep")
-               (:file "resumable/interrupt"))
+               (:file "resumable/interrupt")
+               (:file "resumable/native-errors"))
   :target :node
   :target-features (:valtan-resumable)
   :compile-mode :runtime)

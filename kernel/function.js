@@ -15,11 +15,13 @@ import {
 } from './callstack';
 
 import {
-    isSymbol
+    isSymbol,
+    symbolFunctionResumable
 } from './symbol';
 
 import {
-    typeError
+    typeError,
+    typeErrorResumable
 } from './error';
 
 export function callFunction(symbol, ...args) {
@@ -199,8 +201,13 @@ export function CL_functionp(x) {
 
 export function* callResumable(function_, ...args) {
     const name = function_;
-    if (isSymbol(function_)) function_ = function_.getFunction();
-    else if (typeof function_ !== 'function') typeError(function_, S_function);
+    if (isSymbol(function_)) {
+        // Resolve defined symbols without another generator frame.
+        function_ = function_.func === null
+            ? yield* symbolFunctionResumable(function_) : function_.getFunction();
+    } else if (typeof function_ !== 'function') {
+        yield* typeErrorResumable(function_, S_function);
+    }
     pushCallStack({ function: name, args });
     try {
         const implementation = getResumableImplementation(function_);

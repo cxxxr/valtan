@@ -9,13 +9,22 @@ import {
     S_program_error,
     isString,
 } from './header';
+import { callResumable } from './function';
 
 export function argumentsError(name, numArgs) {
     S_arguments_error.func(name, numArgs);
 }
 
+export function* argumentsErrorResumable(name, numArgs) {
+    yield* callResumable(S_arguments_error, name, numArgs);
+}
+
 export function typeError(datum, expectedType) {
     S_type_error.func(datum, expectedType);
+}
+
+export function* typeErrorResumable(datum, expectedType) {
+    yield* callResumable(S_type_error, datum, expectedType);
 }
 
 export function checkString(value) {
@@ -40,6 +49,14 @@ export function undefinedFunction(name) {
     S_undefined_function.func(name);
 }
 
+export function* undefinedFunctionResumable(name) {
+    yield* callResumable(S_undefined_function, name);
+}
+
 export function unboundVariable(name) {
     S_unbound_variable.func(name);
+}
+
+export function* unboundVariableResumable(name) {
+    yield* callResumable(S_unbound_variable, name);
 }

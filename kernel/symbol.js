@@ -13,12 +13,16 @@ import {
     checkString,
     unboundVariable,
     undefinedFunction,
+    typeErrorResumable,
+    unboundVariableResumable,
+    undefinedFunctionResumable,
 } from './error';
 import {
     makeCons,
     isCons
 } from './cons';
 import { bindSpecial, unbindSpecial } from './bindings';
+import { setResumableImplementation } from './resumable';
 
 class LispSymbol {
     constructor(options) {
@@ -83,6 +87,19 @@ export function symbolName(symbol) {
 export function symbolValue(symbol) {
     if (!symbol.isBound()) unboundVariable(symbol);
     return symbol.value;
+}
+
+// Signal while the caller's Lisp handlers, restarts and bindings are active.
+// Throwing a deferred request out of the native call would unwind that scope.
+export function* symbolValueResumable(symbol) {
+    if (!symbol.isBound()) yield* unboundVariableResumable(symbol);
+    return symbol.value;
+}
+
+export function* symbolFunctionResumable(symbol) {
+    if (symbol.func === null) yield* undefinedFunctionResumable(symbol);
+    symbol.func.lisp_symbol = symbol;
+    return symbol.func;
 }
 
 export function setSymbolValue(symbol, value) {
@@ -194,6 +211,10 @@ export function CL_symbolValue(symbol) {
     checkSymbol(symbol);
     return values1(symbolValue(symbol));
 }
+setResumableImplementation(CL_symbolValue, function*(symbol) {
+    if (!isSymbol(symbol)) yield* typeErrorResumable(symbol, S_symbol);
+    return values1(yield* symbolValueResumable(symbol));
+});
 
 export function CL_symbolFunction(symbol) {
     checkSymbol(symbol);
@@ -204,6 +225,13 @@ export function CL_symbolFunction(symbol) {
     }
     return values1(symbol.getFunction());
 }
+setResumableImplementation(CL_symbolFunction, function*(symbol) {
+    if (!isSymbol(symbol)) yield* typeErrorResumable(symbol, S_symbol);
+    if (symbol.func === null && !symbol.isFBound()) {
+        yield* undefinedFunctionResumable(symbol);
+    }
+    return CL_symbolFunction(symbol);
+});
 
 export function CL_setSymbolFunction(symbol, func) {
     checkSymbol(symbol);
