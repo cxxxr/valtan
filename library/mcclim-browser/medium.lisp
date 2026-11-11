@@ -191,6 +191,12 @@
         (t (typep ink '(or climi::masked-compositum climi::over-compositum
                           climi::transformed-design clime:pattern region)))))
 
+(defun canvas-flipping-design (medium ink)
+  (cond ((eq ink +foreground-ink+) (canvas-flipping-design medium (medium-foreground medium)))
+        ((eq ink +background-ink+) (canvas-flipping-design medium (medium-background medium)))
+        ((climi::indirect-ink-p ink) (canvas-flipping-design medium (climi::indirect-ink-ink ink)))
+        ((typep ink 'climi::standard-flipping-ink) ink)))
+
 (defun canvas-design-surface (medium design width height transformation)
   ;; Composite the design independently of the shape being drawn. In particular,
   ;; OUT removes pixels from this temporary design, never from existing drawing.
@@ -243,11 +249,8 @@
            (canvas-clip medium clip)
            (canvas-transform medium (medium-device-transformation medium))
            (let ((style (medium-line-style medium)))
-             (if (eq ink +flipping-ink+)
-                 (progn (canvas-set medium "globalCompositeOperation" "difference")
-                        (canvas-set medium "fillStyle" "white") (canvas-set medium "strokeStyle" "white"))
-                 (let ((color (canvas-color medium ink)))
-                   (canvas-set medium "fillStyle" color) (canvas-set medium "strokeStyle" color)))
+             (let ((color (canvas-color medium ink)))
+               (canvas-set medium "fillStyle" color) (canvas-set medium "strokeStyle" color))
              (canvas-set medium "lineWidth" (climi::line-style-effective-thickness style medium))
              (canvas-set medium "lineCap" (case (line-style-cap-shape style) (:round "round") (:square "square") (otherwise "butt")))
              (canvas-set medium "lineJoin" (case (line-style-joint-shape style) (:round "round") (:bevel "bevel") (otherwise "miter")))
@@ -258,8 +261,9 @@
 (defun call-with-canvas (medium function)
   (when (medium-drawable medium)
     (let ((clip (medium-device-region medium))
+          (flipping (canvas-flipping-design medium (medium-ink medium)))
           (composite (canvas-composite-ink-p (medium-ink medium))))
-      (if (and (not composite) (canvas-direct-clip-p clip))
+      (if (and (not flipping) (not composite) (canvas-direct-clip-p clip))
           (call-with-canvas-state medium function clip)
           (let* ((drawable (medium-drawable medium))
                  (destination (canvas-surface medium))
@@ -270,7 +274,7 @@
             (unwind-protect
                  (progn (setf (medium-drawable medium) layer)
                         (call-with-canvas-state medium function +everywhere+
-                                                (if composite +white+ (medium-ink medium))))
+                                                (if (or flipping composite) +white+ (medium-ink medium))))
               (setf (medium-drawable medium) drawable))
             (when composite
               ;; CLIM inks are anchored to the drawing plane, independently of
@@ -283,14 +287,20 @@
                 (setf layer design)))
             (canvas-set layer "globalCompositeOperation" "destination-in")
             (canvas-call layer "drawImage" (property mask "canvas") 0 0)
-            (canvas-call destination "save")
-            (unwind-protect
-                 (progn
-                   (canvas-call destination "resetTransform")
-                   (canvas-set destination "globalCompositeOperation"
-                               (if (eq (medium-ink medium) +flipping-ink+) "difference" "source-over"))
-                   (canvas-call destination "drawImage" (property layer "canvas") 0 0))
-              (canvas-call destination "restore")))))))
+            (if flipping
+                (host-call "flipArea" destination layer
+                           (canvas-design-surface medium (climi::flipping-ink-design1 flipping)
+                                                  width height +identity-transformation+)
+                           (canvas-design-surface medium (climi::flipping-ink-design2 flipping)
+                                                  width height +identity-transformation+))
+                (progn
+                  (canvas-call destination "save")
+                  (unwind-protect
+                       (progn
+                         (canvas-call destination "resetTransform")
+                         (canvas-set destination "globalCompositeOperation" "source-over")
+                         (canvas-call destination "drawImage" (property layer "canvas") 0 0))
+                    (canvas-call destination "restore")))))))))
 (defmacro with-canvas ((medium) &body body)
   `(call-with-canvas ,medium (lambda () ,@body)))
 (defmethod medium-draw-point* ((medium browser-medium) x y)

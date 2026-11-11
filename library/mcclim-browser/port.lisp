@@ -121,8 +121,16 @@
       (cdr (assoc name '(("Enter" . :return) ("Tab" . :tab) ("Backspace" . :backspace)
                         ("Delete" . :delete) ("Escape" . :escape) ("ArrowLeft" . :left)
                         ("ArrowRight" . :right) ("ArrowUp" . :up) ("ArrowDown" . :down)
-                        ("Home" . :home) ("End" . :end) ("PageUp" . :prior)
-                        ("PageDown" . :next)) :test #'string=))))
+                        ("Home" . :home) ("End" . :end) ("Insert" . :insert)
+                        ("PageUp" . :page-up) ("PageDown" . :page-down)) :test #'string=))))
+(defun browser-key-character (key)
+  ;; CLIM character gestures (including Control/Meta bindings) compare the
+  ;; character and modifiers separately. Named editing keys need characters
+  ;; too: upstream only infers a character for RETURN, not BACKSPACE or DELETE.
+  (if (characterp key) key
+      (case key
+        (:return #\Newline) (:tab #\Tab) (:backspace #\Backspace)
+        (:delete #\Rubout))))
 (defun browser-event (port raw)
   (let* ((kind (property raw "type"))
          (sheet (gethash (property raw "window") (port-mirrors port)))
@@ -152,9 +160,8 @@
                (when key
                  (apply #'make-instance (if (string= kind "keyup") 'key-release-event 'key-press-event)
                         :key-name (if (characterp key) (climi::decompose-keyboard-event-character key) key)
-                        (append (when (characterp key)
-                                  (list :key-character (unless (logtest modifiers (logior +control-key+ +meta-key+ +super-key+)) key)))
-                                common)))))
+                        :key-character (browser-key-character key)
+                        common))))
             (t
              (let ((x (property raw "x")) (y (property raw "y")))
                (multiple-value-bind (sx sy)

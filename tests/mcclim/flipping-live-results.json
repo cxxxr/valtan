@@ -1,0 +1,83 @@
+{
+  "status": "passed",
+  "complete": true,
+  "recordedAt": "2026-11-11T05:32:00.938125+00:00",
+  "scope": "12 real CLIM solid-flipping checks plus 69 existing Canvas checks after backend reloads in Chrome; not cold startup or full McCLIM compatibility",
+  "startup": {
+    "work": "/tmp/valtan-mcclim-workbench-hPP8og",
+    "status": "ready",
+    "complete": false,
+    "startedAt": "2026-11-11T04:52:20.346Z",
+    "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "bundleSha256": "24cfeaec8bc99a115119e72fd0c49acddbd08a42804d74bb662eda3c3a84b11f",
+    "browserAssetsSha256": "47eb1c8bf0a2fe7bc8fff366bc3e2741e559d221dbbc101f9fad4cf559e23ca4",
+    "readyAt": "2026-11-11T05:14:03.166Z"
+  },
+  "reloads": [
+    {
+      "id": 2,
+      "commandId": "flipping-host-reload",
+      "startedAt": "2026-11-11T05:14:04.901Z",
+      "sourceSha256": "e9ce589904db95a0b951c429de251874ae51f334093abdc4ea7f1e453ab0d142",
+      "file": "/tmp/valtan-flipping-host-reload.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 2,
+        "ok": true,
+        "value": "(:FLIPPING-HOST-LOADED)"
+      },
+      "finishedAt": "2026-11-11T05:14:05.006Z"
+    },
+    {
+      "id": 3,
+      "commandId": "flipping-medium-reload",
+      "startedAt": "2026-11-11T05:14:05.006Z",
+      "sourceSha256": "3ccef7cd9fbd0ffa4c0091e1daf9fb5fda9aad50e2435bb8203fda9899ec88c6",
+      "file": "/home/user/src/valtan/library/mcclim-browser/medium.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 3,
+        "ok": true,
+        "value": "(#<STANDARD-METHOD MEDIUM-COPY-AREA (#<STANDARD-CLASS BROWSER-PIXMAP> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<STANDARD-CLASS BROWSER-PIXMAP> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T>)>)"
+      },
+      "finishedAt": "2026-11-11T05:14:11.941Z"
+    }
+  ],
+  "hostReloadSource": "(ffi:js-eval \"function flipCanvasArea(destination, coverage, first, second) {\n  const {width,height}=destination.canvas;\n  const image=destination.context.getImageData(0,0,width,height),pixels=image.data;\n  const mask=coverage.context.getImageData(0,0,width,height).data;\n  const a=first.context.getImageData(0,0,width,height).data;\n  const b=second.context.getImageData(0,0,width,height).data;\n  for(let i=0;i<pixels.length;i+=4){\n    if(mask[i+3]<128 || pixels[i+3]!==255 || a[i+3]!==255 || b[i+3]!==255)continue;\n    pixels[i]^=a[i]^b[i]; pixels[i+1]^=a[i+1]^b[i+1]; pixels[i+2]^=a[i+2]^b[i+2];\n  }\n  destination.context.putImageData(image,0,0);\n  destination.dirty=true;\n}\nglobalThis.valtanMcclim.flipArea = flipCanvasArea;\")\n:flipping-host-loaded\n",
+  "checks": [
+    {
+      "id": 4,
+      "commandId": "flipping-live-checks",
+      "startedAt": "2026-11-11T05:14:11.941Z",
+      "sourceSha256": "0ec3e27bef4527c44889154be041126f8ef052424d1d526c7de085608255fca0",
+      "file": "/home/user/src/valtan/tests/mcclim/flipping-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 4,
+        "ok": true,
+        "value": "(:PASSED 12)"
+      },
+      "finishedAt": "2026-11-11T05:14:13.166Z"
+    },
+    {
+      "id": 5,
+      "commandId": "canvas-regressions-after-flipping",
+      "startedAt": "2026-11-11T05:14:13.166Z",
+      "sourceSha256": "3437e345f9ac1ddce6b5ef8d53de2c46199a230c8ec4915a6e2895d470f1cd25",
+      "file": "/home/user/src/valtan/tests/mcclim/canvas-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 5,
+        "ok": true,
+        "value": "(:PASSED 69)"
+      },
+      "finishedAt": "2026-11-11T05:14:21.039Z"
+    }
+  ],
+  "sourceHashes": {
+    "library/mcclim-browser/host.mjs": "3ef9482ee93c7d2255c48aa2c56348cc3ddbec2083f10bf9026d40fcf71b7825",
+    "library/mcclim-browser/medium.lisp": "3ccef7cd9fbd0ffa4c0091e1daf9fb5fda9aad50e2435bb8203fda9899ec88c6",
+    "tests/mcclim/flipping-checks.lisp": "0ec3e27bef4527c44889154be041126f8ef052424d1d526c7de085608255fca0",
+    "tests/mcclim/canvas-checks.lisp": "3437e345f9ac1ddce6b5ef8d53de2c46199a230c8ec4915a6e2895d470f1cd25"
+  }
+}

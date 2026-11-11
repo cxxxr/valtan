@@ -1,0 +1,930 @@
+{
+  "status": "passed",
+  "complete": true,
+  "recordedAt": "2026-11-11T05:32:00.938125+00:00",
+  "scope": "Real upstream gadgets driven by Chrome pointer/key/native IME events, plus a batched focus-transfer regression and popup Escape; production sources reloaded in an existing worker, not cold startup",
+  "startup": {
+    "work": "/tmp/valtan-mcclim-workbench-hPP8og",
+    "status": "ready",
+    "complete": false,
+    "startedAt": "2026-11-11T04:52:20.346Z",
+    "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "bundleSha256": "24cfeaec8bc99a115119e72fd0c49acddbd08a42804d74bb662eda3c3a84b11f",
+    "browserAssetsSha256": "47eb1c8bf0a2fe7bc8fff366bc3e2741e559d221dbbc101f9fad4cf559e23ca4",
+    "readyAt": "2026-11-11T05:14:03.166Z"
+  },
+  "reloads": [
+    {
+      "id": 2,
+      "commandId": "flipping-host-reload",
+      "startedAt": "2026-11-11T05:14:04.901Z",
+      "sourceSha256": "e9ce589904db95a0b951c429de251874ae51f334093abdc4ea7f1e453ab0d142",
+      "file": "/tmp/valtan-flipping-host-reload.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 2,
+        "ok": true,
+        "value": "(:FLIPPING-HOST-LOADED)"
+      },
+      "finishedAt": "2026-11-11T05:14:05.006Z"
+    },
+    {
+      "id": 3,
+      "commandId": "flipping-medium-reload",
+      "startedAt": "2026-11-11T05:14:05.006Z",
+      "sourceSha256": "3ccef7cd9fbd0ffa4c0091e1daf9fb5fda9aad50e2435bb8203fda9899ec88c6",
+      "file": "/home/user/src/valtan/library/mcclim-browser/medium.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 3,
+        "ok": true,
+        "value": "(#<STANDARD-METHOD MEDIUM-COPY-AREA (#<STANDARD-CLASS BROWSER-PIXMAP> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<STANDARD-CLASS BROWSER-PIXMAP> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T>)>)"
+      },
+      "finishedAt": "2026-11-11T05:14:11.941Z"
+    },
+    {
+      "id": 18,
+      "commandId": "queue-focus-order-fix",
+      "startedAt": "2026-11-11T05:19:20.050Z",
+      "sourceSha256": "8b8b670fe7be937cda4e60a1ddb6b4883dfbe302a5b42132d6c807ba7220034b",
+      "file": "/home/user/src/valtan/library/mcclim-browser/queues.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 18,
+        "ok": true,
+        "value": "(#<STANDARD-METHOD CLIM-INTERNALS::QUEUE-LISTEN (#<STANDARD-CLASS SIMPLE-QUEUE>)>)"
+      },
+      "finishedAt": "2026-11-11T05:19:21.478Z"
+    },
+    {
+      "id": 36,
+      "commandId": "escape-key-preservation",
+      "startedAt": "2026-11-11T05:27:34.593Z",
+      "sourceSha256": "ddfa9666748e20a4f681a1edf9227fbfb32c717fbdb5560cc670119402a75230",
+      "file": "/home/user/src/valtan/library/mcclim-browser/port.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 36,
+        "ok": true,
+        "value": "(#<STANDARD-METHOD PROCESS-NEXT-EVENT (#<STANDARD-CLASS BROWSER-PORT>)>)"
+      },
+      "finishedAt": "2026-11-11T05:27:39.286Z"
+    },
+    {
+      "id": 38,
+      "commandId": "latest-gadget-fixture",
+      "startedAt": "2026-11-11T05:28:44.966Z",
+      "sourceSha256": "0e22eb7c262df29075bc2b03ac247678e2026353fd604ace5754fa931746bf17",
+      "file": "/home/user/src/valtan/tests/mcclim/gadget-checks.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 38,
+        "ok": true,
+        "value": "(:GADGET-CHECKS-LOADED)"
+      },
+      "finishedAt": "2026-11-11T05:28:47.006Z"
+    }
+  ],
+  "browserKeyboardReload": {
+    "file": "library/mcclim-browser/keyboard.mjs",
+    "sha256": "03241a18524f9cc66845814fcb075f761f4b18a62341f39efd94e4b2edbe7277",
+    "description": "Copied into the running server and attachTextInput applied to existing and newly created mirrors. Original pointer/client modules were not reloaded; their production integration is tested by the separate transport gate."
+  },
+  "verification": [
+    {
+      "id": 39,
+      "commandId": "final-gadget-run",
+      "startedAt": "2026-11-11T05:28:47.006Z",
+      "sourceSha256": "60cc6461b28d58934b3760826bf11a710963f7470f5beb1b1fca0d0991c10e09",
+      "result": {
+        "type": "test-result",
+        "id": 39,
+        "ok": true,
+        "value": "(:GADGET-FRAME-CLOSED)"
+      },
+      "finishedAt": "2026-11-11T05:30:33.193Z"
+    },
+    {
+      "id": 40,
+      "commandId": "final-native-key",
+      "startedAt": "2026-11-11T05:29:12.894Z",
+      "sourceSha256": "3ab303e1055bc54bc5d525583f4d2c823ad65ef8b8c511186cec13986ed9fc8f",
+      "result": {
+        "type": "test-result",
+        "id": 40,
+        "ok": true,
+        "value": "(:EDITOR-PASSED)"
+      },
+      "finishedAt": "2026-11-11T05:29:17.275Z"
+    },
+    {
+      "id": 41,
+      "commandId": "final-prepare-burst",
+      "startedAt": "2026-11-11T05:29:17.275Z",
+      "sourceSha256": "457b8244b5c7c7e171cec94747a4b0b806407618d1010b71a73e4b964ebd8c74",
+      "result": {
+        "type": "test-result",
+        "id": 41,
+        "ok": true,
+        "value": "(:FOCUS-RESET)"
+      },
+      "finishedAt": "2026-11-11T05:29:18.907Z"
+    },
+    {
+      "id": 42,
+      "commandId": "final-burst-result",
+      "startedAt": "2026-11-11T05:29:18.908Z",
+      "sourceSha256": "3ab303e1055bc54bc5d525583f4d2c823ad65ef8b8c511186cec13986ed9fc8f",
+      "result": {
+        "type": "test-result",
+        "id": 42,
+        "ok": true,
+        "value": "(:EDITOR-PASSED)"
+      },
+      "finishedAt": "2026-11-11T05:29:22.579Z"
+    },
+    {
+      "id": 43,
+      "commandId": "final-ime-uncommitted",
+      "startedAt": "2026-11-11T05:29:22.581Z",
+      "sourceSha256": "3ab303e1055bc54bc5d525583f4d2c823ad65ef8b8c511186cec13986ed9fc8f",
+      "result": {
+        "type": "test-result",
+        "id": 43,
+        "ok": true,
+        "value": "(:EDITOR-PASSED)"
+      },
+      "finishedAt": "2026-11-11T05:29:22.685Z"
+    },
+    {
+      "id": 44,
+      "commandId": "final-ime-committed",
+      "startedAt": "2026-11-11T05:29:22.688Z",
+      "sourceSha256": "34333b369bfa19513580e832607b05a5718514f5451d58f3cbdbc37bb533266e",
+      "result": {
+        "type": "test-result",
+        "id": 44,
+        "ok": true,
+        "value": "(:EDITOR-PASSED)"
+      },
+      "finishedAt": "2026-11-11T05:29:26.267Z"
+    },
+    {
+      "id": 45,
+      "commandId": "final-editor-delete",
+      "startedAt": "2026-11-11T05:29:42.902Z",
+      "sourceSha256": "985dcfbdffd95f4267e4803a1bd23b31b6d34a48b57b1fb1b4725faf43a4332e",
+      "result": {
+        "type": "test-result",
+        "id": 45,
+        "ok": true,
+        "value": "(:EDITOR-PASSED)"
+      },
+      "finishedAt": "2026-11-11T05:29:44.736Z"
+    },
+    {
+      "id": 46,
+      "commandId": "final-editor-activate",
+      "startedAt": "2026-11-11T05:29:44.738Z",
+      "sourceSha256": "d0a3f2e7978676a0b28617206366bd26d06385b8ef70923464d1334a671853e3",
+      "result": {
+        "type": "test-result",
+        "id": 46,
+        "ok": true,
+        "value": "(:EDITOR-PASSED)"
+      },
+      "finishedAt": "2026-11-11T05:29:44.841Z"
+    },
+    {
+      "id": 47,
+      "commandId": "final-editor-forward-delete",
+      "startedAt": "2026-11-11T05:29:44.844Z",
+      "sourceSha256": "b26ae625865f5ea1f0df6352b14b4fea2c33ede992fbd55056918e57e7586973",
+      "result": {
+        "type": "test-result",
+        "id": 47,
+        "ok": true,
+        "value": "(:EDITOR-PASSED)"
+      },
+      "finishedAt": "2026-11-11T05:29:46.683Z"
+    },
+    {
+      "id": 48,
+      "commandId": "final-editor-supplementary-delete",
+      "startedAt": "2026-11-11T05:29:46.686Z",
+      "sourceSha256": "551b458a1acb815dbfa31a98f137ffd29f7264b716ceeeb9606315e965a6f1fb",
+      "result": {
+        "type": "test-result",
+        "id": 48,
+        "ok": true,
+        "value": "(:EDITOR-PASSED)"
+      },
+      "finishedAt": "2026-11-11T05:29:48.523Z"
+    },
+    {
+      "id": 49,
+      "commandId": "final-toggle-on",
+      "startedAt": "2026-11-11T05:30:12.883Z",
+      "sourceSha256": "93dfeba09f969115c9b399aefe14bba1749f2ec6ebacce07cfa3fee43eebad61",
+      "result": {
+        "type": "test-result",
+        "id": 49,
+        "ok": true,
+        "value": "(:TOGGLE-PASSED)"
+      },
+      "finishedAt": "2026-11-11T05:30:14.609Z"
+    },
+    {
+      "id": 50,
+      "commandId": "final-toggle-off",
+      "startedAt": "2026-11-11T05:30:14.613Z",
+      "sourceSha256": "c3d80fda0c7f63f382c5feb17ae11cf1a8369be70e48a973409f2f3832ac057b",
+      "result": {
+        "type": "test-result",
+        "id": 50,
+        "ok": true,
+        "value": "(:TOGGLE-PASSED)"
+      },
+      "finishedAt": "2026-11-11T05:30:15.534Z"
+    },
+    {
+      "id": 51,
+      "commandId": "final-slider",
+      "startedAt": "2026-11-11T05:30:15.543Z",
+      "sourceSha256": "a44f7d15ba62f5d72143bb0cfe7ce8f81e181e99fbbc085f43cdecf820e0cd1f",
+      "result": {
+        "type": "test-result",
+        "id": 51,
+        "ok": true,
+        "value": "(:SLIDER-PASSED)"
+      },
+      "finishedAt": "2026-11-11T05:30:19.421Z"
+    },
+    {
+      "id": 52,
+      "commandId": "final-menu",
+      "startedAt": "2026-11-11T05:30:48.059Z",
+      "sourceSha256": "c8a8e542f5e1f201fe6f7d1a13aa5f035b77b0b200b963d6babffe29c3d6f32f",
+      "result": {
+        "type": "test-result",
+        "id": 52,
+        "ok": true,
+        "value": "(NIL)"
+      },
+      "finishedAt": "2026-11-11T05:31:19.653Z"
+    },
+    {
+      "id": 53,
+      "commandId": "final-menu-grab",
+      "startedAt": "2026-11-11T05:30:48.061Z",
+      "sourceSha256": "1798f92b7462f4a0e4f2c268dedce63d4e53b4984ce14ff89c64ac82b6015ef1",
+      "result": {
+        "type": "test-result",
+        "id": 53,
+        "ok": true,
+        "value": "(NIL)"
+      },
+      "finishedAt": "2026-11-11T05:30:53.175Z"
+    }
+  ],
+  "portlessQueueRegression": {
+    "id": 21,
+    "commandId": "queue-regressions",
+    "startedAt": "2026-11-11T05:22:57.160Z",
+    "sourceSha256": "aeaa918590e7f85e3596d31b3468fd5cf5a2457ab42f2661f3b3fa3b910e42bf",
+    "file": "/home/user/src/valtan/tests/mcclim/queue-checks.lisp",
+    "result": {
+      "type": "test-result",
+      "id": 21,
+      "ok": true,
+      "value": "(\"PORTLESS-QUEUE-PASS\")"
+    },
+    "finishedAt": "2026-11-11T05:22:57.778Z"
+  },
+  "commands": [
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchMouseEvent",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseMoved",
+        "x": 72,
+        "y": 207.4375
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchMouseEvent",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mousePressed",
+        "x": 72,
+        "y": 207.4375,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchMouseEvent",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseReleased",
+        "x": 72,
+        "y": 207.4375,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "a",
+        "code": "KeyA"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "a",
+        "code": "KeyA"
+      }
+    },
+    {
+      "op": "eval",
+      "id": "final-native-key",
+      "source": "(mcclim-gadget-checks::check-editor \"a\")"
+    },
+    {
+      "op": "eval",
+      "id": "final-prepare-burst",
+      "source": "(mcclim-gadget-checks::prepare-focus-transfer)"
+    },
+    {
+      "op": "page",
+      "id": "final-burst",
+      "expression": "for(const event of [{\"type\":\"pointermove\",\"window\":1,\"x\":20,\"y\":20},{\"type\":\"pointermove\",\"window\":4,\"x\":8,\"y\":20},{\"type\":\"pointerdown\",\"window\":4,\"x\":8,\"y\":20,\"button\":0,\"buttons\":1},{\"type\":\"pointerup\",\"window\":4,\"x\":8,\"y\":20,\"button\":0,\"buttons\":0},{\"type\":\"keydown\",\"window\":4,\"key\":\"a\",\"code\":\"KeyA\"},{\"type\":\"keyup\",\"window\":4,\"key\":\"a\",\"code\":\"KeyA\"}])mcclimTest.application.input(event)"
+    },
+    {
+      "op": "eval",
+      "id": "final-burst-result",
+      "source": "(mcclim-gadget-checks::check-editor \"a\")"
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.imeSetComposition",
+      "method": "Input.imeSetComposition",
+      "params": {
+        "text": "日本",
+        "selectionStart": 0,
+        "selectionEnd": 2
+      }
+    },
+    {
+      "op": "eval",
+      "id": "final-ime-uncommitted",
+      "source": "(mcclim-gadget-checks::check-editor \"a\")"
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.imeSetComposition",
+      "method": "Input.imeSetComposition",
+      "params": {
+        "text": "日本語",
+        "selectionStart": 0,
+        "selectionEnd": 3
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.insertText",
+      "method": "Input.insertText",
+      "params": {
+        "text": "日本語"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.insertText",
+      "method": "Input.insertText",
+      "params": {
+        "text": "😀"
+      }
+    },
+    {
+      "op": "eval",
+      "id": "final-ime-committed",
+      "source": "(mcclim-gadget-checks::check-editor \"a日本語😀\")"
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.imeSetComposition",
+      "method": "Input.imeSetComposition",
+      "params": {
+        "text": "取り消し",
+        "selectionStart": 0,
+        "selectionEnd": 4
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.imeSetComposition",
+      "method": "Input.imeSetComposition",
+      "params": {
+        "text": "",
+        "selectionStart": 0,
+        "selectionEnd": 0
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "ArrowLeft",
+        "code": "ArrowLeft",
+        "modifiers": 0
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "ArrowLeft",
+        "code": "ArrowLeft",
+        "modifiers": 0
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "Backspace",
+        "code": "Backspace",
+        "modifiers": 0
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "Backspace",
+        "code": "Backspace",
+        "modifiers": 0
+      }
+    },
+    {
+      "op": "eval",
+      "id": "final-editor-delete",
+      "source": "(mcclim-gadget-checks::check-editor \"a日本😀\")"
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "Enter",
+        "code": "Enter",
+        "modifiers": 0
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "Enter",
+        "code": "Enter",
+        "modifiers": 0
+      }
+    },
+    {
+      "op": "eval",
+      "id": "final-editor-activate",
+      "source": "(mcclim-gadget-checks::check-editor \"a日本😀\" 1)"
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "a",
+        "code": "KeyA",
+        "modifiers": 2
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "a",
+        "code": "KeyA",
+        "modifiers": 2
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "Delete",
+        "code": "Delete",
+        "modifiers": 0
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "Delete",
+        "code": "Delete",
+        "modifiers": 0
+      }
+    },
+    {
+      "op": "eval",
+      "id": "final-editor-forward-delete",
+      "source": "(mcclim-gadget-checks::check-editor \"日本😀\" 1)"
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "e",
+        "code": "KeyE",
+        "modifiers": 2
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "e",
+        "code": "KeyE",
+        "modifiers": 2
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "Backspace",
+        "code": "Backspace",
+        "modifiers": 0
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-Input.dispatchKeyEvent",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "Backspace",
+        "code": "Backspace",
+        "modifiers": 0
+      }
+    },
+    {
+      "op": "eval",
+      "id": "final-editor-supplementary-delete",
+      "source": "(mcclim-gadget-checks::check-editor \"日本\" 1)"
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mouseMoved",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseMoved",
+        "x": 274,
+        "y": 307.4375
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mousePressed",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mousePressed",
+        "x": 274,
+        "y": 307.4375,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mouseReleased",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseReleased",
+        "x": 274,
+        "y": 307.4375,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "eval",
+      "id": "final-toggle-on",
+      "source": "(mcclim-gadget-checks::check-toggle t)"
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mouseMoved",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseMoved",
+        "x": 274,
+        "y": 307.4375
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mousePressed",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mousePressed",
+        "x": 274,
+        "y": 307.4375,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mouseReleased",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseReleased",
+        "x": 274,
+        "y": 307.4375,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "eval",
+      "id": "final-toggle-off",
+      "source": "(mcclim-gadget-checks::check-toggle nil)"
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mouseMoved",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseMoved",
+        "x": 85,
+        "y": 257.4375
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mousePressed",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mousePressed",
+        "x": 85,
+        "y": 257.4375,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mouseMoved",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseMoved",
+        "x": 400,
+        "y": 257.4375,
+        "button": "left",
+        "buttons": 1
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mouseReleased",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseReleased",
+        "x": 400,
+        "y": 257.4375,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "eval",
+      "id": "final-slider",
+      "source": "(mcclim-gadget-checks::check-slider 70 90)"
+    },
+    {
+      "op": "screenshot",
+      "id": "final-gadget-screenshot",
+      "file": "/tmp/valtan-gadgets-final-live.png"
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mouseMoved",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseMoved",
+        "x": 274,
+        "y": 347.4375
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mousePressed",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mousePressed",
+        "x": 274,
+        "y": 347.4375,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-mouse-mouseReleased",
+      "method": "Input.dispatchMouseEvent",
+      "params": {
+        "type": "mouseReleased",
+        "x": 274,
+        "y": 347.4375,
+        "button": "left",
+        "clickCount": 1
+      }
+    },
+    {
+      "op": "eval",
+      "id": "final-menu",
+      "wait": false,
+      "source": "(clim:menu-choose '((\"First\" :value :first) (\"Second\" :value :second)) :associated-window (clim:find-pane-named clim:*application-frame* 'valtan-clim-demo::canvas))"
+    },
+    {
+      "op": "eval",
+      "id": "final-menu-grab",
+      "source": "(assert (clim-internals::port-grabbed-sheet (clim:port clim:*application-frame*)))"
+    },
+    {
+      "op": "cdp",
+      "id": "final-escape-keyDown",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyDown",
+        "key": "Escape",
+        "code": "Escape"
+      }
+    },
+    {
+      "op": "cdp",
+      "id": "final-escape-keyUp",
+      "method": "Input.dispatchKeyEvent",
+      "params": {
+        "type": "keyUp",
+        "key": "Escape",
+        "code": "Escape"
+      }
+    },
+    {
+      "op": "evaluation-result",
+      "id": "final-gadget-return",
+      "evaluationId": 39
+    },
+    {
+      "op": "evaluation-result",
+      "id": "final-menu-result",
+      "evaluationId": 52
+    },
+    {
+      "op": "page",
+      "id": "final-no-errors",
+      "expression": "({windows:[...mcclimTest.application.windows.keys()],errors:mcclimTest.errors})"
+    }
+  ],
+  "terminalBrowserState": {
+    "windows": [
+      1
+    ],
+    "errors": []
+  },
+  "checks": [
+    "native first character and value callback",
+    "batched pointer/key focus transfer",
+    "uncommitted composition does not insert text",
+    "Japanese commit and supplementary Unicode",
+    "composition cancellation, cursor movement, deletion and activation",
+    "Control shortcuts and whole supplementary-character deletion",
+    "toggle callbacks in both directions",
+    "slider release callback",
+    "frame exit and subsequent popup Escape"
+  ],
+  "sourceHashes": {
+    "library/mcclim-browser/port.lisp": "ddfa9666748e20a4f681a1edf9227fbfb32c717fbdb5560cc670119402a75230",
+    "library/mcclim-browser/queues.lisp": "8b8b670fe7be937cda4e60a1ddb6b4883dfbe302a5b42132d6c807ba7220034b",
+    "tests/mcclim/gadget-checks.lisp": "0e22eb7c262df29075bc2b03ac247678e2026353fd604ace5754fa931746bf17",
+    "tests/mcclim/gadgets.mjs": "174c6ef12344470cc4b24f6732573779d8ff373351422793c30a95f66c263767"
+  },
+  "screenshot": "tests/mcclim/screenshots/gadgets-live.png",
+  "baselineObservations": [
+    {
+      "id": 8,
+      "commandId": "editor-a-check",
+      "startedAt": "2026-11-11T05:14:56.619Z",
+      "sourceSha256": "3ab303e1055bc54bc5d525583f4d2c823ad65ef8b8c511186cec13986ed9fc8f",
+      "result": {
+        "type": "test-result",
+        "id": 8,
+        "ok": false,
+        "error": "The assertion (STRING= MCCLIM-GADGET-CHECKS::EXPECTED (CLIM:GADGET-VALUE (CLIM:GADGET (QUOTE MCCLIM-GADGET-CHECKS::EDITOR)))) failed."
+      },
+      "finishedAt": "2026-11-11T05:14:56.928Z"
+    },
+    {
+      "id": 16,
+      "commandId": "rapid-input-reset-counter",
+      "startedAt": "2026-11-11T05:18:33.072Z",
+      "sourceSha256": "fc713bcccbbc228995c4d59b21e42cf7050ef1e33b3e0c4f8a299ad87f04c595",
+      "result": {
+        "type": "test-result",
+        "id": 16,
+        "ok": true,
+        "value": "(:RESET)"
+      },
+      "finishedAt": "2026-11-11T05:18:34.918Z"
+    },
+    {
+      "id": 17,
+      "commandId": "rapid-input-baseline-2-result",
+      "startedAt": "2026-11-11T05:18:34.919Z",
+      "sourceSha256": "ca5e6925d427cc9e071b1ae7b93c5831553939e67e1f1f260b844725383ffadf",
+      "result": {
+        "type": "test-result",
+        "id": 17,
+        "ok": true,
+        "value": "((\"\" NIL))"
+      },
+      "finishedAt": "2026-11-11T05:18:35.228Z"
+    },
+    {
+      "id": 24,
+      "commandId": "edit-after-cancel",
+      "startedAt": "2026-11-11T05:23:39.723Z",
+      "sourceSha256": "985dcfbdffd95f4267e4803a1bd23b31b6d34a48b57b1fb1b4725faf43a4332e",
+      "result": {
+        "type": "test-result",
+        "id": 24,
+        "ok": false,
+        "error": "The assertion (STRING= MCCLIM-GADGET-CHECKS::EXPECTED (CLIM:GADGET-VALUE (CLIM:GADGET (QUOTE MCCLIM-GADGET-CHECKS::EDITOR)))) failed."
+      },
+      "finishedAt": "2026-11-11T05:23:41.558Z"
+    },
+    {
+      "id": 25,
+      "commandId": "activation",
+      "startedAt": "2026-11-11T05:23:41.559Z",
+      "sourceSha256": "d0a3f2e7978676a0b28617206366bd26d06385b8ef70923464d1334a671853e3",
+      "result": {
+        "type": "test-result",
+        "id": 25,
+        "ok": false,
+        "error": "The assertion (STRING= MCCLIM-GADGET-CHECKS::EXPECTED (CLIM:GADGET-VALUE (CLIM:GADGET (QUOTE MCCLIM-GADGET-CHECKS::EDITOR)))) failed."
+      },
+      "finishedAt": "2026-11-11T05:23:41.663Z"
+    }
+  ],
+  "diagnosticMethod": {
+    "evaluationId": 10,
+    "source": "(defvar cl-user::*editor-keys* nil) (defmethod clim:handle-event :before ((pane climi::text-field-pane) (event clim:key-press-event)) (push (list (clim:keyboard-event-key-name event) (clim:keyboard-event-character event) (clim:event-modifier-state event)) cl-user::*editor-keys*))",
+    "effect": "Before-method only logs key events; it neither consumes nor transforms them."
+  }
+}

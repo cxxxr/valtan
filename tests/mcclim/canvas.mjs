@@ -7,12 +7,19 @@ import {spawn} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {hash} from './bundle.mjs';
 const here=path.dirname(fileURLToPath(import.meta.url));
-const output=path.resolve(process.argv[2]??'/tmp/valtan-mcclim-canvas.json');
-const fixture=fs.readFileSync(path.join(here,'canvas-checks.lisp'),'utf8');
+const args=process.argv.slice(2),flipping=args.includes('--flipping');
+if(flipping)args.splice(args.indexOf('--flipping'),1);
+if(args.length>1)throw Error('Usage: canvas.mjs [--flipping] [report.json]');
+const output=path.resolve(args[0]??`/tmp/valtan-mcclim-${flipping?'flipping':'canvas'}.json`);
+const fixture=fs.readFileSync(path.join(here,'canvas-checks.lisp'),'utf8')+
+  (flipping?'\n'+fs.readFileSync(path.join(here,'flipping-checks.lisp'),'utf8')+
+    '\n(values :passed (+ valtan-canvas-checks::*checks* mcclim-flipping-checks::*checks*))\n':'');
+const expectedChecks=flipping?81:69;
 const snapshot=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-canvas-checks-'));
 const fixtureFile=path.join(snapshot,'checks.lisp');fs.writeFileSync(fixtureFile,fixture);
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),
-  scope:'Real upstream CLIM pattern, clipping and composite-design pixel assertions in Chrome; not full McCLIM compatibility',
+  scope:`Real upstream CLIM pattern, clipping and composite-design pixel assertions${flipping?', plus solid flipping designs':''} in Chrome; not full McCLIM compatibility`,
+  expectedChecks,
   checksSha256:hash(fixture)};
 const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
 const child=spawn(process.execPath,[path.join(here,'workbench.mjs')],{stdio:['pipe','pipe','inherit']});
@@ -34,7 +41,7 @@ try {
   const terminal=await exit;
   if(terminal.code!==0)throw Error(`Workbench exited: ${JSON.stringify(terminal)}`);
   if(!result?.result?.ok)throw Error(result?.error??result?.result?.error??'Missing canvas result');
-  if(result.result.value!=='(:PASSED 69)')throw Error(`Unexpected assertion count: ${result.result.value}`);
+  if(result.result.value!==`(:PASSED ${expectedChecks})`)throw Error(`Unexpected assertion count: ${result.result.value}`);
   const workbench=JSON.parse(fs.readFileSync(path.join(report.work,'report.json'),'utf8'));
   report.workbench=workbench;report.result=result.result;
   report.complete=true;report.status='passed';

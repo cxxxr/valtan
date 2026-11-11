@@ -1,0 +1,22 @@
+{
+  "system": "mcclim-bezier/core",
+  "scope": "Load and supplied API assertions; GUI verification is separate",
+  "timestamp": "2026-11-11T04:51:11.777Z",
+  "complete": true,
+  "status": "passed",
+  "work": "/tmp/valtan-mcclim-UHvoL5",
+  "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+  "target": "node",
+  "extraSystems": [
+    "mcclim-portability",
+    "uiop"
+  ],
+  "targetFeatures": [
+    "clim-without-swank",
+    "use-salza2-zlib"
+  ],
+  "checksSha256": "d966add1bbbe63e77db36a13fdfe068aae53eca2c35cba50b4b337bd282d9449",
+  "stage": "run",
+  "bundleSha256": "5b75118ed88d1033d11b33adf5793047b03d83fa476d0ab28f7f30f552d9b8d0",
+  "finishedAt": "2026-11-11T05:30:16.555Z"
+}

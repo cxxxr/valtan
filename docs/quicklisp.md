@@ -214,8 +214,8 @@ so each mirror has an editable input that forwards committed Unicode characters
 to CLIM. Japanese composition, cancellation, supplementary characters and ordinary
 keyboard gestures pass without duplicate insertion. All six transport tests pass;
 see the [keyboard and pointer report](../tests/mcclim/keyboard-transport-results.json).
-These transport results do not establish text-editor gadget compatibility; that
-requires the separate real McCLIM interaction checks.
+These transport results do not establish text-editor gadget compatibility; the
+separate real McCLIM interaction checks are described below.
 `npm run test:mcclim:gui` builds and tests the actual McCLIM counter frame,
 checks the standard button and keyboard handler, and retains screenshots and
 diagnostics alongside a JSON report. Set `CHROME_BINARY` if Chrome is installed
@@ -249,8 +249,10 @@ see the [cold window report](../tests/mcclim/window-cold-results.json).
 The window gate now also exercises popup selection/cancellation and viewport
 resizing. The browser graft uses identity coordinates and leaves its background
 painting to the DOM, allowing region changes without the missing-transformation
-error. The expanded cold-start gate is still being verified; the recorded nine
-stages above predate these additions.
+error. All 14 stages of the expanded gate pass after a fresh startup; see the
+[window/menu report](../tests/mcclim/window-menu-cold-results.json) and
+[popup screenshot](../tests/mcclim/screenshots/menu-cold.png). That source snapshot
+predates the later native IME, flipping and input-queue changes.
 Focused checks in an existing real McCLIM worker reproduce and fix a minimize
 bug: the sheet remained enabled while its browser window was hidden, so
 `ENABLE-FRAME` could skip restoring it. The adapter now disables the sheet when
@@ -267,7 +269,9 @@ dependencies. This addresses the `GET-ENVIRONMENT-VARIABLE not implemented`
 failure while loading the PostScript dependency of `mcclim-bezier/core`.
 `npm run test:mcclim:bezier` loads that extension with the portability adapter,
 UIOP and the upstream pure-Lisp compression option, and exercises its
-polygonalization smoke assertions. The complete extension rerun is pending.
+polygonalization smoke assertions. This fresh Node run now
+[passes](../tests/mcclim/bezier-results.json), including the ordinary polygon and
+degenerate tiny-area cases. It does not verify Bezier drawing in the browser.
 
 Spatial `COMPOSE-IN`, `COMPOSE-OUT` and `COMPOSE-OVER` designs now render through
 separate Canvas layers. Masks can contain regions or patterns, and composition
@@ -281,8 +285,35 @@ All 69 also pass after a fresh McCLIM startup, without backend reloads; the
 [cold-start report](../tests/mcclim/canvas-cold-results.json) records the source
 hash, bundle and completed evaluation.
 
+Solid flipping inks exchange their two designs and restore the original pixels
+when the same geometry is drawn twice, including antialiased text and circles.
+This uses an opaque-pixel XOR operation with binary shape coverage; partially
+transparent destination pixels and nonsolid design samples are left unchanged.
+The real CLIM gate checks foreground/background inks, explicit colors, tiled
+designs and Boolean clipping. Its 12 new checks and all 69 existing Canvas checks
+[pass after backend reloads](../tests/mcclim/flipping-live-results.json).
+`npm run test:mcclim:flipping` runs all 81 checks from a fresh startup; that run is
+still pending. The separate host/transport gate also
+[passes all seven tests](../tests/mcclim/input-flipping-transport-results.json).
+
+`npm run test:mcclim:gadgets` exercises upstream text fields, toggles and sliders
+through Chrome input in a nested frame event loop. The browser queue drains
+already-dispatched events before polling more input, so a key immediately after
+a click cannot overtake the click's focus notification. Keyboard conversion
+supplies the characters needed by Backspace, Delete, Tab and Control/Meta
+character gestures while preserving named Escape gestures.
+After reloading these fixes in an existing worker, native Japanese IME input,
+composition cancellation, supplementary characters, cursor motion, deletion,
+activation, toggle/slider callbacks, frame exit and subsequent popup Escape
+[pass](../tests/mcclim/gadget-live-results.json); see the
+[gadget screenshot](../tests/mcclim/screenshots/gadgets-live.png).
+The report retains the reproduced failures and the final successful checks.
+These are live-worker results; the expanded fresh-start gadget gate is not yet
+verified. They do not establish simultaneous frame event loops or full Drei
+editor compatibility.
+
 This is an experimental backend, not full McCLIM compatibility. Arbitrary
-flipping designs, image file loading, platform window management and the complete
+nested/nonsolid flipping designs, image file loading, platform window management and the complete
 upstream test suite are not yet verified. Startup still compiles the dependencies in the browser worker;
 the recorded end-to-end run took about 22 minutes, including build and input
 checks. There is currently no persistent compiled-library cache in the browser.
@@ -308,8 +339,9 @@ the presentation inheritance compilation test and `STREAM-READ-GESTURE.SMOKE`
 each execute all 16 assertions. `COMPILE` records warning/failure return values
 and recovers from compiler errors by returning a function that signals the
 original condition when called. The browser backend also handles standalone
-input queues without attempting to poll a nonexistent port; real port queues
-continue using their original event processing. Scheduled events, timeouts,
+input queues without attempting to poll a nonexistent port. Browser port queues
+now give already-dispatched events priority over native polling; other ports
+and concurrent queues retain upstream processing. Scheduled events, timeouts,
 wait predicates and queue ordering are checked separately. Button and keyboard
 input still work after loading the queue adapter. The
 [focused report](../tests/mcclim/recovery-results.json) records these source

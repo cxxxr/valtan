@@ -30,7 +30,9 @@
     "test:mcclim:transport": "node --test mcclim/event-queue.test.mjs mcclim/browser-bridge.test.mjs",
     "test:mcclim:gui": "node mcclim/gui.mjs",
     "test:mcclim:canvas": "node mcclim/canvas.mjs",
+    "test:mcclim:flipping": "node mcclim/canvas.mjs --flipping",
     "test:mcclim:windows": "node mcclim/windows.mjs",
+    "test:mcclim:gadgets": "node mcclim/gadgets.mjs",
     "test:mcclim:bezier": "node mcclim/bezier.mjs",
     "test:mcclim:queues": "node mcclim/queue.mjs",
     "demo:mcclim": "node mcclim/demo.mjs"

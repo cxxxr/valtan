@@ -36,6 +36,7 @@ export function createCanvasHost(buffer, send = (...args) => postMessage(...args
     resizeViewport: (width, height) => { host.width = width; host.height = height; },
     createWindow, present,
     pattern: makeCanvasPattern,
+    flipArea: flipCanvasArea,
     createSurface: (width, height) => {
       const canvas = new OffscreenCanvas(Math.max(1, Math.ceil(width)), Math.max(1, Math.ceil(height)));
       return {canvas, context: canvas.getContext('2d')};
@@ -88,6 +89,25 @@ export function createCanvasHost(buffer, send = (...args) => postMessage(...args
     error: error => send({type: 'error', message: String(error?.stack ?? error)}),
   };
   return host;
+}
+
+// Flipping inks exchange two solid designs and must be an involution. Canvas
+// 'difference' with an antialiased source does not meet that requirement.
+// Quantize shape coverage once and XOR opaque device pixels. Transparent
+// destination pixels and nonsolid design samples are left unchanged; CLIM does
+// not specify a color exchange for those samples.
+export function flipCanvasArea(destination, coverage, first, second) {
+  const {width,height}=destination.canvas;
+  const image=destination.context.getImageData(0,0,width,height),pixels=image.data;
+  const mask=coverage.context.getImageData(0,0,width,height).data;
+  const a=first.context.getImageData(0,0,width,height).data;
+  const b=second.context.getImageData(0,0,width,height).data;
+  for(let i=0;i<pixels.length;i+=4){
+    if(mask[i+3]<128 || pixels[i+3]!==255 || a[i+3]!==255 || b[i+3]!==255)continue;
+    pixels[i]^=a[i]^b[i]; pixels[i+1]^=a[i+1]^b[i+1]; pixels[i+2]^=a[i+2]^b[i+2];
+  }
+  destination.context.putImageData(image,0,0);
+  destination.dirty=true;
 }
 
 // CLIM patterns use packed ARGB pixels; Canvas ImageData uses RGBA bytes.
