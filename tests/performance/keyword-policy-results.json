@@ -432,5 +432,70 @@
         "finishedAt": "2026-11-11T06:55:31.404Z"
       }
     ]
+  },
+  "freshMcclimAlgebra": {
+    "scope": "Fresh Node process with the keyword-policy cache; unchanged upstream algebra assertions and default 100 random trials. Not browser drawing or a controlled timing comparison.",
+    "probe": {
+      "system": "clim-core/system",
+      "scope": "Load and supplied API assertions; GUI verification is separate",
+      "timestamp": "2026-11-11T06:47:53.331Z",
+      "complete": true,
+      "status": "passed",
+      "work": "/tmp/valtan-mcclim-7gGP9m",
+      "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+      "target": "node",
+      "extraSystems": [
+        "mcclim-portability",
+        "fiveam"
+      ],
+      "targetFeatures": [
+        "clim-without-swank"
+      ],
+      "checksSha256": "1c54bfa2966b08324b3fae05b6b4b4207201c636b672e7a72e6af8e21423fa8e",
+      "stage": "run",
+      "bundleSha256": "1a1fb0ae37e4c2b198aff73936bd25650538e172a282b97cf3128d39175144dc",
+      "finishedAt": "2026-11-11T07:07:38.439Z"
+    },
+    "results": 19,
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0,
+    "executedTests": [
+      "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.IDENTITY",
+      "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMPLEMENT",
+      "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.COMMUTATIVITY",
+      "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.ASSOCIATIVITY",
+      "CLIM-TESTS::ALGEBRA.FUNDAMENTAL.DISTRIBUTIVITY",
+      "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.IDEMPOTENT",
+      "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.DOMINATION",
+      "CLIM-TESTS::ALGEBRA.EXTRA/UNION-INTERSECTION.ABSORPTION",
+      "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.DE-MORGAN",
+      "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.INVOLUTION",
+      "CLIM-TESTS::ALGEBRA.EXTRA/COMPLEMENT.UNIVERSAL-AND-EMPTY",
+      "CLIM-TESTS::ALGEBRA.EXTRA/UNIQUENESS-OF-COMPLEMENTS",
+      "CLIM-TESTS::ALGEBRA.INCLUSION.REFLEXIVITY",
+      "CLIM-TESTS::ALGEBRA.INCLUSION.ASSYMETRY",
+      "CLIM-TESTS::ALGEBRA.INCLUSION.TRANSITIVITY",
+      "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-LEAST-GREATEST",
+      "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-JOINS",
+      "CLIM-TESTS::ALGEBRA.INCLUSION.EXISTANCE-MEETS"
+    ],
+    "upstreamSources": [
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/util/package.lisp",
+        "sha256": "bf75e8d160516bd3afe7373e541ca4cae0233ea5ebfc8cfa90dd520e8047ebe8"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/package.lisp",
+        "sha256": "f68a524bbccfd19ba42e83dbe2f9a6f55957bbbe88aae78cef1437c35d519627"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Tests/geometry/algebra.lisp",
+        "sha256": "d9160d5b082db0fc6ab6c7a7e58ef0fdf62d9d5ebf3e59e85f12a24390ab2983"
+      }
+    ],
+    "assertions": "(assert (= (length results) 19)) (assert (every #'fiveam::test-passed-p results))",
+    "logSha256": "a6f2fb07ad6103b9a88750b13c112a8ca2b4ef3118d78e670e1227a260a46382",
+    "summary": " Did 19 checks.\n    Pass: 19 (100%)\n    Skip: 0 ( 0%)\n    Fail: 0 ( 0%)\n\nMCCLIM-LOAD-COMPLETE\nclim-core/system: passed; report: /tmp/valtan-algebra-keyword-cache.json\n"
   }
 }

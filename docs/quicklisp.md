@@ -198,6 +198,8 @@ checks, and live McCLIM input after reloading the definitions. The upstream ANSI
 objects category retains its previous 829 successes and 34 failures. A focused
 3,000-call comparison measured median times of 794 ms without the cache and
 91 ms with it; this is not an end-to-end McCLIM speed measurement.
+The same compiler also passes all 19 upstream McCLIM algebra results in a fresh
+Node process, retaining the default 100 random trials and upstream assertions.
 
 An experimental Canvas backend lives in `library/mcclim-browser`, with a
 counter-frame example in `example/try-using-mcclim`. It runs Lisp in a worker;
