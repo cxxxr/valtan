@@ -1,0 +1,27 @@
+;; Inspect the upstream ASDF plan on the host; never execute its load actions.
+(require :asdf)
+(let ((setup (or (uiop:getenv "QUICKLISP_SETUP")
+                 (merge-pathnames #p"quicklisp/setup.lisp" (user-homedir-pathname)))))
+  (when (probe-file setup) (load setup)))
+(asdf:load-system "st-json")
+(let ((output (first (uiop:command-line-arguments)))
+      (files nil) (seen (make-hash-table :test 'equal)))
+  (unless output (error "Expected output manifest pathname"))
+  (dolist (action (asdf/plan:plan-actions
+                  (asdf:make-plan 'asdf/plan:filtered-sequential-plan 'asdf:load-op
+                                  (asdf:find-system "mcclim/test") :other-systems t)))
+    (let ((component (cdr action)))
+      (when (and (typep (car action) 'asdf:load-op) (typep component 'asdf:cl-source-file)
+                 (member (asdf:component-name (asdf:component-system component))
+                         '("mcclim/test" "mcclim/test-util") :test #'equal))
+        (let ((file (asdf:component-pathname component)))
+          (unless (gethash file seen)
+            (setf (gethash file seen) t)
+            (push (namestring file) files))))))
+  (unless files (error "Upstream test plan contains no Lisp files"))
+  (with-open-file (out output :direction :output :if-exists :supersede)
+    (st-json:write-json
+     (st-json:jso "root" (namestring (asdf:system-source-directory "mcclim"))
+                  "definition" (namestring (asdf:system-source-file "mcclim/test"))
+                  "asdfVersion" (asdf:asdf-version)
+                  "files" (nreverse files)) out)))

@@ -70,7 +70,12 @@ try {
         }
         const until=Date.now()+(command.timeout??120000);
         do{
-          result=await page.evaluate(`workbenchResults[${id}]`);
+          const observed=await page.evaluate(`({result:workbenchResults[${id}],lastLog:mcclimTest.lastLog})`);
+          result=observed.result;
+          if(observed.lastLog && observed.lastLog!==lastLog){
+            lastLog=observed.lastLog;record.lastLog=lastLog;save();
+            say({evaluating:lastLog,evaluationId:id});
+          }
           if(result)break;
           if(Date.now()>until)throw Error('Evaluation timed out (the worker is retained for diagnosis)');
           await new Promise(resolve=>setTimeout(resolve,100));

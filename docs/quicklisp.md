@@ -387,6 +387,20 @@ The [SBCL baseline](../tests/mcclim/upstream-host-results.json) executes all
 tests. It loads McCLIM's normal native dependencies, including threading and
 extensions. These host results do not establish Valtan compatibility.
 
+`npm run test:mcclim:upstream` attempts every test source in the installed host
+ASDF plan in a real browser containing `mcclim-browser` and FiveAM. It records
+source-load failures, skipped checks and unexecuted cases as failures. Its
+source snapshots are also ASDF static resources, supplying the files expected
+by the upstream pathname tests. Build, source and compiler hashes identify each
+run. Allow up to an hour after startup for the full test evaluation.
+The [existing-worker diagnostic](../tests/mcclim/upstream-source-plan-results.json)
+attempted all 27 files: 179 tests registered and executed, with 1,640 of 1,642
+checks passing. Two pathname checks failed because their inline-loaded source
+file was absent from that worker's filesystem. Two source files could not load
+because the BT and MCCLIM-BEZIER packages were absent. The cold run with embedded
+source resources remains in progress; neither result establishes full McCLIM
+compatibility.
+
 Two failures from the earlier run now pass focused checks in the existing browser worker:
 the presentation inheritance compilation test and `STREAM-READ-GESTURE.SMOKE`
 each execute all 16 assertions. `COMPILE` records warning/failure return values
