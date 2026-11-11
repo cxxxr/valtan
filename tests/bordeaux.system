@@ -1,0 +1,6 @@
+(defsystem "bordeaux"
+  :depends-on ("bordeaux-trace" "bordeaux-threads")
+  :components ((:file "bordeaux/checks"))
+  :target :node
+  :target-features (:valtan-resumable)
+  :compile-mode :runtime)

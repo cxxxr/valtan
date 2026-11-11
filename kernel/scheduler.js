@@ -3,6 +3,9 @@ import { resumableCheckpoint } from './resumable';
 
 let currentTask = null;
 export function currentScheduledTask() { return currentTask; }
+const knownTasks = new WeakSet(), liveTasks = new Set();
+export function isScheduledTask(value) { return knownTasks.has(value); }
+export function allScheduledTasks() { return Array.from(liveTasks); }
 
 // Same-heap cooperative scheduling: each slice restores its execution context,
 // and each host turn has a finite slice/time budget so browser events can run.
@@ -32,6 +35,7 @@ export class CooperativeScheduler {
             state: 'runnable', queued: false, frames: [this.frame(task)], interruptions: [],
             values: null, error: null };
         this.tasks.add(handle);
+        knownTasks.add(handle); liveTasks.add(handle);
         this.enqueue(handle, 'next', undefined);
         return handle;
     }
@@ -156,6 +160,7 @@ export class CooperativeScheduler {
         } else {
             handle.interruptions.length = 0;
             this.tasks.delete(handle);
+            liveTasks.delete(handle);
             if (failed) {
                 handle.error = error; handle.state = 'failed'; handle.reject(error);
             } else {

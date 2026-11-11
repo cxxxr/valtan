@@ -446,3 +446,8 @@ registerFunction(system_package, '%RELEASE-COOPERATIVE-LOCK', CL_releaseCooperat
 registerFunction(system_package, '%MAKE-COOPERATIVE-CONDITION', CL_makeCooperativeCondition, 1);
 registerFunction(system_package, '%COOPERATIVE-CONDITION-WAIT', CL_cooperativeConditionWait, 3);
 registerFunction(system_package, '%COOPERATIVE-CONDITION-NOTIFY', CL_cooperativeConditionNotify, 2);
+
+import { CL_cooperativeThreadOperation, CL_cooperativeAtomicOperation } from './threads';
+export * from './threads';
+registerFunction(system_package, '%COOPERATIVE-THREAD-OP', CL_cooperativeThreadOperation, 1, null);
+registerFunction(system_package, '%COOPERATIVE-ATOMIC-OP', CL_cooperativeAtomicOperation, 1, null);

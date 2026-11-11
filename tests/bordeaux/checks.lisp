@@ -1,0 +1,150 @@
+(in-package :cl-user)
+(defvar *bordeaux-test-value* :global)
+(assert bt:*supports-threads-p*)
+(assert bt2:+supports-threads-p+)
+
+(ffi:set
+ (ffi:ref "globalThis" "valtanBordeauxTests")
+ (ffi:object
+  "v1"
+  (lambda ()
+    (let* ((parent (bt:current-thread))
+           (thread (bt:make-thread
+                    (lambda ()
+                      (assert (not (eq parent (bt:current-thread))))
+                      (sleep 0.001)
+                      (values 23 :v1))
+                    :name "v1 worker")))
+      (assert (bt:threadp thread))
+      (assert (string= (bt:thread-name thread) "v1 worker"))
+      (assert (member thread (bt:all-threads)))
+      (assert (equal (multiple-value-list (bt:join-thread thread)) '(23 :v1)))
+      (assert (not (bt:thread-alive-p thread)))
+      (assert (equal (multiple-value-list (bt:join-thread thread)) '(23 :v1)))
+      :passed))
+  "v2"
+  (lambda ()
+    (let* ((parent (bt2:current-thread))
+           (thread (bt2:make-thread
+                    (lambda ()
+                      (assert (not (eq parent (bt2:current-thread))))
+                      (sleep 0.001)
+                      (values 29 :v2))
+                    :name "v2 worker")))
+      (assert (bt2:threadp thread))
+      (assert (string= (bt2:thread-name thread) "v2 worker"))
+      (assert (equal (multiple-value-list (bt2:join-thread thread)) '(29 :v2)))
+      (assert (not (bt2:thread-alive-p thread)))
+      :passed))
+  "bindings"
+  (lambda ()
+    (let ((*bordeaux-test-value* :parent))
+      ;; Upstream v1 evaluates the binding form in the child; v2 does so in the
+      ;; creator. Neither child inherits unrelated parent dynamic bindings.
+      (let ((v1 (bt:make-thread (lambda () *bordeaux-test-value*)
+                                :initial-bindings '((*bordeaux-test-value* . *bordeaux-test-value*))))
+            (v2 (bt2:make-thread (lambda () *bordeaux-test-value*)
+                                 :initial-bindings '((*bordeaux-test-value* . *bordeaux-test-value*)))))
+        (assert (eq (bt:join-thread v1) :global))
+        (assert (eq (bt2:join-thread v2) :parent))
+        (assert (eq *bordeaux-test-value* :parent))))
+    :passed)
+  "counter"
+  (lambda ()
+    (let ((lock (bt:make-lock "shared")) (count 0))
+      (let ((threads
+              (loop for i below 64 collect
+                    (bt:make-thread
+                     (lambda ()
+                       (dotimes (round 3)
+                         (bt:with-lock-held (lock)
+                           (let ((before count))
+                             (bt:thread-yield)
+                             (setf count (1+ before))))))))))
+        (mapc #'bt:join-thread threads)
+        (assert (= count 192))))
+    :passed)
+  "condition"
+  (lambda ()
+    (let ((lock (bt2:make-lock)) (cv (bt2:make-condition-variable))
+          (ready nil) (waiting 0))
+      (let ((threads
+              (loop repeat 4 collect
+                    (bt2:make-thread
+                     (lambda ()
+                       (bt2:with-lock-held (lock)
+                         (incf waiting)
+                         (loop until ready do (bt2:condition-wait cv lock))
+                         (values :notified 3)))))))
+        (loop until (bt2:with-lock-held (lock) (= waiting 4)) do (bt2:thread-yield))
+        (bt2:with-lock-held (lock) (setf ready t) (bt2:condition-broadcast cv))
+        (dolist (thread threads)
+          (assert (equal (multiple-value-list (bt2:join-thread thread)) '(:notified 3)))))
+      (bt2:with-lock-held (lock)
+        (assert (null (bt2:condition-wait cv lock :timeout 0.001)))))
+    :passed)
+  "semaphore"
+  (lambda ()
+    (let* ((semaphore (bt2:make-semaphore))
+           (thread (bt2:make-thread (lambda () (bt2:wait-on-semaphore semaphore)))))
+      (bt2:thread-yield)
+      (bt2:signal-semaphore semaphore)
+      (assert (bt2:join-thread thread))
+      (assert (null (bt2:wait-on-semaphore semaphore :timeout 0))))
+    :passed)
+  "atomic"
+  (lambda ()
+    (let* ((word (bt2:make-atomic-integer))
+           (threads (loop repeat 64 collect
+                          (bt2:make-thread
+                           (lambda () (dotimes (i 10) (bt2:atomic-integer-incf word) (bt2:thread-yield)))))))
+      (mapc #'bt2:join-thread threads)
+      (assert (= (bt2:atomic-integer-value word) 640))
+      (assert (bt2:atomic-integer-compare-and-swap word 640 18446744073709551615))
+      (assert (= (bt2:atomic-integer-incf word) 0))
+      (assert (= (bt2:atomic-integer-decf word) 18446744073709551615)))
+    :passed)
+  "selfInterrupt"
+  (lambda ()
+    (let ((called nil))
+      (bt2:interrupt-thread (bt2:current-thread) (lambda () (sleep 0.001) (setf called t)))
+      (assert called))
+    :passed)
+  "interrupt"
+  (lambda ()
+    (let* ((entered nil)
+           (thread (bt:make-thread
+                    (lambda ()
+                      (catch 'bordeaux-interrupt
+                        (setf entered t)
+                        (sleep 60))))))
+      (loop until entered do (bt:thread-yield))
+      (bt:interrupt-thread thread (lambda () (throw 'bordeaux-interrupt (values :interrupted 31))))
+      (assert (equal (multiple-value-list (bt:join-thread thread)) '(:interrupted 31))))
+    :passed)
+  "termination"
+  (lambda ()
+    (let ((failed (bt2:make-thread (lambda () (error "Thread condition")) :trap-conditions t)))
+      (assert (handler-case (progn (bt2:join-thread failed) nil)
+                (bt2:abnormal-exit (condition)
+                  (typep (bt2:abnormal-exit-condition condition) 'simple-error)))))
+    (let* ((entered nil) (cleaned nil)
+           (thread (bt2:make-thread
+                    (lambda ()
+                      (unwind-protect (progn (setf entered t) (sleep 60))
+                        (sleep 0.001)
+                        (setf cleaned t))))))
+      (loop until entered do (bt2:thread-yield))
+      (bt2:destroy-thread thread)
+      (assert (not (bt2:thread-alive-p thread)))
+      (assert (handler-case (progn (bt2:join-thread thread) nil)
+                (bt2:abnormal-exit () t)))
+      (assert cleaned))
+    :passed)
+  "timeout"
+  (lambda ()
+    (assert (eq (bt2:with-timeout (1) :finished) :finished))
+    (assert (handler-case (bt2:with-timeout (0.005) (sleep 60) nil)
+              (bt2:timeout () t)))
+    :passed)))
+(ffi:set (ffi:ref "globalThis" "valtanBordeauxKernel") (ffi:ref "lisp"))

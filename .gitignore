@@ -27,3 +27,4 @@ result
 /tests/quicklisp/*.log
 
 /tests/dist-resumable/
+/tests/dist-bordeaux/

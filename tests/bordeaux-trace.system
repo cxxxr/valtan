@@ -1,0 +1,1 @@
+(defsystem "bordeaux-trace" :components ((:file "bordeaux/trace")))

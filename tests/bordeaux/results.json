@@ -1,0 +1,135 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T15:23:38.803908+00:00",
+  "scope": "Public Bordeaux Threads v1/v2 adapters on the cooperative scheduler; 11 API groups in Node and a fresh Chrome worker. This report does not claim the separately running upstream suites have finished.",
+  "sourceHashes": {
+    "host-src/asdf.lisp": "58440dcf57bb570266ac89c2ede41573c2a46887d592abc0d1367f68a5dbed88",
+    "kernel/threads.js": "0afbec9f6ba89e4a8a57fa17f93777912e95354bbb00d5211a3dc8112956f0c7",
+    "kernel/scheduler.js": "5d913b96c660a64e383378f4cca84f7f64eb6d1d7e7a280f67deeb4d6c8ad484",
+    "kernel/lisp.js": "cef2a6e460c763670ee07ee81bd48055d500a561e1cb9b846f9429fb64d53293",
+    "tests/performance/threads.test.mjs": "a72814f64059aa24c5748c514c31df8bf9365cd330c0f3e5e405a0c1ed48f9ae",
+    "library/portability/bordeaux-threads.asd": "036dbb66cc809cdd6f9ed3172e10c2e01ed8869601303460c8c9a1742c5ded52",
+    "tests/bordeaux/checks.lisp": "057260e09fd1aa8703a32afe15d1f78a71b072a9b423ef6b3053a6acd881b30b",
+    "tests/bordeaux/checks.mjs": "840c9e1f3fa6eef72e3ee7b67cd5adbad67226d2fbd83728afb48b4b516f0916",
+    "tests/bordeaux/verify.mjs": "94c703f33c13126252232cf0649e6fe7f4d2819b81a1231dc6ab9c9b39abfb3c",
+    "tests/bordeaux/upstream.lisp": "ba920e3b341ac8354d8296b8320b4bb0ded51701947f7f94fd46ed31774e223a",
+    "tests/bordeaux/upstream.mjs": "181f856ab58cb42a08f8accb3a52e35e9b7f4d9b7c2a42f496c3d1a35235c9ec",
+    "tests/bordeaux/upstream-atomics.lisp": "b43b00f5b08cc0541b17a4400b2c148a4aa7d7052eb93a4cd9daf7676d89865c",
+    "library/portability/bordeaux-threads/initialize.lisp": "bb3c09e1e5830884e7ddf4e29deba7f45bc036dbcbcf54c17b4a2e6bcb3c30ed",
+    "library/portability/bordeaux-threads/atomics.lisp": "1b8d60381986c685b4d2186f78ff59d9ae8feced0cff0293166afb894230840a",
+    "library/portability/bordeaux-threads/native-v2.lisp": "448aff944e10be05ef72d249c6efa85d6d1459b6420ef24d6f051d6545cea0a5",
+    "library/portability/bordeaux-threads/native-v1.lisp": "7504d8e240ea1b8534198f830a4707bde18e7f098f3871685a0824b0e5869e71"
+  },
+  "compilerSha256": "67b4c7a6bbdb29c6fc922f5bb9434e1b30d68dfbafc1706d1ee9f2bb1e63db0c",
+  "upstreamSourceManifest": "../../library/portability/bordeaux-threads/upstream/source.json",
+  "kernel": {
+    "status": "passed",
+    "tests": 41,
+    "newTests": 5,
+    "log": "/tmp/valtan-bordeaux-performance.log"
+  },
+  "node": {
+    "status": "passed",
+    "groups": [
+      "v1",
+      "v2",
+      "bindings",
+      "counter",
+      "condition",
+      "semaphore",
+      "atomic",
+      "selfInterrupt",
+      "interrupt",
+      "termination",
+      "timeout"
+    ],
+    "bundleSha256": "ab5d4535997f3cd875ff2fa1e792f03686080cf31fce5d78d7e9254742e7a944",
+    "buildLog": "/tmp/valtan-bordeaux-build3.log",
+    "log": "/tmp/valtan-bordeaux-verify3.log"
+  },
+  "browser": {
+    "system": "bordeaux-threads",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T15:14:01.927Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-MRSJef",
+    "compilerSha256": "67b4c7a6bbdb29c6fc922f5bb9434e1b30d68dfbafc1706d1ee9f2bb1e63db0c",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "afterLoadSha256": "9279206b9488cfdd10ad9786e9317440022fa54a021184082a21760218b4c309",
+    "checksSha256": "057260e09fd1aa8703a32afe15d1f78a71b072a9b423ef6b3053a6acd881b30b",
+    "stage": "run",
+    "bundleSha256": "d865d325897c06c7a6951fd836968a8f6fa84e098b1aab5c47521b7e97989c76",
+    "finishedAt": "2026-11-11T15:19:44.701Z"
+  },
+  "browserChecks": {
+    "groups": [
+      "v1",
+      "v2",
+      "bindings",
+      "counter",
+      "condition",
+      "semaphore",
+      "atomic",
+      "selfInterrupt",
+      "interrupt",
+      "termination",
+      "timeout"
+    ],
+    "log": "/tmp/valtan-bordeaux-browser-logs/run.log",
+    "fresh": true,
+    "productionReloads": false
+  },
+  "regressions": {
+    "ordinary": {
+      "status": "passed",
+      "resumableAssertions": 43,
+      "workloads": 8,
+      "compilerSemantics": true,
+      "log": "/tmp/valtan-bordeaux-performance.log"
+    },
+    "dual": {
+      "status": "passed",
+      "resumable": 43,
+      "dual": 51,
+      "nativeCallbacks": 23,
+      "schedulerTasks": 64,
+      "checkpointOnlyTasks": 2,
+      "eval": 18,
+      "synchronization": 12,
+      "sleep": 10,
+      "interrupts": 13,
+      "sourceDeletedArtifactAcrossFreshProcesses": true,
+      "log": "/tmp/valtan-bordeaux-resumable.log"
+    }
+  },
+  "initialFailure": {
+    "log": "/tmp/valtan-bordeaux-verify.log",
+    "passedGroups": [
+      "v1",
+      "v2",
+      "bindings",
+      "counter"
+    ],
+    "failure": "Condition timeout passed a wrapped Lisp float to a native millisecond interface. Both adapters now unbox through numberValue before Number conversion."
+  },
+  "upstreamSuites": {
+    "status": "running",
+    "complete": false,
+    "report": "/tmp/valtan-bordeaux-upstream.json",
+    "log": "/tmp/valtan-bordeaux-upstream.log",
+    "registeredAtomics": "Three unchanged test bodies explicitly enabled; million increments and decrements retained; other reader conditionals remain active."
+  },
+  "limitations": [
+    "Cooperative same-heap scheduling, no parallel CPU execution.",
+    "Waiting operations require scheduled Lisp. Ordinary startup is not automatically scheduled.",
+    "Other blocking foreign calls and native error boundaries remain separate work.",
+    "Full threaded McCLIM integration is not yet verified."
+  ]
+}

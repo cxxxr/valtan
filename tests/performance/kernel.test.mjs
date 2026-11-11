@@ -4,6 +4,7 @@ import * as lisp from '../../kernel/lisp.js';
 import './synchronization.test.mjs';
 import './sleep.test.mjs';
 import './interrupt.test.mjs';
+import './threads.test.mjs';
 
 test('suspended dynamic bindings isolate local writes and retain shared global writes', () => {
   const a = lisp.createBindingContext(), b = lisp.createBindingContext();

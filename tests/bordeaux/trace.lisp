@@ -1,0 +1,1 @@
+(setf *load-verbose* t)

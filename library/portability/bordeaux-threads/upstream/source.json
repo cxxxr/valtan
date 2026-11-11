@@ -1,0 +1,25 @@
+{
+  "project": "Bordeaux Threads",
+  "version": "0.9.4",
+  "source": "https://github.com/sionescu/bordeaux-threads",
+  "installedSource": "/home/user/quicklisp/dists/quicklisp/software/bordeaux-threads-v0.9.4",
+  "files": {
+    "LICENSE": "a2a949a097dde905dc19964a9bab63af141f573ab688d035678283732286ca28",
+    "version.sexp": "528ba4f336687f9e91eb6ffca03a339968c2d2ea018480a5eb35d51ab7908ddf",
+    "apiv1/pkgdcl.lisp": "024445ec030e2b37b60b72057804e5140d85c3c3c4278b0deaf452e5b5b8844d",
+    "apiv1/bordeaux-threads.lisp": "c97614722a509e0e4884277ec33bd9a048e0250a7b80c1462be681ffb207d596",
+    "apiv1/default-implementations.lisp": "5999451b8f373fb8adca12f1aa7bb307f4e42ce9c1bb8ecb6f64d4ed9abf6264",
+    "apiv2/pkgdcl.lisp": "5cd47c03c33ad0ef51e6b0f2706dbfa0f602b5d8ea0c39480a9119aa33df2323",
+    "apiv2/bordeaux-threads.lisp": "8cbb2dea2ab2ce0ecd3b6fe17cbeb7c0702cbcd12b7290757525254296c041fc",
+    "apiv2/timeout-interrupt.lisp": "2c820f7fc611c440d537aa73e101865396c2e4bf60a0cb28ae87823edae5a9eb",
+    "apiv2/api-locks.lisp": "d6c812189ecd9204e353831a4cfef0ab21a07352a77e240b55cc227095837528",
+    "apiv2/api-threads.lisp": "16fdcbc700e1c47fd29bbef7b5e0760ea9120a6049909b44c2f0036a71eb6843",
+    "apiv2/api-semaphores.lisp": "fae3355ac7b3afec9ea5052735135dde1f25fa292c49578d8d72335e51780ac3",
+    "apiv2/api-condition-variables.lisp": "30ec96d887216cae8a54e53f9a50ff10fe064cc4d30e425b742a0476e697430d",
+    "test/tests-v1.lisp": "3d82fc39743c3f5a2994f47553bedb801efaad34be9ec403d038ee8abba5bb6c",
+    "test/pkgdcl.lisp": "3b72ef352dd8f51f95f2a3acd8bdf763a191f994466d45a4341a10cd240aed00",
+    "test/not-implemented.lisp": "de6425a00b5c7f08ea858c5227d21f432accb6c1edfe78aa482f5b0f2533fee1",
+    "test/tests-v2.lisp": "9252459d58474b5ebfc42ede7eb6939ec9617e73e26834389f85c83d62c6e141"
+  },
+  "modifications": []
+}

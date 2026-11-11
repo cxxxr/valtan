@@ -1,0 +1,7 @@
+(defsystem "bordeaux-upstream"
+  :depends-on ("bordeaux-trace" "bordeaux-threads/test")
+  :serial t
+  :components ((:file "bordeaux/upstream-atomics") (:file "bordeaux/upstream"))
+  :target :node
+  :target-features (:valtan-resumable)
+  :compile-mode :runtime)

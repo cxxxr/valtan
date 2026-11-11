@@ -51,7 +51,11 @@
     "test:mcclim:queues": "node mcclim/queue.mjs",
     "demo:mcclim": "node mcclim/demo.mjs",
     "build:resumable": "node resumable/build.mjs",
-    "test:resumable": "node resumable/verify.mjs && node --test resumable/artifact.test.mjs"
+    "test:resumable": "node resumable/verify.mjs && node --test resumable/artifact.test.mjs",
+    "build:bordeaux": "node bordeaux/build.mjs",
+    "test:bordeaux": "node bordeaux/verify.mjs",
+    "build:bordeaux:upstream": "node bordeaux/build.mjs bordeaux-upstream",
+    "test:bordeaux:upstream": "node bordeaux/upstream.mjs"
   },
   "keywords": [],
   "author": "",

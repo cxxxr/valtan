@@ -770,8 +770,9 @@ The passing systems were:
 Compared with the earlier 14/22 sample, the seven formerly blocked systems
 `babel`, `yason`, `trivial-gray-streams`, `md5`, `flexi-streams`, `cl-colors2`
 and `salza2` now pass. The sample also includes the two new adapter checks.
-`bordeaux-threads` remains a failure: its system definition rejects Valtan as
-an unsupported threading implementation. No threading support is claimed.
+`bordeaux-threads` failed in that default-mode sample: its upstream system
+definition rejects Valtan as an unsupported threading implementation. The
+optional cooperative port described below is separate from this sample.
 
 The runtime now tracks dynamic bindings as movable stacks. Switching an internal
 binding context preserves its local values while exposing shared global values;
@@ -862,8 +863,8 @@ leave an abandoned owner. Repeated cancellation during condition reacquisition
 preserves the first interruption until protected cleanup can run with its lock.
 The [synchronization checks](../tests/resumable/synchronization-results.json)
 exercise shared counters, producer/consumer queues, notification/broadcast,
-timeouts and cancellation. The internal timeout unit is milliseconds; this is
-not yet the public Bordeaux Threads interface or its Lisp condition contract.
+timeouts and cancellation. The internal timeout unit is milliseconds; the
+Bordeaux Threads adapter converts its public seconds-based timeouts.
 
 `CL:SLEEP` in scheduled dual-compiled Lisp now parks on a host timer, allowing
 other Lisp tasks and browser events to proceed. Zero seconds also yields a host
@@ -883,11 +884,27 @@ task's cleanup. Normal callback results are discarded; nonlocal exits retain the
 values transferred through `THROW`/`RETURN-FROM`. The
 [interrupt checks](../tests/resumable/interrupt-results.json) cover target Lisp
 handlers, CATCH/THROW, nonlocal GO, asynchronous cleanup and binding isolation.
-This is the internal scheduler interface; public thread identity, joining and
-Bordeaux Threads argument/condition contracts still need their adapter.
+This is the internal scheduler interface used by the Bordeaux Threads adapter.
 
-The Lisp thread API and application drivers still need integration with the
-scheduler. Other blocking host operations and remaining JavaScript callback
+The optional [Bordeaux Threads port](../library/portability/bordeaux-threads/README.md)
+now connects both public API versions to the scheduler. It preserves the
+upstream 0.9.4 portable implementations and uses Valtan adapters for thread
+identity, creation, joining, locks, condition variables, interruption and
+termination. The upstream semaphore and timeout implementations use these
+operations. Atomic integers use unsigned 64-bit values. Threads share the
+JavaScript heap and retain separate dynamic bindings; joining a destroyed
+thread waits for its asynchronous cleanup. Initial binding forms retain the
+upstream v1/v2 evaluation rules.
+The [public API checks](../tests/bordeaux/results.json) pass all 11 groups in
+Node and a fresh Chrome worker, including 64-thread shared counters and atomic
+updates, condition broadcasts, asynchronous termination cleanup, self/remote
+interruption and timeouts. The kernel suite passes 41 tests; ordinary and dual
+compiler/runtime regressions also pass. The separate upstream test-suite run
+is not included in those passing API counts.
+
+Application drivers still need integration with the scheduler: blocking calls
+must originate in scheduled Lisp, and merely enabling `:valtan-resumable` does
+not schedule a synchronous application top-level. Other blocking host operations and remaining JavaScript callback
 boundaries can still prevent suspension; native error delivery is not yet
 generally resumable. Load-time
 initializers remain synchronous. The McCLIM Canvas driver

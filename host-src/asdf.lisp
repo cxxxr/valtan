@@ -34,6 +34,8 @@
         (dolist (name '("trivial-gray-streams" "trivial-features" "trivial-garbage" "closer-mop" "uiop"
                        "net.didierverna.asdf-flv"))
           (asdf:load-asd (merge-pathnames (format nil "~A.asd" name) ports-directory)))
+        (when (member :valtan-resumable *features*)
+          (asdf:load-asd (merge-pathnames "bordeaux-threads.asd" ports-directory)))
         (funcall function)))))
 
 (defun import-asdf-system (system)
