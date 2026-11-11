@@ -1,0 +1,129 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T08:17:51.039Z",
+  "scope": "Drei-backed ACCEPT for edited Unicode text, an integer and member completion in a browser frame; not full Drei coverage or concurrent frame loops",
+  "checksSha256": "5048bd777ef7eb692777ca78a9b06ce474e7433698e5b7cf2763ac4c485eb33c",
+  "driverSha256": "2180f2d1e3764a32d80e6ded1426da110e500809d7ecb1d53ea0dcaf4acf76ff",
+  "checks": [
+    "Drei edits native IME text and supplementary characters, then accepts the string",
+    "integer acceptance follows editing and multiline redisplay",
+    "Tab completes the member and closing the input frame returns all accepted values",
+    "the original frame still processes native pointer input"
+  ],
+  "work": "/tmp/valtan-mcclim-workbench-FsGTYJ",
+  "screenshot": "tests/mcclim/screenshots/drei-cold.png",
+  "result": {
+    "type": "test-result",
+    "id": 3,
+    "ok": true,
+    "value": "((\"abc日本😀\" 42 \"alpha\"))"
+  },
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-FsGTYJ",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T08:17:51.085Z",
+    "compilerSha256": "bb084928812a2ca66b02e99b58e180de4d7a2e1e4cb3b0c0dc3ac36a1ddfa00d",
+    "bundleSha256": "a70d90601138cece241134cd01a94ba3f937e15061315cbb713c2938ebfa4238",
+    "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+    "readyAt": "2026-11-11T08:43:30.339Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": 2,
+        "startedAt": "2026-11-11T08:43:30.341Z",
+        "sourceSha256": "f5b7e68615dae7cb56bebb9c78a657766cfc54ebdf2c9c65af96ff21ca7e739e",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(0)"
+        },
+        "finishedAt": "2026-11-11T08:43:30.444Z"
+      },
+      {
+        "id": 2,
+        "commandId": 3,
+        "startedAt": "2026-11-11T08:43:30.445Z",
+        "sourceSha256": "5048bd777ef7eb692777ca78a9b06ce474e7433698e5b7cf2763ac4c485eb33c",
+        "file": "/tmp/valtan-drei-checks-eUyDAo/checks.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 2,
+          "ok": true,
+          "value": "(:DREI-CHECKS-LOADED)"
+        },
+        "finishedAt": "2026-11-11T08:43:31.565Z"
+      },
+      {
+        "id": 3,
+        "commandId": 4,
+        "startedAt": "2026-11-11T08:43:31.566Z",
+        "sourceSha256": "eaf061ac67a7fd168152694169eb13ae8e135e28eaa0fe4a7d8fd5a9f00156fa",
+        "result": {
+          "type": "test-result",
+          "id": 3,
+          "ok": true,
+          "value": "((\"abc日本😀\" 42 \"alpha\"))"
+        },
+        "finishedAt": "2026-11-11T08:44:01.988Z"
+      },
+      {
+        "id": 4,
+        "commandId": 380,
+        "startedAt": "2026-11-11T08:43:43.956Z",
+        "sourceSha256": "1894601ec22ff51465558a0eef486032aaec17ccac1d7ba4075704331add30e4",
+        "result": {
+          "type": "test-result",
+          "id": 4,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T08:43:45.897Z"
+      },
+      {
+        "id": 5,
+        "commandId": 559,
+        "startedAt": "2026-11-11T08:43:51.810Z",
+        "sourceSha256": "bad8de2733857cd09a9c55dc00e53f0a68b4065b2c57b07f05b0ab98e7bb05a6",
+        "result": {
+          "type": "test-result",
+          "id": 5,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T08:43:54.059Z"
+      },
+      {
+        "id": 6,
+        "commandId": 563,
+        "startedAt": "2026-11-11T08:43:54.065Z",
+        "sourceSha256": "c4db46c98fa3acc1e89b77bf1c5a123ed83aeab8e0da7224a244ea268ced5e5d",
+        "result": {
+          "type": "test-result",
+          "id": 6,
+          "ok": true,
+          "value": "(:COMPLETION-EVENTS-CONSUMED)"
+        },
+        "finishedAt": "2026-11-11T08:43:58.746Z"
+      },
+      {
+        "id": 7,
+        "commandId": 666,
+        "startedAt": "2026-11-11T08:44:01.996Z",
+        "sourceSha256": "7ad32558f4ba1b6138d4289ddcf23964c69733cf212ef29c2487a633c078be27",
+        "result": {
+          "type": "test-result",
+          "id": 7,
+          "ok": true,
+          "value": "(NIL)"
+        },
+        "finishedAt": "2026-11-11T08:44:04.449Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T08:44:04.495Z"
+  },
+  "finishedAt": "2026-11-11T08:44:04.543Z",
+  "revisionScope": "Fresh browser bundle with the 83b5254 zero-area clipping fix and the generic canvas-region-mask default method. No Bezier adapter loaded, no production hot reload. Predates f67e2cc ASDF metadata type hierarchy."
+}

@@ -369,7 +369,11 @@ components now contribute no clipping contour instead of causing an unsupported
 mask error. The [existing-worker checks](../tests/mcclim/drei-live-results.json)
 pass after reloading the two clipping helpers, including all 72 Canvas checks;
 the [screenshot](../tests/mcclim/screenshots/drei-live.png) shows the edited text,
-accepted integer and completed member. The fresh-start Drei gate is running.
+accepted integer and completed member. The same four stages also
+[pass after a fresh startup](../tests/mcclim/drei-cold-results.json), without
+reloading production definitions; see the
+[fresh-start screenshot](../tests/mcclim/screenshots/drei-cold.png).
+This run includes the empty-region fix and predates the ASDF metadata type changes.
 This is a focused input-editing check, not full Drei coverage.
 
 The browser backend reads static PNG files with the upstream pure-Lisp
