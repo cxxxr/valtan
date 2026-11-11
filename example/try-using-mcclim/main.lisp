@@ -39,8 +39,14 @@
   (:layouts (default (vertically () canvas (40 increment))))
   (:top-level (counter-top-level)))
 
-(let* ((port (find-port :server-path '(:browser)))
-       (manager (find-frame-manager :port port))
-       (frame (make-application-frame 'counter-frame :frame-manager manager
-                                      :pretty-name "McCLIM on Valtan")))
-  (run-frame-top-level frame))
+(defun run-counter ()
+  (let* ((port (find-port :server-path '(:browser)))
+         (manager (find-frame-manager :port port))
+         (frame (make-application-frame 'counter-frame :frame-manager manager
+                                        :pretty-name "McCLIM on Valtan")))
+    (run-frame-top-level frame)))
+
+#+clim-mp
+(bt:make-thread #'run-counter :name "McCLIM counter")
+#-clim-mp
+(run-counter)

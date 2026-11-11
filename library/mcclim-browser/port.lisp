@@ -17,7 +17,8 @@
   (values 'browser-port #'identity))
 (defmethod initialize-instance :after ((port browser-port) &key)
   (push (make-instance 'browser-frame-manager :port port)
-        (slot-value port 'climi::frame-managers)))
+        (slot-value port 'climi::frame-managers))
+  #+clim-mp (climi::restart-port port))
 
 (defmethod adopt-frame :before ((manager browser-frame-manager) (frame climi::menu-frame))
   ;; MENU-CHOOSE leaves the position to its backend. Resolve each unspecified
@@ -191,15 +192,26 @@
                                                  (2 +pointer-right-button+) (otherwise climi::+pointer-no-button+)))))
                            common))))))))))
 (defmethod process-next-event ((port browser-port) &key wait-function timeout)
-  (let ((deadline (when timeout (+ (get-internal-real-time) (* timeout internal-time-units-per-second)))))
+  (let ((deadline (when timeout (+ (get-internal-real-time) (* timeout internal-time-units-per-second))))
+        (scheduled-p (eq ((ffi:ref "lisp" "hasExecutionContext")) (ffi:ref "true"))))
     (loop
       (when (and wait-function (funcall wait-function)) (return (values nil :wait-function)))
       (port-force-output port)
       (let* ((remaining (when deadline (max 0 (* 1000 (/ (- deadline (get-internal-real-time)) internal-time-units-per-second)))))
-             (raw (host-call "nextEvent" (if wait-function (min 50 (or remaining 50))
-                                            (or remaining (ffi:ref "Infinity"))))))
+             ;; Atomics.wait would stop every task in this JavaScript worker.
+             ;; Scheduled calls poll without consuming future input, then park
+             ;; on CL:SLEEP. Cancellation cannot leave a detached input reader.
+             (raw (host-call "nextEvent"
+                             (cond (scheduled-p 0)
+                                   (wait-function (min 50 (or remaining 50)))
+                                   (t (or remaining (ffi:ref "Infinity")))))))
         (unless (eq raw (ffi:ref "null"))
           (when (string= (property raw "type") "shutdown") (return (values nil :shutdown)))
           (let ((event (browser-event port raw)))
             (when event (distribute-event port event) (return (values t nil)))))
-        (when (and deadline (>= (get-internal-real-time) deadline)) (return (values nil :timeout)))))))
+        (when (and deadline (>= (get-internal-real-time) deadline)) (return (values nil :timeout)))
+        (when (and scheduled-p (eq raw (ffi:ref "null")))
+          (sleep (if deadline
+                     (min .01 (max 0 (/ (- deadline (get-internal-real-time))
+                                        internal-time-units-per-second)))
+                     .01)))))))

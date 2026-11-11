@@ -960,6 +960,22 @@ and million-decrement test. Upstream reader guards still apply: the v1
 These results predate the native condition-delivery changes below and do not
 establish full McCLIM compatibility.
 
+The browser port now starts McCLIM's I/O thread when `:clim-mp` is enabled.
+Scheduled input processing polls the browser queue without blocking the worker
+and sleeps cooperatively between polls. The counter demo runs its application
+frame in a Bordeaux thread in that mode. Enable both `:valtan-resumable` and
+`:clim-mp` in the system's target features, or run
+`npm run test:mcclim:gui:threaded` from `tests` for the integration check.
+The [threaded GUI run](../tests/mcclim/gui-threaded-results.json) uses the production
+worker and verifies initial drawing, a button click reaching Counter 1, keyboard
+input reaching Counter 2, and changed pixels. A separate
+[ordinary GUI run](../tests/mcclim/gui-thread-integration-ordinary-results.json)
+passes the same checks. Both start fresh workers and record source and bundle
+hashes. The threaded snapshot predates the final nested-task checkpoint fix and
+file-literal work; the ordinary snapshot includes the file-literal traversal
+fix. These counter checks do not establish full threaded Canvas or upstream
+suite coverage.
+
 `CHECK-TYPE` now reports the actual rejected value, preserves `STORE-VALUE`
 retry behavior and uses a supplied type description. The
 [condition checks](../tests/ansi/check-type-results.json) pass all nine upstream
