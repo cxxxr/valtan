@@ -1,0 +1,93 @@
+{
+  "status": "passed",
+  "complete": true,
+  "work": "/tmp/valtan-staged-portable-smoke-AVlziN",
+  "scope": "Two-component smoke for portable producer, compiled replay builder and fresh-process restore; not full McCLIM",
+  "manifest": {
+    "status": "produced",
+    "complete": true,
+    "startedAt": "2026-11-11T22:53:49.399Z",
+    "finishedAt": "2026-11-11T22:53:50.536Z",
+    "durationMs": 1136.427098,
+    "targetFeatures": [
+      "VALTAN-RESUMABLE",
+      "MCCLIM",
+      "VALTAN",
+      "PACKAGE-LOCAL-NICKNAMES"
+    ],
+    "producerBundleSha256": "65be95d4a13a65b98133d09b23ea8823a8b845309a11aaa1ab31bedaa04a8d1b",
+    "preparedManifestSha256": "dd12cf8796ae63de8afcdb02fe93c7ef7bcbe0ed167a11e6d678708dcd537b36",
+    "kernelSha256": "30c80d461f5da1ebed2eab9ad1b76aba569f0014c4ea31683ad9e62bcfb45492",
+    "compilerSha256": "465b09137a7c584c31000f2fa624945e3984c9a6081a9bb61528fff42b42d72a",
+    "records": [
+      {
+        "source": "/tmp/valtan-staged-portable-smoke-AVlziN/definitions.lisp",
+        "artifact": "/tmp/valtan-staged-portable-smoke-AVlziN/artifacts/1.fasl",
+        "sourceSha256": "e5b0f38f416a0d74f0575e80d972ccd4c7a5e30af7086faba6b35da934360d75",
+        "artifactSha256": "6727daf847bceb83b38363b8a81178d80f3f7f4747fcac0eb03a5fc1896f1a65"
+      },
+      {
+        "source": "/tmp/valtan-staged-portable-smoke-AVlziN/main.lisp",
+        "artifact": "/tmp/valtan-staged-portable-smoke-AVlziN/artifacts/2.fasl",
+        "sourceSha256": "f400fe39818d8a675e157061bb351c8c5d28c19b7aedc7b49f135f476861ac3f",
+        "artifactSha256": "040e097f7e0ef545a20de4ef653e468ccaa1697381810557f13fd978f011556e"
+      }
+    ]
+  },
+  "build": {
+    "status": "built",
+    "mode": "api",
+    "applicationSourceSha256": null,
+    "kernelSha256": "30c80d461f5da1ebed2eab9ad1b76aba569f0014c4ea31683ad9e62bcfb45492",
+    "producerManifestSha256": "994a18fb269493468390480a561dc352348f6b5acba3414bb6c0753f923ea88b",
+    "librariesUseCompiledArtifacts": true,
+    "applicationUsesRuntimeSource": false,
+    "components": 2,
+    "forms": 11,
+    "bytes": 19896253,
+    "bundleSha256": "87af5762da3dd970ad24eda80c52d94ad4b856a346a84ff6d57b34a526275351",
+    "producerManifest": "/tmp/valtan-staged-portable-smoke-AVlziN/manifest.json",
+    "cacheUnmodified": true
+  },
+  "output": "TARGET-REPLAY /tmp/valtan-staged-portable-smoke-AVlziN/definitions.lisp\nTARGET-REPLAY /tmp/valtan-staged-portable-smoke-AVlziN/main.lisp\nTARGET-STAGE-MCCLIM-PASS\n\n",
+  "rejectedInvalidInputs": [
+    "missing compiled component",
+    "changed artifact hash"
+  ],
+  "verifiedAt": "2026-11-11T22:55:07.117104+00:00",
+  "parserTests": {
+    "passed": 2,
+    "failed": 0,
+    "command": "node --test tests/mcclim/staged-artifact.test.mjs"
+  },
+  "fixtureSources": {
+    "app.system": "(defsystem \"app\" :depends-on (\"stage\") :components ((:file \"definitions\") (:file \"main\")) :target :browser :compile-mode :runtime :target-features (:mcclim :valtan-resumable))",
+    "definitions.lisp": "(defpackage :valtan-staging-smoke (:use :cl))\n(in-package :valtan-staging-smoke)\n(deftype answer-type () '(integer 42 42))\n(macrolet ((install () '(defmacro answer () 42)))\n  (eval-when (:compile-toplevel :load-toplevel :execute) (install)))\n(defun answer-value () (answer))",
+    "main.lisp": "(assert (= 42 (valtan-staging-smoke::answer-value)))\n(assert (typep 42 'valtan-staging-smoke::answer-type))\n(assert (not (typep 43 'valtan-staging-smoke::answer-type)))\n(assert (macro-function 'valtan-staging-smoke::answer))\n(write-line \"TARGET-STAGE-MCCLIM-PASS\")"
+  },
+  "fullMcclimPreparation": {
+    "status": "prepared",
+    "work": "/tmp/valtan-mcclim-staged-portable-check",
+    "embeddedModulesIncludingLoader": 376,
+    "targetCompiledComponents": 375,
+    "preparedManifestSha256": "d55fe78e2c14b18e284f3208b67461d74073539f957ad818de7635278fe36756",
+    "compilerSha256": "465b09137a7c584c31000f2fa624945e3984c9a6081a9bb61528fff42b42d72a",
+    "kernelSha256": "30c80d461f5da1ebed2eab9ad1b76aba569f0014c4ea31683ad9e62bcfb45492",
+    "productionStarted": false
+  },
+  "limitations": [
+    "The smoke restores two fixture components in a fresh Node process, not full McCLIM in Chrome.",
+    "The separately running full McCLIM producer and browser API/GUI consumers remain pending.",
+    "The staging loader is an embedded source module and is excluded from the compiled-artifact inventory: 376 embedded modules correspond to 375 artifacts for this full build."
+  ],
+  "harnessSha256": {
+    "tests/mcclim/staged-artifact.mjs": "164cdec29b7927a9b81a6f6288ab61a33270ae2c801fb6d2cd6af4b636127c3a",
+    "tests/mcclim/staged-api.mjs": "333c5454189dc2bb000286bb02e2a62121351217aa911149b84694a7188decb7",
+    "tests/mcclim/staged-produce.mjs": "5e931f0e88c9a0ca4f397ef6347464f7cb541b9e633ea7b18b867ee483246171",
+    "tests/mcclim/staged-checks.lisp": "bc9cf9d74aa867f0f9e6a3da2263bb15fa8ae498c8088345779d8f380eb9a42d",
+    "tests/mcclim/staged-loader.lisp": "43404b633e98e453fb7c4cd6ffb972238b462453c3b6a49a04da8262ee8d73ee",
+    "tests/mcclim/staged-build.mjs": "ebe25464af46079e9ef5a554a42bb561aec6c76716b0b9171560ad1a3990a1f1",
+    "tests/mcclim/staged-artifact.test.mjs": "51322c4deca1e6578598a7fceef5346042c1b97c9cc6374c91f39e9fb588d15c",
+    "tests/mcclim/staged-gui.mjs": "6dd038f5e0b094010fc0ac23efdba802f78b22f953b3f5507e1e50672ab68142"
+  }
+}

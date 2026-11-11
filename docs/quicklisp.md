@@ -980,6 +980,35 @@ snapshot that preceded the MACROLET fix; it does not cover the remaining
 components or a real application window. Full compiled-library restoration and
 GUI input still require their separate gates.
 
+The staged-compilation harness is available in the repository. From the
+repository root, using a new work directory:
+
+```sh
+node tests/mcclim/staged-produce.mjs prepare /tmp/valtan-mcclim-staged
+node tests/mcclim/staged-produce.mjs produce /tmp/valtan-mcclim-staged
+node tests/mcclim/staged-build.mjs /tmp/valtan-mcclim-staged
+node tests/mcclim/staged-api.mjs /tmp/valtan-mcclim-staged
+node tests/mcclim/staged-build.mjs /tmp/valtan-mcclim-staged gui
+node tests/mcclim/staged-gui.mjs /tmp/valtan-mcclim-staged
+```
+
+Preparation builds an isolated cache and records source/module hashes. Production
+uses Valtan's `COMPILE-FILE` with browser reader features and loads each artifact
+before compiling its dependants. The staging loader itself runs from source;
+the manifest covers the subsequent dependency and application components.
+Replay checks the complete component inventory and artifact hashes, disables
+library source loading, and bundles the compiled forms without rewriting the
+cache. The API consumer checks the loaded order, geometry, presentation types
+and a scheduled thread join. The GUI consumer restores compiled libraries and
+loads the production demo's application entry from source, then checks drawing,
+button and keyboard input. Results stay in the work directory; the availability
+of these commands is not evidence that the pending full McCLIM gates have passed.
+The [harness smoke checks](../tests/mcclim/staged-harness-results.json) cover
+two compiled fixture components restored in a fresh process, malformed-artifact
+rejection, missing-component rejection and artifact-hash validation. Full build
+preparation identifies 376 embedded modules, including the staging loader, so
+the expected compiled-artifact inventory is 375 components.
+
 Internal cooperative locks and condition variables now share the scheduler's
 task identity. Locks support recursive ownership, nonblocking/timed acquisition
 and FIFO handoff. Condition waits atomically enqueue and release the lock, then

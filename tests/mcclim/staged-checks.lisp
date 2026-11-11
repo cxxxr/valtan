@@ -1,0 +1,5 @@
+(assert (member :mcclim *features*))
+(assert (not (member :node *features*)))
+(assert (find-class 'mcclim-browser::browser-port nil))
+(assert (find-class 'clim:application-pane nil))
+(write-line "TARGET-STAGE-MCCLIM-PASS")
