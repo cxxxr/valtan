@@ -207,11 +207,15 @@
   (write-line "Enter a form to be evaluated' " #+(or)*query-io* *standard-output*)
   (list (cl:eval (read #+(or)*query-io* *standard-input*))))
 
-(defun check-type-error (type-spec place)
+(defun check-type-error (type-spec place datum &optional description)
   (let ((condition
-          (make-condition 'type-error
-                          :datum place
-                          :expected-type type-spec)))
+          (if description
+              (make-condition 'simple-type-error
+                              :datum datum :expected-type type-spec
+                              :format-control "The value ~S of ~S is not ~A."
+                              :format-arguments (list datum place description))
+              (make-condition 'type-error
+                              :datum datum :expected-type type-spec))))
     (restart-case (error condition)
       (store-value (value)
         :report (lambda (stream)
@@ -220,7 +224,9 @@
         value))))
 
 (defmacro check-type (place type-spec &optional type-string)
-  (declare (ignore type-string))
-  `(do ()
-       ((typep ,place ',type-spec))
-     (setf ,place (check-type-error ',type-spec ',place))))
+  (let ((datum (cl:gensym "DATUM")))
+    `(do ((,datum ,place ,place))
+         ((typep ,datum ',type-spec) nil)
+       ;; Reuse the value just checked instead of quoting or rereading PLACE
+       ;; for the condition datum. Preserve the normal SETF evaluation order.
+       (setf ,place (check-type-error ',type-spec ',place ,datum ,type-string)))))

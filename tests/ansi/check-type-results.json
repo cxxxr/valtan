@@ -1,0 +1,620 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T15:49:28.733905+00:00",
+  "scope": "CHECK-TYPE actual condition datum, STORE-VALUE retry, optional description and generalized-place evaluation. Full conditions category still has 27 existing failures.",
+  "specification": "https://www.lispworks.com/documentation/HyperSpec/Body/m_check_.htm",
+  "compilerSha256": "b5e98e1b0924dfd01161f5dac3ba8fd5b1de16277f3133695f4e967bd461f86c",
+  "sourceHashes": {
+    "library/valtan-core/lisp/restart.lisp": "6e65b1f941ef15db50e3831ee3cb04c0786b115e20f96e00dc0486cdfb771ffe",
+    "tests/ansi/fixtures/check-type-regressions.lsp": "6c1be968235054f09414003bc06aae63d1d3bca5212b5f63db7c9a01f9d53938",
+    "tests/ansi/integration.test.mjs": "10d8689ab8af92a1a60613534e22962a00c06498b15a77fc7414815658ffc7e8"
+  },
+  "before": {
+    "phase": "before2",
+    "bundleSha256": "9fb1e13b72f188f9fc8421cdd32060f44d30583891463086c7f471aee4df6df7",
+    "results": [
+      {
+        "name": "check-type",
+        "files": [
+          "conditions/check-type.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 4,
+        "fail": 5,
+        "registered": 9,
+        "expectedRegistered": 9,
+        "completedFiles": [
+          "cl-test-package.lsp",
+          "auxiliary/ansi-aux-macros.lsp",
+          "universe.lsp",
+          "auxiliary/random-aux.lsp",
+          "auxiliary/ansi-aux.lsp",
+          "cl-symbol-names.lsp",
+          "notes.lsp",
+          "conditions/check-type.lsp"
+        ],
+        "errors": [],
+        "failures": [
+          {
+            "test": "CHECK-TYPE.2",
+            "reason": "expected (T); actual ((:DATUM-MISMATCH A X)) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "CHECK-TYPE.3",
+            "reason": "The assertion (EQL (TYPE-ERROR-DATUM C) X) failed."
+          },
+          {
+            "test": "CHECK-TYPE.5",
+            "reason": "The assertion (EQL (TYPE-ERROR-DATUM C) X) failed."
+          },
+          {
+            "test": "CHECK-TYPE.6",
+            "reason": "The assertion (EQL (TYPE-ERROR-DATUM C) X) failed."
+          },
+          {
+            "test": "CHECK-TYPE.7",
+            "reason": "The assertion (EQL (TYPE-ERROR-DATUM C) X) failed."
+          }
+        ],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "conditions/check-type.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "effectiveExpectedRegistered": 9,
+        "referenceInventoryMismatch": false,
+        "missingReferenceTests": [],
+        "unexpectedTests": [],
+        "conditionalRegistrations": [],
+        "aliasedRegistrations": [],
+        "registrationNameMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "check-type",
+        "files": [
+          "check-type-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 2,
+        "fail": 2,
+        "registered": 4,
+        "expectedRegistered": 4,
+        "completedFiles": [
+          "check-type-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [
+          {
+            "test": "CHECK-TYPE.DATUM-AND-RETRY",
+            "reason": "expected (NIL 7 (:BAD :STILL-BAD)); actual (NIL 7 (VALUE VALUE)) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "CHECK-TYPE.DESCRIPTION",
+            "reason": "expected (3 1 T); actual (3 0 NIL) [diagnostic display: length 10, depth 5]"
+          }
+        ],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "check-type-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "check-type",
+        "files": [
+          "conditions/check-type.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 4,
+        "fail": 5,
+        "registered": 9,
+        "expectedRegistered": 9,
+        "completedFiles": [
+          "cl-test-package.lsp",
+          "auxiliary/ansi-aux-macros.lsp",
+          "universe.lsp",
+          "auxiliary/random-aux.lsp",
+          "auxiliary/ansi-aux.lsp",
+          "cl-symbol-names.lsp",
+          "notes.lsp",
+          "conditions/check-type.lsp"
+        ],
+        "errors": [],
+        "failures": [
+          {
+            "test": "CHECK-TYPE.2",
+            "reason": "expected (T); actual ((:DATUM-MISMATCH A X)) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "CHECK-TYPE.3",
+            "reason": "The assertion (EQL (TYPE-ERROR-DATUM C) X) failed."
+          },
+          {
+            "test": "CHECK-TYPE.5",
+            "reason": "The assertion (EQL (TYPE-ERROR-DATUM C) X) failed."
+          },
+          {
+            "test": "CHECK-TYPE.6",
+            "reason": "The assertion (EQL (TYPE-ERROR-DATUM C) X) failed."
+          },
+          {
+            "test": "CHECK-TYPE.7",
+            "reason": "The assertion (EQL (TYPE-ERROR-DATUM C) X) failed."
+          }
+        ],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "conditions/check-type.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "effectiveExpectedRegistered": 9,
+        "referenceInventoryMismatch": false,
+        "missingReferenceTests": [],
+        "unexpectedTests": [],
+        "conditionalRegistrations": [],
+        "aliasedRegistrations": [],
+        "registrationNameMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "check-type",
+        "files": [
+          "check-type-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 2,
+        "fail": 2,
+        "registered": 4,
+        "expectedRegistered": 4,
+        "completedFiles": [
+          "check-type-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [
+          {
+            "test": "CHECK-TYPE.DATUM-AND-RETRY",
+            "reason": "expected (NIL 7 (:BAD :STILL-BAD)); actual (NIL 7 (VALUE VALUE)) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "CHECK-TYPE.DESCRIPTION",
+            "reason": "expected (3 1 T); actual (3 0 NIL) [diagnostic display: length 10, depth 5]"
+          }
+        ],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "check-type-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      }
+    ]
+  },
+  "after": {
+    "phase": "after",
+    "bundleSha256": "062b7186a627e28e00823e2e1eb6301c6e8dd7c3fa2e3a57dd2749122abd5f37",
+    "results": [
+      {
+        "name": "check-type",
+        "files": [
+          "conditions/check-type.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 9,
+        "fail": 0,
+        "registered": 9,
+        "expectedRegistered": 9,
+        "completedFiles": [
+          "cl-test-package.lsp",
+          "auxiliary/ansi-aux-macros.lsp",
+          "universe.lsp",
+          "auxiliary/random-aux.lsp",
+          "auxiliary/ansi-aux.lsp",
+          "cl-symbol-names.lsp",
+          "notes.lsp",
+          "conditions/check-type.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "conditions/check-type.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "effectiveExpectedRegistered": 9,
+        "referenceInventoryMismatch": false,
+        "missingReferenceTests": [],
+        "unexpectedTests": [],
+        "conditionalRegistrations": [],
+        "aliasedRegistrations": [],
+        "registrationNameMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "check-type",
+        "files": [
+          "check-type-regressions.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 4,
+        "fail": 0,
+        "registered": 4,
+        "expectedRegistered": 4,
+        "completedFiles": [
+          "check-type-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "check-type-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "check-type",
+        "files": [
+          "conditions/check-type.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 9,
+        "fail": 0,
+        "registered": 9,
+        "expectedRegistered": 9,
+        "completedFiles": [
+          "cl-test-package.lsp",
+          "auxiliary/ansi-aux-macros.lsp",
+          "universe.lsp",
+          "auxiliary/random-aux.lsp",
+          "auxiliary/ansi-aux.lsp",
+          "cl-symbol-names.lsp",
+          "notes.lsp",
+          "conditions/check-type.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "conditions/check-type.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "effectiveExpectedRegistered": 9,
+        "referenceInventoryMismatch": false,
+        "missingReferenceTests": [],
+        "unexpectedTests": [],
+        "conditionalRegistrations": [],
+        "aliasedRegistrations": [],
+        "registrationNameMismatch": false,
+        "registrationMismatch": false
+      },
+      {
+        "name": "check-type",
+        "files": [
+          "check-type-regressions.lsp"
+        ],
+        "mode": "compiled",
+        "status": "finished",
+        "pass": 4,
+        "fail": 0,
+        "registered": 4,
+        "expectedRegistered": 4,
+        "completedFiles": [
+          "check-type-regressions.lsp"
+        ],
+        "errors": [],
+        "failures": [],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "check-type-regressions.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "registrationMismatch": false
+      }
+    ]
+  },
+  "native": {
+    "implementation": "SBCL 2.6.0.debian",
+    "fixturesPassed": 4,
+    "log": "/tmp/valtan-check-type-native.log",
+    "note": "The generalized-place expectations were checked against SBCL. Initial proposed expectations for setter subform timing were corrected before these recorded runs."
+  },
+  "conditions": {
+    "suite": "ansi-test",
+    "revision": "ebf9c806f383d5dc921c421e0d083e925c64a6cd",
+    "mode": "eval",
+    "bundleSha256": "062b7186a627e28e00823e2e1eb6301c6e8dd7c3fa2e3a57dd2749122abd5f37",
+    "startedAt": "2026-11-11T15:47:57.961Z",
+    "selection": "selected",
+    "harness": "Valtan adapter; upstream DEFTEST bodies and equalp-with-case comparator",
+    "results": [
+      {
+        "name": "conditions",
+        "files": [
+          "auxiliary/types-aux.lsp",
+          "auxiliary/define-condition-aux.lsp",
+          "conditions/condition.lsp",
+          "conditions/cell-error-name.lsp",
+          "conditions/assert.lsp",
+          "conditions/error.lsp",
+          "conditions/cerror.lsp",
+          "conditions/check-type.lsp",
+          "conditions/warn.lsp",
+          "conditions/invoke-debugger.lsp",
+          "conditions/handler-bind.lsp",
+          "conditions/handler-case.lsp",
+          "conditions/ignore-errors.lsp",
+          "conditions/define-condition.lsp",
+          "conditions/compute-restarts.lsp",
+          "conditions/restart-bind.lsp",
+          "conditions/restart-case.lsp",
+          "conditions/with-condition-restarts.lsp",
+          "conditions/with-simple-restart.lsp",
+          "conditions/abort.lsp",
+          "conditions/muffle-warning.lsp",
+          "conditions/continue.lsp",
+          "conditions/store-value.lsp",
+          "conditions/use-value.lsp",
+          "conditions/make-condition.lsp"
+        ],
+        "mode": "eval",
+        "status": "finished",
+        "pass": 646,
+        "fail": 27,
+        "registered": 673,
+        "expectedRegistered": 673,
+        "completedFiles": [
+          "cl-test-package.lsp",
+          "auxiliary/ansi-aux-macros.lsp",
+          "universe.lsp",
+          "auxiliary/random-aux.lsp",
+          "auxiliary/ansi-aux.lsp",
+          "cl-symbol-names.lsp",
+          "notes.lsp",
+          "auxiliary/types-aux.lsp",
+          "auxiliary/define-condition-aux.lsp",
+          "conditions/condition.lsp",
+          "conditions/cell-error-name.lsp",
+          "conditions/assert.lsp",
+          "conditions/error.lsp",
+          "conditions/cerror.lsp",
+          "conditions/check-type.lsp",
+          "conditions/warn.lsp",
+          "conditions/invoke-debugger.lsp",
+          "conditions/handler-bind.lsp",
+          "conditions/handler-case.lsp",
+          "conditions/ignore-errors.lsp",
+          "conditions/define-condition.lsp",
+          "conditions/compute-restarts.lsp",
+          "conditions/restart-bind.lsp",
+          "conditions/restart-case.lsp",
+          "conditions/with-condition-restarts.lsp",
+          "conditions/with-simple-restart.lsp",
+          "conditions/abort.lsp",
+          "conditions/muffle-warning.lsp",
+          "conditions/continue.lsp",
+          "conditions/store-value.lsp",
+          "conditions/use-value.lsp",
+          "conditions/make-condition.lsp"
+        ],
+        "errors": [],
+        "failures": [
+          {
+            "test": "CONDITION.3",
+            "reason": "expected (NIL); actual (((PACKAGE-ERROR SIMPLE-CONDITION) (PROGRAM-ERROR SIMPLE-CONDITION))) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "ASSERT.3",
+            "reason": "The assertion X failed."
+          },
+          {
+            "test": "ASSERT.3A",
+            "reason": "The assertion X failed."
+          },
+          {
+            "test": "ASSERT.7",
+            "reason": "<unprintable>"
+          },
+          {
+            "test": "ASSERT.8",
+            "reason": "<unprintable>"
+          },
+          {
+            "test": "ASSERT.9",
+            "reason": "<unprintable>"
+          },
+          {
+            "test": "INVOKE-DEBUGGER.1",
+            "reason": "#<UNBOUND-SLOT FORMAT-CONTROL>"
+          },
+          {
+            "test": "INVOKE-DEBUGGER.ERROR.3",
+            "reason": "#<UNBOUND-SLOT FORMAT-CONTROL>"
+          },
+          {
+            "test": "INVOKE-DEBUGGER.ERROR.4",
+            "reason": "#<UNBOUND-SLOT FORMAT-CONTROL>"
+          },
+          {
+            "test": "INVOKE-DEBUGGER.ERROR.5",
+            "reason": "#<UNBOUND-SLOT FORMAT-CONTROL>"
+          },
+          {
+            "test": "COMPUTE-RESTARTS.9",
+            "reason": "expected (NIL NIL); actual ((#S(RESTART :NAME FOO :FUNCTION #<Function> :INTERACTIVE-FUNCTION NIL :REPORT-FUNCTION NIL :TEST-FUNCTION ...) #S(RESTART :NAME FOO :FUNCTION #<Function> :INTERACTIVE-FUNCTION NIL :REPORT-FUNCTION NIL :TEST-FUNCTION ...)) (FOO FOO)) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "RESTART-BIND.16",
+            "reason": "expected (\"A report\" 1); actual (\"#S(RESTART :NAME FOO :FUNCTION #<Function> :INTERACTIVE-FUNCTION NIL :REPORT-FUNCTION #<Function> :TEST-FUNCTION NIL :ASSOCIATED-CONDITIONS NIL)\" 1) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "RESTART-CASE.12",
+            "reason": "Uncaught JavaScript exception: RangeError: Maximum call stack size exceeded\n    at F_PERCENTFORMAT_2050 (file:///tmp/valtan-ansi-QWmaJW/ansi.mjs:130461:32)\n    at raise (file:///tmp/valtan-ansi-QWmaJW/ansi.mjs:1129:30)\n    at pushCallStack (file:///tmp/valtan-ansi-QWmaJW/ansi.mjs:1100:5)\n    at callFunctionWithCallStack (file:///tmp/valtan-ansi-QWmaJW/ansi.mjs:461:3)\n    at F_PERCENTFORMAT_2050 (file:///tmp/valtan-ansi-QWmaJW/ansi.mjs:130485:14)\n    at raise (file:///tmp/valtan-ansi-QWmaJW/ansi.mjs:1129:30)\n    at pushCallStack (file:///tmp/valtan-ansi-QWmaJW/ansi.mjs:1100:5)\n    at callFunctionWithCallStack (file:///tmp/valtan-ansi-QWmaJW/ansi.mjs:461:3)\n    at F_PERCENTFORMAT_2050 (file:///tmp/valtan-ansi-QWmaJW/ansi.mjs:130485:14)\n    at raise (file:///tmp/valtan-ansi-QWmaJW/ansi.mjs:1129:30)"
+          },
+          {
+            "test": "RESTART-CASE.20",
+            "reason": "expected (\"A report\"); actual (\"#S(RESTART :NAME FOO :FUNCTION #<Function> :INTERACTIVE-FUNCTION NIL :REPORT-FUNCTION #<Function> :TEST-FUNCTION NIL :ASSOCIATED-CONDITIONS NIL)\") [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "RESTART-CASE.21",
+            "reason": "expected (\"A report\"); actual (\"#S(RESTART :NAME FOO :FUNCTION #<Function> :INTERACTIVE-FUNCTION NIL :REPORT-FUNCTION #<Function> :TEST-FUNCTION NIL :ASSOCIATED-CONDITIONS NIL)\") [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "RESTART-CASE.22",
+            "reason": "expected (\"A report\"); actual (\"#S(RESTART :NAME FOO :FUNCTION #<Function> :INTERACTIVE-FUNCTION NIL :REPORT-FUNCTION #<Function> :TEST-FUNCTION NIL :ASSOCIATED-CONDITIONS NIL)\") [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "RESTART-CASE.25",
+            "reason": "expected (GOOD); actual (BAD) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "RESTART-CASE.26",
+            "reason": "expected (GOOD); actual (BAD) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "RESTART-CASE.27",
+            "reason": "expected (GOOD); actual (BAD) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "RESTART-CASE.28",
+            "reason": "expected (GOOD); actual (BAD) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "RESTART-CASE.29",
+            "reason": "expected (GOOD); actual (BAD) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "RESTART-CASE.30",
+            "reason": "expected (GOOD); actual (BAD) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "RESTART-CASE.31",
+            "reason": "expected (GOOD); actual (BAD) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "ABORT.2",
+            "reason": "expected (GOOD); actual (BAD) [diagnostic display: length 10, depth 5]"
+          },
+          {
+            "test": "MAKE-CONDITION.2",
+            "reason": "The value #<STANDARD-CLASS ARITHMETIC-ERROR> is not of the expected type CONDITION"
+          },
+          {
+            "test": "MAKE-CONDITION.3",
+            "reason": "The value (OR PROGRAM-ERROR TYPE-ERROR) is not of the expected type CONDITION"
+          },
+          {
+            "test": "MAKE-CONDITION.4",
+            "reason": "The value (AND SIMPLE-ERROR TYPE-ERROR) is not of the expected type CONDITION"
+          }
+        ],
+        "complete": true,
+        "timedOut": false,
+        "unexecuted": 0,
+        "diagnostics": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",
+        "pendingTest": null,
+        "currentFile": "conditions/make-condition.lsp",
+        "exitCode": 0,
+        "signal": null,
+        "unreadFiles": [],
+        "unregisteredTestsUnknown": false,
+        "fatalError": false,
+        "referenceRegistrationMismatch": false,
+        "effectiveExpectedRegistered": 673,
+        "referenceInventoryMismatch": false,
+        "missingReferenceTests": [],
+        "unexpectedTests": [],
+        "conditionalRegistrations": [],
+        "aliasedRegistrations": [],
+        "registrationNameMismatch": false,
+        "registrationMismatch": false
+      }
+    ],
+    "pass": 646,
+    "fail": 27,
+    "complete": true,
+    "passRate": 95.98811292719168,
+    "finishedAt": "2026-11-11T15:48:53.035Z"
+  },
+  "comparison": {
+    "baseline": "tests/ansi/tagbody-activation-results.json",
+    "previousPassed": 641,
+    "previousFailed": 32,
+    "passed": 646,
+    "failed": 27,
+    "resolvedFailures": [
+      "CHECK-TYPE.2",
+      "CHECK-TYPE.3",
+      "CHECK-TYPE.5",
+      "CHECK-TYPE.6",
+      "CHECK-TYPE.7"
+    ],
+    "newFailures": []
+  }
+}

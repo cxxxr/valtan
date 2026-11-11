@@ -902,6 +902,13 @@ interruption and timeouts. The kernel suite passes 41 tests; ordinary and dual
 compiler/runtime regressions also pass. The separate upstream test-suite run
 is not included in those passing API counts.
 
+`CHECK-TYPE` now reports the actual rejected value, preserves `STORE-VALUE`
+retry behavior and uses a supplied type description. The
+[condition checks](../tests/ansi/check-type-results.json) pass all nine upstream
+cases and four focused regressions in both evaluated and compiled modes.
+The full conditions category completes with 646 passing and 27 existing
+failures, resolving five failures without introducing new failure names.
+
 Application drivers still need integration with the scheduler: blocking calls
 must originate in scheduled Lisp, and merely enabling `:valtan-resumable` does
 not schedule a synchronous application top-level. Other blocking host operations and remaining JavaScript callback
