@@ -1,0 +1,269 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T05:26:13.904Z",
+  "scope": "Real upstream gadgets and callbacks in a nested frame event loop, driven through Chrome pointer, keyboard and native IME events",
+  "checksSha256": "75970672fc920b1cf23493dcb7db58031a2d2878dca2ffa39cd4b381cbbd1d70",
+  "driverSha256": "e3c277594b6d8d7ed817afc5dc4932f16e0b2373e54b14354e67550db5904e03",
+  "checks": [
+    "text field receives keyboard text and its value callback",
+    "native IME commits Japanese text once and preserves supplementary characters",
+    "composition cancellation, cursor movement, deletion and activation",
+    "Control shortcuts, forward deletion and deletion of a supplementary character",
+    "toggle updates its value and invokes callbacks in both directions",
+    "slider drag changes its value and invokes its release callback",
+    "application exit closes the nested frame and returns to the caller"
+  ],
+  "work": "/tmp/valtan-mcclim-workbench-ZcCiKh",
+  "screenshot": "/tmp/valtan-mcclim-workbench-ZcCiKh/gadgets.png",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-ZcCiKh",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T05:26:13.946Z",
+    "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "bundleSha256": "55816ad58af05b1fd76990f24612fe577f7d98b0ac8d7db3d46adfaa7ef6f81c",
+    "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+    "readyAt": "2026-11-11T05:46:27.031Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": 1,
+        "startedAt": "2026-11-11T05:46:27.032Z",
+        "sourceSha256": "75970672fc920b1cf23493dcb7db58031a2d2878dca2ffa39cd4b381cbbd1d70",
+        "file": "/tmp/valtan-gadget-checks-1RMEkq/checks.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:GADGET-CHECKS-LOADED)"
+        },
+        "finishedAt": "2026-11-11T05:46:28.957Z"
+      },
+      {
+        "id": 2,
+        "commandId": 3,
+        "startedAt": "2026-11-11T05:46:28.959Z",
+        "sourceSha256": "60cc6461b28d58934b3760826bf11a710963f7470f5beb1b1fca0d0991c10e09",
+        "result": {
+          "type": "test-result",
+          "id": 2,
+          "ok": true,
+          "value": "(:GADGET-FRAME-CLOSED)"
+        },
+        "finishedAt": "2026-11-11T05:46:53.293Z"
+      },
+      {
+        "id": 3,
+        "commandId": 139,
+        "startedAt": "2026-11-11T05:46:32.440Z",
+        "sourceSha256": "4038bb203347c73063caae2e9351650d1aeaf61eda8ed2f86eb46f3fb6f4ad37",
+        "result": {
+          "type": "test-result",
+          "id": 3,
+          "ok": true,
+          "value": "((2 0 0 420 40))"
+        },
+        "finishedAt": "2026-11-11T05:46:32.543Z"
+      },
+      {
+        "id": 4,
+        "commandId": 146,
+        "startedAt": "2026-11-11T05:46:32.548Z",
+        "sourceSha256": "3ab303e1055bc54bc5d525583f4d2c823ad65ef8b8c511186cec13986ed9fc8f",
+        "result": {
+          "type": "test-result",
+          "id": 4,
+          "ok": true,
+          "value": "(:EDITOR-PASSED)"
+        },
+        "finishedAt": "2026-11-11T05:46:36.190Z"
+      },
+      {
+        "id": 5,
+        "commandId": 148,
+        "startedAt": "2026-11-11T05:46:36.194Z",
+        "sourceSha256": "3ab303e1055bc54bc5d525583f4d2c823ad65ef8b8c511186cec13986ed9fc8f",
+        "result": {
+          "type": "test-result",
+          "id": 5,
+          "ok": true,
+          "value": "(:EDITOR-PASSED)"
+        },
+        "finishedAt": "2026-11-11T05:46:36.296Z"
+      },
+      {
+        "id": 6,
+        "commandId": 152,
+        "startedAt": "2026-11-11T05:46:36.303Z",
+        "sourceSha256": "34333b369bfa19513580e832607b05a5718514f5451d58f3cbdbc37bb533266e",
+        "result": {
+          "type": "test-result",
+          "id": 6,
+          "ok": true,
+          "value": "(:EDITOR-PASSED)"
+        },
+        "finishedAt": "2026-11-11T05:46:39.741Z"
+      },
+      {
+        "id": 7,
+        "commandId": 159,
+        "startedAt": "2026-11-11T05:46:39.745Z",
+        "sourceSha256": "985dcfbdffd95f4267e4803a1bd23b31b6d34a48b57b1fb1b4725faf43a4332e",
+        "result": {
+          "type": "test-result",
+          "id": 7,
+          "ok": true,
+          "value": "(:EDITOR-PASSED)"
+        },
+        "finishedAt": "2026-11-11T05:46:41.565Z"
+      },
+      {
+        "id": 8,
+        "commandId": 162,
+        "startedAt": "2026-11-11T05:46:41.567Z",
+        "sourceSha256": "d0a3f2e7978676a0b28617206366bd26d06385b8ef70923464d1334a671853e3",
+        "result": {
+          "type": "test-result",
+          "id": 8,
+          "ok": true,
+          "value": "(:EDITOR-PASSED)"
+        },
+        "finishedAt": "2026-11-11T05:46:41.668Z"
+      },
+      {
+        "id": 9,
+        "commandId": 167,
+        "startedAt": "2026-11-11T05:46:41.671Z",
+        "sourceSha256": "b26ae625865f5ea1f0df6352b14b4fea2c33ede992fbd55056918e57e7586973",
+        "result": {
+          "type": "test-result",
+          "id": 9,
+          "ok": true,
+          "value": "(:EDITOR-PASSED)"
+        },
+        "finishedAt": "2026-11-11T05:46:43.392Z"
+      },
+      {
+        "id": 10,
+        "commandId": 172,
+        "startedAt": "2026-11-11T05:46:43.393Z",
+        "sourceSha256": "551b458a1acb815dbfa31a98f137ffd29f7264b716ceeeb9606315e965a6f1fb",
+        "result": {
+          "type": "test-result",
+          "id": 10,
+          "ok": true,
+          "value": "(:EDITOR-PASSED)"
+        },
+        "finishedAt": "2026-11-11T05:46:45.115Z"
+      },
+      {
+        "id": 11,
+        "commandId": 173,
+        "startedAt": "2026-11-11T05:46:45.115Z",
+        "sourceSha256": "31e80a4f628b69dc0450fd77940e5c863af7ab6e8c0585bc068e6a9085b042af",
+        "result": {
+          "type": "test-result",
+          "id": 11,
+          "ok": true,
+          "value": "((2 0 100 420 40))"
+        },
+        "finishedAt": "2026-11-11T05:46:45.218Z"
+      },
+      {
+        "id": 12,
+        "commandId": 178,
+        "startedAt": "2026-11-11T05:46:45.222Z",
+        "sourceSha256": "93dfeba09f969115c9b399aefe14bba1749f2ec6ebacce07cfa3fee43eebad61",
+        "result": {
+          "type": "test-result",
+          "id": 12,
+          "ok": true,
+          "value": "(:TOGGLE-PASSED)"
+        },
+        "finishedAt": "2026-11-11T05:46:46.843Z"
+      },
+      {
+        "id": 13,
+        "commandId": 179,
+        "startedAt": "2026-11-11T05:46:46.843Z",
+        "sourceSha256": "31e80a4f628b69dc0450fd77940e5c863af7ab6e8c0585bc068e6a9085b042af",
+        "result": {
+          "type": "test-result",
+          "id": 13,
+          "ok": true,
+          "value": "((2 0 100 420 40))"
+        },
+        "finishedAt": "2026-11-11T05:46:46.945Z"
+      },
+      {
+        "id": 14,
+        "commandId": 184,
+        "startedAt": "2026-11-11T05:46:46.948Z",
+        "sourceSha256": "c3d80fda0c7f63f382c5feb17ae11cf1a8369be70e48a973409f2f3832ac057b",
+        "result": {
+          "type": "test-result",
+          "id": 14,
+          "ok": true,
+          "value": "(:TOGGLE-PASSED)"
+        },
+        "finishedAt": "2026-11-11T05:46:47.758Z"
+      },
+      {
+        "id": 15,
+        "commandId": 185,
+        "startedAt": "2026-11-11T05:46:47.759Z",
+        "sourceSha256": "139bb92d4b2645caa5b96c364dd5a36c109c9eb574315b1fa4f4fd233bc5d9d4",
+        "result": {
+          "type": "test-result",
+          "id": 15,
+          "ok": true,
+          "value": "((2 0 40 420 60))"
+        },
+        "finishedAt": "2026-11-11T05:46:47.861Z"
+      },
+      {
+        "id": 16,
+        "commandId": 187,
+        "startedAt": "2026-11-11T05:46:47.862Z",
+        "sourceSha256": "139bb92d4b2645caa5b96c364dd5a36c109c9eb574315b1fa4f4fd233bc5d9d4",
+        "result": {
+          "type": "test-result",
+          "id": 16,
+          "ok": true,
+          "value": "((2 0 40 420 60))"
+        },
+        "finishedAt": "2026-11-11T05:46:47.964Z"
+      },
+      {
+        "id": 17,
+        "commandId": 193,
+        "startedAt": "2026-11-11T05:46:47.969Z",
+        "sourceSha256": "a44f7d15ba62f5d72143bb0cfe7ce8f81e181e99fbbc085f43cdecf820e0cd1f",
+        "result": {
+          "type": "test-result",
+          "id": 17,
+          "ok": true,
+          "value": "(:SLIDER-PASSED)"
+        },
+        "finishedAt": "2026-11-11T05:46:51.714Z"
+      },
+      {
+        "id": 18,
+        "commandId": 195,
+        "startedAt": "2026-11-11T05:46:51.729Z",
+        "sourceSha256": "5849d23b4657292e2ba52ecd1c7f684c0ab8a6c80be797eccffe2278d244063f",
+        "result": {
+          "type": "test-result",
+          "id": 18,
+          "ok": true,
+          "value": "((2 0 140 420 40))"
+        },
+        "finishedAt": "2026-11-11T05:46:51.832Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T05:46:53.343Z"
+  },
+  "finishedAt": "2026-11-11T05:46:53.377Z",
+  "snapshotNotes": "Seven-stage source snapshot includes focus ordering and editing-key fixes, but predates the Escape mapping correction and the added batched-focus and post-exit popup tests. Does not establish the expanded nine-stage gate."
+}

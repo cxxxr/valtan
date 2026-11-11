@@ -33,6 +33,7 @@
     "test:mcclim:flipping": "node mcclim/canvas.mjs --flipping",
     "test:mcclim:windows": "node mcclim/windows.mjs",
     "test:mcclim:gadgets": "node mcclim/gadgets.mjs",
+    "test:mcclim:png": "node mcclim/png.mjs",
     "test:mcclim:bezier": "node mcclim/bezier.mjs",
     "test:mcclim:queues": "node mcclim/queue.mjs",
     "demo:mcclim": "node mcclim/demo.mjs"

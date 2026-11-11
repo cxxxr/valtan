@@ -292,8 +292,9 @@ transparent destination pixels and nonsolid design samples are left unchanged.
 The real CLIM gate checks foreground/background inks, explicit colors, tiled
 designs and Boolean clipping. Its 12 new checks and all 69 existing Canvas checks
 [pass after backend reloads](../tests/mcclim/flipping-live-results.json).
-`npm run test:mcclim:flipping` runs all 81 checks from a fresh startup; that run is
-still pending. The separate host/transport gate also
+`npm run test:mcclim:flipping` runs all 81 checks from a fresh startup; all 81 now
+[pass in that gate](../tests/mcclim/flipping-cold-results.json). That snapshot
+predates the subsequent queue-order and editing-key fixes. The separate host/transport gate also
 [passes all seven tests](../tests/mcclim/input-flipping-transport-results.json).
 
 `npm run test:mcclim:gadgets` exercises upstream text fields, toggles and sliders
@@ -308,15 +309,45 @@ activation, toggle/slider callbacks, frame exit and subsequent popup Escape
 [pass](../tests/mcclim/gadget-live-results.json); see the
 [gadget screenshot](../tests/mcclim/screenshots/gadgets-live.png).
 The report retains the reproduced failures and the final successful checks.
-These are live-worker results; the expanded fresh-start gadget gate is not yet
-verified. They do not establish simultaneous frame event loops or full Drei
-editor compatibility.
+The earlier seven-stage gadget gate also
+[passes after a fresh startup](../tests/mcclim/gadget-cold-results.json).
+That snapshot predates the Escape mapping correction and the added batched-focus
+and post-exit popup checks; the expanded nine-stage fresh-start gate is not yet
+verified. These results do not establish simultaneous frame event loops or full
+Drei editor compatibility.
+
+The browser backend reads static PNG files with the upstream pure-Lisp
+`png-read` decoder. Install `png-read` alongside McCLIM in the host Quicklisp;
+the backend's dependencies then include it in the target bundle. Ordinary
+`read-bitmap-file` and `make-pattern-from-bitmap-file` calls accept `:format :png`.
+The default `:bitmap` format also selects a registered reader from the filename
+suffix, including uppercase `.PNG`, when another backend has not installed its
+own fallback. Declare application images as ASDF `:static-file` components to
+embed them for browser file access.
+
+PNG samples are converted to CLIM's packed ARGB arrays, with axis conversion,
+low-bit grayscale scaling, 16-to-8-bit quantization and alpha preservation.
+The adapter also preserves palette indices across Adam7 passes: PNG-READ 0.3.1
+otherwise retains only the final pass's indices and fails while expanding tRNS
+transparency. This upstream failure reproduces on SBCL. The correction is scoped
+to reads through this backend and distinguishes equal palette colors with
+different alpha.
+Thirty independently encoded images cover the supported static color/depth
+combinations, transparent colors, filters and interlacing. Chrome's native decoder
+validates their expected pixels. The real McCLIM file APIs, default format
+selection, Canvas pixels and malformed-file checks then
+[pass 92 groups in the existing worker](../tests/mcclim/png-live-results.json).
+`npm run test:mcclim:png` runs the fresh-start gate and removes the original image
+files before the Lisp checks, testing ASDF-embedded resources; that gate remains
+pending. This does not establish full PNG conformance, APNG playback, image
+writing or other bitmap formats.
 
 This is an experimental backend, not full McCLIM compatibility. Arbitrary
-nested/nonsolid flipping designs, image file loading, platform window management and the complete
+nested/nonsolid flipping designs, other bitmap formats, platform window management and the complete
 upstream test suite are not yet verified. Startup still compiles the dependencies in the browser worker;
-the recorded end-to-end run took about 22 minutes, including build and input
-checks. There is currently no persistent compiled-library cache in the browser.
+the earlier counter-only end-to-end run took about 22 minutes, including build
+and input checks, before adding the PNG dependencies. There is currently no
+persistent compiled-library cache in the browser.
 `npm run demo:mcclim` builds the example into a temporary directory and serves
 it at `http://127.0.0.1:8080/` with the required headers. Set `PORT` to choose
 another port. The demo and GUI test snapshot their browser assets and retain

@@ -13,7 +13,7 @@ export async function buildDemo(work, {sourceDirectory = example, workerFile} = 
   // Keep both compilation products and served browser assets isolated, so a
   // later edit or another build cannot silently change an in-flight test.
   for (const file of fs.readdirSync(sourceDirectory))
-    if (/\.(system|lisp|html)$/.test(file)) fs.copyFileSync(path.join(sourceDirectory,file),path.join(work,file));
+    if (/\.(asd|system|lisp|html)$/.test(file)) fs.copyFileSync(path.join(sourceDirectory,file),path.join(work,file));
   const assets = path.join(work, 'browser'); fs.mkdirSync(assets, {recursive:true});
   for (const file of ['client.mjs','host.mjs','worker.mjs','event-queue.mjs','windows.mjs','pointer.mjs','keyboard.mjs'])
     fs.copyFileSync(path.join(root,'library/mcclim-browser',file),path.join(assets,file));

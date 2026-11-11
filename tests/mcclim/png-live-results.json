@@ -1,0 +1,3518 @@
+{
+  "status": "passed",
+  "complete": true,
+  "recordedAt": "2026-11-11T05:53:17.974700+00:00",
+  "scope": "92 real McCLIM PNG decode/default-format/render groups in an existing Chrome worker after loading dependencies and the PNG adapter; not cold startup, other bitmap formats, APNG or full PNG conformance",
+  "startup": {
+    "work": "/tmp/valtan-mcclim-workbench-hPP8og",
+    "status": "ready",
+    "complete": false,
+    "startedAt": "2026-11-11T04:52:20.346Z",
+    "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "bundleSha256": "24cfeaec8bc99a115119e72fd0c49acddbd08a42804d74bb662eda3c3a84b11f",
+    "browserAssetsSha256": "47eb1c8bf0a2fe7bc8fff366bc3e2741e559d221dbbc101f9fad4cf559e23ca4",
+    "readyAt": "2026-11-11T05:14:03.166Z"
+  },
+  "dependencies": {
+    "evaluation": {
+      "id": 55,
+      "commandId": "load-png-dependencies",
+      "startedAt": "2026-11-11T05:39:27.285Z",
+      "sourceSha256": "c64ae5a21f37eccfac1a88e1ebba8ae5311527cbfc3749840a1b31dba09efa34",
+      "file": "/tmp/valtan-png-dependencies.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 55,
+        "ok": false,
+        "error": "dot error"
+      },
+      "finishedAt": "2026-11-11T05:45:16.283Z"
+    },
+    "pngPackageCheck": {
+      "id": 56,
+      "commandId": "png-loaded-packages",
+      "startedAt": "2026-11-11T05:45:32.899Z",
+      "sourceSha256": "08b14b10852a22504501a551865ccba7de132deda31a9bf788d670d976e6d02a",
+      "result": {
+        "type": "test-result",
+        "id": 56,
+        "ok": true,
+        "value": "(((\"PNG-READ\" T) (\"CHIPZ\" T) (\"BABEL\" T) (\"ITERATE\" T) (\"FLEXI-STREAMS\" NIL)))"
+      },
+      "finishedAt": "2026-11-11T05:45:33.003Z"
+    },
+    "sources": [
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/iterate-release-d27d7ff4-git/package.lisp",
+        "sha256": "5a569fd5c3b3bf0b6b587c17ac63dd5ad75a8aad1a5f23f99f4d0a8c674d228b"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/iterate-release-d27d7ff4-git/iterate.lisp",
+        "sha256": "209dae66eb18d2850caeef2a2934a3b08376f01ba93368960f1a6022452733f2"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/package.lisp",
+        "sha256": "a437b6b78137584dbf37b66201255b46d251dfdb8d43cf2ac049b6c96ed70305"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/constants.lisp",
+        "sha256": "e444e600ca9e54f024433762493fbed18c60920880e812d260364afb9a2590bb"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/types-and-tables.lisp",
+        "sha256": "ca1ce838ec8f2abb4be5cfc6b5ad422be444a86ab97b8dee0c0695ab455c2988"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/crc32.lisp",
+        "sha256": "b560ac56b55aec865f51e7a9ada24e71086458a4e9a0eab0daea5eaf084573c2"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/adler32.lisp",
+        "sha256": "12b013902755dee3db4da8fe88e3790847d05e05da4c3c5a708d1749ce123a41"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/conditions.lisp",
+        "sha256": "11492e5f76cbbc557322dde86e9c55f6c6be5edffe70c5532db3850c39475013"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/dstate.lisp",
+        "sha256": "3c56749696dd4806ea88731b4413e2c42424da5c1cef226def64af02b3859845"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/inflate-state.lisp",
+        "sha256": "51545db0540d97984b4b7ffb45ced8c20389073daf054d223d2a3de78e0e6014"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/gzip.lisp",
+        "sha256": "eeabf1b836a02b721ce6477e0d28b6991be5e0eb43a27c91817236e5f287739d"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/zlib.lisp",
+        "sha256": "7056542fb4ec559482d92b5064832d347b466909562e3cd80616eec6ad891bb6"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/inflate.lisp",
+        "sha256": "5647e57d48d5c28cbdf7604e0a0610a9c9afdefa9dd82b6e89575f934f235cca"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/bzip2.lisp",
+        "sha256": "72757e65f0af3c747ee14b1560f1632dfad70305e2d3cd3de7bf346527ebe562"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/decompress.lisp",
+        "sha256": "c1fe17e3fd293de11b04e5700608335ca6a7d7e2e69b21b18a150e489ba6f5b2"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/chipz-20230618-git/stream-fallback.lisp",
+        "sha256": "2c5c21bd39226a1583f0b6ce8736753b540670feae04596da0b00b7bd46179ef"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/packages.lisp",
+        "sha256": "0f3ea729c36f40c5a518be29f7079d43d0b25a6398159446c1ebe1c9b7d4bcc7"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/encodings.lisp",
+        "sha256": "ab8034a076a96e5057bfc75b7774304ae6cea291a8ce1b6fc8ea34138d5fca1c"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-ascii.lisp",
+        "sha256": "decbd5e2780f373ccfa5dcbd641c69dc4ee67cc6d5e683c13fe83a5ead6a2829"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-ebcdic.lisp",
+        "sha256": "0ba737c68aba986b61ad7530352d4b3429fc21e07f78e23351a13fdea16604b1"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-ebcdic-int.lisp",
+        "sha256": "8ffdd98312ebf182ea63c82e284ca15eccf98c7f4ea36050027cfba491e9f9fd"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/iso-2022-jp-constants.lisp",
+        "sha256": "767650f952bbcfc0e26ddce1ba0d35e904d68598dd64dd88d33e9a4e22471efc"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-iso-2022-jp.lisp",
+        "sha256": "d08d2dd055473b8acd3814dedfdba29162ef45c8be4e8291479fb474447a5e45"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-iso-8859.lisp",
+        "sha256": "65a136cb9752baa7a7d05b0a510d92107f86a5623e12bcdf1e2292b7ff8bd8fc"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-unicode.lisp",
+        "sha256": "8284e2bb8c76ba3868c732aa4b87ca0f2fb6bc3fda89cc2b14a7b2499fd86ab5"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-cp437.lisp",
+        "sha256": "3326d6b300b9ef77021d2d6442392c0fd6133a5e044b417b48d6722d946e03c8"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-cp1250.lisp",
+        "sha256": "754aa38bfc823f78f9ba1482d929bc28505c92ec9d4fe52d32e90119f36cce41"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-cp1251.lisp",
+        "sha256": "215eafa37a55a124eb207fb9acc357a12be1eef10b4778cf1f11342b464e152a"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-cp1252.lisp",
+        "sha256": "9103950ae2d07ab4f5a46cd672a9cc551c6327fc12baa19b68c78c8c008710c0"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-cp1253.lisp",
+        "sha256": "b7292b1908c2d860000ddb599747d5e35176642a425bc255bca873610420140d"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-cp1254.lisp",
+        "sha256": "be539a4bc5713533588d20c47d582b720f9c082ca6281f0ae93b7afacc714ce4"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-cp1255.lisp",
+        "sha256": "7b0f74b100390d8493f16e8423451b52437fca8f8eccd10239bb9539cf660b78"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-cp1256.lisp",
+        "sha256": "b0080053a34b3be8ca0d4110679be6140ba6584ab1436caca15b6ce071db175b"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-cp1257.lisp",
+        "sha256": "38382643790455604a275f08bc5cfdbb141c1fc6a07c46efad0f338ff80a5e16"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-cp1258.lisp",
+        "sha256": "93f41869d08a4786a17a88d6e31e553f14cac933bb98f06c128a8a2ca4752687"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/jpn-table.lisp",
+        "sha256": "14cae7aa93128d33f3d885ab7902c4e043d751af2d7bdb3e0f02cbac2016170f"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-jpn.lisp",
+        "sha256": "b319ee0e0b872e539b49e65056d825f8314e3ce0872417c37ca7faaeefdb36e6"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-gbk.lisp",
+        "sha256": "9dc1a31524d0998c91d4b2239f6911bd513dc16662fcbe8f41b3412a09e61f06"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-koi8.lisp",
+        "sha256": "10ea8ead29a06f1c89502a10aae797eeb4d311c042dd6ca37e12076c4ee453a4"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-ksc-5601.lisp",
+        "sha256": "804fcb60adeb8271b2dc9851c421c67b977c8dde743d78b5e287e8c37a276f96"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/external-format.lisp",
+        "sha256": "cc4198640fbc612f5b2cb146dfa602b68351262985ac73071ef258cfe10806cf"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/strings.lisp",
+        "sha256": "dc61e5aeccb2c78d24dd5516f59891c6961289a3d7bc8a76b6cfcfd8397c57ca"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/gbk-map.lisp",
+        "sha256": "0f5256daaddde1d6cca157dc6f7da8712e89cce299c9d2933c94e6afd76f1dd7"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/sharp-backslash.lisp",
+        "sha256": "0b56edd22dd193571c444b9ab710d6ff402818b0861032067952e4b8e1df734a"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/png-read-20170830-git/package.lisp",
+        "sha256": "c999aa36831330bbf1e77a55e19ab7f4f8cbd49100e4d9257565ec5b2135b6a8"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/png-read-20170830-git/png-state.lisp",
+        "sha256": "98a0bdf640d18eeef06f210616baae76950ad6f1b7e57d20cc83c66305eee3a2"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/png-read-20170830-git/deinterlace.lisp",
+        "sha256": "61157a0bc34c6200eb9a55993b4e53cf4e28b2946dc7ce0f24cb059284df8d15"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/png-read-20170830-git/util.lisp",
+        "sha256": "e93a4d03fc994aee286d480e193afd1be522a4c8b680f7e56c7f3bd6a792c681"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/png-read-20170830-git/crc.lisp",
+        "sha256": "856b7a57e90054c5865c00fffa1f88037e99ac78bb9562957963016419ebea22"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/png-read-20170830-git/critical-chunks.lisp",
+        "sha256": "4a315d36c55c9d9ecc7ad6ae80d4888a47719b59d1951e3b89d075223c3a955e"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/png-read-20170830-git/ancillary-chunks.lisp",
+        "sha256": "bd5318d4678a1ddae6d55ad31b01ecd8b2b0dbfc79f1a2897f1f0a8921324f86"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/png-read-20170830-git/basic-chunks.lisp",
+        "sha256": "7f5b5665aef4f53ca27eda37ac03399413e81bd52266d352f73c70150cc18a0e"
+      },
+      {
+        "file": "/home/user/quicklisp/dists/quicklisp/software/png-read-20170830-git/decode.lisp",
+        "sha256": "caef99fc05ed175e4b9dad0a6851d2048608e5596a72acc99b1bf30019937a28"
+      }
+    ],
+    "note": "PNG-READ and its dependencies loaded; the diagnostic loader then failed while attempting an unused extra FLEXI-STREAMS dependency. The normal backend depends only on PNG-READ. This record does not claim that the entire diagnostic loader succeeded."
+  },
+  "reloads": [
+    {
+      "id": 2,
+      "commandId": "flipping-host-reload",
+      "startedAt": "2026-11-11T05:14:04.901Z",
+      "sourceSha256": "e9ce589904db95a0b951c429de251874ae51f334093abdc4ea7f1e453ab0d142",
+      "file": "/tmp/valtan-flipping-host-reload.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 2,
+        "ok": true,
+        "value": "(:FLIPPING-HOST-LOADED)"
+      },
+      "finishedAt": "2026-11-11T05:14:05.006Z"
+    },
+    {
+      "id": 3,
+      "commandId": "flipping-medium-reload",
+      "startedAt": "2026-11-11T05:14:05.006Z",
+      "sourceSha256": "3ccef7cd9fbd0ffa4c0091e1daf9fb5fda9aad50e2435bb8203fda9899ec88c6",
+      "file": "/home/user/src/valtan/library/mcclim-browser/medium.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 3,
+        "ok": true,
+        "value": "(#<STANDARD-METHOD MEDIUM-COPY-AREA (#<STANDARD-CLASS BROWSER-PIXMAP> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T> #<STANDARD-CLASS BROWSER-PIXMAP> #<BUILT-IN-CLASS T> #<BUILT-IN-CLASS T>)>)"
+      },
+      "finishedAt": "2026-11-11T05:14:11.941Z"
+    },
+    {
+      "id": 18,
+      "commandId": "queue-focus-order-fix",
+      "startedAt": "2026-11-11T05:19:20.050Z",
+      "sourceSha256": "8b8b670fe7be937cda4e60a1ddb6b4883dfbe302a5b42132d6c807ba7220034b",
+      "file": "/home/user/src/valtan/library/mcclim-browser/queues.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 18,
+        "ok": true,
+        "value": "(#<STANDARD-METHOD CLIM-INTERNALS::QUEUE-LISTEN (#<STANDARD-CLASS SIMPLE-QUEUE>)>)"
+      },
+      "finishedAt": "2026-11-11T05:19:21.478Z"
+    },
+    {
+      "id": 36,
+      "commandId": "escape-key-preservation",
+      "startedAt": "2026-11-11T05:27:34.593Z",
+      "sourceSha256": "ddfa9666748e20a4f681a1edf9227fbfb32c717fbdb5560cc670119402a75230",
+      "file": "/home/user/src/valtan/library/mcclim-browser/port.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 36,
+        "ok": true,
+        "value": "(#<STANDARD-METHOD PROCESS-NEXT-EVENT (#<STANDARD-CLASS BROWSER-PORT>)>)"
+      },
+      "finishedAt": "2026-11-11T05:27:39.286Z"
+    },
+    {
+      "id": 62,
+      "commandId": "png-default-reader",
+      "startedAt": "2026-11-11T05:49:46.593Z",
+      "sourceSha256": "2bb1bd3447bb17ea9fd7fd8317f6aad2c50bb71fc37a566ed0fb53c8b1cdcad7",
+      "file": "/home/user/src/valtan/library/mcclim-browser/png.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 62,
+        "ok": true,
+        "value": "(#<Function BROWSER-BITMAP-FILE-READER>)"
+      },
+      "finishedAt": "2026-11-11T05:49:48.118Z"
+    }
+  ],
+  "fixtures": {
+    "registration": {
+      "id": 63,
+      "commandId": "png-final-register",
+      "startedAt": "2026-11-11T05:49:48.119Z",
+      "sourceSha256": "6fdd0ba70de1c43242df3f11d61768031d77f695ad80cab71fa862d763615a86",
+      "file": "/tmp/valtan-png-live-register-v2.lisp",
+      "result": {
+        "type": "test-result",
+        "id": 63,
+        "ok": true,
+        "value": "(#<Function>)"
+      },
+      "finishedAt": "2026-11-11T05:49:48.628Z"
+    },
+    "cases": [
+      {
+        "name": "color-0-depth-1-interlace-0.PNG",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000030100000000734df8550000000274524e5300007693cd380000000e49444154789c6308600c60e20000029600acc236c8d20000000049454e44ae426082"
+      },
+      {
+        "name": "color-0-depth-1-interlace-1.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000030100000001044ac8c30000000274524e5300007693cd380000001649444154789c63606064606260566039c07080310000079001fcbf680c6e0000000049454e44ae426082"
+      },
+      {
+        "name": "color-0-depth-2-interlace-0.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            85,
+            85,
+            85,
+            255
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            85,
+            85,
+            85,
+            255
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            85,
+            85,
+            85,
+            255
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d494844520000000500000003020000000034ed82850000000274524e5300007693cd380000001149444154789c63906660dc789e29cb010008b20249e18514310000000049454e44ae426082"
+      },
+      {
+        "name": "color-0-depth-2-interlace-1.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            85,
+            85,
+            85,
+            255
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            85,
+            85,
+            85,
+            255
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            85,
+            85,
+            85,
+            255
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d494844520000000500000003020000000143eab2130000000274524e5300007693cd380000001749444154789c63606064606a60d66129602860dc781e000d5d0318debbe89b0000000049454e44ae426082"
+      },
+      {
+        "name": "color-0-depth-4-interlace-0.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            34,
+            34,
+            34,
+            255
+          ],
+          [
+            68,
+            68,
+            68,
+            255
+          ],
+          [
+            102,
+            102,
+            102,
+            255
+          ],
+          [
+            136,
+            136,
+            136,
+            255
+          ],
+          [
+            68,
+            68,
+            68,
+            255
+          ],
+          [
+            102,
+            102,
+            102,
+            255
+          ],
+          [
+            136,
+            136,
+            136,
+            255
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            204,
+            204,
+            204,
+            255
+          ],
+          [
+            136,
+            136,
+            136,
+            255
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            204,
+            204,
+            204,
+            255
+          ],
+          [
+            238,
+            238,
+            238,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000030400000000bbad77250000000274524e5300007693cd380000001449444154789c6360726b607473316372713100000d820244b78941f10000000049454e44ae426082"
+      },
+      {
+        "name": "color-0-depth-4-interlace-1.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            34,
+            34,
+            34,
+            255
+          ],
+          [
+            68,
+            68,
+            68,
+            255
+          ],
+          [
+            102,
+            102,
+            102,
+            255
+          ],
+          [
+            136,
+            136,
+            136,
+            255
+          ],
+          [
+            68,
+            68,
+            68,
+            255
+          ],
+          [
+            102,
+            102,
+            102,
+            255
+          ],
+          [
+            136,
+            136,
+            136,
+            255
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            204,
+            204,
+            204,
+            255
+          ],
+          [
+            136,
+            136,
+            136,
+            255
+          ],
+          [
+            170,
+            170,
+            170,
+            255
+          ],
+          [
+            204,
+            204,
+            204,
+            255
+          ],
+          [
+            238,
+            238,
+            238,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000030400000001ccaa47b30000000274524e5300007693cd380000001949444154789c6360606c607260ee59c5a2c6b08ed1cdc50c001bf1039647fb24fc0000000049454e44ae426082"
+      },
+      {
+        "name": "color-0-depth-8-interlace-0.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            36,
+            36,
+            255
+          ],
+          [
+            72,
+            72,
+            72,
+            255
+          ],
+          [
+            108,
+            108,
+            108,
+            255
+          ],
+          [
+            144,
+            144,
+            144,
+            255
+          ],
+          [
+            72,
+            72,
+            72,
+            255
+          ],
+          [
+            108,
+            108,
+            108,
+            255
+          ],
+          [
+            144,
+            144,
+            144,
+            255
+          ],
+          [
+            180,
+            180,
+            180,
+            255
+          ],
+          [
+            216,
+            216,
+            216,
+            255
+          ],
+          [
+            144,
+            144,
+            144,
+            255
+          ],
+          [
+            180,
+            180,
+            180,
+            255
+          ],
+          [
+            216,
+            216,
+            216,
+            255
+          ],
+          [
+            252,
+            252,
+            252,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d49484452000000050000000308000000007e5d9a240000000274524e5300007693cd380000001a49444154789c636050f1c899c0e8a1a2a2a2c2e4e1e1e1a10e001fd1038b5c4f76e40000000049454e44ae426082"
+      },
+      {
+        "name": "color-0-depth-8-interlace-1.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            36,
+            36,
+            255
+          ],
+          [
+            72,
+            72,
+            72,
+            255
+          ],
+          [
+            108,
+            108,
+            108,
+            255
+          ],
+          [
+            144,
+            144,
+            144,
+            255
+          ],
+          [
+            72,
+            72,
+            72,
+            255
+          ],
+          [
+            108,
+            108,
+            108,
+            255
+          ],
+          [
+            144,
+            144,
+            144,
+            255
+          ],
+          [
+            180,
+            180,
+            180,
+            255
+          ],
+          [
+            216,
+            216,
+            216,
+            255
+          ],
+          [
+            144,
+            144,
+            144,
+            255
+          ],
+          [
+            180,
+            180,
+            180,
+            255
+          ],
+          [
+            216,
+            216,
+            216,
+            255
+          ],
+          [
+            252,
+            252,
+            252,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000030800000001095aaab20000000274524e5300007693cd380000001e49444154789c6360609cc0e4c13c61c26416150f862d7f183d54545454003ba3058b230a78e80000000049454e44ae426082"
+      },
+      {
+        "name": "color-0-depth-16-interlace-0.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            36,
+            36,
+            255
+          ],
+          [
+            73,
+            73,
+            73,
+            255
+          ],
+          [
+            109,
+            109,
+            109,
+            255
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            73,
+            73,
+            73,
+            255
+          ],
+          [
+            109,
+            109,
+            109,
+            255
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            182,
+            182,
+            182,
+            255
+          ],
+          [
+            219,
+            219,
+            219,
+            255
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            182,
+            182,
+            182,
+            255
+          ],
+          [
+            219,
+            219,
+            219,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d49484452000000050000000310000000002ecd46670000000274524e5300007693cd380000002249444154789c6360605099e4a992bb6d9207a3a78aca24d54920cce4a902812a9301923108d639e5e5dd0000000049454e44ae426082"
+      },
+      {
+        "name": "color-0-depth-16-interlace-1.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            36,
+            36,
+            255
+          ],
+          [
+            73,
+            73,
+            73,
+            255
+          ],
+          [
+            109,
+            109,
+            109,
+            255
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            73,
+            73,
+            73,
+            255
+          ],
+          [
+            109,
+            109,
+            109,
+            255
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            182,
+            182,
+            182,
+            255
+          ],
+          [
+            219,
+            219,
+            219,
+            255
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            182,
+            182,
+            182,
+            255
+          ],
+          [
+            219,
+            219,
+            219,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d494844520000000500000003100000000159ca76f10000000274524e5300007693cd380000002c49444154789c636060609ce4c1e4a9c23cc96392c7a4932c2a933c5518b6ddfaff8fd153456592ea24100600c87b0c59c32745280000000049454e44ae426082"
+      },
+      {
+        "name": "color-2-depth-8-interlace-0.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            144,
+            252,
+            255
+          ],
+          [
+            72,
+            180,
+            32,
+            255
+          ],
+          [
+            108,
+            216,
+            68,
+            255
+          ],
+          [
+            144,
+            252,
+            104,
+            255
+          ],
+          [
+            72,
+            180,
+            32,
+            255
+          ],
+          [
+            108,
+            216,
+            68,
+            255
+          ],
+          [
+            144,
+            252,
+            104,
+            255
+          ],
+          [
+            180,
+            32,
+            140,
+            255
+          ],
+          [
+            216,
+            68,
+            176,
+            255
+          ],
+          [
+            144,
+            252,
+            104,
+            255
+          ],
+          [
+            180,
+            32,
+            140,
+            255
+          ],
+          [
+            216,
+            68,
+            176,
+            255
+          ],
+          [
+            252,
+            104,
+            212,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000030802000000d45452af0000000674524e530000000000006ea607910000002649444154789c636060605099f0c7638b42ce0d97097f32183db628a82001260f24a0bedb1f0059d10da958adb6930000000049454e44ae426082"
+      },
+      {
+        "name": "color-2-depth-8-interlace-1.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            144,
+            252,
+            255
+          ],
+          [
+            72,
+            180,
+            32,
+            255
+          ],
+          [
+            108,
+            216,
+            68,
+            255
+          ],
+          [
+            144,
+            252,
+            104,
+            255
+          ],
+          [
+            72,
+            180,
+            32,
+            255
+          ],
+          [
+            108,
+            216,
+            68,
+            255
+          ],
+          [
+            144,
+            252,
+            104,
+            255
+          ],
+          [
+            180,
+            32,
+            140,
+            255
+          ],
+          [
+            216,
+            68,
+            176,
+            255
+          ],
+          [
+            144,
+            252,
+            104,
+            255
+          ],
+          [
+            180,
+            32,
+            140,
+            255
+          ],
+          [
+            216,
+            68,
+            176,
+            255
+          ],
+          [
+            252,
+            104,
+            212,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000030802000001a35362390000000674524e530000000000006ea607910000003449444154789c63606060609cf02783c9638b02f3843f19138ed54cbebb9c4565c21f0f0f0f862d0a3d7f32ae307a6c5150410200fac911e50d84e7600000000049454e44ae426082"
+      },
+      {
+        "name": "color-2-depth-16-interlace-0.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            146,
+            255,
+            255
+          ],
+          [
+            73,
+            182,
+            36,
+            255
+          ],
+          [
+            109,
+            219,
+            73,
+            255
+          ],
+          [
+            146,
+            255,
+            109,
+            255
+          ],
+          [
+            73,
+            182,
+            36,
+            255
+          ],
+          [
+            109,
+            219,
+            73,
+            255
+          ],
+          [
+            146,
+            255,
+            109,
+            255
+          ],
+          [
+            182,
+            36,
+            146,
+            255
+          ],
+          [
+            219,
+            73,
+            182,
+            255
+          ],
+          [
+            146,
+            255,
+            109,
+            255
+          ],
+          [
+            182,
+            36,
+            146,
+            255
+          ],
+          [
+            219,
+            73,
+            182,
+            255
+          ],
+          [
+            255,
+            109,
+            219,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d494844520000000500000003100200000084c48eec0000000674524e530000000000006ea607910000003d49444154789c636000039549933cfefff354d9764b6542eeb6db399e4a207eee16468890ca24553054014355388fc95305197ac1592a93b7ddf55407003e1a20261ac61b760000000049454e44ae426082"
+      },
+      {
+        "name": "color-2-depth-16-interlace-1.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            146,
+            255,
+            255
+          ],
+          [
+            73,
+            182,
+            36,
+            255
+          ],
+          [
+            109,
+            219,
+            73,
+            255
+          ],
+          [
+            146,
+            255,
+            109,
+            255
+          ],
+          [
+            73,
+            182,
+            36,
+            255
+          ],
+          [
+            109,
+            219,
+            73,
+            255
+          ],
+          [
+            146,
+            255,
+            109,
+            255
+          ],
+          [
+            182,
+            36,
+            146,
+            255
+          ],
+          [
+            219,
+            73,
+            182,
+            255
+          ],
+          [
+            146,
+            255,
+            109,
+            255
+          ],
+          [
+            182,
+            36,
+            146,
+            255
+          ],
+          [
+            219,
+            73,
+            182,
+            255
+          ],
+          [
+            255,
+            109,
+            219,
+            255
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000031002000001f3c3be7a0000000674524e530000000000006ea607910000004b49444154789c63600003c6491effffe56e61f254d9764b6502338437c9e3d4e286ba49276fbf5b329945651248d053c553c54b8501a468921b48cded2c46881e9549aa60a80286aa701e00f20b29e188fd3c2b0000000049454e44ae426082"
+      },
+      {
+        "name": "color-3-depth-1-interlace-0.png",
+        "rgba": [
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d494844520000000500000003010300000061f857bb00000006504c5445ff000000ff00d287ef710000000274524e5300809b2b4e180000000e49444154789c6308605cc1b40200043e01a43e8ef9470000000049454e44ae426082"
+      },
+      {
+        "name": "color-3-depth-1-interlace-1.png",
+        "rgba": [
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d494844520000000500000003010300000116ff672d00000006504c5445ff000000ff00d287ef710000000274524e5300809b2b4e180000001649444154789c63606064606260666039c0708071050007080234e145f5820000000049454e44ae426082"
+      },
+      {
+        "name": "color-3-depth-2-interlace-0.png",
+        "rgba": [
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d494844520000000500000003020300000026582d6b0000000c504c5445ff000000ff000000ffff0000452672090000000274524e5300809b2b4e180000001149444154789c63906660ccb9c2e4ea0000072301e428a5fa6b0000000049454e44ae426082"
+      },
+      {
+        "name": "color-3-depth-2-interlace-1.png",
+        "rgba": [
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000030203000001515f1dfd0000000c504c5445ff000000ff000000ffff0000452672090000000274524e5300809b2b4e180000001749444154789c63606064606a60ee602960b8c09873050011380394c8b125cb0000000049454e44ae426082"
+      },
+      {
+        "name": "color-3-depth-4-interlace-0.png",
+        "rgba": [
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000030403000000a918d8cb0000000c504c5445ff000000ff000000ffff0000452672090000000274524e5300809b2b4e180000001449444154789c636054666014927bc0247851000008fc022af268d2010000000049454e44ae426082"
+      },
+      {
+        "name": "color-3-depth-4-interlace-1.png",
+        "rgba": [
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000030403000001de1fe85d0000000c504c5445ff000000ff000000ffff0000452672090000000274524e5300809b2b4e180000001949444154789c636060646052605610601166306414927b0000069b01b06475258a0000000049454e44ae426082"
+      },
+      {
+        "name": "color-3-depth-8-interlace-0.png",
+        "rgba": [
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d49484452000000050000000308030000006ce835ca0000000c504c5445ff000000ff000000ffff0000452672090000000274524e5300809b2b4e180000001749444154789c63606064626660646464fccbc8042218010b92020c82144e170000000049454e44ae426082"
+      },
+      {
+        "name": "color-3-depth-8-interlace-1.png",
+        "rgba": [
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            255,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            128
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d49484452000000050000000308030000011bef055c0000000c504c5445ff000000ff000000ffff0000452672090000000274524e5300809b2b4e180000001b49444154789c6360606460626266facfc4c2c8c4c0cc08027f190111450219c1f323460000000049454e44ae426082"
+      },
+      {
+        "name": "color-4-depth-8-interlace-0.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            36,
+            36,
+            144
+          ],
+          [
+            72,
+            72,
+            72,
+            180
+          ],
+          [
+            108,
+            108,
+            108,
+            216
+          ],
+          [
+            144,
+            144,
+            144,
+            252
+          ],
+          [
+            72,
+            72,
+            72,
+            180
+          ],
+          [
+            108,
+            108,
+            108,
+            216
+          ],
+          [
+            144,
+            144,
+            144,
+            252
+          ],
+          [
+            180,
+            180,
+            180,
+            32
+          ],
+          [
+            216,
+            216,
+            216,
+            68
+          ],
+          [
+            144,
+            144,
+            144,
+            252
+          ],
+          [
+            180,
+            180,
+            180,
+            32
+          ],
+          [
+            216,
+            216,
+            216,
+            68
+          ],
+          [
+            252,
+            252,
+            252,
+            104
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000030804000000f13f0d730000001f49444154789c6360605099e0b125e7c6843f8c1e5b54a080c9030ad4770300a8f609c268cf8d120000000049454e44ae426082"
+      },
+      {
+        "name": "color-4-depth-8-interlace-1.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            36,
+            36,
+            144
+          ],
+          [
+            72,
+            72,
+            72,
+            180
+          ],
+          [
+            108,
+            108,
+            108,
+            216
+          ],
+          [
+            144,
+            144,
+            144,
+            252
+          ],
+          [
+            72,
+            72,
+            72,
+            180
+          ],
+          [
+            108,
+            108,
+            108,
+            216
+          ],
+          [
+            144,
+            144,
+            144,
+            252
+          ],
+          [
+            180,
+            180,
+            180,
+            32
+          ],
+          [
+            216,
+            216,
+            216,
+            68
+          ],
+          [
+            144,
+            144,
+            144,
+            252
+          ],
+          [
+            180,
+            180,
+            180,
+            32
+          ],
+          [
+            216,
+            216,
+            216,
+            68
+          ],
+          [
+            252,
+            252,
+            252,
+            104
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d494844520000000500000003080400000186383de50000002949444154789c636060609cf087c9630bf3843f138e4dbecba232c1c383618bc29f0c468f2d2a500000fd3b0c7e8d5411370000000049454e44ae426082"
+      },
+      {
+        "name": "color-4-depth-16-interlace-0.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            36,
+            36,
+            146
+          ],
+          [
+            73,
+            73,
+            73,
+            182
+          ],
+          [
+            109,
+            109,
+            109,
+            219
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            73,
+            73,
+            73,
+            182
+          ],
+          [
+            109,
+            109,
+            109,
+            219
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            182,
+            182,
+            182,
+            36
+          ],
+          [
+            219,
+            219,
+            219,
+            73
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            182,
+            182,
+            182,
+            36
+          ],
+          [
+            219,
+            219,
+            219,
+            73
+          ],
+          [
+            255,
+            255,
+            255,
+            109
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000031004000000a1afd1300000003849444154789c6360606060509934c9c35365dbaddc6db7732679fcffc708e2a84c529da43a49651284569dc4e4a902835e605265f2b6bb00d633163709d21bf80000000049454e44ae426082"
+      },
+      {
+        "name": "color-4-depth-16-interlace-1.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            36,
+            36,
+            146
+          ],
+          [
+            73,
+            73,
+            73,
+            182
+          ],
+          [
+            109,
+            109,
+            109,
+            219
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            73,
+            73,
+            73,
+            182
+          ],
+          [
+            109,
+            109,
+            109,
+            219
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            182,
+            182,
+            182,
+            36
+          ],
+          [
+            219,
+            219,
+            219,
+            73
+          ],
+          [
+            146,
+            146,
+            146,
+            255
+          ],
+          [
+            182,
+            182,
+            182,
+            36
+          ],
+          [
+            219,
+            219,
+            219,
+            73
+          ],
+          [
+            255,
+            255,
+            255,
+            109
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d4948445200000005000000031004000001d6a8e1a60000004549444154789c6360606060609ce4f1ff1f93a7cab65bcc20d6248f538b279dbcfd8e4565d2240f4f154f15866db75426fcff97bb8511a4466592ea24d5492a9320b4ea2400ba2a1ca0c4ab0dba0000000049454e44ae426082"
+      },
+      {
+        "name": "color-6-depth-8-interlace-0.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            144,
+            252,
+            104
+          ],
+          [
+            72,
+            180,
+            32,
+            140
+          ],
+          [
+            108,
+            216,
+            68,
+            176
+          ],
+          [
+            144,
+            252,
+            104,
+            212
+          ],
+          [
+            72,
+            180,
+            32,
+            140
+          ],
+          [
+            108,
+            216,
+            68,
+            176
+          ],
+          [
+            144,
+            252,
+            104,
+            212
+          ],
+          [
+            180,
+            32,
+            140,
+            248
+          ],
+          [
+            216,
+            68,
+            176,
+            28
+          ],
+          [
+            144,
+            252,
+            104,
+            212
+          ],
+          [
+            180,
+            32,
+            140,
+            248
+          ],
+          [
+            216,
+            68,
+            176,
+            28
+          ],
+          [
+            252,
+            104,
+            212,
+            64
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d49484452000000050000000308060000005b36c5f80000002b49444154789c63606060605099f027c3638b424fce0d970d13fe645c61047154d00093071a50dfedff1800749f13400cbeb9750000000049454e44ae426082"
+      },
+      {
+        "name": "color-6-depth-8-interlace-1.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            144,
+            252,
+            104
+          ],
+          [
+            72,
+            180,
+            32,
+            140
+          ],
+          [
+            108,
+            216,
+            68,
+            176
+          ],
+          [
+            144,
+            252,
+            104,
+            212
+          ],
+          [
+            72,
+            180,
+            32,
+            140
+          ],
+          [
+            108,
+            216,
+            68,
+            176
+          ],
+          [
+            144,
+            252,
+            104,
+            212
+          ],
+          [
+            180,
+            32,
+            140,
+            248
+          ],
+          [
+            216,
+            68,
+            176,
+            28
+          ],
+          [
+            144,
+            252,
+            104,
+            212
+          ],
+          [
+            180,
+            32,
+            140,
+            248
+          ],
+          [
+            216,
+            68,
+            176,
+            28
+          ],
+          [
+            252,
+            104,
+            212,
+            64
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d49484452000000050000000308060000012c31f56e0000003b49444154789c6360606060609cf027e30a93c716851e66106bc2b19a4d93ef2effc8a232e14f8687878707c316859e1f7f32ae383082d4a8a00100980f18c0a4fb16e20000000049454e44ae426082"
+      },
+      {
+        "name": "color-6-depth-16-interlace-0.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            146,
+            255,
+            109
+          ],
+          [
+            73,
+            182,
+            36,
+            146
+          ],
+          [
+            109,
+            219,
+            73,
+            182
+          ],
+          [
+            146,
+            255,
+            109,
+            219
+          ],
+          [
+            73,
+            182,
+            36,
+            146
+          ],
+          [
+            109,
+            219,
+            73,
+            182
+          ],
+          [
+            146,
+            255,
+            109,
+            219
+          ],
+          [
+            182,
+            36,
+            146,
+            255
+          ],
+          [
+            219,
+            73,
+            182,
+            36
+          ],
+          [
+            146,
+            255,
+            109,
+            219
+          ],
+          [
+            182,
+            36,
+            146,
+            255
+          ],
+          [
+            219,
+            73,
+            182,
+            36
+          ],
+          [
+            255,
+            109,
+            219,
+            73
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d49484452000000050000000310060000000ba619bb0000004949444154789c636080029549933cfeffcbdde2a9b2ed96ca84496eb9db6ee7782a6dbb0111bd9dc508935099a43a4975920a18ab4059c82493a70a3af44261ab4cde76d753fd76210029282ba5d71c88220000000049454e44ae426082"
+      },
+      {
+        "name": "color-6-depth-16-interlace-1.png",
+        "rgba": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            36,
+            146,
+            255,
+            109
+          ],
+          [
+            73,
+            182,
+            36,
+            146
+          ],
+          [
+            109,
+            219,
+            73,
+            182
+          ],
+          [
+            146,
+            255,
+            109,
+            219
+          ],
+          [
+            73,
+            182,
+            36,
+            146
+          ],
+          [
+            109,
+            219,
+            73,
+            182
+          ],
+          [
+            146,
+            255,
+            109,
+            219
+          ],
+          [
+            182,
+            36,
+            146,
+            255
+          ],
+          [
+            219,
+            73,
+            182,
+            36
+          ],
+          [
+            146,
+            255,
+            109,
+            219
+          ],
+          [
+            182,
+            36,
+            146,
+            255
+          ],
+          [
+            219,
+            73,
+            182,
+            36
+          ],
+          [
+            255,
+            109,
+            219,
+            73
+          ],
+          [
+            255,
+            255,
+            255,
+            255
+          ]
+        ],
+        "width": 5,
+        "height": 3,
+        "hex": "89504e470d0a1a0a0000000d49484452000000050000000310060000017ca1292d0000005949444154789c63608002c6491effffe56eb99dc5e4a9b2ed96ca84496ecc3091491ea71637d46d8f9c74f2f6bb2593dfee6051990491f254f154f152f154618068f8ff07a2de5381116686ca24d549aa9354c05805ca422601edf3379c849049880000000049454e44ae426082"
+      }
+    ],
+    "note": "Live fixtures use the same registerEmbeddedFile entry point as ASDF bundles, injected explicitly for this existing worker. The fresh-start gate verifies automatic ASDF embedding after deleting source assets."
+  },
+  "nativeReference": {
+    "status": "passed",
+    "images": 30
+  },
+  "nativeReferenceFixtureHashes": [
+    {
+      "name": "color-0-depth-1-interlace-0.PNG",
+      "width": 5,
+      "height": 3,
+      "sha256": "9f0f8b87d17bc25d0a7543122142138215e70757a1ac35150a275a59e00d7fc0"
+    },
+    {
+      "name": "color-0-depth-1-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "ea06e4ad1f70c2dae050deaa9edaef25b88a75287904ef69d72e5589d4558082"
+    },
+    {
+      "name": "color-0-depth-2-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "33f26df2a3cda242c87f7c57ce8f113d6f0ae6c2ec605024ba3321867fee28ee"
+    },
+    {
+      "name": "color-0-depth-2-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "7affa5e09bcd04f6d79e9950cf7df31f19a820e1a81d49309c3efab454013cef"
+    },
+    {
+      "name": "color-0-depth-4-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "9027b2c71619b7d8973ff83766d97ca8d72c0b3e45cb090626210653c126f378"
+    },
+    {
+      "name": "color-0-depth-4-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "ff27c00ba73699cbacb6854a062c39220d5c706d2a4292166b5da19067a86e08"
+    },
+    {
+      "name": "color-0-depth-8-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "dc9340a4c46ea4b2459e45b0532dba9ff14888bb7568d475bf1d64e7e38ac2d6"
+    },
+    {
+      "name": "color-0-depth-8-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "9468262dfb6ead749afc0f32619987ea41b07b232b00552ec29fc58d38143b1a"
+    },
+    {
+      "name": "color-0-depth-16-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "22a636eec8a766b6df12ef029f6183bbaaf39ca10dbbbe27f7540025a150df45"
+    },
+    {
+      "name": "color-0-depth-16-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "a67ec2fbf53a1e04bb7313bc9d3a8348800e1c80e4ceb5e6d895e9a96db67346"
+    },
+    {
+      "name": "color-2-depth-8-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "7789f3706a205feb85da1636ebc180099d601b93617abd3b0b3c2cc59d01a459"
+    },
+    {
+      "name": "color-2-depth-8-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "dff1357042a73014a1cb7da763e9893cbb4354e8d62e88d0cc8e5b55860090fc"
+    },
+    {
+      "name": "color-2-depth-16-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "2d2c51de5d9089913f733ea0b6659f4f027c04ec35656625abccb1dabfce3070"
+    },
+    {
+      "name": "color-2-depth-16-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "b6464e441cc063d7b7fda22ead2f34774b19adb0b03c28af0b60471c08239049"
+    },
+    {
+      "name": "color-3-depth-1-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "b3c9ce19d86c88928a0f2ab99820015bc81fcebd7476c8b5b0a2a0ebc979e47b"
+    },
+    {
+      "name": "color-3-depth-1-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "a20328e98ff27c6535e9fb0e90f7929a156043ebfd9f8bbd743ef083cd2dc5a8"
+    },
+    {
+      "name": "color-3-depth-2-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "e4381741df415e3c30ce035b608867dbe2495c990d5c0be334dabcf527522d95"
+    },
+    {
+      "name": "color-3-depth-2-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "58697b3af8c0cb7fe71a8c2a50f20266549ff17087b9591d7c75c8fd4fa28963"
+    },
+    {
+      "name": "color-3-depth-4-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "6cfbc3c9ab4d52c349e54f801a08f9268b698ab3f6e3135f54f1168f8b4298b6"
+    },
+    {
+      "name": "color-3-depth-4-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "bd8732be28b1bc34b9f4498375760344b93ada8f0a3eebd38a1c5a0875d333b5"
+    },
+    {
+      "name": "color-3-depth-8-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "e321573fc2581b33e01b5c968dbc18a348f97565c97dc1bc849ad07b5a704cef"
+    },
+    {
+      "name": "color-3-depth-8-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "b1ce4b9afbef216a030a981cf74b0708768ba2ef2639b82824e2f88ae91ebe82"
+    },
+    {
+      "name": "color-4-depth-8-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "9ec7852b856d87e9063a8822642046c8cc9da3ecdff650bb9dc39f546f21d416"
+    },
+    {
+      "name": "color-4-depth-8-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "b652e7508395eea6d7136c95b3161a50bc42d5412a60f1b38ba3ece245e213dc"
+    },
+    {
+      "name": "color-4-depth-16-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "39cd7f32381527722b1405e61521c639ec4e0ed73307980b0abdf2fd68277c63"
+    },
+    {
+      "name": "color-4-depth-16-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "6c6039174622d37cc9a8510eed6cd44b73a8b7881e4b6cec14575fadb999a2e2"
+    },
+    {
+      "name": "color-6-depth-8-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "5c99aeec92dd4b4e5797bf92bd7160861bcd27f0d87daf311bcb7c2a0bf27b70"
+    },
+    {
+      "name": "color-6-depth-8-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "124fb9b58fa5e1c0a7b57ed6861569c6faa81d93bd0bc4a7552f6525ba341eab"
+    },
+    {
+      "name": "color-6-depth-16-interlace-0.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "3c2c1649855afb127e7b340e8ac25ee413c97435c66312aa664f5e527a78856a"
+    },
+    {
+      "name": "color-6-depth-16-interlace-1.png",
+      "width": 5,
+      "height": 3,
+      "sha256": "74798e9277451998e702187d442d919171dc743d4851635ed41033b7423dd1df"
+    }
+  ],
+  "verification": {
+    "id": 64,
+    "commandId": "png-final-live-checks",
+    "startedAt": "2026-11-11T05:49:48.628Z",
+    "sourceSha256": "c65d5c684f2cb68ce7f829be04355b4f79ad05e5eab05bee09c3cda579c0c7b2",
+    "file": "/tmp/valtan-png-live-checks-v2.lisp",
+    "result": {
+      "type": "test-result",
+      "id": 64,
+      "ok": true,
+      "value": "(:PASSED 92)"
+    },
+    "finishedAt": "2026-11-11T05:49:53.905Z"
+  },
+  "sourceHashes": {
+    "library/mcclim-browser/png.lisp": "2bb1bd3447bb17ea9fd7fd8317f6aad2c50bb71fc37a566ed0fb53c8b1cdcad7",
+    "library/mcclim-browser/mcclim-browser.system": "57123a20b8070c0528fb33b16c0771314758aefb65bce35a20fe700c98a42d0f",
+    "tests/mcclim/png-checks.lisp": "533b4e5e6311fe69c685dc0467a93aa8af0191dffd5be31df8ae94aa6c1ee963",
+    "tests/mcclim/png-fixtures.mjs": "9bb41e77481e9316e9f43e19c206900e4d5d170ff60422e4cdb6f15632bf0d21",
+    "tests/mcclim/png.mjs": "a27a72656d1cf6d9908132a92c6846d4c37277985af13d0262b069c66b7e20ea"
+  },
+  "hostDiagnostic": {
+    "originalPassed": 26,
+    "originalFailed": 4,
+    "originalLog": "To load \"clim-core\":\n  Load 1 ASDF system:\n    clim-core\n; Loading \"clim-core\"\n;; Using FAKE-PROGV-KLUDGE for SBCL.\n..............\nTo load \"png-read\":\n  Load 1 ASDF system:\n    png-read\n; Loading \"png-read\"\n..................................................\n[package png-read].......\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-0-depth-1-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-0-depth-1-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-0-depth-2-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-0-depth-2-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-0-depth-4-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-0-depth-4-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-0-depth-8-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-0-depth-8-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-0-depth-16-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-0-depth-16-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-2-depth-8-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-2-depth-8-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-2-depth-16-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-2-depth-16-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-3-depth-1-interlace-0.png\nPNG-HOST-FAIL /tmp/valtan-png-host-fixtures/color-3-depth-1-interlace-1.png: Invalid index 1 for (SIMPLE-ARRAY\n                                                                                                  BIT\n                                                                                                  (5\n                                                                                                   1)), should be a non-negative integer below 1.\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-3-depth-2-interlace-0.png\nPNG-HOST-FAIL /tmp/valtan-png-host-fixtures/color-3-depth-2-interlace-1.png: Invalid index 1 for (SIMPLE-ARRAY\n                                                                                                  (UNSIGNED-BYTE\n                                                                                                   2)\n                                                                                                  (5\n                                                                                                   1)), should be a non-negative integer below 1.\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-3-depth-4-interlace-0.png\nPNG-HOST-FAIL /tmp/valtan-png-host-fixtures/color-3-depth-4-interlace-1.png: Invalid index 1 for (SIMPLE-ARRAY\n                                                                                                  (UNSIGNED-BYTE\n                                                                                                   4)\n                                                                                                  (5\n                                                                                                   1)), should be a non-negative integer below 1.\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-3-depth-8-interlace-0.png\nPNG-HOST-FAIL /tmp/valtan-png-host-fixtures/color-3-depth-8-interlace-1.png: Invalid index 1 for (SIMPLE-ARRAY\n                                                                                                  (UNSIGNED-BYTE\n                                                                                                   8)\n                                                                                                  (5\n                                                                                                   1)), should be a non-negative integer below 1.\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-4-depth-8-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-4-depth-8-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-4-depth-16-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-4-depth-16-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-6-depth-8-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-6-depth-8-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-6-depth-16-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures/color-6-depth-16-interlace-1.png\n",
+    "correctedLog": "To load \"clim-core\":\n  Load 1 ASDF system:\n    clim-core\n; Loading \"clim-core\"\n;; Using FAKE-PROGV-KLUDGE for SBCL.\n..............\nTo load \"png-read\":\n  Load 1 ASDF system:\n    png-read\n; Loading \"png-read\"\n............\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-0-depth-1-interlace-0.PNG\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-0-depth-1-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-0-depth-2-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-0-depth-2-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-0-depth-4-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-0-depth-4-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-0-depth-8-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-0-depth-8-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-0-depth-16-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-0-depth-16-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-2-depth-8-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-2-depth-8-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-2-depth-16-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-2-depth-16-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-3-depth-1-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-3-depth-1-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-3-depth-2-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-3-depth-2-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-3-depth-4-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-3-depth-4-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-3-depth-8-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-3-depth-8-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-4-depth-8-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-4-depth-8-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-4-depth-16-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-4-depth-16-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-6-depth-8-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-6-depth-8-interlace-1.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-6-depth-16-interlace-0.png\nPNG-HOST-PASS /tmp/valtan-png-host-fixtures-v2/color-6-depth-16-interlace-1.png\n",
+    "note": "SBCL diagnostic; not target compatibility evidence. The four original failures concern indexed interlaced tRNS. The corrected run also uses duplicate palette colors with distinct alpha."
+  },
+  "subsequentCounterInput": {
+    "id": 66,
+    "commandId": "png-counter-regression",
+    "startedAt": "2026-11-11T05:54:49.189Z",
+    "sourceSha256": "2ba80c877570ab27fcaeb6157bc107dee0681d6949150a86ded2880f4cf795f8",
+    "result": {
+      "type": "test-result",
+      "id": 66,
+      "ok": true,
+      "value": "(:COUNTER-INPUT-PASSED)"
+    },
+    "finishedAt": "2026-11-11T05:54:55.423Z"
+  }
+}

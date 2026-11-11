@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-11T05:14:24.840Z",
+  "scope": "Real upstream CLIM pattern, clipping and composite-design pixel assertions, plus solid flipping designs in Chrome; not full McCLIM compatibility",
+  "expectedChecks": 81,
+  "checksSha256": "c1d0d3450746f3788c17e735209ba2ef9c551c8a560f7d091a5d2c6ae783f9de",
+  "work": "/tmp/valtan-mcclim-workbench-aV2OEZ",
+  "workbench": {
+    "work": "/tmp/valtan-mcclim-workbench-aV2OEZ",
+    "status": "closed",
+    "complete": false,
+    "startedAt": "2026-11-11T05:14:24.880Z",
+    "compilerSha256": "28d6a1e9221d64ac7d075b0355b33508cae61af9fa58aa029105ae5c0ec1451f",
+    "bundleSha256": "09168efb1b793652f12baadc7f44357d539e67595c3290590c40caa44526a582",
+    "browserAssetsSha256": "43d1cb82709c1a3d7ada353cf470bdca2eec7afbac8f5d39eed01728d8156426",
+    "readyAt": "2026-11-11T05:35:10.778Z",
+    "evaluations": [
+      {
+        "id": 1,
+        "commandId": "canvas",
+        "startedAt": "2026-11-11T05:35:10.780Z",
+        "sourceSha256": "c1d0d3450746f3788c17e735209ba2ef9c551c8a560f7d091a5d2c6ae783f9de",
+        "file": "/tmp/valtan-canvas-checks-sYxTcx/checks.lisp",
+        "result": {
+          "type": "test-result",
+          "id": 1,
+          "ok": true,
+          "value": "(:PASSED 81)"
+        },
+        "finishedAt": "2026-11-11T05:35:19.660Z"
+      }
+    ],
+    "finishedAt": "2026-11-11T05:35:19.709Z"
+  },
+  "result": {
+    "type": "test-result",
+    "id": 1,
+    "ok": true,
+    "value": "(:PASSED 81)"
+  },
+  "finishedAt": "2026-11-11T05:35:19.754Z",
+  "snapshotNotes": "Cold source snapshot includes solid flipping support and predates the later queue-order and editing-key fixes."
+}

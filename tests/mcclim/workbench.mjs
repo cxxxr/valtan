@@ -10,10 +10,14 @@ import {createDemoServer} from './server.mjs';
 import {launchChrome} from './chrome.mjs';
 const here=path.dirname(fileURLToPath(import.meta.url));
 const root=path.resolve(here,'../..');
+const args=process.argv.slice(2);
+if(args.length && (args.length!==2 || args[0]!=='--source-directory'))
+  throw Error('Usage: workbench.mjs [--source-directory directory]');
+const originalSource=args.length?path.resolve(args[1]):path.join(root,'example/try-using-mcclim');
 const work=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-mcclim-workbench-'));
 const sourceDirectory=path.join(work,'sources'); fs.mkdirSync(sourceDirectory);
-for(const name of fs.readdirSync(path.join(root,'example/try-using-mcclim')))
-  if(/\.(system|lisp|html)$/.test(name)) fs.copyFileSync(path.join(root,'example/try-using-mcclim',name),path.join(sourceDirectory,name));
+for(const name of fs.readdirSync(originalSource))
+  if(/\.(asd|system|lisp|html)$/.test(name)) fs.copyFileSync(path.join(originalSource,name),path.join(sourceDirectory,name));
 fs.writeFileSync(path.join(sourceDirectory,'main.lisp'),fs.readFileSync(path.join(here,'workbench-evaluator.lisp'),'utf8')+'\n'+fs.readFileSync(path.join(sourceDirectory,'main.lisp'),'utf8'));
 const report={work,status:'building',complete:false,startedAt:new Date().toISOString(),compilerSha256:compilerHash()};
 const save=()=>fs.writeFileSync(path.join(work,'report.json'),JSON.stringify(report,null,2)+'\n');
