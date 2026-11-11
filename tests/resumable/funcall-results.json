@@ -1,0 +1,321 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T16:46:05.328099+00:00",
+  "scope": "Scheduled FUNCALL enters CALL-RESUMABLE directly rather than forwarding through the native FUNCALL adapter. Argument preparation, ordinary calls and zero-argument FUNCALL error path retain their previous paths.",
+  "compilerSha256": "7c04327943b402dea4325740d0664818821f99185250fe3fac5764240bac2a45",
+  "sourceHashes": {
+    "library/valtan-core/compiler/pass2.lisp": "45da7219394710f1bf9b30e9723cf47dc9de5a5e9f68d7f6bb3abf91b965f3f0",
+    "tests/resumable/funcall-benchmark.mjs": "ab1bee36774f6e2762cfc15e7e0c5120acfa80dd411109e6b6a81e8e6556aa0b"
+  },
+  "profile": {
+    "observedAt": "2026-11-11T16:36:35.405284+00:00",
+    "scope": "3-second CPU sample of frozen ee1 McCLIM dynamic-vars concurrent test, not current-source performance benchmark",
+    "samples": 2841,
+    "seconds": 3.427242,
+    "top": [
+      {
+        "samples": 869,
+        "scriptId": "4",
+        "zeroBasedLine": 565,
+        "column": 23,
+        "functionName": "callResumable",
+        "url": "http://127.0.0.1:34493/app.mjs"
+      },
+      {
+        "samples": 416,
+        "scriptId": "0",
+        "zeroBasedLine": -1,
+        "column": -1,
+        "functionName": "(idle)",
+        "url": ""
+      },
+      {
+        "samples": 199,
+        "scriptId": "4",
+        "zeroBasedLine": 601,
+        "column": 53,
+        "functionName": "",
+        "url": "http://127.0.0.1:34493/app.mjs"
+      },
+      {
+        "samples": 135,
+        "scriptId": "4",
+        "zeroBasedLine": 338070,
+        "column": 15,
+        "functionName": "",
+        "url": "http://127.0.0.1:34493/app.mjs"
+      },
+      {
+        "samples": 113,
+        "scriptId": "4",
+        "zeroBasedLine": 94020,
+        "column": 13,
+        "functionName": "",
+        "url": "http://127.0.0.1:34493/app.mjs"
+      },
+      {
+        "samples": 81,
+        "scriptId": "4",
+        "zeroBasedLine": 342534,
+        "column": 46,
+        "functionName": "",
+        "url": "http://127.0.0.1:34493/app.mjs"
+      },
+      {
+        "samples": 74,
+        "scriptId": "4",
+        "zeroBasedLine": 4294,
+        "column": 65,
+        "functionName": "",
+        "url": "http://127.0.0.1:34493/app.mjs"
+      },
+      {
+        "samples": 60,
+        "scriptId": "1594",
+        "zeroBasedLine": 149,
+        "column": 11,
+        "functionName": "",
+        "url": ""
+      },
+      {
+        "samples": 57,
+        "scriptId": "4",
+        "zeroBasedLine": 604,
+        "column": 51,
+        "functionName": "",
+        "url": "http://127.0.0.1:34493/app.mjs"
+      },
+      {
+        "samples": 53,
+        "scriptId": "4",
+        "zeroBasedLine": 161986,
+        "column": 13,
+        "functionName": "",
+        "url": "http://127.0.0.1:34493/app.mjs"
+      },
+      {
+        "samples": 50,
+        "scriptId": "4",
+        "zeroBasedLine": 12630,
+        "column": 13,
+        "functionName": "",
+        "url": "http://127.0.0.1:34493/app.mjs"
+      },
+      {
+        "samples": 50,
+        "scriptId": "2716",
+        "zeroBasedLine": 2370,
+        "column": 36,
+        "functionName": "",
+        "url": ""
+      },
+      {
+        "samples": 35,
+        "scriptId": "659",
+        "zeroBasedLine": 448,
+        "column": 36,
+        "functionName": "",
+        "url": ""
+      },
+      {
+        "samples": 33,
+        "scriptId": "1602",
+        "zeroBasedLine": 346,
+        "column": 11,
+        "functionName": "",
+        "url": ""
+      },
+      {
+        "samples": 31,
+        "scriptId": "1594",
+        "zeroBasedLine": 177,
+        "column": 35,
+        "functionName": "",
+        "url": ""
+      },
+      {
+        "samples": 29,
+        "scriptId": "1602",
+        "zeroBasedLine": 434,
+        "column": 36,
+        "functionName": "",
+        "url": ""
+      },
+      {
+        "samples": 29,
+        "scriptId": "1602",
+        "zeroBasedLine": 480,
+        "column": 36,
+        "functionName": "",
+        "url": ""
+      },
+      {
+        "samples": 28,
+        "scriptId": "659",
+        "zeroBasedLine": 604,
+        "column": 36,
+        "functionName": "",
+        "url": ""
+      },
+      {
+        "samples": 26,
+        "scriptId": "2716",
+        "zeroBasedLine": 2252,
+        "column": 36,
+        "functionName": "",
+        "url": ""
+      },
+      {
+        "samples": 26,
+        "scriptId": "0",
+        "zeroBasedLine": -1,
+        "column": -1,
+        "functionName": "(garbage collector)",
+        "url": ""
+      }
+    ],
+    "identifications": {
+      "app.mjs:566": "callResumable generator,869aggregatedselfsamples",
+      "app.mjs:602": "CL_funcall resumable forwardinggenerator,199samples",
+      "app.mjs:338071": "CLOS discriminatingfunction generator,135samples",
+      "app.mjs:94021": "CL:TYPEP generator,113samples",
+      "app.mjs:4295": "registerFunction forwardinggenerator,74samples",
+      "app.mjs:605": "CL_apply resumableforwardinggenerator,57samples",
+      "app.mjs:161987": "CL:APPLY generator,53samples",
+      "app.mjs:12631": "SYSTEM:CALL-WITH-PROGV generator,50samples"
+    },
+    "nextCandidate": "p2-funcall currently emits yield*callResumable(CL_funcall,fn,...args), addingCL_funcallgenerator+anothercallResumable. Emittingyield*callResumable(fn,...args) shouldpreserveargumentorder/MVs,asyncconditions/cleanupandcheckpoints atcallee while droppingforwardingframes. NOTIMPLEMENTED, needcurrent-sourcebefore/afterbench+regressions.",
+    "observerMethod": "Attach browser page then Target.setAutoAttach to get worker childsession. Direct browser->worker Target.attachToTarget returnedblankworker andunresponsivecommands; parentautoattach producedrealworkerURLandsamples. No production mutation."
+  },
+  "benchmark": {
+    "scope": "Separate freshly imported before/after Node bundles; identical source compiled by each target compiler; one warmup and three measured trials per workload. Correct multiple-value count and result checked on every trial. Other long-running test workers remained active.",
+    "before": {
+      "startedAt": "2026-11-11T16:38:52.508Z",
+      "status": "passed",
+      "bundleSha256": "86e4150d5780ac367bdcdd7e74ff70cf9596c778b30f7416d8bdb7490b586354",
+      "sourceSha256": "94bcc76cdcb744633792a6a35f99c9812747e69fa1ff81eebc97d3724c09093b",
+      "source": "(progn\n (defclass funcall-bench-cell () ((value :initform 0 :accessor funcall-bench-value)))\n (defmethod funcall-bench-step ((cell funcall-bench-cell)) (incf (funcall-bench-value cell)))\n (ffi:set (ffi:ref \"globalThis\" \"valtanFuncallBench\")\n  (ffi:object\n   \"closure\" (let ((next (lambda (i) (1+ i))))\n               (lambda (n) (let ((total 0)) (dotimes (i n total) (incf total (funcall next i))))))\n   \"generic\" (lambda (n) (let ((cell (make-instance 'funcall-bench-cell)))\n                          (dotimes (i n) (funcall #'funcall-bench-step cell))\n                          (funcall-bench-value cell))))))",
+      "results": [
+        {
+          "name": "closure",
+          "iterations": 20000,
+          "expected": 200010000,
+          "samples": [
+            799.2383139999984,
+            758.8138580000013,
+            732.3472249999977
+          ],
+          "medianMs": 758.8138580000013
+        },
+        {
+          "name": "generic",
+          "iterations": 2000,
+          "expected": 2000,
+          "samples": [
+            5126.319115999999,
+            4886.635902000002,
+            5019.559601000001
+          ],
+          "medianMs": 5019.559601000001
+        }
+      ],
+      "finishedAt": "2026-11-11T16:39:16.134Z"
+    },
+    "after": {
+      "startedAt": "2026-11-11T16:42:21.636Z",
+      "status": "passed",
+      "bundleSha256": "3f81b2912a1611afc7d4c85580011d059f658fbc9c122f2bbab89775d8ba71ac",
+      "sourceSha256": "94bcc76cdcb744633792a6a35f99c9812747e69fa1ff81eebc97d3724c09093b",
+      "source": "(progn\n (defclass funcall-bench-cell () ((value :initform 0 :accessor funcall-bench-value)))\n (defmethod funcall-bench-step ((cell funcall-bench-cell)) (incf (funcall-bench-value cell)))\n (ffi:set (ffi:ref \"globalThis\" \"valtanFuncallBench\")\n  (ffi:object\n   \"closure\" (let ((next (lambda (i) (1+ i))))\n               (lambda (n) (let ((total 0)) (dotimes (i n total) (incf total (funcall next i))))))\n   \"generic\" (lambda (n) (let ((cell (make-instance 'funcall-bench-cell)))\n                          (dotimes (i n) (funcall #'funcall-bench-step cell))\n                          (funcall-bench-value cell))))))",
+      "results": [
+        {
+          "name": "closure",
+          "iterations": 20000,
+          "expected": 200010000,
+          "samples": [
+            744.1184319999993,
+            741.007238000002,
+            792.5376629999992
+          ],
+          "medianMs": 744.1184319999993
+        },
+        {
+          "name": "generic",
+          "iterations": 2000,
+          "expected": 2000,
+          "samples": [
+            4341.522877000003,
+            4060.9288250000027,
+            4229.503196000005
+          ],
+          "medianMs": 4229.503196000005
+        }
+      ],
+      "finishedAt": "2026-11-11T16:42:42.028Z"
+    },
+    "comparison": [
+      {
+        "name": "closure",
+        "beforeMedianMs": 758.8138580000013,
+        "afterMedianMs": 744.1184319999993,
+        "afterOverBefore": 0.9806336878997773
+      },
+      {
+        "name": "generic",
+        "beforeMedianMs": 5019.559601000001,
+        "afterMedianMs": 4229.503196000005,
+        "afterOverBefore": 0.842604437878853
+      }
+    ],
+    "interpretation": "Generic slot-update loop median decreased from5.02s to4.23s (~15.7%). Closure loop change (~1.9%) is small. This does not establish whole-McCLIM/startup/browser speedup.",
+    "command": "node tests/resumable/funcall-benchmark.mjs /absolute/path/to/bundle.js /tmp/funcall-benchmark.json"
+  },
+  "browser": {
+    "system": "alexandria",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-11T16:39:56.452Z",
+    "complete": true,
+    "status": "passed",
+    "work": "/tmp/valtan-mcclim-sLRhiv",
+    "compilerSha256": "7c04327943b402dea4325740d0664818821f99185250fe3fac5764240bac2a45",
+    "target": "browser",
+    "extraSystems": [],
+    "targetFeatures": [
+      "valtan-resumable"
+    ],
+    "afterLoadSha256": "20064325585f27581f69ceff73ea63a96535c963d050cd3549c7cca32d1cb100",
+    "checksSha256": "0b3115e73f7b7bdf7d64c2e30e8f8d814cd473f82f456e984d2e0a37f2870b51",
+    "stage": "run",
+    "bundleSha256": "77e7b97bbe979f4be7f71029fb08f656683fab951c0977c780d413e96afd1102",
+    "finishedAt": "2026-11-11T16:42:26.650Z"
+  },
+  "nodeBundleSha256": "3f81b2912a1611afc7d4c85580011d059f658fbc9c122f2bbab89775d8ba71ac",
+  "regressions": {
+    "ordinary": {
+      "resumableChecks": 43,
+      "compilerSemanticAssertions": "passed",
+      "workloads": 8,
+      "log": "/tmp/valtan-funcall-ordinary.log"
+    },
+    "dual": {
+      "resumableChecks": 43,
+      "dualChecks": 51,
+      "nativeCallbacks": 23,
+      "schedulerTasks": 64,
+      "checkpointOnlyLoops": 2,
+      "evalChecks": 18,
+      "synchronizationChecks": 12,
+      "sleepChecks": 10,
+      "interruptChecks": 13,
+      "nativeErrorCases": 27,
+      "sourceDeletedArtifact": "passed",
+      "log": "/tmp/valtan-funcall-regressions.log"
+    }
+  },
+  "remaining": [
+    "Full threaded McCLIM and upstream dynamic-variable runs still use older frozen snapshots.",
+    "The Bordeaux Threads upstream rerun after numerical-condition changes is pending and predates this compiler optimization."
+  ]
+}

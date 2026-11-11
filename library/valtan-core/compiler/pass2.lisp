@@ -1381,9 +1381,14 @@ return lisp.values1(lisp.setSymbolValue(G_1, lisp.values1(lisp.symbolValue(G_2))
                (when (hir-return-value-p hir)
                  (setq result (p2-temporary-var))
                  (format *p2-emit-stream* "~A=" result))
-               (format *p2-emit-stream* "~Alisp.CL_funcall~A~A"
-                       (if *p2-in-resumable-function* "yield* lisp.callResumable(" "")
-                       (if *p2-in-resumable-function* "," "(") fn)
+               ;; CALL-RESUMABLE already resolves and checks the designator.
+               ;; Enter it directly instead of retaining two forwarding
+               ;; generator frames through the native FUNCALL adapter.
+               (format *p2-emit-stream* "~A(~A"
+                       (if *p2-in-resumable-function*
+                           "yield* lisp.callResumable"
+                           "lisp.CL_funcall")
+                       fn)
                (when args
                  (write-char #\, *p2-emit-stream*))
                (p2-emit-args args)

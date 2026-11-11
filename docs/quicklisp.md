@@ -956,6 +956,15 @@ numeric regressions pass in both evaluated and compiled modes. Ordinary and
 dual compiler/runtime regressions, including source-deleted compiled artifacts,
 also pass.
 
+Scheduled `FUNCALL` now enters the resumable target directly, removing two
+forwarding generator frames. The
+[call benchmark and regressions](../tests/resumable/funcall-results.json)
+measure the same 2,000 CLOS slot updates at a median 5.02 seconds before and
+4.23 seconds after the change; the simple closure loop changed little.
+Ordinary and dual compiler/runtime checks, 27 browser condition cases and
+compiled-artifact checks pass. This is a focused Node measurement, not a
+whole-McCLIM speedup measurement.
+
 Application drivers still need integration with the scheduler: blocking calls
 must originate in scheduled Lisp, and merely enabling `:valtan-resumable` does
 not schedule a synchronous application top-level. Other blocking host operations and remaining JavaScript callback
