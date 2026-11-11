@@ -1,0 +1,188 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclimComplete": false,
+  "recordedAt": "2026-11-11T11:35:55.703567+00:00",
+  "scope": "Real McCLIM WRITE-BITMAP-FILE with upstream ZPNG, loaded into the retained browser worker. 44 stream checks and independent validation of all 8 generated PNGs. Fresh browser startup and Valtan Node filesystem checks remain pending.",
+  "sourceHashes": {
+    "library/mcclim-browser/mcclim-browser.system": "2c7c5730b24d3fa64500aa3e3016415d32e5205a18beb215f37d51ba57152166",
+    "library/mcclim-browser/png-write.lisp": "8f864841b99b3054311f2325f5add69bf974171d40960e428ae50f3a455bc8bb",
+    "tests/mcclim/png-write-checks.lisp": "370e44958feb5d6f9edd9e2afe17f96832fba6b1114d67334cc32c6240b7cef0",
+    "tests/mcclim/png-write-export.lisp": "d0a65c3bc055657aa783b2ed57ea216a2f429b1ac1e74af91172e0b600307884",
+    "tests/mcclim/png-write-verify.mjs": "586102fca0dc13f930823436e553f0f354743236c0fdf7c1366e3f9321b84545",
+    "tests/mcclim/png-write.mjs": "d9602b479e86a6287ef144ce0a729251eac9469678d0beaf03ce544ae3a04d2a"
+  },
+  "runtime": "Earlier frozen 5c2fb35 core, with previously recorded backend fixes. ZPNG sources loaded in evaluation 9009, writer registered in 9010, final writer loaded in 9011. No claim that this is a fresh startup of the current tree.",
+  "baseline": {
+    "file": "/tmp/valtan-png-write-probe.lisp",
+    "id": 9008,
+    "sourceSha256": "a9965ed84a2f34055bd0a824512b8cbe0465d401a0f677ddde037128fc9f560d",
+    "startedAt": "2026-11-11T11:29:23.928Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T11:29:23.984Z",
+    "lastLog": "MCCLIM-COMPOSITE-FLIPPING-CHECKS-PASS 54",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9008,
+      "ok": true,
+      "value": "((:WRITER NIL :ZPNG NIL :SALZA2 T :FLEXI-STREAMS T))"
+    },
+    "finishedAt": "2026-11-11T11:29:24.087Z"
+  },
+  "streamChecks": {
+    "file": "/tmp/valtan-png-write-checks2.lisp",
+    "id": 9012,
+    "sourceSha256": "09b1179ae54e0e1f16622043396add52349709a93b46acd4bae0adc92c9d707b",
+    "startedAt": "2026-11-11T11:31:46.333Z",
+    "status": "passed",
+    "evaluationStartedAt": "2026-11-11T11:31:46.387Z",
+    "lastLog": "MCCLIM-PNG-WRITE-CHECKS-PASS 44",
+    "errors": [],
+    "result": {
+      "type": "test-result",
+      "id": 9012,
+      "ok": true,
+      "value": "(:PASSED 44)"
+    },
+    "finishedAt": "2026-11-11T11:31:52.847Z"
+  },
+  "independentValidation": {
+    "status": "passed",
+    "checks": 44,
+    "images": [
+      {
+        "name": "rgba",
+        "width": 3,
+        "height": 2,
+        "bytes": 89,
+        "sha256": "57ce1b13840c18a1523c9cc2c35ffcebbf347abdc556796a2eac3b9a08d3b18a",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "default",
+        "width": 3,
+        "height": 2,
+        "bytes": 89,
+        "sha256": "57ce1b13840c18a1523c9cc2c35ffcebbf347abdc556796a2eac3b9a08d3b18a",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "rgba-repeat",
+        "width": 3,
+        "height": 2,
+        "bytes": 89,
+        "sha256": "57ce1b13840c18a1523c9cc2c35ffcebbf347abdc556796a2eac3b9a08d3b18a",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "palette",
+        "width": 2,
+        "height": 2,
+        "bytes": 76,
+        "sha256": "1b0b561b4fc0194a24bb1b2d63d9da5c8f6b78e291da98babf49789c8d9d7c1c",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "palette-mutation",
+        "width": 2,
+        "height": 2,
+        "bytes": 76,
+        "sha256": "5ad829a4766ddfe9accd7907d752addf631470eb34a96c222d3c69291f6dad20",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "tile",
+        "width": 4,
+        "height": 2,
+        "bytes": 74,
+        "sha256": "d6ab25b521bde971363d4d8fe58fba78a477424d80e96ea416f19d61ff026fc6",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "scaled",
+        "width": 4,
+        "height": 1,
+        "bytes": 74,
+        "sha256": "72ea709a5e5dca682d786fed1de0e61315e54dda105af5ff8960331d6f789b57",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IEND"
+        ]
+      },
+      {
+        "name": "multirow",
+        "width": 64,
+        "height": 32,
+        "bytes": 8752,
+        "sha256": "383fb2fc0f320996b15b5fc9438b0cbc284c2c88d7a0f627c84a50fc3377337d",
+        "chunks": [
+          "IHDR",
+          "IDAT",
+          "IDAT",
+          "IDAT",
+          "IEND"
+        ]
+      }
+    ],
+    "validation": "PNG structure, CRC, independent zlib decompression and exact RGBA rows, plus native Chrome decoding over white"
+  },
+  "nativeReference": {
+    "runtime": "SBCL",
+    "streamAssertions": 44,
+    "totalWithFileAssertions": 51,
+    "status": "passed",
+    "log": "MCCLIM-PNG-WRITE-CHECKS-PASS 44\nMCCLIM-PNG-WRITE-FILES-PASS 51\n"
+  },
+  "upstream": {
+    "release": "zpng-1.2.2",
+    "sourceHashes": {
+      "package.lisp": "4aff65158d0e067c37802ff847439f7a50707932fdd3b6aa4c76bd591df12e9a",
+      "png.lisp": "179a79dbed4ea0ce0accfeb43d08f904cf040f0e9409466b6df89300fefb3304",
+      "chunk.lisp": "5f182c26e436d479c11abccb0e0f43389b8b39f6497b11389858514c292d7aab",
+      "conditions.lisp": "e2876b952890ebcdb4e51b54d20e152acdf573977d3cc30d34cf9612be70a5a0",
+      "specials.lisp": "124123ed551f7b87911fbf0f88c9ece1b6805a1f2f4ec17bd23df9fd241e49e4",
+      "utils.lisp": "63b102978860b7d8f3e21996bcecebc796831ce8d1a47128e47cc7fa9379ff73"
+    }
+  },
+  "rerun": {
+    "browser": "cd tests && npm run test:mcclim:png:write",
+    "node": "cd tests && npm run test:mcclim:png:write:node"
+  },
+  "limits": [
+    "The writer emits static 8-bit RGBA PNG, not APNG or other image formats.",
+    "Filesystem output requires host filesystem access; browsers can use binary output streams.",
+    "The ongoing fresh-start runs are separate from this retained-worker result."
+  ],
+  "coldFixtureCorrection": {
+    "file": "/tmp/valtan-png-write-checks-dyR2nN/checks.lisp",
+    "originalSha256": "f68ed61da70265338e3632c1fdd6f33c8ce7c9cad0010c4d73c8fdcd3c1e1895",
+    "correctedSha256": "f341838f8a98320d63777500782cba7c5c2ca4db3b67bffbb49c6cac07167762",
+    "reason": "Correct JSON serialization of nested Lisp lists using recursive FFI arrays. Fixture corrected during startup, before any test submission; production snapshot unchanged."
+  }
+}

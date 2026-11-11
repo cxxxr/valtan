@@ -502,6 +502,20 @@ files before the Lisp checks, testing ASDF-embedded resources. The
 with all 30 independently generated variants also passing native Chrome decoding. This does not establish full PNG conformance, APNG playback, image
 writing or other bitmap formats.
 
+PNG writing now uses upstream ZPNG through `CLIMI::WRITE-BITMAP-FILE`, with
+`:PNG` and default `:BITMAP` output. Indexed and transformed patterns are
+collapsed using McCLIM's sampling rules; RGBA bytes preserve transparency and
+hidden RGB values. Caller-owned binary streams stay open. Filesystem destinations
+use the host's file I/O; browsers can write to binary memory streams.
+[Forty-four checks pass after loading the writer into the retained browser](../tests/mcclim/png-write-results.json).
+All eight output images also pass independent CRC/zlib checks, exact RGBA
+comparison, and Chrome's native image decoder. SBCL passes the same checks plus
+seven pathname, readback and file-replacement assertions. The fresh Valtan
+browser and Node runs are still pending in this report.
+`npm run test:mcclim:png:write` runs the browser gate;
+`npm run test:mcclim:png:write:node` runs the stream and filesystem checks on Node.
+This adds static 8-bit RGBA PNG output, not APNG or other output formats.
+
 This is an experimental backend, not full McCLIM compatibility. Arbitrary
 flipping inks used as inputs to another flipping ink, nonsolid flipping designs,
 other bitmap formats, platform window management and the complete

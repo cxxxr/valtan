@@ -1,0 +1,7 @@
+(in-package #:mcclim-png-write-checks)
+(labels ((json-value (value)
+           (if (listp value)
+               (apply #'ffi:array (mapcar #'json-value value))
+               (ffi:cl->js value))))
+  (ffi:js->cl ((ffi:ref "JSON.stringify")
+               (json-value (list *checks* *images*)))))

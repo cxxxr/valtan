@@ -1,8 +1,8 @@
 (defsystem "mcclim-browser"
-  :depends-on ("mcclim-portability" "clim" "png-read")
+  :depends-on ("mcclim-portability" "clim" "png-read" "zpng")
   :serial t
   :components ((:file "package") (:file "queues") (:file "port") (:file "medium")
-               (:file "png")))
+               (:file "png") (:file "png-write")))
 
 ;; Keep the extension's render, PDF and PostScript dependencies optional.
 ;; Runtime applications must enable :USE-SALZA2-ZLIB in their target features.

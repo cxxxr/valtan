@@ -35,6 +35,8 @@
     "test:mcclim:gadgets": "node mcclim/gadgets.mjs",
     "test:mcclim:drei": "node mcclim/drei.mjs",
     "test:mcclim:png": "node mcclim/png.mjs",
+    "test:mcclim:png:write": "node mcclim/png-write.mjs",
+    "test:mcclim:png:write:node": "node mcclim/png-write.mjs --node",
     "test:mcclim:upstream": "node mcclim/upstream.mjs",
     "test:mcclim:drei:upstream": "node mcclim/upstream.mjs --drei",
     "test:mcclim:drei:performance": "node mcclim/upstream.mjs --drei-performance",
