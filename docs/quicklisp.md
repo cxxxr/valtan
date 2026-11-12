@@ -957,7 +957,8 @@ restores 312 prior artifacts, compiles and loads the ISO-2022-JP component that
 previously failed on its codespace table, and proceeds to ISO-8859. The complete
 fresh build and browser restoration still require their own gates. The browser
 API check now also verifies exact ISO-2022-JP bytes and a Japanese text round-trip;
-its expected bytes were checked with native Babel, while browser execution is pending.
+its expected bytes were checked with native Babel and pass in the incremental
+browser replay below. The separate fresh full-build check remains pending.
 
 Nested `DEFCONSTANT` forms evaluate their initializers at execution time, so a
 load form can define a constant using a lexical value. `EVAL` evaluates a
@@ -1017,6 +1018,18 @@ The original producer was interrupted before finishing. For each included
 artifact, a following `TARGET-STAGE` marker proves that its compilation and load
 returned. This verifies restoration of the presentation definitions, while the replacement full
 producer and the complete library/GUI gates remain pending.
+
+A [375-component incremental browser replay](../tests/mcclim/compiled-incremental-browser-results.json)
+restores all libraries from compiled artifacts in fresh browser workers. The
+loaded component order matches the manifest; geometry, presentation types,
+the application-frame macro, a scheduled thread join and exact ISO-2022-JP
+encoding/round-trip checks pass with zero errors or remaining tasks. A separate
+GUI worker renders the production counter demo, advances it with button and
+keyboard input, and produces the expected changed image. Its source-loaded
+application entry uses a real loader symbol so generated call-stack dispatch
+works; library source fallback remains disabled. These artifacts come from
+three compiler snapshots (271 + 41 + 63 components). The independent fresh
+compilation of all 375 components and its browser checks remain required.
 
 The staged-compilation harness is available in the repository. From the
 repository root, using a new work directory:

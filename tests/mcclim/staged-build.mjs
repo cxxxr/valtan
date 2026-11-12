@@ -46,6 +46,7 @@ const replacements=new Map();
 replacements.set(moduleFor(path.join(work,'stage.lisp')),`import * as lisp from 'lisp';
 globalThis.stageReplayKernel=lisp;
 globalThis.stageApplicationLoader=lisp.intern('LOAD-EMBEDDED-SOURCE','SYSTEM').getFunction();
+lisp.intern('LOAD-EMBEDDED-APPLICATION','SYSTEM').func=globalThis.stageApplicationLoader;
 const s=n=>lisp.intern(n,'COMMON-LISP');
 s('EVAL').getFunction()(s('READ-FROM-STRING').getFunction()(s('SIMPLE-MAKE-STRING').getFunction()(${JSON.stringify(helper)})));`);
 let formCount=0;
@@ -57,7 +58,7 @@ for(const record of manifest.records){
   const file=moduleFor(record.source),original=fs.readFileSync(file,'utf8');
   const sourceExpression=/TMP_2=G_1\.func\(lisp\.codeArrayToString\(\[([0-9, ]*)\]\)\);/;
   assert.ok(sourceExpression.test(original));
-  replacements.set(file,original.replace("lisp.intern('LOAD-EMBEDDED-SOURCE', 'SYSTEM')", "({func:globalThis.stageApplicationLoader})")
+  replacements.set(file,original.replace("lisp.intern('LOAD-EMBEDDED-SOURCE', 'SYSTEM')", "lisp.intern('LOAD-EMBEDDED-APPLICATION','SYSTEM')")
    .replace(sourceExpression,()=>`TMP_2=G_1.func(lisp.codeArrayToString(${JSON.stringify(Array.from(applicationSource,c=>c.codePointAt(0)))}));`));
   continue;
  }
