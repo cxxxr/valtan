@@ -951,9 +951,13 @@ values and tables used as EQ keys. Composite keys are initialized before they
 are inserted into EQUAL/EQUALP tables. The
 [hash-table fixture](../tests/resumable/file-hash-literals.lisp) is compiled and
 loaded in separate processes with its source deleted, in ordinary and scheduled
-modes, and checks that reloading creates fresh tables. This addresses Babel's
-ISO-2022-JP codespace table encountered at component 313 of McCLIM staging;
-the complete fresh build and browser restoration still require their own gates.
+modes, and checks that reloading creates fresh tables. A
+[targeted Babel compilation](../tests/mcclim/compiled-hash-table-results.json)
+restores 312 prior artifacts, compiles and loads the ISO-2022-JP component that
+previously failed on its codespace table, and proceeds to ISO-8859. The complete
+fresh build and browser restoration still require their own gates. The browser
+API check now also verifies exact ISO-2022-JP bytes and a Japanese text round-trip;
+its expected bytes were checked with native Babel, while browser execution is pending.
 
 Nested `DEFCONSTANT` forms evaluate their initializers at execution time, so a
 load form can define a constant using a lexical value. `EVAL` evaluates a
@@ -1032,8 +1036,8 @@ before compiling its dependants. The staging loader itself runs from source;
 the manifest covers the subsequent dependency and application components.
 Replay checks the complete component inventory and artifact hashes, disables
 library source loading, and bundles the compiled forms without rewriting the
-cache. The API consumer checks the loaded order, geometry, presentation types
-and a scheduled thread join. The GUI consumer restores compiled libraries and
+cache. The API consumer checks the loaded order, geometry, presentation types,
+Babel ISO-2022-JP encoding and a scheduled thread join. The GUI consumer restores compiled libraries and
 loads the production demo's application entry from source, then checks drawing,
 button and keyboard input. Results stay in the work directory; the availability
 of these commands is not evidence that the pending full McCLIM gates have passed.

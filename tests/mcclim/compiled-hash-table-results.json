@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclim": false,
+  "observedAt": "2026-11-12T00:47:25.427Z",
+  "scope": "Actual Babel ISO-2022-JP COMPILE-FILE and LOAD after hash-table literal support. Prerequisites are 312 completed artifacts from two earlier compiler snapshots. Fresh full build/browser restoration remain pending.",
+  "fixCommit": "2aadf63",
+  "compilerSha256": "97fe016200aba1e587dcfa595e0516340cf7448354076c8660f61740ed753375",
+  "kernelSha256": "30c80d461f5da1ebed2eab9ad1b76aba569f0014c4ea31683ad9e62bcfb45492",
+  "prerequisiteArtifacts": 312,
+  "prerequisiteInventorySha256": "4005f395695f101d0ffab0e4cfe8b0a99f3e48d92fd82a68f4acbfe0c3d34dbd",
+  "diagnosticScript": "/tmp/valtan-mcclim-hash-literal-diagnostic.mjs",
+  "diagnosticScriptSha256": "b84f9c18b1158438d7066401e0fc3df98aadb9a8e34274fb71c184be9229f356",
+  "diagnosticBundleSha256": "ef99a5be2203748316147effe4afed6c88796f9a169b502eb352617e741169ca",
+  "source": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-iso-2022-jp.lisp",
+  "sourceSha256": "d08d2dd055473b8acd3814dedfdba29162ef45c8be4e8291479fb474447a5e45",
+  "artifact": "/tmp/valtan-mcclim-hash-literal-diagnostic/artifacts/1.fasl",
+  "artifactSha256": "9b56744e346b42d0951d6b24b2e39e0c2272e0503182a64dbf35016c4d2bc20b",
+  "compiledForms": 6,
+  "before": {
+    "component": 313,
+    "error": "Cannot externalize literal #S(HASH-TABLE ...)",
+    "form": "DEFINE-CHARACTER-ENCODING :ISO-2022-JP with +UNICODE-TO-JIS-X-0208+ codespace table",
+    "report": "/tmp/valtan-mcclim-function-constant-diagnostic-v2/result.json"
+  },
+  "after": {
+    "compiled": true,
+    "loaded": true,
+    "followingStage": "/home/user/quicklisp/dists/quicklisp/software/babel-20260101-git/src/enc-iso-8859.lisp",
+    "evidence": "The following TARGET-STAGE is emitted only after COMPILE-FILE and artifact LOAD return.",
+    "log": "/tmp/valtan-mcclim-hash-literal-diagnostic.log"
+  },
+  "regressionTests": {
+    "command": "node --test tests/resumable/artifact.test.mjs tests/resumable/file-literals.test.mjs",
+    "exitCode": 0,
+    "passed": 3,
+    "failed": 0,
+    "sourceDeletedFreshProcessModes": [
+      "ordinary",
+      "scheduled"
+    ],
+    "log": "/tmp/valtan-hash-literals-tests.log"
+  },
+  "browserRoundTripFixture": {
+    "status": "pending-browser-execution",
+    "text": "A日本語Z",
+    "encoding": "ISO-2022-JP",
+    "expectedOctets": [
+      65,
+      27,
+      36,
+      66,
+      70,
+      124,
+      75,
+      92,
+      56,
+      108,
+      27,
+      40,
+      66,
+      90
+    ],
+    "nativeBabelRoundTrip": "passed",
+    "nativeLog": "/tmp/valtan-babel-iso2022jp-reference.log",
+    "nativeLogSha256": "1618c0dc360e9bb8a6e33ff1a75314b80a109fe2f7b60f35471f821ad8c4390d",
+    "consumer": "tests/mcclim/staged-api.mjs"
+  },
+  "limitations": [
+    "Prerequisites use older compiler snapshots; this is targeted compilation evidence, not fresh full-library proof.",
+    "Remaining diagnostic compilation was still running at this observation.",
+    "Browser encoding round-trip and full GUI assertions remain pending."
+  ]
+}
