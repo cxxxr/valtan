@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "complete": true,
+  "scope": "Source plan, exact registered test inventory, successful execution and per-test assertion coverage against native MCCLIM",
+  "sources": 27,
+  "registered": 193,
+  "results": 2245,
+  "missing": [],
+  "unexpected": [],
+  "differences": [],
+  "featureVariants": [
+    {
+      "test": "CLIM-TESTS::STRESS.9",
+      "native": 17,
+      "valtan": 33,
+      "feature": "FAKE-PROGV-KLUDGE"
+    },
+    {
+      "test": "CLIM-TESTS::STRESS.0",
+      "native": 17,
+      "valtan": 33,
+      "feature": "FAKE-PROGV-KLUDGE"
+    }
+  ],
+  "errors": [],
+  "targetFile": "/home/user/src/valtan/tests/mcclim/upstream-threaded-complete-results.json",
+  "referenceFile": "/home/user/src/valtan/tests/mcclim/upstream-host-results.json",
+  "targetSha256": "a35d660a5d3caa682ac4092e6e54cbc391d3db97faedd1feb0480913ad507e1f",
+  "referenceSha256": "ff7a0bd95de8dbddef11163d01e718c6ca3d0c217a3d858b50dd80f4adcb2cc8"
+}
