@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "complete": true,
+  "fullMcclim": false,
+  "observedAt": "2026-11-12T00:19:51.643Z",
+  "scope": "Actual drei-redisplay.lisp COMPILE-FILE and LOAD after function-valued constant fix. Uses 271 prior artifacts as prerequisites; fresh full compilation and browser restoration remain separate pending gates.",
+  "fixCommit": "ae1f42d",
+  "compilerSha256": "bf2f9a1acdacc387a4e4feab0584407623c94f0d797c76386dfd7d2ab020794b",
+  "kernelSha256": "30c80d461f5da1ebed2eab9ad1b76aba569f0014c4ea31683ad9e62bcfb45492",
+  "prerequisiteCompilerSha256": "465b09137a7c584c31000f2fa624945e3984c9a6081a9bb61528fff42b42d72a",
+  "prerequisiteArtifacts": 271,
+  "prerequisiteInventorySha256": "2235b1097bdc8c661d85d2a78726d63a30c822d2cfb12a5b74e92f6373a54586",
+  "diagnosticScript": "/tmp/valtan-mcclim-function-constant-diagnostic-v2.mjs",
+  "diagnosticScriptSha256": "78a3a483a01940eb24bfbbd872e3f1eb359a6ba1c335bacf1241e37405774987",
+  "diagnosticBundleSha256": "883c7505b41897602d614239d2d2ec136c8c759e2a5f919793b9b02492ff46fc",
+  "source": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/drei-redisplay.lisp",
+  "sourceSha256": "753456ff1b7fed2dc27af63f8606490616b6378582ffb58b02d302b6c181eb78",
+  "artifact": "/tmp/valtan-mcclim-function-constant-diagnostic-v2/artifacts/1.fasl",
+  "artifactSha256": "9d6009b60d90f8b7017fea1455906555749b7d2600401454de0395c49ec7657d",
+  "compiledForms": 94,
+  "before": {
+    "component": 272,
+    "error": "Cannot externalize literal #<Function>",
+    "form": "DEFSTRUCT DRAWING-OPTIONS, default +DEFAULT-STROKE-DRAWER-DISPATCHER+",
+    "log": "/tmp/valtan-mcclim-stage-recovery.log"
+  },
+  "after": {
+    "compiled": true,
+    "loaded": true,
+    "followingStage": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/drawing-options.lisp",
+    "evidence": "stage-source emits the following TARGET-STAGE only after the preceding COMPILE-FILE and artifact LOAD return.",
+    "log": "/tmp/valtan-mcclim-function-constant-diagnostic-v2.log"
+  },
+  "regressionTests": {
+    "command": "npm --prefix tests run test:resumable",
+    "exitCode": 0,
+    "sourceDeletedFreshProcessModes": [
+      "ordinary",
+      "scheduled"
+    ],
+    "checks": [
+      "captured lexical value",
+      "DEFSTRUCT callback default",
+      "dependent-file reference",
+      "EQ function identity"
+    ],
+    "log": "/tmp/valtan-function-constant-tests.log"
+  },
+  "limitations": [
+    "Prerequisites were compiled before ae1f42d; this is a targeted diagnostic, not a fresh full-library build.",
+    "Remaining diagnostic compilation was running at this observation.",
+    "No browser or GUI assertion is made by this report."
+  ]
+}

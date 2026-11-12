@@ -960,8 +960,12 @@ of trying to externalize a live compiler closure. The two-process file-literal
 tests cover lexical capture, `DEFSTRUCT` defaults, cross-file references and
 `EQ` identity in ordinary and scheduled execution after deleting both sources.
 This fixes the compilation error discovered in Drei's `drei-redisplay.lisp`
-(component 272 of the full staging run). The preceding 271 components compiled
-and loaded; a fresh full run and its browser restoration checks remain pending.
+(component 272 of the full staging run). A
+[targeted replay](../tests/mcclim/compiled-function-constant-results.json) loads
+the preceding 271 artifacts and verifies that the corrected compiler compiles
+and loads the actual `drei-redisplay.lisp`, then proceeds to `drawing-options.lisp`.
+Those prerequisites were compiled before the fix; a fresh full run and its
+browser restoration checks remain pending.
 
 Top-level `DEFTYPE` definitions are available during compilation, allowing later
 macros in the same file to use their derived types. McCLIM's pointer-tracking
