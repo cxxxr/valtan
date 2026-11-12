@@ -754,7 +754,7 @@ and `*load-truename*` retain the original source pathname; this does not promise
 that the Lisp source file itself exists at runtime. Module-level FFI imports
 and exports should remain in JavaScript files when using runtime compilation.
 
-Runtime bundles also expose read-only ASDF system/component metadata through
+Runtime bundles also expose descriptive ASDF system/component metadata through
 `FIND-SYSTEM`, `FIND-COMPONENT`, `SYSTEM-RELATIVE-PATHNAME` and the component
 accessors. This lets libraries locate bundled data using their ordinary ASDF
 names. It does not implement runtime ASDF build operations or dynamic downloads.
@@ -762,6 +762,9 @@ The metadata preserves the `COMPONENT`, `MODULE`, `SYSTEM` and `SOURCE-FILE`
 type hierarchy, including systems being modules. `MODULE-COMPONENTS` supports
 recursive source discovery and methods specialized on these types, as used by
 Drei. More specific ASDF file classes and runtime build operations are not supplied.
+Target adapters may append their own source components so a library rebuilding
+itself from the component tree also restores its adapter. This does not change
+the host ASDF registry or remove upstream components.
 `npm run test:resources` tests text/binary streams, path lookup, feature-selected
 resources, component traversal with generic methods, and write protection after
 deleting the original data, on Node and
@@ -1391,6 +1394,22 @@ warning/error notes; file compilation optionally loads the generated artifact.
 [Adapter checks](../tests/mcclim/drei-image-results.json) pass 22 assertions in a
 fresh real Chrome McCLIM workbench and 11 filesystem assertions in fresh Node.
 The browser run predates the PSETQ optimization; the Node run includes it.
+
+Reloading upstream `lisp-syntax.lisp` replaces `DEFAULT-IMAGE` with its no-backend
+fallback, `T`, as reproduced in the [reload regression](../tests/mcclim/drei-image-reload-before-results.json).
+The Valtan adapter now declares its source as a static resource and appends a
+`valtan-image` component after all 34 original Drei components. Drei's own
+component-based self-compilation can therefore restore the image backend last.
+Registration is idempotent and retains the original components and their order.
+The full-suite driver verifies the 34-plus-backend tree and the selected image
+before and after the suite; the original 34 hashes are still compared with SBCL,
+and the adapter's hash is recorded separately.
+
+The [focused reload checks](../tests/mcclim/drei-image-reload-results.json) pass
+in Node and Chrome. `cd tests && npm run test:mcclim:drei:reload` re-evaluates the unchanged upstream
+syntax source, reloads the backend through its component pathname, repeats that
+sequence, then runs the 22 adapter assertions in Node and Chrome. This focused
+check is separate from Drei's parser-based self-compilation of every source.
 
 From the repository root, reproduce the browser method checks with the workbench
 and inspect the `drei-image` response for `(:DREI-IMAGE-CHECKS 22)`:

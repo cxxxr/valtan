@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-12T02:50:53.554Z",
+  "work": "/tmp/valtan-drei-image-reload-WfBasx",
+  "scope": "Reload unchanged upstream lisp-syntax.lisp and the backend component twice, then check 22 image APIs; not full Drei self-compilation",
+  "runs": [
+    {
+      "target": "node",
+      "status": "passed",
+      "probe": {
+        "system": "mcclim-portability/drei",
+        "scope": "Load and supplied API assertions; GUI verification is separate",
+        "timestamp": "2026-11-12T02:50:53.811Z",
+        "complete": true,
+        "status": "passed",
+        "work": "/tmp/valtan-mcclim-WB2VEq",
+        "compilerSha256": "97fe016200aba1e587dcfa595e0516340cf7448354076c8660f61740ed753375",
+        "target": "node",
+        "extraSystems": [],
+        "targetFeatures": [
+          "clim-without-swank"
+        ],
+        "runtimeTimeout": 3600000,
+        "checksSha256": "d70583a620704d2f543bd1c4bc7f3e99c7775a87f3257b05ddc51c7311a4ace6",
+        "stage": "run",
+        "bundleSha256": "7fb48f8460be626aa1f2244e8b858061a446424f7eb4b95c57da283137ae1530",
+        "finishedAt": "2026-11-12T02:57:09.170Z"
+      }
+    },
+    {
+      "target": "browser",
+      "status": "passed",
+      "probe": {
+        "system": "mcclim-portability/drei",
+        "scope": "Load and supplied API assertions; GUI verification is separate",
+        "timestamp": "2026-11-12T02:57:09.215Z",
+        "complete": true,
+        "status": "passed",
+        "work": "/tmp/valtan-mcclim-j8vamN",
+        "compilerSha256": "97fe016200aba1e587dcfa595e0516340cf7448354076c8660f61740ed753375",
+        "target": "browser",
+        "extraSystems": [],
+        "targetFeatures": [
+          "clim-without-swank"
+        ],
+        "runtimeTimeout": 3600000,
+        "checksSha256": "d70583a620704d2f543bd1c4bc7f3e99c7775a87f3257b05ddc51c7311a4ace6",
+        "stage": "run",
+        "bundleSha256": "3440c6cad81f1bfe2ffc4113bfa10c0110f1dff8b1d2fb0a67e2065d7d55a033",
+        "finishedAt": "2026-11-12T03:03:02.226Z"
+      }
+    }
+  ],
+  "upstreamSource": {
+    "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/lisp-syntax.lisp",
+    "sha256": "3fd69cda6dd7e1667d14df2b17120f7fb753c7bcb8778a82d433c99b7fa4ff56"
+  },
+  "backendSource": {
+    "file": "/home/user/src/valtan/library/mcclim-portability/drei-image.lisp",
+    "sha256": "49c6300dbdd1364322c38507ba8e271f81cc8a99a03a1567e9c7949ea07bd36b"
+  },
+  "checks": {
+    "drei-image-reload-checks.lisp": "19952fe35c9eaba833ec0cb92c3d89386eb83b65c13b1e00e13faca09ca3bac0",
+    "drei-image-checks.lisp": "1c5cc8a061a24654ca8d936c9325373dc69c0d7600a720b7563f73957cacda5f"
+  },
+  "finishedAt": "2026-11-12T03:03:02.274Z"
+}

@@ -56,7 +56,12 @@ try {
   report.sources=snapshots.map(({source,...metadata})=>metadata);
   const sourceResources=selfCompilation?(plan.sourceResources??[]):[];
   if(selfCompilation)assert.ok(sourceResources.length>0,'No Drei source resources in the component tree');
-  report.sourceResources=sourceResources.map(file=>({file,sha256:hash(fs.readFileSync(file))}));save();
+  report.sourceResources=sourceResources.map(file=>({file,sha256:hash(fs.readFileSync(file))}));
+  // The production adapter contributes its own final source component. Keep it
+  // separate from the exact, unchanged upstream inventory compared with SBCL.
+  const backendSource=path.join(root,'library/mcclim-portability/drei-image.lisp');
+  report.adapterSourceResources=selfCompilation?[{file:backendSource,sha256:hash(fs.readFileSync(backendSource))}]:[];
+  save();
   // Some upstream pathname tests require their own source file to exist. Supply
   // the unchanged snapshots as explicit static resources, just as application
   // assets are bundled; the browser has no host filesystem access.
@@ -73,6 +78,10 @@ try {
     :depends-on ("mcclim-load-trace" ${targetSystems.map(quote).join(' ')} "mcclim-upstream-data")
     :components ((:file "main")) :target :browser
     :target-features (${targetFeatures.map(name=>':'+name).join(' ')}) :compile-mode :runtime)`);
+  const sourceTreeCheck=selfCompilation?`(assert (equal
+    (mapcar #'namestring (drei-tests::find-pathnames (asdf:find-system "drei-mcclim")))
+    '(${[...sourceResources,backendSource].map(quote).join(' ')})))
+    (assert (typep (drei-lisp-syntax::default-image) 'drei-lisp-syntax::valtan-local-image))` : '';
   const fixture=(threaded?`(assert (member :clim-mp *features*))
     (assert (eq ((ffi:ref "lisp" "hasExecutionContext")) (ffi:ref "true")))
     `:'')+fs.readFileSync(path.join(here,'fiveam-executions.lisp'),'utf8')+'\n'+
@@ -80,7 +89,8 @@ try {
     '\n(setf mcclim-upstream-checks::*files* nil)\n'+
     snapshots.map(({file,source})=>`(mcclim-upstream-checks::load-test-source ${quote(file)} ${quote(source)})`).join('\n')+
     (selfCompilation?'\n(setf (symbol-value (find-symbol "*RUN-SELF-COMPILATION-TEST*" "DREI-TESTS")) t)\n':'')+
-    `\n(mcclim-upstream-checks::run ${allDrei?'(list (find-symbol "DREI-TESTS" "DREI-TESTS") (find-symbol "BUFFER-PERFORMANCE-TESTS" "DREI-TESTS"))':drei?`(find-symbol "${suite}" "DREI-TESTS")`:':mcclim'})\n`;
+    '\n'+sourceTreeCheck+
+    `\n(multiple-value-prog1 (mcclim-upstream-checks::run ${allDrei?'(list (find-symbol "DREI-TESTS" "DREI-TESTS") (find-symbol "BUFFER-PERFORMANCE-TESTS" "DREI-TESTS"))':drei?`(find-symbol "${suite}" "DREI-TESTS")`:':mcclim'}) ${sourceTreeCheck})\n`;
   const checkFile=path.join(dir,'checks.lisp');fs.writeFileSync(checkFile,fixture);report.checksSha256=hash(fixture);save();
   child=spawn(process.execPath,[path.join(here,'workbench.mjs'),'--source-directory',dir,
     '--startup-timeout',String(startupTimeout)],{stdio:['pipe','pipe','inherit']});
@@ -93,7 +103,7 @@ try {
       if(message.loading)console.log(message.loading);
       if(message.evaluating){report.lastProgress=message.evaluating;save();console.log(message.evaluating);}
       if(message.ready){
-        for(const resource of report.sourceResources)
+        for(const resource of [...report.sourceResources,...report.adapterSourceResources])
           assert.equal(hash(fs.readFileSync(resource.file)),resource.sha256,`Source changed during build: ${resource.file}`);
         child.stdin.write(JSON.stringify({op:'eval',id:'upstream',file:checkFile,timeout:evaluationTimeout})+'\n');
       }
@@ -104,6 +114,8 @@ try {
     assert.equal(result?.result?.ok,true,result?.error??result?.result?.error);
     const value=result.result.value;assert.ok(value.startsWith('("') && value.endsWith('")'));
     const checks=JSON.parse(JSON.parse(value.slice(1,-1)));report.checks=checks;
+    for(const resource of [...report.sourceResources,...report.adapterSourceResources])
+      assert.equal(hash(fs.readFileSync(resource.file)),resource.sha256,`Source changed during run: ${resource.file}`);
     assert.deepEqual(checks.files.map(row=>row.file),snapshots.map(row=>row.file));
     assert.ok(checks.registered>0 && checks.results>0,'No upstream checks executed');
     report.complete=true;report.status=checks.status;

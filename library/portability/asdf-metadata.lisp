@@ -1,4 +1,4 @@
-;; Read-only ASDF component metadata for systems embedded by Valtan. Build
+;; Descriptive ASDF component metadata for systems embedded by Valtan. Build
 ;; operations remain on the host; this package does not implement runtime ASDF.
 (defpackage :asdf
   (:use :cl)

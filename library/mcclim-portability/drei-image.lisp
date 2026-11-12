@@ -54,3 +54,23 @@
        (multiple-value-bind (artifact warnings failure) (compile-file filepath)
          (declare (ignore warnings))
          (unless failure (when load-p (load artifact)) t))))))
+
+;; This backend is part of the target Drei implementation. Include its source
+;; after the upstream components so system source walkers restore DEFAULT-IMAGE
+;; as well as the editor definitions. In particular, Drei recompiles itself
+;; using its Lisp syntax parser and the ASDF component tree. A separate .system
+;; dependency alone would leave that newly evaluated editor without its backend.
+;; The resource system makes the same source available in browsers, where LOAD
+;; cannot fall back to the host filesystem. Preserve every upstream component.
+#+clim-without-swank
+(let* ((system (asdf:find-system "drei-mcclim"))
+       (name "valtan-image")
+       (source (asdf:component-pathname
+                (asdf:find-component "valtan-drei-source" "drei-image.lisp")))
+       (existing (asdf:find-component system name)))
+  (if existing
+      (assert (equal (asdf:component-pathname existing) source))
+      (setf (asdf::component-children system)
+            (append (asdf:module-components system)
+                    (list (asdf::make-source-file :name name :pathname source
+                                                  :parent system))))))
