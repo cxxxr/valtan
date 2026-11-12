@@ -5,10 +5,21 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {build} from 'esbuild';
 import {readForms} from './staged-artifact.mjs';
-const [workArg,mode='api']=process.argv.slice(2);
-assert.ok(workArg, 'Usage: staged-build.mjs work [api|gui]');
+const args=process.argv.slice(2);
+function option(name){
+ const index=args.indexOf(name);
+ if(index<0)return null;
+ assert.ok(args[index+1] && !args[index+1].startsWith('--'),`Missing value for ${name}`);
+ const value=args[index+1];args.splice(index,2);return path.resolve(value);
+}
+const applicationArg=option('--application'),destinationArg=option('--output-directory');
+const [workArg,mode='api']=args;
+assert.ok(workArg && args.length<=2, 'Usage: staged-build.mjs work [api|gui] [--application source.lisp] [--output-directory directory]');
 const work=path.resolve(workArg), cache=path.join(work,'.valtan-cache');
 assert.ok(['api','gui'].includes(mode));
+assert.ok(!applicationArg || mode==='gui','A custom application requires GUI mode');
+const destination=destinationArg??work;
+fs.mkdirSync(destination,{recursive:true});
 const root=fileURLToPath(new URL('../..', import.meta.url));
 const sha=p=>createHash('sha256').update(fs.readFileSync(p)).digest('hex');
 const manifest=JSON.parse(fs.readFileSync(path.join(work,'manifest.json')));
@@ -50,7 +61,8 @@ lisp.intern('LOAD-EMBEDDED-APPLICATION','SYSTEM').func=globalThis.stageApplicati
 const s=n=>lisp.intern(n,'COMMON-LISP');
 s('EVAL').getFunction()(s('READ-FROM-STRING').getFunction()(s('SIMPLE-MAKE-STRING').getFunction()(${JSON.stringify(helper)})));`);
 let formCount=0;
-const applicationSource=mode==='gui'?fs.readFileSync(path.join(root,'example/try-using-mcclim/main.lisp'),'utf8'):null;
+const applicationFile=mode==='gui'?(applicationArg??path.join(root,'example/try-using-mcclim/main.lisp')):null;
+const applicationSource=applicationFile?fs.readFileSync(applicationFile,'utf8'):null;
 let replacedApplication=false;
 for(const record of manifest.records){
  if(mode==='gui' && record.source===path.join(work,'main.lisp')){
@@ -72,17 +84,18 @@ for(const record of manifest.records){
   .replace(sourceExpression,()=>`TMP_2=function(){\nconsole.log('TARGET-REPLAY '+${JSON.stringify(record.source)});\n${body}\nreturn lisp.S_t;};`));
 }
 assert.equal(replacedApplication,mode==='gui');
-const output=path.join(work,mode==='gui'?'gui/app.mjs':'direct.mjs');
+const output=path.join(destination,mode==='gui'?'gui/app.mjs':'direct.mjs');
 await build({entryPoints:[path.join(cache,'app.js')],outfile:output,bundle:true,platform:'browser',format:'esm',logLevel:'silent',alias:{lisp:path.join(root,'kernel/lisp.js')},plugins:[{name:'compiled-component-replay',setup(build){build.onLoad({filter:/\.js$/},args=>replacements.has(args.path)?{contents:replacements.get(args.path),loader:'js',resolveDir:path.dirname(args.path)}:undefined)}}]});
 const report={status:'built',mode,applicationSourceSha256:applicationSource?createHash('sha256').update(applicationSource).digest('hex'):null,kernelSha256:sha(path.join(root,'kernel/lisp.js')),producerManifestSha256:sha(path.join(work,'manifest.json')),librariesUseCompiledArtifacts:true,applicationUsesRuntimeSource:mode==='gui',components:manifest.records.length,forms:formCount,bytes:fs.statSync(output).size,bundleSha256:createHash('sha256').update(fs.readFileSync(output)).digest('hex'),producerManifest:path.join(work,'manifest.json'),cacheUnmodified:true};
-fs.writeFileSync(path.join(work,mode==='gui'?'gui-build.json':'direct-build.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
+report.applicationSource=applicationFile;
+fs.writeFileSync(path.join(destination,mode==='gui'?'gui-build.json':'direct-build.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
 
 if(mode==='gui'){
- const gui=path.join(work,'gui'),assets=path.join(gui,'browser');fs.mkdirSync(assets,{recursive:true});
+ const gui=path.join(destination,'gui'),assets=path.join(gui,'browser');fs.mkdirSync(assets,{recursive:true});
  fs.copyFileSync(path.join(root,'example/try-using-mcclim/index.html'),path.join(gui,'index.html'));
  for(const file of ['client.mjs','host.mjs','worker.mjs','event-queue.mjs','windows.mjs','pointer.mjs','keyboard.mjs'])
   fs.copyFileSync(path.join(root,'library/mcclim-browser',file),path.join(assets,file));
  const files=['index.html',...fs.readdirSync(assets).sort().map(f=>'browser/'+f)];
  report.assets=Object.fromEntries(files.map(f=>[f,sha(path.join(gui,f))]));
- fs.writeFileSync(path.join(work,'gui-build.json'),JSON.stringify(report,null,2)+'\n');
+ fs.writeFileSync(path.join(destination,'gui-build.json'),JSON.stringify(report,null,2)+'\n');
 }

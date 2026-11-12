@@ -1087,6 +1087,21 @@ were visually inspected. Source/module, artifact, compiler, kernel, bundle and
 browser-asset hashes were independently verified. The current-version full
 McCLIM suite and combined Drei suite remain separate execution gates.
 
+The [unchanged upstream calculator](../tests/mcclim/upstream-calculator-results.json)
+also runs with those compiled libraries and the production browser worker.
+Twelve actual pointer clicks verify `12 + 3 = 15`, continuing with `* 4 = 60`,
+AC and CE clearing, and subsequent number entry. The observer records gadget
+values without replacing the upstream callbacks or event loop. Both the
+[initial calculator](../tests/mcclim/screenshots/calculator-initial.png) and
+[screen after input](../tests/mcclim/screenshots/calculator-after-input.png)
+were visually checked. This run took about 5 minutes 13 seconds to become ready
+and another 6 minutes 21 seconds for the input sequence on the shared test
+machine; interactive performance still needs improvement.
+Run `node tests/mcclim/calculator.mjs completed-stage-work output-directory`
+from the repository root, or use `npm --prefix tests run test:mcclim:calculator -- completed-stage-work output-directory`.
+The staged builder accepts `--application source.lisp --output-directory directory`
+in GUI mode, keeping the original producer cache and counter results intact.
+
 The staged-compilation harness is available in the repository. From the
 repository root, using a new work directory:
 

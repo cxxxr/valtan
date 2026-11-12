@@ -1,0 +1,186 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-12T05:22:56.326Z",
+  "work": "/tmp/valtan-mcclim-upstream-calculator-retry",
+  "scope": "Unchanged upstream calculator, compiled McCLIM libraries, production worker and actual browser pointer input",
+  "source": {
+    "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Examples/calculator.lisp",
+    "sha256": "8013146d9cb3b46b18faae0fc9f3e4a90b5e260c3286e2149dfeca0aa404611e"
+  },
+  "entrySha256": "69aad6f97eab2cac7754584fd4891e995f42ee22a13e5caf78bca75f7df48d50",
+  "driverSha256": "ed46c19b3c62db1e7292d119e4d47ff7178e402c6e3afda08aeec120d363c811",
+  "producerManifest": {
+    "file": "/tmp/valtan-mcclim-staged-drei-backend/manifest.json",
+    "sha256": "b79a5cdddc5b8c2c3076690201d585376438de87808872036f4cf52798cbddc7"
+  },
+  "steps": [
+    {
+      "button": "one",
+      "expected": "1"
+    },
+    {
+      "button": "two",
+      "expected": "12"
+    },
+    {
+      "button": "plus",
+      "expected": null
+    },
+    {
+      "button": "three",
+      "expected": "3"
+    },
+    {
+      "button": "result",
+      "expected": "15"
+    },
+    {
+      "button": "multiply",
+      "expected": null
+    },
+    {
+      "button": "four",
+      "expected": "4"
+    },
+    {
+      "button": "result",
+      "expected": "60"
+    },
+    {
+      "button": "ac",
+      "expected": "0"
+    },
+    {
+      "button": "nine",
+      "expected": "9"
+    },
+    {
+      "button": "ce",
+      "expected": "0"
+    },
+    {
+      "button": "seven",
+      "expected": "7"
+    }
+  ],
+  "build": {
+    "status": "built",
+    "mode": "gui",
+    "applicationSourceSha256": "e177444a8174f71b6882700347c17c8fd126ea262074676086f8b6d19e28e00f",
+    "kernelSha256": "30c80d461f5da1ebed2eab9ad1b76aba569f0014c4ea31683ad9e62bcfb45492",
+    "producerManifestSha256": "b79a5cdddc5b8c2c3076690201d585376438de87808872036f4cf52798cbddc7",
+    "librariesUseCompiledArtifacts": true,
+    "applicationUsesRuntimeSource": true,
+    "components": 375,
+    "forms": 12771,
+    "bytes": 328306462,
+    "bundleSha256": "af7defb9dc7b2d36aa653c552633308bd61a6b8e55ea59388fc825c5267aa1d2",
+    "producerManifest": "/tmp/valtan-mcclim-staged-drei-backend/manifest.json",
+    "cacheUnmodified": true,
+    "applicationSource": "/tmp/valtan-mcclim-upstream-calculator-retry/application.lisp",
+    "assets": {
+      "index.html": "6f790c1ec806b1ed96c3a7a66567d015879cd90393bfd80852ab6a12346f8d30",
+      "browser/client.mjs": "40dc14e0f77afd7330c6361bbfbc52b7709851df8606e4dbf13375a689623294",
+      "browser/event-queue.mjs": "46021a84db8a973083237f8bde410e94b3fca2323264b92b21d747616e1adb3c",
+      "browser/host.mjs": "35f440e2407dc72a5ba44687b55687a12e33182b4809daab8311e239becb2174",
+      "browser/keyboard.mjs": "03241a18524f9cc66845814fcb075f761f4b18a62341f39efd94e4b2edbe7277",
+      "browser/pointer.mjs": "1eeb6a51739930e93fb3aa014f82e71c4fe1cf8df577b88879ea4e9f9f80675d",
+      "browser/windows.mjs": "f7f948fb6120042cf0d89ace956a32f171995b8d468cf326cbde6effafcd4774",
+      "browser/worker.mjs": "f199c6428823cf1f3fb0359ae620d3bb6a0eb228bab18d006cf5ae68116243e2"
+    }
+  },
+  "readyAt": "2026-11-12T05:28:09.273Z",
+  "buttons": {
+    "one": [
+      55.55964152018229,
+      93
+    ],
+    "two": [
+      166.67892456054688,
+      93
+    ],
+    "three": [
+      55.55964152018229,
+      127
+    ],
+    "four": [
+      166.67892456054688,
+      127
+    ],
+    "five": [
+      55.55964152018229,
+      161
+    ],
+    "six": [
+      166.67892456054688,
+      161
+    ],
+    "seven": [
+      55.55964152018229,
+      195
+    ],
+    "eight": [
+      166.67892456054688,
+      195
+    ],
+    "nine": [
+      55.55964152018229,
+      229
+    ],
+    "zero": [
+      166.67892456054688,
+      229
+    ],
+    "plus": [
+      277.7982076009115,
+      93
+    ],
+    "dash": [
+      277.7982076009115,
+      127
+    ],
+    "multiply": [
+      277.7982076009115,
+      161
+    ],
+    "divide": [
+      277.7982076009115,
+      195
+    ],
+    "result": [
+      277.7982076009115,
+      229
+    ],
+    "ac": [
+      83.3754653930664,
+      51
+    ],
+    "ce": [
+      250.05438995361328,
+      51
+    ]
+  },
+  "canvas": {
+    "x": 24,
+    "y": 155.4375,
+    "width": 334,
+    "height": 246
+  },
+  "finishedAt": "2026-11-12T05:34:30.366Z",
+  "archive": {
+    "observedAt": "2026-11-12T05:35:15.766580+00:00",
+    "sourceReportSha256": "d78d79d488f18f0e6e85253da76ee26a6efa6a6385ed33d6d2a9fb942e9c404f",
+    "producerEvidence": "tests/mcclim/compiled-backend-browser-results.json",
+    "producerEvidenceSha256": "4396ac5bef39b83ce99d94062ea163a9d5140cf51fb6273421715e4c9fd1f299",
+    "stagedBuilderSha256": "49351c893013b795eff867dbd43fab9a7d33d3b7fd7254eeed68760ad99a7017",
+    "sourceAndArtifactPairsVerified": 375,
+    "preparedSourceAndModulePairsVerified": 376,
+    "browserAssetHashesVerified": true,
+    "screenshots": {
+      "tests/mcclim/screenshots/calculator-initial.png": "326f2871799f07acfbff58f6fc6edf5ebdc0de53bd8c240dcb0dbea346a0c493",
+      "tests/mcclim/screenshots/calculator-after-input.png": "089b87804c20cc1a718d5d0a8294fa537eb01473c11dd55d63569f0a4599792a"
+    },
+    "visualInspection": "Initial calculator shows all 17 buttons and value 0. After actual input, its text field and page status both show 7."
+  }
+}

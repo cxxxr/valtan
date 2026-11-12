@@ -34,6 +34,7 @@
     "test:mcclim:staged-artifact": "node --test mcclim/staged-artifact.test.mjs",
     "test:mcclim:gui": "node mcclim/gui.mjs",
     "test:mcclim:gui:threaded": "node mcclim/gui.mjs --threaded",
+    "test:mcclim:calculator": "node mcclim/calculator.mjs",
     "test:mcclim:canvas": "node mcclim/canvas.mjs",
     "test:mcclim:canvas:threaded": "node mcclim/canvas.mjs --threaded --bezier --flipping",
     "test:mcclim:flipping": "node mcclim/canvas.mjs --flipping",
