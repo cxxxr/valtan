@@ -29,6 +29,7 @@
     "probe:mcclim": "node mcclim/probe.mjs",
     "test:mcclim:transport": "node --test mcclim/event-queue.test.mjs mcclim/browser-bridge.test.mjs",
     "test:mcclim:reports": "node --test mcclim/compare-upstream.test.mjs mcclim/compare-drei.test.mjs",
+    "test:mcclim:executions": "node mcclim/fiveam-executions.mjs",
     "test:mcclim:staged-artifact": "node --test mcclim/staged-artifact.test.mjs",
     "test:mcclim:gui": "node mcclim/gui.mjs",
     "test:mcclim:gui:threaded": "node mcclim/gui.mjs --threaded",

@@ -1315,7 +1315,27 @@ these runs do not establish complete current-version or threaded GUI coverage.
 cases in one fresh browser, enables self-compilation, and bundles its unchanged
 source resources. Missing, skipped or failed cases still prevent a passing
 report. It allows 12 hours for evaluation; `upstream.mjs --threaded --drei-all`
-allows 24 hours. The current combined Valtan run is pending.
+allows 24 hours.
+
+The [completed combined run](../tests/mcclim/drei-all-outer-results.json) reports
+3,611 passing outer assertions, including all 90 performance checks and the
+self-compilation assertion. Its [coverage comparison fails](../tests/mcclim/drei-all-outer-comparison.json):
+14 registered cases contribute no outer results, leaving 145 expected target
+assertions unaccounted for. FiveAM's recursive run inside self-compilation updates
+test statuses; later outer cases can therefore run only inside that recursive
+invocation. The outer report also cannot expose skipped checks inside it.
+This result does not pass the full Drei gate.
+
+The runner now records every completed test invocation, including nested runs.
+Per-test coverage uses each case's last invocation, while failures and skips from
+**all** invocations prevent success. The verifier requires every default-suite
+case to appear in the nested execution records and checks their counts against
+the reported coverage. [Regression checks](../tests/mcclim/fiveam-execution-results.json)
+pass on SBCL, ordinary Valtan and scheduled browser execution, including the actual
+JSON report and hidden failure/skip cases. Reproduce them with
+`cd tests && npm run test:mcclim:executions`. These are synthetic observer tests;
+the complete Drei run with this collector and image-backend reload validation
+remains pending.
 `npm run test:mcclim:drei:all:host` uses upstream's native Swank image backend
 without starting a server. Its [native reference](../tests/mcclim/drei-all-host-results.json)
 executes all 596 cases with zero skips, but records 11 failures: one upstream
@@ -1335,7 +1355,7 @@ implementation differences: 13 Gray protocol test names use `SB-GRAY` symbols
 on SBCL and `VALTAN-GRAY` symbols on Valtan; the lambda-list-keyword test makes
 one additional check on SBCL because of `SB-INT:&MORE`. Only these named
 differences are accepted. The verifier tests include actual incomplete browser
-output and synthetic complete fixtures; they do not establish that the pending
+output, hidden nested outcomes and synthetic complete fixtures; they do not establish that the pending
 combined target run has passed.
 
 Run `npm run build:resumable && npm run test:resumable:loop-on` from `tests` to

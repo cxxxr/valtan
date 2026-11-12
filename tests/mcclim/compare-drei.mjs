@@ -116,6 +116,39 @@ export function compareDrei(target, reference) {
   }
   const targetCounts = counts(checks.resultCounts, actual, 'Target', checks.results);
   const nativeCounts = counts(reference.resultCounts, expected, 'Native', reference.results);
+  // A successful self-compilation test recursively runs the default suite.
+  // FiveAM retains those statuses, so some later outer cases return no results.
+  // Audit every invocation, including outcomes hidden by the outer RUN, and
+  // require the reported per-test counts to describe the last invocation.
+  const executions = array(checks.executions, 'Target test executions');
+  const latest = new Map(), nested = new Set();
+  let executionResults = 0, executionFailed = 0, executionSkipped = 0;
+  for (const row of executions) {
+    const name = canonical(row.test, 'Target');
+    require(actual.has(name), `Execution of an unregistered test: ${row.test}`);
+    require(Number.isSafeInteger(row.depth) && row.depth > 0, `Invalid execution depth: ${row.test}`);
+    require(['results', 'passed', 'failed', 'skipped'].every(key =>
+      Number.isSafeInteger(row[key]) && row[key] >= 0) &&
+      row.passed + row.failed + row.skipped === row.results, `Invalid execution totals: ${row.test}`);
+    executionResults += row.results; executionFailed += row.failed; executionSkipped += row.skipped;
+    latest.set(name, row.results);
+    if (row.depth > 1) nested.add(name);
+  }
+  require(latest.size === actual.size && [...actual].every(name => latest.has(name)),
+    'Test execution inventory is incomplete');
+  require([...actual].every(name => latest.get(name) === (targetCounts.get(name) ?? 0)),
+    'Last execution counts differ from reported per-test counts');
+  const defaultSuite = names.filter(name => !name.includes('-BUFFER-PERFORMANCE'));
+  require(nested.size === defaultSuite.length && defaultSuite.every(name => nested.has(name)),
+    'Self-compilation did not record every nested default-suite test');
+  require(executionResults === checks.executionResults && executionFailed === checks.executionFailed &&
+    executionSkipped === checks.executionSkipped, 'Execution totals differ');
+  require(Number.isSafeInteger(checks.outerResults) && checks.outerResults > 0 &&
+    checks.outerResults <= executionResults, 'Outer result total is invalid');
+  require(executionFailed === 0 && executionSkipped === 0,
+    'A test execution failed or skipped, including nested/repeated executions');
+  require(array(checks.executionNonpassed, 'Target execution nonpassed assertions').length === 0,
+    'A test execution has nonpassed assertions');
   for (const test of names) {
     const native = nativeCounts.get(test) ?? 0, valtan = targetCounts.get(test) ?? 0;
     if (native === valtan) continue;
@@ -134,6 +167,7 @@ export function compareDrei(target, reference) {
     scope: 'Complete target Drei execution, exact unique registrations and per-test assertion coverage against native inventory; native failures are retained separately',
     sources: sources.length, selfCompilationSources: resources.length,
     registered: actual.size, registrationEntries: registrations.length, results: checks.results,
+    executions: executions.length, nestedTests: nested.size, executionResults,
     missing, unexpected, differences, identityMappings, implementationVariants, nativeStatus: reference.status,
     nativeFailures, errors};
 }

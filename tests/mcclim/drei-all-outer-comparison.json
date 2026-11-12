@@ -1,0 +1,227 @@
+{
+  "status": "failed",
+  "complete": false,
+  "scope": "Complete target Drei execution, exact unique registrations and per-test assertion coverage against native inventory; native failures are retained separately",
+  "sources": 13,
+  "selfCompilationSources": 34,
+  "registered": 596,
+  "registrationEntries": 615,
+  "results": 3611,
+  "executions": 0,
+  "nestedTests": 0,
+  "executionResults": 0,
+  "missing": [],
+  "unexpected": [],
+  "differences": [
+    {
+      "test": "DREI-TESTS::ARGLIST-KEYWORD-P",
+      "native": 10,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::FIND-AFFECTED-PARAMETERS-1",
+      "native": 17,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::FIND-AFFECTED-PARAMETERS-2",
+      "native": 18,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::FIND-ARGUMENT-INDICES-FOR-OPERAND",
+      "native": 8,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::FIND-OPERAND-INFO",
+      "native": 13,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::INDICES-MATCH-ARGLIST-1",
+      "native": 18,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::INDICES-MATCH-ARGLIST-2",
+      "native": 15,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::FIND-DIRECT-OPERATOR",
+      "native": 5,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::FIND-APPLICABLE-FORM",
+      "native": 5,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::RELEVANT-KEYWORDS",
+      "native": 10,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::POSSIBLE-COMPLETIONS",
+      "native": 7,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::WITH-CODE-INSIGHT",
+      "native": 12,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::MAKE-INSTANCE-FORM-TRAITS",
+      "native": 5,
+      "valtan": 0
+    },
+    {
+      "test": "DREI-TESTS::FIND-CLASS-FORM-TRAITS",
+      "native": 3,
+      "valtan": 0
+    }
+  ],
+  "identityMappings": [
+    {
+      "canonical": "GRAY-STREAMS::STREAM-READ-CHAR",
+      "native": "STREAM-READ-CHAR",
+      "valtan": "VALTAN-GRAY:STREAM-READ-CHAR"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-UNREAD-CHAR",
+      "native": "STREAM-UNREAD-CHAR",
+      "valtan": "VALTAN-GRAY:STREAM-UNREAD-CHAR"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-READ-CHAR-NO-HANG",
+      "native": "STREAM-READ-CHAR-NO-HANG",
+      "valtan": "VALTAN-GRAY:STREAM-READ-CHAR-NO-HANG"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-PEEK-CHAR",
+      "native": "STREAM-PEEK-CHAR",
+      "valtan": "VALTAN-GRAY:STREAM-PEEK-CHAR"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-LISTEN",
+      "native": "STREAM-LISTEN",
+      "valtan": "VALTAN-GRAY:STREAM-LISTEN"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-READ-LINE",
+      "native": "STREAM-READ-LINE",
+      "valtan": "VALTAN-GRAY:STREAM-READ-LINE"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-WRITE-CHAR",
+      "native": "STREAM-WRITE-CHAR",
+      "valtan": "VALTAN-GRAY:STREAM-WRITE-CHAR"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-LINE-COLUMN",
+      "native": "STREAM-LINE-COLUMN",
+      "valtan": "VALTAN-GRAY:STREAM-LINE-COLUMN"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-START-LINE-P",
+      "native": "STREAM-START-LINE-P",
+      "valtan": "VALTAN-GRAY:STREAM-START-LINE-P"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-WRITE-STRING",
+      "native": "STREAM-WRITE-STRING",
+      "valtan": "VALTAN-GRAY:STREAM-WRITE-STRING"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-TERPRI",
+      "native": "STREAM-TERPRI",
+      "valtan": "VALTAN-GRAY:STREAM-TERPRI"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-FRESH-LINE",
+      "native": "STREAM-FRESH-LINE",
+      "valtan": "VALTAN-GRAY:STREAM-FRESH-LINE"
+    },
+    {
+      "canonical": "GRAY-STREAMS::STREAM-ADVANCE-TO-COLUMN",
+      "native": "STREAM-ADVANCE-TO-COLUMN",
+      "valtan": "VALTAN-GRAY:STREAM-ADVANCE-TO-COLUMN"
+    }
+  ],
+  "implementationVariants": [],
+  "nativeStatus": "failed",
+  "nativeFailures": [
+    {
+      "test": "DREI-TESTS::SELF-COMPILATION-TEST",
+      "kind": "UNEXPECTED-TEST-FAILURE",
+      "reason": "Unexpected Error: #<SIMPLE-ERROR \"Illegal function call in method body:\n  ~S\" {1202E695F3}>\nIllegal function call in method body:\n  ((#:COMMA0 (APPLY #'FORM-TO-OBJECT SYNTAX (SECOND (CHILDREN FORM)) ARGS))\n   FORM-TO-OBJECT)."
+    },
+    {
+      "test": "DREI-TESTS::POSSIBLE-COMPLETIONS",
+      "kind": "TEST-FAILURE",
+      "reason": "(SET-DIFFERENCE (FIND-POSSIBLE-COMPLETIONS \"\")\n                ALL-EXTERNAL-SYMBOLS-IN-CL-AND-ALL-PACKAGE-NAMES :TEST\n                #'STRING-EQUAL) returned the value (\"COMMON-LISP:&ALLOW-OTHER-KEYS\"\n                                                    \"---------\"), which is true"
+    },
+    {
+      "test": "DREI-TESTS::POSSIBLE-COMPLETIONS",
+      "kind": "TEST-FAILURE",
+      "reason": "\n(FIND-POSSIBLE-COMPLETIONS \"multiple-value-bind\")\n\n evaluated to \n\n(\"multiple-value-bind\" \"-f---m---\" \"COMMON-LISP:MULTIPLE-VALUE-BIND\")\n\n which is not \n\nEQUAL\n\n to \n\n(\"multiple-value-bind\")\n\n"
+    },
+    {
+      "test": "DREI-TESTS::POSSIBLE-COMPLETIONS",
+      "kind": "TEST-FAILURE",
+      "reason": "\n'(\"multiple-value-call\")\n\n evaluated to \n\n(\"multiple-value-call\")\n\n which is not \n\nEQUAL\n\n to \n\n(\"multiple-value-call\" \"-f----s--\" \"COMMON-LISP:MULTIPLE-VALUE-CALL\")\n\n"
+    },
+    {
+      "test": "DREI-TESTS::POSSIBLE-COMPLETIONS",
+      "kind": "TEST-FAILURE",
+      "reason": "\n(FIND-POSSIBLE-COMPLETIONS \"m-v-b\")\n\n evaluated to \n\n(\"multiple-value-bind\" \"-f---m---\" \"COMMON-LISP:MULTIPLE-VALUE-BIND\")\n\n which is not \n\nEQUAL\n\n to \n\n(\"multiple-value-bind\")\n\n"
+    },
+    {
+      "test": "DREI-TESTS::POSSIBLE-COMPLETIONS",
+      "kind": "TEST-FAILURE",
+      "reason": "\n(FIND-POSSIBLE-COMPLETIONS \"cl:lis\")\n\n evaluated to \n\n(\"cl:lisp-implementation-type\" \"-f-------\"\n \"COMMON-LISP:LISP-IMPLEMENTATION-TYPE\")\n\n which is not \n\nEQUAL\n\n to \n\n(\"cl:lisp-implementation-type\" \"cl:lisp-implementation-version\" \"cl:list\"\n \"cl:list*\" \"cl:list-all-packages\" \"cl:list-length\" \"cl:listen\" \"cl:listp\")\n\n"
+    },
+    {
+      "test": "DREI-TESTS::POSSIBLE-COMPLETIONS",
+      "kind": "TEST-FAILURE",
+      "reason": "\n(FIND-POSSIBLE-COMPLETIONS \"lis\")\n\n evaluated to \n\n(\"lisp-implementation-type\" \"-f-------\" \"COMMON-LISP:LISP-IMPLEMENTATION-TYPE\")\n\n which is not \n\nEQUAL\n\n to \n\n(\"lisp-implementation-type\" \"lisp-implementation-version\" \"list\" \"list*\"\n \"list-all-packages\" \"list-length\" \"listen\" \"listp\")\n\n"
+    },
+    {
+      "test": "DREI-TESTS::MAKE-INSTANCE-FORM-TRAITS",
+      "kind": "TEST-FAILURE",
+      "reason": "\n(FIND-POSSIBLE-COMPLETIONS \"lis\" 'MAKE-INSTANCE '(#:LIS) '((0)))\n\n evaluated to \n\n(\"lisp-implementation-type\" \"-f-------\" \"COMMON-LISP:LISP-IMPLEMENTATION-TYPE\")\n\n which is not \n\nEQUAL\n\n to \n\n(\"lisp-implementation-type\" \"lisp-implementation-version\" \"list\" \"list*\"\n \"list-all-packages\" \"list-length\" \"listen\" \"listp\")\n\n"
+    },
+    {
+      "test": "DREI-TESTS::MAKE-INSTANCE-FORM-TRAITS",
+      "kind": "TEST-FAILURE",
+      "reason": "\n(FIND-POSSIBLE-COMPLETIONS \"clim:c-s-\" 'MAKE-INSTANCE '('#:C-S-) '((0)))\n\n evaluated to \n\nNIL\n\n which is not \n\nEQUAL\n\n to \n\n(\"clim:clim-stream-pane\")\n\n"
+    },
+    {
+      "test": "DREI-TESTS::FIND-CLASS-FORM-TRAITS",
+      "kind": "TEST-FAILURE",
+      "reason": "\n(FIND-POSSIBLE-COMPLETIONS \"lis\" 'FIND-CLASS '(#:LIS) '((0)))\n\n evaluated to \n\n(\"lisp-implementation-type\" \"-f-------\" \"COMMON-LISP:LISP-IMPLEMENTATION-TYPE\")\n\n which is not \n\nEQUAL\n\n to \n\n(\"lisp-implementation-type\" \"lisp-implementation-version\" \"list\" \"list*\"\n \"list-all-packages\" \"list-length\" \"listen\" \"listp\")\n\n"
+    },
+    {
+      "test": "DREI-TESTS::FIND-CLASS-FORM-TRAITS",
+      "kind": "TEST-FAILURE",
+      "reason": "\n(FIND-POSSIBLE-COMPLETIONS \"clim:c-s-\" 'FIND-CLASS '('#:C-S-) '((0)))\n\n evaluated to \n\nNIL\n\n which is not \n\nEQUAL\n\n to \n\n(\"clim:clim-stream-pane\")\n\n"
+    }
+  ],
+  "errors": [
+    "Target test executions is missing",
+    "Test execution inventory is incomplete",
+    "Last execution counts differ from reported per-test counts",
+    "Self-compilation did not record every nested default-suite test",
+    "Execution totals differ",
+    "Outer result total is invalid",
+    "Target execution nonpassed assertions is missing",
+    "Per-test assertion counts differ"
+  ],
+  "targetFile": "/home/user/src/valtan/tests/mcclim/drei-all-outer-results.json",
+  "referenceFile": "/home/user/src/valtan/tests/mcclim/drei-all-host-results.json",
+  "targetSha256": "1e09df776d43781e8c90b938cfa3c72ab667f91fe337bec3e754d6e6536ffdbd",
+  "referenceSha256": "1fe6c071e64082d5adbb1f37351144950ea958900daf9added44b9f4716b8fa1"
+}

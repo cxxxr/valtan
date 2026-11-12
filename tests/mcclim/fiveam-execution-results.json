@@ -1,0 +1,89 @@
+{
+  "status": "passed",
+  "complete": true,
+  "startedAt": "2026-11-12T02:32:35.287Z",
+  "work": "/tmp/valtan-fiveam-executions-sWaTS6",
+  "scope": "Nested FiveAM invocations, hidden failure/skip detection and JSON reporting; synthetic cases, not McCLIM or Drei coverage",
+  "sources": {
+    "fiveam-executions.lisp": "0b999c22de247b993ae851089cd67af5ed22a221782a5f2be8c7841b34435db5",
+    "fiveam-execution-checks.lisp": "60217268ab8cb4678fa5763bc0d11d6ddc1dbf386ea422a3bbd1fdc6e8c62767",
+    "upstream-checks.lisp": "6ca02627ee598407c75ad3d2d57f6a708cbaa37dd92de1536965f8c4ec9a6459",
+    "fiveam-execution-report-checks.lisp": "96f22e37aeaffc7a91996c2b158a6b8f2c1c5764ef1b3fb8e60dfa87be17826d"
+  },
+  "runs": [
+    {
+      "name": "native",
+      "command": "sbcl",
+      "args": [
+        "--script",
+        "/tmp/valtan-fiveam-executions-sWaTS6/host.lisp"
+      ],
+      "status": "passed"
+    },
+    {
+      "name": "node",
+      "command": "/home/user/.local/node/bin/node",
+      "args": [
+        "/home/user/src/valtan/tests/mcclim/probe.mjs",
+        "fiveam",
+        "/tmp/valtan-fiveam-executions-sWaTS6/node.json",
+        "/tmp/valtan-fiveam-executions-sWaTS6/checks.lisp",
+        "--runtime-timeout=120000"
+      ],
+      "status": "passed",
+      "probe": {
+        "system": "fiveam",
+        "scope": "Load and supplied API assertions; GUI verification is separate",
+        "timestamp": "2026-11-12T02:32:35.510Z",
+        "complete": true,
+        "status": "passed",
+        "work": "/tmp/valtan-mcclim-yKBVi6",
+        "compilerSha256": "97fe016200aba1e587dcfa595e0516340cf7448354076c8660f61740ed753375",
+        "target": "node",
+        "extraSystems": [],
+        "targetFeatures": [],
+        "runtimeTimeout": 120000,
+        "checksSha256": "4d096c035833ae44b271652e3a85514c7692e6ea826a5bf58e6de953b71db4d6",
+        "stage": "run",
+        "bundleSha256": "b98abb01e75766e526e286cdccb5a37d03d5d278fb8678d0e84eb6ddae2da034",
+        "finishedAt": "2026-11-12T02:33:06.732Z"
+      }
+    },
+    {
+      "name": "scheduled",
+      "command": "/home/user/.local/node/bin/node",
+      "args": [
+        "/home/user/src/valtan/tests/mcclim/probe.mjs",
+        "fiveam",
+        "/tmp/valtan-fiveam-executions-sWaTS6/scheduled.json",
+        "/tmp/valtan-fiveam-executions-sWaTS6/checks.lisp",
+        "--runtime-timeout=120000",
+        "valtan-resumable",
+        "--browser",
+        "--after-load=/tmp/valtan-fiveam-executions-sWaTS6/scheduled.mjs"
+      ],
+      "status": "passed",
+      "probe": {
+        "system": "fiveam",
+        "scope": "Load and supplied API assertions; GUI verification is separate",
+        "timestamp": "2026-11-12T02:33:06.788Z",
+        "complete": true,
+        "status": "passed",
+        "work": "/tmp/valtan-mcclim-fVizoj",
+        "compilerSha256": "97fe016200aba1e587dcfa595e0516340cf7448354076c8660f61740ed753375",
+        "target": "browser",
+        "extraSystems": [],
+        "targetFeatures": [
+          "valtan-resumable"
+        ],
+        "runtimeTimeout": 120000,
+        "afterLoadSha256": "1be9a2904836c947b6201521e74975b16da29d51cf50c609b17a0215225e3e1b",
+        "checksSha256": "4d096c035833ae44b271652e3a85514c7692e6ea826a5bf58e6de953b71db4d6",
+        "stage": "run",
+        "bundleSha256": "2dfa4adc999fff10181c9b8c8c3fd87d33a8031fafa813bf42f11006400fe06e",
+        "finishedAt": "2026-11-12T02:34:21.786Z"
+      }
+    }
+  ],
+  "finishedAt": "2026-11-12T02:34:21.822Z"
+}

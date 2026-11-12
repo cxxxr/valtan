@@ -19,6 +19,19 @@ function fixture() {
       test: observedNames.has(`VALTAN-GRAY:${row.test}`) ? `VALTAN-GRAY:${row.test}` : row.test}))});
   target.checks.resultCounts.find(row => row.test === 'DREI-TESTS::ARGLIST-KEYWORD-P').count = 9;
   retotal(target);
+  const counts = new Map(target.checks.resultCounts.map(row => [row.test, row.count]));
+  const names = [...new Set(target.checks.files.flatMap(row => row.registered))];
+  const execution = (name, depth) => {
+    const count = name === 'DREI-TESTS::SELF-COMPILATION-TEST' && depth === 2 ? 0 : counts.get(name) ?? 0;
+    return {test:name,depth,results:count,passed:count,failed:0,skipped:0};
+  };
+  target.checks.executions = [
+    ...names.filter(name => !name.includes('-BUFFER-PERFORMANCE')).map(name => execution(name, 2)),
+    ...names.map(name => execution(name, 1)),
+  ];
+  Object.assign(target.checks, {outerResults:target.checks.results,
+    executionResults:target.checks.executions.reduce((sum,row) => sum + row.results, 0),
+    executionFailed:0,executionSkipped:0,executionNonpassed:[]});
   return {target, reference};
 }
 function retotal(target) {
@@ -52,6 +65,14 @@ test('the actual retained partial browser run cannot pass', () => {
   assert.ok(report.errors.includes('Target has unexecuted tests'));
   assert.ok(report.errors.includes('Target has skipped assertions'));
   assert.ok(!report.errors.includes('Target assertion counts is missing'));
+});
+
+test('a completed outer report with missing nested results cannot pass', () => {
+  const report = compareDrei(read('./drei-all-outer-results.json'), read('./drei-all-host-results.json'));
+  assert.equal(report.complete, false);
+  assert.equal(report.differences.length, 14);
+  assert.ok(report.errors.includes('Per-test assertion counts differ'));
+  assert.ok(report.errors.includes('Target test executions is missing'));
 });
 
 test('a target failure is rejected even when native has the same failure', () => {
@@ -141,5 +162,21 @@ test('incomplete or internally inconsistent native reference is rejected', () =>
   ]) {
     const {target, reference} = fixture(); mutate(reference);
     assert.equal(compareDrei(target, reference).complete, false);
+  }
+});
+
+test('nested omissions and hidden failures or skips cannot pass', () => {
+  for (const variant of ['missing', 'nested', 'failed', 'skipped', 'last', 'details']) {
+    const {target, reference} = fixture(), checks = target.checks;
+    if (variant === 'missing') delete checks.executions;
+    else if (variant === 'nested') checks.executions = checks.executions.filter(row => row.depth === 1);
+    else if (variant === 'last') checks.executions.at(-1).results++;
+    else if (variant === 'details') checks.executionNonpassed = [{test:checks.executions[0].test}];
+    else {
+      const row = checks.executions.find(row => row.depth === 2 && row.results > 0);
+      row.passed--; row[variant]++;
+      checks[variant === 'failed' ? 'executionFailed' : 'executionSkipped']++;
+    }
+    assert.equal(compareDrei(target, reference).complete, false, variant);
   }
 });

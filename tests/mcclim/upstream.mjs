@@ -33,7 +33,7 @@ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-mcclim-upstream-'));
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),
   scope:`All sources in the installed ${drei?'drei-mcclim/test':'mcclim/test and mcclim/test-util'} ASDF plan, read with target features in real browser McCLIM; not GUI integration or complete extension coverage`,
   testSystem,suite,selfCompilation,threaded,startupTimeout,evaluationTimeout,targetSystems,targetFeatures,
-  workbenchSourceHashes:Object.fromEntries(['upstream-plan.lisp','upstream-checks.lisp','upstream.mjs']
+  workbenchSourceHashes:Object.fromEntries(['upstream-plan.lisp','fiveam-executions.lisp','upstream-checks.lisp','upstream.mjs']
     .map(name=>[name,hash(fs.readFileSync(path.join(here,name)))]))};
 const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
 let child;
@@ -75,7 +75,8 @@ try {
     :target-features (${targetFeatures.map(name=>':'+name).join(' ')}) :compile-mode :runtime)`);
   const fixture=(threaded?`(assert (member :clim-mp *features*))
     (assert (eq ((ffi:ref "lisp" "hasExecutionContext")) (ffi:ref "true")))
-    `:'')+fs.readFileSync(path.join(here,'upstream-checks.lisp'),'utf8')+
+    `:'')+fs.readFileSync(path.join(here,'fiveam-executions.lisp'),'utf8')+'\n'+
+    fs.readFileSync(path.join(here,'upstream-checks.lisp'),'utf8')+
     '\n(setf mcclim-upstream-checks::*files* nil)\n'+
     snapshots.map(({file,source})=>`(mcclim-upstream-checks::load-test-source ${quote(file)} ${quote(source)})`).join('\n')+
     (selfCompilation?'\n(setf (symbol-value (find-symbol "*RUN-SELF-COMPILATION-TEST*" "DREI-TESTS")) t)\n':'')+
