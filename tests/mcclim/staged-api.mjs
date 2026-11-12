@@ -35,6 +35,15 @@ const assertions=`(progn
   (assert (probe-file (asdf:component-pathname backend)))
   (with-open-file (source (asdf:component-pathname backend))
    (assert (string= (read-line source) "(in-package #:drei-lisp-syntax)"))))
+ (let* ((buffer (make-instance 'drei:drei-buffer))
+        (view (make-instance 'drei:textual-drei-syntax-view :buffer buffer))
+        (syntax (drei:make-syntax-for-view view 'drei-lisp-syntax:lisp-syntax)))
+  (assert (typep (drei-lisp-syntax::get-usable-image syntax)
+                 'drei-lisp-syntax::valtan-local-image))
+  (let ((selected (list :selected-image)))
+   (setf (drei-lisp-syntax::image syntax) selected)
+   (reinitialize-instance syntax)
+   (assert (eq (drei-lisp-syntax::get-usable-image syntax) selected))))
  (let* ((text "A日本語Z")
         (bytes (babel:string-to-octets text :encoding :iso-2022-jp)))
   (assert (equalp bytes #(65 27 36 66 70 124 75 92 56 108 27 40 66 90)))
@@ -50,7 +59,7 @@ try {
  const scheduler=new lisp.CooperativeScheduler({checkpointBudget:10000});
  const result=await scheduler.spawn(s('EVAL'),[form]).completion;
  if(result[0].name!=='RESTORED')throw new Error('Expected restored result');
- postMessage({done:true,lines,errors,loadMs,apiAndThreadAssertions:true,babelIso2022Jp:true,dreiBackendAndSource:true,sourceLoaderDisabled:true,liveTasks:lisp.allScheduledTasks().length});
+ postMessage({done:true,lines,errors,loadMs,apiAndThreadAssertions:true,babelIso2022Jp:true,dreiBackendAndSource:true,dreiSyntaxImage:true,sourceLoaderDisabled:true,liveTasks:lisp.allScheduledTasks().length});
 }catch(error){postMessage({done:true,lines,errors:[...errors,String(error)]});}`;
 const requests=[], server=http.createServer((req,res)=>{
  requests.push(req.url);
@@ -78,6 +87,7 @@ try{
  assert.equal(state.apiAndThreadAssertions,true);assert.equal(state.liveTasks,0);
  assert.equal(state.babelIso2022Jp,true);
  assert.equal(state.dreiBackendAndSource,true);
+ assert.equal(state.dreiSyntaxImage,true);
  assert.ok(!requests.some(x=>x.endsWith('.lisp')));
  report.status='passed';report.complete=true;
 }catch(error){report.status='failed';report.error=String(error);process.exitCode=1;}

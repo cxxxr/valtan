@@ -1087,6 +1087,18 @@ were visually inspected. Source/module, artifact, compiler, kernel, bundle and
 browser-asset hashes were independently verified. The current-version full
 McCLIM suite and combined Drei suite remain separate execution gates.
 
+After the syntax-image initialization repair, another [fresh build and replay](../tests/mcclim/compiled-syntax-image-browser-results.json)
+passes all 375 components, producing 12,777 forms. In a fresh browser with
+library source fallback disabled, the API checks now also create a real Drei
+syntax object, verify its effective Valtan image and retain an explicit image
+across reinitialization. All API checks pass with zero errors and remaining
+scheduled tasks. A separate production-worker GUI passes drawing, button and
+keyboard input; its [initial frame](../tests/mcclim/screenshots/compiled-syntax-image-initial.png)
+and [frame after input](../tests/mcclim/screenshots/compiled-syntax-image-after-input.png)
+were visually inspected. All prepared source/module, artifact, compiler, kernel,
+bundle and browser-asset hashes were independently verified. This report covers
+compiled restoration and GUI behavior; complete upstream suites remain separate.
+
 The [unchanged upstream calculator](../tests/mcclim/upstream-calculator-results.json)
 also runs with those compiled libraries and the production browser worker.
 Twelve actual pointer clicks verify `12 + 3 = 15`, continuing with `* 4 = 60`,
@@ -1121,7 +1133,7 @@ the manifest covers the subsequent dependency and application components.
 Replay checks the complete component inventory and artifact hashes, disables
 library source loading, and bundles the compiled forms without rewriting the
 cache. The API consumer checks the loaded order, geometry, presentation types,
-the Drei backend and its source resource, Babel ISO-2022-JP encoding and a
+the Drei syntax image selection, backend and source resource, Babel ISO-2022-JP encoding and a
 scheduled thread join. The GUI consumer restores compiled libraries and
 loads the production demo's application entry from source, then checks drawing,
 button and keyboard input. Results stay in the work directory; the availability
