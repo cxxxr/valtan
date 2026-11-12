@@ -1,0 +1,64 @@
+{
+  "status": "failed",
+  "complete": false,
+  "scope": "Repair regression before changing the adapter: new syntax selects unavailable Swank after parser loading upstream Swank source and restoring the old adapter. Node terminates at the expected assertion; Chrome was not attempted.",
+  "diagnosticLines": [
+    "DREI-SYNTAX-IMAGE DREI-LISP-SYNTAX::VALTAN-LOCAL-IMAGE",
+    "DREI-SYNTAX-IMAGE DREI-LISP-SYNTAX::SWANK-LOCAL-IMAGE",
+    "Error: The assertion (TYPEP IMAGE (QUOTE DREI-LISP-SYNTAX::VALTAN-LOCAL-IMAGE)) failed."
+  ],
+  "logSha256": "419daf6597bb252a2c8a6324ed0466e666d060ff104795a500e5121809f4ca35",
+  "driverReportSha256": "b2c675356e2ac8bcf19f2ace895e8f594305758032168a4a6ff152455b65135c",
+  "targetReportSha256": "d3af5cbe5ced904c1f8bd67edab103e732140a556c7fc1c1f9b3b3bdecc1a234",
+  "driverReport": {
+    "status": "failed",
+    "complete": false,
+    "startedAt": "2026-11-12T07:00:14.349Z",
+    "work": "/tmp/valtan-drei-image-reload-BRhPjf",
+    "scope": "Reload unchanged upstream lisp-syntax.lisp, parse/evaluate lisp-syntax-swank.lisp and restore the backend twice; check syntax image selection and 22 image APIs; not full Drei self-compilation",
+    "runs": [
+      {
+        "target": "node",
+        "status": "running"
+      }
+    ],
+    "upstreamSource": {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/lisp-syntax.lisp",
+      "sha256": "3fd69cda6dd7e1667d14df2b17120f7fb753c7bcb8778a82d433c99b7fa4ff56"
+    },
+    "upstreamSwankSource": {
+      "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/lisp-syntax-swank.lisp",
+      "sha256": "24654ecb24d8b9ef77e81be06bc37c5855a428e87dcb130e87b2182cadcfe2f4"
+    },
+    "backendSource": {
+      "file": "/home/user/src/valtan/library/mcclim-portability/drei-image.lisp",
+      "sha256": "49c6300dbdd1364322c38507ba8e271f81cc8a99a03a1567e9c7949ea07bd36b"
+    },
+    "checks": {
+      "drei-image-reload-checks.lisp": "77678a5293db08ca0a415399fcf498f0bace2c580a5e9aae353133b6d77d8179",
+      "drei-image-checks.lisp": "1c5cc8a061a24654ca8d936c9325373dc69c0d7600a720b7563f73957cacda5f"
+    },
+    "error": "Error: Command failed: /home/user/.local/node/bin/node /home/user/src/valtan/tests/mcclim/probe.mjs mcclim-portability/drei /tmp/valtan-drei-image-reload-BRhPjf/node.json /tmp/valtan-drei-image-reload-BRhPjf/checks.lisp clim-without-swank\n",
+    "finishedAt": "2026-11-12T07:06:33.799Z"
+  },
+  "targetReport": {
+    "system": "mcclim-portability/drei",
+    "scope": "Load and supplied API assertions; GUI verification is separate",
+    "timestamp": "2026-11-12T07:00:14.591Z",
+    "complete": false,
+    "status": "failed",
+    "work": "/tmp/valtan-mcclim-9FlNC0",
+    "compilerSha256": "97fe016200aba1e587dcfa595e0516340cf7448354076c8660f61740ed753375",
+    "target": "node",
+    "extraSystems": [],
+    "targetFeatures": [
+      "clim-without-swank"
+    ],
+    "runtimeTimeout": 3600000,
+    "checksSha256": "f0ab384537b3b537e1f6c685c7f21d5b3bf81161d7228265b4b8bb75e93b1cc8",
+    "stage": "run",
+    "bundleSha256": "69b1f424906b6960543c85092ed98ed1770a1c55d90913d34e4d99a87de7a024",
+    "error": "Error: /home/user/.local/node/bin/node: 1\nckquote-level) 0) args)))\n    (if (plusp backquote-level)\n        (list +comma-dot-marker+ obj)\n        obj)))\n\n;;; The atom(-ish) forms.\n\n(defmethod form-to-object ((syntax lisp-syntax) (form complete-token-form)\n                           &key read (case (readtable-case *readtable*))\n                           &allow-other-keys)\n  (multiple-value-bind (symbol package status)\n      (parse-symbol (form-string syntax form)\n                    :package *package* :case case)\n    (values (cond ((and read (null status) (packagep package))\n                   (intern (symbol-name symbol) package))\n                  (t symbol)))))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form number-lexeme)\n                           &key &allow-other-keys)\n  (let ((*read-base* (base syntax)))\n    (invoke-reader syntax form)))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form simple-vector-form)\n                           &key &allow-other-keys)\n  (let* ((contents (call-next-method))\n         (lexeme-string (form-string syntax (first (children form))))\n         (size (parse-integer lexeme-string :start 1\n                              :end (1- (length lexeme-string))\n                              :junk-allowed t))\n         (vector (make-array (or size (length contents)))))\n    (loop for cons = contents then (or rest cons)\n       for element = (first cons)\n       for rest = (rest cons)\n       for i below (length vector) do\n       (setf (aref vector i) element)\n       finally (return vector))))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form incomplete-string-form)\n                           &key &allow-other-keys)\n  (values (read-from-string (concatenate 'string (form-string syntax form) \\\\\\\"\\\\\\\\\\\\\\\"\\\\\\\"))))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form complete-string-form)\n                           &key &allow-other-keys)\n  (invoke-reader syntax form))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form function-form) &rest args)\n  (list 'cl:function (apply #'form-to-object syntax (second (children form)) args)))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form complete-character-lexeme)\n                           &key &allow-other-keys)\n  (or (ignore-errors (values (read-from-string (form-string syntax form))))\n      (form-conversion-error syntax form\n                             \\\\\\\"character ~A not recognized\\\\\\\"\n                             (form-string syntax form))))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form cons-cell-form) &rest args\n                           &key &allow-other-keys)\n  (apply #'list* (mapcar #'(lambda (form)\n                             (apply #'form-to-object syntax form args))\n                         (remove-if-not #'formp (children form)))))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form reader-conditional-positive-form)\n                           &key &allow-other-keys)\n  (let ((conditional (second-noncomment (children form))))\n    (if (eval-feature-conditional conditional syntax)\n        (form-to-object syntax (third-noncomment (children form)))\n        (values))))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form reader-conditional-negative-form)\n                           &key &allow-other-keys)\n  (let ((conditional (second-noncomment (children form))))\n    (if (not (eval-feature-conditional conditional syntax))\n        (form-to-object syntax (third-noncomment (children form)))\n        (values))))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form uninterned-symbol-form)\n                           &key (case (readtable-case *readtable*)) &allow-other-keys)\n  (make-symbol (parse-token (form-string syntax form) case)))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form undefined-reader-macro-form)\n                           &key read &allow-other-keys)\n  ;; This is likely to malfunction for some really evil reader macros,\n  ;; in that case, you need to extend the parser to understand them.\n  (when read\n    (invoke-reader syntax form)))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form literal-object-form) &key &allow-other-keys)\n  (buffer-object (buffer syntax) (start-offset form)))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form pathname-form) &key &allow-other-keys)\n  (values (read-from-string (form-string syntax form))))\n\n(defmethod form-to-object ((syntax lisp-syntax) (form incomplete-pathname-form) &rest args &key read &allow-other-keys)\n  (if read\n      ;; Will cause a reader error (which is what we want).\n      (call-next-method)\n      ;; Try to create a pathname as much as possible.\n      (let ((pathspec-form (second (children form))))\n        (pathname (if pathspec-form\n                      (apply #'form-to-object syntax pathspec-form\n                             ;; Since `pathspec-form' will be\n                             ;; incomplete, `read'ing from it is\n                             ;; probably bad.\n                             :read nil args)\n                      \\\\\\\"\\\\\\\")))))\n\n(defmethod form-to-obje",
+    "finishedAt": "2026-11-12T07:06:33.793Z"
+  }
+}

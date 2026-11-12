@@ -6,6 +6,15 @@
 #+clim-without-swank
 (defun default-image () (make-instance 'valtan-local-image))
 
+;; Drei's source walker also evaluates lisp-syntax-swank.lisp, whose
+;; SHARED-INITIALIZE method unconditionally selects Swank even with
+;; CLIM-WITHOUT-SWANK. Replace that method when restoring this backend.
+;; Leave IMAGE untouched: NIL uses DEFAULT-IMAGE, and explicitly selected
+;; images must survive REINITIALIZE-INSTANCE.
+#+clim-without-swank
+(defmethod shared-initialize :after ((syntax lisp-syntax) slot-names &key)
+  (declare (ignore syntax slot-names)))
+
 (defmethod arglist ((image valtan-local-image) (symbol symbol))
   (declare (ignore image))
   (valtan-image-support:arglist symbol))

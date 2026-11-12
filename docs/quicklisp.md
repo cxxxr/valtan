@@ -1400,11 +1400,19 @@ records all 596 tests, 1,088 invocations and all 506 nested default-suite cases.
 It has zero skips, but fails: latest-invocation coverage contains 3,704 passed
 and 11 failed assertions out of 3,715. After parser-based self-compilation,
 ten image-dependent cases call uninterned, undefined `ARGLIST` or `COMPLETIONS`
-functions; the self-compilation assertion also fails. The backend selection and
+functions; the self-compilation assertion also fails. The default-image and
 35-component tree checks do not fail. The [strict comparison](../tests/mcclim/drei-all-image-reader-before-comparison.json)
 rejects these failures and assertion-count deficits in ten cases. Sources,
 compiler, fixture, bundle and browser assets were checked against their hashes.
 This is a failed full-suite result, not complete Drei compatibility.
+The failure comes from `lisp-syntax-swank.lisp`: the source walker evaluates
+its unguarded `SHARED-INITIALIZE :after` method even with `:clim-without-swank`.
+New syntax objects then select `SWANK-LOCAL-IMAGE`, overriding the restored
+Valtan default and calling unavailable Swank functions. A [focused reproduction](../tests/mcclim/drei-syntax-image-before-results.json)
+fails at that syntax-image assertion before the fix. The adapter now replaces
+that initialization method in the no-Swank configuration, leaving the image slot
+untouched so `NIL` uses the Valtan default and explicit selections survive
+reinitialization. Validation of the repaired full suite is pending.
 `npm run test:mcclim:drei:all:host` uses upstream's native Swank image backend
 without starting a server. Its [native reference](../tests/mcclim/drei-all-host-results.json)
 executes all 596 cases with zero skips, but records 11 failures: one upstream
@@ -1472,10 +1480,13 @@ before and after the suite; the original 34 hashes are still compared with SBCL,
 and the adapter's hash is recorded separately.
 
 The [focused reload checks](../tests/mcclim/drei-image-reload-results.json) pass
-in Node and Chrome. `cd tests && npm run test:mcclim:drei:reload` re-evaluates the unchanged upstream
-syntax source, reloads the backend through its component pathname, repeats that
-sequence, then runs the 22 adapter assertions in Node and Chrome. This focused
-check is separate from Drei's parser-based self-compilation of every source.
+in fresh Node and Chrome runtimes. `cd tests && npm run test:mcclim:drei:reload`
+re-evaluates the unchanged upstream syntax source, parses/evaluates the unchanged
+Swank source using Drei's parser, and reloads the backend through its component
+pathname. It repeats that sequence and checks the effective image of a new
+syntax object, argument lists, completion and preservation of explicit image
+selections across reinitialization, then runs the 22 adapter assertions. This
+focused check is separate from parser-based self-compilation of every source.
 
 From the repository root, reproduce the browser method checks with the workbench
 and inspect the `drei-image` response for `(:DREI-IMAGE-CHECKS 22)`:

@@ -1,9 +1,9 @@
 {
   "status": "passed",
   "complete": true,
-  "startedAt": "2026-11-12T02:50:53.554Z",
-  "work": "/tmp/valtan-drei-image-reload-WfBasx",
-  "scope": "Reload unchanged upstream lisp-syntax.lisp and the backend component twice, then check 22 image APIs; not full Drei self-compilation",
+  "startedAt": "2026-11-12T07:06:59.070Z",
+  "work": "/tmp/valtan-drei-image-reload-fxkI28",
+  "scope": "Reload unchanged upstream lisp-syntax.lisp, parse/evaluate lisp-syntax-swank.lisp and restore the backend twice; check syntax image selection and 22 image APIs; not full Drei self-compilation",
   "runs": [
     {
       "target": "node",
@@ -11,10 +11,10 @@
       "probe": {
         "system": "mcclim-portability/drei",
         "scope": "Load and supplied API assertions; GUI verification is separate",
-        "timestamp": "2026-11-12T02:50:53.811Z",
+        "timestamp": "2026-11-12T07:06:59.303Z",
         "complete": true,
         "status": "passed",
-        "work": "/tmp/valtan-mcclim-WB2VEq",
+        "work": "/tmp/valtan-mcclim-keL37H",
         "compilerSha256": "97fe016200aba1e587dcfa595e0516340cf7448354076c8660f61740ed753375",
         "target": "node",
         "extraSystems": [],
@@ -22,10 +22,10 @@
           "clim-without-swank"
         ],
         "runtimeTimeout": 3600000,
-        "checksSha256": "d70583a620704d2f543bd1c4bc7f3e99c7775a87f3257b05ddc51c7311a4ace6",
+        "checksSha256": "0d540b9c31dc321f7e45aebe00129eeb191a1557e6d72cb7fd3dfb2160f4fe6b",
         "stage": "run",
-        "bundleSha256": "7fb48f8460be626aa1f2244e8b858061a446424f7eb4b95c57da283137ae1530",
-        "finishedAt": "2026-11-12T02:57:09.170Z"
+        "bundleSha256": "fc11806aec940db127e6d5bcde8ad83855fa517696fed33a0da75548d6f15134",
+        "finishedAt": "2026-11-12T07:14:41.200Z"
       }
     },
     {
@@ -34,10 +34,10 @@
       "probe": {
         "system": "mcclim-portability/drei",
         "scope": "Load and supplied API assertions; GUI verification is separate",
-        "timestamp": "2026-11-12T02:57:09.215Z",
+        "timestamp": "2026-11-12T07:14:41.247Z",
         "complete": true,
         "status": "passed",
-        "work": "/tmp/valtan-mcclim-j8vamN",
+        "work": "/tmp/valtan-mcclim-L8DpKZ",
         "compilerSha256": "97fe016200aba1e587dcfa595e0516340cf7448354076c8660f61740ed753375",
         "target": "browser",
         "extraSystems": [],
@@ -45,10 +45,10 @@
           "clim-without-swank"
         ],
         "runtimeTimeout": 3600000,
-        "checksSha256": "d70583a620704d2f543bd1c4bc7f3e99c7775a87f3257b05ddc51c7311a4ace6",
+        "checksSha256": "0d540b9c31dc321f7e45aebe00129eeb191a1557e6d72cb7fd3dfb2160f4fe6b",
         "stage": "run",
-        "bundleSha256": "3440c6cad81f1bfe2ffc4113bfa10c0110f1dff8b1d2fb0a67e2065d7d55a033",
-        "finishedAt": "2026-11-12T03:03:02.226Z"
+        "bundleSha256": "a30857616add3e555d88aa33f682565e24facdd93df6e707a090d515a50c9ad3",
+        "finishedAt": "2026-11-12T07:21:54.691Z"
       }
     }
   ],
@@ -56,13 +56,17 @@
     "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/lisp-syntax.lisp",
     "sha256": "3fd69cda6dd7e1667d14df2b17120f7fb753c7bcb8778a82d433c99b7fa4ff56"
   },
+  "upstreamSwankSource": {
+    "file": "/home/user/quicklisp/dists/quicklisp/software/mcclim-20260101-git/Libraries/Drei/lisp-syntax-swank.lisp",
+    "sha256": "24654ecb24d8b9ef77e81be06bc37c5855a428e87dcb130e87b2182cadcfe2f4"
+  },
   "backendSource": {
     "file": "/home/user/src/valtan/library/mcclim-portability/drei-image.lisp",
-    "sha256": "49c6300dbdd1364322c38507ba8e271f81cc8a99a03a1567e9c7949ea07bd36b"
+    "sha256": "9b0c24d5f9eec7adfaebe5518da161cb6afea0cdaf241cc804dab9a7a270fb73"
   },
   "checks": {
-    "drei-image-reload-checks.lisp": "19952fe35c9eaba833ec0cb92c3d89386eb83b65c13b1e00e13faca09ca3bac0",
+    "drei-image-reload-checks.lisp": "4215616750e8871ccacc28c60cced793a9a5162f228e259e0488aec0af1c8a60",
     "drei-image-checks.lisp": "1c5cc8a061a24654ca8d936c9325373dc69c0d7600a720b7563f73957cacda5f"
   },
-  "finishedAt": "2026-11-12T03:03:02.274Z"
+  "finishedAt": "2026-11-12T07:21:54.740Z"
 }

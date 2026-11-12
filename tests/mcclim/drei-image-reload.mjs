@@ -12,7 +12,7 @@ const here=path.dirname(fileURLToPath(import.meta.url)),root=path.resolve(here,'
 const output=path.resolve(process.argv[2]??'/tmp/valtan-drei-image-reload.json');
 const work=fs.mkdtempSync(path.join(os.tmpdir(),'valtan-drei-image-reload-'));
 const report={status:'running',complete:false,startedAt:new Date().toISOString(),work,
-  scope:'Reload unchanged upstream lisp-syntax.lisp and the backend component twice, then check 22 image APIs; not full Drei self-compilation',runs:[]};
+  scope:'Reload unchanged upstream lisp-syntax.lisp, parse/evaluate lisp-syntax-swank.lisp and restore the backend twice; check syntax image selection and 22 image APIs; not full Drei self-compilation',runs:[]};
 const save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
 const quote=text=>'"'+text.replaceAll('\\','\\\\').replaceAll('"','\\"')+'"';
 async function run(name,command,args,timeout){
@@ -28,22 +28,31 @@ try {
   const file=plan.sourceResources.find(file=>path.basename(file)==='lisp-syntax.lisp');
   assert.ok(file);
   const upstream=fs.readFileSync(file,'utf8');
+  const swankFile=plan.sourceResources.find(file=>path.basename(file)==='lisp-syntax-swank.lisp');
+  assert.ok(swankFile);
+  const swank=fs.readFileSync(swankFile,'utf8');
   const names=['drei-image-reload-checks.lisp','drei-image-checks.lisp'];
   const sources=names.map(name=>fs.readFileSync(path.join(here,name),'utf8'));
   report.upstreamSource={file,sha256:hash(upstream)};
+  report.upstreamSwankSource={file:swankFile,sha256:hash(swank)};
   const backend=path.join(root,'library/mcclim-portability/drei-image.lisp');
   report.backendSource={file:backend,sha256:hash(fs.readFileSync(backend))};
   report.checks=Object.fromEntries(names.map((name,i)=>[name,hash(sources[i])]));
   const checks=path.join(work,'checks.lisp');
   fs.writeFileSync(checks,`(defpackage :valtan-drei-image-reload-tests (:use :cl))
-(defparameter valtan-drei-image-reload-tests::*upstream-lisp-syntax-source* ${quote(upstream)})\n`+
+(defparameter valtan-drei-image-reload-tests::*upstream-lisp-syntax-source* ${quote(upstream)})
+(defparameter valtan-drei-image-reload-tests::*upstream-swank-source* ${quote(swank)})\n`+
     sources.join('\n')+'\n(write-line "DREI-IMAGE-RELOAD-APIS-PASS")\n');
   for(const target of ['node','browser']){
     const row={target,status:'running'};report.runs.push(row);save();
     const probe=path.join(work,target+'.json');
-    await run(target,process.execPath,[path.join(here,'probe.mjs'),'mcclim-portability/drei',probe,checks,
-      'clim-without-swank',...(target==='browser'?['--browser']:[])],45*60*1000);
-    row.probe=JSON.parse(fs.readFileSync(probe));
+    try {
+      await run(target,process.execPath,[path.join(here,'probe.mjs'),'mcclim-portability/drei',probe,checks,
+        'clim-without-swank',...(target==='browser'?['--browser']:[])],45*60*1000);
+    } finally {
+      if(fs.existsSync(probe))row.probe=JSON.parse(fs.readFileSync(probe));
+      row.status=row.probe?.status??'failed';save();
+    }
     assert.equal(row.probe.status,'passed');assert.equal(row.probe.complete,true);
     const log=fs.readFileSync(probe.replace(/\.json$/,'')+'-logs/run.log','utf8');
     assert.match(log,/DREI-IMAGE-RELOAD-PASS 35 components/);
