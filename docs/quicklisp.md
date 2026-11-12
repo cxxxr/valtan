@@ -1029,7 +1029,19 @@ keyboard input, and produces the expected changed image. Its source-loaded
 application entry uses a real loader symbol so generated call-stack dispatch
 works; library source fallback remains disabled. These artifacts come from
 three compiler snapshots (271 + 41 + 63 components). The independent fresh
-compilation of all 375 components and its browser checks remain required.
+compilation of all 375 components is verified separately below.
+
+The [fresh full compilation and browser replay](../tests/mcclim/compiled-fresh-browser-results.json)
+now passes: all 375 components are compiled with one compiler snapshot and loaded
+in dependency order, producing 12,775 forms without reusing earlier artifacts.
+Fresh browser workers restore the libraries with source fallback disabled.
+The API checks pass, including exact Japanese ISO-2022-JP encoding and decoding,
+with zero errors or remaining scheduled tasks. The GUI loads the production
+application entry from source and passes drawing, button and keyboard checks;
+see the [initial frame](../tests/mcclim/screenshots/compiled-fresh-initial.png)
+and [frame after input](../tests/mcclim/screenshots/compiled-fresh-after-input.png).
+Source, artifact, bundle and browser-asset hashes were verified. This establishes
+the compiled-library build/replay gate; full upstream test coverage is separate.
 
 The staged-compilation harness is available in the repository. From the
 repository root, using a new work directory:
