@@ -46,6 +46,32 @@ $ open index.html
 
 https://github.com/jason-chandler/portal-plurality
 
+### McCLIM counter frame
+
+Install the upstream sources in your host Lisp with Quicklisp:
+
+```lisp
+(ql:quickload '("clim" "png-read" "zpng"))
+```
+
+Then, from the Valtan repository root:
+
+```bash
+make build
+npm --prefix tests install
+npm --prefix tests run demo:mcclim
+```
+
+Open `http://127.0.0.1:8080/` in Chrome. Startup compiles the embedded Lisp
+sources and can take several minutes. Once the frame appears, click
+**Increment**, or click the drawing pane and press `+` or `-`.
+Set `PORT` to use another port. The included server supplies the isolation
+headers required by the browser worker.
+
+The [example sources](example/try-using-mcclim) use an experimental Canvas
+backend. See [McCLIM support and verification](docs/quicklisp.md#mcclim-portability-work)
+for the supported behavior and remaining verification work.
+
 ## Create a project
 
 ```
