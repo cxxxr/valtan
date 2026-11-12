@@ -989,7 +989,7 @@ previously failed on its codespace table, and proceeds to ISO-8859. The complete
 fresh build and browser restoration still require their own gates. The browser
 API check now also verifies exact ISO-2022-JP bytes and a Japanese text round-trip;
 its expected bytes were checked with native Babel and pass in the incremental
-browser replay below. The separate fresh full-build check remains pending.
+browser replay below. The later fresh full-build checks are recorded below.
 
 Nested `DEFCONSTANT` forms evaluate their initializers at execution time, so a
 load form can define a constant using a lexical value. `EVAL` evaluates a
@@ -1010,8 +1010,8 @@ This fixes the compilation error discovered in Drei's `drei-redisplay.lisp`
 [targeted replay](../tests/mcclim/compiled-function-constant-results.json) loads
 the preceding 271 artifacts and verifies that the corrected compiler compiles
 and loads the actual `drei-redisplay.lisp`, then proceeds to `drawing-options.lisp`.
-Those prerequisites were compiled before the fix; a fresh full run and its
-browser restoration checks remain pending.
+Those prerequisites were compiled before the fix; the fresh full run and browser
+restoration checks below provide separate evidence without that older prefix.
 
 Top-level `DEFTYPE` definitions are available during compilation, allowing later
 macros in the same file to use their derived types. McCLIM's pointer-tracking
@@ -1030,7 +1030,7 @@ ordinary/scheduled assertions, including source-deleted loading and the absence
 of compile-time effects for nested forms. The related 91 upstream ANSI cases
 pass in both evaluation and compiled modes. The real staging rerun now compiles
 and loads `standard-presentations.lisp` and proceeds to its command components.
-Full McCLIM staging remains pending.
+The later full McCLIM staging results are recorded below.
 
 An independent [browser replay of 206 previously compiled components](../tests/mcclim/compiled-prefix-browser-results.json)
 passes geometry and scheduled thread-join checks with embedded source loading
@@ -1047,8 +1047,8 @@ the application-frame macro and a scheduled thread join also pass, with library
 source loading disabled and the loaded inventory matching the manifest in order.
 The original producer was interrupted before finishing. For each included
 artifact, a following `TARGET-STAGE` marker proves that its compilation and load
-returned. This verifies restoration of the presentation definitions, while the replacement full
-producer and the complete library/GUI gates remain pending.
+returned. This verifies restoration of the presentation definitions; the full
+producer and compiled-library API/GUI results are recorded separately below.
 
 A [375-component incremental browser replay](../tests/mcclim/compiled-incremental-browser-results.json)
 restores all libraries from compiled artifacts in fresh browser workers. The
@@ -1074,6 +1074,19 @@ and [frame after input](../tests/mcclim/screenshots/compiled-fresh-after-input.p
 Source, artifact, bundle and browser-asset hashes were verified. This establishes
 the compiled-library build/replay gate; full upstream test coverage is separate.
 
+After the Drei backend source-registration fix, a [new fresh build and replay](../tests/mcclim/compiled-backend-browser-results.json)
+again passes all 375 components, now producing 12,776 forms. The browser API
+checks additionally verify the restored local image, the 35-component Drei tree,
+the backend component's parent and its embedded source resource. Reading that
+resource confirms availability while library source evaluation remains disabled.
+The report includes the API driver and assertion hashes, zero errors and zero
+remaining scheduled tasks. The separate production-worker GUI passes the same
+drawing, button and keyboard checks; both the [initial screen](../tests/mcclim/screenshots/compiled-backend-initial.png)
+and [screen after input](../tests/mcclim/screenshots/compiled-backend-after-input.png)
+were visually inspected. Source/module, artifact, compiler, kernel, bundle and
+browser-asset hashes were independently verified. The current-version full
+McCLIM suite and combined Drei suite remain separate execution gates.
+
 The staged-compilation harness is available in the repository. From the
 repository root, using a new work directory:
 
@@ -1093,7 +1106,8 @@ the manifest covers the subsequent dependency and application components.
 Replay checks the complete component inventory and artifact hashes, disables
 library source loading, and bundles the compiled forms without rewriting the
 cache. The API consumer checks the loaded order, geometry, presentation types,
-Babel ISO-2022-JP encoding and a scheduled thread join. The GUI consumer restores compiled libraries and
+the Drei backend and its source resource, Babel ISO-2022-JP encoding and a
+scheduled thread join. The GUI consumer restores compiled libraries and
 loads the production demo's application entry from source, then checks drawing,
 button and keyboard input. Results stay in the work directory; the availability
 of these commands is not evidence that the pending full McCLIM gates have passed.

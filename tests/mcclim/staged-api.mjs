@@ -25,6 +25,16 @@ const assertions=`(progn
  (assert (not (clim:presentation-typep 42.5 'integer)))
  (assert (clim:presentation-typep 3 '(integer 0 3)))
  (assert (not (clim:presentation-typep 4 '(integer 0 3))))
+ (let* ((system (asdf:find-system "drei-mcclim"))
+        (components (asdf:module-components system))
+        (backend (asdf:find-component system "valtan-image")))
+  (assert (typep (drei-lisp-syntax::default-image) 'drei-lisp-syntax::valtan-local-image))
+  (assert (= (length components) 35))
+  (assert (eq (car (last components)) backend))
+  (assert (eq (asdf:component-parent backend) system))
+  (assert (probe-file (asdf:component-pathname backend)))
+  (with-open-file (source (asdf:component-pathname backend))
+   (assert (string= (read-line source) "(in-package #:drei-lisp-syntax)"))))
  (let* ((text "A日本語Z")
         (bytes (babel:string-to-octets text :encoding :iso-2022-jp)))
   (assert (equalp bytes #(65 27 36 66 70 124 75 92 56 108 27 40 66 90)))
@@ -40,7 +50,7 @@ try {
  const scheduler=new lisp.CooperativeScheduler({checkpointBudget:10000});
  const result=await scheduler.spawn(s('EVAL'),[form]).completion;
  if(result[0].name!=='RESTORED')throw new Error('Expected restored result');
- postMessage({done:true,lines,errors,loadMs,apiAndThreadAssertions:true,babelIso2022Jp:true,sourceLoaderDisabled:true,liveTasks:lisp.allScheduledTasks().length});
+ postMessage({done:true,lines,errors,loadMs,apiAndThreadAssertions:true,babelIso2022Jp:true,dreiBackendAndSource:true,sourceLoaderDisabled:true,liveTasks:lisp.allScheduledTasks().length});
 }catch(error){postMessage({done:true,lines,errors:[...errors,String(error)]});}`;
 const requests=[], server=http.createServer((req,res)=>{
  requests.push(req.url);
@@ -50,7 +60,9 @@ const requests=[], server=http.createServer((req,res)=>{
  else{res.statusCode=404;res.end();}
 });
 await new Promise(r=>server.listen(0,'127.0.0.1',r));let chrome;
-const report={status:'running',complete:false,startedAt:new Date().toISOString(),scope:'Fresh browser replay of target-compiled McCLIM components with embedded source loading disabled; geometry, restored REAL/INTEGER presentation types, macro presence, Babel ISO-2022-JP bytes/round-trip and scheduled BT join assertions. GUI validation is separate.',producerManifest:path.join(work,'manifest.json'),bundleSha256:createHash('sha256').update(bundle).digest('hex')};
+const report={status:'running',complete:false,startedAt:new Date().toISOString(),scope:'Fresh browser replay of target-compiled McCLIM components with embedded source loading disabled; geometry, restored REAL/INTEGER presentation types, macro presence, Drei image backend/component/source resource, Babel ISO-2022-JP bytes/round-trip and scheduled BT join assertions. The backend resource is read, not loaded or evaluated. GUI validation is separate.',producerManifest:path.join(work,'manifest.json'),bundleSha256:createHash('sha256').update(bundle).digest('hex')};
+report.driverSha256=sha(fs.readFileSync(new URL(import.meta.url)));
+report.assertionsSha256=sha(assertions);
 const output=path.join(work,'browser-result.json'),save=()=>fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');save();
 try{
  chrome=await launchChrome();const page=await chrome.page(`http://127.0.0.1:${server.address().port}/`);
@@ -65,6 +77,7 @@ try{
  assert.deepEqual(state.lines.filter(line=>line.startsWith('TARGET-REPLAY ')).map(line=>line.slice('TARGET-REPLAY '.length)),manifest.records.map(record=>record.source));
  assert.equal(state.apiAndThreadAssertions,true);assert.equal(state.liveTasks,0);
  assert.equal(state.babelIso2022Jp,true);
+ assert.equal(state.dreiBackendAndSource,true);
  assert.ok(!requests.some(x=>x.endsWith('.lisp')));
  report.status='passed';report.complete=true;
 }catch(error){report.status='failed';report.error=String(error);process.exitCode=1;}
