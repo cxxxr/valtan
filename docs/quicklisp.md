@@ -945,6 +945,16 @@ do not exhaust the JavaScript stack. The tests also restore an 8192-element list
 shared with an object's slot, exercising both aggregate references and load-form
 initialization dependencies.
 
+Hash-table literals use the same object graph restoration. Their comparison
+test, rehash settings and entries are preserved, including shared keys, circular
+values and tables used as EQ keys. Composite keys are initialized before they
+are inserted into EQUAL/EQUALP tables. The
+[hash-table fixture](../tests/resumable/file-hash-literals.lisp) is compiled and
+loaded in separate processes with its source deleted, in ordinary and scheduled
+modes, and checks that reloading creates fresh tables. This addresses Babel's
+ISO-2022-JP codespace table encountered at component 313 of McCLIM staging;
+the complete fresh build and browser restoration still require their own gates.
+
 Nested `DEFCONSTANT` forms evaluate their initializers at execution time, so a
 load form can define a constant using a lexical value. `EVAL` evaluates a
 constant initializer once; top-level file compilation still recognizes constants

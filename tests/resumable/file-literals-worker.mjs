@@ -21,8 +21,13 @@ const constantsSource = path.join(directory, 'constants.lisp');
 const constantsArtifact = path.join(directory, 'constants.fasl');
 const dependentSource = path.join(directory, 'constant-user.lisp');
 const dependentArtifact = path.join(directory, 'constant-user.fasl');
+const hashSource = path.join(directory, 'hashes.lisp');
+const hashArtifact = path.join(directory, 'hashes.fasl');
 if (phase === 'produce') {
   if (mode === 'ordinary') symbol('*RESUMABLE-FUNCTIONS*', 'COMPILER').value = lisp.S_nil;
+  fs.copyFileSync(new URL('./file-hash-literals.lisp', import.meta.url), hashSource);
+  call('COMPILE-FILE', string(hashSource));
+  fs.unlinkSync(hashSource);
   fs.writeFileSync(constantsSource, `(in-package :cl-user)
     (defconstant +file-callback+
       (let ((offset 37)) (lambda (value) (+ offset value))))
@@ -81,6 +86,19 @@ if (phase === 'produce') {
   assert.equal(fs.existsSync(largeSource), false);
   user('*LITERAL-NESTED-ARTIFACT*').value = string(childArtifact);
   const scheduler = new lisp.CooperativeScheduler({ checkpointBudget: 10000 });
+  assert.equal(fs.existsSync(hashSource), false);
+  let oldTables;
+  for (let iteration = 0; iteration < 2; iteration++) {
+    if (mode === 'ordinary') call('LOAD', string(hashArtifact));
+    else await scheduler.spawn(symbol('LOAD'), [string(hashArtifact)]).completion;
+    assert.equal(user('CHECK-FILE-HASH-LITERALS').getFunction()(), lisp.S_t);
+    if (mode !== 'ordinary') {
+      assert.equal((await scheduler.spawn(user('CHECK-FILE-HASH-LITERALS'), []).completion)[0], lisp.S_t);
+    }
+    const tables = user('FILE-HASH-TABLES').getFunction()();
+    if (oldTables) assert.notEqual(tables.car, oldTables.car, 'Reload creates fresh hash tables');
+    oldTables = tables;
+  }
   assert.equal(fs.existsSync(constantsSource), false);
   assert.equal(fs.existsSync(dependentSource), false);
   assert.equal(user('+FILE-CALLBACK+').isBound(), false);

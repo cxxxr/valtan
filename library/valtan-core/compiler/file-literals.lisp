@@ -60,6 +60,16 @@
                      (p2-symbol-to-call-value 'make-array) (array-dimensions object)
                      (p2-symbol-to-js-value :element-type)
                      (p2-literal (array-element-type object)))))
+      ((hash-table-p object)
+       (setf (file-literal-aggregate-p entry) t)
+       (setq creation-form-p t)
+       (setq creation
+             (p2-file-literal-form
+              `(make-hash-table :test ',(hash-table-test object)
+                                :size ,(hash-table-size object)
+                                :rehash-size ,(hash-table-rehash-size object)
+                                :rehash-threshold ,(hash-table-rehash-threshold object))
+              (format nil "~A=" reference))))
       ((packagep object)
        (setq creation (format nil "~A(~A)" (p2-symbol-to-call-value 'find-package)
                               (p2-literal (package-name object)))))
@@ -93,12 +103,21 @@
       (let ((*p2-file-literal-dependencies* nil))
         (setq initialization
               (with-output-to-string (out)
-                (if (consp object)
-                    (format out "~A.car=~A;~%~A.cdr=~A;~%"
-                            reference (p2-literal (car object)) reference (p2-literal (cdr object)))
-                    (dotimes (i (array-total-size object))
-                      (format out "lisp.intern('(SETF ROW-MAJOR-AREF)','COMMON-LISP').func(~A,~A,~D);~%"
-                              (p2-literal (row-major-aref object i)) reference i)))))
+                (cond
+                  ((consp object)
+                   (format out "~A.car=~A;~%~A.cdr=~A;~%"
+                           reference (p2-literal (car object)) reference (p2-literal (cdr object))))
+                  ((hash-table-p object)
+                   ;; Initialize keys before inserting them into EQUAL/EQUALP
+                   ;; tables, while retaining shared and circular references.
+                   (maphash (lambda (key value)
+                              (format out "lisp.intern('(SETF GETHASH)','COMMON-LISP').func(~A,~A,~A);~%"
+                                      (p2-literal value) (p2-literal key) reference))
+                            object))
+                  (t
+                   (dotimes (i (array-total-size object))
+                     (format out "lisp.intern('(SETF ROW-MAJOR-AREF)','COMMON-LISP').func(~A,~A,~D);~%"
+                             (p2-literal (row-major-aref object i)) reference i))))))
         (setf (file-literal-init-dependencies entry) *p2-file-literal-dependencies*)))
     (setf (file-literal-initialization entry) initialization)))
 
