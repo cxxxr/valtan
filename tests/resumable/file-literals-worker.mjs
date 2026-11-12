@@ -17,8 +17,29 @@ const childSource = path.join(directory, 'child.lisp');
 const childArtifact = path.join(directory, 'child.fasl');
 const largeSource = path.join(directory, 'large.lisp');
 const largeArtifact = path.join(directory, 'large.fasl');
+const constantsSource = path.join(directory, 'constants.lisp');
+const constantsArtifact = path.join(directory, 'constants.fasl');
+const dependentSource = path.join(directory, 'constant-user.lisp');
+const dependentArtifact = path.join(directory, 'constant-user.fasl');
 if (phase === 'produce') {
   if (mode === 'ordinary') symbol('*RESUMABLE-FUNCTIONS*', 'COMPILER').value = lisp.S_nil;
+  fs.writeFileSync(constantsSource, `(in-package :cl-user)
+    (defconstant +file-callback+
+      (let ((offset 37)) (lambda (value) (+ offset value))))
+    (defstruct file-options (callback +file-callback+))
+    (defun file-callback () +file-callback+)`);
+  call('COMPILE-FILE', string(constantsSource));
+  assert.equal(user('MAKE-FILE-OPTIONS').isFBound(), false);
+  call('LOAD', string(constantsArtifact));
+  // A loaded constant has a compiler-property marker rather than a binding.
+  fs.writeFileSync(dependentSource, `(in-package :cl-user)
+    (defun check-file-callback ()
+      (let ((callback (file-options-callback (make-file-options))))
+        (assert (eq callback +file-callback+))
+        (assert (eq callback (file-callback)))
+        (funcall callback 5)))`);
+  call('COMPILE-FILE', string(dependentSource));
+  fs.unlinkSync(constantsSource); fs.unlinkSync(dependentSource);
   fs.copyFileSync(new URL('./file-literals.lisp', import.meta.url), source);
   fs.writeFileSync(childSource, '(in-package :cl-user) (defun file-literal-child () \'("child" #:child))');
   call('COMPILE-FILE', string(childSource));
@@ -60,6 +81,17 @@ if (phase === 'produce') {
   assert.equal(fs.existsSync(largeSource), false);
   user('*LITERAL-NESTED-ARTIFACT*').value = string(childArtifact);
   const scheduler = new lisp.CooperativeScheduler({ checkpointBudget: 10000 });
+  assert.equal(fs.existsSync(constantsSource), false);
+  assert.equal(fs.existsSync(dependentSource), false);
+  assert.equal(user('+FILE-CALLBACK+').isBound(), false);
+  for (const file of [constantsArtifact, dependentArtifact]) {
+    if (mode === 'ordinary') call('LOAD', string(file));
+    else await scheduler.spawn(symbol('LOAD'), [string(file)]).completion;
+  }
+  assert.equal(user('CHECK-FILE-CALLBACK').getFunction()(), 42);
+  if (mode !== 'ordinary') {
+    assert.equal((await scheduler.spawn(user('CHECK-FILE-CALLBACK'), []).completion)[0], 42);
+  }
   async function load() {
     if (mode === 'ordinary') { call('LOAD', string(artifact)); return; }
     let create, initialize;

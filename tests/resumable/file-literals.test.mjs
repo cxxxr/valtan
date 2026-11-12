@@ -6,7 +6,7 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 for (const mode of ['ordinary', 'scheduled']) {
-  test(`file literals survive restart with identity and load-form ordering (${mode})`, () => {
+  test(`file literals and constant closures survive restart with identity (${mode})`, () => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'valtan-file-literals-'));
     try {
       for (const phase of ['produce', 'consume']) {

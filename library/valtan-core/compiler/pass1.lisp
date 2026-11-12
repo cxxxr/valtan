@@ -453,10 +453,14 @@
           ((setq binding (constant-p symbol))
            ;; Cross-compiled constants carry a marker, whereas constants seen
            ;; during compilation carry their binding and initialization value.
-           (pass1-const (if (eq binding t)
-                           (symbol-value symbol)
-                           (binding-init-value binding))
-                        return-value-p))
+           (let ((value (if (eq binding t)
+                            (symbol-value symbol)
+                            (binding-init-value binding))))
+             ;; A compiled file cannot externalize a live closure. DEFCONSTANT
+             ;; recreates it when loaded; references must use that same value.
+             (if (and *file-compilation-p* (functionp value))
+                 (make-hir 'gref return-value-p nil symbol)
+                 (pass1-const value return-value-p))))
           (t
            (let ((binding (lookup symbol '(:variable :special))))
              (count-if-used binding)

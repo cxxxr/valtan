@@ -953,6 +953,16 @@ pass 29 ordinary/scheduled assertions and all eight upstream ANSI cases in both
 evaluation and compiled modes. The file-literal tests also exercise a nested
 constant definition in a `MAKE-LOAD-FORM` creation form after restarting.
 
+Function-valued constants remain symbol references during file compilation.
+Their `DEFCONSTANT` initializer recreates the closure at load time, so structure
+defaults and functions in dependent files use the same runtime function instead
+of trying to externalize a live compiler closure. The two-process file-literal
+tests cover lexical capture, `DEFSTRUCT` defaults, cross-file references and
+`EQ` identity in ordinary and scheduled execution after deleting both sources.
+This fixes the compilation error discovered in Drei's `drei-redisplay.lisp`
+(component 272 of the full staging run). The preceding 271 components compiled
+and loaded; a fresh full run and its browser restoration checks remain pending.
+
 Top-level `DEFTYPE` definitions are available during compilation, allowing later
 macros in the same file to use their derived types. McCLIM's pointer-tracking
 macro exposed this gap by rejecting a valid clause keyword during staging. Nested
