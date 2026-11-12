@@ -1393,9 +1393,18 @@ case to appear in the nested execution records and checks their counts against
 the reported coverage. [Regression checks](../tests/mcclim/fiveam-execution-results.json)
 pass on SBCL, ordinary Valtan and scheduled browser execution, including the actual
 JSON report and hidden failure/skip cases. Reproduce them with
-`cd tests && npm run test:mcclim:executions`. These are synthetic observer tests;
-the complete Drei run with this collector and image-backend reload validation
-remains pending.
+`cd tests && npm run test:mcclim:executions`. These are synthetic observer tests.
+
+The [complete browser run with the collector and backend restoration](../tests/mcclim/drei-all-image-reader-before-results.json)
+records all 596 tests, 1,088 invocations and all 506 nested default-suite cases.
+It has zero skips, but fails: latest-invocation coverage contains 3,704 passed
+and 11 failed assertions out of 3,715. After parser-based self-compilation,
+ten image-dependent cases call uninterned, undefined `ARGLIST` or `COMPLETIONS`
+functions; the self-compilation assertion also fails. The backend selection and
+35-component tree checks do not fail. The [strict comparison](../tests/mcclim/drei-all-image-reader-before-comparison.json)
+rejects these failures and assertion-count deficits in ten cases. Sources,
+compiler, fixture, bundle and browser assets were checked against their hashes.
+This is a failed full-suite result, not complete Drei compatibility.
 `npm run test:mcclim:drei:all:host` uses upstream's native Swank image backend
 without starting a server. Its [native reference](../tests/mcclim/drei-all-host-results.json)
 executes all 596 cases with zero skips, but records 11 failures: one upstream
@@ -1415,8 +1424,8 @@ implementation differences: 13 Gray protocol test names use `SB-GRAY` symbols
 on SBCL and `VALTAN-GRAY` symbols on Valtan; the lambda-list-keyword test makes
 one additional check on SBCL because of `SB-INT:&MORE`. Only these named
 differences are accepted. The verifier tests include actual incomplete browser
-output, hidden nested outcomes and synthetic complete fixtures; they do not establish that the pending
-combined target run has passed.
+output, hidden nested outcomes and synthetic complete fixtures; they do not establish
+successful combined target execution.
 
 Run `npm run build:resumable && npm run test:resumable:loop-on` from `tests` to
 repeat the focused checks. The iterator behavior follows the
